@@ -56,12 +56,29 @@ export async function syncOdds(opts: StepOptions): Promise<StepResult> {
             drew2: num(r.SuccChoice2),
           };
         }).filter((r) => r.huntNumber !== null);
-        if (!data.length) continue; // "No hunts were returned" is normal for years/draws that don't exist
+        // IDFG sometimes lists the same hunt twice in one year (e.g. a hunt split across areas). Merge those
+        // rows: keep the first row's area, add up permits and applicants.
+        const merged = new Map<string, (typeof data)[number]>();
+        let dupes = 0;
+        for (const r of data) {
+          const prev = merged.get(r.id);
+          if (!prev) {
+            merged.set(r.id, r);
+            continue;
+          }
+          dupes++;
+          const keys = ['permits', 'resPermits', 'nrPermits', 'apps1', 'apps2', 'resApps', 'nrApps', 'drew1', 'drew2'] as const;
+          if (keys.every((k) => r[k] === prev[k])) continue; // exact repeat: don't double count
+          for (const k of keys) if (r[k] !== null) prev[k] = (prev[k] ?? 0) + r[k]!;
+        }
+        if (dupes) details.push(`${species} ${year} draw ${draw}: merged ${dupes} duplicate hunt rows`);
+        const rowsOut = [...merged.values()];
+        if (!rowsOut.length) continue; // "No hunts were returned" is normal for years/draws that don't exist
         await db.$transaction([
           db.drawOdds.deleteMany({ where: { species, year, draw } }),
-          db.drawOdds.createMany({ data }),
+          db.drawOdds.createMany({ data: rowsOut }),
         ]);
-        rows += data.length;
+        rows += rowsOut.length;
       }
     }
   }

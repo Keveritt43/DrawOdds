@@ -11,12 +11,13 @@ export async function register() {
 
 async function bootstrap() {
   const { db } = await import('./lib/db');
-  const [odds, recent] = await Promise.all([
-    db.drawOdds.count(),
-    // a run started in the last 3 hours that hasn't finished = someone else is already loading
-    db.syncLog.count({ where: { finishedAt: null, startedAt: { gt: new Date(Date.now() - 3 * 3600_000) } } }),
-  ]);
-  if (odds > 0 || recent > 0) return;
+  // A sync started by a previous web container died with it; mark it so it doesn't block this one.
+  await db.syncLog.updateMany({
+    where: { status: 'RUNNING', startedAt: { gt: new Date(Date.now() - 6 * 3600_000) } },
+    data: { status: 'ABANDONED', finishedAt: new Date() },
+  });
+  const [odds, summaries] = await Promise.all([db.drawOdds.count(), db.huntSummary.count()]);
+  if (odds > 0 && summaries > 0) return;
 
   const { spawn } = await import('node:child_process');
   console.log('[bootstrap-sync] empty database: starting first IDFG data load in the background');

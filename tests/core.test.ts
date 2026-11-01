@@ -155,3 +155,12 @@ test('unit links from a general stats page', async () => {
   assert.equal(m.get('1'), 1);
   assert.equal(m.get('49'), 63);
 });
+
+test('findDates handles every IDFG date style', async () => {
+  const { findDates } = await import('../src/sync/core/parse');
+  assert.deepEqual(findDates('11/1/26-11/14/26'), ['2026-11-01', '2026-11-14']);
+  assert.deepEqual(findDates('Season 11/1/2026 to 11/14/2026'), ['2026-11-01', '2026-11-14']);
+  assert.deepEqual(findDates('Oct 15, 2026 - Oct 31, 2026'), ['2026-10-15', '2026-10-31']);
+  assert.deepEqual(findDates('Dates: December 1 - January 15', 2026), ['2026-12-01', '2027-01-15']);
+  assert.equal(findDates('Unlimited tags, any weapon'), null);
+});

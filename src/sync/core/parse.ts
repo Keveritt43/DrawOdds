@@ -220,7 +220,7 @@ export function parseHuntList(html: string): ListedHunt[] {
     const blockEnd = i + 1 < links.length ? links[i + 1].index! : Math.min(html.length, m.index! + 4000);
     const block = cleanCell(html.slice(m.index!, blockEnd));
     if (!name || out.has(idfgId)) return;
-    const dates = block.match(/(\d{1,2}\/\d{1,2}\/\d{2,4})\s*(?:-|–|to)\s*(\d{1,2}\/\d{1,2}\/\d{2,4})/);
+    const dates = findDates(block);
     const tagM = block.match(/(\d[\d,]*)\s*(?:tags|permits)/i);
     const numM = (name + ' ' + block).match(/controlled hunt\s*#?\s*(\d{4})/i);
     const { takeMethod, weapon } = weaponOf(block);
@@ -234,8 +234,8 @@ export function parseHuntList(html: string): ListedHunt[] {
       weapon,
       antlerClass,
       sexText,
-      open: dates ? usDate(dates[1]) : null,
-      close: dates ? usDate(dates[2]) : null,
+      open: dates?.[0] ?? null,
+      close: dates?.[1] ?? null,
       tags: /unlimited/i.test(block) ? null : tagM ? num(tagM[1]) : null,
       youthOnly: /youth/i.test(name + ' ' + block),
       text: block.slice(0, 600),
@@ -256,4 +256,29 @@ export function parseUnitLinks(html: string): Map<string, number> {
     if (/^\d+[A-Z]?$/.test(name) && !out.has(name)) out.set(name, Number(m[1]));
   }
   return out;
+}
+
+const MON: Record<string, number> = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+
+/**
+ * First open/close pair in a block of hunt-list text, in any of IDFG's formats:
+ * "11/1/26-11/14/26", "11/1/2026 to 11/14/2026", "Nov 1, 2026 - Nov 14, 2026", "Nov 1 - Nov 14".
+ * Returns ISO dates; a close earlier than the open rolls into the next year (Dec-Jan seasons).
+ */
+export function findDates(text: string, defaultYear = new Date().getFullYear()): [string, string] | null {
+  const found: { m: number; d: number; y: number | null }[] = [];
+  const re = /\b(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})\b|\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s+(\d{4}))?/gi;
+  for (const m of text.matchAll(re)) {
+    if (m[1]) found.push({ m: Number(m[1]), d: Number(m[2]), y: m[3].length === 2 ? 2000 + Number(m[3]) : Number(m[3]) });
+    else found.push({ m: MON[m[4].slice(0, 3).toLowerCase()], d: Number(m[5]), y: m[6] ? Number(m[6]) : null });
+    if (found.length === 2) break;
+  }
+  if (found.length < 2) return null;
+  const [a, b] = found;
+  if (a.m < 1 || a.m > 12 || b.m < 1 || b.m > 12 || a.d < 1 || a.d > 31 || b.d < 1 || b.d > 31) return null;
+  const ya = a.y ?? b.y ?? defaultYear;
+  let yb = b.y ?? ya;
+  if (b.y === null && (b.m < a.m || (b.m === a.m && b.d < a.d))) yb = ya + 1;
+  const iso = (y: number, m: number, d: number) => `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  return [iso(ya, a.m, a.d), iso(yb, b.m, b.d)];
 }
