@@ -36,7 +36,7 @@ IDFG (public data)                       nightly cron: npm run sync
    * `AUTH_RESEND_KEY` + `EMAIL_FROM` (optional at first: without a key, sign-in links are printed in the deploy logs)
    * `ADMIN_EMAILS` = your email
    * `SYNC_USER_AGENT` = `IdahoHuntPlanner/0.1 (+mailto:you@example.com)`
-4. Deploy. `railway.json` runs `prisma db push` before each deploy, so the schema is created automatically.
+4. Deploy. The start command runs `prisma db push` first, so the schema is created and kept in sync automatically.
 5. **Sync service:** Add -> GitHub repo (same repo) again, name it `sync`.
    * Settings -> Deploy -> **Custom start command:** `npm run sync`
    * Settings -> Deploy -> **Cron schedule:** `0 10 * * *` (03:00 Pacific)

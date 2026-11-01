@@ -2,11 +2,13 @@
   "name": "idaho-hunt-planner",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": ">=20.11" },
+  "engines": {
+    "node": ">=20.11"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "start": "next start -p ${PORT:-3000}",
+    "start": "prisma db push --skip-generate && next start -p ${PORT:-3000}",
     "db:push": "prisma db push --skip-generate",
     "sync": "tsx src/sync/index.ts",
     "sync:full": "tsx src/sync/index.ts all --full",
