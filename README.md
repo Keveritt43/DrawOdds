@@ -37,12 +37,10 @@ IDFG (public data)                       nightly cron: npm run sync
    * `ADMIN_EMAILS` = your email
    * `SYNC_USER_AGENT` = `IdahoHuntPlanner/0.1 (+mailto:you@example.com)`
 4. Deploy. The start command runs `prisma db push` first, so the schema is created and kept in sync automatically.
-5. **Sync service:** Add -> GitHub repo (same repo) again, name it `sync`.
-   * Settings -> Deploy -> **Custom start command:** `npm run sync`
-   * Settings -> Deploy -> **Cron schedule:** `0 10 * * *` (03:00 Pacific)
-   * Same variables as the web service (`DATABASE_URL`, `SYNC_USER_AGENT`, `SYNC_DELAY_MS`)
-   * Clear the healthcheck path for this service.
-6. **First load:** in the sync service run `npm run sync:full` once (Railway shell, or temporarily set the start command). It pulls 1998-present and takes roughly 30-60 minutes at a polite request rate. After that, nightly runs only refresh the last two seasons plus anything missing.
+5. **Sync service:** Add -> GitHub repo (same repo) again, name it `sync`, and in Settings set **Config file path** to `/railway.sync.json`.
+   That file sets the start command (`npm run sync`), the cron schedule (`0 10 * * *` = 03:00 Pacific) and no healthcheck.
+   Give it `DATABASE_URL`, `SYNC_USER_AGENT` and `SYNC_DELAY_MS`.
+6. **First load:** trigger one run of the sync service (Deploy -> Run now). On an empty database a normal run pulls every missing year back to 1998, so it takes 30-60 minutes at a polite request rate. After that, nightly runs only refresh the last two seasons plus anything missing. `npm run sync:full` re-pulls everything.
 
 ## Local development
 
