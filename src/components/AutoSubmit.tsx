@@ -26,7 +26,10 @@ export function AutoSubmit({ children, action }: { children: React.ReactNode; ac
       ref={ref}
       action={action}
       method="get"
-      onChange={(e) => submit((e.target as HTMLElement).tagName === 'INPUT' && (e.target as HTMLInputElement).type === 'text' ? 600 : 50)}
+      onChange={(e) => {
+        const t = e.target as unknown as HTMLInputElement;
+        submit(t.tagName === 'INPUT' && t.type === 'text' ? 600 : 50);
+      }}
       onSubmit={(e) => {
         e.preventDefault();
         submit(0);

@@ -135,6 +135,12 @@ export async function buildSummaries(): Promise<StepResult> {
     }
   }
 
-  await db.$transaction([db.huntSummary.deleteMany({}), db.huntSummary.createMany({ data: out })], { timeout: 120_000 });
+  await db.$transaction(
+    async (tx) => {
+      await tx.huntSummary.deleteMany({});
+      await tx.huntSummary.createMany({ data: out });
+    },
+    { timeout: 120_000 },
+  );
   return { rows: out.length, details: details.slice(0, 200) };
 }
