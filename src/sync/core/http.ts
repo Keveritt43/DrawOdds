@@ -1,0 +1,46 @@
+/**
+ * One polite HTTP client for every IDFG request: identifies itself, waits between calls,
+ * retries transient failures with backoff, and never hammers a public agency server.
+ */
+const UA = process.env.SYNC_USER_AGENT || 'IdahoHuntPlanner/0.1 (+https://github.com)';
+const DELAY = Number(process.env.SYNC_DELAY_MS || 1200);
+
+let last = 0;
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+export class FetchError extends Error {
+  constructor(
+    public url: string,
+    public status: number,
+  ) {
+    super(`HTTP ${status} for ${url}`);
+  }
+}
+
+export async function get(url: string, opts: { retries?: number; accept?: string } = {}): Promise<string> {
+  const retries = opts.retries ?? 3;
+  for (let attempt = 0; ; attempt++) {
+    const wait = last + DELAY - Date.now();
+    if (wait > 0) await sleep(wait);
+    last = Date.now();
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': UA, Accept: opts.accept ?? 'text/html,application/json;q=0.9,*/*;q=0.8' },
+        signal: AbortSignal.timeout(60_000),
+      });
+      if (res.ok) return await res.text();
+      // 4xx other than 429 won't get better by retrying
+      if (res.status !== 429 && res.status < 500) throw new FetchError(url, res.status);
+      if (attempt >= retries) throw new FetchError(url, res.status);
+    } catch (e) {
+      if (e instanceof FetchError && e.status !== 429 && e.status < 500) throw e;
+      if (attempt >= retries) throw e;
+    }
+    await sleep(2000 * 2 ** attempt); // 2s, 4s, 8s
+  }
+}
+
+export async function getJson<T>(url: string): Promise<T> {
+  const text = await get(url, { accept: 'application/json' });
+  return JSON.parse(text) as T;
+}

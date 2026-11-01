@@ -1,0 +1,327 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Species {
+  DEER
+  ELK
+}
+
+enum Residency {
+  RESIDENT
+  NONRESIDENT
+}
+
+enum HuntType {
+  GENERAL
+  CONTROLLED
+}
+
+enum Weapon {
+  ANY
+  ARCHERY
+  MUZZLELOADER
+  SHORT_RANGE
+  OTHER
+}
+
+enum AntlerClass {
+  ANTLERED
+  ANTLERLESS
+  EITHER
+}
+
+// ---------------------------------------------------------------- raw IDFG data
+
+/// One row per species / year / drawing / hunt number (IDFG drawing-odds API).
+model DrawOdds {
+  id         String  @id // DEER|2025|1|1039
+  species    Species
+  year       Int
+  draw       Int
+  huntNumber Int
+  areaName   String
+  areaId     Int?
+  permits    Int?
+  resPermits Int?
+  nrPermits  Int?
+  apps1      Int?
+  apps2      Int?
+  resApps    Int?
+  nrApps     Int?
+  drew1      Int?
+  drew2      Int?
+
+  @@index([species, areaName])
+  @@index([species, year, huntNumber])
+}
+
+/// Controlled-hunt harvest, one row per species / year / hunt number.
+model ControlledHarvest {
+  id         String  @id // ELK|2025|2029
+  species    Species
+  year       Int
+  huntNumber Int
+  areaName   String
+  takeMethod String?
+  hunters    Int?
+  harvest    Int?
+  successPct Float?
+  days       Int?
+  antlered   Int?
+  antlerless Int?
+  pct4       Float?
+  pct5       Float?
+  pctWt      Float?
+  pctSpike   Float?
+  pct6       Float?
+  estWt      Int?
+  estMule    Int?
+  est4       Int?
+  est5       Int?
+  estSpike   Int?
+  est6       Int?
+
+  @@index([species, huntNumber])
+}
+
+/// General-season harvest, one row per species / year / unit / take method.
+model GeneralHarvest {
+  id         String  @id // DEER|2025|49|Any Weapon
+  species    Species
+  year       Int
+  unit       String
+  takeMethod String
+  hunters    Int?
+  harvest    Int?
+  successPct Float?
+  days       Int?
+  antlered   Int?
+  antlerless Int?
+  pct4       Float?
+  pct5       Float?
+  pctWt      Float?
+  pctSpike   Float?
+  pct6       Float?
+  estWt      Int?
+  estMule    Int?
+  est4       Int?
+  est5       Int?
+  estSpike   Int?
+  est6       Int?
+
+  @@index([species, unit])
+}
+
+/// Game Management Unit (IDFG GMU layer + unit.aspx page).
+model Unit {
+  name                String   @id // "49", "36A"
+  idfgId              Int?     @unique
+  elkZone             String?
+  acres               Float?
+  geometry            Json? // simplified GeoJSON geometry, WGS84
+  bbox                Json? // [minX, minY, maxX, maxY]
+  landOwnership       Json? // [{ manager, pct }]
+  publicPct           Float?
+  privatePct          Float?
+  wildernessPct       Float?
+  accessYesAcres      Float?
+  accessYesCount      Int?
+  boundaryChanged2022 Boolean  @default(false)
+  landUpdatedAt       DateTime?
+  updatedAt           DateTime @updatedAt
+}
+
+/// Controlled hunt area (IDFG Hunting MapServer layer 4 + area.aspx page). AreaID matches the odds API.
+model HuntArea {
+  areaId         Int       @id
+  name           String // "49", "36B-1"
+  bigGame        String?
+  description    String?
+  geometry       Json?
+  bbox           Json?
+  acres          Float?
+  units          Json? // [{ unit, pct }] - share of the hunt area inside each unit, computed from geometry
+  landOwnership  Json?
+  publicPct      Float?
+  privatePct     Float?
+  accessYesAcres Float?
+  accessYesCount Int?
+  landUpdatedAt  DateTime?
+  updatedAt      DateTime  @updatedAt
+
+  @@index([name])
+}
+
+model AccessYesProperty {
+  id        Int     @id
+  name      String
+  acres     Float?
+  active    Boolean @default(true)
+  geometry  Json?
+  units     String[]
+  updatedAt DateTime @updatedAt
+}
+
+/// Hunts offered this season (IDFG huntlist.aspx pages, one per unit and species).
+model Hunt {
+  idfgId      Int         @id
+  year        Int
+  species     Species
+  type        HuntType
+  huntNumber  Int?
+  name        String
+  takeMethod  String
+  weapon      Weapon
+  antlerClass AntlerClass
+  sexText     String
+  openDate    DateTime?
+  closeDate   DateTime?
+  tags        Int? // null = unlimited / not stated
+  youthOnly   Boolean     @default(false)
+  units       String[]
+  rawText     String?
+  updatedAt   DateTime    @updatedAt
+
+  summaries HuntSummary[]
+  saved     SavedHunt[]
+
+  @@index([species, type])
+}
+
+/// Precomputed, filter-ready row. Controlled hunt = one row; general hunt = one row per unit.
+model HuntSummary {
+  id          String      @id // "c:82056" or "g:80930:49"
+  huntId      Int
+  hunt        Hunt        @relation(fields: [huntId], references: [idfgId], onDelete: Cascade)
+  species     Species
+  type        HuntType
+  huntNumber  Int?
+  name        String
+  areaName    String?
+  areaId      Int?
+  unit        String? // general hunts: the unit this row is for
+  units       String[] // all units touched
+  weapon      Weapon
+  takeMethod  String
+  antlerClass AntlerClass
+  openDate    DateTime?
+  closeDate   DateTime?
+  openMonth   Int?
+  closeMonth  Int?
+  tags        Int?
+  youthOnly   Boolean     @default(false)
+
+  // draw (controlled only)
+  resOddsLast Float?
+  nrOddsLast  Float?
+  resOdds5    Float?
+  nrOdds5     Float?
+  resAppsLast Int?
+  nrAppsLast  Int?
+  appsTrend   Float?
+  oddsYears   Int         @default(0)
+
+  // harvest
+  success5         Float?
+  hunters5         Int?
+  harvest5         Int?
+  whitetailPct5    Float?
+  deerType         String? // WHITETAIL | MULE | MIXED
+  bigPct5          Float?
+  antlerlessShare5 Float?
+  harvestYears     Int     @default(0)
+  smallSample      Boolean @default(false)
+
+  // ranking
+  resTagAndFill Float?
+  nrTagAndFill  Float?
+
+  // land
+  publicPct      Float?
+  privatePct     Float?
+  accessYesAcres Float?
+  accessYesCount Int?
+
+  boundaryChanged Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
+
+  @@index([species, type, weapon, antlerClass])
+}
+
+model SyncLog {
+  id         Int       @id @default(autoincrement())
+  step       String
+  status     String // OK | CHECK | ERROR
+  rows       Int       @default(0)
+  details    String?
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+}
+
+// ---------------------------------------------------------------- accounts (Auth.js)
+
+model User {
+  id            String      @id @default(cuid())
+  name          String?
+  email         String      @unique
+  emailVerified DateTime?
+  image         String?
+  residency     Residency   @default(RESIDENT)
+  createdAt     DateTime    @default(now())
+  accounts      Account[]
+  sessions      Session[]
+  saved         SavedHunt[]
+}
+
+model SavedHunt {
+  userId    String
+  huntId    Int
+  note      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  hunt      Hunt     @relation(fields: [huntId], references: [idfgId], onDelete: Cascade)
+
+  @@id([userId, huntId])
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
