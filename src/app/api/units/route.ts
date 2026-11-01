@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 
-export const revalidate = 3600; // geometry and summaries change at most nightly
+// rendered per request (the DB isn't reachable at build time on Railway); browsers/CDN cache it for an hour
+export const dynamic = 'force-dynamic';
 
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection. */
 export async function GET() {
