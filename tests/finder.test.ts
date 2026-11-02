@@ -33,3 +33,14 @@ test('toQuery round-trips', () => {
   assert.equal(toQuery(f), '?species=DEER&antler=ANTLERED&minSuccess=30&accessYes=1');
   assert.deepEqual(parseFilters(Object.fromEntries(new URLSearchParams(toQuery(f)))), f);
 });
+
+test('hunters per sq mi: maximum filter, chip query round-trip', () => {
+  const f = parseFilters({ maxDensity: '0.5' });
+  assert.equal(f.maxDensity, 0.5);
+  const w = JSON.stringify(buildWhere(f, 'RESIDENT'));
+  assert.ok(w.includes('"huntersSqMi":{"lte":0.5}'), w);
+  assert.ok(toQuery(f).includes('maxDensity=0.5'));
+  assert.equal(parseFilters({}).maxDensity, null);
+  assert.equal(parseFilters({ maxDensity: 'abc' }).maxDensity, null);
+  assert.ok(parseFilters({ sort: 'densityLow' }).sort === 'densityLow');
+});
