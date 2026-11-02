@@ -64,6 +64,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     g.rows.push(r);
   }
   const list = [...groups.values()];
+  // looking at one unit: its general seasons first, then the controlled hunt areas (sort order kept within each)
+  if (f.unit) list.sort((a, b) => (a.kind === 'unit' ? 0 : 1) - (b.kind === 'unit' ? 0 : 1));
   const matched = [...new Set(rows.flatMap((r) => r.units))];
   const areaIds = [...new Set(rows.map((r) => r.areaId).filter((x): x is number => !!x))];
   const areas = new Map(

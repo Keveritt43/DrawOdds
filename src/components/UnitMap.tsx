@@ -68,6 +68,15 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
   const [open, setOpen] = useState(false);
+  type UH = { id: string; type: 'GENERAL' | 'CONTROLLED'; label: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
+  const [uh, setUh] = useState<{ unit: string; rows: UH[] } | null>(null);
+  const selName = sel ? String(sel.name) : null;
+  useEffect(() => {
+    if (!selName || selName === focus) return;
+    let live = true;
+    fetch(`/api/units/${encodeURIComponent(selName)}/hunts`).then((r) => r.json()).then((rows: UH[]) => live && setUh({ unit: selName, rows })).catch(() => live && setUh({ unit: selName, rows: [] }));
+    return () => { live = false; };
+  }, [selName, focus]);
   const [err, setErr] = useState('');
   const [kind, setKind] = useState<Basemap>('topo');
   useEffect(() => {
@@ -245,6 +254,28 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
             </tbody>
           </table>
           {recentBoundaryChanges([sel.name]) && <p className="small" style={{ color: 'var(--warn-ink)', margin: '4px 0 0' }}>Boundary changed in {recentBoundaryChanges([sel.name])!.year}.</p>}
+          {sel.name !== focus && (
+            <div className="mi-hunts">
+              <h4>Hunts Available</h4>
+              {uh?.unit !== sel.name ? <p className="small muted">Loading…</p> : !uh.rows.length ? <p className="small muted">No deer or elk hunts listed.</p> : (
+                <ul>
+                  {uh.rows.map((h) => {
+                    const o = nr ? h.nrOdds5 : h.resOdds5;
+                    return (
+                      <li key={h.id}>
+                        <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.label}</Link>
+                        <span className="small muted">
+                          {h.antler === 'ANTLERED' ? ' · Antlered' : h.antler === 'ANTLERLESS' ? ' · Antlerless' : ''}
+                          {h.type === 'GENERAL' ? ' · OTC' : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% odds` : ''}
+                          {h.success5 !== null ? ` · ${Math.round(h.success5 * 100)}% success` : ''}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          )}
           {sel.name !== focus && (
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
               <Link className="btn primary" href={`/units/${encodeURIComponent(sel.name)}`}>Unit Details</Link>

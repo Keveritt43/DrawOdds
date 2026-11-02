@@ -229,7 +229,8 @@ export function parseHuntList(html: string): ListedHunt[] {
       idfgId,
       name,
       huntNumber: numM ? Number(numM[1]) : null,
-      type: /controlled/i.test(name + ' ' + block.slice(0, 200)) ? 'CONTROLLED' : 'GENERAL',
+      // controlled hunts are sometimes linked by their hunt-area code alone ("50-1X", "36A-3")
+      type: /controlled/i.test(name + ' ' + block.slice(0, 200)) || /^\d{1,3}[A-Z]?-\d+[A-Z]?$/i.test(name.trim()) ? 'CONTROLLED' : 'GENERAL',
       takeMethod,
       weapon,
       antlerClass,

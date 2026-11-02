@@ -219,3 +219,25 @@ test('lineage: a 0- or 1-tag hunt is not matched to a 200-tag hunt in the same a
   assert.equal(lin2.get(2020), 1040);
   assert.equal(lin2.get(2022), 1041);
 });
+
+test('unit hunt list: general first, then controlled by number', async () => {
+  const { sortUnitHunts, unitHuntLabel } = await import('../src/lib/unitHunts');
+  const h = (type: 'GENERAL' | 'CONTROLLED', species: 'DEER' | 'ELK', weapon: string, huntNumber: number | null, name = '') =>
+    ({ type, species, weapon, huntNumber, name, openDate: null }) as never;
+  const rows = [h('CONTROLLED', 'ELK', 'ANY', 2030), h('GENERAL', 'ELK', 'ARCHERY', null, 'Unit 50 General Elk - Archery'), h('CONTROLLED', 'DEER', 'ANY', 1142),
+    h('GENERAL', 'DEER', 'ANY', null, 'Unit 50 General Deer - Any Weapon'), h('CONTROLLED', 'ELK', 'ANY', 2011)];
+  assert.deepEqual(sortUnitHunts(rows).map(unitHuntLabel), ['General Deer · Any Weapon', 'General Elk · Archery', 'Deer 1142', 'Elk 2011', 'Elk 2030']);
+});
+
+test('hunt list: a controlled hunt linked by its area code is not a general season', async () => {
+  const { parseHuntList } = await import('../src/sync/core/parse');
+  const html = '<div><a href="/ifwis/huntplanner/hunt?id=82219">50-1X</a> Any weapon Antlerless Oct 1, 2026 - Nov 15, 2026 40 tags</div>';
+  assert.equal(parseHuntList(html)[0].type, 'CONTROLLED');
+});
+
+test('odds are capped at 100% when tags exceed first-choice applicants', async () => {
+  const { odds } = await import('../src/sync/core/math');
+  assert.equal(odds(250, 171), 1);
+  assert.equal(odds(25, 449), 25 / 449);
+  assert.equal(odds(5, 0), null);
+});

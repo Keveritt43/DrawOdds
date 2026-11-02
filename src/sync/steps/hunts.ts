@@ -121,6 +121,8 @@ export async function syncHunts(): Promise<StepResult> {
     }
   }
   for (const [id, x] of rows) if (x.type === 'CONTROLLED' && outfitter.has(`${x.species}|${x.huntNumber}`)) rows.delete(id);
+  // controlled listings whose hunt number couldn't be read can't be matched to odds or harvest; the regs list them
+  for (const [id, x] of rows) if (x.type === 'CONTROLLED' && !x.huntNumber && regs.length) rows.delete(id);
   let added = 0;
   let corrected = 0;
   for (const r of regs) {

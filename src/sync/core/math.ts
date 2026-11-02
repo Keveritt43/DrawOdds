@@ -146,6 +146,12 @@ export interface OddsSummary {
   nrAppsPrev: number | null;
 }
 
+/** Draw odds = permits / first-choice applicants, capped at 100% (undersubscribed hunts give 2nd-choice tags too). */
+export function odds(permits: number | null | undefined, apps: number | null | undefined): number | null {
+  const r = ratio(permits, apps);
+  return r === null ? null : Math.min(1, r);
+}
+
 /** 5-yr odds = total permits / total applicants (not an average of yearly %). */
 export function summarizeOdds(rows: OddsRow[]): OddsSummary {
   const sorted = rows.slice().sort((a, b) => b.year - a.year);
@@ -154,10 +160,10 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
   const avgApps = sumOf(five, (r) => r.apps1);
   const prev = sorted[1] && last && sorted[1].year === last.year - 1 ? sorted[1] : undefined;
   return {
-    resOddsLast: last ? ratio(last.resPermits, last.resApps) : null,
-    nrOddsLast: last ? ratio(last.nrPermits, last.nrApps) : null,
-    resOdds5: ratio(sumOf(five, (r) => r.resPermits), sumOf(five, (r) => r.resApps)),
-    nrOdds5: ratio(sumOf(five, (r) => r.nrPermits), sumOf(five, (r) => r.nrApps)),
+    resOddsLast: last ? odds(last.resPermits, last.resApps) : null,
+    nrOddsLast: last ? odds(last.nrPermits, last.nrApps) : null,
+    resOdds5: odds(sumOf(five, (r) => r.resPermits), sumOf(five, (r) => r.resApps)),
+    nrOdds5: odds(sumOf(five, (r) => r.nrPermits), sumOf(five, (r) => r.nrApps)),
     resAppsLast: last?.resApps ?? null,
     nrAppsLast: last?.nrApps ?? null,
     appsTrend:
@@ -166,8 +172,8 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
         : null,
     years: five.length,
     oddsLastYear: last?.year ?? null,
-    resOddsPrev: prev ? ratio(prev.resPermits, prev.resApps) : null,
-    nrOddsPrev: prev ? ratio(prev.nrPermits, prev.nrApps) : null,
+    resOddsPrev: prev ? odds(prev.resPermits, prev.resApps) : null,
+    nrOddsPrev: prev ? odds(prev.nrPermits, prev.nrApps) : null,
     resAppsPrev: prev?.resApps ?? null,
     nrAppsPrev: prev?.nrApps ?? null,
   };

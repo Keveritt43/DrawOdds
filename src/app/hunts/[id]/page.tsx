@@ -42,7 +42,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
   const drawn = rows.filter((h) => h.permits != null || h.resApps != null);
   const harvested = rows.filter((h) => h.hunters != null);
   const sum = (xs: typeof rows, f: (h: (typeof rows)[number]) => number | null | undefined) => xs.slice(0, 5).reduce((a, h) => a + (f(h) ?? 0), 0);
-  const ratio = (d?: number | null, a?: number | null) => (a ? `${((100 * (d ?? 0)) / a).toFixed(1)}%` : '-');
+  const ratio = (d?: number | null, a?: number | null, cap = false) => (a ? `${(cap ? Math.min(100, (100 * (d ?? 0)) / a) : (100 * (d ?? 0)) / a).toFixed(1)}%` : '-');
   const n = (v?: number | null) => (v != null ? int(v) : '-');
   const renumbered = new Set(history.map((h) => h.huntNumber).filter(Boolean)).size > 1;
 
@@ -129,16 +129,16 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
                 <tr key={h.year}>
                   <td>{h.year}</td>
                   {ctl && <><td>{h.huntNumber ?? '-'}</td><td className="num">{n(h.permits)}</td>
-                    <td className="num">{h.resApps ? `${n(h.resPermits)} / ${n(h.resApps)}` : '-'}</td><td className="num">{ratio(h.resPermits, h.resApps)}</td>
-                    <td className="num">{h.nrApps ? `${n(h.nrPermits)} / ${n(h.nrApps)}` : '-'}</td><td className="num">{ratio(h.nrPermits, h.nrApps)}</td></>}
+                    <td className="num">{h.resApps ? `${n(h.resPermits)} / ${n(h.resApps)}` : '-'}</td><td className="num">{ratio(h.resPermits, h.resApps, true)}</td>
+                    <td className="num">{h.nrApps ? `${n(h.nrPermits)} / ${n(h.nrApps)}` : '-'}</td><td className="num">{ratio(h.nrPermits, h.nrApps, true)}</td></>}
                   <td className="num">{n(h.hunters)}</td><td className="num">{n(h.harvest)}</td><td className="num">{ratio(h.harvest, h.hunters)}</td>
                 </tr>
               ))}
               <tr className="total">
                 <td>5-yr</td>
                 {ctl && <><td /><td className="num">{int(sum(drawn, (h) => h.permits))}</td>
-                  <td className="num">{int(sum(drawn, (h) => h.resPermits))} / {int(sum(drawn, (h) => h.resApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.resPermits), sum(drawn, (h) => h.resApps))}</td>
-                  <td className="num">{int(sum(drawn, (h) => h.nrPermits))} / {int(sum(drawn, (h) => h.nrApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.nrPermits), sum(drawn, (h) => h.nrApps))}</td></>}
+                  <td className="num">{int(sum(drawn, (h) => h.resPermits))} / {int(sum(drawn, (h) => h.resApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.resPermits), sum(drawn, (h) => h.resApps), true)}</td>
+                  <td className="num">{int(sum(drawn, (h) => h.nrPermits))} / {int(sum(drawn, (h) => h.nrApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.nrPermits), sum(drawn, (h) => h.nrApps), true)}</td></>}
                 <td className="num">{int(sum(harvested, (h) => h.hunters))}</td><td className="num">{int(sum(harvested, (h) => h.harvest))}</td>
                 <td className="num">{ratio(sum(harvested, (h) => h.harvest), sum(harvested, (h) => h.hunters))}</td>
               </tr>

@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { lineage, type OddsRow } from '@/sync/core/math';
+import { lineage, odds, type OddsRow } from '@/sync/core/math';
 import type { HuntSummary } from '@prisma/client';
 
 const METHOD: Record<string, string> = { ANY: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
@@ -41,7 +41,7 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
         if (lin.get(o.year) !== o.huntNumber) continue;
         Object.assign(at(o.year), {
           huntNumber: o.huntNumber, permits: o.permits, resPermits: o.resPermits, nrPermits: o.nrPermits,
-          resApps: o.resApps, nrApps: o.nrApps, resOdds: r(o.resPermits, o.resApps), nrOdds: r(o.nrPermits, o.nrApps), areaName: o.areaName,
+          resApps: o.resApps, nrApps: o.nrApps, resOdds: odds(o.resPermits, o.resApps), nrOdds: odds(o.nrPermits, o.nrApps), areaName: o.areaName,
         });
       }
       const harv = await db.controlledHarvest.findMany({
