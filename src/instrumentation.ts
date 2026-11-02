@@ -11,6 +11,14 @@ export async function register() {
 
 async function bootstrap() {
   const { db } = await import('./lib/db');
+  // SYNC_ON_START="hunts summary" forces those steps on this start (one-off maintenance; remove it afterwards)
+  const forced = (process.env.SYNC_ON_START ?? '').split(/[\s,]+/).filter(Boolean);
+  if (forced.length) {
+    const { startSync } = await import('./lib/run-sync');
+    console.log(`[bootstrap-sync] SYNC_ON_START: running ${forced.join(', ')}`);
+    startSync(forced);
+    return;
+  }
   // A sync started by a previous web container died with it; mark it so it doesn't block this one.
   await db.syncLog.updateMany({
     where: { status: 'RUNNING', startedAt: { gt: new Date(Date.now() - 6 * 3600_000) } },
@@ -25,8 +33,7 @@ async function bootstrap() {
   const incomplete = !lastOdds || lastOdds.status === 'ERROR' || lastOdds.status === 'ABANDONED';
   if (odds > 0 && summaries > 0 && !incomplete) return;
 
-  const { spawn } = await import('node:child_process');
-  console.log('[bootstrap-sync] empty database: starting first IDFG data load in the background');
-  const child = spawn('npx', ['tsx', 'src/sync/index.ts'], { cwd: process.cwd(), env: process.env, stdio: 'inherit' });
-  child.on('exit', (code) => console.log(`[bootstrap-sync] finished with exit code ${code}`));
+  const { startSync } = await import('./lib/run-sync');
+  console.log('[bootstrap-sync] empty or incomplete database: starting IDFG data load in the background');
+  startSync([]);
 }

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
+import { runSyncNow } from './actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,18 @@ export default async function Admin() {
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>Sync health</h1>
+      <form action={runSyncNow} style={{ display: 'flex', gap: 8, alignItems: 'center', margin: '8px 0 16px', flexWrap: 'wrap' }}>
+        <select name="steps" defaultValue="" aria-label="Steps to run" style={{ width: 'auto' }}>
+          <option value="">Everything (nightly refresh)</option>
+          <option value="odds summary">Draw odds</option>
+          <option value="harvest general summary">Harvest</option>
+          <option value="hunts summary">This season&apos;s hunts</option>
+          <option value="gis land summary">Maps and land</option>
+          <option value="summary">Rebuild summaries only</option>
+        </select>
+        <button className="btn primary" type="submit">Run sync now</button>
+        <span className="small muted">Runs in the background on the web server; refresh this page to watch progress.</span>
+      </form>
       <div className="stats">{counts.map((c, i) => <div key={i} className="stat"><div className="k">{labels[i]}</div><div className="v">{c.toLocaleString()}</div></div>)}</div>
       <table className="results">
         <thead><tr><th>Started</th><th>Step</th><th>Status</th><th className="num">Rows</th><th>Details</th></tr></thead>
