@@ -1,6 +1,7 @@
 import type { DrawOdds, Prisma } from '@prisma/client';
 import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
+import { loadElkTagSeasons } from '../core/datafiles';
 import {
   lineage,
   summarizeOdds,
@@ -248,11 +249,26 @@ async function nrTagSummary(
     return tot ? w.reduce((a, u) => a + f(u)! * u.acres!, 0) / tot : null;
   };
   const zone = key.startsWith('ELK:') ? key.split(':')[1] : null;
+  // elk A/B tag seasons from the regulations: dates feed the Season Dates filter and the tag's open/close
+  const tagLetter = key.split(':')[2];
+  const ts = zone ? loadElkTagSeasons() : null;
+  const seasons = ts?.zones.find((z) => z.zone.toLowerCase() === zone!.toLowerCase())?.tags[tagLetter]?.seasons ?? [];
+  const spans = seasons.flatMap((x) => x.dates).map((d) => ({ open: new Date(`${d.open}T00:00:00Z`), close: new Date(`${d.close}T00:00:00Z`) }));
+  const months = [...new Set(spans.flatMap((d) => monthsOpen(d.open, d.close)))];
+  const openDate = spans.length ? new Date(Math.min(...spans.map((d) => +d.open))) : null;
+  const closeDate = spans.length ? new Date(Math.max(...spans.map((d) => +d.close))) : null;
   return {
     ...base,
     id: `t:${key}`,
     nrTag: true,
     tagCode: code || null,
+    tagSeasons: seasons.length ? { year: ts!.year, seasons } : undefined,
+    weapons: [...new Set(seasons.map((x) => x.weapon))],
+    months,
+    openDate,
+    closeDate,
+    openMonth: openDate ? openDate.getUTCMonth() + 1 : null,
+    closeMonth: closeDate ? closeDate.getUTCMonth() + 1 : null,
     areaName: zone ? `${zone} Zone` : h.units[0],
     unit: zone ? null : h.units[0],
     units: h.units,

@@ -1,0 +1,1735 @@
+{
+ "year": 2026,
+ "source": "c4d92ef3-seasons-rules-big-game-2026.pdf",
+ "zones": [
+  {
+   "zone": "Panhandle",
+   "units": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "4A",
+    "5",
+    "6",
+    "7",
+    "9"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-12-02",
+         "close": "2026-12-08"
+        }
+       ],
+       "notes": "On or within 1 mile of private land in the following Units: 1, 2, 3, 4A and 5 only See Note A below",
+       "text": "Muzzleloader only \u2014 antlerless only | On or within 1 mile of private land in the | following Units: 1, 2, 3, 4A and 5 only | Dec 2 - Dec 8 | See Note A below"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-11-15",
+         "close": "2026-12-01"
+        }
+       ],
+       "notes": "Units 4, 7 and 9 only",
+       "text": "Muzzleloader only \u2014 antlered only | Units 4, 7 and 9 only | Nov 15 - Dec 1"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 antlered only | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-25",
+         "close": "2026-10-29"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 25 - Oct 29"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-09-15",
+         "close": "2026-09-21"
+        }
+       ],
+       "notes": "On or within 1 mile of private land in the following Units: 1, 2, 3, 4A, 5 and 6 only See Note A below",
+       "text": "Archery only \u2014 any elk | On or within 1 mile of private land in the | following Units: 1, 2, 3, 4A, 5 and 6 only | Sep 15 - Sep 21 | See Note A below"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-12-10",
+         "close": "2026-12-16"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 antlered only | Dec 10 - Dec 16"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-12-02",
+         "close": "2026-12-08"
+        }
+       ],
+       "notes": "On or within 1 mile of private land in the following Units: 1, 2, 3, 4A and 5 only See Note A below",
+       "text": "Muzzleloader only \u2014 antlerless only | On or within 1 mile of private land in the | following Units: 1, 2, 3, 4A and 5 only | Dec 2 - Dec 8 | See Note A below"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-09-06",
+         "close": "2026-09-12"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 antlered only | Sep 6 - Sep 12"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-10",
+         "close": "2026-10-24"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 10 - Oct 24"
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "Palouse",
+   "units": [
+    "8",
+    "8A",
+    "11A"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-09-15"
+        }
+       ],
+       "notes": "On or within 1 mile of private agricultural lands, See Note 1, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Aug 1 - Sep 15 | On or within 1 mile of private | agricultural lands, See Note 1, Page 49"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-12-02",
+         "close": "2026-12-14"
+        }
+       ],
+       "notes": "Units 8 and 11A only On or within 1 mile of private agricultural lands, See Note 1 Page 49",
+       "text": "Muzzleloader only \u2014 antlerless only | Units 8 and 11A only | Dec 2 - Dec 14 | On or within 1 mile of private | agricultural lands, See Note 1 Page 49"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-10",
+         "close": "2026-10-24"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 10 - Oct 24"
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "Lolo",
+   "units": [
+    "10",
+    "12"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 antlered only | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": 404
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-10",
+         "close": "2026-11-03"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 10 - Nov 3"
+      }
+     ],
+     "residentQuota": 1088
+    }
+   }
+  },
+  {
+   "zone": "Dworshak",
+   "units": [
+    "10A"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 antlered only | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-12-02",
+         "close": "2026-12-14"
+        }
+       ],
+       "notes": "",
+       "text": "Muzzleloader only \u2014 antlered only | Dec 2 - Dec 14"
+      }
+     ],
+     "residentQuota": 1171
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "brow-tined bulls only",
+       "dates": [
+        {
+         "open": "2026-10-10",
+         "close": "2026-11-03"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 brow-tined bulls only | Oct 10 - Nov 3"
+      }
+     ],
+     "residentQuota": 2380
+    }
+   }
+  },
+  {
+   "zone": "Hells Canyon",
+   "units": [
+    "11",
+    "13",
+    "18"
+   ],
+   "tags": {
+    "A": {
+     "available": false,
+     "seasons": []
+    },
+    "B": {
+     "available": false,
+     "seasons": []
+    }
+   }
+  },
+  {
+   "zone": "Elk City",
+   "units": [
+    "14",
+    "15",
+    "16"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Units 15 & 16 only",
+       "text": "Archery only \u2014 antlered only | Units 15 & 16 only | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-21",
+         "close": "2026-12-05"
+        }
+       ],
+       "notes": "Units 14 and 16 only",
+       "text": "Muzzleloader only \u2014 antlerless only | Units 14 and 16 only | Nov 21 - Dec 5"
+      }
+     ],
+     "residentQuota": 628
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-10",
+         "close": "2026-10-24"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 10 - Oct 24"
+      }
+     ],
+     "residentQuota": 1432
+    }
+   }
+  },
+  {
+   "zone": "Selway",
+   "units": [
+    "16A",
+    "17",
+    "19",
+    "20"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-01",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 1 - Oct 31"
+      }
+     ],
+     "residentQuota": 647
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-09-15",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Sep 15 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-11-01",
+         "close": "2026-11-11"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Nov 1 - Nov 11"
+      }
+     ],
+     "residentQuota": 1067
+    }
+   }
+  },
+  {
+   "zone": "Middle Fork",
+   "units": [
+    "20A",
+    "26",
+    "27"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "",
+       "dates": [
+        {
+         "open": "2026-10-01",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "Any weapon \u2014 Units 20A and 26: antlered only Unit 27: brow-tined bulls only",
+       "text": "Any weapon \u2014 | Units 20A and 26: antlered only | Unit 27: brow-tined bulls only | Oct 1 - Oct 31"
+      }
+     ],
+     "residentQuota": 1551
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "",
+       "dates": [
+        {
+         "open": "2026-09-15",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Any weapon \u2014 Units 20A and 26: antlered only Unit 27: brow-tined bulls only",
+       "text": "Any weapon \u2014 | Units 20A and 26: antlered only | Unit 27: brow-tined bulls only | Sep 15 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "",
+       "dates": [
+        {
+         "open": "2026-11-01",
+         "close": "2026-11-18"
+        }
+       ],
+       "notes": "Any weapon \u2014 Units 20A and 26: antlered only Unit 27: brow-tined bulls only",
+       "text": "Any weapon \u2014 | Units 20A and 26: antlered only | Unit 27: brow-tined bulls only | Nov 1 - Nov 18"
+      }
+     ],
+     "residentQuota": 1636
+    }
+   }
+  },
+  {
+   "zone": "Salmon",
+   "units": [
+    "21",
+    "21A",
+    "28",
+    "36B"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Units 21, 21A and 36B only",
+       "text": "Archery only \u2014 any elk | Units 21, 21A and 36B only | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-12-01",
+         "close": "2026-12-31"
+        }
+       ],
+       "notes": "Unit 28 only",
+       "text": "Archery only \u2014 any elk | Unit 28 only | Dec 1 - Dec 31"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "Unit 21A only: Aug 1 - Oct 31 On private irrigated agricultural lands, See Note 3, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Unit 21A only: Aug 1 - Oct 31 | On private irrigated agricultural lands, See Note 3, Page 49"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-15",
+         "close": "2026-11-08"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 15 - Nov 8"
+      }
+     ],
+     "residentQuota": 2507
+    }
+   }
+  },
+  {
+   "zone": "Weiser River",
+   "units": [
+    "22",
+    "32",
+    "32A"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-01",
+         "close": "2026-11-15"
+        }
+       ],
+       "notes": "Unit 32 only: Nov 1 - Nov 15 Short range weapons only on Payette River and Montour WMAs Very limited access - most elk are on private property",
+       "text": "Any weapon \u2014 antlerless only | Unit 32 only: Nov 1 - Nov 15 | Short range weapons only on Payette River and | Montour WMAs | Very limited access - most elk are on private property"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-16",
+         "close": "2026-11-30"
+        }
+       ],
+       "notes": "Private Land in Unit 32 only: Short range weapons only on Payette River and Montour WMAs",
+       "text": "Any weapon \u2014 antlerless only | Private Land in Unit 32 only: | Nov 16 - Nov 30 | Short range weapons only on Payette River and | Montour WMAs"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-10-01",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "Unit 32 only: Oct 1 - Oct 31 Short range weapons only on Payette River and Montour WMAs Very limited access - most elk are on private property",
+       "text": "Any weapon \u2014 antlerless only | Unit 32 only: Oct 1 - Oct 31 | Short range weapons only on Payette River and Montour WMAs | Very limited access - most elk are on private property"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Private land in Unit 32 only",
+       "text": "Any weapon \u2014 antlerless only | Private land in Unit 32 only | Aug 1 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-25",
+         "close": "2026-11-03"
+        }
+       ],
+       "notes": "Short range weapons only on Payette River and Montour WMAs",
+       "text": "Any weapon \u2014 antlered only | Oct 25 - Nov 3 | Short range weapons only on Payette River and Montour WMAs"
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "McCall",
+   "units": [
+    "19A",
+    "23",
+    "24",
+    "25"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "SHORT_RANGE",
+       "sex": "",
+       "dates": [
+        {
+         "open": "2026-08-15",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Short range weapons only \u2014 antlerless only Units 23 and 24 only: Aug 15 - Sep 30 Outside National Forest System Boundary only, See Note A below Extremely limited access because of private property",
+       "text": "Short range weapons only \u2014 | antlerless only | Units 23 and 24 only: Aug 15 - Sep 30 | Outside National Forest System | Boundary only, See Note A below | Extremely limited access because of private | property"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "spike only",
+       "dates": [
+        {
+         "open": "2026-10-05",
+         "close": "2026-10-14"
+        }
+       ],
+       "notes": "Short range weapons only within described boundaries in Unit 24, See Note B below",
+       "text": "Any weapon \u2014 spike only | Oct 5 - Oct 14 | Short range weapons only within | described boundaries in Unit 24, | See Note B below"
+      },
+      {
+       "weapon": "SHORT_RANGE",
+       "sex": "",
+       "dates": [
+        {
+         "open": "2026-11-10",
+         "close": "2026-11-30"
+        }
+       ],
+       "notes": "Short range weapons only \u2014 antlerless only Units 23 and 24 only",
+       "text": "Short range weapons only \u2014 | antlerless only | Units 23 and 24 only | Nov 10 - Nov 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-15",
+         "close": "2026-11-03"
+        }
+       ],
+       "notes": "Short range weapons only within described boundaries, See Note B below.",
+       "text": "Any weapon \u2014 antlered only | Oct 15 - Nov 3 | Short range weapons only within described boundaries, See Note B below."
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "Lemhi",
+   "units": [
+    "29",
+    "37",
+    "37A",
+    "51"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "Units 29, 37, and 37A only: Aug 1 - Oct 31 On or within 1 mile of private irrigated agricultural lands, See Note 3, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Units 29, 37, and 37A only: Aug 1 - Oct 31 | On or within 1 mile of private irrigated agricultural lands, See Note 3, Page 49"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-08-29"
+        }
+       ],
+       "notes": "Unit 51 only: Aug 1 - Aug 29 On or within 1 mile of private agricultural lands outside the National Forest System Boundary, See Note 4, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Unit 51 only: Aug 1 - Aug 29 | On or within 1 mile of private agricultural | lands outside the National Forest System | Boundary, See Note 4, Page 49"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-25",
+         "close": "2026-12-09"
+        }
+       ],
+       "notes": "",
+       "text": "Muzzleloader only \u2014 antlerless only | Nov 25 - Dec 9"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": false,
+     "seasons": []
+    }
+   }
+  },
+  {
+   "zone": "Beaverhead",
+   "units": [
+    "30",
+    "30A",
+    "58",
+    "59",
+    "59A"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-08-29"
+        }
+       ],
+       "notes": "Units 58, 59 and 59A only: Aug 1 - Aug 29 On or within 1 mile of private agricultural lands outside the National Forest System Boundary, See Note 4, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Units 58, 59 and 59A only: Aug 1 - Aug 29 | On or within 1 mile of private agricultural | lands outside the National Forest System | Boundary, See Note 4, Page 49"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-10-15",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "",
+       "text": "Muzzleloader only \u2014 antlerless only | Oct 15 - Oct 31"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "Unit 30 only: Aug 1 - Oct 31 On or within 1 mile of private irrigated agricultural lands, See Note 3, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Unit 30 only: Aug 1 - Oct 31 | On or within 1 mile of private irrigated agricultural lands, See Note 3, Page 49"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": false,
+     "seasons": []
+    }
+   }
+  },
+  {
+   "zone": "Brownlee",
+   "units": [
+    "31"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-15",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "On or within 1 mile of agricultural lands outside the National Forest System Boundary, See Note 4, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Aug 15 - Sep 30 | On or within 1 mile of agricultural lands | outside the National Forest System | Boundary, See Note 4, Page 49"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-15",
+         "close": "2026-11-30"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlerless only | Nov 15 - Nov 30"
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "Sawtooth",
+   "units": [
+    "33",
+    "34",
+    "35",
+    "36"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": 1000
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-15",
+         "close": "2026-11-08"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 15 - Nov 8"
+      }
+     ],
+     "residentQuota": 1800
+    }
+   }
+  },
+  {
+   "zone": "Pioneer",
+   "units": [
+    "36A",
+    "49",
+    "50"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-08-29"
+        }
+       ],
+       "notes": "Unit 50 only: Aug 1 - Aug 29 On or within 1 mile of private agricultural lands outside the National Forest System Boundary, See Note 4, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Unit 50 only: Aug 1 - Aug 29 | On or within 1 mile of private agricultural | lands outside the National Forest System | Boundary, See Note 4, Page 49"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-01",
+         "close": "2026-11-09"
+        }
+       ],
+       "notes": "",
+       "text": "Muzzleloader only \u2014 antlerless only | Nov 1 - Nov 9"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "Unit 36A only: Aug 1 - Oct 31 On or within 1 mile of private irrigated agricultural lands, See Note 3, Page 49",
+       "text": "Any weapon \u2014 antlerless only | Unit 36A only: Aug 1 - Oct 31 | On or within 1 mile of private irrigated agricultural lands, See Note 3, Page 49"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-10",
+         "close": "2026-11-30"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlerless only | Nov 10 - Nov 30"
+      }
+     ],
+     "residentQuota": 500
+    }
+   }
+  },
+  {
+   "zone": "Owyhee",
+   "units": [
+    "40",
+    "41",
+    "42"
+   ],
+   "tags": {
+    "A": {
+     "available": false,
+     "seasons": []
+    },
+    "B": {
+     "available": false,
+     "seasons": []
+    }
+   }
+  },
+  {
+   "zone": "Boise River",
+   "units": [
+    "38",
+    "39"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-11-10",
+         "close": "2026-11-30"
+        }
+       ],
+       "notes": "Unit 39 only: Nov 10 - Nov 30 See Note A below,",
+       "text": "Archery only \u2014 any elk | Unit 39 only: Nov 10 - Nov 30 | See Note A below,"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-27",
+         "close": "2026-11-09"
+        }
+       ],
+       "notes": "Unit 39 only: Oct 27 - Nov 9 Portion of Unit closed, See Note B below",
+       "text": "Any weapon \u2014 antlered only | Unit 39 only: Oct 27 - Nov 9 | Portion of Unit closed, | See Note B below"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Unit 38 only: Aug 1 - Sep 30 See Note C below",
+       "text": "Any weapon \u2014 any elk | Unit 38 only: Aug 1 - Sep 30 | See Note C below"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless or spike only",
+       "dates": [
+        {
+         "open": "2026-10-01",
+         "close": "2026-12-31"
+        }
+       ],
+       "notes": "Unit 38 only: Oct 1 - Dec 31 See Note C below",
+       "text": "Any weapon \u2014 antlerless or spike only | Unit 38 only: Oct 1 - Dec 31 | See Note C below"
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "Smoky-Bennett",
+   "units": [
+    "43",
+    "44",
+    "45",
+    "48",
+    "52"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Units 43 and 48 only: Aug 30 - Sep 30",
+       "text": "Archery only \u2014 any elk | Units 43 and 48 only: Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-10",
+         "close": "2026-11-24"
+        }
+       ],
+       "notes": "Units 44, 45, and 52 only",
+       "text": "Any weapon \u2014 antlerless only | Units 44, 45, and 52 only | Nov 10 \u2013 Nov 24"
+      }
+     ],
+     "residentQuota": 600
+    }
+   }
+  },
+  {
+   "zone": "South Hills",
+   "units": [
+    "46",
+    "47",
+    "54",
+    "55",
+    "56",
+    "57"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Units 55, 56, and 57 only",
+       "text": "Archery only \u2014 any elk | Units 55, 56, and 57 only | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-10-25",
+         "close": "2026-11-15"
+        }
+       ],
+       "notes": "Unit 56 only",
+       "text": "Any weapon \u2014 antlerless only | Unit 56 only | Oct 25 - Nov 15"
+      }
+     ],
+     "residentQuota": 500
+    }
+   }
+  },
+  {
+   "zone": "Big Desert",
+   "units": [
+    "52A",
+    "53",
+    "68",
+    "68A"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Units 52A and 68 only: Aug 30 - Sep 30",
+       "text": "Archery only \u2014 any elk | Units 52A and 68 only: Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-08-30"
+        }
+       ],
+       "notes": "Unit 68 only: Aug 1 - Aug 30",
+       "text": "Archery only \u2014 any elk | Unit 68 only: Aug 1 - Aug 30"
+      },
+      {
+       "weapon": "SHORT_RANGE",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-12-31"
+        }
+       ],
+       "notes": "Unit 53 only: Aug 1 - Dec 31",
+       "text": "Short range weapons only \u2014 any elk | Unit 53 only: Aug 1 - Dec 31"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-12-31"
+        }
+       ],
+       "notes": "Unit 68A only: Aug 1 - Dec 31",
+       "text": "Archery only \u2014 any elk | Unit 68A only: Aug 1 - Dec 31"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-11-01",
+         "close": "2026-12-31"
+        }
+       ],
+       "notes": "Units 52A and 68 only: Nov 1 - Dec 31",
+       "text": "Any weapon \u2014 antlerless only | Units 52A and 68 only: Nov 1 - Dec 31"
+      }
+     ],
+     "residentQuota": 350
+    }
+   }
+  },
+  {
+   "zone": "Island Park",
+   "units": [
+    "60",
+    "60A",
+    "61",
+    "62",
+    "62A"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "spike or antlerless",
+       "dates": [
+        {
+         "open": "2026-11-15",
+         "close": "2026-12-09"
+        }
+       ],
+       "notes": "Unit 61 only: Nov 15 - Dec 9",
+       "text": "Muzzleloader only \u2014 spike or antlerless | Unit 61 only: Nov 15 - Dec 9"
+      },
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": false,
+     "seasons": []
+    }
+   }
+  },
+  {
+   "zone": "Snake River",
+   "units": [
+    "63",
+    "63A"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "SHORT_RANGE",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-08-31"
+        }
+       ],
+       "notes": "Unit 63A only: Aug 1 - Aug 31",
+       "text": "Short range weapons only \u2014 any elk | Unit 63A only: Aug 1 - Aug 31"
+      },
+      {
+       "weapon": "SHORT_RANGE",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-09-01",
+         "close": "2026-11-30"
+        }
+       ],
+       "notes": "Unit 63A only: Sep 1 - Nov 30",
+       "text": "Short range weapons only \u2014 antlerless only | Unit 63A only: Sep 1 - Nov 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": false,
+     "seasons": []
+    }
+   }
+  },
+  {
+   "zone": "Palisades",
+   "units": [
+    "64",
+    "65",
+    "67"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-15",
+         "close": "2026-10-21"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 15 - Oct 21"
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "Tex Creek",
+   "units": [
+    "66",
+    "69"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-10-22",
+         "close": "2026-10-31"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlerless only | Oct 22 - Oct 31"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "spike or antlerless",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-14"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 spike or antlerless | Aug 30 - Sep 14"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-15",
+         "close": "2026-10-21"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 15 - Oct 21"
+      }
+     ],
+     "residentQuota": null
+    }
+   }
+  },
+  {
+   "zone": "Bannock",
+   "units": [
+    "70",
+    "71",
+    "72",
+    "73",
+    "73A",
+    "74"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-10-25",
+         "close": "2026-11-15"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlerless only | Oct 25 - Nov 15"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-12-01",
+         "close": "2026-12-31"
+        }
+       ],
+       "notes": "",
+       "text": "Muzzleloader only \u2014 antlerless only | Dec 1 - Dec 31"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": false,
+     "seasons": []
+    }
+   }
+  },
+  {
+   "zone": "Bear River",
+   "units": [
+    "75",
+    "77",
+    "78"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-10-25",
+         "close": "2026-11-15"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlerless only | Oct 25 - Nov 15"
+      },
+      {
+       "weapon": "MUZZLELOADER",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-12-01",
+         "close": "2026-12-31"
+        }
+       ],
+       "notes": "",
+       "text": "Muzzleloader only \u2014 antlerless only | Dec 1 - Dec 31"
+      }
+     ],
+     "residentQuota": null
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "spike or antlerless",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-14"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 spike or antlerless | Aug 30 - Sep14"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlered only",
+       "dates": [
+        {
+         "open": "2026-10-15",
+         "close": "2026-10-24"
+        }
+       ],
+       "notes": "",
+       "text": "Any weapon \u2014 antlered only | Oct 15 - Oct 24"
+      }
+     ],
+     "residentQuota": 550
+    }
+   }
+  },
+  {
+   "zone": "Diamond Creek",
+   "units": [
+    "66A",
+    "76"
+   ],
+   "tags": {
+    "A": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-30",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "",
+       "text": "Archery only \u2014 any elk | Aug 30 - Sep 30"
+      }
+     ],
+     "residentQuota": 1836
+    },
+    "B": {
+     "available": true,
+     "seasons": [
+      {
+       "weapon": "ARCHERY",
+       "sex": "any elk",
+       "dates": [
+        {
+         "open": "2026-08-01",
+         "close": "2026-09-30"
+        }
+       ],
+       "notes": "Portion of Unit 76 only See Note A below, Extremely limited access because of private property",
+       "text": "Archery only \u2014 any elk | Portion of Unit 76 only | Aug 1 \u2013 Sep 30 | See Note A below, Extremely limited | access because of private property"
+      },
+      {
+       "weapon": "ANY",
+       "sex": "antlerless only",
+       "dates": [
+        {
+         "open": "2026-10-01",
+         "close": "2026-10-15"
+        }
+       ],
+       "notes": "Portion of Unit 76 only See Note A below, Extremely limited access because of private property",
+       "text": "Any weapon \u2014 antlerless only | Portion of Unit 76 only | Oct 1 \u2013 Oct 15 | See Note A below, Extremely limited | access because of private property"
+      }
+     ],
+     "residentQuota": 150
+    }
+   }
+  }
+ ]
+}

@@ -272,6 +272,8 @@ model HuntSummary {
   quotaYear Int?
   capped    Boolean @default(false)
   nrDraw    Json? // { year, tags, applied: [1st..5th], drew: [...] }
+  weapons    Weapon[] // nonresident tags: the weapons its seasons allow (empty = unknown)
+  tagSeasons Json? // elk A/B tag seasons: [{ weapon, sex, dates: [{ open, close }], notes }] + { year }
   updatedAt       DateTime @updatedAt
 
   @@index([species, type, weapon, antlerClass])

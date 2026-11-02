@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { seasonsSummary } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -98,7 +99,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
             </div>
             <div className="uh-meta">
               {h.nrTag
-                ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''} · ${h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit'}`
+                ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''} · ${seasonsSummary(h.tagSeasons, 2) || (h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit')}`
                 : <>{h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {ANTLER[h.antlerClass]}
                   {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : h.tags ? ` · ${int(h.tags)} tags` : ''}</>}
             </div>

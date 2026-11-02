@@ -1,23 +1,13 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { db, thisYear, type StepResult } from '../core/context';
 import { getBytes } from '../core/http';
 import { pdfLines } from '../core/pdf';
 import { parseDrawLines, parseQuotaLines, type NrDrawRow } from '../core/nrdraw';
 import { syntheticId } from './hunts';
+import { latestDataFile, loadElkZones } from '../core/datafiles';
 
 const BASE = 'https://idfg.idaho.gov/sites/default/files/';
 const DRAW_URL = (y: number) => (process.env.NR_DRAW_URL || `${BASE}nonresident-draw-data-and-descriptions_{year}-draw.pdf`).replace('{year}', String(y));
 const QUOTA_URL = (y: number) => (process.env.NR_QUOTA_URL || `${BASE}seasons-rules-big-game-supplemental-proclamation-{year}.pdf`).replace('{year}', String(y));
-
-export interface ElkZone {
-  zone: string;
-  units: string[];
-  tags: { tag: 'A' | 'B'; code: string; quota: number; capped: boolean }[];
-}
-export function loadElkZones(): { quotaYear: number; zones: ElkZone[] } {
-  return JSON.parse(readFileSync(join(process.cwd(), 'data', 'nr-elk-zones.json'), 'utf8'));
-}
 
 /** Pipe a PDF's text rows to the log (first `n` matching rows) so parsing can be checked against the PDF. */
 function sample(label: string, lines: string[], re: RegExp, n = 12) {
@@ -35,10 +25,17 @@ export async function syncNrDraw(): Promise<StepResult> {
   const { quotaYear: fileQuotaYear, zones } = loadElkZones();
   const zoneNames = zones.map((z) => z.zone);
 
-  // --- draw results: newest year IDFG has posted
+  // --- draw results: a committed data file (scripts/nr-pdf-to-json.ts) wins; otherwise try IDFG directly
+  //     (IDFG's file server has refused automated downloads, so the data file is the normal path)
   let drawYear = 0;
   let rows: NrDrawRow[] = [];
-  for (const y of [thisYear() + 1, thisYear(), thisYear() - 1]) {
+  const drawFile = latestDataFile<{ rows: NrDrawRow[] }>('nr-draw');
+  if (drawFile) {
+    drawYear = drawFile.year;
+    rows = drawFile.data.rows;
+    details.push(`Draw results from data/nr-draw-${drawYear}.json`);
+  }
+  for (const y of drawFile ? [] : [thisYear() + 1, thisYear(), thisYear() - 1]) {
     const bytes = await getBytes(DRAW_URL(y));
     if (!bytes) continue;
     const lines = (await pdfLines(bytes)).flat();
@@ -51,15 +48,22 @@ export async function syncNrDraw(): Promise<StepResult> {
   }
   const n = (k: string) => rows.filter((r) => r.kind === k).length;
   details.push(`Draw ${drawYear || 'not found'}: ${n('ELK')} elk zone tags, ${n('RD')} regular deer units, ${n('WD')} white-tailed deer units`);
-  if (!drawYear || n('ELK') < 30 || n('RD') < 50 || n('WD') < 30) {
+  if (drawYear && (n('ELK') < 30 || n('RD') < 50 || n('WD') < 30)) {
     return { rows: rows.length, status: 'ERROR', details: [...details, 'Too few rows parsed - kept the existing nonresident draw data'] };
   }
+  if (!drawYear) details.push('No draw results yet (add data/nr-draw-<year>.json) - tags are listed with quotas only');
   for (const r of rows.slice(0, 3)) details.push(`  ${r.code}: ${r.tags} tags, 1st choice ${r.drew[0]}/${r.applied[0]}`);
 
   // --- quotas: newest supplemental proclamation (next year's codes and quotas)
   let quotaYear = 0;
   let quotas = new Map<string, { quota: number; capped: boolean }>();
-  for (const y of [thisYear() + 1, thisYear()]) {
+  const quotaFile = latestDataFile<{ quotas: Record<string, { quota: number; capped: boolean }> }>('nr-quotas');
+  if (quotaFile) {
+    quotaYear = quotaFile.year;
+    quotas = new Map(Object.entries(quotaFile.data.quotas));
+    details.push(`Quotas from data/nr-quotas-${quotaYear}.json`);
+  }
+  for (const y of quotaFile ? [] : [thisYear() + 1, thisYear()]) {
     const bytes = await getBytes(QUOTA_URL(y));
     if (!bytes) continue;
     const lines = (await pdfLines(bytes)).flat();

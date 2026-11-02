@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { seasonsSummary } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
@@ -143,7 +144,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                     </div>
                     <div className="dates">
                       {r.nrTag
-                        ? `Nonresident general tag · ${r.species === 'ELK' ? `units ${r.units.join(', ')}` : `unit ${r.unit}`} · seasons: see the ${r.species === 'ELK' ? 'zone' : 'unit'}`
+                        ? (seasonsSummary(r.tagSeasons) || `Nonresident general tag · ${r.species === 'ELK' ? `units ${r.units.join(', ')}` : `unit ${r.unit}`} · seasons: see the regulations`)
                         : <>{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</>}
                     </div>
                     <div className="hrow-stats">

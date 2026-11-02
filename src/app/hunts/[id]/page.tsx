@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { sortedSeasons, seasonTitle, seasonDates } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -162,8 +163,10 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
 type NrDrawJson = { year: number; tags: number; applied: number[]; drew: number[] };
 
 /** Nonresident general tag: the draw by choice, quota, units, and how the draw works. */
-function NrTagCard({ s }: { s: { nrDraw: unknown; quota: number | null; quotaYear: number | null; capped: boolean; units: string[]; tagCode: string | null; species: string } }) {
+function NrTagCard({ s }: { s: { nrDraw: unknown; tagSeasons: unknown; quota: number | null; quotaYear: number | null; capped: boolean; units: string[]; tagCode: string | null; species: string } }) {
   const d = s.nrDraw as NrDrawJson | null;
+  const seasons = sortedSeasons(s.tagSeasons);
+  const sy = (s.tagSeasons as { year?: number } | null)?.year;
   const ord = ['1st', '2nd', '3rd', '4th', '5th'];
   return (
     <div className="card" style={{ marginTop: 16 }}>
@@ -185,6 +188,20 @@ function NrTagCard({ s }: { s: { nrDraw: unknown; quota: number | null; quotaYea
             </tbody>
           </table>
         </div>
+      )}
+      {seasons.length > 0 && (
+        <>
+          <h4 style={{ margin: '14px 0 6px' }}>{sy} Seasons For This Tag</h4>
+          <div className="uh-list">
+            {seasons.map((x, i) => (
+              <div key={i} className="uh-row" style={{ gridTemplateColumns: '1fr' }}>
+                <div className="uh-name">{seasonTitle(x)}</div>
+                <div className="uh-meta"><b>{seasonDates(x)}</b>{x.notes ? ` · ${x.notes}` : ''}</div>
+              </div>
+            ))}
+          </div>
+          <p className="small muted">From IDFG&apos;s {sy} Seasons &amp; Rules (elk zone tables). Restrictions are summarized; check the regulations for boundaries and notes.</p>
+        </>
       )}
       <p className="small">
         Units:{' '}

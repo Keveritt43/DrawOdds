@@ -76,7 +76,8 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   if (f.type === 'NRTAG') and.push({ nrTag: true });
   else if (f.type) and.push({ type: f.type });
   // a tag covers several weapons and sexes (its seasons do the narrowing), so those filters let tags through
-  if (f.weapon.length) and.push({ OR: [{ weapon: { in: f.weapon } }, { nrTag: true }] });
+  // (a tag passes when one of its seasons allows the weapon, or when its seasons aren't known yet)
+  if (f.weapon.length) and.push({ OR: [{ nrTag: false, weapon: { in: f.weapon } }, { nrTag: true, weapons: { hasSome: f.weapon } }, { nrTag: true, weapons: { isEmpty: true } }] });
   if (f.antler.length) and.push({ OR: [{ antlerClass: { in: f.antler } }, { nrTag: true }] });
   if (f.deerType.length) and.push({ deerType: { in: f.deerType } });
   // hunt is open at some point during any chosen month (works for Dec-Jan seasons too)
