@@ -28,6 +28,7 @@ export function sortedSeasons(ts: unknown): TagSeason[] {
 export function seasonsSummary(ts: unknown, max = 3): string {
   const s = sortedSeasons(ts);
   if (!s.length) return '';
-  const shown = s.slice(0, max).map((x) => `${W[x.weapon] ?? x.weapon} ${seasonDates(x)}`);
-  return `${shown.join(' · ')}${s.length > max ? ` · +${s.length - max} more` : ''}`;
+  // antlered and antlerless seasons often share dates: one entry per weapon + dates
+  const uniq = [...new Set(s.map((x) => `${W[x.weapon] ?? x.weapon} ${seasonDates(x)}`))];
+  return `${uniq.slice(0, max).join(' · ')}${uniq.length > max ? ` · +${uniq.length - max} more` : ''}`;
 }
