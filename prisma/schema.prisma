@@ -247,6 +247,9 @@ model HuntSummary {
   privatePct     Float?
   accessYesAcres Float?
   accessYesCount Int?
+  accessYesPct   Float? // Access Yes! acres as % of the hunt area (or unit) - mostly private land, so NOT inside publicPct
+  huntablePct    Float? // publicPct + accessYesPct, capped at 100
+  acres          Float?
 
   boundaryChanged Boolean  @default(false)
   updatedAt       DateTime @updatedAt

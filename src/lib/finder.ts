@@ -1,6 +1,6 @@
 import type { Prisma, Residency } from '@prisma/client';
 
-export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open';
+export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha';
 
 export interface Filters {
   species: 'DEER' | 'ELK' | '';
@@ -12,6 +12,10 @@ export interface Filters {
   minOdds: number | null; // percent, applied to the user's residency
   minSuccess: number | null; // percent
   minPublic: number | null; // percent
+  minAccessYes: number | null; // percent of the area enrolled in Access Yes!
+  minHuntable: number | null; // percent public + Access Yes!
+  minBig: number | null; // trophy share: deer mule 4+, elk 6+ (percent of antlered)
+  minTags: number | null;
   accessYes: boolean;
   youth: 'exclude' | 'include' | 'only';
   unit: string;
@@ -42,11 +46,15 @@ export function parseFilters(sp: SP): Filters {
     minOdds: pct(sp.minOdds),
     minSuccess: pct(sp.minSuccess),
     minPublic: pct(sp.minPublic),
+    minAccessYes: pct(sp.minAccessYes),
+    minHuntable: pct(sp.minHuntable),
+    minBig: pct(sp.minBig),
+    minTags: Number(one(sp.minTags)) > 0 ? Math.min(10000, Math.round(Number(one(sp.minTags)))) : null,
     accessYes: one(sp.accessYes) === '1',
     youth: (['include', 'only'] as const).find((y) => y === one(sp.youth)) ?? 'exclude',
     unit: one(sp.unit).trim().toUpperCase().slice(0, 6),
     q: one(sp.q).trim().slice(0, 60),
-    sort: (['best', 'odds', 'success', 'public', 'big', 'open'] as const).includes(sort) ? sort : 'best',
+    sort: (['best', 'odds', 'success', 'public', 'big', 'open', 'alpha'] as const).includes(sort) ? sort : 'best',
     page: Math.max(1, Math.min(200, Number(one(sp.page)) || 1)),
   };
 }
@@ -72,6 +80,10 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   if (f.minOdds !== null) and.push({ [rf.odds5]: { gte: f.minOdds / 100 } });
   if (f.minSuccess !== null) and.push({ success5: { gte: f.minSuccess / 100 } });
   if (f.minPublic !== null) and.push({ publicPct: { gte: f.minPublic } });
+  if (f.minAccessYes !== null) and.push({ accessYesPct: { gte: f.minAccessYes } });
+  if (f.minHuntable !== null) and.push({ huntablePct: { gte: f.minHuntable } });
+  if (f.minBig !== null) and.push({ bigPct5: { gte: f.minBig / 100 } });
+  if (f.minTags !== null) and.push({ OR: [{ tags: { gte: f.minTags } }, { type: 'GENERAL' }] });
   if (f.accessYes) and.push({ accessYesCount: { gt: 0 } });
   if (f.youth === 'exclude') and.push({ youthOnly: false });
   if (f.youth === 'only') and.push({ youthOnly: true });
@@ -103,6 +115,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
       return [desc('bigPct5'), desc('success5')];
     case 'open':
       return [{ openDate: { sort: 'asc', nulls: 'last' } }, desc('success5')];
+    case 'alpha':
+      return [{ areaName: { sort: 'asc', nulls: 'last' } }, { huntNumber: { sort: 'asc', nulls: 'last' } }];
     default:
       // best bet: chance of drawing AND filling; general hunts (no draw) rank by success
       return [desc(rf.tagAndFill), desc('success5')];
@@ -127,6 +141,10 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('minOdds', m.minOdds);
   set('minSuccess', m.minSuccess);
   set('minPublic', m.minPublic);
+  set('minAccessYes', m.minAccessYes);
+  set('minHuntable', m.minHuntable);
+  set('minBig', m.minBig);
+  set('minTags', m.minTags);
   set('accessYes', m.accessYes);
   if (m.youth && m.youth !== 'exclude') set('youth', m.youth);
   set('unit', m.unit);

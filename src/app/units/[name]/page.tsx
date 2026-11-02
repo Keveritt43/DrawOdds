@@ -30,7 +30,7 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
-      <p className="small"><Link href="/map">Back to map</Link></p>
+      <p className="small"><Link href="/map">← Back To Unit Map</Link> · <Link href={`/hunts?unit=${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1>Unit {unit.name}</h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
       {unit.boundaryChanged2022 && <div className="note">IDFG changed this unit&apos;s boundary in 2022. Harvest numbers before 2022 cover different ground.</div>}
@@ -38,7 +38,8 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
       <div className="stats">
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(unit.publicPct)}</div></div>
         <div className="stat"><div className="k">Private land</div><div className="v">{pct100(unit.privatePct)}</div></div>
-        <div className="stat"><div className="k">Access Yes!</div><div className="v">{unit.accessYesCount ? `${int(unit.accessYesAcres)} ac` : 'None'}</div></div>
+        <div className="stat"><div className="k">Access Yes!</div><div className="v">{unit.accessYesCount && unit.acres ? `${((unit.accessYesAcres ?? 0) / unit.acres * 100) < 1 ? '<1' : Math.round((unit.accessYesAcres ?? 0) / unit.acres * 100)}%` : 'None'}</div><div className="small muted">{unit.accessYesCount ? `${int(unit.accessYesAcres)} ac` : ''}</div></div>
+        <div className="stat"><div className="k">Huntable (public + AY!)</div><div className="v">{unit.publicPct !== null ? `${Math.round(Math.min(100, unit.publicPct + (unit.acres ? ((unit.accessYesAcres ?? 0) / unit.acres) * 100 : 0)))}%` : '-'}</div></div>
         <div className="stat"><div className="k">Wilderness</div><div className="v">{pct100(unit.wildernessPct)}</div></div>
         <div className="stat"><div className="k">Hunts touching unit</div><div className="v">{hunts.length}</div></div>
       </div>

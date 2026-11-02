@@ -1,105 +1,111 @@
 import Link from 'next/link';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
-import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, PAGE_SIZE } from '@/lib/finder';
-import { FilterPanel } from '@/components/FilterPanel';
-import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE } from '@/lib/format';
+import { ResidencySwitch } from '@/components/ResidencySwitch';
 
 export const dynamic = 'force-dynamic';
 
-export default async function FinderPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const f = parseFilters(await searchParams);
+export default async function Home() {
   const { residency } = await getResidency();
-  const rf = residencyFields(residency);
-  const where = buildWhere(f, residency);
-  const [rows, total, lastSync] = await Promise.all([
-    db.huntSummary.findMany({ where, orderBy: buildOrder(f, residency), take: PAGE_SIZE, skip: (f.page - 1) * PAGE_SIZE }),
-    db.huntSummary.count({ where }),
-    db.syncLog.findFirst({ where: { step: 'summary', status: { in: ['OK', 'CHECK'] } }, orderBy: { finishedAt: 'desc' } }),
+  const [hunts, controlled, units, oddsYears, accessYes] = await Promise.all([
+    db.huntSummary.count(),
+    db.huntSummary.count({ where: { type: 'CONTROLLED' } }),
+    db.unit.count({ where: { geometry: { not: undefined } } }),
+    db.drawOdds.findMany({ select: { year: true }, distinct: ['year'] }),
+    db.accessYesProperty.aggregate({ _sum: { acres: true }, where: { active: true } }),
   ]);
-  const nr = residency === 'NONRESIDENT';
-  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const yrs = oddsYears.map((y) => y.year);
+  const span = yrs.length ? `${Math.min(...yrs)}–${Math.max(...yrs)}` : '-';
+  const opt = (name: string, value: string, label: string, checked = false) => (
+    <label>
+      <input type="radio" name={name} value={value} defaultChecked={checked} />
+      <span>{label}</span>
+    </label>
+  );
 
   return (
-    <main className="wrap">
-      <div className="finder">
-        <FilterPanel f={f} residency={residency} />
-        <section>
-          <h1>Find a hunt</h1>
-          <p className="muted small" style={{ marginTop: 0 }}>
-            {int(total)} deer and elk hunts match. Odds are <b>{nr ? 'nonresident' : 'resident'}</b>, first choice, 5-year total
-            (permits / applicants). Success is the 5-year total (harvest / hunters).
-            {lastSync?.finishedAt ? ` Data updated ${lastSync.finishedAt.toLocaleDateString('en-US')}.` : ''}
-          </p>
-          {nr && (
-            <div className="note">
-              Nonresidents get roughly 10% of controlled-hunt tags, so on small hunts your odds rest on 0-2 tags a year. Treat
-              a single-year number as noise. General-season nonresident tags are capped and can sell out.
+    <main>
+      <section className="home-hero">
+        <div className="inner">
+          <div>
+            <h1>
+              Find Your Idaho Hunt. <em>Know Your Odds.</em>
+            </h1>
+            <p className="lead">
+              Every Idaho deer and elk controlled hunt and general season in one place: draw odds for your residency, hunter
+              success, trophy share, mule deer vs whitetail, public land and Access Yes! acres, on a topo map.
+            </p>
+            <div className="ctas">
+              <Link className="btn primary big" href="/hunts">Start Filtering</Link>
+              <Link className="btn btn-light big" href="/map">Explore The Unit Map</Link>
             </div>
-          )}
-          {!rows.length ? (
-            <div className="card">No hunts match. Loosen a filter, or <Link href="/">reset</Link>.</div>
-          ) : (
-            <div style={{ overflowX: 'auto' }}>
-              <table className="results">
-                <thead>
-                  <tr>
-                    <th>Hunt</th>
-                    <th>Season</th>
-                    <th className="num">Tags</th>
-                    <th className="num" title="5-yr first-choice odds for your residency">{nr ? 'NR' : 'Res'} odds</th>
-                    <th className="num" title="5-yr hunter success">Success</th>
-                    <th className="num" title="Chance of drawing and filling in one year">Draw + fill</th>
-                    <th className="num" title="Deer: mule 4+ pts / Elk: 6+ pts, share of antlered harvest">Trophy</th>
-                    <th className="num">Public</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((r) => {
-                    const odds = r[rf.odds5];
-                    return (
-                      <tr key={r.id}>
-                        <td>
-                          <Link href={`/hunts/${encodeURIComponent(r.id)}`}><b>{r.huntNumber ? `${r.species === 'DEER' ? 'Deer' : 'Elk'} ${r.huntNumber}` : r.name}</b></Link>
-                          <div className="small muted">
-                            {r.type === 'GENERAL' ? `Unit ${r.unit} · ${r.name}` : `Area ${r.areaName ?? '?'}${r.units.length > 1 ? ` (units ${r.units.join(', ')})` : ''}`}
-                          </div>
-                          <span className="pill">{WEAPON[r.weapon]}</span>
-                          <span className="pill">{ANTLER[r.antlerClass]}</span>
-                          {r.deerType && <span className="pill">{DEERTYPE[r.deerType]}</span>}
-                        </td>
-                        <td className="small">{range(r.openDate, r.closeDate)}</td>
-                        <td className="num">{r.type === 'GENERAL' ? (r.tags ? int(r.tags) : 'OTC') : int(r.tags)}</td>
-                        <td className="num">{r.type === 'GENERAL' ? <span className="muted">no draw</span> : pct(odds, 1)}</td>
-                        <td className="num">{pct(r.success5)}</td>
-                        <td className="num">{r.type === 'GENERAL' ? '-' : pct(r[rf.tagAndFill], 1)}</td>
-                        <td className="num">{pct(r.bigPct5)}</td>
-                        <td className="num">{pct100(r.publicPct)}</td>
-                        <td>
-                          {r.youthOnly && <span className="pill">Youth</span>}
-                          {(r.accessYesCount ?? 0) > 0 && <span className="pill good">Access Yes! {int(r.accessYesAcres)} ac</span>}
-                          {r.smallSample && <span className="pill warn" title="Fewer than 50 hunters over 5 years">Small sample</span>}
-                          {r.boundaryChanged && <span className="pill warn" title="IDFG changed this unit's boundary in 2022">Boundary changed 2022</span>}
-                          {r.type === 'CONTROLLED' && r.oddsYears < 3 && <span className="pill warn">New / short history</span>}
-                          {r.appsTrend !== null && r.appsTrend > 0.25 && <span className="pill warn" title="Last year's applicants vs 5-yr average">Applicants +{Math.round(r.appsTrend * 100)}%</span>}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-          {pages > 1 && (
-            <div className="pager">
-              {f.page > 1 && <Link className="btn" href={`/${toQuery(f, { page: f.page - 1 })}`}>Previous</Link>}
-              <span className="small muted">Page {f.page} of {pages}</span>
-              {f.page < pages && <Link className="btn" href={`/${toQuery(f, { page: f.page + 1 })}`}>Next</Link>}
-            </div>
-          )}
-        </section>
+          </div>
+          <form className="quick" action="/hunts" method="get">
+            <h2>Quick Start</h2>
+            <p className="small" style={{ color: '#a9b0a7', margin: 0 }}>Pick a few things. Refine everything else on the next page.</p>
+            <label>I&apos;m Applying As</label>
+            <ResidencySwitch value={residency} />
+            <label>Species</label>
+            <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', '', 'Both')}</div>
+            <label>Hunt Type</label>
+            <div className="opts">{opt('type', 'CONTROLLED', 'Controlled Draw', true)}{opt('type', 'GENERAL', 'General (OTC)')}{opt('type', '', 'Either')}</div>
+            <label>Weapon</label>
+            <div className="opts">{opt('weapon', '', 'Any', true)}{opt('weapon', 'ANY', 'Rifle / Any Weapon')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
+            <label>I Want</label>
+            <div className="opts">{opt('sort', 'best', 'Best Chance To Fill', true)}{opt('sort', 'big', 'Trophy Potential')}{opt('sort', 'public', 'Public Land')}</div>
+            <button className="btn primary" type="submit">Show Me Hunts</button>
+          </form>
+        </div>
+      </section>
+
+      <div className="wrap">
+        <div className="tiles">
+          <Link className="tile tone-blaze" href="/hunts?type=CONTROLLED&sort=odds">
+            <span className="pill blaze">Draw Odds</span>
+            <h3>Odds For Your Residency</h3>
+            <p>Resident and nonresident first-choice odds, 5-year totals, and applicant trends, followed through IDFG&apos;s hunt renumbering.</p>
+            <span className="go">Best odds →</span>
+          </Link>
+          <Link className="tile tone-sage" href="/hunts?sort=success">
+            <span className="pill good">Harvest</span>
+            <h3>Hunter Success</h3>
+            <p>Five years of harvest per hunt and per unit, compared with the general season in the same ground.</p>
+            <span className="go">Highest success →</span>
+          </Link>
+          <Link className="tile tone-larch" href="/hunts?species=DEER&deerType=MULE&sort=big">
+            <span className="pill">Trophy</span>
+            <h3>Mule Deer, Whitetail, Big Bulls</h3>
+            <p>Mule deer vs whitetail share, 4+ point mule deer and 6+ point bulls, back-calculated from IDFG harvest reports.</p>
+            <span className="go">Trophy hunts →</span>
+          </Link>
+          <Link className="tile tone-lake" href="/map">
+            <span className="pill">Land</span>
+            <h3>Public Land & Access Yes!</h3>
+            <p>Public land and Access Yes! acres for every unit and hunt area, on a USGS topo or satellite map.</p>
+            <span className="go">Open the map →</span>
+          </Link>
+        </div>
       </div>
+
+      <section className="band dark">
+        <div className="inner">
+          <div>
+            <h2>How To Find A Hunt</h2>
+            <ol className="steps">
+              <li>Set resident or nonresident. Every odds number on the site follows it.</li>
+              <li>Pick species, weapon and season dates. The map lights up the units that match.</li>
+              <li>Slide the minimums: draw odds, hunter success, trophy share, public land.</li>
+              <li>Open a hunt for its 10-year trends, then save it to your list.</li>
+            </ol>
+          </div>
+          <div className="bignums">
+            <div><b>{hunts.toLocaleString()}</b><span>Hunt and unit combinations</span></div>
+            <div><b>{controlled.toLocaleString()}</b><span>Controlled hunts with odds</span></div>
+            <div><b>{span}</b><span>Years of draw odds</span></div>
+            <div><b>{accessYes._sum.acres ? `${Math.round(accessYes._sum.acres / 1000).toLocaleString()}k` : units}</b><span>{accessYes._sum.acres ? 'Access Yes! acres mapped' : 'Units mapped'}</span></div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

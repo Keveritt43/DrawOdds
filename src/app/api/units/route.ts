@@ -42,6 +42,8 @@ export async function GET() {
         acres: u.acres,
         publicPct: u.publicPct,
         accessYesAcres: u.accessYesAcres ?? 0,
+        accessYesPct: u.acres ? Math.min(100, ((u.accessYesAcres ?? 0) / u.acres) * 100) : null,
+        huntablePct: u.publicPct !== null ? Math.min(100, u.publicPct + (u.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : 0)) : null,
         wildernessPct: u.wildernessPct,
         boundaryChanged2022: u.boundaryChanged2022,
         ...(by.get(u.name) ?? {}),

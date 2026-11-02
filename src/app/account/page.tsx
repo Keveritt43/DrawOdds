@@ -28,7 +28,7 @@ export default async function Account() {
         <ResidencySwitch value={session.user.residency} />
       </div>
       <h2>Saved hunts</h2>
-      {!saved.length && <p className="muted">Nothing saved yet. Open a hunt and press Save.</p>}
+      {!saved.length && <p className="muted">Nothing saved yet. Open a hunt from Find Hunts and press Save.</p>}
       {saved.map(({ hunt }) => {
         const s = hunt.summaries[0];
         return (

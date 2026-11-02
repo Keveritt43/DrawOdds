@@ -21,8 +21,8 @@ export async function buildSummaries(): Promise<StepResult> {
   const [hunts, odds, areas, unitRows] = await Promise.all([
     db.hunt.findMany(),
     db.drawOdds.findMany({ where: { draw: 1 } }),
-    db.huntArea.findMany({ select: { areaId: true, name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, units: true } }),
-    db.unit.findMany({ select: { name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true } }),
+    db.huntArea.findMany({ select: { areaId: true, name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, units: true, acres: true } }),
+    db.unit.findMany({ select: { name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, acres: true } }),
   ]);
   const unitMap = new Map(unitRows.map((u) => [u.name, u]));
   const areaMap = new Map(areas.map((a) => [a.areaId, a]));
@@ -100,8 +100,9 @@ export async function buildSummaries(): Promise<StepResult> {
         nrTagAndFill: tagAndFill(o.nrOdds5, hs.success5),
         publicPct: area?.publicPct ?? mean((u) => u.publicPct),
         privatePct: area?.privatePct ?? mean((u) => u.privatePct),
-        accessYesAcres: area?.accessYesAcres ?? null,
-        accessYesCount: area?.accessYesCount ?? null,
+        accessYesAcres: area?.accessYesAcres ?? (fallback.length ? fallback.reduce((a, u) => a + (u.accessYesAcres ?? 0), 0) : null),
+        accessYesCount: area?.accessYesCount ?? (fallback.length ? fallback.reduce((a, u) => a + (u.accessYesCount ?? 0), 0) : null),
+        acres: area?.acres ?? (fallback.length ? fallback.reduce((a, u) => a + (u.acres ?? 0), 0) || null : null),
         boundaryChanged: allUnits.some((u) => BOUNDARY_CHANGED_2022.has(u)),
       });
       continue;
@@ -133,9 +134,18 @@ export async function buildSummaries(): Promise<StepResult> {
         privatePct: u?.privatePct ?? null,
         accessYesAcres: u?.accessYesAcres ?? null,
         accessYesCount: u?.accessYesCount ?? null,
+        acres: u?.acres ?? null,
         boundaryChanged: BOUNDARY_CHANGED_2022.has(unit),
       });
     }
+  }
+
+  // Access Yes! is mostly private land opened by lease, so it is reported separately from public land
+  for (const r of out) {
+    if (r.acres && r.accessYesAcres !== null && r.accessYesAcres !== undefined) {
+      r.accessYesPct = Math.min(100, (r.accessYesAcres / r.acres) * 100);
+    }
+    if (r.publicPct !== null && r.publicPct !== undefined) r.huntablePct = Math.min(100, r.publicPct + (r.accessYesPct ?? 0));
   }
 
   const seen = new Map<string, Prisma.HuntSummaryCreateManyInput>();

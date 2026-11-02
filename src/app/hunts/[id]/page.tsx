@@ -40,7 +40,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
-      <p className="small"><Link href="/">Back to results</Link></p>
+      <p className="small"><Link href="/hunts">← Back To Filtering</Link></p>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
           <h1>{title}</h1>
@@ -69,6 +69,8 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
         <div className="stat"><div className="k">{s.species === 'DEER' ? 'Mule 4+ share' : '6+ bull share'}</div><div className="v">{pct(s.bigPct5)}</div></div>
         {s.species === 'DEER' && <div className="stat"><div className="k">Deer</div><div className="v" style={{ fontSize: 18 }}>{s.deerType ? `${DEERTYPE[s.deerType]} (${pct100(s.whitetailPct5)} WT)` : '-'}</div></div>}
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(s.publicPct)}</div></div>
+        <div className="stat"><div className="k">Access Yes!</div><div className="v">{s.accessYesPct !== null ? `${s.accessYesPct > 0 && s.accessYesPct < 1 ? '<1' : Math.round(s.accessYesPct)}%` : '-'}</div></div>
+        <div className="stat"><div className="k">Huntable (public + AY!)</div><div className="v">{pct100(s.huntablePct)}</div></div>
       </div>
 
       {s.smallSample && <div className="note">Fewer than 50 hunters over 5 years. One or two animals swing the success rate a lot. Don&apos;t read much into a single year.</div>}
@@ -86,7 +88,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
           <h3 style={{ marginTop: 0 }}>Land and access</h3>
           <LandBar shares={land} />
           <p className="small">
-            {(s.accessYesCount ?? 0) > 0 ? `${s.accessYesCount} Access Yes! properties, about ${int(s.accessYesAcres)} acres.` : 'No Access Yes! properties.'}{' '}
+            {(s.accessYesCount ?? 0) > 0 ? `${s.accessYesCount} Access Yes! properties, about ${int(s.accessYesAcres)} acres. Access Yes! is mostly private land leased for hunter access, so it is counted separately from public land.` : 'No Access Yes! properties.'}{' '}
             {area?.acres ? `Hunt area is about ${int(area.acres)} acres.` : ''}
           </p>
           <h3>Units</h3>
