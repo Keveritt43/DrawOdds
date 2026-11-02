@@ -62,8 +62,8 @@ export function parseFilters(sp: SP): Filters {
 /** Field names that depend on residency. */
 export function residencyFields(r: Residency) {
   return r === 'NONRESIDENT'
-    ? { odds5: 'nrOdds5', oddsLast: 'nrOddsLast', tagAndFill: 'nrTagAndFill', appsLast: 'nrAppsLast' } as const
-    : { odds5: 'resOdds5', oddsLast: 'resOddsLast', tagAndFill: 'resTagAndFill', appsLast: 'resAppsLast' } as const;
+    ? { odds5: 'nrOdds5', oddsLast: 'nrOddsLast', oddsPrev: 'nrOddsPrev', tagAndFill: 'nrTagAndFill', appsLast: 'nrAppsLast', appsPrev: 'nrAppsPrev' } as const
+    : { odds5: 'resOdds5', oddsLast: 'resOddsLast', oddsPrev: 'resOddsPrev', tagAndFill: 'resTagAndFill', appsLast: 'resAppsLast', appsPrev: 'resAppsPrev' } as const;
 }
 
 export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInput {

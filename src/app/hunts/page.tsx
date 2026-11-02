@@ -118,6 +118,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
               {g.rows.map((r) => {
                 const odds = r[rf.odds5];
                 const apps = r[rf.appsLast];
+                const oddsLast = r[rf.oddsLast];
                 return (
                   <div key={r.id} className="hrow">
                     <div className="hrow-top">
@@ -131,16 +132,21 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                     </div>
                     <div className="dates">{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</div>
                     <div className="hrow-stats">
-                      <div>Draw Odds<b>{r.type === 'GENERAL' ? 'OTC' : pct(odds, odds !== null && odds < 0.1 ? 1 : 0)}</b></div>
-                      <div>Harvest Success<b>{pct(r.success5)}</b></div>
-                      <div>Applications
+                      <div>Draw Odds{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
+                        <b>
+                          {r.type === 'GENERAL' ? 'OTC' : pct(oddsLast, oddsLast !== null && oddsLast < 0.1 ? 1 : 0)}
+                          {r.type === 'CONTROLLED' && <Delta now={oddsLast} prev={r[rf.oddsPrev]} kind="pts" good="up" />}
+                        </b>
+                        {r.type === 'CONTROLLED' && <span className="sub">5-yr {pct(odds, odds !== null && odds < 0.1 ? 1 : 0)}</span>}
+                      </div>
+                      <div>Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}
+                        <b>{pct(r.successLast)}<Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" /></b>
+                        <span className="sub">5-yr {pct(r.success5)}</span>
+                      </div>
+                      <div>Applicants{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
                           {r.type === 'GENERAL' ? '-' : int(apps)}
-                          {r.type === 'CONTROLLED' && !!apps && r.appsTrend !== null && Math.abs(r.appsTrend) >= 0.1 && (
-                            <span className={r.appsTrend > 0 ? 'down' : 'up'} title="Last year vs 5-yr average" style={{ fontSize: '.8rem', marginLeft: 4 }}>
-                              {r.appsTrend > 0 ? '▲' : '▼'}{Math.round(Math.abs(r.appsTrend) * 100)}%
-                            </span>
-                          )}
+                          {r.type === 'CONTROLLED' && <Delta now={apps} prev={r[rf.appsPrev]} kind="pct" good="down" />}
                         </b>
                       </div>
                     </div>
@@ -157,12 +163,27 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           );
         })}
         <p className="small muted" style={{ padding: '12px 16px' }}>
-          Odds: {nr ? 'nonresident' : 'resident'}, first choice, 5-year total. Success: 5-year harvest / hunters. Applications: last year&apos;s
-          first-choice {nr ? 'nonresident' : 'resident'} applicants (▲ = more than the 5-year average, which usually means worse odds ahead).
+          Odds: {nr ? 'nonresident' : 'resident'}, first choice, from the latest drawing; success from the latest harvest report.
+          Arrows compare with the year before (odds and success in percentage points, applicants in percent). Green is better for you,
+          orange is worse. Filters and sorting use the 5-year numbers shown underneath, which swing less.
         </p>
       </section>
 
       <FilterRail residency={residency} />
     </main>
+  );
+}
+
+/** Year-over-year change. kind "pts": percentage-point change of a 0-1 ratio; "pct": relative change of a count. */
+function Delta({ now, prev, kind, good }: { now: number | null | undefined; prev: number | null | undefined; kind: 'pts' | 'pct'; good: 'up' | 'down' }) {
+  if (now == null || prev == null) return null;
+  const d = kind === 'pts' ? (now - prev) * 100 : prev ? ((now - prev) / prev) * 100 : null;
+  if (d === null || Math.abs(d) < (kind === 'pts' ? 0.5 : 3)) return null;
+  const better = (d > 0) === (good === 'up');
+  const v = Math.abs(d);
+  return (
+    <span className={`delta ${better ? 'up' : 'down'}`} title={kind === 'pts' ? 'Change from the year before, percentage points' : 'Change from the year before'}>
+      {d > 0 ? '▲' : '▼'}{kind === 'pts' ? (v < 10 ? v.toFixed(1) : Math.round(v)) : Math.round(v)}{kind === 'pts' ? ' pts' : '%'}
+    </span>
   );
 }

@@ -138,6 +138,11 @@ export interface OddsSummary {
   nrAppsLast: number | null;
   appsTrend: number | null; // last year's 1st-choice applicants vs. the 5-yr average, e.g. +0.12
   years: number;
+  oddsLastYear: number | null;
+  resOddsPrev: number | null; // previous drawing, only when it was the year before
+  nrOddsPrev: number | null;
+  resAppsPrev: number | null;
+  nrAppsPrev: number | null;
 }
 
 /** 5-yr odds = total permits / total applicants (not an average of yearly %). */
@@ -146,6 +151,7 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
   const last = sorted[0];
   const five = sorted.slice(0, 5);
   const avgApps = sumOf(five, (r) => r.apps1);
+  const prev = sorted[1] && last && sorted[1].year === last.year - 1 ? sorted[1] : undefined;
   return {
     resOddsLast: last ? ratio(last.resPermits, last.resApps) : null,
     nrOddsLast: last ? ratio(last.nrPermits, last.nrApps) : null,
@@ -158,6 +164,11 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
         ? last.apps1 / (avgApps / five.length) - 1
         : null,
     years: five.length,
+    oddsLastYear: last?.year ?? null,
+    resOddsPrev: prev ? ratio(prev.resPermits, prev.resApps) : null,
+    nrOddsPrev: prev ? ratio(prev.nrPermits, prev.nrApps) : null,
+    resAppsPrev: prev?.resApps ?? null,
+    nrAppsPrev: prev?.nrApps ?? null,
   };
 }
 
@@ -179,6 +190,9 @@ export interface HarvestSummary {
   antlerlessShare5: number | null;
   years: number;
   smallSample: boolean;
+  harvestLastYear: number | null;
+  successLast: number | null;
+  successPrev: number | null; // previous season, only when it was the year before
 }
 
 export function summarizeHarvest(species: SpeciesName, rows: HarvestRow[]): HarvestSummary {
@@ -206,6 +220,9 @@ export function summarizeHarvest(species: SpeciesName, rows: HarvestRow[]): Harv
     antlerlessShare5: ratio(sumOf(five, (r) => r.antlerless), harvest),
     years: five.length,
     smallSample: (hunters ?? 0) < 50,
+    harvestLastYear: five[0]?.year ?? null,
+    successLast: five[0] ? ratio(five[0].harvest, five[0].hunters) : null,
+    successPrev: five[1] && five[1].year === five[0].year - 1 ? ratio(five[1].harvest, five[1].hunters) : null,
   };
 }
 

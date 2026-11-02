@@ -181,3 +181,20 @@ test('monthsOpen handles seasons that wrap into January', async () => {
   assert.deepEqual(monthsOpen(d('2026-08-30'), d('2026-12-01')), [8, 9, 10, 11, 12]);
   assert.deepEqual(monthsOpen(null, null), []);
 });
+
+test('year-over-year: previous drawing / season only when it was the year before', async () => {
+  const { summarizeOdds, summarizeHarvest } = await import('../src/sync/core/math');
+  const row = (year: number, nrPermits: number, nrApps: number) => ({ year, draw: 1, huntNumber: 1042, areaName: '54', permits: 300, resPermits: 300 - nrPermits, nrPermits, resApps: 3000, nrApps, apps1: 3000 + nrApps });
+  const o = summarizeOdds([row(2026, 25, 449), row(2025, 30, 334), row(2024, 30, 310)]);
+  assert.equal(o.oddsLastYear, 2026);
+  assert.ok(Math.abs(o.nrOddsLast! - 25 / 449) < 1e-9);
+  assert.ok(Math.abs(o.nrOddsPrev! - 30 / 334) < 1e-9);
+  assert.equal(o.nrAppsPrev, 334);
+  const gap = summarizeOdds([row(2026, 25, 449), row(2024, 30, 310)]);
+  assert.equal(gap.nrOddsPrev, null);
+  const h = (year: number, hunters: number, harvest: number) => ({ year, hunters, harvest, antlered: harvest, antlerless: 0, estWt: null, estMule: null, est4: null, est5: null, estSpike: null, est6: null });
+  const hs = summarizeHarvest('ELK', [h(2025, 100, 20), h(2024, 100, 30)]);
+  assert.equal(hs.harvestLastYear, 2025);
+  assert.equal(hs.successLast, 0.2);
+  assert.equal(hs.successPrev, 0.3);
+});

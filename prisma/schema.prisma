@@ -229,6 +229,11 @@ model HuntSummary {
   nrAppsLast  Int?
   appsTrend   Float?
   oddsYears   Int         @default(0)
+  oddsLastYear Int? // year of the most recent drawing
+  resOddsPrev Float? // the drawing before that (null unless it was the year before)
+  nrOddsPrev  Float?
+  resAppsPrev Int?
+  nrAppsPrev  Int?
 
   // harvest
   success5         Float?
@@ -239,6 +244,9 @@ model HuntSummary {
   bigPct5          Float?
   antlerlessShare5 Float?
   harvestYears     Int     @default(0)
+  harvestLastYear  Int?
+  successLast      Float?
+  successPrev      Float? // the season before (null unless it was the year before)
   smallSample      Boolean @default(false)
 
   // ranking
