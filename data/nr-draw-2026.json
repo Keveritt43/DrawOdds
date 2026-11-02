@@ -1,0 +1,4230 @@
+{
+ "year": 2026,
+ "source": "IDFG nonresident-draw-data-and-descriptions_2026-draw.pdf (transcribed; every row checked: drawn/applied matches the printed %)",
+ "rows": [
+  {
+   "kind": "ELK",
+   "code": "ELK:Bannock:A",
+   "zone": "Bannock",
+   "tag": "A",
+   "unit": null,
+   "tags": 186,
+   "applied": [
+    442,
+    349,
+    295,
+    203,
+    192
+   ],
+   "drew": [
+    186,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Bear River:A",
+   "zone": "Bear River",
+   "tag": "A",
+   "unit": null,
+   "tags": 103,
+   "applied": [
+    278,
+    386,
+    332,
+    257,
+    144
+   ],
+   "drew": [
+    103,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Bear River:B",
+   "zone": "Bear River",
+   "tag": "B",
+   "unit": null,
+   "tags": 55,
+   "applied": [
+    478,
+    353,
+    231,
+    190,
+    144
+   ],
+   "drew": [
+    55,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Beaverhead:A",
+   "zone": "Beaverhead",
+   "tag": "A",
+   "unit": null,
+   "tags": 263,
+   "applied": [
+    1200,
+    934,
+    675,
+    411,
+    328
+   ],
+   "drew": [
+    263,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Big Desert:A",
+   "zone": "Big Desert",
+   "tag": "A",
+   "unit": null,
+   "tags": 57,
+   "applied": [
+    129,
+    131,
+    122,
+    73,
+    67
+   ],
+   "drew": [
+    57,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Big Desert:B",
+   "zone": "Big Desert",
+   "tag": "B",
+   "unit": null,
+   "tags": 3,
+   "applied": [
+    69,
+    71,
+    63,
+    60,
+    42
+   ],
+   "drew": [
+    3,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Boise River:A",
+   "zone": "Boise River",
+   "tag": "A",
+   "unit": null,
+   "tags": 26,
+   "applied": [
+    34,
+    69,
+    66,
+    60,
+    55
+   ],
+   "drew": [
+    26,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Boise River:B",
+   "zone": "Boise River",
+   "tag": "B",
+   "unit": null,
+   "tags": 354,
+   "applied": [
+    838,
+    452,
+    395,
+    332,
+    257
+   ],
+   "drew": [
+    354,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Brownlee:A",
+   "zone": "Brownlee",
+   "tag": "A",
+   "unit": null,
+   "tags": 47,
+   "applied": [
+    210,
+    144,
+    127,
+    103,
+    88
+   ],
+   "drew": [
+    47,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Brownlee:B",
+   "zone": "Brownlee",
+   "tag": "B",
+   "unit": null,
+   "tags": 39,
+   "applied": [
+    112,
+    98,
+    73,
+    65,
+    73
+   ],
+   "drew": [
+    39,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Diamond Creek:A",
+   "zone": "Diamond Creek",
+   "tag": "A",
+   "unit": null,
+   "tags": 459,
+   "applied": [
+    3222,
+    1030,
+    576,
+    351,
+    245
+   ],
+   "drew": [
+    459,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Diamond Creek:B",
+   "zone": "Diamond Creek",
+   "tag": "B",
+   "unit": null,
+   "tags": 15,
+   "applied": [
+    346,
+    349,
+    187,
+    159,
+    128
+   ],
+   "drew": [
+    15,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Dworshak:A",
+   "zone": "Dworshak",
+   "tag": "A",
+   "unit": null,
+   "tags": 148,
+   "applied": [
+    252,
+    142,
+    91,
+    91,
+    56
+   ],
+   "drew": [
+    148,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Dworshak:B",
+   "zone": "Dworshak",
+   "tag": "B",
+   "unit": null,
+   "tags": 215,
+   "applied": [
+    489,
+    290,
+    224,
+    149,
+    112
+   ],
+   "drew": [
+    215,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Elk City:A",
+   "zone": "Elk City",
+   "tag": "A",
+   "unit": null,
+   "tags": 77,
+   "applied": [
+    119,
+    122,
+    112,
+    109,
+    96
+   ],
+   "drew": [
+    77,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Elk City:B",
+   "zone": "Elk City",
+   "tag": "B",
+   "unit": null,
+   "tags": 261,
+   "applied": [
+    704,
+    425,
+    353,
+    324,
+    186
+   ],
+   "drew": [
+    261,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Island Park:A",
+   "zone": "Island Park",
+   "tag": "A",
+   "unit": null,
+   "tags": 216,
+   "applied": [
+    914,
+    484,
+    379,
+    337,
+    273
+   ],
+   "drew": [
+    216,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Lemhi:A",
+   "zone": "Lemhi",
+   "tag": "A",
+   "unit": null,
+   "tags": 55,
+   "applied": [
+    790,
+    754,
+    616,
+    433,
+    250
+   ],
+   "drew": [
+    55,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Lolo:A",
+   "zone": "Lolo",
+   "tag": "A",
+   "unit": null,
+   "tags": 216,
+   "applied": [
+    153,
+    107,
+    124,
+    86,
+    86
+   ],
+   "drew": [
+    153,
+    63,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Lolo:B",
+   "zone": "Lolo",
+   "tag": "B",
+   "unit": null,
+   "tags": 222,
+   "applied": [
+    144,
+    155,
+    167,
+    154,
+    159
+   ],
+   "drew": [
+    144,
+    78,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:McCall:A",
+   "zone": "McCall",
+   "tag": "A",
+   "unit": null,
+   "tags": 312,
+   "applied": [
+    699,
+    583,
+    403,
+    334,
+    267
+   ],
+   "drew": [
+    312,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:McCall:B",
+   "zone": "McCall",
+   "tag": "B",
+   "unit": null,
+   "tags": 307,
+   "applied": [
+    711,
+    877,
+    614,
+    514,
+    372
+   ],
+   "drew": [
+    307,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Middle Fork:A",
+   "zone": "Middle Fork",
+   "tag": "A",
+   "unit": null,
+   "tags": 174,
+   "applied": [
+    217,
+    197,
+    187,
+    148,
+    98
+   ],
+   "drew": [
+    174,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Middle Fork:B",
+   "zone": "Middle Fork",
+   "tag": "B",
+   "unit": null,
+   "tags": 267,
+   "applied": [
+    331,
+    456,
+    313,
+    276,
+    255
+   ],
+   "drew": [
+    267,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Palisades:A",
+   "zone": "Palisades",
+   "tag": "A",
+   "unit": null,
+   "tags": 21,
+   "applied": [
+    104,
+    165,
+    221,
+    163,
+    200
+   ],
+   "drew": [
+    21,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Palisades:B",
+   "zone": "Palisades",
+   "tag": "B",
+   "unit": null,
+   "tags": 40,
+   "applied": [
+    197,
+    232,
+    261,
+    155,
+    161
+   ],
+   "drew": [
+    40,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Palouse:A",
+   "zone": "Palouse",
+   "tag": "A",
+   "unit": null,
+   "tags": 109,
+   "applied": [
+    214,
+    175,
+    120,
+    78,
+    69
+   ],
+   "drew": [
+    109,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Palouse:B",
+   "zone": "Palouse",
+   "tag": "B",
+   "unit": null,
+   "tags": 182,
+   "applied": [
+    352,
+    283,
+    181,
+    174,
+    124
+   ],
+   "drew": [
+    182,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Panhandle:A",
+   "zone": "Panhandle",
+   "tag": "A",
+   "unit": null,
+   "tags": 657,
+   "applied": [
+    965,
+    656,
+    274,
+    274,
+    327
+   ],
+   "drew": [
+    657,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Panhandle:B",
+   "zone": "Panhandle",
+   "tag": "B",
+   "unit": null,
+   "tags": 1092,
+   "applied": [
+    1430,
+    893,
+    407,
+    313,
+    343
+   ],
+   "drew": [
+    1092,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Pioneer:A",
+   "zone": "Pioneer",
+   "tag": "A",
+   "unit": null,
+   "tags": 155,
+   "applied": [
+    1116,
+    826,
+    590,
+    356,
+    239
+   ],
+   "drew": [
+    155,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Pioneer:B",
+   "zone": "Pioneer",
+   "tag": "B",
+   "unit": null,
+   "tags": 2,
+   "applied": [
+    166,
+    172,
+    121,
+    89,
+    69
+   ],
+   "drew": [
+    2,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Salmon:A",
+   "zone": "Salmon",
+   "tag": "A",
+   "unit": null,
+   "tags": 54,
+   "applied": [
+    445,
+    471,
+    387,
+    336,
+    232
+   ],
+   "drew": [
+    54,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Salmon:B",
+   "zone": "Salmon",
+   "tag": "B",
+   "unit": null,
+   "tags": 627,
+   "applied": [
+    3488,
+    1224,
+    666,
+    387,
+    394
+   ],
+   "drew": [
+    627,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Sawtooth:A",
+   "zone": "Sawtooth",
+   "tag": "A",
+   "unit": null,
+   "tags": 77,
+   "applied": [
+    459,
+    446,
+    407,
+    366,
+    265
+   ],
+   "drew": [
+    77,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Sawtooth:B",
+   "zone": "Sawtooth",
+   "tag": "B",
+   "unit": null,
+   "tags": 197,
+   "applied": [
+    1423,
+    1307,
+    797,
+    525,
+    327
+   ],
+   "drew": [
+    197,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Selway:A",
+   "zone": "Selway",
+   "tag": "A",
+   "unit": null,
+   "tags": 254,
+   "applied": [
+    109,
+    188,
+    162,
+    116,
+    133
+   ],
+   "drew": [
+    109,
+    145,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Selway:B",
+   "zone": "Selway",
+   "tag": "B",
+   "unit": null,
+   "tags": 284,
+   "applied": [
+    442,
+    305,
+    283,
+    242,
+    223
+   ],
+   "drew": [
+    284,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Smoky-Bennett:A",
+   "zone": "Smoky-Bennett",
+   "tag": "A",
+   "unit": null,
+   "tags": 180,
+   "applied": [
+    640,
+    466,
+    396,
+    284,
+    183
+   ],
+   "drew": [
+    180,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Smoky-Bennett:B",
+   "zone": "Smoky-Bennett",
+   "tag": "B",
+   "unit": null,
+   "tags": 5,
+   "applied": [
+    320,
+    245,
+    208,
+    158,
+    104
+   ],
+   "drew": [
+    5,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Snake River:A",
+   "zone": "Snake River",
+   "tag": "A",
+   "unit": null,
+   "tags": 7,
+   "applied": [
+    28,
+    25,
+    24,
+    34,
+    43
+   ],
+   "drew": [
+    7,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:South Hills:A",
+   "zone": "South Hills",
+   "tag": "A",
+   "unit": null,
+   "tags": 60,
+   "applied": [
+    440,
+    330,
+    178,
+    154,
+    88
+   ],
+   "drew": [
+    60,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:South Hills:B",
+   "zone": "South Hills",
+   "tag": "B",
+   "unit": null,
+   "tags": 10,
+   "applied": [
+    265,
+    219,
+    151,
+    82,
+    83
+   ],
+   "drew": [
+    10,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Tex Creek:A",
+   "zone": "Tex Creek",
+   "tag": "A",
+   "unit": null,
+   "tags": 102,
+   "applied": [
+    350,
+    655,
+    452,
+    268,
+    228
+   ],
+   "drew": [
+    102,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Tex Creek:B",
+   "zone": "Tex Creek",
+   "tag": "B",
+   "unit": null,
+   "tags": 154,
+   "applied": [
+    559,
+    478,
+    371,
+    311,
+    228
+   ],
+   "drew": [
+    154,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Weiser River:A",
+   "zone": "Weiser River",
+   "tag": "A",
+   "unit": null,
+   "tags": 274,
+   "applied": [
+    468,
+    418,
+    334,
+    248,
+    191
+   ],
+   "drew": [
+    274,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "ELK",
+   "code": "ELK:Weiser River:B",
+   "zone": "Weiser River",
+   "tag": "B",
+   "unit": null,
+   "tags": 318,
+   "applied": [
+    943,
+    710,
+    499,
+    405,
+    268
+   ],
+   "drew": [
+    318,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD01",
+   "zone": null,
+   "tag": null,
+   "unit": "1",
+   "tags": 671,
+   "applied": [
+    853,
+    272,
+    216,
+    158,
+    164
+   ],
+   "drew": [
+    671,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD02",
+   "zone": null,
+   "tag": null,
+   "unit": "2",
+   "tags": 306,
+   "applied": [
+    85,
+    179,
+    94,
+    59,
+    75
+   ],
+   "drew": [
+    85,
+    32,
+    5,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD03",
+   "zone": null,
+   "tag": null,
+   "unit": "3",
+   "tags": 295,
+   "applied": [
+    81,
+    96,
+    155,
+    69,
+    86
+   ],
+   "drew": [
+    81,
+    16,
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD04",
+   "zone": null,
+   "tag": null,
+   "unit": "4",
+   "tags": 243,
+   "applied": [
+    172,
+    166,
+    154,
+    136,
+    66
+   ],
+   "drew": [
+    172,
+    46,
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD04A",
+   "zone": null,
+   "tag": null,
+   "unit": "4A",
+   "tags": 37,
+   "applied": [
+    37,
+    69,
+    41,
+    32,
+    32
+   ],
+   "drew": [
+    37,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD05",
+   "zone": null,
+   "tag": null,
+   "unit": "5",
+   "tags": 201,
+   "applied": [
+    162,
+    141,
+    113,
+    88,
+    69
+   ],
+   "drew": [
+    162,
+    39,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD06",
+   "zone": null,
+   "tag": null,
+   "unit": "6",
+   "tags": 336,
+   "applied": [
+    723,
+    299,
+    214,
+    185,
+    118
+   ],
+   "drew": [
+    336,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD07",
+   "zone": null,
+   "tag": null,
+   "unit": "7",
+   "tags": 57,
+   "applied": [
+    27,
+    26,
+    48,
+    28,
+    31
+   ],
+   "drew": [
+    27,
+    13,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD08",
+   "zone": null,
+   "tag": null,
+   "unit": "8",
+   "tags": 43,
+   "applied": [
+    50,
+    18,
+    48,
+    41,
+    26
+   ],
+   "drew": [
+    43,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD08A",
+   "zone": null,
+   "tag": null,
+   "unit": "8A",
+   "tags": 47,
+   "applied": [
+    70,
+    110,
+    90,
+    86,
+    43
+   ],
+   "drew": [
+    47,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD09",
+   "zone": null,
+   "tag": null,
+   "unit": "9",
+   "tags": 15,
+   "applied": [
+    5,
+    18,
+    14,
+    8,
+    23
+   ],
+   "drew": [
+    5,
+    6,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD10",
+   "zone": null,
+   "tag": null,
+   "unit": "10",
+   "tags": 44,
+   "applied": [
+    67,
+    38,
+    45,
+    62,
+    39
+   ],
+   "drew": [
+    44,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD10A",
+   "zone": null,
+   "tag": null,
+   "unit": "10A",
+   "tags": 47,
+   "applied": [
+    149,
+    173,
+    116,
+    73,
+    71
+   ],
+   "drew": [
+    47,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD12",
+   "zone": null,
+   "tag": null,
+   "unit": "12",
+   "tags": 6,
+   "applied": [
+    34,
+    25,
+    27,
+    19,
+    33
+   ],
+   "drew": [
+    6,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD15",
+   "zone": null,
+   "tag": null,
+   "unit": "15",
+   "tags": 61,
+   "applied": [
+    102,
+    95,
+    78,
+    69,
+    61
+   ],
+   "drew": [
+    61,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD16",
+   "zone": null,
+   "tag": null,
+   "unit": "16",
+   "tags": 15,
+   "applied": [
+    68,
+    60,
+    42,
+    69,
+    31
+   ],
+   "drew": [
+    15,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD16A",
+   "zone": null,
+   "tag": null,
+   "unit": "16A",
+   "tags": 54,
+   "applied": [
+    21,
+    5,
+    15,
+    38,
+    31
+   ],
+   "drew": [
+    21,
+    4,
+    3,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD17",
+   "zone": null,
+   "tag": null,
+   "unit": "17",
+   "tags": 126,
+   "applied": [
+    207,
+    94,
+    97,
+    85,
+    78
+   ],
+   "drew": [
+    126,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD19",
+   "zone": null,
+   "tag": null,
+   "unit": "19",
+   "tags": 160,
+   "applied": [
+    254,
+    140,
+    155,
+    74,
+    79
+   ],
+   "drew": [
+    160,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD19A",
+   "zone": null,
+   "tag": null,
+   "unit": "19A",
+   "tags": 118,
+   "applied": [
+    137,
+    139,
+    84,
+    90,
+    59
+   ],
+   "drew": [
+    118,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD20",
+   "zone": null,
+   "tag": null,
+   "unit": "20",
+   "tags": 52,
+   "applied": [
+    127,
+    162,
+    91,
+    84,
+    55
+   ],
+   "drew": [
+    52,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD20A",
+   "zone": null,
+   "tag": null,
+   "unit": "20A",
+   "tags": 17,
+   "applied": [
+    73,
+    58,
+    101,
+    59,
+    57
+   ],
+   "drew": [
+    17,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD21",
+   "zone": null,
+   "tag": null,
+   "unit": "21",
+   "tags": 76,
+   "applied": [
+    878,
+    639,
+    460,
+    341,
+    184
+   ],
+   "drew": [
+    76,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD21A",
+   "zone": null,
+   "tag": null,
+   "unit": "21A",
+   "tags": 88,
+   "applied": [
+    382,
+    434,
+    334,
+    233,
+    154
+   ],
+   "drew": [
+    88,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD22",
+   "zone": null,
+   "tag": null,
+   "unit": "22",
+   "tags": 148,
+   "applied": [
+    225,
+    178,
+    135,
+    90,
+    96
+   ],
+   "drew": [
+    148,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD23",
+   "zone": null,
+   "tag": null,
+   "unit": "23",
+   "tags": 172,
+   "applied": [
+    293,
+    168,
+    118,
+    102,
+    78
+   ],
+   "drew": [
+    172,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD24",
+   "zone": null,
+   "tag": null,
+   "unit": "24",
+   "tags": 181,
+   "applied": [
+    98,
+    102,
+    90,
+    91,
+    68
+   ],
+   "drew": [
+    98,
+    49,
+    7,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD25",
+   "zone": null,
+   "tag": null,
+   "unit": "25",
+   "tags": 74,
+   "applied": [
+    212,
+    133,
+    132,
+    127,
+    84
+   ],
+   "drew": [
+    74,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD26",
+   "zone": null,
+   "tag": null,
+   "unit": "26",
+   "tags": 90,
+   "applied": [
+    131,
+    184,
+    78,
+    90,
+    37
+   ],
+   "drew": [
+    90,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD27",
+   "zone": null,
+   "tag": null,
+   "unit": "27",
+   "tags": 265,
+   "applied": [
+    716,
+    402,
+    329,
+    237,
+    185
+   ],
+   "drew": [
+    265,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD28",
+   "zone": null,
+   "tag": null,
+   "unit": "28",
+   "tags": 176,
+   "applied": [
+    1351,
+    927,
+    676,
+    398,
+    257
+   ],
+   "drew": [
+    176,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD29",
+   "zone": null,
+   "tag": null,
+   "unit": "29",
+   "tags": 92,
+   "applied": [
+    170,
+    237,
+    161,
+    165,
+    125
+   ],
+   "drew": [
+    92,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD30",
+   "zone": null,
+   "tag": null,
+   "unit": "30",
+   "tags": 111,
+   "applied": [
+    336,
+    203,
+    213,
+    189,
+    119
+   ],
+   "drew": [
+    111,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD30A",
+   "zone": null,
+   "tag": null,
+   "unit": "30A",
+   "tags": 17,
+   "applied": [
+    41,
+    38,
+    38,
+    47,
+    36
+   ],
+   "drew": [
+    17,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD31",
+   "zone": null,
+   "tag": null,
+   "unit": "31",
+   "tags": 124,
+   "applied": [
+    195,
+    128,
+    111,
+    91,
+    64
+   ],
+   "drew": [
+    124,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD32",
+   "zone": null,
+   "tag": null,
+   "unit": "32",
+   "tags": 266,
+   "applied": [
+    165,
+    232,
+    150,
+    134,
+    127
+   ],
+   "drew": [
+    165,
+    70,
+    24,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD32A",
+   "zone": null,
+   "tag": null,
+   "unit": "32A",
+   "tags": 266,
+   "applied": [
+    275,
+    172,
+    120,
+    123,
+    86
+   ],
+   "drew": [
+    266,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD33",
+   "zone": null,
+   "tag": null,
+   "unit": "33",
+   "tags": 120,
+   "applied": [
+    165,
+    163,
+    200,
+    127,
+    109
+   ],
+   "drew": [
+    120,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD34",
+   "zone": null,
+   "tag": null,
+   "unit": "34",
+   "tags": 32,
+   "applied": [
+    78,
+    85,
+    94,
+    73,
+    44
+   ],
+   "drew": [
+    32,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD35",
+   "zone": null,
+   "tag": null,
+   "unit": "35",
+   "tags": 24,
+   "applied": [
+    91,
+    113,
+    95,
+    133,
+    72
+   ],
+   "drew": [
+    24,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD36",
+   "zone": null,
+   "tag": null,
+   "unit": "36",
+   "tags": 120,
+   "applied": [
+    637,
+    580,
+    530,
+    398,
+    302
+   ],
+   "drew": [
+    120,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD36A",
+   "zone": null,
+   "tag": null,
+   "unit": "36A",
+   "tags": 50,
+   "applied": [
+    467,
+    441,
+    393,
+    259,
+    202
+   ],
+   "drew": [
+    50,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD36B",
+   "zone": null,
+   "tag": null,
+   "unit": "36B",
+   "tags": 166,
+   "applied": [
+    1327,
+    972,
+    707,
+    459,
+    265
+   ],
+   "drew": [
+    166,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD37",
+   "zone": null,
+   "tag": null,
+   "unit": "37",
+   "tags": 32,
+   "applied": [
+    84,
+    92,
+    91,
+    88,
+    84
+   ],
+   "drew": [
+    32,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD37A",
+   "zone": null,
+   "tag": null,
+   "unit": "37A",
+   "tags": 17,
+   "applied": [
+    51,
+    56,
+    63,
+    48,
+    46
+   ],
+   "drew": [
+    17,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD38",
+   "zone": null,
+   "tag": null,
+   "unit": "38",
+   "tags": 70,
+   "applied": [
+    16,
+    28,
+    30,
+    19,
+    24
+   ],
+   "drew": [
+    16,
+    14,
+    4,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD39",
+   "zone": null,
+   "tag": null,
+   "unit": "39",
+   "tags": 1190,
+   "applied": [
+    1444,
+    851,
+    519,
+    408,
+    622
+   ],
+   "drew": [
+    1190,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD40",
+   "zone": null,
+   "tag": null,
+   "unit": "40",
+   "tags": 232,
+   "applied": [
+    397,
+    264,
+    243,
+    178,
+    166
+   ],
+   "drew": [
+    232,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD41",
+   "zone": null,
+   "tag": null,
+   "unit": "41",
+   "tags": 54,
+   "applied": [
+    88,
+    130,
+    101,
+    96,
+    60
+   ],
+   "drew": [
+    54,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD42",
+   "zone": null,
+   "tag": null,
+   "unit": "42",
+   "tags": 30,
+   "applied": [
+    80,
+    134,
+    97,
+    82,
+    66
+   ],
+   "drew": [
+    30,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD43",
+   "zone": null,
+   "tag": null,
+   "unit": "43",
+   "tags": 575,
+   "applied": [
+    1005,
+    906,
+    487,
+    407,
+    357
+   ],
+   "drew": [
+    575,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD46",
+   "zone": null,
+   "tag": null,
+   "unit": "46",
+   "tags": 168,
+   "applied": [
+    147,
+    166,
+    115,
+    117,
+    120
+   ],
+   "drew": [
+    147,
+    21,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD47",
+   "zone": null,
+   "tag": null,
+   "unit": "47",
+   "tags": 10,
+   "applied": [
+    48,
+    32,
+    29,
+    15,
+    17
+   ],
+   "drew": [
+    10,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD48",
+   "zone": null,
+   "tag": null,
+   "unit": "48",
+   "tags": 194,
+   "applied": [
+    545,
+    504,
+    397,
+    265,
+    195
+   ],
+   "drew": [
+    194,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD49",
+   "zone": null,
+   "tag": null,
+   "unit": "49",
+   "tags": 179,
+   "applied": [
+    361,
+    343,
+    308,
+    213,
+    152
+   ],
+   "drew": [
+    179,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD50",
+   "zone": null,
+   "tag": null,
+   "unit": "50",
+   "tags": 169,
+   "applied": [
+    339,
+    287,
+    314,
+    211,
+    181
+   ],
+   "drew": [
+    169,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD51",
+   "zone": null,
+   "tag": null,
+   "unit": "51",
+   "tags": 72,
+   "applied": [
+    104,
+    115,
+    94,
+    118,
+    63
+   ],
+   "drew": [
+    72,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD52A",
+   "zone": null,
+   "tag": null,
+   "unit": "52A",
+   "tags": 114,
+   "applied": [
+    110,
+    117,
+    100,
+    82,
+    95
+   ],
+   "drew": [
+    110,
+    4,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD53",
+   "zone": null,
+   "tag": null,
+   "unit": "53",
+   "tags": 44,
+   "applied": [
+    27,
+    16,
+    25,
+    21,
+    25
+   ],
+   "drew": [
+    27,
+    5,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD55",
+   "zone": null,
+   "tag": null,
+   "unit": "55",
+   "tags": 72,
+   "applied": [
+    290,
+    120,
+    93,
+    81,
+    48
+   ],
+   "drew": [
+    72,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD56",
+   "zone": null,
+   "tag": null,
+   "unit": "56",
+   "tags": 179,
+   "applied": [
+    346,
+    169,
+    114,
+    109,
+    73
+   ],
+   "drew": [
+    179,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD57",
+   "zone": null,
+   "tag": null,
+   "unit": "57",
+   "tags": 13,
+   "applied": [
+    38,
+    40,
+    26,
+    36,
+    28
+   ],
+   "drew": [
+    13,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD58",
+   "zone": null,
+   "tag": null,
+   "unit": "58",
+   "tags": 43,
+   "applied": [
+    43,
+    53,
+    59,
+    56,
+    38
+   ],
+   "drew": [
+    43,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD59",
+   "zone": null,
+   "tag": null,
+   "unit": "59",
+   "tags": 104,
+   "applied": [
+    72,
+    72,
+    42,
+    48,
+    27
+   ],
+   "drew": [
+    72,
+    29,
+    3,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD59A",
+   "zone": null,
+   "tag": null,
+   "unit": "59A",
+   "tags": 50,
+   "applied": [
+    57,
+    45,
+    37,
+    22,
+    49
+   ],
+   "drew": [
+    50,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD60",
+   "zone": null,
+   "tag": null,
+   "unit": "60",
+   "tags": 99,
+   "applied": [
+    65,
+    61,
+    54,
+    44,
+    29
+   ],
+   "drew": [
+    65,
+    4,
+    4,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD60A",
+   "zone": null,
+   "tag": null,
+   "unit": "60A",
+   "tags": 103,
+   "applied": [
+    52,
+    48,
+    25,
+    31,
+    22
+   ],
+   "drew": [
+    52,
+    15,
+    2,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD61",
+   "zone": null,
+   "tag": null,
+   "unit": "61",
+   "tags": 121,
+   "applied": [
+    156,
+    64,
+    70,
+    29,
+    45
+   ],
+   "drew": [
+    121,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD62",
+   "zone": null,
+   "tag": null,
+   "unit": "62",
+   "tags": 34,
+   "applied": [
+    37,
+    19,
+    23,
+    20,
+    18
+   ],
+   "drew": [
+    34,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD62A",
+   "zone": null,
+   "tag": null,
+   "unit": "62A",
+   "tags": 31,
+   "applied": [
+    18,
+    47,
+    25,
+    27,
+    14
+   ],
+   "drew": [
+    18,
+    13,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD63",
+   "zone": null,
+   "tag": null,
+   "unit": "63",
+   "tags": 29,
+   "applied": [
+    16,
+    3,
+    12,
+    11,
+    8
+   ],
+   "drew": [
+    16,
+    1,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD64",
+   "zone": null,
+   "tag": null,
+   "unit": "64",
+   "tags": 40,
+   "applied": [
+    29,
+    14,
+    14,
+    20,
+    19
+   ],
+   "drew": [
+    29,
+    4,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD65",
+   "zone": null,
+   "tag": null,
+   "unit": "65",
+   "tags": 24,
+   "applied": [
+    8,
+    24,
+    28,
+    29,
+    23
+   ],
+   "drew": [
+    8,
+    5,
+    4,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD66",
+   "zone": null,
+   "tag": null,
+   "unit": "66",
+   "tags": 113,
+   "applied": [
+    186,
+    213,
+    186,
+    124,
+    115
+   ],
+   "drew": [
+    113,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD66A",
+   "zone": null,
+   "tag": null,
+   "unit": "66A",
+   "tags": 83,
+   "applied": [
+    125,
+    197,
+    90,
+    83,
+    53
+   ],
+   "drew": [
+    83,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD67",
+   "zone": null,
+   "tag": null,
+   "unit": "67",
+   "tags": 50,
+   "applied": [
+    164,
+    91,
+    100,
+    84,
+    77
+   ],
+   "drew": [
+    50,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD68",
+   "zone": null,
+   "tag": null,
+   "unit": "68",
+   "tags": 55,
+   "applied": [
+    35,
+    24,
+    22,
+    47,
+    19
+   ],
+   "drew": [
+    35,
+    4,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD69",
+   "zone": null,
+   "tag": null,
+   "unit": "69",
+   "tags": 178,
+   "applied": [
+    132,
+    82,
+    80,
+    82,
+    65
+   ],
+   "drew": [
+    132,
+    36,
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD70",
+   "zone": null,
+   "tag": null,
+   "unit": "70",
+   "tags": 14,
+   "applied": [
+    34,
+    16,
+    16,
+    26,
+    15
+   ],
+   "drew": [
+    14,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD71",
+   "zone": null,
+   "tag": null,
+   "unit": "71",
+   "tags": 108,
+   "applied": [
+    63,
+    89,
+    52,
+    39,
+    41
+   ],
+   "drew": [
+    63,
+    34,
+    9,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD72",
+   "zone": null,
+   "tag": null,
+   "unit": "72",
+   "tags": 74,
+   "applied": [
+    69,
+    57,
+    58,
+    47,
+    44
+   ],
+   "drew": [
+    69,
+    5,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD73",
+   "zone": null,
+   "tag": null,
+   "unit": "73",
+   "tags": 71,
+   "applied": [
+    140,
+    74,
+    52,
+    54,
+    30
+   ],
+   "drew": [
+    71,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD73A",
+   "zone": null,
+   "tag": null,
+   "unit": "73A",
+   "tags": 149,
+   "applied": [
+    73,
+    64,
+    66,
+    27,
+    36
+   ],
+   "drew": [
+    73,
+    33,
+    27,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD74",
+   "zone": null,
+   "tag": null,
+   "unit": "74",
+   "tags": 98,
+   "applied": [
+    165,
+    75,
+    100,
+    86,
+    44
+   ],
+   "drew": [
+    98,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD75",
+   "zone": null,
+   "tag": null,
+   "unit": "75",
+   "tags": 93,
+   "applied": [
+    115,
+    207,
+    143,
+    88,
+    92
+   ],
+   "drew": [
+    93,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD76",
+   "zone": null,
+   "tag": null,
+   "unit": "76",
+   "tags": 371,
+   "applied": [
+    1222,
+    403,
+    330,
+    239,
+    203
+   ],
+   "drew": [
+    371,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD77",
+   "zone": null,
+   "tag": null,
+   "unit": "77",
+   "tags": 91,
+   "applied": [
+    309,
+    217,
+    114,
+    101,
+    73
+   ],
+   "drew": [
+    91,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "RD",
+   "code": "RD78",
+   "zone": null,
+   "tag": null,
+   "unit": "78",
+   "tags": 16,
+   "applied": [
+    88,
+    84,
+    70,
+    46,
+    56
+   ],
+   "drew": [
+    16,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD01",
+   "zone": null,
+   "tag": null,
+   "unit": "1",
+   "tags": 132,
+   "applied": [
+    180,
+    338,
+    135,
+    157,
+    79
+   ],
+   "drew": [
+    132,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD02",
+   "zone": null,
+   "tag": null,
+   "unit": "2",
+   "tags": 69,
+   "applied": [
+    41,
+    61,
+    28,
+    75,
+    32
+   ],
+   "drew": [
+    41,
+    16,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD03",
+   "zone": null,
+   "tag": null,
+   "unit": "3",
+   "tags": 77,
+   "applied": [
+    34,
+    58,
+    47,
+    44,
+    40
+   ],
+   "drew": [
+    34,
+    4,
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD04",
+   "zone": null,
+   "tag": null,
+   "unit": "4",
+   "tags": 29,
+   "applied": [
+    16,
+    51,
+    35,
+    61,
+    54
+   ],
+   "drew": [
+    16,
+    7,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD04A",
+   "zone": null,
+   "tag": null,
+   "unit": "4A",
+   "tags": 13,
+   "applied": [
+    10,
+    28,
+    17,
+    35,
+    12
+   ],
+   "drew": [
+    10,
+    2,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD05",
+   "zone": null,
+   "tag": null,
+   "unit": "5",
+   "tags": 135,
+   "applied": [
+    115,
+    171,
+    118,
+    150,
+    96
+   ],
+   "drew": [
+    115,
+    20,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD06",
+   "zone": null,
+   "tag": null,
+   "unit": "6",
+   "tags": 127,
+   "applied": [
+    269,
+    606,
+    406,
+    260,
+    111
+   ],
+   "drew": [
+    127,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD08",
+   "zone": null,
+   "tag": null,
+   "unit": "8",
+   "tags": 213,
+   "applied": [
+    77,
+    94,
+    117,
+    88,
+    70
+   ],
+   "drew": [
+    77,
+    43,
+    30,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD08A",
+   "zone": null,
+   "tag": null,
+   "unit": "8A",
+   "tags": 381,
+   "applied": [
+    658,
+    769,
+    320,
+    194,
+    112
+   ],
+   "drew": [
+    381,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD09",
+   "zone": null,
+   "tag": null,
+   "unit": "9",
+   "tags": 4,
+   "applied": [
+    3,
+    0,
+    10,
+    15,
+    9
+   ],
+   "drew": [
+    3,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD10",
+   "zone": null,
+   "tag": null,
+   "unit": "10",
+   "tags": 57,
+   "applied": [
+    19,
+    141,
+    82,
+    66,
+    44
+   ],
+   "drew": [
+    19,
+    38,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD10A",
+   "zone": null,
+   "tag": null,
+   "unit": "10A",
+   "tags": 677,
+   "applied": [
+    1890,
+    571,
+    373,
+    203,
+    155
+   ],
+   "drew": [
+    677,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD11",
+   "zone": null,
+   "tag": null,
+   "unit": "11",
+   "tags": 152,
+   "applied": [
+    210,
+    78,
+    71,
+    50,
+    51
+   ],
+   "drew": [
+    152,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD11A",
+   "zone": null,
+   "tag": null,
+   "unit": "11A",
+   "tags": 113,
+   "applied": [
+    57,
+    63,
+    43,
+    32,
+    32
+   ],
+   "drew": [
+    57,
+    22,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD12",
+   "zone": null,
+   "tag": null,
+   "unit": "12",
+   "tags": 55,
+   "applied": [
+    28,
+    66,
+    33,
+    23,
+    49
+   ],
+   "drew": [
+    28,
+    27,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD13",
+   "zone": null,
+   "tag": null,
+   "unit": "13",
+   "tags": 42,
+   "applied": [
+    58,
+    17,
+    9,
+    9,
+    9
+   ],
+   "drew": [
+    42,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD14",
+   "zone": null,
+   "tag": null,
+   "unit": "14",
+   "tags": 99,
+   "applied": [
+    147,
+    105,
+    61,
+    40,
+    58
+   ],
+   "drew": [
+    99,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD15",
+   "zone": null,
+   "tag": null,
+   "unit": "15",
+   "tags": 267,
+   "applied": [
+    424,
+    218,
+    129,
+    89,
+    81
+   ],
+   "drew": [
+    267,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD16",
+   "zone": null,
+   "tag": null,
+   "unit": "16",
+   "tags": 117,
+   "applied": [
+    86,
+    176,
+    159,
+    81,
+    59
+   ],
+   "drew": [
+    86,
+    31,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD16A",
+   "zone": null,
+   "tag": null,
+   "unit": "16A",
+   "tags": 6,
+   "applied": [
+    0,
+    5,
+    19,
+    9,
+    4
+   ],
+   "drew": [
+    0,
+    2,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD17",
+   "zone": null,
+   "tag": null,
+   "unit": "17",
+   "tags": 20,
+   "applied": [
+    6,
+    23,
+    5,
+    6,
+    9
+   ],
+   "drew": [
+    6,
+    11,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD18",
+   "zone": null,
+   "tag": null,
+   "unit": "18",
+   "tags": 57,
+   "applied": [
+    44,
+    14,
+    24,
+    20,
+    13
+   ],
+   "drew": [
+    44,
+    8,
+    4,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD19A",
+   "zone": null,
+   "tag": null,
+   "unit": "19A",
+   "tags": 18,
+   "applied": [
+    2,
+    7,
+    10,
+    5,
+    2
+   ],
+   "drew": [
+    2,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD20",
+   "zone": null,
+   "tag": null,
+   "unit": "20",
+   "tags": 4,
+   "applied": [
+    8,
+    15,
+    8,
+    20,
+    1
+   ],
+   "drew": [
+    4,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD20A",
+   "zone": null,
+   "tag": null,
+   "unit": "20A",
+   "tags": 5,
+   "applied": [
+    6,
+    8,
+    1,
+    11,
+    3
+   ],
+   "drew": [
+    5,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD21",
+   "zone": null,
+   "tag": null,
+   "unit": "21",
+   "tags": 8,
+   "applied": [
+    9,
+    6,
+    5,
+    13,
+    2
+   ],
+   "drew": [
+    8,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD21A",
+   "zone": null,
+   "tag": null,
+   "unit": "21A",
+   "tags": 12,
+   "applied": [
+    6,
+    16,
+    5,
+    3,
+    0
+   ],
+   "drew": [
+    6,
+    6,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD22",
+   "zone": null,
+   "tag": null,
+   "unit": "22",
+   "tags": 23,
+   "applied": [
+    13,
+    12,
+    5,
+    7,
+    3
+   ],
+   "drew": [
+    13,
+    7,
+    2,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD23",
+   "zone": null,
+   "tag": null,
+   "unit": "23",
+   "tags": 58,
+   "applied": [
+    25,
+    47,
+    11,
+    6,
+    4
+   ],
+   "drew": [
+    25,
+    16,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD24",
+   "zone": null,
+   "tag": null,
+   "unit": "24",
+   "tags": 30,
+   "applied": [
+    5,
+    3,
+    2,
+    0,
+    2
+   ],
+   "drew": [
+    5,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD26",
+   "zone": null,
+   "tag": null,
+   "unit": "26",
+   "tags": 5,
+   "applied": [
+    0,
+    2,
+    1,
+    1,
+    0
+   ],
+   "drew": [
+    0,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD28",
+   "zone": null,
+   "tag": null,
+   "unit": "28",
+   "tags": 11,
+   "applied": [
+    8,
+    11,
+    14,
+    5,
+    7
+   ],
+   "drew": [
+    8,
+    3,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD29",
+   "zone": null,
+   "tag": null,
+   "unit": "29",
+   "tags": 15,
+   "applied": [
+    22,
+    13,
+    6,
+    6,
+    3
+   ],
+   "drew": [
+    15,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD30",
+   "zone": null,
+   "tag": null,
+   "unit": "30",
+   "tags": 32,
+   "applied": [
+    16,
+    22,
+    4,
+    14,
+    5
+   ],
+   "drew": [
+    16,
+    9,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD33",
+   "zone": null,
+   "tag": null,
+   "unit": "33",
+   "tags": 10,
+   "applied": [
+    2,
+    2,
+    1,
+    2,
+    0
+   ],
+   "drew": [
+    2,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD35",
+   "zone": null,
+   "tag": null,
+   "unit": "35",
+   "tags": 1,
+   "applied": [
+    2,
+    1,
+    1,
+    0,
+    0
+   ],
+   "drew": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD36A",
+   "zone": null,
+   "tag": null,
+   "unit": "36A",
+   "tags": 2,
+   "applied": [
+    0,
+    8,
+    3,
+    2,
+    3
+   ],
+   "drew": [
+    0,
+    2,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD36B",
+   "zone": null,
+   "tag": null,
+   "unit": "36B",
+   "tags": 4,
+   "applied": [
+    0,
+    6,
+    5,
+    3,
+    2
+   ],
+   "drew": [
+    0,
+    2,
+    2,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD37",
+   "zone": null,
+   "tag": null,
+   "unit": "37",
+   "tags": 6,
+   "applied": [
+    11,
+    4,
+    2,
+    2,
+    1
+   ],
+   "drew": [
+    6,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD37A",
+   "zone": null,
+   "tag": null,
+   "unit": "37A",
+   "tags": 5,
+   "applied": [
+    1,
+    3,
+    2,
+    4,
+    3
+   ],
+   "drew": [
+    1,
+    3,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD50",
+   "zone": null,
+   "tag": null,
+   "unit": "50",
+   "tags": 5,
+   "applied": [
+    5,
+    5,
+    0,
+    3,
+    0
+   ],
+   "drew": [
+    5,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD51",
+   "zone": null,
+   "tag": null,
+   "unit": "51",
+   "tags": 6,
+   "applied": [
+    1,
+    2,
+    1,
+    0,
+    2
+   ],
+   "drew": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD58",
+   "zone": null,
+   "tag": null,
+   "unit": "58",
+   "tags": 2,
+   "applied": [
+    1,
+    0,
+    0,
+    0,
+    2
+   ],
+   "drew": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD59",
+   "zone": null,
+   "tag": null,
+   "unit": "59",
+   "tags": 3,
+   "applied": [
+    0,
+    1,
+    0,
+    1,
+    1
+   ],
+   "drew": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD59A",
+   "zone": null,
+   "tag": null,
+   "unit": "59A",
+   "tags": 2,
+   "applied": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "drew": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD60",
+   "zone": null,
+   "tag": null,
+   "unit": "60",
+   "tags": 19,
+   "applied": [
+    5,
+    4,
+    10,
+    4,
+    0
+   ],
+   "drew": [
+    5,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD60A",
+   "zone": null,
+   "tag": null,
+   "unit": "60A",
+   "tags": 18,
+   "applied": [
+    4,
+    12,
+    4,
+    1,
+    2
+   ],
+   "drew": [
+    4,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD61",
+   "zone": null,
+   "tag": null,
+   "unit": "61",
+   "tags": 11,
+   "applied": [
+    2,
+    3,
+    2,
+    0,
+    4
+   ],
+   "drew": [
+    2,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD62",
+   "zone": null,
+   "tag": null,
+   "unit": "62",
+   "tags": 11,
+   "applied": [
+    4,
+    6,
+    0,
+    2,
+    1
+   ],
+   "drew": [
+    4,
+    1,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD62A",
+   "zone": null,
+   "tag": null,
+   "unit": "62A",
+   "tags": 8,
+   "applied": [
+    1,
+    1,
+    0,
+    1,
+    0
+   ],
+   "drew": [
+    1,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD63",
+   "zone": null,
+   "tag": null,
+   "unit": "63",
+   "tags": 8,
+   "applied": [
+    1,
+    8,
+    1,
+    0,
+    2
+   ],
+   "drew": [
+    1,
+    2,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD63A",
+   "zone": null,
+   "tag": null,
+   "unit": "63A",
+   "tags": 71,
+   "applied": [
+    31,
+    4,
+    7,
+    1,
+    1
+   ],
+   "drew": [
+    31,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD64",
+   "zone": null,
+   "tag": null,
+   "unit": "64",
+   "tags": 7,
+   "applied": [
+    0,
+    0,
+    2,
+    1,
+    1
+   ],
+   "drew": [
+    0,
+    0,
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD65",
+   "zone": null,
+   "tag": null,
+   "unit": "65",
+   "tags": 5,
+   "applied": [
+    4,
+    0,
+    0,
+    1,
+    0
+   ],
+   "drew": [
+    4,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD66",
+   "zone": null,
+   "tag": null,
+   "unit": "66",
+   "tags": 4,
+   "applied": [
+    6,
+    2,
+    3,
+    2,
+    3
+   ],
+   "drew": [
+    4,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD67",
+   "zone": null,
+   "tag": null,
+   "unit": "67",
+   "tags": 11,
+   "applied": [
+    7,
+    17,
+    1,
+    5,
+    1
+   ],
+   "drew": [
+    7,
+    4,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "kind": "WD",
+   "code": "WD69",
+   "zone": null,
+   "tag": null,
+   "unit": "69",
+   "tags": 8,
+   "applied": [
+    0,
+    1,
+    2,
+    2,
+    2
+   ],
+   "drew": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ ]
+}
