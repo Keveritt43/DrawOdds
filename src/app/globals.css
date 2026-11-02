@@ -236,3 +236,8 @@ table.results .num { text-align: right; white-space: nowrap; }
 .foot-brand { display: flex; gap: 14px; align-items: flex-start; } .foot-brand p { margin: 0; max-width: 46ch; font-size: .9rem; }
 @media (max-width: 700px) { .site-footer .inner { grid-template-columns: 1fr 1fr; } .foot-brand { grid-column: 1 / -1; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+.legend-t { width: 100%; border-collapse: collapse; margin: 8px 0 2px; }
+.legend-t td { padding: 2px 4px; border: 0; }
+.legend-t td:first-child { width: 18px; }
+.legend-t i { display: inline-block; width: 14px; height: 12px; border-radius: 2px; vertical-align: -1px; border: 1px solid rgba(0,0,0,.12); }
+.legend-t .n { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }

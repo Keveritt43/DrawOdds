@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
@@ -8,24 +8,61 @@ import Link from 'next/link';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
-const METRICS = {
-  publicPct: { label: 'Public Land %', scale: [0, 25, 50, 75, 100], unit: '%', fmt: (v: number) => `${Math.round(v)}%` },
-  accessYesPct: { label: 'Access Yes! % (Private Land Open To Hunting)', scale: [0, 0.5, 2, 5, 10], unit: '%', fmt: (v: number) => `${v}%` },
-  huntablePct: { label: 'Huntable % (Public + Access Yes!)', scale: [0, 25, 50, 75, 100], unit: '%', fmt: (v: number) => `${Math.round(v)}%` },
-  deerSuccess: { label: 'General Deer Success (Any Weapon)', scale: [0, 0.15, 0.3, 0.45, 0.6], unit: '', fmt: (v: number) => `${Math.round(v * 100)}%` },
-  elkSuccess: { label: 'General Elk Success (Any Weapon)', scale: [0, 0.08, 0.16, 0.24, 0.32], unit: '', fmt: (v: number) => `${Math.round(v * 100)}%` },
-  elkArchery: { label: 'General Elk Archery Success', scale: [0, 0.05, 0.1, 0.15, 0.2], unit: '', fmt: (v: number) => `${Math.round(v * 100)}%` },
-  bestOdds: { label: 'Best Controlled-Hunt Odds (Yours)', scale: [0, 0.05, 0.15, 0.3, 0.6], unit: '', fmt: (v: number) => `${Math.round(v * 100)}%` },
-  accessYesAcres: { label: 'Access Yes! Acres', scale: [0, 1000, 5000, 20000, 60000], unit: '', fmt: (v: number) => Math.round(v).toLocaleString() },
-} as const;
-type Metric = keyof typeof METRICS;
-const RAMP = ['#fde7d9', '#f9b98f', '#f48a4f', '#f0641e', '#b8460b'];
+type Sp = 'DEER' | 'ELK';
+interface MetricDef {
+  label: string;
+  field: (sp: Sp, nr: boolean) => string;
+  ramp: string[];
+  bySpecies?: boolean;
+  fmt: (v: number) => string;
+  none: string;
+  note: string;
+}
+// light -> dark, single hue per meaning: green = land you can hunt, orange = success / odds, plum = crowding
+const GREEN = ['#eef4e6', '#d2e4bf', '#aecd92', '#84b267', '#5b9242', '#346c27'];
+const ORANGE = ['#fdeadc', '#fbcaa7', '#f7a474', '#f27c44', '#d85b18', '#9c3d0a'];
+const PLUM = ['#f4eaf2', '#e2c6dd', '#cb9ac4', '#af6ca7', '#8b4386', '#5f2260'];
+const num = (v: number) => (v >= 10 ? String(Math.round(v)) : v >= 1 ? String(Number(v.toFixed(1))) : String(Number(v.toFixed(2))));
+const pctOf = (v: number) => `${num(v)}%`;
 
+const METRICS: Record<string, MetricDef> = {
+  public: {
+    label: 'Public Land %', field: () => 'publicPct', ramp: GREEN, fmt: pctOf, none: 'No data',
+    note: 'Federal + state land, from IDFG unit pages. Does not include Access Yes!.',
+  },
+  huntable: {
+    label: 'Public + Access Yes! %', field: () => 'huntablePct', ramp: GREEN, fmt: pctOf, none: 'No data',
+    note: 'Public land plus private land enrolled in Access Yes! (open to hunting by agreement).',
+  },
+  success: {
+    label: 'General Harvest Success %', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No general season / under 50 hunters',
+    field: (sp) => (sp === 'ELK' ? 'genSuccessElk' : 'genSuccessDeer'),
+    note: 'Harvest ÷ hunters, general seasons, all weapons, last 5 seasons (2022+ for units redrawn in 2022).',
+  },
+  pressure: {
+    label: 'General Hunters Per Sq Mi', bySpecies: true, ramp: PLUM, fmt: num, none: 'No general season',
+    field: (sp) => (sp === 'ELK' ? 'huntersSqMiElk' : 'huntersSqMiDeer'),
+    note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Darker = more crowded.',
+  },
+  odds: {
+    label: 'Best Controlled Draw Odds', ramp: ORANGE, fmt: (v) => pctOf(v * 100), none: 'No controlled hunts',
+    field: (_sp, nr) => (nr ? 'bestNrOdds' : 'bestResOdds'),
+    note: 'Best 5-year first-choice odds of any controlled hunt touching the unit, for your residency.',
+  },
+};
+type Metric = keyof typeof METRICS;
+const NODATA = '#e0ddd5';
+interface Classes { breaks: number[]; counts: number[] }
+/** Spread n colors across a 6-color ramp, keeping the darkest. */
+const pickRamp = (ramp: string[], n: number) => Array.from({ length: n }, (_, i) => ramp[n === 1 ? ramp.length - 1 : Math.round((i * (ramp.length - 1)) / (n - 1))]);
 
 export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: string; height?: string }) {
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
-  const [metric, setMetric] = useState<Metric>('publicPct');
+  const [metric, setMetric] = useState<Metric>('public');
+  const [sp, setSp] = useState<Sp>('ELK');
+  const [classes, setClasses] = useState<Record<string, Classes>>({});
+  const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
   const [err, setErr] = useState('');
   const [kind, setKind] = useState<Basemap>('topo');
@@ -33,7 +70,10 @@ export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: s
     if (map.current?.isStyleLoaded()) setBasemap(map.current, kind);
   }, [kind]);
 
-  const field = metric === 'bestOdds' ? (nr ? 'bestNrOdds' : 'bestResOdds') : metric;
+  const M = METRICS[metric];
+  const field = M.field(sp, nr);
+  const cls = classes[field];
+  const colors = useMemo(() => (cls ? pickRamp(M.ramp, cls.breaks.length + 1) : []), [cls, M.ramp]);
 
   useEffect(() => {
     if (!el.current || map.current) return;
@@ -43,8 +83,12 @@ export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: s
     m.on('load', async () => {
       try {
         const fc = await (await fetch('/api/units')).json();
+        setClasses(fc.classes ?? {});
+        const miss: Record<string, number> = {};
+        for (const k of Object.keys(fc.classes ?? {})) miss[k] = fc.features.filter((f: { properties: Props }) => typeof f.properties[k] !== 'number').length;
+        setMissing(miss);
         m.addSource('units', { type: 'geojson', data: fc, promoteId: 'name' });
-        m.addLayer({ id: 'units-fill', type: 'fill', source: 'units', paint: { 'fill-color': '#ccc', 'fill-opacity': 0.55 } });
+        m.addLayer({ id: 'units-fill', type: 'fill', source: 'units', paint: { 'fill-color': '#ccc', 'fill-opacity': 0.62 } });
         m.addLayer({ id: 'units-line', type: 'line', source: 'units', paint: { 'line-color': '#1d2023', 'line-width': 0.8 } });
         m.addLayer({
           id: 'units-sel', type: 'line', source: 'units',
@@ -94,20 +138,19 @@ export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: s
   useEffect(() => {
     const m = map.current;
     const apply = () => {
-      if (!m?.getLayer('units-fill')) return;
-      const s = METRICS[metric].scale;
-      const color: ExpressionSpecification = [
-        'case', ['==', ['get', field], null], '#e0ddd5',
-        ['step', ['to-number', ['get', field]], RAMP[0], s[1], RAMP[1], s[2], RAMP[2], s[3], RAMP[3], s[4], RAMP[4]],
-      ];
+      if (!m?.getLayer('units-fill') || !cls) return;
+      const steps: (string | number)[] = [colors[0]];
+      cls.breaks.forEach((b, i) => steps.push(b, colors[i + 1]));
+      const color = (cls.breaks.length
+        ? ['case', ['!=', ['typeof', ['get', field]], 'number'], NODATA, ['step', ['get', field], ...steps]]
+        : ['case', ['!=', ['typeof', ['get', field]], 'number'], NODATA, colors[0]]) as unknown as ExpressionSpecification;
       m.setPaintProperty('units-fill', 'fill-color', color);
     };
     apply();
     m?.on('metric', apply);
     return () => void m?.off('metric', apply);
-  }, [metric, field]);
+  }, [field, cls, colors]);
 
-  const M = METRICS[metric];
   const v = (k: string) => (sel && sel[k] !== null && sel[k] !== undefined ? Number(sel[k]) : null);
 
   return (
@@ -122,10 +165,25 @@ export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: s
         <select id="metric" value={metric} onChange={(e) => setMetric(e.target.value as Metric)}>
           {Object.entries(METRICS).map(([k, x]) => <option key={k} value={k}>{x.label}</option>)}
         </select>
-        <div className="legend">
-          {M.scale.slice(0, 4).map((s, i) => <span key={i}><i style={{ background: RAMP[i] }} />{M.fmt(s)}+</span>)}
-          <span><i style={{ background: '#e0ddd5' }} />no data</span>
-        </div>
+        {M.bySpecies && (
+          <div className="seg light" role="group" aria-label="Species" style={{ marginTop: 8 }}>
+            <button type="button" aria-pressed={sp === 'ELK'} onClick={() => setSp('ELK')}>Elk</button>
+            <button type="button" aria-pressed={sp === 'DEER'} onClick={() => setSp('DEER')}>Deer</button>
+          </div>
+        )}
+        {cls && (
+          <table className="legend-t small">
+            <tbody>
+              {colors.map((c, i) => {
+                const b = cls.breaks;
+                const label = !b.length ? 'All units' : i === 0 ? `Under ${M.fmt(b[0])}` : i === b.length ? `${M.fmt(b[i - 1])}+` : `${M.fmt(b[i - 1])} to ${M.fmt(b[i])}`;
+                return <tr key={i}><td><i style={{ background: c }} /></td><td>{label}</td><td className="n">{cls.counts[i]}</td></tr>;
+              }).reverse()}
+              {missing[field] ? <tr><td><i style={{ background: NODATA }} /></td><td>{M.none}</td><td className="n">{missing[field]}</td></tr> : null}
+            </tbody>
+          </table>
+        )}
+        <p className="small muted" style={{ margin: '4px 0 8px' }}>{M.note} Shades split the units into similar-sized groups; numbers are unit counts.</p>
         {err && <p className="small" style={{ color: 'var(--bad)' }}>{err}</p>}
         {sel ? (
           <div>
@@ -136,8 +194,15 @@ export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: s
                 <tr><td>Public land</td><td style={{ textAlign: 'right' }}>{v('publicPct') !== null ? `${Math.round(v('publicPct')!)}%` : '-'}</td></tr>
                 <tr><td>Access Yes!</td><td style={{ textAlign: 'right' }}>{v('accessYesAcres') ? `${Math.round(v('accessYesAcres')!).toLocaleString()} ac (${v('accessYesPct')! < 1 ? '<1' : Math.round(v('accessYesPct')!)}%)` : 'none'}</td></tr>
                 <tr><td>Huntable (public + AY!)</td><td style={{ textAlign: 'right' }}>{v('huntablePct') !== null ? `${Math.round(v('huntablePct')!)}%` : '-'}</td></tr>
-                <tr><td>General deer success</td><td style={{ textAlign: 'right' }}>{v('deerSuccess') !== null ? `${Math.round(v('deerSuccess')! * 100)}%` : '-'}</td></tr>
-                <tr><td>General elk success</td><td style={{ textAlign: 'right' }}>{v('elkSuccess') !== null ? `${Math.round(v('elkSuccess')! * 100)}%` : '-'}</td></tr>
+                {(['Elk', 'Deer'] as const).map((s) => (
+                  <tr key={s}>
+                    <td>General {s.toLowerCase()} success / hunters</td>
+                    <td style={{ textAlign: 'right' }}>
+                      {v(`genSuccessRaw${s}`) !== null ? `${Math.round(v(`genSuccessRaw${s}`)!)}%` : '-'}
+                      {v(`genHunters${s}`) !== null ? ` · ${v(`genHunters${s}`)!.toLocaleString()}/yr (${num(v(`huntersSqMi${s}`) ?? 0)}/sq mi)` : ''}
+                    </td>
+                  </tr>
+                ))}
                 <tr><td>Controlled hunts</td><td style={{ textAlign: 'right' }}>{v('controlled') ?? 0}</td></tr>
                 <tr><td>Best {nr ? 'NR' : 'res'} odds</td><td style={{ textAlign: 'right' }}>{v(nr ? 'bestNrOdds' : 'bestResOdds') !== null ? `${(v(nr ? 'bestNrOdds' : 'bestResOdds')! * 100).toFixed(1)}%` : '-'}</td></tr>
               </tbody>
