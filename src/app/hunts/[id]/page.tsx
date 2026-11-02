@@ -36,6 +36,10 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
   }
   const land = (area?.landOwnership ?? (unitRows.length === 1 ? unitRows[0].landOwnership : null)) as { manager: string; pct: number }[] | null;
   const title = s.huntNumber ? `${s.species === 'DEER' ? 'Deer' : 'Elk'} controlled hunt ${s.huntNumber}` : s.name;
+  const drawn = history.filter((h) => h.permits != null || h.resApps != null).sort((a, b) => b.year - a.year);
+  const five = drawn.slice(0, 5);
+  const tot = (f: (h: (typeof drawn)[number]) => number | null | undefined) => five.reduce((a, h) => a + (f(h) ?? 0), 0);
+  const cell = (d?: number | null, a?: number | null) => (a ? `${int(d ?? 0)} / ${int(a)} (${((100 * (d ?? 0)) / a).toFixed(1)}%)` : '-');
   const renumbered = new Set(history.map((h) => h.huntNumber).filter(Boolean)).size > 1;
 
   return (
@@ -63,7 +67,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
         {s.type === 'CONTROLLED' && (
           <>
             <div className="stat"><div className="k">{nr ? 'Nonresident' : 'Resident'} odds, 5-yr</div><div className="v">{pct(s[rf.odds5], 1)}</div></div>
-            <div className="stat"><div className="k">Last year</div><div className="v">{pct(s[rf.oddsLast], 1)}</div></div>
+            <div className="stat"><div className="k">{drawn[0] ? `${drawn[0].year} draw` : 'Last draw'}</div><div className="v">{pct(s[rf.oddsLast], 1)}</div></div>
             <div className="stat"><div className="k">{nr ? 'Resident' : 'Nonresident'} odds, 5-yr</div><div className="v" style={{ color: 'var(--muted)' }}>{pct(nr ? s.resOdds5 : s.nrOdds5, 1)}</div></div>
             <div className="stat"><div className="k">Draw + fill, per year</div><div className="v">{pct(s[rf.tagAndFill], 1)}</div></div>
           </>
@@ -78,6 +82,23 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
 
       {s.smallSample && <div className="note">Fewer than 50 hunters over 5 years. One or two animals swing the success rate a lot. Don&apos;t read much into a single year.</div>}
       {s.boundaryChanged && <div className="note">IDFG changed the boundary of {s.units.filter(Boolean).join(', ')} in 2022. Years before 2022 may cover different ground.</div>}
+      {s.type === 'CONTROLLED' && drawn.length > 0 && (
+        <div className="card" style={{ marginTop: 16, overflowX: 'auto' }}>
+          <h3 style={{ marginTop: 0 }}>Drawn / Applied, First Choice</h3>
+          <table className="small" style={{ width: '100%' }}>
+            <thead><tr><th>Drawing</th><th>Hunt #</th><th className="num">Tags</th><th className="num">Residents</th><th className="num">Nonresidents</th></tr></thead>
+            <tbody>
+              {drawn.map((h) => (
+                <tr key={h.year}><td>{h.year}</td><td>{h.huntNumber ?? '-'}</td><td className="num">{h.permits != null ? int(h.permits) : '-'}</td>
+                  <td className="num">{cell(h.resPermits, h.resApps)}</td><td className="num">{cell(h.nrPermits, h.nrApps)}</td></tr>
+              ))}
+              <tr style={{ fontWeight: 700 }}><td colSpan={2}>{five.length}-yr total</td><td className="num">{int(tot((h) => h.permits))}</td>
+                <td className="num">{cell(tot((h) => h.resPermits), tot((h) => h.resApps))}</td><td className="num">{cell(tot((h) => h.nrPermits), tot((h) => h.nrApps))}</td></tr>
+            </tbody>
+          </table>
+          <p className="small muted" style={{ marginBottom: 0 }}>From IDFG&apos;s drawing odds. The 5-yr odds above are the total row: everyone drawn ÷ everyone who applied, not an average of yearly percents.</p>
+        </div>
+      )}
       {renumbered && <div className="note">IDFG renumbered this hunt over the years (hunt numbers: {[...new Set(history.map((h) => h.huntNumber).filter(Boolean))].join(', ')}). History is matched by hunt area and tag count; check the IDFG page if a year looks off.</div>}
       {nr && s.type === 'CONTROLLED' && (s.nrAppsLast ?? 0) < 30 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 
