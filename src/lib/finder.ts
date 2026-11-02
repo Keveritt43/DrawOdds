@@ -1,6 +1,7 @@
 import type { Prisma, Residency } from '@prisma/client';
 
-export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha';
+export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow';
+export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow'];
 
 export interface Filters {
   species: 'DEER' | 'ELK' | '';
@@ -54,7 +55,7 @@ export function parseFilters(sp: SP): Filters {
     youth: (['include', 'only'] as const).find((y) => y === one(sp.youth)) ?? 'exclude',
     unit: one(sp.unit).trim().toUpperCase().slice(0, 6),
     q: one(sp.q).trim().slice(0, 60),
-    sort: (['best', 'odds', 'success', 'public', 'big', 'open', 'alpha'] as const).includes(sort) ? sort : 'best',
+    sort: SORTS.includes(sort) ? sort : 'best',
     page: Math.max(1, Math.min(200, Number(one(sp.page)) || 1)),
   };
 }
@@ -103,6 +104,7 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
 export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByWithRelationInput[] {
   const rf = residencyFields(r);
   const desc = (k: string) => ({ [k]: { sort: 'desc', nulls: 'last' } }) as Prisma.HuntSummaryOrderByWithRelationInput;
+  const asc = (k: string) => ({ [k]: { sort: 'asc', nulls: 'last' } }) as Prisma.HuntSummaryOrderByWithRelationInput;
   switch (f.sort) {
     case 'odds':
       return [desc(rf.odds5), desc('success5')];
@@ -112,6 +114,16 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
       return [desc('publicPct'), desc('success5')];
     case 'big':
       return [desc('bigPct5'), desc('success5')];
+    case 'harvest':
+      return [desc('harvest5'), desc('success5')];
+    case 'hunters':
+      return [desc('hunters5'), desc('success5')];
+    case 'huntersLow':
+      return [asc('hunters5'), desc('success5')];
+    case 'apps':
+      return [desc('appsLast'), desc(rf.odds5)];
+    case 'appsLow':
+      return [asc('appsLast'), desc(rf.odds5)];
     case 'open':
       return [{ openDate: { sort: 'asc', nulls: 'last' } }, desc('success5')];
     case 'alpha':

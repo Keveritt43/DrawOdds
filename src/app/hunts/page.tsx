@@ -142,13 +142,16 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       </div>
                       <div>Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}
                         <b>{pct(r.successLast)}<Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" /></b>
-                        <span className="sub">5-yr {pct(r.success5)}</span>
+                        <span className="sub">
+                          {f.sort === 'harvest' ? `5-yr harvest ${int(r.harvest5)}` : f.sort === 'hunters' || f.sort === 'huntersLow' ? `5-yr hunters ${int(r.hunters5)}` : `5-yr ${pct(r.success5)}`}
+                        </span>
                       </div>
                       <div>Applicants{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
                           {r.type === 'GENERAL' ? '-' : int(apps)}
                           {r.type === 'CONTROLLED' && <Delta now={apps} prev={r[rf.appsPrev]} kind="pct" good="down" />}
                         </b>
+                        {r.type === 'CONTROLLED' && r.appsLast !== null && <span className="sub">all {int(r.appsLast)}</span>}
                       </div>
                     </div>
                     <div>

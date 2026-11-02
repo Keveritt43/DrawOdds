@@ -233,6 +233,7 @@ model HuntSummary {
   resOddsPrev Float? // the drawing before that (null unless it was the year before)
   nrOddsPrev  Float?
   resAppsPrev Int?
+  appsLast    Int? // first-choice applicants, residents + nonresidents, latest drawing
   nrAppsPrev  Int?
 
   // harvest

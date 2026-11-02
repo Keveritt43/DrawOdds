@@ -101,6 +101,7 @@ export async function buildSummaries(): Promise<StepResult> {
         units: allUnits,
         ...o,
         oddsYears,
+        appsLast: o.resAppsLast === null && o.nrAppsLast === null ? null : (o.resAppsLast ?? 0) + (o.nrAppsLast ?? 0),
         success5: hs.success5,
         hunters5: hs.hunters5,
         harvest5: hs.harvest5,
