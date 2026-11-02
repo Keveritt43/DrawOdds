@@ -16,8 +16,14 @@ async function bootstrap() {
     where: { status: 'RUNNING', startedAt: { gt: new Date(Date.now() - 6 * 3600_000) } },
     data: { status: 'ABANDONED', finishedAt: new Date() },
   });
-  const [odds, summaries] = await Promise.all([db.drawOdds.count(), db.huntSummary.count()]);
-  if (odds > 0 && summaries > 0) return;
+  const [odds, summaries, lastOdds] = await Promise.all([
+    db.drawOdds.count(),
+    db.huntSummary.count(),
+    db.syncLog.findFirst({ where: { step: 'odds' }, orderBy: { startedAt: 'desc' } }),
+  ]);
+  // fill in when empty, or when the last load of the core data failed part-way
+  const incomplete = !lastOdds || lastOdds.status === 'ERROR' || lastOdds.status === 'ABANDONED';
+  if (odds > 0 && summaries > 0 && !incomplete) return;
 
   const { spawn } = await import('node:child_process');
   console.log('[bootstrap-sync] empty database: starting first IDFG data load in the background');

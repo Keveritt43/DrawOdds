@@ -23,11 +23,12 @@ export async function syncOdds(opts: StepOptions): Promise<StepResult> {
   const details: string[] = [];
   let rows = 0;
   for (const { code, species } of SPECIES) {
-    const have = new Set(
-      (await db.drawOdds.findMany({ where: { species }, select: { year: true }, distinct: ['year'] })).map((r) => r.year),
-    );
-    for (const year of yearsToFetch(FIRST_ODDS_YEAR, have, opts.full)) {
-      for (const draw of [1, 2]) {
+    for (const draw of [1, 2]) {
+      // tracked per drawing, so a year whose 2nd drawing failed last time still gets fetched
+      const have = new Set(
+        (await db.drawOdds.findMany({ where: { species, draw }, select: { year: true }, distinct: ['year'] })).map((r) => r.year),
+      );
+      for (const year of yearsToFetch(FIRST_ODDS_YEAR, have, opts.full)) {
         let json: { response?: string; rows?: OddsApiRow[] };
         try {
           json = await getJson(`${ODDS_BASE}?biggame=${code}&yr=${year}&draw=${draw}`);
