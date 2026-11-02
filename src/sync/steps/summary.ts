@@ -359,6 +359,9 @@ async function nrTagSummary(
     harvest5: harvest || null,
     harvestYears: new Set(recent.map((g) => g.year)).size,
     harvestLastYear: lastYear || null,
+    // latest season and the one before, summed across the tag's units (cards show these with the change)
+    successLast: yearSuccess(recent, lastYear),
+    successPrev: yearSuccess(recent, lastYear - 1),
     smallSample: hunters < 50,
     nrTagAndFill: tagAndFill(nrOdds, success),
     publicPct: wavg((u) => u.publicPct),
@@ -385,4 +388,10 @@ function generalSeasons(species: 'DEER' | 'ELK', unit: string, weapon: string): 
   if (!elk || !zone) return null;
   const list = Object.entries(zone.tags).flatMap(([tag, t]) => (t.seasons ?? []).filter((x) => want.includes(x.weapon)).map((x) => ({ ...x, sex: `${tag} tag · ${x.sex}` })));
   return list.length ? { year: elk.year, seasons: list } : null;
+}
+
+function yearSuccess(rows: { year: number; hunters: number | null; harvest: number | null }[], year: number): number | null {
+  const ys = rows.filter((g) => g.year === year);
+  const hunters = ys.reduce((a, g) => a + (g.hunters ?? 0), 0);
+  return hunters ? ys.reduce((a, g) => a + (g.harvest ?? 0), 0) / hunters : null;
 }
