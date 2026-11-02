@@ -32,7 +32,10 @@ export async function buildSummaries(): Promise<StepResult> {
 
   const out: Prisma.HuntSummaryCreateManyInput[] = [];
   // only this season's hunts get listed; older rows survive only because someone saved them
-  const season = Math.max(...hunts.filter((h) => h.source === 'regs' || h.source === 'huntlist').map((h) => h.year), 0);
+  // the season = the most common year among current listings (not the max: Jan-Mar hunts carry next year's date)
+  const yc = new Map<number, number>();
+  for (const h of hunts) if (h.source === 'regs' || h.source === 'huntlist') yc.set(h.year, (yc.get(h.year) ?? 0) + 1);
+  const season = [...yc.entries()].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0]?.[0] ?? 0;
   let skippedOld = 0;
 
   for (const h of hunts) {
