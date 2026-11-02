@@ -45,9 +45,9 @@ const METRICS: Record<string, MetricDef> = {
     note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Darker = more crowded.',
   },
   odds: {
-    label: 'Best Controlled Draw Odds', ramp: ORANGE, fmt: (v) => pctOf(v * 100), none: 'No controlled hunts',
+    label: 'Best Antlered Draw Odds', ramp: ORANGE, fmt: (v) => pctOf(v * 100), none: 'No antlered controlled hunts',
     field: (_sp, nr) => (nr ? 'bestNrOdds' : 'bestResOdds'),
-    note: 'Best 5-year first-choice odds of any controlled hunt touching the unit, for your residency.',
+    note: 'Best 5-year first-choice odds of any adult antlered controlled hunt touching the unit, for your residency (antlerless and youth hunts left out).',
   },
 };
 type Metric = keyof typeof METRICS;

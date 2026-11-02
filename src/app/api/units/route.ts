@@ -17,7 +17,7 @@ export async function GET(req: Request) {
   const [units, sums, general] = await Promise.all([
     db.unit.findMany({ where: { geometry: { not: undefined } } }),
     db.huntSummary.findMany({
-      select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true },
+      select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true },
     }),
     db.generalHarvest.findMany({ where: { takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
@@ -34,8 +34,11 @@ export async function GET(req: Request) {
     if (s.type === 'CONTROLLED')
       for (const u of s.units) {
         bump(u, 'controlled', null, 'count');
-        bump(u, 'bestResOdds', s.resOdds5);
-        bump(u, 'bestNrOdds', s.nrOdds5);
+        // leftover antlerless / youth tags sit at 100% almost everywhere and would paint every unit the same
+        if (s.antlerClass === 'ANTLERED' && !s.youthOnly) {
+          bump(u, 'bestResOdds', s.resOdds5);
+          bump(u, 'bestNrOdds', s.nrOdds5);
+        }
       }
   }
 
