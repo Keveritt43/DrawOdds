@@ -2,7 +2,7 @@ import type { DrawOdds, Prisma } from '@prisma/client';
 import { boundarySince } from '../../lib/boundaries';
 import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
-import { loadElkTagSeasons, loadDeerTagSeasons, type TagSeason } from '../core/datafiles';
+import { loadElkTagSeasons, loadDeerTagSeasons, loadElkZones, type TagSeason } from '../core/datafiles';
 import {
   lineage,
   summarizeOdds,
@@ -34,6 +34,34 @@ export async function buildSummaries(): Promise<StepResult> {
   for (const o of odds) (oddsBy.get(`${o.species}|${o.areaName}`) ?? oddsBy.set(`${o.species}|${o.areaName}`, []).get(`${o.species}|${o.areaName}`)!).push(o);
 
   const out: Prisma.HuntSummaryCreateManyInput[] = [];
+
+  // nonresident general tags: latest draw per tag, for the general-season rows they unlock
+  const nrDraws = new Map<string, { year: number; tags: number; applied: number[]; drew: number[] }>();
+  for (const d of await db.nrDraw.findMany({ orderBy: { year: 'asc' } })) nrDraws.set(d.code, d);
+  const elkZones = loadElkZones().zones;
+  const elkSeasons = loadElkTagSeasons();
+  type NrOdds = { label: string; code: string; odds: number | null; applied: number; drew: number; tags: number; year: number };
+  /** The nonresident tag(s) a general season needs: deer = the unit's Regular (and White-tailed) tag, elk = the zone tag(s) with a season for this weapon. */
+  const nrTagsFor = (species: 'DEER' | 'ELK', unit: string, weapon: string): NrOdds[] => {
+    const mk = (label: string, code: string, key: string): NrOdds | null => {
+      const d = nrDraws.get(key);
+      return d ? { label, code, odds: capOdds(d.drew[0], d.applied[0]), applied: d.applied[0] ?? 0, drew: d.drew[0] ?? 0, tags: d.tags, year: d.year } : null;
+    };
+    if (species === 'DEER') {
+      const [, n, sfx] = unit.match(/^(\d+)([A-Z]?)$/) ?? [];
+      if (!n) return [];
+      const code = `${n.padStart(2, '0')}${sfx}`;
+      return [mk('Regular Deer tag', `RD${code}`, `RD${code}`), mk('White-tailed Deer tag', `WD${code}`, `WD${code}`)].filter((x): x is NrOdds => !!x);
+    }
+    const zone = elkZones.find((z) => z.units.includes(unit));
+    if (!zone) return [];
+    const want = weapon === 'ANY' ? ['ANY', 'SHORT_RANGE'] : [weapon];
+    const zs = elkSeasons?.zones.find((z) => z.zone.toLowerCase() === zone.zone.toLowerCase());
+    return zone.tags
+      .filter((t) => !zs || (zs.tags[t.tag]?.seasons ?? []).some((x) => want.includes(x.weapon)))
+      .map((t) => mk(`${zone.zone} ${t.tag} tag`, t.code, `ELK:${zone.zone}:${t.tag}`))
+      .filter((x): x is NrOdds => !!x);
+  };
   // only this season's hunts get listed; older rows survive only because someone saved them
   // the season = the most common year among current listings (not the max: Jan-Mar hunts carry next year's date)
   const yc = new Map<number, number>();
@@ -162,9 +190,24 @@ export async function buildSummaries(): Promise<StepResult> {
           }
         : {};
       if (gdates.openDate) Object.assign(gdates, { openMonth: gdates.openDate.getUTCMonth() + 1, closeMonth: gdates.closeDate!.getUTCMonth() + 1 });
+      // nonresidents need the unit's / zone's tag to hunt this season: carry its draw odds
+      const nrt = nrTagsFor(h.species, unit, h.weapon);
+      const primary = h.species === 'DEER' ? nrt[0] : nrt.slice().sort((a, b) => (b.odds ?? 0) - (a.odds ?? 0))[0];
+      const nrFields = primary
+        ? {
+            nrTagOdds: JSON.parse(JSON.stringify(nrt)) as Prisma.InputJsonValue,
+            nrOddsLast: primary.odds,
+            nrOdds5: primary.odds,
+            nrAppsLast: primary.applied,
+            oddsLastYear: primary.year,
+            nrTagAndFill: tagAndFill(primary.odds, hs.success5),
+            tagCode: nrt.map((x) => x.code).join(' / '),
+          }
+        : {};
       out.push({
         ...base,
         ...gdates,
+        ...nrFields,
         id: `g:${h.idfgId}:${unit}`,
         unit,
         areaName: unit,

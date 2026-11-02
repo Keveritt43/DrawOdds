@@ -43,8 +43,9 @@ function chips(f: Filters, nr: boolean): { label: string; href: string }[] {
 }
 
 export default async function Filtering({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
-  const f = parseFilters(await searchParams);
-  const { residency } = await getResidency();
+  const sp = await searchParams;
+  const f = parseFilters(sp);
+  const { residency } = await getResidency(sp.as);
   const nr = residency === 'NONRESIDENT';
   const rf = residencyFields(residency);
   const [rows, fav] = await Promise.all([
@@ -139,7 +140,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                         {r.nrTag && <span className="pill ctl">NR Tag Draw</span>}
                       </span>
                       <span className="small muted">
-                        {r.nrTag ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '-') : r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : nr ? 'NR tag required' : 'OTC') : `${int(r.tags)} tags`}
+                        {r.nrTag ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '-') : r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : nr ? (r.tagCode ? `NR tag: ${r.tagCode}` : 'NR tag required') : 'OTC') : `${int(r.tags)} tags`}
                       </span>
                     </div>
                     <div className="dates">
@@ -150,11 +151,12 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                     <div className="hrow-stats">
                       <div>Draw Odds{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
-                          {r.type === 'GENERAL' && !r.nrTag ? (nr ? 'Tag' : 'OTC') : pct(oddsLast, oddsLast !== null && oddsLast < 0.1 ? 1 : 0)}
+                          {r.type === 'GENERAL' && !r.nrTag && !(nr && oddsLast !== null) ? (nr ? 'Tag' : 'OTC') : pct(oddsLast, oddsLast !== null && oddsLast < 0.1 ? 1 : 0)}
                           {r.type === 'CONTROLLED' && <Delta now={oddsLast} prev={r[rf.oddsPrev]} kind="pts" good="up" />}
                         </b>
                         {r.type === 'CONTROLLED' && <span className="sub">5-yr {pct(odds, odds !== null && odds < 0.1 ? 1 : 0)}</span>}
                         {r.nrTag && <span className="sub">1st choice</span>}
+                        {nr && r.type === 'GENERAL' && !r.nrTag && <span className="sub">{nrTagLine(r.nrTagOdds)}</span>}
                       </div>
                       <div>Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}
                         <b>{pct(r.successLast)}<Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" /></b>
@@ -164,7 +166,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       </div>
                       <div>Applicants{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
-                          {r.type === 'GENERAL' && !r.nrTag ? '-' : int(apps)}
+                          {r.type === 'GENERAL' && !r.nrTag && !(nr && apps !== null) ? '-' : int(apps)}
                           {r.type === 'CONTROLLED' && <Delta now={apps} prev={r[rf.appsPrev]} kind="pct" good="down" />}
                         </b>
                         {r.type === 'CONTROLLED' && r.appsLast !== null && <span className="sub">all {int(r.appsLast)}</span>}
@@ -213,3 +215,13 @@ function tagLabel(r: HuntSummary): string {
   if (r.species === 'ELK') return `${(r.id.split(':')[3] ?? '').toUpperCase()} Tag`;
   return r.tagCode?.startsWith('WD') ? 'White-tailed Deer Tag' : 'Regular Deer Tag';
 }
+
+/** Under a general season's odds (nonresidents): which tag the odds are for. Two elk tags: both odds. */
+function nrTagLine(v: unknown): string {
+  const t = (v as { label: string; code: string; odds: number | null }[] | null) ?? [];
+  if (!t.length) return 'No NR tag data';
+  const p = (o: number | null) => (o === null ? '-' : `${(o * 100).toFixed(o < 0.1 ? 1 : 0)}%`);
+  if (t.length > 1 && t[0].label.includes(' tag') && !t[0].code.startsWith('RD')) return t.map((x) => `${x.label.split(' ').slice(-2).join(' ')} ${p(x.odds)}`).join(' · ');
+  return `${t[0].code} · 1st choice`;
+}
+

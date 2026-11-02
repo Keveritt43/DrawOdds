@@ -15,11 +15,11 @@ import { Star } from '@/components/Star';
 
 export const dynamic = 'force-dynamic';
 
-export default async function HuntPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function HuntPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ as?: string }> }) {
   const id = decodeURIComponent((await params).id);
   const s = await db.huntSummary.findUnique({ where: { id }, include: { hunt: true } });
   if (!s) notFound();
-  const { residency } = await getResidency();
+  const { residency } = await getResidency((await searchParams).as);
   const session = await auth();
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';

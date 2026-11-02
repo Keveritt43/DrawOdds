@@ -16,7 +16,7 @@ import { SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
 
 export const dynamic = 'force-dynamic';
 
-type SP = { species?: string; type?: string; weapon?: string };
+type SP = { species?: string; type?: string; weapon?: string; as?: string };
 const FILTERS = {
   species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk']],
   type: [['', 'All'], ['GENERAL', 'General'], ['CONTROLLED', 'Controlled']],
@@ -28,7 +28,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const name = decodeURIComponent((await params).name).toUpperCase();
   const unit = await db.unit.findUnique({ where: { name } });
   if (!unit) notFound();
-  const { residency } = await getResidency();
+  const { residency } = await getResidency(sp.as);
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';
   const fav = await getFavorites();
@@ -104,7 +104,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
                   {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : h.tags ? ` · ${int(h.tags)} tags` : ''}</>}
             </div>
             <div className="uh-stats">
-              {(h.type === 'CONTROLLED' || h.nrTag) && <span>Odds <b>{pct(h[rf.odds5], 1)}</b></span>}
+              {(h.type === 'CONTROLLED' || h.nrTag || (nr && h.nrOdds5 !== null)) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pct(h[rf.odds5], 1)}</b></span>}
               <span>Success <b>{pct(h.success5)}</b></span>
             </div>
           </div>
