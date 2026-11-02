@@ -74,9 +74,8 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   if (f.weapon.length) and.push({ weapon: { in: f.weapon } });
   if (f.antler.length) and.push({ antlerClass: { in: f.antler } });
   if (f.deerType.length) and.push({ deerType: { in: f.deerType } });
-  if (f.months.length)
-    // hunt is open at some point during any chosen month
-    and.push({ OR: f.months.map((m) => ({ openMonth: { lte: m }, closeMonth: { gte: m } })) });
+  // hunt is open at some point during any chosen month (works for Dec-Jan seasons too)
+  if (f.months.length) and.push({ months: { hasSome: f.months } });
   if (f.minOdds !== null) and.push({ [rf.odds5]: { gte: f.minOdds / 100 } });
   if (f.minSuccess !== null) and.push({ success5: { gte: f.minSuccess / 100 } });
   if (f.minPublic !== null) and.push({ publicPct: { gte: f.minPublic } });

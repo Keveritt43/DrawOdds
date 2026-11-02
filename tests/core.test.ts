@@ -173,3 +173,11 @@ test('units from hunt names; parent unit of a hunt area', async () => {
   assert.equal(parentUnit('36B-1'), '36B');
   assert.equal(parentUnit('63AX'), '63A');
 });
+
+test('monthsOpen handles seasons that wrap into January', async () => {
+  const { monthsOpen } = await import('../src/sync/core/math');
+  const d = (s: string) => new Date(`${s}T00:00:00Z`);
+  assert.deepEqual(monthsOpen(d('2026-12-10'), d('2027-01-15')), [12, 1]);
+  assert.deepEqual(monthsOpen(d('2026-08-30'), d('2026-12-01')), [8, 9, 10, 11, 12]);
+  assert.deepEqual(monthsOpen(null, null), []);
+});

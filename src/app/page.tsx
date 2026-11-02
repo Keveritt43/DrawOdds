@@ -50,7 +50,7 @@ export default async function Home() {
             <label>Hunt Type</label>
             <div className="opts">{opt('type', 'CONTROLLED', 'Controlled Draw', true)}{opt('type', 'GENERAL', 'General (OTC)')}{opt('type', '', 'Either')}</div>
             <label>Weapon</label>
-            <div className="opts">{opt('weapon', '', 'Any', true)}{opt('weapon', 'ANY', 'Rifle / Any Weapon')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
+            <div className="opts">{opt('weapon', '', 'All', true)}{opt('weapon', 'ANY', 'Rifle / Any Weapon')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
             <label>I Want</label>
             <div className="opts">{opt('sort', 'best', 'Best Chance To Fill', true)}{opt('sort', 'big', 'Trophy Potential')}{opt('sort', 'public', 'Public Land')}</div>
             <button className="btn primary" type="submit">Show Me Hunts</button>

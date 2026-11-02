@@ -25,7 +25,7 @@ test('residency decides which odds column filters and sorts use', () => {
 
 test('season months mean "open during that month"', () => {
   const w = JSON.stringify(buildWhere(parseFilters({ month: '10' }), 'RESIDENT'));
-  assert.match(w, /"openMonth":\{"lte":10\},"closeMonth":\{"gte":10\}/);
+  assert.match(w, /"months":\{"hasSome":\[10\]\}/);
 });
 
 test('toQuery round-trips', () => {

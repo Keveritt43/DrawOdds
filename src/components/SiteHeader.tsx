@@ -24,11 +24,12 @@ export function SiteHeader({ residency, signedIn }: { residency: Residency; sign
         <Link href="/" className="brand" aria-label="DrawOdds home">
           <Wordmark />
         </Link>
-        <nav className={`primary ${open ? 'open' : ''}`} aria-label="Main">
+        <nav className={`nav-main ${open ? 'open' : ''}`} aria-label="Main">
           {LINKS.map((l) => (
             <Link key={l.href} href={l.href} aria-current={here(l.href) ? 'page' : undefined}>{l.label}</Link>
           ))}
           <Link href={signedIn ? '/account' : '/login'}>{signedIn ? 'My Hunts' : 'Sign In'}</Link>
+          <div className="nav-res"><span>Draw Odds For</span><ResidencySwitch value={residency} /></div>
         </nav>
         <div className="header-right">
           <ResidencySwitch value={residency} />

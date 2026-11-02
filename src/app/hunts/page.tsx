@@ -120,14 +120,14 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       </Link>
                       <span className="small muted">{r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : 'OTC') : `${int(r.tags)} tags`}</span>
                     </div>
-                    <div className="dates">{r.type === 'GENERAL' ? `${r.name} · ` : ''}{range(r.openDate, r.closeDate)}</div>
+                    <div className="dates">{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</div>
                     <div className="hrow-stats">
                       <div>Draw Odds<b>{r.type === 'GENERAL' ? 'OTC' : pct(odds, odds !== null && odds < 0.1 ? 1 : 0)}</b></div>
                       <div>Harvest Success<b>{pct(r.success5)}</b></div>
                       <div>Applications
                         <b>
                           {r.type === 'GENERAL' ? '-' : int(apps)}
-                          {r.type === 'CONTROLLED' && r.appsTrend !== null && Math.abs(r.appsTrend) >= 0.1 && (
+                          {r.type === 'CONTROLLED' && !!apps && r.appsTrend !== null && Math.abs(r.appsTrend) >= 0.1 && (
                             <span className={r.appsTrend > 0 ? 'down' : 'up'} title="Last year vs 5-yr average" style={{ fontSize: '.8rem', marginLeft: 4 }}>
                               {r.appsTrend > 0 ? '▲' : '▼'}{Math.round(Math.abs(r.appsTrend) * 100)}%
                             </span>

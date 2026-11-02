@@ -217,3 +217,16 @@ export function tagAndFill(odds: number | null, success: number | null): number 
 
 /** Units whose boundaries IDFG changed in 2022 (IDFG GMU layer description). */
 export const BOUNDARY_CHANGED_2022 = new Set(['38', '39', '41', '45', '46', '49', '50', '53', '56', '57']);
+
+/** Calendar months (1-12) a season is open, including seasons that wrap Dec -> Jan. */
+export function monthsOpen(open: Date | null, close: Date | null): number[] {
+  if (!open || !close) return [];
+  const out: number[] = [];
+  const d = new Date(Date.UTC(open.getUTCFullYear(), open.getUTCMonth(), 1));
+  const end = new Date(Date.UTC(close.getUTCFullYear(), close.getUTCMonth(), 1));
+  for (let i = 0; d <= end && i < 13; i++) {
+    out.push(d.getUTCMonth() + 1);
+    d.setUTCMonth(d.getUTCMonth() + 1);
+  }
+  return [...new Set(out)];
+}

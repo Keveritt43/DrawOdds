@@ -65,7 +65,7 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
             {hunts.map((h) => (
               <tr key={h.id}>
                 <td><Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.huntNumber ? `${h.species === 'DEER' ? 'Deer' : 'Elk'} ${h.huntNumber}` : h.name}</Link>{h.youthOnly && <span className="pill">Youth</span>}</td>
-                <td className="small">{range(h.openDate, h.closeDate)}</td>
+                <td className="small">{h.openDate ? range(h.openDate, h.closeDate) : 'See regs'}</td>
                 <td>{WEAPON[h.weapon]}</td>
                 <td>{h.species === 'DEER' ? 'Deer' : 'Elk'} · {ANTLER[h.antlerClass]}</td>
                 <td className="num">{h.type === 'GENERAL' ? (h.tags ? int(h.tags) : 'OTC') : int(h.tags)}</td>

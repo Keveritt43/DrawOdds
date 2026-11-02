@@ -7,6 +7,7 @@ import {
   summarizeHarvest,
   tagAndFill,
   BOUNDARY_CHANGED_2022,
+  monthsOpen,
   type OddsRow,
   type HarvestRow,
 } from '../core/math';
@@ -45,6 +46,7 @@ export async function buildSummaries(): Promise<StepResult> {
       closeDate: h.closeDate,
       openMonth: month(h.openDate),
       closeMonth: month(h.closeDate),
+      months: monthsOpen(h.openDate, h.closeDate),
       tags: h.tags,
       youthOnly: h.youthOnly,
       units: h.units,
@@ -56,8 +58,12 @@ export async function buildSummaries(): Promise<StepResult> {
         .filter((o) => o.species === h.species && o.huntNumber === h.huntNumber && o.year <= h.year)
         .sort((a, b) => b.year - a.year)[0];
       if (!cur) {
+        // new hunt with no draw history yet: area and units still come from the regs + GIS
+        const named = h.areaName ? areas.find((a) => a.name === h.areaName) : undefined;
+        const units = ((named?.units as { unit: string; pct: number }[] | null) ?? []).map((x) => x.unit);
+        const all = units.length ? units : h.areaName ? [parentUnit(h.areaName)] : h.units;
         details.push(`${h.species} hunt ${h.huntNumber}: no drawing-odds history (new hunt?)`);
-        out.push({ ...base, id: `c:${h.idfgId}`, boundaryChanged: h.units.some((u) => BOUNDARY_CHANGED_2022.has(u)) });
+        out.push({ ...base, id: `c:${h.idfgId}`, areaName: h.areaName, units: all, boundaryChanged: all.some((u) => BOUNDARY_CHANGED_2022.has(u)) });
         continue;
       }
       const hist = oddsBy.get(`${h.species}|${cur.areaName}`) ?? [];
@@ -157,7 +163,7 @@ export async function buildSummaries(): Promise<StepResult> {
     }
     const k = `${r.species}|${r.huntNumber}`;
     const prev = seen.get(k);
-    const score = (x: Prisma.HuntSummaryCreateManyInput) => (x.openDate ? 2 : 0) + (x.tags ? 1 : 0);
+    const score = (x: Prisma.HuntSummaryCreateManyInput) => (x.openDate ? 2 : 0) + (x.tags ? 1 : 0) + (x.huntId > 0 ? 4 : 0);
     if (!prev) {
       seen.set(k, r);
       deduped.push(r);

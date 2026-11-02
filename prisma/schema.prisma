@@ -175,6 +175,8 @@ model Hunt {
   species     Species
   type        HuntType
   huntNumber  Int?
+  areaName    String? // controlled hunts: hunt area from the regs
+  source      String      @default("huntlist") // huntlist | regs | harvest
   name        String
   takeMethod  String
   weapon      Weapon
@@ -214,6 +216,7 @@ model HuntSummary {
   closeDate   DateTime?
   openMonth   Int?
   closeMonth  Int?
+  months      Int[] // every calendar month the season is open (handles Dec-Jan seasons)
   tags        Int?
   youthOnly   Boolean     @default(false)
 

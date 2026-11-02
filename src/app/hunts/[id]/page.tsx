@@ -45,14 +45,17 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
         <div>
           <h1>{title}</h1>
           <div className="muted">
-            {s.type === 'GENERAL' ? `${s.name} · unit ${s.unit}` : `Hunt area ${s.areaName}`} · {range(s.openDate, s.closeDate)} ·{' '}
+            {s.type === 'GENERAL' ? `${s.name} · unit ${s.unit}` : `Hunt area ${s.areaName}`} · {s.openDate ? range(s.openDate, s.closeDate) : 'dates: see regulations'} ·{' '}
             {WEAPON[s.weapon]} · {ANTLER[s.antlerClass]}
-            {s.tags ? ` · ${int(s.tags)} tags` : s.type === 'GENERAL' ? ' · over the counter' : ''}
+            {s.tags ? ` · ${int(s.tags)} tags` : s.type === 'GENERAL' ? ' · over the counter' : ' · unlimited tags'}
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'start' }}>
           <SaveButton huntId={s.huntId} saved={!!saved} signedIn={!!session?.user} />
-          <a className="btn" href={`https://fishandgame.idaho.gov/ifwis/huntplanner/hunt?id=${s.huntId}`} target="_blank" rel="noreferrer">IDFG page</a>
+          <a className="btn" target="_blank" rel="noreferrer"
+            href={s.huntId > 0 ? `https://fishandgame.idaho.gov/ifwis/huntplanner/hunt?id=${s.huntId}` : `https://idfg.idaho.gov/sites/default/files/seasons-rules-big-game-${s.hunt.year}.pdf`}>
+            {s.huntId > 0 ? 'IDFG Page' : 'IDFG Regulations'}
+          </a>
         </div>
       </div>
 

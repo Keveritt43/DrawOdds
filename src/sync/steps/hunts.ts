@@ -1,6 +1,40 @@
 import { db, HP_BASE, SPECIES, thisYear, type StepResult } from '../core/context';
 import { get } from '../core/http';
-import { parseHuntList, type ListedHunt } from '../core/parse';
+import { parseHuntList, normArea, unitsFromName, type ListedHunt } from '../core/parse';
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface RegsHunt {
+  species: 'DEER' | 'ELK';
+  huntNumber: number;
+  area: string;
+  tags: number | null;
+  open: string;
+  close: string;
+  weapon: 'ANY' | 'ARCHERY' | 'MUZZLELOADER' | 'SHORT_RANGE';
+  antlerClass: 'ANTLERED' | 'ANTLERLESS' | 'EITHER';
+  youthOnly: boolean;
+  section: string;
+  notes: string;
+}
+
+/** Every controlled hunt for the season, parsed from IDFG's regulations PDF (scripts/parse_regs.py). */
+export function loadRegs(season: number): RegsHunt[] {
+  for (const y of [season, season - 1]) {
+    const f = join(process.cwd(), 'data', `controlled-hunts-${y}.json`);
+    if (existsSync(f)) return (JSON.parse(readFileSync(f, 'utf8')) as { hunts: RegsHunt[] }).hunts;
+  }
+  return [];
+}
+
+const WEAPON_LABEL = { ANY: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader', SHORT_RANGE: 'Short-range only' } as const;
+const SEX_LABEL = { ANTLERED: 'Antlered', ANTLERLESS: 'Antlerless', EITHER: 'Either sex' } as const;
+/** Stable negative id for hunts that aren't on IDFG's hunt lists (closed for the year, or general seasons). */
+export function syntheticId(key: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < key.length; i++) h = Math.imul(h ^ key.charCodeAt(i), 16777619);
+  return -((h >>> 1) || 1);
+}
 
 /**
  * This season's hunts, from IDFG's per-unit hunt lists (huntlist.aspx), for deer and elk.
@@ -46,30 +80,133 @@ export async function syncHunts(): Promise<StepResult> {
   const noDates = [...found.values()].filter((h) => !h.open).length;
   if (noDates > found.size * 0.2) details.push(`${noDates} of ${found.size} hunts have no parsed dates - check parseHuntList`);
 
-  await db.$transaction(async (tx) => {
-    for (const h of found.values()) {
-      const data = {
-        year: h.open ? Number(h.open.slice(0, 4)) : year,
-        species: h.species,
-        type: h.type,
-        huntNumber: h.huntNumber,
-        name: h.name,
-        takeMethod: h.takeMethod,
-        weapon: h.weapon,
-        antlerClass: h.antlerClass,
-        sexText: h.sexText,
-        openDate: h.open ? new Date(`${h.open}T00:00:00Z`) : null,
-        closeDate: h.close ? new Date(`${h.close}T00:00:00Z`) : null,
-        tags: h.tags,
-        youthOnly: h.youthOnly,
-        units: [...h.units].sort(),
-        rawText: h.text,
-      };
-      await tx.hunt.upsert({ where: { idfgId: h.idfgId }, create: { idfgId: h.idfgId, ...data }, update: data });
+  // The hunt lists only show hunts that haven't closed yet. The regs list every controlled hunt for the
+  // season, so they are the master list for controlled hunts: fill in anything missing and correct
+  // dates / tags / weapon / sex from them.
+  const regs = loadRegs(season);
+  if (!regs.length) details.push(`No data/controlled-hunts-${season}.json - controlled hunts that already closed this season will be missing`);
+  type Row = Parameters<typeof db.hunt.create>[0]['data'];
+  const rows = new Map<number, Row>();
+  for (const h of found.values()) {
+    rows.set(h.idfgId, {
+      idfgId: h.idfgId,
+      year: h.open ? Number(h.open.slice(0, 4)) : year,
+      species: h.species,
+      type: h.type,
+      huntNumber: h.huntNumber,
+      source: 'huntlist',
+      name: h.name,
+      takeMethod: h.takeMethod,
+      weapon: h.weapon,
+      antlerClass: h.antlerClass,
+      sexText: h.sexText,
+      openDate: h.open ? new Date(`${h.open}T00:00:00Z`) : null,
+      closeDate: h.close ? new Date(`${h.close}T00:00:00Z`) : null,
+      tags: h.tags,
+      youthOnly: h.youthOnly,
+      units: [...h.units].sort(),
+      rawText: h.text,
+    });
+  }
+  // hunts already stored this season (seen on an earlier night, before they closed) count as listed too
+  const stored = await db.hunt.findMany({ where: { year: { gte: season } } });
+  for (const h of stored) {
+    if (!rows.has(h.idfgId) && h.source !== 'regs' && h.source !== 'harvest') {
+      const { updatedAt: _u, ...data } = h;
+      rows.set(h.idfgId, data as Row);
     }
-    // hunts no longer listed are dropped - unless someone saved one; those stay (the UI marks them "not offered")
-    await tx.hunt.deleteMany({ where: { idfgId: { notIn: [...found.keys()] }, saved: { none: {} } } });
-  }, { timeout: 120_000 });
+  }
+  let added = 0;
+  let corrected = 0;
+  for (const r of regs) {
+    const listed = [...rows.values()].find((x) => x.type === 'CONTROLLED' && x.species === r.species && x.huntNumber === r.huntNumber && (x.idfgId as number) > 0);
+    const fromRegs = {
+      year: season,
+      areaName: normArea(r.area),
+      takeMethod: WEAPON_LABEL[r.weapon],
+      weapon: r.weapon,
+      antlerClass: r.antlerClass,
+      sexText: SEX_LABEL[r.antlerClass],
+      openDate: new Date(`${r.open}T00:00:00Z`),
+      closeDate: new Date(`${r.close}T00:00:00Z`),
+      tags: r.tags,
+      youthOnly: r.youthOnly,
+    };
+    if (listed) {
+      Object.assign(listed, fromRegs);
+      corrected++;
+    } else {
+      const idfgId = syntheticId(`regs|${season}|${r.species}|${r.huntNumber}`);
+      rows.set(idfgId, {
+        idfgId,
+        ...fromRegs,
+        species: r.species,
+        type: 'CONTROLLED',
+        huntNumber: r.huntNumber,
+        source: 'regs',
+        name: `${r.species === 'DEER' ? 'Deer' : 'Elk'} Controlled Hunt ${r.huntNumber}`,
+        units: [],
+        rawText: [r.section, r.notes].filter(Boolean).join(' - '),
+      });
+      added++;
+    }
+  }
+  details.push(`Regs: ${regs.length} controlled hunts; ${corrected} matched IDFG's hunt lists, ${added} added (closed for the year or not listed)`);
 
-  return { rows: found.size, details };
+  // General seasons that closed before we first saw them: one row per unit + weapon that had general-season
+  // hunters in the last two years, so every unit's general season can be found. Dates aren't known for these.
+  const METHOD: Record<string, 'ANY' | 'ARCHERY' | 'MUZZLELOADER'> = { 'Any Weapon': 'ANY', Archery: 'ARCHERY', Muzzleloader: 'MUZZLELOADER' };
+  const covered = new Set<string>();
+  for (const x of rows.values()) {
+    if (x.type !== 'GENERAL') continue;
+    const us = unitsFromName(x.name as string);
+    for (const u of us.length ? us : ((x.units as string[]) ?? [])) covered.add(`${x.species}|${u}|${x.weapon}`);
+  }
+  const recent = await db.generalHarvest.findMany({
+    where: { year: { gte: season - 2 }, takeMethod: { in: Object.keys(METHOD) }, hunters: { gt: 0 } },
+    select: { species: true, unit: true, takeMethod: true },
+    distinct: ['species', 'unit', 'takeMethod'],
+  });
+  let generals = 0;
+  for (const g of recent) {
+    const weapon = METHOD[g.takeMethod];
+    const key = `${g.species}|${g.unit}|${weapon}`;
+    if (covered.has(key)) continue;
+    covered.add(key);
+    const idfgId = syntheticId(`general|${season}|${key}`);
+    const label = g.species === 'DEER' ? 'Deer' : 'Elk';
+    rows.set(idfgId, {
+      idfgId,
+      year: season,
+      species: g.species,
+      type: 'GENERAL',
+      huntNumber: null,
+      source: 'harvest',
+      name: `Unit ${g.unit} General ${label} - ${WEAPON_LABEL[weapon]}`,
+      takeMethod: WEAPON_LABEL[weapon],
+      weapon,
+      antlerClass: 'EITHER',
+      sexText: 'See regulations',
+      openDate: null,
+      closeDate: null,
+      tags: null,
+      youthOnly: false,
+      units: [g.unit],
+      rawText: 'Season dates and antler rules: see the IDFG regulations for this unit.',
+    });
+    generals++;
+  }
+  if (generals) details.push(`Added ${generals} general seasons from harvest data (already closed this year)`);
+
+  await db.$transaction(async (tx) => {
+    for (const data of rows.values()) {
+      await tx.hunt.upsert({ where: { idfgId: data.idfgId }, create: data, update: data });
+    }
+    // Keep this season's hunts even when they drop off IDFG's lists (they closed). Drop older seasons
+    // nobody saved, and stand-in rows that a real IDFG listing has since replaced.
+    await tx.hunt.deleteMany({ where: { year: { lt: season }, saved: { none: {} } } });
+    await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { in: ['regs', 'harvest'] }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
+  }, { timeout: 180_000 });
+
+  return { rows: rows.size, details };
 }
