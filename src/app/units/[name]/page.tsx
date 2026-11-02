@@ -6,6 +6,8 @@ import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
 import { pct, pct100, int, range, WEAPON, ANTLER } from '@/lib/format';
 import { UnitMap } from '@/components/UnitMap';
+import { getFavorites } from '@/lib/favorites';
+import { Star } from '@/components/Star';
 import { LandBar } from '@/components/LandBar';
 import { SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
 
@@ -18,6 +20,7 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
   const { residency } = await getResidency();
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';
+  const fav = await getFavorites();
   const hunts = await db.huntSummary.findMany({
     where: { units: { has: name } },
     orderBy: [{ species: 'asc' }, { type: 'asc' }, { openDate: 'asc' }],
@@ -31,7 +34,7 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
       <p className="small"><Link href="/map">← Back To Unit Map</Link> · <Link href={`/hunts?unit=${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
-      <h1>Unit {unit.name}</h1>
+      <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
       {unit.boundaryChanged2022 && <div className="note">IDFG changed this unit&apos;s boundary in 2022. Harvest numbers before 2022 cover different ground.</div>}
 
@@ -46,7 +49,7 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
 
       <div className="grid2">
         <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 360 }}>
-          <UnitMap nr={nr} focus={unit.name} height="360px" />
+          <UnitMap savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" />
         </div>
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Who manages the land</h3>
@@ -64,7 +67,7 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
           <tbody>
             {hunts.map((h) => (
               <tr key={h.id}>
-                <td><Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.huntNumber ? `${h.species === 'DEER' ? 'Deer' : 'Elk'} ${h.huntNumber}` : h.name}</Link>{h.youthOnly && <span className="pill">Youth</span>}</td>
+                <td><Star kind="hunt" id={h.huntId} saved={fav.hunts.has(h.huntId)} signedIn={fav.signedIn} /><Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.huntNumber ? `${h.species === 'DEER' ? 'Deer' : 'Elk'} ${h.huntNumber}` : h.name}</Link>{h.youthOnly && <span className="pill">Youth</span>}</td>
                 <td className="small">{h.openDate ? range(h.openDate, h.closeDate) : 'See regs'}</td>
                 <td>{WEAPON[h.weapon]}</td>
                 <td>{h.species === 'DEER' ? 'Deer' : 'Elk'} · {ANTLER[h.antlerClass]}</td>

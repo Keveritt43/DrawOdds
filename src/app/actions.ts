@@ -26,10 +26,25 @@ export async function toggleSaved(huntId: number) {
   return { saved: !existing };
 }
 
+export async function toggleSavedUnit(unit: string) {
+  const session = await auth();
+  if (!session?.user) return { error: 'Sign in to save units' };
+  const name = unit.trim().toUpperCase().slice(0, 8);
+  if (!(await db.unit.findUnique({ where: { name }, select: { name: true } }))) return { error: 'Unknown unit' };
+  const key = { userId_unit: { userId: session.user.id, unit: name } };
+  const existing = await db.savedUnit.findUnique({ where: key });
+  if (existing) await db.savedUnit.delete({ where: key });
+  else await db.savedUnit.create({ data: { userId: session.user.id, unit: name } });
+  revalidatePath('/', 'layout');
+  return { saved: !existing };
+}
+
 export async function emailSignIn(formData: FormData) {
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return;
-  await signIn('resend', { email, redirectTo: String(formData.get('next') || '/account') });
+  const next = String(formData.get('next') ?? '');
+  // only same-site paths: "/hunts?x" yes, "//evil.com" or "https://..." no
+  await signIn('resend', { email, redirectTo: /^\/(?![\/\\])/.test(next) ? next : '/account' });
 }
 
 export async function doSignOut() {

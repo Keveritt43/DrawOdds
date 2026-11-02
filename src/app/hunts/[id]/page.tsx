@@ -8,7 +8,7 @@ import { historyFor } from '@/lib/history';
 import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE } from '@/lib/format';
 import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart } from '@/components/Charts';
 import { LandBar } from '@/components/LandBar';
-import { SaveButton } from '@/components/SaveButton';
+import { Star } from '@/components/Star';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,7 +58,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'start' }}>
-          <SaveButton huntId={s.huntId} saved={!!saved} signedIn={!!session?.user} />
+          <span className="btn" style={{ padding: '4px 10px' }}><Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></span>
           <a className="btn" target="_blank" rel="noreferrer"
             href={s.huntId > 0 ? `https://fishandgame.idaho.gov/ifwis/huntplanner/hunt?id=${s.huntId}` : `https://idfg.idaho.gov/sites/default/files/seasons-rules-big-game-${s.hunt.year}.pdf`}>
             {s.huntId > 0 ? 'IDFG Page' : 'IDFG Regulations'}

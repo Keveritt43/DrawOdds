@@ -283,6 +283,17 @@ model User {
   accounts      Account[]
   sessions      Session[]
   saved         SavedHunt[]
+  savedUnits    SavedUnit[]
+}
+
+/// A unit the user starred (units are stable across seasons; hunts get renumbered)
+model SavedUnit {
+  userId    String
+  unit      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, unit])
 }
 
 model SavedHunt {

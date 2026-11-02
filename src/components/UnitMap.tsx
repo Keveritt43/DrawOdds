@@ -6,6 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import Link from 'next/link';
 import { classBreaks } from '@/lib/breaks';
+import { Star } from './Star';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
@@ -57,7 +58,7 @@ interface Classes { breaks: number[]; counts: number[] }
 /** Spread n colors across a 6-color ramp, keeping the darkest. */
 const pickRamp = (ramp: string[], n: number) => Array.from({ length: n }, (_, i) => ramp[n === 1 ? ramp.length - 1 : Math.round((i * (ramp.length - 1)) / (n - 1))]);
 
-export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: string; height?: string }) {
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean }) {
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const [metric, setMetric] = useState<Metric>('public');
@@ -194,7 +195,7 @@ export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: s
         {err && <p className="small" style={{ color: 'var(--bad)' }}>{err}</p>}
         {sel ? (
           <div>
-            <h3 style={{ margin: '8px 0 4px' }}>Unit {sel.name}</h3>
+            <h3 className="star-head" style={{ margin: '8px 0 4px' }}>Unit {sel.name} <Star key={sel.name} kind="unit" id={sel.name} saved={savedUnits.includes(sel.name)} signedIn={signedIn} label /></h3>
             <div className="small muted">{sel.elkZone ? `${sel.elkZone} elk zone` : ''}{sel.acres ? ` · ${Math.round(Number(sel.acres)).toLocaleString()} acres` : ''}</div>
             <table className="small" style={{ width: '100%', marginTop: 6 }}>
               <tbody>

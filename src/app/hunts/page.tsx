@@ -7,6 +7,8 @@ import { FilterRail } from '@/components/FilterRail';
 import { HuntMap } from '@/components/HuntMap';
 import { SortSelect } from '@/components/SortSelect';
 import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE } from '@/lib/format';
+import { getFavorites } from '@/lib/favorites';
+import { Star } from '@/components/Star';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Filtering: Find An Idaho Hunt - DrawOdds' };
@@ -43,7 +45,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const { residency } = await getResidency();
   const nr = residency === 'NONRESIDENT';
   const rf = residencyFields(residency);
-  const rows = await db.huntSummary.findMany({ where: buildWhere(f, residency), orderBy: buildOrder(f, residency), take: MAX_ROWS });
+  const [rows, fav] = await Promise.all([
+    db.huntSummary.findMany({ where: buildWhere(f, residency), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
+    getFavorites(),
+  ]);
 
   // group into unit / area cards, in the order the sort put their best hunt
   const groups = new Map<string, Group>();
@@ -99,7 +104,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           const big = best(g, 'bigPct5');
           return (
             <article key={g.key} className={`ucard ${f.unit && first.units.includes(f.unit) ? 'sel' : ''}`}>
-              <h2>
+              <h2 className="star-head">
+                {g.kind === 'unit' && <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />}
                 <Link href={g.kind === 'unit' ? `/units/${encodeURIComponent(g.name)}` : `/hunts/${encodeURIComponent(first.id)}`}>{g.title}</Link>
               </h2>
               {desc && <p className="desc">{desc.length > 150 ? `${desc.slice(0, 150)}…` : desc}</p>}
@@ -115,9 +121,12 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                 return (
                   <div key={r.id} className="hrow">
                     <div className="hrow-top">
-                      <Link href={`/hunts/${encodeURIComponent(r.id)}`}>
-                        {r.huntNumber ? `Hunt ${r.huntNumber} · ` : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}
-                      </Link>
+                      <span className="star-head">
+                        <Star kind="hunt" id={r.huntId} saved={fav.hunts.has(r.huntId)} signedIn={fav.signedIn} />
+                        <Link href={`/hunts/${encodeURIComponent(r.id)}`}>
+                          {r.huntNumber ? `Hunt ${r.huntNumber} · ` : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}
+                        </Link>
+                      </span>
                       <span className="small muted">{r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : 'OTC') : `${int(r.tags)} tags`}</span>
                     </div>
                     <div className="dates">{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</div>
