@@ -222,7 +222,7 @@ type UnitRow = { name: string; publicPct: number | null; privatePct: number | nu
  */
 async function nrTagSummary(
   h: { idfgId: number; species: 'DEER' | 'ELK'; rawText: string | null; units: string[] },
-  base: Prisma.HuntSummaryCreateManyInput,
+  base: Omit<Prisma.HuntSummaryCreateManyInput, 'id'>,
   unitMap: Map<string, UnitRow>,
 ): Promise<Prisma.HuntSummaryCreateManyInput | null> {
   const [, key, code] = (h.rawText ?? '').split('|');

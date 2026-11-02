@@ -59,7 +59,7 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
     for (const h of harv) {
       const p = at(h.year);
       const add = (k: keyof YearPoint, v: number | null) => {
-        if (v !== null) (p as Record<string, number>)[k] = ((p[k] as number | undefined) ?? 0) + v;
+        if (v !== null) (p as unknown as Record<string, number>)[k] = ((p[k] as number | undefined) ?? 0) + v;
       };
       add('hunters', h.hunters);
       add('harvest', h.harvest);
