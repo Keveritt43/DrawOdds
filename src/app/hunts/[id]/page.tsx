@@ -43,7 +43,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const rows = history.filter((h) => h.permits != null || h.resApps != null || h.hunters != null).sort((a, b) => b.year - a.year);
   const drawn = rows.filter((h) => h.permits != null || h.resApps != null);
   // general season in a redrawn unit: years before the change are shown but not counted (different ground)
-  const since = !ctl && !s.nrTag ? boundarySince(s.unit) : null;
+  // (a deer tag covers one unit, so the same rule applies; multi-unit elk zone tags skip per unit in the totals)
+  const since = ctl ? null : boundarySince(s.nrTag ? (s.units.length === 1 ? s.units[0] : null) : s.unit);
   const harvested = rows.filter((h) => h.hunters != null && (!since || h.year >= since));
   const nHarv = Math.min(5, harvested.length);
   const sum = (xs: typeof rows, f: (h: (typeof rows)[number]) => number | null | undefined) => xs.slice(0, 5).reduce((a, h) => a + (f(h) ?? 0), 0);
@@ -166,7 +167,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           </table>
           <p className="small muted" style={{ margin: '6px 0 0' }}>
             {ctl ? 'Drawing = first choice. ' : ''}{ctl ? '5-yr = the last 5 drawings and the last 5 harvest years (harvest is reported a season after the draw)' : `${nHarv}-yr = the last ${nHarv} harvest years`}, totaled: {ctl ? 'drawn ÷ applied and harvest ÷ hunters' : 'harvest ÷ hunters'}, not an average of yearly percents.
-            {since ? ` Unit ${s.unit}'s boundary changed in ${since}: earlier years (shaded) cover different ground and aren't counted.` : ''}
+            {since ? ` Unit ${s.unit ?? s.units[0]}'s boundary changed in ${since}: earlier years (shaded) cover different ground and aren't counted.` : ''}
           </p>
         </div>
       )}
