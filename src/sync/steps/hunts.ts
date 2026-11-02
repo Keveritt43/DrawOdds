@@ -115,7 +115,7 @@ export async function syncHunts(): Promise<StepResult> {
   // hunts already stored this season (seen on an earlier night, before they closed) count as listed too
   const stored = await db.hunt.findMany({ where: { year: { gte: season } } });
   for (const h of stored) {
-    if (!rows.has(h.idfgId) && h.source !== 'regs' && h.source !== 'harvest') {
+    if (!rows.has(h.idfgId) && h.source !== 'regs' && h.source !== 'harvest' && h.source !== 'nrtag') {
       const { updatedAt: _u, ...data } = h;
       rows.set(h.idfgId, data as Row);
     }
@@ -211,10 +211,10 @@ export async function syncHunts(): Promise<StepResult> {
     }
     // Keep this season's hunts even when they drop off IDFG's lists (they closed). Drop older seasons
     // nobody saved, and stand-in rows that a real IDFG listing has since replaced.
-    await tx.hunt.deleteMany({ where: { year: { lt: season }, saved: { none: {} } } });
+    await tx.hunt.deleteMany({ where: { year: { lt: season }, source: { not: 'nrtag' }, saved: { none: {} } } });
     await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { in: ['regs', 'harvest'] }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
     // and anything this season that is no longer listed anywhere (e.g. outfitter-allocation hunts)
-    await tx.hunt.deleteMany({ where: { year: { gte: season }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
+    await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { not: 'nrtag' }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
   }, { timeout: 180_000 });
 
   return { rows: rows.size, details };

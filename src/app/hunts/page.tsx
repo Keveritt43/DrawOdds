@@ -16,7 +16,7 @@ export const metadata = { title: 'Filtering: Find An Idaho Hunt - DrawOdds' };
 
 const MAX_ROWS = 800;
 
-type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; rows: HuntSummary[] };
+type Group = { key: string; title: string; kind: 'unit' | 'area' | 'zone'; name: string; rows: HuntSummary[] };
 
 /** Active filters as removable chips over the map. */
 function chips(f: Filters, nr: boolean): { label: string; href: string }[] {
@@ -54,18 +54,21 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   // group into unit / area cards, in the order the sort put their best hunt
   const groups = new Map<string, Group>();
   for (const r of rows) {
-    const kind = r.type === 'GENERAL' ? 'unit' : 'area';
+    // nonresident elk tags are per zone; deer tags are per unit and sit with that unit's general seasons
+    const kind: Group['kind'] = r.nrTag && !r.unit ? 'zone' : r.type === 'GENERAL' ? 'unit' : 'area';
     const name = (kind === 'unit' ? r.unit : r.areaName) ?? '?';
     const key = `${r.species}|${kind}|${name}`;
     const g = groups.get(key) ?? groups.set(key, {
       key, kind, name, rows: [],
-      title: `${kind === 'unit' ? 'Unit' : 'Hunt Area'} ${name} · ${r.species === 'ELK' ? 'Elk' : 'Deer'}`,
+      title: kind === 'zone' ? `${name} · Elk` : `${kind === 'unit' ? 'Unit' : 'Hunt Area'} ${name} · ${r.species === 'ELK' ? 'Elk' : 'Deer'}`,
     }).get(key)!;
     g.rows.push(r);
   }
   const list = [...groups.values()];
   // looking at one unit: its general seasons first, then the controlled hunt areas (sort order kept within each)
-  if (f.unit) list.sort((a, b) => (a.kind === 'unit' ? 0 : 1) - (b.kind === 'unit' ? 0 : 1));
+  if (f.unit) list.sort((a, b) => (a.kind === 'area' ? 1 : 0) - (b.kind === 'area' ? 1 : 0));
+  // within a unit card: the nonresident tag(s) first for nonresidents, then the general seasons
+  for (const g of list) if (g.kind === 'unit') g.rows.sort((a, b) => Number(b.nrTag) - Number(a.nrTag));
   const matched = [...new Set(rows.flatMap((r) => r.units))];
   const areaIds = [...new Set(rows.map((r) => r.areaId).filter((x): x is number => !!x))];
   const areas = new Map(
@@ -101,7 +104,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         )}
         {list.map((g) => {
           const first = g.rows[0];
-          const desc = g.kind === 'area'
+          const desc = g.kind === 'zone'
+            ? `Units ${first.units.join(', ')}`
+            : g.kind === 'area'
             ? (first.areaId ? areas.get(first.areaId)?.description : null) ?? (first.units.length ? `Units ${first.units.join(', ')}` : '')
             : unitInfo.get(g.name)?.elkZone ? `${unitInfo.get(g.name)!.elkZone} elk zone` : '';
           const big = best(g, 'bigPct5');
@@ -128,19 +133,27 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       <span className="star-head">
                         <Star kind="hunt" id={r.huntId} saved={fav.hunts.has(r.huntId)} signedIn={fav.signedIn} />
                         <Link href={`/hunts/${encodeURIComponent(r.id)}`}>
-                          {r.huntNumber ? `Hunt ${r.huntNumber} · ` : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}
+                          {r.nrTag ? `${tagLabel(r)}${r.tagCode ? ` · ${r.tagCode}` : ''}` : <>{r.huntNumber ? `Hunt ${r.huntNumber} · ` : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}</>}
                         </Link>
+                        {r.nrTag && <span className="pill ctl">NR Tag Draw</span>}
                       </span>
-                      <span className="small muted">{r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : 'OTC') : `${int(r.tags)} tags`}</span>
+                      <span className="small muted">
+                        {r.nrTag ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '-') : r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : nr ? 'NR tag required' : 'OTC') : `${int(r.tags)} tags`}
+                      </span>
                     </div>
-                    <div className="dates">{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</div>
+                    <div className="dates">
+                      {r.nrTag
+                        ? `Nonresident general tag · ${r.species === 'ELK' ? `units ${r.units.join(', ')}` : `unit ${r.unit}`} · seasons: see the ${r.species === 'ELK' ? 'zone' : 'unit'}`
+                        : <>{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</>}
+                    </div>
                     <div className="hrow-stats">
                       <div>Draw Odds{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
-                          {r.type === 'GENERAL' ? 'OTC' : pct(oddsLast, oddsLast !== null && oddsLast < 0.1 ? 1 : 0)}
+                          {r.type === 'GENERAL' && !r.nrTag ? (nr ? 'Tag' : 'OTC') : pct(oddsLast, oddsLast !== null && oddsLast < 0.1 ? 1 : 0)}
                           {r.type === 'CONTROLLED' && <Delta now={oddsLast} prev={r[rf.oddsPrev]} kind="pts" good="up" />}
                         </b>
                         {r.type === 'CONTROLLED' && <span className="sub">5-yr {pct(odds, odds !== null && odds < 0.1 ? 1 : 0)}</span>}
+                        {r.nrTag && <span className="sub">1st choice</span>}
                       </div>
                       <div>Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}
                         <b>{pct(r.successLast)}<Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" /></b>
@@ -150,7 +163,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       </div>
                       <div>Applicants{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
-                          {r.type === 'GENERAL' ? '-' : int(apps)}
+                          {r.type === 'GENERAL' && !r.nrTag ? '-' : int(apps)}
                           {r.type === 'CONTROLLED' && <Delta now={apps} prev={r[rf.appsPrev]} kind="pct" good="down" />}
                         </b>
                         {r.type === 'CONTROLLED' && r.appsLast !== null && <span className="sub">all {int(r.appsLast)}</span>}
@@ -192,4 +205,10 @@ function Delta({ now, prev, kind, good }: { now: number | null | undefined; prev
       {d > 0 ? '▲' : '▼'}{kind === 'pts' ? (v < 10 ? v.toFixed(1) : Math.round(v)) : Math.round(v)}{kind === 'pts' ? ' pts' : '%'}
     </span>
   );
+}
+
+/** "A Tag" / "Regular Deer Tag" / "White-tailed Deer Tag" for a nonresident general tag row. */
+function tagLabel(r: HuntSummary): string {
+  if (r.species === 'ELK') return `${(r.id.split(':')[3] ?? '').toUpperCase()} Tag`;
+  return r.tagCode?.startsWith('WD') ? 'White-tailed Deer Tag' : 'Regular Deer Tag';
 }

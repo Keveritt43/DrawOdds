@@ -8,7 +8,8 @@ import { ResidencySwitch } from './ResidencySwitch';
 type Opt = [value: string, label: string];
 
 const SPECIES: Opt[] = [['', 'Deer & Elk'], ['ELK', 'Elk'], ['DEER', 'Deer']];
-const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General (OTC)']];
+const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons']];
+const NRTAG: Opt = ['NRTAG', 'General Tag Draw (Nonresident)'];
 const WEAPONS: Opt[] = [['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader'], ['SHORT_RANGE', 'Short Range']];
 const ANTLER: Opt[] = [['ANTLERED', 'Antlered'], ['ANTLERLESS', 'Antlerless'], ['EITHER', 'Either Sex']];
 const MONTHS: Opt[] = [['8', 'Aug'], ['9', 'Sep'], ['10', 'Oct'], ['11', 'Nov'], ['12', 'Dec'], ['1', 'Jan']];
@@ -72,7 +73,10 @@ export function FilterRail({ residency }: { residency: Residency }) {
           <p className="small muted" style={{ margin: '8px 0 0' }}>Every draw odds number follows this. Signed in, it&apos;s saved to your profile.</p>
         </Section>
         <Section title="Species" value={labelOf(SPECIES, get('species'))} set={!!get('species')}>{radio('species', SPECIES)}</Section>
-        <Section title="Hunt Type" value={labelOf(TYPES, get('type'))} set={!!get('type')}>{radio('type', TYPES)}</Section>
+        <Section title="Hunt Type" value={labelOf(nr ? [...TYPES, NRTAG] : TYPES, get('type'))} set={!!get('type')}>
+          {radio('type', nr ? [...TYPES, NRTAG] : TYPES)}
+          {nr && <p className="small muted" style={{ margin: '6px 0 0' }}>Since 2026, nonresident general deer and elk tags are drawn: elk by zone (A or B tag), deer by unit (regular or white-tailed). General Tag Draw lists each tag with its odds and quota.</p>}
+        </Section>
         <Section title={`Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
           <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
           <p className="small muted" style={{ margin: '6px 0 0' }}>First choice, 5-year total. General hunts have no draw and always show.</p>

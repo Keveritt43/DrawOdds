@@ -53,7 +53,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
         <div>
           <h1>{title}</h1>
           <div className="muted">
-            {s.type === 'GENERAL' ? `${s.name} · unit ${s.unit}` : `Hunt area ${s.areaName}`} · {s.openDate ? range(s.openDate, s.closeDate) : 'dates: see regulations'} ·{' '}
+            {s.nrTag ? `Nonresident general tag${s.tagCode ? ` ${s.tagCode}` : ''} · units ${s.units.join(', ')}` : s.type === 'GENERAL' ? `${s.name} · unit ${s.unit}` : `Hunt area ${s.areaName}`} · {s.openDate ? range(s.openDate, s.closeDate) : 'dates: see regulations'} ·{' '}
             {WEAPON[s.weapon]} · {ANTLER[s.antlerClass]}
             {s.tags ? ` · ${int(s.tags)} tags` : s.type === 'GENERAL' ? ' · over the counter' : ' · unlimited tags'}
           </div>
@@ -61,12 +61,13 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
         <div style={{ display: 'flex', gap: 8, alignItems: 'start' }}>
           <span className="btn" style={{ padding: '4px 10px' }}><Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></span>
           <a className="btn" target="_blank" rel="noreferrer"
-            href={s.huntId > 0 ? `https://fishandgame.idaho.gov/ifwis/huntplanner/hunt?id=${s.huntId}` : `https://idfg.idaho.gov/sites/default/files/seasons-rules-big-game-${s.hunt.year}.pdf`}>
-            {s.huntId > 0 ? 'IDFG Page' : 'IDFG Regulations'}
+            href={s.nrTag ? `https://idfg.idaho.gov/sites/default/files/nonresident-draw-data-and-descriptions_${(s.nrDraw as { year?: number } | null)?.year ?? s.hunt.year}-draw.pdf` : s.huntId > 0 ? `https://fishandgame.idaho.gov/ifwis/huntplanner/hunt?id=${s.huntId}` : `https://idfg.idaho.gov/sites/default/files/seasons-rules-big-game-${s.hunt.year}.pdf`}>
+            {s.nrTag ? 'IDFG Draw Results' : s.huntId > 0 ? 'IDFG Page' : 'IDFG Regulations'}
           </a>
         </div>
       </div>
 
+      {s.nrTag && <NrTagCard s={s} />}
       <div className="stats">
         {s.type === 'CONTROLLED' && (
           <>
@@ -155,5 +156,46 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
         Mule/whitetail and trophy counts are back-calculated from IDFG&apos;s rounded percentages: direction, not precision.
       </p>
     </main>
+  );
+}
+
+type NrDrawJson = { year: number; tags: number; applied: number[]; drew: number[] };
+
+/** Nonresident general tag: the draw by choice, quota, units, and how the draw works. */
+function NrTagCard({ s }: { s: { nrDraw: unknown; quota: number | null; quotaYear: number | null; capped: boolean; units: string[]; tagCode: string | null; species: string } }) {
+  const d = s.nrDraw as NrDrawJson | null;
+  const ord = ['1st', '2nd', '3rd', '4th', '5th'];
+  return (
+    <div className="card" style={{ marginTop: 16 }}>
+      <h3 style={{ marginTop: 0 }}>Nonresident General Tag Draw</h3>
+      <div className="stats" style={{ marginTop: 0 }}>
+        <div className="stat"><div className="k">{d ? `${d.year} 1st-choice odds` : '1st-choice odds'}</div><div className="v">{d?.applied[0] ? `${Math.min(100, (100 * d.drew[0]) / d.applied[0]).toFixed(1)}%` : '-'}</div></div>
+        <div className="stat"><div className="k">{d ? `${d.year} tags` : 'Tags'}</div><div className="v">{d ? int(d.tags) : '-'}</div></div>
+        <div className="stat"><div className="k">{s.quotaYear ? `${s.quotaYear} NR quota` : 'NR quota'}</div><div className="v">{s.quota !== null ? int(s.quota) : '-'}{s.capped ? <span className="small muted"> capped</span> : null}</div></div>
+        <div className="stat"><div className="k">Apply with</div><div className="v" style={{ fontSize: 18 }}>{s.tagCode ?? '-'}</div></div>
+      </div>
+      {d && (
+        <div style={{ overflowX: 'auto' }}>
+          <table className="results compact">
+            <thead><tr><th>Choice</th><th className="num">Applied</th><th className="num">Drew</th><th className="num">Odds</th></tr></thead>
+            <tbody>
+              {d.applied.map((a, i) => (
+                <tr key={i}><td>{ord[i]}</td><td className="num">{int(a)}</td><td className="num">{int(d.drew[i] ?? 0)}</td><td className="num">{a ? `${Math.min(100, (100 * (d.drew[i] ?? 0)) / a).toFixed(1)}%` : '-'}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <p className="small">
+        Units:{' '}
+        {s.units.map((u) => <Link key={u} href={`/units/${encodeURIComponent(u)}`} className="pill" style={{ textDecoration: 'none' }}>Unit {u}</Link>)}
+      </p>
+      <p className="small muted" style={{ marginBottom: 0 }}>
+        Since 2026 Idaho draws nonresident general deer and elk tags. You list up to five hunt codes; a tag that fills from
+        1st-choice applicants never reaches later choices. Elk tags are per zone (an A or a B tag, each with its own seasons);
+        deer tags are per unit (Regular Deer, or White-tailed Deer only). Leftovers go to a second application period, then a
+        returned-tag sale. Check IDFG&apos;s nonresident general tag brochure for the current dates and rules.
+      </p>
+    </div>
   );
 }

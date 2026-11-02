@@ -53,6 +53,23 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
           mule: h.estMule, whitetail: h.estWt, big: s.species === 'ELK' ? h.est6 : h.est4,
         });
     }
+  } else if (s.nrTag) {
+    // nonresident general tag: general seasons across the tag's units, all weapons, summed per year
+    const harv = await db.generalHarvest.findMany({ where: { species: s.species, unit: { in: s.units }, takeMethod: 'All Weapons Combined' } });
+    for (const h of harv) {
+      const p = at(h.year);
+      const add = (k: keyof YearPoint, v: number | null) => {
+        if (v !== null) (p as Record<string, number>)[k] = ((p[k] as number | undefined) ?? 0) + v;
+      };
+      add('hunters', h.hunters);
+      add('harvest', h.harvest);
+      add('antlered', h.antlered);
+      add('antlerless', h.antlerless);
+      add('mule', h.estMule);
+      add('whitetail', h.estWt);
+      add('big', s.species === 'ELK' ? h.est6 : h.est4);
+    }
+    for (const p of byYear.values()) p.success = r(p.harvest, p.hunters);
   } else if (s.unit) {
     const method = METHOD[s.weapon] ?? 'All Weapons Combined';
     const harv = await db.generalHarvest.findMany({ where: { species: s.species, unit: s.unit, takeMethod: method } });

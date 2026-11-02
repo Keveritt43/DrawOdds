@@ -5,7 +5,7 @@ export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big
 
 export interface Filters {
   species: 'DEER' | 'ELK' | '';
-  type: 'CONTROLLED' | 'GENERAL' | '';
+  type: 'CONTROLLED' | 'GENERAL' | 'NRTAG' | ''; // NRTAG = nonresident general tag draw
   weapon: ('ANY' | 'ARCHERY' | 'MUZZLELOADER' | 'SHORT_RANGE')[];
   antler: ('ANTLERED' | 'ANTLERLESS' | 'EITHER')[];
   months: number[]; // 8 = Aug ... 12 = Dec, 1 = Jan
@@ -39,7 +39,7 @@ export function parseFilters(sp: SP): Filters {
   const sort = one(sp.sort) as Sort;
   return {
     species: pick([one(sp.species)], ['DEER', 'ELK'] as const)[0] ?? '',
-    type: pick([one(sp.type)], ['CONTROLLED', 'GENERAL'] as const)[0] ?? '',
+    type: pick([one(sp.type)], ['CONTROLLED', 'GENERAL', 'NRTAG'] as const)[0] ?? '',
     weapon: pick(list(sp.weapon), ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE'] as const),
     antler: pick(list(sp.antler), ['ANTLERED', 'ANTLERLESS', 'EITHER'] as const),
     months: list(sp.month).map(Number).filter((m) => m >= 1 && m <= 12),
@@ -71,9 +71,13 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   const rf = residencyFields(r);
   const and: Prisma.HuntSummaryWhereInput[] = [];
   if (f.species) and.push({ species: f.species });
-  if (f.type) and.push({ type: f.type });
-  if (f.weapon.length) and.push({ weapon: { in: f.weapon } });
-  if (f.antler.length) and.push({ antlerClass: { in: f.antler } });
+  // nonresident general tags only exist for nonresidents (residents buy general tags over the counter)
+  if (r !== 'NONRESIDENT') and.push({ nrTag: false });
+  if (f.type === 'NRTAG') and.push({ nrTag: true });
+  else if (f.type) and.push({ type: f.type });
+  // a tag covers several weapons and sexes (its seasons do the narrowing), so those filters let tags through
+  if (f.weapon.length) and.push({ OR: [{ weapon: { in: f.weapon } }, { nrTag: true }] });
+  if (f.antler.length) and.push({ OR: [{ antlerClass: { in: f.antler } }, { nrTag: true }] });
   if (f.deerType.length) and.push({ deerType: { in: f.deerType } });
   // hunt is open at some point during any chosen month (works for Dec-Jan seasons too)
   if (f.months.length) and.push({ months: { hasSome: f.months } });

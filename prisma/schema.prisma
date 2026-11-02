@@ -264,6 +264,14 @@ model HuntSummary {
   acres          Float?
 
   boundaryChanged Boolean  @default(false)
+
+  // nonresident general-season tag draw (one row per elk zone A/B tag, RD/WD deer unit tag)
+  nrTag     Boolean @default(false)
+  tagCode   String? // "ELK21" / "RD39" (hunt code you apply with)
+  quota     Int? // nonresident quota for quotaYear
+  quotaYear Int?
+  capped    Boolean @default(false)
+  nrDraw    Json? // { year, tags, applied: [1st..5th], drew: [...] }
   updatedAt       DateTime @updatedAt
 
   @@index([species, type, weapon, antlerClass])
@@ -350,4 +358,32 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+/// Nonresident general tag draw results (IDFG nonresident-draw-data PDF), one row per year + tag
+model NrDraw {
+  id      String  @id // "2026|ELK:McCall:A" / "2026|RD01"
+  year    Int
+  species Species
+  kind    String // ELK | RD | WD
+  code    String // "ELK:McCall:A" / "RD01"
+  zone    String?
+  tag     String? // A | B (elk)
+  unit    String? // deer
+  tags    Int
+  applied Int[] // 1st..5th choice
+  drew    Int[]
+
+  @@index([code, year])
+}
+
+/// Nonresident general tag quotas (IDFG supplemental proclamation), one row per year + hunt code
+model NrQuota {
+  id      String  @id // "2027|ELK21"
+  year    Int
+  code    String // ELK21 / RD39 / WD10A
+  quota   Int
+  capped  Boolean @default(false)
+
+  @@index([code, year])
 }

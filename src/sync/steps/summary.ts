@@ -8,6 +8,7 @@ import {
   tagAndFill,
   BOUNDARY_CHANGED_2022,
   monthsOpen,
+  odds as capOdds,
   type OddsRow,
   type HarvestRow,
 } from '../core/math';
@@ -61,6 +62,12 @@ export async function buildSummaries(): Promise<StepResult> {
       youthOnly: h.youthOnly,
       units: h.units,
     };
+
+    if (h.source === 'nrtag') {
+      const row = await nrTagSummary(h, base, unitMap);
+      if (row) out.push(row);
+      continue;
+    }
 
     if (h.type === 'CONTROLLED' && h.huntNumber) {
       // the hunt's most recent drawing-odds row tells us its area
@@ -205,4 +212,73 @@ export async function buildSummaries(): Promise<StepResult> {
     { timeout: 120_000 },
   );
   return { rows: out.length, details: details.slice(0, 200) };
+}
+
+type UnitRow = { name: string; publicPct: number | null; privatePct: number | null; accessYesAcres: number | null; accessYesCount: number | null; acres: number | null };
+
+/**
+ * One nonresident general tag (elk zone A/B, deer RD/WD unit): latest draw (1st-choice odds), newest quota,
+ * general-season success across its units (all weapons, last 5 seasons) and acreage-weighted land numbers.
+ */
+async function nrTagSummary(
+  h: { idfgId: number; species: 'DEER' | 'ELK'; rawText: string | null; units: string[] },
+  base: Prisma.HuntSummaryCreateManyInput,
+  unitMap: Map<string, UnitRow>,
+): Promise<Prisma.HuntSummaryCreateManyInput | null> {
+  const [, key, code] = (h.rawText ?? '').split('|');
+  if (!key) return null;
+  const [draw, quota] = await Promise.all([
+    db.nrDraw.findFirst({ where: { code: key }, orderBy: { year: 'desc' } }),
+    code ? db.nrQuota.findFirst({ where: { code }, orderBy: { year: 'desc' } }) : null,
+  ]);
+  const gen = await db.generalHarvest.findMany({
+    where: { species: h.species, unit: { in: h.units }, takeMethod: 'All Weapons Combined', year: { gte: thisYear() - 6 } },
+  });
+  const lastYear = Math.max(0, ...gen.map((g) => g.year));
+  const recent = gen.filter((g) => g.year > lastYear - 5);
+  const hunters = recent.reduce((a, g) => a + (g.hunters ?? 0), 0);
+  const harvest = recent.reduce((a, g) => a + (g.harvest ?? 0), 0);
+  const success = hunters ? harvest / hunters : null;
+  const nrOdds = draw ? capOdds(draw.drew[0], draw.applied[0]) : null;
+  const us = h.units.map((u) => unitMap.get(u)).filter((u): u is UnitRow => !!u && !!u.acres);
+  const acres = us.reduce((a, u) => a + u.acres!, 0);
+  const wavg = (f: (u: UnitRow) => number | null) => {
+    const w = us.filter((u) => f(u) !== null);
+    const tot = w.reduce((a, u) => a + u.acres!, 0);
+    return tot ? w.reduce((a, u) => a + f(u)! * u.acres!, 0) / tot : null;
+  };
+  const zone = key.startsWith('ELK:') ? key.split(':')[1] : null;
+  return {
+    ...base,
+    id: `t:${key}`,
+    nrTag: true,
+    tagCode: code || null,
+    areaName: zone ? `${zone} Zone` : h.units[0],
+    unit: zone ? null : h.units[0],
+    units: h.units,
+    quota: quota?.quota ?? null,
+    quotaYear: quota?.year ?? null,
+    capped: quota?.capped ?? false,
+    tags: quota?.quota ?? draw?.tags ?? null,
+    nrDraw: draw ? { year: draw.year, tags: draw.tags, applied: draw.applied, drew: draw.drew } : undefined,
+    nrOddsLast: nrOdds,
+    nrOdds5: nrOdds,
+    nrAppsLast: draw?.applied[0] ?? null,
+    appsLast: draw?.applied[0] ?? null,
+    oddsLastYear: draw?.year ?? null,
+    oddsYears: draw ? 1 : 0,
+    success5: success,
+    hunters5: hunters || null,
+    harvest5: harvest || null,
+    harvestYears: new Set(recent.map((g) => g.year)).size,
+    harvestLastYear: lastYear || null,
+    smallSample: hunters < 50,
+    nrTagAndFill: tagAndFill(nrOdds, success),
+    publicPct: wavg((u) => u.publicPct),
+    privatePct: wavg((u) => u.privatePct),
+    accessYesAcres: us.reduce((a, u) => a + (u.accessYesAcres ?? 0), 0),
+    accessYesCount: us.reduce((a, u) => a + (u.accessYesCount ?? 0), 0),
+    acres: acres || null,
+    boundaryChanged: false,
+  };
 }

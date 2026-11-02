@@ -68,7 +68,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
   const [open, setOpen] = useState(false);
-  type UH = { id: string; type: 'GENERAL' | 'CONTROLLED'; label: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
+  type UH = { id: string; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
   const [uh, setUh] = useState<{ unit: string; rows: UH[] } | null>(null);
   const selName = sel ? String(sel.name) : null;
   useEffect(() => {
@@ -266,7 +266,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                         <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.label}</Link>
                         <span className="small muted">
                           {h.antler === 'ANTLERED' ? ' · Antlered' : h.antler === 'ANTLERLESS' ? ' · Antlerless' : ''}
-                          {h.type === 'GENERAL' ? ' · OTC' : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% odds` : ''}
+                          {h.type === 'GENERAL' ? (nr ? ' · NR tag required' : ' · OTC') : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% ${h.type === 'NRTAG' ? '1st-choice ' : ''}odds` : ''}
                           {h.success5 !== null ? ` · ${Math.round(h.success5 * 100)}% success` : ''}
                         </span>
                       </li>

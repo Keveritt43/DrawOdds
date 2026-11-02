@@ -31,7 +31,8 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';
   const fav = await getFavorites();
-  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name } } }));
+  // nonresident general tags only matter to nonresidents
+  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, ...(nr ? {} : { nrTag: false }) } }));
   const pick = (k: keyof typeof FILTERS) => (FILTERS[k].some(([v]) => v && v === sp[k]) ? sp[k]! : '');
   const fSpecies = pick('species');
   const fType = pick('type');
@@ -92,15 +93,17 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
             <div className="uh-name">
               <Star kind="hunt" id={h.huntId} saved={fav.hunts.has(h.huntId)} signedIn={fav.signedIn} />
               <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{unitHuntLabel(h)}</Link>
-              <span className={`pill ${h.type === 'GENERAL' ? '' : 'ctl'}`}>{h.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
+              <span className={`pill ${h.type === 'GENERAL' && !h.nrTag ? '' : 'ctl'}`}>{h.nrTag ? 'NR Tag Draw' : h.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
               {h.youthOnly && <span className="pill">Youth</span>}
             </div>
             <div className="uh-meta">
-              {h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {ANTLER[h.antlerClass]}
-              {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : ' · Over the counter') : h.tags ? ` · ${int(h.tags)} tags` : ''}
+              {h.nrTag
+                ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''} · ${h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit'}`
+                : <>{h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {ANTLER[h.antlerClass]}
+                  {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : h.tags ? ` · ${int(h.tags)} tags` : ''}</>}
             </div>
             <div className="uh-stats">
-              {h.type === 'CONTROLLED' && <span>Odds <b>{pct(h[rf.odds5], 1)}</b></span>}
+              {(h.type === 'CONTROLLED' || h.nrTag) && <span>Odds <b>{pct(h[rf.odds5], 1)}</b></span>}
               <span>Success <b>{pct(h.success5)}</b></span>
             </div>
           </div>

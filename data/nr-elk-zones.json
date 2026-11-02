@@ -1,0 +1,564 @@
+{
+ "source": "IDFG 2027 Nonresident General Tags supplemental proclamation (seasons-rules-big-game-supplemental-proclamation-2027.pdf)",
+ "quotaYear": 2027,
+ "note": "Nonresident quotas; \"capped\" zones allocate resident, nonresident and outfitter tags from the zone cap. Hells Canyon and Owyhee have no general elk tags.",
+ "zones": [
+  {
+   "zone": "Bannock",
+   "units": [
+    "70",
+    "71",
+    "72",
+    "73",
+    "73A",
+    "74"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK1",
+     "quota": 193,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Bear River",
+   "units": [
+    "75",
+    "77",
+    "78"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK2",
+     "quota": 93,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK3",
+     "quota": 55,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Beaverhead",
+   "units": [
+    "30",
+    "30A",
+    "58",
+    "59",
+    "59A"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK4",
+     "quota": 232,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Big Desert",
+   "units": [
+    "52A",
+    "53",
+    "68",
+    "68A"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK5",
+     "quota": 68,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK6",
+     "quota": 3,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Boise River",
+   "units": [
+    "38",
+    "39"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK7",
+     "quota": 29,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK8",
+     "quota": 387,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Brownlee",
+   "units": [
+    "31"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK9",
+     "quota": 45,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK10",
+     "quota": 40,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Diamond Creek",
+   "units": [
+    "66A",
+    "76"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK11",
+     "quota": 377,
+     "capped": true
+    },
+    {
+     "tag": "B",
+     "code": "ELK12",
+     "quota": 11,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Dworshak",
+   "units": [
+    "10A"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK13",
+     "quota": 144,
+     "capped": true
+    },
+    {
+     "tag": "B",
+     "code": "ELK14",
+     "quota": 197,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Elk City",
+   "units": [
+    "14",
+    "15",
+    "16"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK15",
+     "quota": 74,
+     "capped": true
+    },
+    {
+     "tag": "B",
+     "code": "ELK16",
+     "quota": 252,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Island Park",
+   "units": [
+    "60",
+    "60A",
+    "61",
+    "62",
+    "62A"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK17",
+     "quota": 189,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Lemhi",
+   "units": [
+    "29",
+    "37",
+    "37A",
+    "51"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK18",
+     "quota": 28,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Lolo",
+   "units": [
+    "10",
+    "12"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK19",
+     "quota": 198,
+     "capped": true
+    },
+    {
+     "tag": "B",
+     "code": "ELK20",
+     "quota": 222,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "McCall",
+   "units": [
+    "19A",
+    "23",
+    "24",
+    "25"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK21",
+     "quota": 304,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK22",
+     "quota": 310,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Middle Fork",
+   "units": [
+    "20A",
+    "26",
+    "27"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK23",
+     "quota": 174,
+     "capped": true
+    },
+    {
+     "tag": "B",
+     "code": "ELK24",
+     "quota": 267,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Palisades",
+   "units": [
+    "64",
+    "65",
+    "67"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK25",
+     "quota": 1,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK26",
+     "quota": 46,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Palouse",
+   "units": [
+    "8",
+    "8A",
+    "11A"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK27",
+     "quota": 114,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK28",
+     "quota": 187,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Panhandle",
+   "units": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "4A",
+    "5",
+    "6",
+    "7",
+    "9"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK29",
+     "quota": 680,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK30",
+     "quota": 1052,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Pioneer",
+   "units": [
+    "36A",
+    "49",
+    "50"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK31",
+     "quota": 134,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK32",
+     "quota": 2,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Salmon",
+   "units": [
+    "21",
+    "21A",
+    "28",
+    "36B"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK33",
+     "quota": 30,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK34",
+     "quota": 615,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Sawtooth",
+   "units": [
+    "33",
+    "34",
+    "35",
+    "36"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK35",
+     "quota": 73,
+     "capped": true
+    },
+    {
+     "tag": "B",
+     "code": "ELK36",
+     "quota": 188,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Selway",
+   "units": [
+    "16A",
+    "17",
+    "19",
+    "20"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK37",
+     "quota": 254,
+     "capped": true
+    },
+    {
+     "tag": "B",
+     "code": "ELK38",
+     "quota": 284,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Smoky-Bennett",
+   "units": [
+    "43",
+    "44",
+    "45",
+    "48",
+    "52"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK39",
+     "quota": 184,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK40",
+     "quota": 5,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Snake River",
+   "units": [
+    "63",
+    "63A"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK41",
+     "quota": 8,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "South Hills",
+   "units": [
+    "46",
+    "47",
+    "54",
+    "55",
+    "56",
+    "57"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK42",
+     "quota": 44,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK43",
+     "quota": 10,
+     "capped": true
+    }
+   ]
+  },
+  {
+   "zone": "Tex Creek",
+   "units": [
+    "66",
+    "69"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK44",
+     "quota": 96,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK45",
+     "quota": 165,
+     "capped": false
+    }
+   ]
+  },
+  {
+   "zone": "Weiser River",
+   "units": [
+    "22",
+    "32",
+    "32A"
+   ],
+   "tags": [
+    {
+     "tag": "A",
+     "code": "ELK46",
+     "quota": 229,
+     "capped": false
+    },
+    {
+     "tag": "B",
+     "code": "ELK47",
+     "quota": 332,
+     "capped": false
+    }
+   ]
+  }
+ ]
+}
