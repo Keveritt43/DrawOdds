@@ -119,7 +119,8 @@ export function lineage(current: OddsRow, history: OddsRow[]): Map<number, numbe
                 Math.abs(a.huntNumber - current.huntNumber) - Math.abs(b.huntNumber - current.huntNumber),
             )[0];
     // a hunt whose tag count is wildly different is a different hunt, not a renumbered one
-    if (best && relDiff(best.permits ?? 0, target) <= 1) out.set(year, best.huntNumber);
+    // (300 -> 500 tags is 0.4; 1 -> 200 is 0.995 and must not match)
+    if (best && relDiff(best.permits ?? 0, target) <= 0.6) out.set(year, best.huntNumber);
   }
   return out;
 }

@@ -83,7 +83,11 @@ export async function syncHunts(): Promise<StepResult> {
   // The hunt lists only show hunts that haven't closed yet. The regs list every controlled hunt for the
   // season, so they are the master list for controlled hunts: fill in anything missing and correct
   // dates / tags / weapon / sex from them.
-  const regs = loadRegs(season);
+  // Outfitter allocation tags are sold through outfitters, not the public draw: no odds to show, so don't list them
+  const allRegs = loadRegs(season);
+  const outfitter = new Set(allRegs.filter((r) => /outfitter/i.test(r.section)).map((r) => `${r.species}|${r.huntNumber}`));
+  const regs = allRegs.filter((r) => !outfitter.has(`${r.species}|${r.huntNumber}`));
+  if (outfitter.size) details.push(`Skipped ${outfitter.size} outfitter-allocation hunts (not in the public draw)`);
   if (!regs.length) details.push(`No data/controlled-hunts-${season}.json - controlled hunts that already closed this season will be missing`);
   type Row = Parameters<typeof db.hunt.create>[0]['data'];
   const rows = new Map<number, Row>();
@@ -116,6 +120,7 @@ export async function syncHunts(): Promise<StepResult> {
       rows.set(h.idfgId, data as Row);
     }
   }
+  for (const [id, x] of rows) if (x.type === 'CONTROLLED' && outfitter.has(`${x.species}|${x.huntNumber}`)) rows.delete(id);
   let added = 0;
   let corrected = 0;
   for (const r of regs) {
@@ -206,6 +211,8 @@ export async function syncHunts(): Promise<StepResult> {
     // nobody saved, and stand-in rows that a real IDFG listing has since replaced.
     await tx.hunt.deleteMany({ where: { year: { lt: season }, saved: { none: {} } } });
     await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { in: ['regs', 'harvest'] }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
+    // and anything this season that is no longer listed anywhere (e.g. outfitter-allocation hunts)
+    await tx.hunt.deleteMany({ where: { year: { gte: season }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
   }, { timeout: 180_000 });
 
   return { rows: rows.size, details };

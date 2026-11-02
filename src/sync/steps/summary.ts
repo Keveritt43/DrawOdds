@@ -31,8 +31,15 @@ export async function buildSummaries(): Promise<StepResult> {
   for (const o of odds) (oddsBy.get(`${o.species}|${o.areaName}`) ?? oddsBy.set(`${o.species}|${o.areaName}`, []).get(`${o.species}|${o.areaName}`)!).push(o);
 
   const out: Prisma.HuntSummaryCreateManyInput[] = [];
+  // only this season's hunts get listed; older rows survive only because someone saved them
+  const season = Math.max(...hunts.filter((h) => h.source === 'regs' || h.source === 'huntlist').map((h) => h.year), 0);
+  let skippedOld = 0;
 
   for (const h of hunts) {
+    if (h.year < season) {
+      skippedOld++;
+      continue;
+    }
     const base = {
       huntId: h.idfgId,
       species: h.species,
@@ -54,8 +61,9 @@ export async function buildSummaries(): Promise<StepResult> {
 
     if (h.type === 'CONTROLLED' && h.huntNumber) {
       // the hunt's most recent drawing-odds row tells us its area
+      // IDFG reuses hunt numbers across areas: the drawing history must be for this hunt's area
       const cur = odds
-        .filter((o) => o.species === h.species && o.huntNumber === h.huntNumber && o.year <= h.year)
+        .filter((o) => o.species === h.species && o.huntNumber === h.huntNumber && o.year <= h.year && (!h.areaName || o.areaName === h.areaName))
         .sort((a, b) => b.year - a.year)[0];
       if (!cur) {
         // new hunt with no draw history yet: area and units still come from the regs + GIS
@@ -180,6 +188,7 @@ export async function buildSummaries(): Promise<StepResult> {
       seen.set(k, r);
     }
   }
+  if (skippedOld) details.push(`Skipped ${skippedOld} hunts from earlier seasons (kept only because they're saved)`);
   if (deduped.length < out.length) details.push(`Merged ${out.length - deduped.length} duplicate controlled-hunt listings`);
   out.length = 0;
   out.push(...deduped);

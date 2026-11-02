@@ -206,3 +206,16 @@ test('boundary changes are only called out for this year or last year', async ()
   assert.deepEqual(recentBoundaryChanges(['49', '54'], 2023), { units: ['49'], year: 2022 });
   assert.equal(recentBoundaryChanges(['54'], 2023), null);
 });
+
+test('lineage: a 0- or 1-tag hunt is not matched to a 200-tag hunt in the same area', async () => {
+  const { lineage } = await import('../src/sync/core/math');
+  const r = (year: number, huntNumber: number, permits: number) => ({ year, draw: 1, huntNumber, areaName: '54', permits, resPermits: permits, nrPermits: 0, resApps: 1, nrApps: 0, apps1: 1 });
+  const cur = r(2024, 1171, 0);
+  const lin = lineage(cur, [r(2021, 1111, 200), r(2023, 1171, 0)]);
+  assert.equal(lin.get(2021), undefined);
+  assert.equal(lin.get(2023), 1171);
+  // a real renumbering (500 -> 300 tags) still links
+  const lin2 = lineage(r(2026, 1042, 300), [r(2020, 1040, 500), r(2022, 1041, 300), r(2022, 1043, 20)]);
+  assert.equal(lin2.get(2020), 1040);
+  assert.equal(lin2.get(2022), 1041);
+});
