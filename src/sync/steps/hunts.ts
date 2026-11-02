@@ -28,7 +28,21 @@ export async function syncHunts(): Promise<StepResult> {
   }
   if (found.size < 200) return { rows: found.size, status: 'ERROR', details: [`Only ${found.size} hunts parsed - page layout may have changed`, ...details] };
 
-  const year = thisYear();
+  // the hunt lists also show past seasons, and IDFG reuses hunt numbers: keep only the newest season
+  // the season = the most common opening year (not the max: a January opener would look like next year)
+  const counts = new Map<number, number>();
+  for (const h of found.values()) if (h.open) counts.set(Number(h.open.slice(0, 4)), (counts.get(Number(h.open.slice(0, 4))) ?? 0) + 1);
+  const season = [...counts.entries()].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0]?.[0] ?? thisYear();
+  let dropped = 0;
+  for (const [id, h] of found) {
+    // drop listings that ended before this season (a Dec-Jan hunt from last season closes in Jan of this year)
+    if (h.close && Number(h.close.slice(0, 4)) < season || (h.open && Number(h.open.slice(0, 4)) < season - 1)) {
+      found.delete(id);
+      dropped++;
+    }
+  }
+  if (dropped) details.push(`Dropped ${dropped} listings from earlier seasons (kept ${season})`);
+  const year = season;
   const noDates = [...found.values()].filter((h) => !h.open).length;
   if (noDates > found.size * 0.2) details.push(`${noDates} of ${found.size} hunts have no parsed dates - check parseHuntList`);
 

@@ -1,5 +1,6 @@
 import type { DrawOdds, Prisma } from '@prisma/client';
 import { db, thisYear, type StepResult } from '../core/context';
+import { unitsFromName, parentUnit } from '../core/parse';
 import {
   lineage,
   summarizeOdds,
@@ -69,8 +70,9 @@ export async function buildSummaries(): Promise<StepResult> {
       });
       const hs = summarizeHarvest(h.species, harvestRows as HarvestRow[]);
       const area = cur.areaId ? areaMap.get(cur.areaId) : undefined;
+      // units come from IDFG's hunt-area boundary (authoritative); fall back to the area's parent unit
       const areaUnits = ((area?.units as { unit: string; pct: number }[] | null) ?? []).map((x) => x.unit);
-      const allUnits = [...new Set([...h.units, ...areaUnits])].sort();
+      const allUnits = (areaUnits.length ? areaUnits : [parentUnit(cur.areaName)]).slice().sort();
       // land: the hunt area's own numbers; fall back to the acreage-unweighted mean of its units
       const fallback = allUnits.map((u) => unitMap.get(u)).filter(Boolean) as typeof unitRows;
       const mean = (f: (u: (typeof unitRows)[number]) => number | null) => {
@@ -105,8 +107,9 @@ export async function buildSummaries(): Promise<StepResult> {
       continue;
     }
 
-    // general hunt: one row per unit, using that unit's general-season harvest for the same weapon
-    for (const unit of h.units) {
+    // general hunt: one row per unit (named in the hunt title when possible), using that unit's harvest for the same weapon
+    const named = unitsFromName(h.name);
+    for (const unit of named.length ? named : h.units) {
       const method = METHOD[h.weapon] ?? 'All Weapons Combined';
       const rows = await db.generalHarvest.findMany({ where: { species: h.species, unit, takeMethod: method, year: { gte: thisYear() - 6 } } });
       const hs = summarizeHarvest(h.species, rows as HarvestRow[]);
@@ -134,6 +137,28 @@ export async function buildSummaries(): Promise<StepResult> {
       });
     }
   }
+
+  const seen = new Map<string, Prisma.HuntSummaryCreateManyInput>();
+  const deduped: Prisma.HuntSummaryCreateManyInput[] = [];
+  for (const r of out) {
+    if (r.type !== 'CONTROLLED' || !r.huntNumber) {
+      deduped.push(r);
+      continue;
+    }
+    const k = `${r.species}|${r.huntNumber}`;
+    const prev = seen.get(k);
+    const score = (x: Prisma.HuntSummaryCreateManyInput) => (x.openDate ? 2 : 0) + (x.tags ? 1 : 0);
+    if (!prev) {
+      seen.set(k, r);
+      deduped.push(r);
+    } else if (score(r) > score(prev)) {
+      deduped[deduped.indexOf(prev)] = r;
+      seen.set(k, r);
+    }
+  }
+  if (deduped.length < out.length) details.push(`Merged ${out.length - deduped.length} duplicate controlled-hunt listings`);
+  out.length = 0;
+  out.push(...deduped);
 
   await db.$transaction(
     async (tx) => {

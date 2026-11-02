@@ -282,3 +282,15 @@ export function findDates(text: string, defaultYear = new Date().getFullYear()):
   const iso = (y: number, m: number, d: number) => `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
   return [iso(ya, a.m, a.d), iso(yb, b.m, b.d)];
 }
+
+/** "Elk A Tag - Pioneer Zone (Units 36A, 49, 50)" -> ["36A","49","50"]; "Unit 49 Regular Deer Tag" -> ["49"]. */
+export function unitsFromName(name: string): string[] {
+  const m = name.match(/\bunits?\s+((?:\d{1,2}[A-Z]?)(?:\s*(?:,|&|and)\s*\d{1,2}[A-Z]?)*)/i);
+  if (!m) return [];
+  return [...new Set(m[1].split(/\s*(?:,|&|and)\s*/i).map((u) => u.trim().toUpperCase()).filter(Boolean))];
+}
+
+/** "36B-1" -> "36B", "1-1X" -> "1", "63AX" -> "63A", "11" -> "11". */
+export function parentUnit(area: string): string {
+  return String(area).toUpperCase().replace(/X$/, '').replace(/-\d+$/, '');
+}

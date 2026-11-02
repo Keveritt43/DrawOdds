@@ -164,3 +164,12 @@ test('findDates handles every IDFG date style', async () => {
   assert.deepEqual(findDates('Dates: December 1 - January 15', 2026), ['2026-12-01', '2027-01-15']);
   assert.equal(findDates('Unlimited tags, any weapon'), null);
 });
+
+test('units from hunt names; parent unit of a hunt area', async () => {
+  const { unitsFromName, parentUnit } = await import('../src/sync/core/parse');
+  assert.deepEqual(unitsFromName('Elk A Tag - Pioneer Zone (Units 36A, 49, 50)'), ['36A', '49', '50']);
+  assert.deepEqual(unitsFromName('Unit 49 Regular Deer Tag'), ['49']);
+  assert.deepEqual(unitsFromName('Elk Controlled Hunt 2138'), []);
+  assert.equal(parentUnit('36B-1'), '36B');
+  assert.equal(parentUnit('63AX'), '63A');
+});
