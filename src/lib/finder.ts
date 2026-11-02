@@ -1,7 +1,7 @@
 import type { Prisma, Residency } from '@prisma/client';
 
-export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow';
-export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow'];
+export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
+export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
 
 export interface Filters {
   species: 'DEER' | 'ELK' | '';
@@ -125,6 +125,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
       return [desc('hunters5'), desc('success5')];
     case 'huntersLow':
       return [asc('hunters5'), desc('success5')];
+    case 'densityLow':
+      return [asc('huntersSqMi'), desc('success5')];
     case 'apps':
       return [desc('appsLast'), desc(rf.odds5)];
     case 'appsLow':

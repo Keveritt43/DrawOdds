@@ -236,6 +236,8 @@ export async function buildSummaries(): Promise<StepResult> {
 
   // Access Yes! is mostly private land opened by lease, so it is reported separately from public land
   for (const r of out) {
+    // crowding: average yearly hunters for this hunt / season (same years as its success) per square mile
+    if (r.hunters5 && r.harvestYears && r.acres) r.huntersSqMi = r.hunters5 / r.harvestYears / (r.acres / 640);
     if (r.acres && r.accessYesAcres !== null && r.accessYesAcres !== undefined) {
       r.accessYesPct = Math.min(100, (r.accessYesAcres / r.acres) * 100);
     }

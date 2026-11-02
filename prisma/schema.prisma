@@ -246,6 +246,7 @@ model HuntSummary {
   antlerlessShare5 Float?
   harvestYears     Int     @default(0)
   harvestLastYear  Int?
+  huntersSqMi      Float? // average yearly hunters (same years as success5) / square miles of the hunt area, unit or tag units
   successLast      Float?
   successPrev      Float? // the season before (null unless it was the year before)
   smallSample      Boolean @default(false)

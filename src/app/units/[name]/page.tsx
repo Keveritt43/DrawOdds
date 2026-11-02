@@ -106,6 +106,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
             <div className="uh-stats">
               {(h.type === 'CONTROLLED' || h.nrTag || (nr && h.nrOdds5 !== null)) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pct(h[rf.odds5], 1)}</b></span>}
               <span>Success <b>{pct(h.success5)}</b></span>
+              {h.huntersSqMi !== null && <span>Hunters/mi² <b>{h.huntersSqMi < 10 ? h.huntersSqMi.toFixed(1) : Math.round(h.huntersSqMi)}</b></span>}
             </div>
           </div>
         ))}

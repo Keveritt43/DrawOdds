@@ -186,7 +186,8 @@ table.results .num { text-align: right; white-space: nowrap; }
 .hrow-top { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
 .hrow-top a { font-weight: 700; color: var(--ink); text-decoration: none; } .hrow-top a:hover { color: var(--accent); }
 .hrow .dates { font-size: .82rem; color: var(--muted); }
-.hrow-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+.hrow-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+@media (max-width: 420px) { .hrow-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 10px; } }
 .hrow-stats div { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; font-weight: 600; }
 .hrow-stats b { display: block; font: 700 1.2rem/1.1 var(--font-display); color: var(--ink); text-transform: none; letter-spacing: 0; }
 .up { color: var(--sage-ink); } .down { color: var(--warn); }

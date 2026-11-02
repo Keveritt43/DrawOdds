@@ -98,6 +98,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           </>
         )}
         <div className="stat"><div className="k">Hunter success, {s.harvestYears > 0 && s.harvestYears < 5 ? `${s.harvestYears}-yr` : '5-yr'}</div><div className="v">{pct(s.success5)}</div></div>
+        <div className="stat"><div className="k">Hunters per sq mi{s.hunters5 && s.harvestYears ? ` (${int(s.hunters5 / s.harvestYears)}/yr)` : ''}</div><div className="v">{s.huntersSqMi === null ? '-' : s.huntersSqMi < 10 ? s.huntersSqMi.toFixed(1) : Math.round(s.huntersSqMi)}</div></div>
         <div className="stat"><div className="k">{s.species === 'DEER' ? 'Mule 4+ share' : '6+ bull share'}</div><div className="v">{pct(s.bigPct5)}</div></div>
         {s.species === 'DEER' && <div className="stat"><div className="k">Deer</div><div className="v" style={{ fontSize: 18 }}>{s.deerType ? `${DEERTYPE[s.deerType]} (${pct100(s.whitetailPct5)} WT)` : '-'}</div></div>}
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(s.publicPct)}</div></div>

@@ -10,6 +10,7 @@ const SORTS: [string, string][] = [
   ['harvest', 'Most Harvest (5-yr Total)'],
   ['hunters', 'Most Hunters (5-yr Total)'],
   ['huntersLow', 'Fewest Hunters (5-yr Total)'],
+  ['densityLow', 'Fewest Hunters Per Sq Mi'],
   ['apps', 'Most Applicants (Res + NR)'],
   ['appsLow', 'Fewest Applicants (Res + NR)'],
   ['public', 'Public Land'],

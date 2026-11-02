@@ -171,6 +171,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                         </b>
                         {r.type === 'CONTROLLED' && r.appsLast !== null && <span className="sub">all {int(r.appsLast)}</span>}
                       </div>
+                      <div title="Average hunters per year for this hunt / season, per square mile of its area">Hunters/Mi²
+                        <b>{density(r.huntersSqMi)}</b>
+                        {r.hunters5 && r.harvestYears ? <span className="sub">{int(r.hunters5 / r.harvestYears)}/yr</span> : null}
+                      </div>
                     </div>
                     <div>
                       {r.youthOnly && <span className="pill">Youth</span>}
@@ -223,5 +227,11 @@ function nrTagLine(v: unknown): string {
   const p = (o: number | null) => (o === null ? '-' : `${(o * 100).toFixed(o < 0.1 ? 1 : 0)}%`);
   if (t.length > 1 && t[0].label.includes(' tag') && !t[0].code.startsWith('RD')) return t.map((x) => `${x.label.split(' ').slice(-2).join(' ')} ${p(x.odds)}`).join(' · ');
   return `${t[0].code} · 1st choice`;
+}
+
+/** Hunters per square mile: one decimal under 10, whole numbers above. */
+function density(v: number | null): string {
+  if (v === null || v === undefined) return '-';
+  return v < 0.1 ? '<0.1' : v < 10 ? v.toFixed(1) : String(Math.round(v));
 }
 
