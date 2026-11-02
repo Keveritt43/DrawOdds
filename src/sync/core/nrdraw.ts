@@ -85,11 +85,14 @@ export function parseQuotaLines(lines: string[]): Map<string, { quota: number; c
     for (let i = 0; i < t.length - 1; i++) {
       const code = t[i].toUpperCase().replace(/[^A-Z0-9]/g, '');
       if (!/^(ELK\d{1,2}|RD\d{2,3}[A-Z]?|WD\d{2,3}[A-Z]?)$/.test(code)) continue;
-      // the quota is the next number on the line (skipping a zone/unit description is not needed: codes sit beside quotas)
-      const j = t.slice(i + 1, i + 4).findIndex(isNum);
+      // deer rows read "RD02 2 295": code, unit (sometimes starred), quota - skip the unit column
+      let k = i + 1;
+      const unit = deerUnit(code);
+      if (unit && t[k]?.replace(/\*+$/, '').toUpperCase() === unit) k++;
+      const j = t.slice(k, k + 3).findIndex(isNum);
       if (j < 0) continue;
-      const quota = toNum(t[i + 1 + j]);
-      const capped = /^\(?c\)?$/i.test(t[i + 2 + j] ?? '');
+      const quota = toNum(t[k + j]);
+      const capped = /^\(?c\)?$/i.test(t[k + j + 1] ?? '');
       if (!out.has(code)) out.set(code, { quota, capped });
     }
   }

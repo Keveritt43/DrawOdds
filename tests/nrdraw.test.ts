@@ -38,10 +38,16 @@ test('quota lines: codes beside quotas, capped flag, first occurrence wins', () 
     'Bannock 70, 71, 72, 73, 73A, 74 ELK1 193 None',
     'Bear River 75, 77, 78 ELK2 93 ELK3 55 c',
     'RD39 1,093 RD01 656',
+    'RD02 2 295 RD24 24 173',
+    'RD23 23* 178 RD04A 4A 33',
     'RD39 2,000', // outfitter table later in the PDF
   ]);
   assert.deepEqual(q.get('ELK1'), { quota: 193, capped: false });
   assert.deepEqual(q.get('ELK3'), { quota: 55, capped: true });
   assert.equal(q.get('RD39')!.quota, 1093);
   assert.equal(q.get('RD01')!.quota, 656);
+  assert.equal(q.get('RD02')!.quota, 295); // not the unit number
+  assert.equal(q.get('RD24')!.quota, 173);
+  assert.equal(q.get('RD23')!.quota, 178);
+  assert.equal(q.get('RD04A')!.quota, 33);
 });
