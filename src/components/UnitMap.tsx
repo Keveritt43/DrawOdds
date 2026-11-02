@@ -37,12 +37,12 @@ const METRICS: Record<string, MetricDef> = {
     note: 'Public land plus private land enrolled in Access Yes! (open to hunting by agreement).',
   },
   success: {
-    label: 'General Harvest Success %', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No general season / under 50 hunters',
+    label: 'General Success %', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No general season / under 50 hunters',
     field: (sp) => (sp === 'ELK' ? 'genSuccessElk' : 'genSuccessDeer'),
     note: 'Harvest ÷ hunters, general seasons, all weapons, last 5 seasons (2022+ for units redrawn in 2022).',
   },
   pressure: {
-    label: 'General Hunters Per Sq Mi', bySpecies: true, ramp: PLUM, fmt: num, none: 'No general season',
+    label: 'General Hunters / Sq Mi', bySpecies: true, ramp: PLUM, fmt: num, none: 'No general season',
     field: (sp) => (sp === 'ELK' ? 'huntersSqMiElk' : 'huntersSqMiDeer'),
     note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Darker = more crowded.',
   },
@@ -66,6 +66,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
+  const [open, setOpen] = useState(false);
   const [err, setErr] = useState('');
   const [kind, setKind] = useState<Basemap>('topo');
   useEffect(() => {
@@ -124,6 +125,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           const f = fc.features.find((x: { properties: Props }) => x.properties.name === focus);
           if (f) {
             select(focus, f.properties);
+            setSel(null);
             const b = new maplibregl.LngLatBounds();
             const walk = (c: unknown): void => (Array.isArray(c) && typeof c[0] === 'number' ? void b.extend(c as [number, number]) : (c as unknown[]).forEach(walk));
             walk(f.geometry.coordinates);
@@ -165,68 +167,91 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     <div style={{ position: 'relative', height }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
       <div className="card mappanel">
-        <div className="seg light" role="group" aria-label="Base map" style={{ marginBottom: 8 }}>
-          <button type="button" aria-pressed={kind === 'topo'} onClick={() => setKind('topo')}>Topo</button>
-          <button type="button" aria-pressed={kind === 'satellite'} onClick={() => setKind('satellite')}>Satellite</button>
+        <div className="mp-row">
+          <select id="metric" aria-label="Color units by" value={metric} onChange={(e) => setMetric(e.target.value as Metric)}>
+            {Object.entries(METRICS).map(([k, x]) => <option key={k} value={k}>{x.label}</option>)}
+          </select>
+          {M.bySpecies && (
+            <div className="seg light mp-seg" role="group" aria-label="Species">
+              <button type="button" aria-pressed={sp === 'ELK'} onClick={() => setSp('ELK')}>Elk</button>
+              <button type="button" aria-pressed={sp === 'DEER'} onClick={() => setSp('DEER')}>Deer</button>
+            </div>
+          )}
+          <button type="button" className="mp-more" aria-expanded={open} aria-label={open ? 'Hide map key details' : 'Show map key details'} onClick={() => setOpen((o) => !o)}>
+            {open ? '▴' : '▾'}
+          </button>
         </div>
-        <label className="small" htmlFor="metric"><b>Color Units By</b></label>
-        <select id="metric" value={metric} onChange={(e) => setMetric(e.target.value as Metric)}>
-          {Object.entries(METRICS).map(([k, x]) => <option key={k} value={k}>{x.label}</option>)}
-        </select>
-        {M.bySpecies && (
-          <div className="seg light" role="group" aria-label="Species" style={{ marginTop: 8 }}>
-            <button type="button" aria-pressed={sp === 'ELK'} onClick={() => setSp('ELK')}>Elk</button>
-            <button type="button" aria-pressed={sp === 'DEER'} onClick={() => setSp('DEER')}>Deer</button>
+        {cls && (
+          <div className="mp-strip" role="list" aria-label="Map key">
+            {colors.map((c, i) => {
+              const b = cls.breaks;
+              const tick = !b.length ? 'All' : i === 0 ? `<${M.fmt(b[0])}` : M.fmt(b[i - 1]);
+              const full = !b.length ? 'All units' : i === 0 ? `Under ${M.fmt(b[0])}` : i === b.length ? `${M.fmt(b[i - 1])}+` : `${M.fmt(b[i - 1])} to ${M.fmt(b[i])}`;
+              return (
+                <div key={i} className="mp-cell" role="listitem" title={`${full}: ${cls.counts[i]} units`}>
+                  <i style={{ background: c }} />
+                  <span>{tick}</span>
+                </div>
+              );
+            })}
+            {missing[field] ? <div className="mp-cell nd" role="listitem" title={`${M.none}: ${missing[field]} units`}><i style={{ background: NODATA }} /><span>n/a</span></div> : null}
           </div>
         )}
-        {cls && (
-          <table className="legend-t small">
+        {open && (
+          <div className="mp-details">
+            {cls && (
+              <table className="legend-t small">
+                <tbody>
+                  {colors.map((c, i) => {
+                    const b = cls.breaks;
+                    const label = !b.length ? 'All units' : i === 0 ? `Under ${M.fmt(b[0])}` : i === b.length ? `${M.fmt(b[i - 1])}+` : `${M.fmt(b[i - 1])} to ${M.fmt(b[i])}`;
+                    return <tr key={i}><td><i style={{ background: c }} /></td><td>{label}</td><td className="n">{cls.counts[i]} units</td></tr>;
+                  }).reverse()}
+                  {missing[field] ? <tr><td><i style={{ background: NODATA }} /></td><td>{M.none}</td><td className="n">{missing[field]}</td></tr> : null}
+                </tbody>
+              </table>
+            )}
+            <p className="small muted" style={{ margin: '4px 0 8px' }}>{M.note} Each shade holds a similar number of units.</p>
+            <div className="seg light" role="group" aria-label="Base map">
+              <button type="button" aria-pressed={kind === 'topo'} onClick={() => setKind('topo')}>Topo</button>
+              <button type="button" aria-pressed={kind === 'satellite'} onClick={() => setKind('satellite')}>Satellite</button>
+            </div>
+          </div>
+        )}
+        {err && <p className="small" style={{ color: 'var(--bad)', margin: '6px 0 0' }}>{err}</p>}
+      </div>
+      {sel && (
+        <div className="card mapinfo">
+          <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>
+          <h3 className="star-head" style={{ margin: '0 0 2px' }}>Unit {sel.name} <Star key={sel.name} kind="unit" id={sel.name} saved={savedUnits.includes(sel.name)} signedIn={signedIn} label /></h3>
+          <div className="small muted">{sel.elkZone ? `${sel.elkZone} elk zone` : ''}{sel.acres ? ` · ${Math.round(Number(sel.acres)).toLocaleString()} acres` : ''}</div>
+          <table className="small" style={{ width: '100%', marginTop: 6 }}>
             <tbody>
-              {colors.map((c, i) => {
-                const b = cls.breaks;
-                const label = !b.length ? 'All units' : i === 0 ? `Under ${M.fmt(b[0])}` : i === b.length ? `${M.fmt(b[i - 1])}+` : `${M.fmt(b[i - 1])} to ${M.fmt(b[i])}`;
-                return <tr key={i}><td><i style={{ background: c }} /></td><td>{label}</td><td className="n">{cls.counts[i]}</td></tr>;
-              }).reverse()}
-              {missing[field] ? <tr><td><i style={{ background: NODATA }} /></td><td>{M.none}</td><td className="n">{missing[field]}</td></tr> : null}
+              <tr><td>Public land</td><td style={{ textAlign: 'right' }}>{v('publicPct') !== null ? `${Math.round(v('publicPct')!)}%` : '-'}</td></tr>
+              <tr><td>Access Yes!</td><td style={{ textAlign: 'right' }}>{v('accessYesAcres') ? `${Math.round(v('accessYesAcres')!).toLocaleString()} ac (${v('accessYesPct')! < 1 ? '<1' : Math.round(v('accessYesPct')!)}%)` : 'none'}</td></tr>
+              <tr><td>Public + Access Yes!</td><td style={{ textAlign: 'right' }}>{v('huntablePct') !== null ? `${Math.round(v('huntablePct')!)}%` : '-'}</td></tr>
+              {(['Elk', 'Deer'] as const).map((s) => (
+                <tr key={s}>
+                  <td>General {s.toLowerCase()}</td>
+                  <td style={{ textAlign: 'right' }}>
+                    {v(`genSuccessRaw${s}`) !== null ? `${Math.round(v(`genSuccessRaw${s}`)!)}% success` : '-'}
+                    {v(`genHunters${s}`) !== null ? ` · ${v(`genHunters${s}`)!.toLocaleString()} hunters/yr (${num(v(`huntersSqMi${s}`) ?? 0)}/sq mi)` : ''}
+                  </td>
+                </tr>
+              ))}
+              <tr><td>Controlled hunts</td><td style={{ textAlign: 'right' }}>{v('controlled') ?? 0}</td></tr>
+              <tr><td>Best antlered {nr ? 'NR' : 'res'} odds</td><td style={{ textAlign: 'right' }}>{v(nr ? 'bestNrOdds' : 'bestResOdds') !== null ? `${(v(nr ? 'bestNrOdds' : 'bestResOdds')! * 100).toFixed(1)}%` : '-'}</td></tr>
             </tbody>
           </table>
-        )}
-        <p className="small muted" style={{ margin: '4px 0 8px' }}>{M.note} Shades split the units into similar-sized groups; numbers are unit counts.</p>
-        {err && <p className="small" style={{ color: 'var(--bad)' }}>{err}</p>}
-        {sel ? (
-          <div>
-            <h3 className="star-head" style={{ margin: '8px 0 4px' }}>Unit {sel.name} <Star key={sel.name} kind="unit" id={sel.name} saved={savedUnits.includes(sel.name)} signedIn={signedIn} label /></h3>
-            <div className="small muted">{sel.elkZone ? `${sel.elkZone} elk zone` : ''}{sel.acres ? ` · ${Math.round(Number(sel.acres)).toLocaleString()} acres` : ''}</div>
-            <table className="small" style={{ width: '100%', marginTop: 6 }}>
-              <tbody>
-                <tr><td>Public land</td><td style={{ textAlign: 'right' }}>{v('publicPct') !== null ? `${Math.round(v('publicPct')!)}%` : '-'}</td></tr>
-                <tr><td>Access Yes!</td><td style={{ textAlign: 'right' }}>{v('accessYesAcres') ? `${Math.round(v('accessYesAcres')!).toLocaleString()} ac (${v('accessYesPct')! < 1 ? '<1' : Math.round(v('accessYesPct')!)}%)` : 'none'}</td></tr>
-                <tr><td>Huntable (public + AY!)</td><td style={{ textAlign: 'right' }}>{v('huntablePct') !== null ? `${Math.round(v('huntablePct')!)}%` : '-'}</td></tr>
-                {(['Elk', 'Deer'] as const).map((s) => (
-                  <tr key={s}>
-                    <td>General {s.toLowerCase()} success / hunters</td>
-                    <td style={{ textAlign: 'right' }}>
-                      {v(`genSuccessRaw${s}`) !== null ? `${Math.round(v(`genSuccessRaw${s}`)!)}%` : '-'}
-                      {v(`genHunters${s}`) !== null ? ` · ${v(`genHunters${s}`)!.toLocaleString()}/yr (${num(v(`huntersSqMi${s}`) ?? 0)}/sq mi)` : ''}
-                    </td>
-                  </tr>
-                ))}
-                <tr><td>Controlled hunts</td><td style={{ textAlign: 'right' }}>{v('controlled') ?? 0}</td></tr>
-                <tr><td>Best {nr ? 'NR' : 'res'} odds</td><td style={{ textAlign: 'right' }}>{v(nr ? 'bestNrOdds' : 'bestResOdds') !== null ? `${(v(nr ? 'bestNrOdds' : 'bestResOdds')! * 100).toFixed(1)}%` : '-'}</td></tr>
-              </tbody>
-            </table>
-            {sel.boundaryChanged2022 ? <p className="small" style={{ color: 'var(--warn-ink)' }}>Boundary changed in 2022.</p> : null}
-            {!focus && (
-              <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                <Link className="btn primary" href={`/units/${encodeURIComponent(sel.name)}`}>Unit Details</Link>
-                <Link className="btn" href={`/hunts?unit=${encodeURIComponent(sel.name)}`}>Hunts Here</Link>
-              </div>
-            )}
-          </div>
-        ) : (
-          <p className="small muted">Click a unit to see its numbers.</p>
-        )}
-      </div>
+          {sel.boundaryChanged2022 ? <p className="small" style={{ color: 'var(--warn-ink)', margin: '4px 0 0' }}>Boundary changed in 2022.</p> : null}
+          {sel.name !== focus && (
+            <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+              <Link className="btn primary" href={`/units/${encodeURIComponent(sel.name)}`}>Unit Details</Link>
+              <Link className="btn" href={`/hunts?unit=${encodeURIComponent(sel.name)}`}>Hunts Here</Link>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
