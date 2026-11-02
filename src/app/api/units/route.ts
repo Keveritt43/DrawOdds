@@ -1,7 +1,7 @@
 import { db } from '@/lib/db';
 import { classBreaks } from '@/lib/breaks';
 
-// rendered per request (the DB isn't reachable at build time on Railway); browsers/CDN cache it for an hour
+// rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
 
 const ALL = 'All Weapons Combined';
@@ -103,6 +103,6 @@ export async function GET(req: Request) {
   }
   return Response.json(
     { type: 'FeatureCollection', features, classes, years: lastYear },
-    { headers: { 'Cache-Control': 'public, max-age=3600' } },
+    { headers: { 'Cache-Control': 'public, max-age=600' } },
   );
 }

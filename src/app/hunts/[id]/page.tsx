@@ -36,10 +36,13 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
   }
   const land = (area?.landOwnership ?? (unitRows.length === 1 ? unitRows[0].landOwnership : null)) as { manager: string; pct: number }[] | null;
   const title = s.huntNumber ? `${s.species === 'DEER' ? 'Deer' : 'Elk'} controlled hunt ${s.huntNumber}` : s.name;
-  const drawn = history.filter((h) => h.permits != null || h.resApps != null).sort((a, b) => b.year - a.year);
-  const five = drawn.slice(0, 5);
-  const tot = (f: (h: (typeof drawn)[number]) => number | null | undefined) => five.reduce((a, h) => a + (f(h) ?? 0), 0);
-  const cell = (d?: number | null, a?: number | null) => (a ? `${int(d ?? 0)} / ${int(a)} (${((100 * (d ?? 0)) / a).toFixed(1)}%)` : '-');
+  const ctl = s.type === 'CONTROLLED';
+  const rows = history.filter((h) => h.permits != null || h.resApps != null || h.hunters != null).sort((a, b) => b.year - a.year);
+  const drawn = rows.filter((h) => h.permits != null || h.resApps != null);
+  const harvested = rows.filter((h) => h.hunters != null);
+  const sum = (xs: typeof rows, f: (h: (typeof rows)[number]) => number | null | undefined) => xs.slice(0, 5).reduce((a, h) => a + (f(h) ?? 0), 0);
+  const ratio = (d?: number | null, a?: number | null) => (a ? `${((100 * (d ?? 0)) / a).toFixed(1)}%` : '-');
+  const n = (v?: number | null) => (v != null ? int(v) : '-');
   const renumbered = new Set(history.map((h) => h.huntNumber).filter(Boolean)).size > 1;
 
   return (
@@ -82,23 +85,6 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
 
       {s.smallSample && <div className="note">Fewer than 50 hunters over 5 years. One or two animals swing the success rate a lot. Don&apos;t read much into a single year.</div>}
       {s.boundaryChanged && <div className="note">IDFG changed the boundary of {s.units.filter(Boolean).join(', ')} in 2022. Years before 2022 may cover different ground.</div>}
-      {s.type === 'CONTROLLED' && drawn.length > 0 && (
-        <div className="card" style={{ marginTop: 16, overflowX: 'auto' }}>
-          <h3 style={{ marginTop: 0 }}>Drawn / Applied, First Choice</h3>
-          <table className="small" style={{ width: '100%' }}>
-            <thead><tr><th>Drawing</th><th>Hunt #</th><th className="num">Tags</th><th className="num">Residents</th><th className="num">Nonresidents</th></tr></thead>
-            <tbody>
-              {drawn.map((h) => (
-                <tr key={h.year}><td>{h.year}</td><td>{h.huntNumber ?? '-'}</td><td className="num">{h.permits != null ? int(h.permits) : '-'}</td>
-                  <td className="num">{cell(h.resPermits, h.resApps)}</td><td className="num">{cell(h.nrPermits, h.nrApps)}</td></tr>
-              ))}
-              <tr style={{ fontWeight: 700 }}><td colSpan={2}>{five.length}-yr total</td><td className="num">{int(tot((h) => h.permits))}</td>
-                <td className="num">{cell(tot((h) => h.resPermits), tot((h) => h.resApps))}</td><td className="num">{cell(tot((h) => h.nrPermits), tot((h) => h.nrApps))}</td></tr>
-            </tbody>
-          </table>
-          <p className="small muted" style={{ marginBottom: 0 }}>From IDFG&apos;s drawing odds. The 5-yr odds above are the total row: everyone drawn ÷ everyone who applied, not an average of yearly percents.</p>
-        </div>
-      )}
       {renumbered && <div className="note">IDFG renumbered this hunt over the years (hunt numbers: {[...new Set(history.map((h) => h.huntNumber).filter(Boolean))].join(', ')}). History is matched by hunt area and tag count; check the IDFG page if a year looks off.</div>}
       {nr && s.type === 'CONTROLLED' && (s.nrAppsLast ?? 0) < 30 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 
@@ -126,6 +112,43 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
           {area?.description && <p className="small muted">{area.description.slice(0, 600)}</p>}
         </div>
       </div>
+      {rows.length > 0 && (
+        <div style={{ marginTop: 16, overflowX: 'auto' }}>
+          <h3>Year By Year</h3>
+          <table className="results compact">
+            <thead>
+              <tr>
+                <th>Year</th>
+                {ctl && <><th>Hunt</th><th className="num">Tags</th><th className="num">Res Drew / Applied</th><th className="num">Res %</th><th className="num">NR Drew / Applied</th><th className="num">NR %</th></>}
+                <th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((h) => (
+                <tr key={h.year}>
+                  <td>{h.year}</td>
+                  {ctl && <><td>{h.huntNumber ?? '-'}</td><td className="num">{n(h.permits)}</td>
+                    <td className="num">{h.resApps ? `${n(h.resPermits)} / ${n(h.resApps)}` : '-'}</td><td className="num">{ratio(h.resPermits, h.resApps)}</td>
+                    <td className="num">{h.nrApps ? `${n(h.nrPermits)} / ${n(h.nrApps)}` : '-'}</td><td className="num">{ratio(h.nrPermits, h.nrApps)}</td></>}
+                  <td className="num">{n(h.hunters)}</td><td className="num">{n(h.harvest)}</td><td className="num">{ratio(h.harvest, h.hunters)}</td>
+                </tr>
+              ))}
+              <tr className="total">
+                <td>5-yr</td>
+                {ctl && <><td /><td className="num">{int(sum(drawn, (h) => h.permits))}</td>
+                  <td className="num">{int(sum(drawn, (h) => h.resPermits))} / {int(sum(drawn, (h) => h.resApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.resPermits), sum(drawn, (h) => h.resApps))}</td>
+                  <td className="num">{int(sum(drawn, (h) => h.nrPermits))} / {int(sum(drawn, (h) => h.nrApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.nrPermits), sum(drawn, (h) => h.nrApps))}</td></>}
+                <td className="num">{int(sum(harvested, (h) => h.hunters))}</td><td className="num">{int(sum(harvested, (h) => h.harvest))}</td>
+                <td className="num">{ratio(sum(harvested, (h) => h.harvest), sum(harvested, (h) => h.hunters))}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>
+            {ctl ? 'Drawing = first choice. ' : ''}5-yr = the last 5 {ctl ? 'drawings and the last 5 harvest years (harvest is reported a season after the draw)' : 'harvest years'}, totaled: drawn ÷ applied and harvest ÷ hunters, not an average of yearly percents.
+          </p>
+        </div>
+      )}
+
       <p className="small muted" style={{ marginTop: 16 }}>
         Odds = permits / first-choice applicants. Success = harvest / hunters, from IDFG harvest reports (expanded estimates).
         Mule/whitetail and trophy counts are back-calculated from IDFG&apos;s rounded percentages: direction, not precision.

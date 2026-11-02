@@ -5,6 +5,7 @@ import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'map
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import Link from 'next/link';
+import { classBreaks } from '@/lib/breaks';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
@@ -82,10 +83,16 @@ export function UnitMap({ nr, focus, height = '100%' }: { nr: boolean; focus?: s
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     m.on('load', async () => {
       try {
-        const fc = await (await fetch('/api/units')).json();
-        setClasses(fc.classes ?? {});
+        // versioned URL: an hour-cached response from before a deploy must not be reused
+        const fc = await (await fetch('/api/units?v=3')).json();
+        const fields = [...new Set(Object.values(METRICS).flatMap((x) => [x.field('DEER', false), x.field('ELK', false), x.field('DEER', true)]))];
+        const vals = (k: string) => fc.features.map((f: { properties: Props }) => f.properties[k]).filter((x: unknown): x is number => typeof x === 'number');
+        // breaks normally come from the server; compute them here if they're missing
+        const cl: Record<string, Classes> = { ...(fc.classes ?? {}) };
+        for (const k of fields) if (!cl[k]) cl[k] = classBreaks(vals(k));
+        setClasses(cl);
         const miss: Record<string, number> = {};
-        for (const k of Object.keys(fc.classes ?? {})) miss[k] = fc.features.filter((f: { properties: Props }) => typeof f.properties[k] !== 'number').length;
+        for (const k of fields) miss[k] = fc.features.length - vals(k).length;
         setMissing(miss);
         m.addSource('units', { type: 'geojson', data: fc, promoteId: 'name' });
         m.addLayer({ id: 'units-fill', type: 'fill', source: 'units', paint: { 'fill-color': '#ccc', 'fill-opacity': 0.62 } });
