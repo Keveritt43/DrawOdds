@@ -145,7 +145,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                     <div className="dates">
                       {r.nrTag
                         ? (seasonsSummary(r.tagSeasons) || `Nonresident general tag · ${r.species === 'ELK' ? `units ${r.units.join(', ')}` : `unit ${r.unit}`} · seasons: see the regulations`)
-                        : <>{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</>}
+                        : <>{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.type === 'GENERAL' && seasonsSummary(r.tagSeasons) ? seasonsSummary(r.tagSeasons) : r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</>}
                     </div>
                     <div className="hrow-stats">
                       <div>Draw Odds{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}

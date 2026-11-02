@@ -69,6 +69,20 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
       </div>
 
       {s.nrTag && <NrTagCard s={s} />}
+      {!s.nrTag && s.type === 'GENERAL' && sortedSeasons(s.tagSeasons).length > 0 && (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h3 style={{ marginTop: 0 }}>{(s.tagSeasons as { year?: number }).year} General Seasons</h3>
+          <div className="uh-list">
+            {sortedSeasons(s.tagSeasons).map((x, i) => (
+              <div key={i} className="uh-row" style={{ gridTemplateColumns: '1fr' }}>
+                <div className="uh-name">{seasonTitle(x)}</div>
+                <div className="uh-meta"><b>{seasonDates(x)}</b>{x.notes ? ` · ${x.notes}` : ''}</div>
+              </div>
+            ))}
+          </div>
+          <p className="small muted" style={{ marginBottom: 0 }}>From IDFG&apos;s Seasons &amp; Rules. {s.species === 'ELK' ? 'Elk seasons depend on the zone tag you hold (A or B).' : 'Regular Deer tag seasons; White-tailed Deer tag holders hunt the white-tailed seasons.'} Check the regulations for boundaries and notes.</p>
+        </div>
+      )}
       <div className="stats">
         {s.type === 'CONTROLLED' && (
           <>
@@ -200,7 +214,7 @@ function NrTagCard({ s }: { s: { nrDraw: unknown; tagSeasons: unknown; quota: nu
               </div>
             ))}
           </div>
-          <p className="small muted">From IDFG&apos;s {sy} Seasons &amp; Rules (elk zone tables). Restrictions are summarized; check the regulations for boundaries and notes.</p>
+          <p className="small muted">From IDFG&apos;s {sy} Seasons &amp; Rules ({s.species === 'ELK' ? 'elk zone A/B tag tables' : 'general deer tag tables by unit'}). Restrictions are summarized; check the regulations for boundaries and notes.</p>
         </>
       )}
       <p className="small">

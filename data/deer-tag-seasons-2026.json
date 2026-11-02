@@ -1,0 +1,8358 @@
+{
+ "year": 2026,
+ "source": "c4d92ef3-seasons-rules-big-game-2026.pdf",
+ "tags": {
+  "RD": {
+   "1": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "2": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 15 See Note 2, Page 15 See Note 1, Page 15"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 15 See Note 2, Page 15 See Note 1, Page 15"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 15 See Note 2, Page 15 See Note 1, Page 15"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 15 See Note 2, Page 15 See Note 1, Page 15"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 15 See Note 2, Page 15 See Note 1, Page 15"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 15 See Note 2, Page 15 See Note 1, Page 15"
+    }
+   ],
+   "3": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "4": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    }
+   ],
+   "4A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "5": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "6": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 1, Page 13, In a Portion of Unit 1, Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "7": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    }
+   ],
+   "8": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    }
+   ],
+   "8A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "9": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-11-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-15",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    }
+   ],
+   "10": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    }
+   ],
+   "10A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    }
+   ],
+   "12": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    }
+   ],
+   "15": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "16": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second deer tag may be used in Units 10, 10A, and 12"
+    }
+   ],
+   "16A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    }
+   ],
+   "17": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    }
+   ],
+   "19": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    }
+   ],
+   "19A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "20": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second deer tag may not be used in Units 16A, 17, 19, and 20"
+    }
+   ],
+   "20A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "21": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "21A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "22": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "23": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    }
+   ],
+   "24": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 3, Page 13"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "See Note 3, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "25": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "26": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "27": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "28": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "29": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "30": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "30A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "31": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 4, Page 13,"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "See Note 4, Page 13,"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "32": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 13, Motorized Hunting Rule Applies in Unit 32, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "See Notes 2 and 4, Page 13, Motorized Hunting Rule Applies in Unit 32, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "32A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "33": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "34": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "35": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "36": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "36A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "36B": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "37": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "37A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only on Private land only",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "38": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 3, Page 15"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 3, Page 15"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, See Note 3, Page 15"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, See Note 3, Page 15"
+    }
+   ],
+   "39": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-11-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "closed, Portion of Unit See Notes 4 and 5, Page 15"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-11-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "closed, Portion of Unit See Notes 4 and 5, Page 15"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-08",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "40": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": ""
+    }
+   ],
+   "41": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": ""
+    }
+   ],
+   "42": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": ""
+    }
+   ],
+   "43": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "46": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 13"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "See Notes 2 and 4, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "47": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "48": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "49": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "50": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "51": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "52A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "53": [
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-11-06"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Attention: only, Portion of Unit See Note 6, Page 15, Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-11-06"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Attention: only, Portion of Unit See Note 6, Page 15, Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "55": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-16",
+       "close": "2026-12-10"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-16",
+       "close": "2026-12-10"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "56": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "57": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "58": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "59": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "59A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "60": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "60A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 5, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "61": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "62": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "62A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "63": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "64": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    }
+   ],
+   "65": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "66": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "66A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "67": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 6, Page 13"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "68": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "69": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-20",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "White-tailed deer only",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    }
+   ],
+   "70": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "71": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "72": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "73": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "73A": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "74": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "75": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "76": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "77": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "78": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ]
+  },
+  "WD": {
+   "1": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "2": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 19 See Note 2, Page 19 See Note 1, Page 19"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 19 See Note 2, Page 19 See Note 1, Page 19"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 19 See Note 2, Page 19 See Note 1, Page 19"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 19 See Note 2, Page 19 See Note 1, Page 19"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 19 See Note 2, Page 19 See Note 1, Page 19"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 19 See Note 2, Page 19 See Note 1, Page 19"
+    }
+   ],
+   "3": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "4": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "4A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "5": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "6": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 18, In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "7": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "8": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    }
+   ],
+   "8A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-02",
+       "close": "2026-12-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-02",
+       "close": "2026-12-14"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "9": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-10",
+       "close": "2026-12-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "In a Portion of Unit 1, Chronic Wasting Disease Trans- port Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "10": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10 and 12"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10 and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10, 10A, and 12"
+    }
+   ],
+   "10A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Unit 10A"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Unit 10A"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-02",
+       "close": "2026-12-11"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Unit 10A"
+    }
+   ],
+   "11": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-12-01"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "11A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of private property"
+    }
+   ],
+   "12": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10 and 12"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10 and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10, 10A, and 12"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Second white-tailed deer tag may not be used in Units 10, 10A, and 12"
+    }
+   ],
+   "13": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of few roads and private property"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-03"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access because of few roads and private property"
+    }
+   ],
+   "14": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-21",
+       "close": "2026-12-05"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-21",
+       "close": "2026-12-05"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "15": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-05",
+       "close": "2026-12-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-05",
+       "close": "2026-12-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "16": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-21",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-21",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "16A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    }
+   ],
+   "17": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    }
+   ],
+   "18": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-21",
+       "close": "2026-12-05"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    },
+    {
+     "weapon": "MUZZLELOADER",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-21",
+       "close": "2026-12-05"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Transport Rules Apply and Testing is Required, See Page 96"
+    }
+   ],
+   "19": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    }
+   ],
+   "19A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "20": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "not Second white-tailed deer tag may be used in Units 16A, 17, 19 and 20"
+    }
+   ],
+   "20A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-18"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-18"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "21": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "21A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "22": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "23": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    }
+   ],
+   "24": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 3, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 3, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "25": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "26": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-18"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-18"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "27": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-18"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-09-15",
+       "close": "2026-11-18"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "28": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-12-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-12-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "29": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access, Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "30": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "30A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "31": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 18, Motorized Hunting Rule Applies in Unit 32, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 18, Motorized Hunting Rule Applies in Unit 32, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "32": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 18, Motorized Hunting Rule Applies in Unit 32, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 18, Motorized Hunting Rule Applies in Unit 32, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "32A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "33": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-08"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-08"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "34": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-08"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-08"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "35": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-08"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-08"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "36A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "36B": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "37": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access, See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "37A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": "Very limited access, Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Very limited access, Motorized Hunting Rule Applies in Units 29 and 37A, See Pages 104 - 106"
+    }
+   ],
+   "38": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 3, Page 19"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 3, Page 19"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 20"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-11-24"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 1, Page 20"
+    }
+   ],
+   "39": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-11-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 4 and 5, Page 19, Portion of Unit closed"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-11-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 4 and 5, Page 19, Portion of Unit closed"
+    }
+   ],
+   "40": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "41": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-24"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "2-point deer only",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "43": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "46": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Notes 2 and 4, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "50": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "51": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "58": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "59": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "59A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    }
+   ],
+   "60": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "60A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 5, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 5, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "61": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "62": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "62A": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-10",
+       "close": "2026-12-09"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 2, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    }
+   ],
+   "63": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "Youth hunt only",
+     "notes": ""
+    }
+   ],
+   "63A": [
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-21",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    },
+    {
+     "weapon": "SHORT_RANGE",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-20"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96"
+    }
+   ],
+   "64": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    }
+   ],
+   "65": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": ""
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "66": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "67": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 6, Page 18"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "See Note 6, Page 18"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Motorized Hunting Rule Applies in Unit 66, See Pages 104 - 106"
+    }
+   ],
+   "69": [
+    {
+     "weapon": "ANY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ANY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-10-10",
+       "close": "2026-10-31"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlered",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-08-30",
+       "close": "2026-09-30"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    },
+    {
+     "weapon": "ARCHERY",
+     "sex": "antlerless",
+     "dates": [
+      {
+       "open": "2026-11-01",
+       "close": "2026-12-19"
+      }
+     ],
+     "qualifier": "",
+     "notes": "Chronic Wasting Disease Testing Required, See Page 96, Motorized Hunting Rule Applies in Unit 69, See Pages 104 - 106"
+    }
+   ]
+  }
+ }
+}

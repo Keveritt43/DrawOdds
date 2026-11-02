@@ -35,3 +35,9 @@ export function loadElkTagSeasons(): { year: number; zones: { zone: string; tags
   const f = latestDataFile<{ zones: { zone: string; tags: Record<string, { available: boolean; seasons: TagSeason[] }> }[] }>('elk-tag-seasons');
   return f ? { year: f.year, zones: f.data.zones } : null;
 }
+
+/** Deer general-season seasons by tag (RD / WD) and unit (scripts/parse_deer_tags.py -> data/deer-tag-seasons-<year>.json). */
+export function loadDeerTagSeasons(): { year: number; tags: Record<'RD' | 'WD', Record<string, (TagSeason & { qualifier?: string })[]>> } | null {
+  const f = latestDataFile<{ tags: Record<'RD' | 'WD', Record<string, (TagSeason & { qualifier?: string })[]>> }>('deer-tag-seasons');
+  return f ? { year: f.year, tags: f.data.tags } : null;
+}

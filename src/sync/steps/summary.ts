@@ -1,7 +1,7 @@
 import type { DrawOdds, Prisma } from '@prisma/client';
 import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
-import { loadElkTagSeasons } from '../core/datafiles';
+import { loadElkTagSeasons, loadDeerTagSeasons, type TagSeason } from '../core/datafiles';
 import {
   lineage,
   summarizeOdds,
@@ -146,8 +146,22 @@ export async function buildSummaries(): Promise<StepResult> {
       const rows = await db.generalHarvest.findMany({ where: { species: h.species, unit, takeMethod: method, year: { gte: thisYear() - 6 } } });
       const hs = summarizeHarvest(h.species, rows as HarvestRow[]);
       const u = unitMap.get(unit);
+      // general seasons from the regulations for this unit and weapon (deer: Regular Deer tag table, elk: the
+      // zone's A and B tag seasons). Fills the "see regulations" dates on harvest-derived rows.
+      const gs = h.openDate ? null : generalSeasons(h.species, unit, h.weapon);
+      const gspans = (gs?.seasons ?? []).flatMap((x) => x.dates).map((d) => ({ open: new Date(`${d.open}T00:00:00Z`), close: new Date(`${d.close}T00:00:00Z`) }));
+      const gdates = gspans.length
+        ? {
+            openDate: new Date(Math.min(...gspans.map((d) => +d.open))),
+            closeDate: new Date(Math.max(...gspans.map((d) => +d.close))),
+            months: [...new Set(gspans.flatMap((d) => monthsOpen(d.open, d.close)))],
+            tagSeasons: JSON.parse(JSON.stringify({ year: gs!.year, seasons: gs!.seasons })) as Prisma.InputJsonValue,
+          }
+        : {};
+      if (gdates.openDate) Object.assign(gdates, { openMonth: gdates.openDate.getUTCMonth() + 1, closeMonth: gdates.closeDate!.getUTCMonth() + 1 });
       out.push({
         ...base,
+        ...gdates,
         id: `g:${h.idfgId}:${unit}`,
         unit,
         areaName: unit,
@@ -249,10 +263,20 @@ async function nrTagSummary(
     return tot ? w.reduce((a, u) => a + f(u)! * u.acres!, 0) / tot : null;
   };
   const zone = key.startsWith('ELK:') ? key.split(':')[1] : null;
-  // elk A/B tag seasons from the regulations: dates feed the Season Dates filter and the tag's open/close
-  const tagLetter = key.split(':')[2];
-  const ts = zone ? loadElkTagSeasons() : null;
-  const seasons = ts?.zones.find((z) => z.zone.toLowerCase() === zone!.toLowerCase())?.tags[tagLetter]?.seasons ?? [];
+  // the tag's seasons from the regulations (elk: zone A/B tables; deer: RD / WD unit tables). Dates feed the
+  // Season Dates filter and the tag's open/close; weapons feed the weapon filter.
+  let seasons: TagSeason[] = [];
+  let ts: { year: number } | null = null;
+  if (zone) {
+    const elk = loadElkTagSeasons();
+    ts = elk;
+    seasons = elk?.zones.find((z) => z.zone.toLowerCase() === zone.toLowerCase())?.tags[key.split(':')[2]]?.seasons ?? [];
+  } else {
+    const deer = loadDeerTagSeasons();
+    ts = deer;
+    const kind = key.slice(0, 2) as 'RD' | 'WD';
+    seasons = (deer?.tags[kind]?.[h.units[0]] ?? []).map((x) => ({ ...x, sex: x.qualifier ? `${x.sex} (${x.qualifier.toLowerCase()})` : x.sex }));
+  }
   const spans = seasons.flatMap((x) => x.dates).map((d) => ({ open: new Date(`${d.open}T00:00:00Z`), close: new Date(`${d.close}T00:00:00Z`) }));
   const months = [...new Set(spans.flatMap((d) => monthsOpen(d.open, d.close)))];
   const openDate = spans.length ? new Date(Math.min(...spans.map((d) => +d.open))) : null;
@@ -297,4 +321,21 @@ async function nrTagSummary(
     acres: acres || null,
     boundaryChanged: false,
   };
+}
+
+/** General seasons for a unit + weapon from the parsed regulations (null when the tables don't cover it). */
+function generalSeasons(species: 'DEER' | 'ELK', unit: string, weapon: string): { year: number; seasons: TagSeason[] } | null {
+  const want = weapon === 'ANY' ? ['ANY', 'SHORT_RANGE'] : [weapon];
+  if (species === 'DEER') {
+    const deer = loadDeerTagSeasons();
+    const list = (deer?.tags.RD[unit] ?? deer?.tags.WD[unit] ?? [])
+      .filter((x) => want.includes(x.weapon))
+      .map((x) => ({ ...x, sex: x.qualifier ? `${x.sex} (${x.qualifier.toLowerCase()})` : x.sex }));
+    return deer && list.length ? { year: deer.year, seasons: list } : null;
+  }
+  const elk = loadElkTagSeasons();
+  const zone = elk?.zones.find((z) => (z as unknown as { units?: string[] }).units?.includes(unit));
+  if (!elk || !zone) return null;
+  const list = Object.entries(zone.tags).flatMap(([tag, t]) => (t.seasons ?? []).filter((x) => want.includes(x.weapon)).map((x) => ({ ...x, sex: `${tag} tag · ${x.sex}` })));
+  return list.length ? { year: elk.year, seasons: list } : null;
 }
