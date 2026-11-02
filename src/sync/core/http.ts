@@ -53,6 +53,7 @@ export async function getBytes(url: string): Promise<Uint8Array | null> {
     last = Date.now();
     try {
       const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/pdf,*/*;q=0.8' }, signal: AbortSignal.timeout(120_000) });
+      console.log(`[http] GET ${url} -> ${res.status} ${res.headers.get('content-type') ?? ''}${res.url !== url ? ` (now ${res.url})` : ''}`);
       if (res.status === 404) return null;
       if (res.ok) return new Uint8Array(await res.arrayBuffer());
       if (res.status !== 429 && res.status < 500) throw new FetchError(url, res.status);
