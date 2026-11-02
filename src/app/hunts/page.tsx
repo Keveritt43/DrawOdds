@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { recentBoundaryChanges } from '@/lib/boundaries';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
@@ -153,7 +154,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                     <div>
                       {r.youthOnly && <span className="pill">Youth</span>}
                       {r.smallSample && <span className="pill warn" title="Fewer than 50 hunters over 5 years">Small Sample</span>}
-                      {r.boundaryChanged && <span className="pill warn" title="IDFG changed this unit's boundary in 2022">Boundary Changed 2022</span>}
+                      {recentBoundaryChanges(r.units) && <span className="pill warn" title="IDFG changed this unit's boundary recently; earlier years cover different ground">Boundary Changed {recentBoundaryChanges(r.units)!.year}</span>}
                       {r.type === 'CONTROLLED' && r.oddsYears < 3 && <span className="pill warn">New / Short History</span>}
                     </div>
                   </div>

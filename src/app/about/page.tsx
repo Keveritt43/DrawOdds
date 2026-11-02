@@ -28,7 +28,7 @@ export default function About() {
       </ul>
       <h2>Known Limits</h2>
       <ul>
-        <li>Units 38, 39, 41, 45, 46, 49, 50, 53, 56 and 57 changed boundaries in 2022. Trends across that year compare different ground.</li>
+        <li>When IDFG redraws a unit, map numbers only use seasons after the change. Changes from this year or last year are flagged on the unit and its hunts.</li>
         <li>Nonresident odds on small hunts rest on 0-2 tags a year. One tag swings the rate from 0% to 7%+.</li>
         <li>General-season numbers cover the whole unit and every hunter in it, not just one tag type.</li>
       </ul>

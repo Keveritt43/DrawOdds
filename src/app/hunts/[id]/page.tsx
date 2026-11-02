@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { auth } from '@/auth';
@@ -84,7 +85,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
       </div>
 
       {s.smallSample && <div className="note">Fewer than 50 hunters over 5 years. One or two animals swing the success rate a lot. Don&apos;t read much into a single year.</div>}
-      {s.boundaryChanged && <div className="note">IDFG changed the boundary of {s.units.filter(Boolean).join(', ')} in 2022. Years before 2022 may cover different ground.</div>}
+      {recentBoundaryChanges(s.units) && <div className="note">IDFG changed the boundary of unit {recentBoundaryChanges(s.units)!.units.join(', ')} in {recentBoundaryChanges(s.units)!.year}. Earlier years may cover different ground.</div>}
       {renumbered && <div className="note">IDFG renumbered this hunt over the years (hunt numbers: {[...new Set(history.map((h) => h.huntNumber).filter(Boolean))].join(', ')}). History is matched by hunt area and tag count; check the IDFG page if a year looks off.</div>}
       {nr && s.type === 'CONTROLLED' && (s.nrAppsLast ?? 0) < 30 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 

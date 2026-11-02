@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { recentBoundaryChanges } from '@/lib/boundaries';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
@@ -39,7 +40,7 @@ const METRICS: Record<string, MetricDef> = {
   success: {
     label: 'General Success %', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No general season / under 50 hunters',
     field: (sp) => (sp === 'ELK' ? 'genSuccessElk' : 'genSuccessDeer'),
-    note: 'Harvest ÷ hunters, general seasons, all weapons, last 5 seasons (2022+ for units redrawn in 2022).',
+    note: 'Harvest ÷ hunters, general seasons, all weapons, last 5 seasons (only seasons after a boundary change).',
   },
   pressure: {
     label: 'General Hunters / Sq Mi', bySpecies: true, ramp: PLUM, fmt: num, none: 'No general season',
@@ -243,7 +244,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
               <tr><td>Best antlered {nr ? 'NR' : 'res'} odds</td><td style={{ textAlign: 'right' }}>{v(nr ? 'bestNrOdds' : 'bestResOdds') !== null ? `${(v(nr ? 'bestNrOdds' : 'bestResOdds')! * 100).toFixed(1)}%` : '-'}</td></tr>
             </tbody>
           </table>
-          {sel.boundaryChanged2022 ? <p className="small" style={{ color: 'var(--warn-ink)', margin: '4px 0 0' }}>Boundary changed in 2022.</p> : null}
+          {recentBoundaryChanges([sel.name]) && <p className="small" style={{ color: 'var(--warn-ink)', margin: '4px 0 0' }}>Boundary changed in {recentBoundaryChanges([sel.name])!.year}.</p>}
           {sel.name !== focus && (
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
               <Link className="btn primary" href={`/units/${encodeURIComponent(sel.name)}`}>Unit Details</Link>

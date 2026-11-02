@@ -198,3 +198,11 @@ test('year-over-year: previous drawing / season only when it was the year before
   assert.equal(hs.successLast, 0.2);
   assert.equal(hs.successPrev, 0.3);
 });
+
+test('boundary changes are only called out for this year or last year', async () => {
+  const { recentBoundaryChanges, BOUNDARY_CHANGES } = await import('../src/lib/boundaries');
+  assert.equal(BOUNDARY_CHANGES['49'], 2022);
+  assert.equal(recentBoundaryChanges(['49'], 2026), null);
+  assert.deepEqual(recentBoundaryChanges(['49', '54'], 2023), { units: ['49'], year: 2022 });
+  assert.equal(recentBoundaryChanges(['54'], 2023), null);
+});

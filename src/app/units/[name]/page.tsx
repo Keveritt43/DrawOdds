@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
@@ -36,7 +37,7 @@ export default async function UnitPage({ params }: { params: Promise<{ name: str
       <p className="small"><Link href="/map">← Back To Unit Map</Link> · <Link href={`/hunts?unit=${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
-      {unit.boundaryChanged2022 && <div className="note">IDFG changed this unit&apos;s boundary in 2022. Harvest numbers before 2022 cover different ground.</div>}
+      {recentBoundaryChanges([unit.name]) && <div className="note">IDFG changed this unit&apos;s boundary in {recentBoundaryChanges([unit.name])!.year}. Harvest numbers before then cover different ground.</div>}
 
       <div className="stats">
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(unit.publicPct)}</div></div>
