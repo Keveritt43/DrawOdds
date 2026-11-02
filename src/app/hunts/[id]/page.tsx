@@ -165,7 +165,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
             </tbody>
           </table>
           <p className="small muted" style={{ margin: '6px 0 0' }}>
-            {ctl ? 'Drawing = first choice. ' : ''}{ctl ? '5-yr = the last 5 drawings and the last 5 harvest years (harvest is reported a season after the draw)' : `${nHarv}-yr = the last ${nHarv} harvest years`}, totaled: drawn ÷ applied and harvest ÷ hunters, not an average of yearly percents.
+            {ctl ? 'Drawing = first choice. ' : ''}{ctl ? '5-yr = the last 5 drawings and the last 5 harvest years (harvest is reported a season after the draw)' : `${nHarv}-yr = the last ${nHarv} harvest years`}, totaled: {ctl ? 'drawn ÷ applied and harvest ÷ hunters' : 'harvest ÷ hunters'}, not an average of yearly percents.
             {since ? ` Unit ${s.unit}'s boundary changed in ${since}: earlier years (shaded) cover different ground and aren't counted.` : ''}
           </p>
         </div>
