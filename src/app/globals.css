@@ -280,3 +280,4 @@ table.results.compact tr.total td { font-weight: 700; border-top: 2px solid var(
 .mi-hunts h4 { margin: 8px 0 4px; font-size: .9rem; }
 .mi-hunts ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: .86rem; }
 .mi-hunts li a { font-weight: 600; }
+table.results tr.old td { opacity: .45; }

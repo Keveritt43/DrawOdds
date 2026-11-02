@@ -11,3 +11,8 @@ export function recentBoundaryChanges(units: string[], now = new Date().getFullY
   const hit = units.filter((u) => (BOUNDARY_CHANGES[u] ?? 0) >= now - 1);
   return hit.length ? { units: hit, year: Math.max(...hit.map((u) => BOUNDARY_CHANGES[u])) } : null;
 }
+
+/** Year the unit's current boundary took effect (null = no recorded change). Harvest totals start there. */
+export function boundarySince(unit: string | null | undefined): number | null {
+  return unit ? BOUNDARY_CHANGES[unit] ?? null : null;
+}

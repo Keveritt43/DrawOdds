@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { boundarySince } from '@/lib/boundaries';
 import { sortedSeasons, seasonTitle, seasonDates } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
@@ -41,7 +42,10 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
   const ctl = s.type === 'CONTROLLED';
   const rows = history.filter((h) => h.permits != null || h.resApps != null || h.hunters != null).sort((a, b) => b.year - a.year);
   const drawn = rows.filter((h) => h.permits != null || h.resApps != null);
-  const harvested = rows.filter((h) => h.hunters != null);
+  // general season in a redrawn unit: years before the change are shown but not counted (different ground)
+  const since = !ctl && !s.nrTag ? boundarySince(s.unit) : null;
+  const harvested = rows.filter((h) => h.hunters != null && (!since || h.year >= since));
+  const nHarv = Math.min(5, harvested.length);
   const sum = (xs: typeof rows, f: (h: (typeof rows)[number]) => number | null | undefined) => xs.slice(0, 5).reduce((a, h) => a + (f(h) ?? 0), 0);
   const ratio = (d?: number | null, a?: number | null, cap = false) => (a ? `${(cap ? Math.min(100, (100 * (d ?? 0)) / a) : (100 * (d ?? 0)) / a).toFixed(1)}%` : '-');
   const n = (v?: number | null) => (v != null ? int(v) : '-');
@@ -92,7 +96,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
             <div className="stat"><div className="k">Draw + fill, per year</div><div className="v">{pct(s[rf.tagAndFill], 1)}</div></div>
           </>
         )}
-        <div className="stat"><div className="k">Hunter success, 5-yr</div><div className="v">{pct(s.success5)}</div></div>
+        <div className="stat"><div className="k">Hunter success, {s.harvestYears > 0 && s.harvestYears < 5 ? `${s.harvestYears}-yr` : '5-yr'}</div><div className="v">{pct(s.success5)}</div></div>
         <div className="stat"><div className="k">{s.species === 'DEER' ? 'Mule 4+ share' : '6+ bull share'}</div><div className="v">{pct(s.bigPct5)}</div></div>
         {s.species === 'DEER' && <div className="stat"><div className="k">Deer</div><div className="v" style={{ fontSize: 18 }}>{s.deerType ? `${DEERTYPE[s.deerType]} (${pct100(s.whitetailPct5)} WT)` : '-'}</div></div>}
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(s.publicPct)}</div></div>
@@ -142,7 +146,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
             </thead>
             <tbody>
               {rows.map((h) => (
-                <tr key={h.year}>
+                <tr key={h.year} className={since && h.year < since ? 'old' : undefined} title={since && h.year < since ? `Before the ${since} boundary change` : undefined}>
                   <td>{h.year}</td>
                   {ctl && <><td>{h.huntNumber ?? '-'}</td><td className="num">{n(h.permits)}</td>
                     <td className="num">{h.resApps ? `${n(h.resPermits)} / ${n(h.resApps)}` : '-'}</td><td className="num">{ratio(h.resPermits, h.resApps, true)}</td>
@@ -151,7 +155,7 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
                 </tr>
               ))}
               <tr className="total">
-                <td>5-yr</td>
+                <td>{ctl ? '5-yr' : `${nHarv}-yr`}</td>
                 {ctl && <><td /><td className="num">{int(sum(drawn, (h) => h.permits))}</td>
                   <td className="num">{int(sum(drawn, (h) => h.resPermits))} / {int(sum(drawn, (h) => h.resApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.resPermits), sum(drawn, (h) => h.resApps), true)}</td>
                   <td className="num">{int(sum(drawn, (h) => h.nrPermits))} / {int(sum(drawn, (h) => h.nrApps))}</td><td className="num">{ratio(sum(drawn, (h) => h.nrPermits), sum(drawn, (h) => h.nrApps), true)}</td></>}
@@ -161,7 +165,8 @@ export default async function HuntPage({ params }: { params: Promise<{ id: strin
             </tbody>
           </table>
           <p className="small muted" style={{ margin: '6px 0 0' }}>
-            {ctl ? 'Drawing = first choice. ' : ''}5-yr = the last 5 {ctl ? 'drawings and the last 5 harvest years (harvest is reported a season after the draw)' : 'harvest years'}, totaled: drawn ÷ applied and harvest ÷ hunters, not an average of yearly percents.
+            {ctl ? 'Drawing = first choice. ' : ''}{ctl ? '5-yr = the last 5 drawings and the last 5 harvest years (harvest is reported a season after the draw)' : `${nHarv}-yr = the last ${nHarv} harvest years`}, totaled: drawn ÷ applied and harvest ÷ hunters, not an average of yearly percents.
+            {since ? ` Unit ${s.unit}'s boundary changed in ${since}: earlier years (shaded) cover different ground and aren't counted.` : ''}
           </p>
         </div>
       )}

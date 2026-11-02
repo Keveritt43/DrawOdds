@@ -241,3 +241,10 @@ test('odds are capped at 100% when tags exceed first-choice applicants', async (
   assert.equal(odds(25, 449), 25 / 449);
   assert.equal(odds(5, 0), null);
 });
+
+test('harvest totals start at the unit boundary change', async () => {
+  const { boundarySince } = await import('../src/lib/boundaries');
+  assert.equal(boundarySince('39'), 2022);
+  assert.equal(boundarySince('54'), null);
+  assert.equal(boundarySince(null), null);
+});

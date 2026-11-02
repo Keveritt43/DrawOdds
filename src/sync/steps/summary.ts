@@ -1,4 +1,5 @@
 import type { DrawOdds, Prisma } from '@prisma/client';
+import { boundarySince } from '../../lib/boundaries';
 import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
 import { loadElkTagSeasons, loadDeerTagSeasons, type TagSeason } from '../core/datafiles';
@@ -143,7 +144,9 @@ export async function buildSummaries(): Promise<StepResult> {
     const named = unitsFromName(h.name);
     for (const unit of named.length ? named : h.units) {
       const method = METHOD[h.weapon] ?? 'All Weapons Combined';
-      const rows = await db.generalHarvest.findMany({ where: { species: h.species, unit, takeMethod: method, year: { gte: thisYear() - 6 } } });
+      // a unit redrawn by IDFG: only seasons on the current ground count toward the 5-yr numbers
+      const since = boundarySince(unit) ?? 0;
+      const rows = await db.generalHarvest.findMany({ where: { species: h.species, unit, takeMethod: method, year: { gte: Math.max(thisYear() - 6, since) } } });
       const hs = summarizeHarvest(h.species, rows as HarvestRow[]);
       const u = unitMap.get(unit);
       // general seasons from the regulations for this unit and weapon (deer: Regular Deer tag table, elk: the
@@ -250,7 +253,8 @@ async function nrTagSummary(
     where: { species: h.species, unit: { in: h.units }, takeMethod: 'All Weapons Combined', year: { gte: thisYear() - 6 } },
   });
   const lastYear = Math.max(0, ...gen.map((g) => g.year));
-  const recent = gen.filter((g) => g.year > lastYear - 5);
+  // per unit, skip seasons before that unit's boundary change
+  const recent = gen.filter((g) => g.year > lastYear - 5 && g.year >= (boundarySince(g.unit) ?? 0));
   const hunters = recent.reduce((a, g) => a + (g.hunters ?? 0), 0);
   const harvest = recent.reduce((a, g) => a + (g.harvest ?? 0), 0);
   const success = hunters ? harvest / hunters : null;
