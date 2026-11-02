@@ -262,7 +262,7 @@ async function nrTagSummary(
     id: `t:${key}`,
     nrTag: true,
     tagCode: code || null,
-    tagSeasons: seasons.length ? { year: ts!.year, seasons } : undefined,
+    tagSeasons: seasons.length ? (JSON.parse(JSON.stringify({ year: ts!.year, seasons })) as Prisma.InputJsonValue) : undefined,
     weapons: [...new Set(seasons.map((x) => x.weapon))],
     months,
     openDate,
