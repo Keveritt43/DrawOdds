@@ -12,7 +12,8 @@ const MIN_HUNTERS = 50;
 const SHADED = ['publicPct', 'huntablePct', 'genSuccessDeer', 'genSuccessElk', 'huntersSqMiDeer', 'huntersSqMiElk', 'bestResOdds', 'bestNrOdds'] as const;
 
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection (plus class breaks). */
-export async function GET() {
+export async function GET(req: Request) {
+  const statsOnly = new URL(req.url).searchParams.has('stats');
   const [units, sums, general] = await Promise.all([
     db.unit.findMany({ where: { geometry: { not: undefined } } }),
     db.huntSummary.findMany({
@@ -93,6 +94,10 @@ export async function GET() {
   const classes = Object.fromEntries(
     SHADED.map((f) => [f, classBreaks(features.map((x) => x.properties[f]).filter((v): v is number => typeof v === 'number'))]),
   );
+  if (statsOnly) {
+    const missing = Object.fromEntries(SHADED.map((f) => [f, features.filter((x) => typeof x.properties[f] !== 'number').length]));
+    return Response.json({ units: features.length, years: lastYear, classes, missing });
+  }
   return Response.json(
     { type: 'FeatureCollection', features, classes, years: lastYear },
     { headers: { 'Cache-Control': 'public, max-age=3600' } },
