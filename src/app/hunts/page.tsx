@@ -37,6 +37,7 @@ function chips(f: Filters, nr: boolean): { label: string; href: string }[] {
   if (f.minHuntable) add(`Huntable ${f.minHuntable}%+`, { minHuntable: null });
   if (f.accessYes) add('Has Access Yes!', { accessYes: false });
   if (f.minTags) add(`${f.minTags}+ tags`, { minTags: null });
+  if (f.maxDensity) add(`≤ ${f.maxDensity} hunters/mi²`, { maxDensity: null });
   if (f.unit) add(`Unit ${f.unit}`, { unit: '' });
   if (f.q) add(`"${f.q}"`, { q: '' });
   return out;

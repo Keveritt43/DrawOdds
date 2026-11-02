@@ -17,6 +17,7 @@ export interface Filters {
   minHuntable: number | null; // percent public + Access Yes!
   minBig: number | null; // trophy share: deer mule 4+, elk 6+ (percent of antlered)
   minTags: number | null;
+  maxDensity: number | null; // at most this many hunters per square mile
   accessYes: boolean;
   youth: 'exclude' | 'include' | 'only';
   unit: string;
@@ -51,6 +52,7 @@ export function parseFilters(sp: SP): Filters {
     minHuntable: pct(sp.minHuntable),
     minBig: pct(sp.minBig),
     minTags: Number(one(sp.minTags)) > 0 ? Math.min(10000, Math.round(Number(one(sp.minTags)))) : null,
+    maxDensity: Number(one(sp.maxDensity)) > 0 ? Math.min(100, Number(one(sp.maxDensity))) : null,
     accessYes: one(sp.accessYes) === '1',
     youth: (['include', 'only'] as const).find((y) => y === one(sp.youth)) ?? 'exclude',
     unit: one(sp.unit).trim().toUpperCase().slice(0, 6),
@@ -89,6 +91,8 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   if (f.minHuntable !== null) and.push({ huntablePct: { gte: f.minHuntable } });
   if (f.minBig !== null) and.push({ bigPct5: { gte: f.minBig / 100 } });
   if (f.minTags !== null) and.push({ OR: [{ tags: { gte: f.minTags } }, { type: 'GENERAL' }] });
+  // hunts with no hunter data are left out: an unknown density can't be "uncrowded"
+  if (f.maxDensity !== null) and.push({ huntersSqMi: { lte: f.maxDensity } });
   if (f.accessYes) and.push({ accessYesCount: { gt: 0 } });
   if (f.youth === 'exclude') and.push({ youthOnly: false });
   if (f.youth === 'only') and.push({ youthOnly: true });
@@ -163,6 +167,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('minHuntable', m.minHuntable);
   set('minBig', m.minBig);
   set('minTags', m.minTags);
+  set('maxDensity', m.maxDensity);
   set('accessYes', m.accessYes);
   if (m.youth && m.youth !== 'exclude') set('youth', m.youth);
   set('unit', m.unit);

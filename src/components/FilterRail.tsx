@@ -13,6 +13,7 @@ const NRTAG: Opt = ['NRTAG', 'General Tag Draw (Nonresident)'];
 const WEAPONS: Opt[] = [['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader'], ['SHORT_RANGE', 'Short Range']];
 const ANTLER: Opt[] = [['ANTLERED', 'Antlered'], ['ANTLERLESS', 'Antlerless'], ['EITHER', 'Either Sex']];
 const MONTHS: Opt[] = [['8', 'Aug'], ['9', 'Sep'], ['10', 'Oct'], ['11', 'Nov'], ['12', 'Dec'], ['1', 'Jan']];
+const DENSITY = [0, 8, 5, 3, 2, 1.5, 1, 0.5, 0.25]; // 0 = any; dragging right = fewer hunters, like the other sliders
 const DEER: Opt[] = [['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED', 'Mixed']];
 
 /** goHunt-style rail: each section shows its current value and opens to edit. Every change updates the URL. */
@@ -109,6 +110,10 @@ export function FilterRail({ residency }: { residency: Residency }) {
             <label><input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} /> Has Access Yes! land</label>
           </div>
         </Section>
+        <Section title="Hunters Per Sq Mi" value={get('maxDensity') ? `${get('maxDensity')} or fewer` : 'Any'} set={!!get('maxDensity')}>
+          <StopSlider stops={DENSITY} value={Number(get('maxDensity') || 0)} onCommit={(v) => push({ maxDensity: v ? String(v) : null })} />
+          <p className="small muted" style={{ margin: '6px 0 0' }}>Average hunters per year for the hunt or season, per square mile. Controlled hunts count only their own hunters, not general hunters in the same area.</p>
+        </Section>
         <Section title="Tags" value={get('minTags') ? `${get('minTags')}+ tags` : 'Any'} set={!!get('minTags')}>
           <Slider value={Number(get('minTags') || 0)} max={100} step={5} suffix="" onCommit={(v) => push({ minTags: v ? String(v) : null })} />
           <p className="small muted" style={{ margin: '6px 0 0' }}>Hide tiny hunts: 2-3 tag hunts swing hard on one applicant.</p>
@@ -160,6 +165,33 @@ function Slider({ value, max, step, suffix, onCommit }: { value: number; max: nu
       <input type="range" min={0} max={max} step={step} value={v} onChange={(e) => setV(Number(e.target.value))}
         onPointerUp={commit} onKeyUp={commit} onBlur={commit} aria-valuetext={`${v}${suffix}`} />
       <div className="slider-ends"><span>Any</span><span>{max}{suffix}</span></div>
+    </div>
+  );
+}
+
+/** Maximum slider over fixed stops (skewed data), loosest to strictest: left end = Any. Commits on release. */
+function StopSlider({ stops, value, onCommit }: { stops: number[]; value: number; onCommit: (v: number) => void }) {
+  const idx = (v: number) => Math.max(0, stops.findIndex((s) => s > 0 && Math.abs(s - v) < 1e-9));
+  const [i, setI] = useState(value ? idx(value) : 0);
+  const committed = useRef(i);
+  useEffect(() => {
+    const n = value ? idx(value) : 0;
+    setI(n);
+    committed.current = n;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+  const commit = () => {
+    if (i !== committed.current) {
+      committed.current = i;
+      onCommit(stops[i]);
+    }
+  };
+  return (
+    <div>
+      <div style={{ textAlign: 'right', marginBottom: 4 }}><span className="slider-val">{stops[i] ? `${stops[i]} or fewer` : 'Any'}</span></div>
+      <input type="range" min={0} max={stops.length - 1} step={1} value={i} onChange={(e) => setI(Number(e.target.value))}
+        onPointerUp={commit} onKeyUp={commit} onBlur={commit} aria-valuetext={stops[i] ? `${stops[i]} hunters per square mile or fewer` : 'Any'} />
+      <div className="slider-ends"><span>Any</span><span>{stops[stops.length - 1]}</span></div>
     </div>
   );
 }
