@@ -61,3 +61,9 @@ Sync steps: `odds harvest general gis land hunts summary` (default: all, in that
 ## Data, attribution and limits
 
 All data is public IDFG data. The app is not affiliated with or endorsed by IDFG, and says so on every page. Before charging money, confirm IDFG's terms for reuse of Hunt Planner data. Known limits are listed on `/about` (2022 boundary changes, small nonresident samples, estimates from rounded percentages).
+
+## Map shading
+
+Class breaks for each map metric are computed from the live data (`src/lib/breaks.ts`): quantiles rounded to
+the coarsest nice step that keeps the classes distinct and balanced. `GET /api/units?stats=1` returns the
+current breaks and per-class unit counts.
