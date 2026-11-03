@@ -16,6 +16,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
       id: h.id,
       type: h.nrTag ? 'NRTAG' : h.type,
       label: unitHuntLabel(h),
+      species: h.species,
       antler: h.antlerClass,
       open: h.openDate,
       close: h.closeDate,

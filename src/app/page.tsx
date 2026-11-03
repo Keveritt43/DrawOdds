@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
 import { ResidencySwitch } from '@/components/ResidencySwitch';
+import { NR_GENERAL_DRAW, CONTROLLED_DRAW, nextWindow, md } from '@/lib/applyInfo';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,12 @@ export default async function Home() {
     db.accessYesProperty.aggregate({ _sum: { acres: true }, where: { active: true } }),
   ]);
   const yrs = oddsYears.map((y) => y.year);
+  const nr = residency === 'NONRESIDENT';
+  // the next application window that matters to this visitor
+  const nextNr = nextWindow(NR_GENERAL_DRAW.windows);
+  const nextCtl = nextWindow(CONTROLLED_DRAW.windows);
+  const deadline = [nr && nextNr ? { what: `Nonresident general deer & elk tag draw (${NR_GENERAL_DRAW.season} season)`, ...nextNr } : null, nextCtl ? { what: 'Controlled hunt applications (deer, elk, pronghorn)', ...nextCtl } : null]
+    .filter((x): x is NonNullable<typeof x> => !!x).sort((a, b) => a.start.getTime() - b.start.getTime())[0];
   const span = yrs.length ? `${Math.min(...yrs)}–${Math.max(...yrs)}` : '-';
   const opt = (name: string, value: string, label: string, checked = false) => (
     <label>
@@ -32,9 +39,15 @@ export default async function Home() {
               Find Your Idaho Hunt. <em>Know Your Odds.</em>
             </h1>
             <p className="lead">
-              Every Idaho deer and elk controlled hunt and general season in one place: draw odds for your residency, hunter
-              success, trophy share, mule deer vs whitetail, public land and Access Yes! acres, on a topo map.
+              Every Idaho deer, elk and pronghorn hunt in one place: draw odds for your residency, hunter success, how
+              crowded it gets, public land and Access Yes! acres, on a map. Answer four questions and we&apos;ll show you
+              where to start.
             </p>
+            {deadline && (
+              <p className="deadline">
+                {deadline.open ? 'Open now' : 'Next deadline'}: <b>{deadline.what}</b>, {md(deadline.start.toISOString().slice(0, 10))} – {md(deadline.end.toISOString().slice(0, 10), true)}.
+              </p>
+            )}
             <div className="ctas">
               <Link className="btn primary big" href="/hunts">Start Filtering</Link>
               <Link className="btn btn-light big" href="/map">Explore The Unit Map</Link>
@@ -46,13 +59,22 @@ export default async function Home() {
             <label>I&apos;m Applying As</label>
             <ResidencySwitch value={residency} />
             <label>Species</label>
-            <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', '', 'Both')}</div>
+            <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', 'PRONGHORN', 'Pronghorn')}{opt('species', '', 'Any')}</div>
             <label>Hunt Type</label>
-            <div className="opts">{opt('type', 'CONTROLLED', 'Controlled Draw', true)}{opt('type', 'GENERAL', 'General (OTC)')}{opt('type', '', 'Either')}</div>
+            <div className="opts">
+              {opt('type', 'CONTROLLED', 'Controlled Draw', true)}
+              {opt('type', 'GENERAL', nr ? 'General Tag (Draw For Nonresidents)' : 'General (Over The Counter)')}
+              {opt('type', '', 'Either')}
+            </div>
+            <p className="hint">{nr
+              ? 'Controlled hunts: limited tags, separate odds. General: since 2026 nonresidents draw for general deer and elk tags too (elk by zone, deer by unit). Pronghorn are controlled only.'
+              : 'Controlled hunts: limited tags by draw, often better hunting. General: buy a tag over the counter and hunt the open seasons. Pronghorn are controlled only.'}</p>
+            <label>What Are You After?</label>
+            <div className="opts">{opt('antler', 'ANTLERED', 'A Buck Or Bull', true)}{opt('antler', '', 'Any Animal (Incl. Does / Cows)')}</div>
             <label>Weapon</label>
-            <div className="opts">{opt('weapon', '', 'All', true)}{opt('weapon', 'ANY', 'Rifle / Any Weapon')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
+            <div className="opts">{opt('weapon', '', 'Any', true)}{opt('weapon', 'ANY', 'Rifle')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
             <label>I Want</label>
-            <div className="opts">{opt('sort', 'best', 'Best Chance To Fill', true)}{opt('sort', 'big', 'Trophy Potential')}{opt('sort', 'public', 'Public Land')}</div>
+            <div className="opts">{opt('sort', 'best', 'Best Chance To Fill', true)}{opt('sort', 'densityLow', 'Fewer Hunters')}{opt('sort', 'big', 'Trophy Potential')}</div>
             <button className="btn primary" type="submit">Show Me Hunts</button>
           </form>
         </div>
@@ -72,7 +94,7 @@ export default async function Home() {
             <p>Five years of harvest per hunt and per unit, compared with the general season in the same ground.</p>
             <span className="go">Highest success →</span>
           </Link>
-          <Link className="tile tone-larch" href="/hunts?species=DEER&deerType=MULE&sort=big">
+          <Link className="tile tone-larch" href="/hunts?species=DEER&deerType=MULE&antler=ANTLERED&sort=big">
             <span className="pill">Trophy</span>
             <h3>Mule Deer, Whitetail, Big Bulls</h3>
             <p>Mule deer vs whitetail share, 4+ point mule deer and 6+ point bulls, back-calculated from IDFG harvest reports.</p>
@@ -93,14 +115,14 @@ export default async function Home() {
             <h2>How To Find A Hunt</h2>
             <ol className="steps">
               <li>Set resident or nonresident. Every odds number on the site follows it.</li>
-              <li>Pick species, weapon and season dates. The map lights up the units that match.</li>
-              <li>Slide the minimums: draw odds, hunter success, trophy share, public land.</li>
-              <li>Open a hunt for its 10-year trends, then save it to your list.</li>
+              <li>Answer Quick Start. You get a short list with the best mix of draw odds and hunter success on top.</li>
+              <li>Each hunt says in plain words how its odds, success and crowding compare. Tap any label for what it means.</li>
+              <li>Open a hunt for the application code, dates and 10-year trends, then save it to your list.</li>
             </ol>
           </div>
           <div className="bignums">
             <div><b>{hunts.toLocaleString()}</b><span>Hunt and unit combinations</span></div>
-            <div><b>{controlled.toLocaleString()}</b><span>Controlled hunts with odds</span></div>
+            <div><b>{controlled.toLocaleString()}</b><span>Controlled hunts</span></div>
             <div><b>{span}</b><span>Years of draw odds</span></div>
             <div><b>{accessYes._sum.acres ? `${Math.round(accessYes._sum.acres / 1000).toLocaleString()}k` : units}</b><span>{accessYes._sum.acres ? 'Access Yes! acres mapped' : 'Units mapped'}</span></div>
           </div>

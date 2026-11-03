@@ -1,6 +1,6 @@
 import { emailSignIn } from '@/app/actions';
 
-export const metadata = { title: 'Sign in - Idaho Hunt Planner' };
+export const metadata = { title: 'Sign In' };
 
 export default async function Login({ searchParams }: { searchParams: Promise<{ sent?: string; error?: string; next?: string }> }) {
   const sp = await searchParams;

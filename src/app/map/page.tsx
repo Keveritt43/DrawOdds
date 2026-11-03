@@ -3,7 +3,7 @@ import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'Unit map - Idaho Hunt Planner' };
+export const metadata = { title: 'Unit Map' };
 
 export default async function MapPage() {
   const [{ residency }, fav] = await Promise.all([getResidency(), getFavorites()]);

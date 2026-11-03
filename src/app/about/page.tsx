@@ -1,4 +1,4 @@
-export const metadata = { title: 'Data & Methods - DrawOdds Idaho' };
+export const metadata = { title: 'Data & Methods' };
 
 export default function About() {
   return (

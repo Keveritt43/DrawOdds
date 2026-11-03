@@ -206,6 +206,13 @@ export interface HarvestSummary {
   successPrev: number | null; // previous season, only when it was the year before
 }
 
+/** Fewer antlered animals than this over 5 years: the trophy share is too noisy to show. */
+export const MIN_TROPHY_BASE = 20;
+export function trophyShare(trophies: number | null, base: number | null): number | null {
+  if (trophies === null || base === null || base < MIN_TROPHY_BASE) return null;
+  return Math.min(1, trophies / base);
+}
+
 /** IDFG harvest rows with more animals than hunters are data errors (tiny samples): treat that year as missing. */
 export const validHarvest = (r: { hunters: number | null; harvest: number | null }) => !(r.harvest !== null && r.hunters !== null && r.harvest > r.hunters);
 
@@ -216,13 +223,19 @@ export function summarizeHarvest(species: SpeciesName, rows: HarvestRow[]): Harv
   const wt = species === 'DEER' ? sumOf(five, (r) => r.estWt) : null;
   const wtPct = species === 'DEER' && wt !== null && harvest ? (wt / harvest) * 100 : null;
   const antlered = sumOf(five, (r) => r.antlered);
+  // trophy share: the counts are back-calculated from IDFG's rounded percentages, so a handful of animals can
+  // round to more trophies than antlered animals (103%). Under MIN_TROPHY_BASE antlered animals it's left blank,
+  // and it never goes over 100%. Only years that have the trophy estimate count in the denominator.
   let bigPct: number | null = null;
-  if (species === 'ELK') bigPct = ratio(sumOf(five, (r) => r.est6), antlered);
-  else if (species === 'DEER') {
-    const muleAnt = sumOf(five, (r) =>
+  if (species === 'ELK') {
+    const yrs = five.filter((r) => r.est6 !== null && r.antlered !== null);
+    bigPct = trophyShare(sumOf(yrs, (r) => r.est6), sumOf(yrs, (r) => r.antlered));
+  } else if (species === 'DEER') {
+    const yrs = five.filter((r) => r.est4 !== null && r.antlered !== null);
+    const muleAnt = sumOf(yrs, (r) =>
       r.antlered === null ? null : r.year >= SPLIT_YEAR && r.estWt !== null && r.harvest ? r.antlered * (1 - r.estWt / r.harvest) : r.antlered,
     );
-    bigPct = ratio(sumOf(five, (r) => r.est4), muleAnt);
+    bigPct = trophyShare(sumOf(yrs, (r) => r.est4), muleAnt);
   }
   return {
     success5: ratio(harvest, hunters),

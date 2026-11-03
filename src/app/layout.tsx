@@ -10,8 +10,8 @@ const body = Barlow({ subsets: ['latin'], weight: ['400', '500', '600', '700'], 
 const display = Barlow_Condensed({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-barlow-condensed', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'DrawOdds Idaho: Draw Odds, Harvest And Land Access For Deer And Elk',
-  description: 'Find Idaho deer and elk hunts by draw odds for your residency, hunter success, season, weapon, mule deer vs whitetail, public land and Access Yes!',
+  title: { default: 'DrawOdds Idaho: Draw Odds For Deer, Elk And Pronghorn', template: '%s · DrawOdds Idaho' },
+  description: 'Find Idaho deer, elk and pronghorn hunts by draw odds for your residency, hunter success, crowding, season, weapon, public land and Access Yes!',
 };
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#1d2023' };
 
@@ -38,6 +38,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Link href="/map">Unit Map</Link>
               <Link href="/hunts?species=ELK&type=CONTROLLED">Elk Draws</Link>
               <Link href="/hunts?species=DEER&type=CONTROLLED">Deer Draws</Link>
+              <Link href="/hunts?species=PRONGHORN">Pronghorn Draws</Link>
             </nav>
             <nav aria-label="About">
               <b>About</b>

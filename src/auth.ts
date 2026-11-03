@@ -10,7 +10,7 @@ declare module 'next-auth' {
   }
 }
 
-const FROM = process.env.EMAIL_FROM ?? 'Idaho Hunt Planner <onboarding@resend.dev>';
+const FROM = process.env.EMAIL_FROM ?? 'DrawOdds Idaho <onboarding@resend.dev>';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
@@ -33,9 +33,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           body: JSON.stringify({
             from: FROM,
             to: identifier,
-            subject: 'Sign in to Idaho Hunt Planner',
-            text: `Sign in to Idaho Hunt Planner:\n\n${url}\n\nThis link expires in 24 hours. If you didn't ask for it, ignore this email.`,
-            html: `<p>Sign in to Idaho Hunt Planner:</p><p><a href="${url}">Sign in</a></p><p style="color:#666">This link expires in 24 hours. If you didn't ask for it, ignore this email.</p>`,
+            subject: 'Sign in to DrawOdds Idaho',
+            text: `Sign in to DrawOdds Idaho:\n\n${url}\n\nThis link expires in 24 hours. If you didn't ask for it, ignore this email.`,
+            html: `<p>Sign in to DrawOdds Idaho:</p><p><a href="${url}">Sign in</a></p><p style="color:#666">This link expires in 24 hours. If you didn't ask for it, ignore this email.</p>`,
           }),
         });
         if (!res.ok) throw new Error(`Resend error ${res.status}: ${await res.text()}`);

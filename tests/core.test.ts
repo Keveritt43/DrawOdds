@@ -281,16 +281,43 @@ test('harvest tables are kept only when the columns match the species (no deer p
   assert.equal(speciesColumns('ELK', deer), false);
 });
 
-test('nonresident controlled-hunt cap: 10 or fewer tags -> 1, else 10% rounded down, unlimited -> none', async () => {
-  const { nrCap, controlledTags } = await import('../src/lib/format');
-  assert.equal(nrCap(1), 1);
+test('nonresident controlled-hunt tags: draw history first, the 10% rule only without one', async () => {
+  const { nrCap, nrTags, controlledTags } = await import('../src/lib/format');
   assert.equal(nrCap(10), 1);
   assert.equal(nrCap(11), 1);
-  assert.equal(nrCap(19), 1);
   assert.equal(nrCap(20), 2);
   assert.equal(nrCap(334), 33);
   assert.equal(nrCap(null), null);
-  assert.equal(controlledTags(120, false), '120 tags');
-  assert.equal(controlledTags(120, true, 11, 2026), "120 tags · max 12 NR (11 drew '26)");
+  // hunt 1057: 240 nonresidents drew, 632 applied -> the limit is 240 (not 10% of 2,293 = 229)
+  assert.deepEqual(nrTags(2293, 240, 632, 2026)?.kind, 'full');
+  assert.equal(controlledTags(2293, true, 240, 632, 2026), '2,293 tags · 240 for NR');
+  // pronghorn 4028: 34 drew, 34 applied -> everyone drew (34 > the 22 a flat 10% would allow)
+  assert.equal(controlledTags(225, true, 34, 34, 2026), "225 tags · all NR drew '26");
+  // no drawing yet -> the rule
+  assert.equal(controlledTags(120, true, null, null, null), '120 tags · up to 12 NR');
+  assert.equal(controlledTags(120, false, 11, 50, 2026), '120 tags');
   assert.equal(controlledTags(null, true), 'Tags: see regs');
+});
+
+test('trophy share: never over 100%, blank on tiny samples', async () => {
+  const { trophyShare } = await import('../src/sync/core/math');
+  assert.equal(trophyShare(31, 30), 1);
+  assert.equal(trophyShare(3, 2), null);
+  assert.equal(trophyShare(10, 40), 0.25);
+});
+
+test('verdicts and draw x fill wording', async () => {
+  const { oddsVerdict, successVerdict, crowdVerdict, drawFillLine, pctOdds, meaningfulChange } = await import('../src/lib/format');
+  assert.equal(oddsVerdict(1).text, 'Everyone drew');
+  assert.equal(oddsVerdict(0.38).text, 'Fair odds');
+  assert.equal(oddsVerdict(0.005).text, 'Very long shot');
+  assert.equal(successVerdict(0.2, 'ELK').text, 'Typical');
+  assert.equal(successVerdict(0.2, 'DEER').text, 'Low for deer');
+  assert.equal(crowdVerdict(1.7).text, 'Crowded');
+  assert.equal(drawFillLine(0.196), 'about 1 in 5');
+  assert.equal(drawFillLine(0.62), 'about 6 in 10');
+  assert.equal(pctOdds(0), '0%');
+  assert.equal(pctOdds(0.036), '3.6%');
+  assert.equal(meaningfulChange(6, 2, 20), false);
+  assert.equal(meaningfulChange(90, 79, 20), true);
 });

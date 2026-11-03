@@ -6,58 +6,13 @@ import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'map
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import Link from 'next/link';
-import { classBreaks } from '@/lib/breaks';
 import { Star } from './Star';
+import { MapKey } from './MapKey';
+import { METRICS, pickRamp, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
+import { loadUnits } from '@/lib/unitData';
+import { antlerLabel } from '@/lib/format';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
-
-type Sp = 'DEER' | 'ELK';
-interface MetricDef {
-  label: string;
-  field: (sp: Sp, nr: boolean) => string;
-  ramp: string[];
-  bySpecies?: boolean;
-  fmt: (v: number) => string;
-  none: string;
-  note: string;
-}
-// light -> dark, single hue per meaning: green = land you can hunt, orange = success / odds, plum = crowding
-const GREEN = ['#eef4e6', '#d2e4bf', '#aecd92', '#84b267', '#5b9242', '#346c27'];
-const ORANGE = ['#fdeadc', '#fbcaa7', '#f7a474', '#f27c44', '#d85b18', '#9c3d0a'];
-const PLUM = ['#f4eaf2', '#e2c6dd', '#cb9ac4', '#af6ca7', '#8b4386', '#5f2260'];
-const num = (v: number) => (v >= 10 ? String(Math.round(v)) : v >= 1 ? String(Number(v.toFixed(1))) : String(Number(v.toFixed(2))));
-const pctOf = (v: number) => `${num(v)}%`;
-
-const METRICS: Record<string, MetricDef> = {
-  public: {
-    label: 'Public Land %', field: () => 'publicPct', ramp: GREEN, fmt: pctOf, none: 'No data',
-    note: 'Federal + state land, from IDFG unit pages. Does not include Access Yes!.',
-  },
-  huntable: {
-    label: 'Public + Access Yes! %', field: () => 'huntablePct', ramp: GREEN, fmt: pctOf, none: 'No data',
-    note: 'Public land plus private land enrolled in Access Yes! (open to hunting by agreement).',
-  },
-  success: {
-    label: 'General Success %', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No general season / under 50 hunters',
-    field: (sp) => (sp === 'ELK' ? 'genSuccessElk' : 'genSuccessDeer'),
-    note: 'Harvest ÷ hunters, general seasons, all weapons, last 5 seasons (only seasons after a boundary change).',
-  },
-  pressure: {
-    label: 'General Hunters / Sq Mi', bySpecies: true, ramp: PLUM, fmt: num, none: 'No general season',
-    field: (sp) => (sp === 'ELK' ? 'huntersSqMiElk' : 'huntersSqMiDeer'),
-    note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Darker = more crowded.',
-  },
-  odds: {
-    label: 'Best Antlered Draw Odds', ramp: ORANGE, fmt: (v) => pctOf(v * 100), none: 'No antlered controlled hunts',
-    field: (_sp, nr) => (nr ? 'bestNrOdds' : 'bestResOdds'),
-    note: 'Best 5-year first-choice odds of any adult antlered controlled hunt touching the unit, for your residency (antlerless and youth hunts left out).',
-  },
-};
-type Metric = keyof typeof METRICS;
-const NODATA = '#e0ddd5';
-interface Classes { breaks: number[]; counts: number[] }
-/** Spread n colors across a 6-color ramp, keeping the darkest. */
-const pickRamp = (ramp: string[], n: number) => Array.from({ length: n }, (_, i) => ramp[n === 1 ? ramp.length - 1 : Math.round((i * (ramp.length - 1)) / (n - 1))]);
 
 export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean }) {
   const el = useRef<HTMLDivElement>(null);
@@ -67,8 +22,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
-  const [open, setOpen] = useState(false);
-  type UH = { id: string; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
+  type UH = { id: string; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
   const [uh, setUh] = useState<{ unit: string; rows: UH[] } | null>(null);
   const selName = sel ? String(sel.name) : null;
   useEffect(() => {
@@ -78,7 +32,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     return () => { live = false; };
   }, [selName, focus]);
   const [err, setErr] = useState('');
-  const [kind, setKind] = useState<Basemap>('topo');
+  const [kind, setKind] = useState<Basemap>('satellite');
   useEffect(() => {
     if (map.current?.isStyleLoaded()) setBasemap(map.current, kind);
   }, [kind]);
@@ -90,23 +44,15 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
 
   useEffect(() => {
     if (!el.current || map.current) return;
-    const m = new maplibregl.Map({ container: el.current, style: baseStyle('topo'), center: [-114.6, 45.0], zoom: 5.2, maxZoom: 15, attributionControl: { compact: true } });
+    const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, fitBoundsOptions: { padding: { top: 96, bottom: 16, left: 16, right: 16 } }, maxZoom: 15, attributionControl: { compact: true } });
     map.current = m;
-    m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
     m.on('load', async () => {
       try {
-        // versioned URL: an hour-cached response from before a deploy must not be reused
-        const fc = await (await fetch('/api/units?v=3')).json();
-        const fields = [...new Set(Object.values(METRICS).flatMap((x) => [x.field('DEER', false), x.field('ELK', false), x.field('DEER', true)]))];
-        const vals = (k: string) => fc.features.map((f: { properties: Props }) => f.properties[k]).filter((x: unknown): x is number => typeof x === 'number');
-        // breaks normally come from the server; compute them here if they're missing
-        const cl: Record<string, Classes> = { ...(fc.classes ?? {}) };
-        for (const k of fields) if (!cl[k]) cl[k] = classBreaks(vals(k));
+        const { fc, classes: cl, missing: miss } = await loadUnits();
         setClasses(cl);
-        const miss: Record<string, number> = {};
-        for (const k of fields) miss[k] = fc.features.length - vals(k).length;
         setMissing(miss);
-        m.addSource('units', { type: 'geojson', data: fc, promoteId: 'name' });
+        m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
         m.addLayer({ id: 'units-fill', type: 'fill', source: 'units', paint: { 'fill-color': '#ccc', 'fill-opacity': 0.62 } });
         m.addLayer({ id: 'units-line', type: 'line', source: 'units', paint: { 'line-color': '#1d2023', 'line-width': 0.8 } });
         m.addLayer({
@@ -132,14 +78,14 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         m.on('mouseenter', 'units-fill', () => (m.getCanvas().style.cursor = 'pointer'));
         m.on('mouseleave', 'units-fill', () => (m.getCanvas().style.cursor = ''));
         if (focus) {
-          const f = fc.features.find((x: { properties: Props }) => x.properties.name === focus);
+          const f = fc.features.find((x) => x.properties.name === focus);
           if (f) {
-            select(focus, f.properties);
+            select(focus, f.properties as Props);
             setSel(null);
             const b = new maplibregl.LngLatBounds();
             const walk = (c: unknown): void => (Array.isArray(c) && typeof c[0] === 'number' ? void b.extend(c as [number, number]) : (c as unknown[]).forEach(walk));
             walk(f.geometry.coordinates);
-            m.fitBounds(b, { padding: 40, duration: 0 });
+            m.fitBounds(b, { padding: { top: 96, bottom: 30, left: 30, right: 30 }, duration: 0 });
           }
         }
         m.fire('metric');
@@ -159,12 +105,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     const m = map.current;
     const apply = () => {
       if (!m?.getLayer('units-fill') || !cls) return;
-      const steps: (string | number)[] = [colors[0]];
-      cls.breaks.forEach((b, i) => steps.push(b, colors[i + 1]));
-      const color = (cls.breaks.length
-        ? ['case', ['!=', ['typeof', ['get', field]], 'number'], NODATA, ['step', ['get', field], ...steps]]
-        : ['case', ['!=', ['typeof', ['get', field]], 'number'], NODATA, colors[0]]) as unknown as ExpressionSpecification;
-      m.setPaintProperty('units-fill', 'fill-color', color);
+      m.setPaintProperty('units-fill', 'fill-color', fillExpression(field, cls, colors) as ExpressionSpecification);
     };
     apply();
     m?.on('metric', apply);
@@ -176,60 +117,8 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   return (
     <div style={{ position: 'relative', height }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
-      <div className="card mappanel">
-        <div className="mp-row">
-          <select id="metric" aria-label="Color units by" value={metric} onChange={(e) => setMetric(e.target.value as Metric)}>
-            {Object.entries(METRICS).map(([k, x]) => <option key={k} value={k}>{x.label}</option>)}
-          </select>
-          {M.bySpecies && (
-            <div className="seg light mp-seg" role="group" aria-label="Species">
-              <button type="button" aria-pressed={sp === 'ELK'} onClick={() => setSp('ELK')}>Elk</button>
-              <button type="button" aria-pressed={sp === 'DEER'} onClick={() => setSp('DEER')}>Deer</button>
-            </div>
-          )}
-          <button type="button" className="mp-more" aria-expanded={open} aria-label={open ? 'Hide map key details' : 'Show map key details'} onClick={() => setOpen((o) => !o)}>
-            {open ? '▴' : '▾'}
-          </button>
-        </div>
-        {cls && (
-          <div className="mp-strip" role="list" aria-label="Map key">
-            {colors.map((c, i) => {
-              const b = cls.breaks;
-              const tick = !b.length ? 'All' : i === 0 ? `<${M.fmt(b[0])}` : M.fmt(b[i - 1]);
-              const full = !b.length ? 'All units' : i === 0 ? `Under ${M.fmt(b[0])}` : i === b.length ? `${M.fmt(b[i - 1])}+` : `${M.fmt(b[i - 1])} to ${M.fmt(b[i])}`;
-              return (
-                <div key={i} className="mp-cell" role="listitem" title={`${full}: ${cls.counts[i]} units`}>
-                  <i style={{ background: c }} />
-                  <span>{tick}</span>
-                </div>
-              );
-            })}
-            {missing[field] ? <div className="mp-cell nd" role="listitem" title={`${M.none}: ${missing[field]} units`}><i style={{ background: NODATA }} /><span>n/a</span></div> : null}
-          </div>
-        )}
-        {open && (
-          <div className="mp-details">
-            {cls && (
-              <table className="legend-t small">
-                <tbody>
-                  {colors.map((c, i) => {
-                    const b = cls.breaks;
-                    const label = !b.length ? 'All units' : i === 0 ? `Under ${M.fmt(b[0])}` : i === b.length ? `${M.fmt(b[i - 1])}+` : `${M.fmt(b[i - 1])} to ${M.fmt(b[i])}`;
-                    return <tr key={i}><td><i style={{ background: c }} /></td><td>{label}</td><td className="n">{cls.counts[i]} units</td></tr>;
-                  }).reverse()}
-                  {missing[field] ? <tr><td><i style={{ background: NODATA }} /></td><td>{M.none}</td><td className="n">{missing[field]}</td></tr> : null}
-                </tbody>
-              </table>
-            )}
-            <p className="small muted" style={{ margin: '4px 0 8px' }}>{M.note} Each shade holds a similar number of units.</p>
-            <div className="seg light" role="group" aria-label="Base map">
-              <button type="button" aria-pressed={kind === 'topo'} onClick={() => setKind('topo')}>Topo</button>
-              <button type="button" aria-pressed={kind === 'satellite'} onClick={() => setKind('satellite')}>Satellite</button>
-            </div>
-          </div>
-        )}
-        {err && <p className="small" style={{ color: 'var(--bad)', margin: '6px 0 0' }}>{err}</p>}
-      </div>
+      <MapKey metric={metric} onMetric={(x) => x !== 'match' && setMetric(x)} sp={sp} onSp={setSp} classes={cls} colors={colors} missing={missing[field] ?? 0}
+        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />
       {sel && (
         <div className="card mapinfo">
           <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>
@@ -257,7 +146,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           {sel.name !== focus && (
             <div className="mi-hunts">
               <h4>Hunts Available</h4>
-              {uh?.unit !== sel.name ? <p className="small muted">Loading…</p> : !uh.rows.length ? <p className="small muted">No deer or elk hunts listed.</p> : (
+              {uh?.unit !== sel.name ? <p className="small muted">Loading…</p> : !uh.rows.length ? <p className="small muted">No hunts listed.</p> : (
                 <ul>
                   {uh.rows.map((h) => {
                     const o = nr ? h.nrOdds5 : h.resOdds5;
@@ -265,7 +154,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                       <li key={h.id}>
                         <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.label}</Link>
                         <span className="small muted">
-                          {h.antler === 'ANTLERED' ? ' · Antlered' : h.antler === 'ANTLERLESS' ? ' · Antlerless' : ''}
+                          {h.antler && h.antler !== 'EITHER' ? ` · ${antlerLabel(h.species, h.antler)}` : ''}
                           {h.type === 'GENERAL' ? (nr ? ' · NR tag required' : ' · OTC') : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% ${h.type === 'NRTAG' ? '1st-choice ' : ''}odds` : ''}
                           {h.success5 !== null ? ` · ${Math.round(h.success5 * 100)}% success` : ''}
                         </span>

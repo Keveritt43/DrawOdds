@@ -11,6 +11,8 @@ import { Star } from '@/components/Star';
 
 export const dynamic = 'force-dynamic';
 
+export const metadata = { title: 'My Hunts' };
+
 export default async function Account() {
   const session = await auth();
   if (!session?.user) redirect('/login');

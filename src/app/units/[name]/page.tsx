@@ -6,7 +6,8 @@ import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
-import { pct, pct100, int, range, WEAPON, ANTLER, controlledTags } from '@/lib/format';
+import { pct, pctOdds, pct100, int, range, WEAPON, antlerLabel, controlledTags } from '@/lib/format';
+import type { Metadata } from 'next';
 import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
@@ -16,9 +17,14 @@ import { SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
+  const name = decodeURIComponent((await params).name).toUpperCase();
+  return { title: `Unit ${name}`, description: `Idaho hunting unit ${name}: deer, elk and pronghorn hunts, draw odds, success and public land.` };
+}
+
 type SP = { species?: string; type?: string; weapon?: string; as?: string };
 const FILTERS = {
-  species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk']],
+  species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['PRONGHORN', 'Pronghorn']],
   type: [['', 'All'], ['GENERAL', 'General'], ['CONTROLLED', 'Controlled']],
   weapon: [['', 'All'], ['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader']],
 } as const;
@@ -64,7 +70,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
-      <p className="small"><Link href="/map">← Back To Unit Map</Link> · <Link href={`/hunts?unit=${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
+      <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?unit=${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
       {recentBoundaryChanges([unit.name]) && <div className="note">IDFG changed this unit&apos;s boundary in {recentBoundaryChanges([unit.name])!.year}. Harvest numbers before then cover different ground.</div>}
@@ -113,17 +119,17 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
             <div className="uh-meta">
               {h.nrTag
                 ? `${nr ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''}` : h.capped ? `Capped${(h.tagSeasons as { residentQuota?: number } | null)?.residentQuota ? ` · ${int((h.tagSeasons as { residentQuota: number }).residentQuota)} resident tags` : ''}` : 'Over the counter'} · ${seasonsSummary(h.tagSeasons, 2) || (h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit')}`
-                : <>{h.type === 'GENERAL' && seasonsSummary(h.tagSeasons, 2) ? seasonsSummary(h.tagSeasons, 2) : h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {ANTLER[h.antlerClass]}
-                  {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : ` · ${controlledTags(h.tags, nr, h.nrPermitsLast, h.oddsLastYear)}`}</>}
+                : <>{h.type === 'GENERAL' && seasonsSummary(h.tagSeasons, 2) ? seasonsSummary(h.tagSeasons, 2) : h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {antlerLabel(h.species, h.antlerClass)}
+                  {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : ` · ${controlledTags(h.tags, nr, h.nrPermitsLast, h.nrAppsLast, h.oddsLastYear)}`}</>}
             </div>
             <div className="uh-stats">
-              {(h.type === 'CONTROLLED' || (nr && (h.nrTag || h.nrOdds5 !== null))) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pct(h[rf.odds5], 1)}</b></span>}
+              {(h.type === 'CONTROLLED' || (nr && (h.nrTag || h.nrOdds5 !== null))) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pctOdds(h[rf.odds5])}</b></span>}
               <span>Success <b>{pct(h.success5)}</b></span>
               {h.huntersSqMi !== null && <span>Hunters/mi² <b>{h.huntersSqMi < 10 ? h.huntersSqMi.toFixed(1) : Math.round(h.huntersSqMi)}</b></span>}
             </div>
           </div>
         ))}
-        {!shown.length && <p className="muted">{hunts.length ? 'No hunts match these filters.' : 'No deer or elk hunts listed for this unit.'}</p>}
+        {!shown.length && <p className="muted">{hunts.length ? 'No hunts match these filters.' : 'No hunts listed for this unit.'}</p>}
       </div>
 
       <h2>General Season Trends</h2>
