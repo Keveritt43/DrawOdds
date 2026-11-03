@@ -6,19 +6,19 @@ import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'map
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import { MapKey, type KeyItem } from './MapKey';
-import { classBreaks } from '@/lib/breaks';
-import { pickRamp, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA, GREEN, ORANGE, PLUM } from '@/lib/mapMetrics';
+import { divergingClasses, type BreakMode } from '@/lib/breaks';
+import { colorsFor, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
 
 export type MatchStat = { odds: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
 type ShadeKey = 'match' | keyof MatchStat;
 const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
 /** What the Filtering map can shade by: always the matching hunts' own numbers, never units without a match. */
-const SHADES: Record<Exclude<ShadeKey, 'match'>, { label: string; ramp: string[]; fmt: (v: number) => string; none: string; note: string }> = {
-  odds: { label: 'Draw Odds (Best Matching Hunt)', ramp: ORANGE, fmt: pct1, none: 'No draw data', note: 'Best 5-year first-choice odds, for your residency, among the matching hunts in each unit. Resident general seasons are over the counter (100%).' },
-  success: { label: 'Hunter Success (Matching Hunts)', ramp: ORANGE, fmt: pct1, none: 'Under 30 hunters', note: 'Harvest ÷ hunters over 5 years for the matching hunts in each unit, pooled.' },
-  crowd: { label: 'Hunters / Sq Mi (Least Crowded Match)', ramp: PLUM, fmt: fmtNum, none: 'No hunter data', note: 'Hunters per square mile of the least crowded matching hunt in each unit. Darker = more crowded.' },
-  public: { label: 'Public Land % (Matching Units)', ramp: GREEN, fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes!.' },
-  huntable: { label: 'Public + Access Yes! % (Matching Units)', ramp: GREEN, fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Public land plus Access Yes! land in each unit with a matching hunt.' },
+const SHADES: Record<Exclude<ShadeKey, 'match'>, { label: string; mode: BreakMode; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string }> = {
+  odds: { label: 'Draw Odds (Best Matching Hunt)', mode: 'pct', better: 'high', fmt: pct1, none: 'No draw data', note: 'Best 5-year first-choice odds, for your residency, among the matching hunts in each unit. Resident general seasons are over the counter (100%).' },
+  success: { label: 'Hunter Success (Matching Hunts)', mode: 'sd', better: 'high', fmt: pct1, none: 'Under 30 hunters', note: 'Harvest ÷ hunters over 5 years for the matching hunts in each unit, pooled.' },
+  crowd: { label: 'Hunters / Sq Mi (Least Crowded Match)', mode: 'pct', better: 'low', fmt: fmtNum, none: 'No hunter data', note: 'Hunters per square mile of the least crowded matching hunt in each unit. Green = fewer hunters.' },
+  public: { label: 'Public Land % (Matching Units)', mode: 'pct', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes!.' },
+  huntable: { label: 'Public + Access Yes! % (Matching Units)', mode: 'pct', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Public land plus Access Yes! land in each unit with a matching hunt.' },
 };
 import { loadUnits } from '@/lib/unitData';
 
@@ -57,8 +57,8 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   const vals = metric === 'match' ? [] : shownStats.map((x) => x[metric]).filter((v): v is number => typeof v === 'number');
   const statsKey = JSON.stringify(stats).length + ':' + vals.join(',');
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const cls = useMemo(() => (metric === 'match' ? undefined : classBreaks(vals)), [metric, statsKey]);
-  const colors = useMemo(() => (S && cls ? pickRamp(S.ramp, cls.breaks.length + 1) : []), [S, cls]);
+  const cls = useMemo(() => (metric === 'match' || !S ? undefined : divergingClasses(vals, S.mode)), [metric, statsKey]);
+  const colors = useMemo(() => (S && cls ? colorsFor(cls, S.better) : []), [S, cls]);
   const missingN = metric === 'match' ? 0 : shownStats.length - vals.length + ((areaMode ? matchedAreas.length : matched.length) - shownStats.length);
 
   const paint = () => {
@@ -293,7 +293,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
         <MapKey value={metric} options={options} onChange={(v) => setMetric(v as ShadeKey)}
           ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where } : undefined}
           items={matchItems} extraItems={extraItems}
-          note={S ? `${S.note} Shades split the ${matched.length || matchedAreas.length} matching ${where} into similar-sized groups.` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
+          note={S ? `${S.note} Yellow = normal for these ${matched.length || matchedAreas.length} matching ${where}; red and green = well below or above it.` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
           kind={kind} onKind={setKind} err={err} />
       </div>
     </div>

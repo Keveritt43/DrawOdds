@@ -1,3 +1,4 @@
+import type { Classes, BreakMode } from './breaks';
 /** Unit shading shared by every map: what each metric means, its color ramp and how to print it. */
 
 export type Sp = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT';
@@ -7,6 +8,8 @@ export interface MetricDef {
   kind: Kind;
   field: (sp: Sp, nr: boolean) => string;
   ramp: string[];
+  /** which end is good: crowding is better low */
+  better?: 'high' | 'low';
   bySpecies?: boolean;
   fmt: (v: number) => string;
   none: string;
@@ -18,6 +21,13 @@ export const GREEN = ['#eef4e6', '#d2e4bf', '#aecd92', '#84b267', '#5b9242', '#3
 export const ORANGE = ['#fdeadc', '#fbcaa7', '#f7a474', '#f27c44', '#d85b18', '#9c3d0a'];
 export const PLUM = ['#f4eaf2', '#e2c6dd', '#cb9ac4', '#af6ca7', '#8b4386', '#5f2260'];
 export const NODATA = '#e0ddd5';
+/** The site's map scale: 7 steps, red (worst) -> yellow (normal for Idaho) -> green (best). */
+export const RYG7 = ['#b2182b', '#e0603f', '#f4a95c', '#f7e27a', '#b9dd80', '#66bd63', '#1a9850'];
+/** Success rates are bell-shaped (SD steps); odds, crowding and land are lopsided (percentile steps). */
+export const fieldMode = (field: string): BreakMode => (/success/i.test(field) ? 'sd' : 'pct');
+/** Colors for diverging classes; `better: 'low'` flips the scale (fewer hunters = green). */
+export const colorsFor = (cls: Classes, better: 'high' | 'low' = 'high') =>
+  (cls.idx ?? cls.breaks.concat(0).map((_, i) => i)).map((i) => RYG7[better === 'low' ? 6 - i : i]);
 export const MATCH = '#f0641e';
 export const ZONE = '#6a3fd6';
 export const AREA = '#0f6e56';
@@ -42,9 +52,9 @@ export const METRICS: Record<Metric, MetricDef> = {
     note: 'Harvest ÷ hunters, general seasons, all weapons, last 5 seasons (only seasons after a boundary change).',
   },
   pressure: {
-    label: 'General Season Hunters / Sq Mi', kind: 'general', bySpecies: true, ramp: PLUM, fmt: num, none: 'No general season',
+    label: 'General Season Hunters / Sq Mi', kind: 'general', bySpecies: true, ramp: PLUM, better: 'low', fmt: num, none: 'No general season',
     field: (sp) => (sp === 'ELK' ? 'huntersSqMiElk' : 'huntersSqMiDeer'),
-    note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Darker = more crowded.',
+    note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Green = fewer hunters.',
   },
   ctlOdds: {
     label: 'Controlled Draw Odds (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
@@ -59,7 +69,7 @@ export const METRICS: Record<Metric, MetricDef> = {
 };
 export const METRIC_KEYS = Object.keys(METRICS) as Metric[];
 
-export interface Classes { breaks: number[]; counts: number[] }
+export type { Classes } from './breaks';
 
 /** Spread n colors across a 6-color ramp, keeping the darkest. */
 export const pickRamp = (ramp: string[], n: number) =>

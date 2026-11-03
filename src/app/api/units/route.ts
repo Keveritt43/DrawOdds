@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
-import { classBreaks } from '@/lib/breaks';
+import { divergingClasses } from '@/lib/breaks';
+import { fieldMode } from '@/lib/mapMetrics';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -64,7 +65,9 @@ export async function GET(req: Request) {
   }
   for (const [k, p] of ctlPool) {
     const [species, unit] = k.split('|');
-    (by.get(unit) ?? by.set(unit, {}).get(unit)!)[`ctlSuccess${SP_KEY[species]}`] = p.hunters >= MIN_HUNTERS ? (p.harvest / p.hunters) * 100 : null;
+    // moose / sheep / goat hunts have 1-10 tags: 10 hunter-seasons is a real sample for them
+    const min = ['MOOSE', 'BIGHORN', 'GOAT'].includes(species) ? 10 : MIN_HUNTERS;
+    (by.get(unit) ?? by.set(unit, {}).get(unit)!)[`ctlSuccess${SP_KEY[species]}`] = p.hunters >= min ? (p.harvest / p.hunters) * 100 : null;
   }
 
   // General season, all weapons, last 5 seasons of data. Units redrawn in 2022 only count 2022+ (the old
@@ -120,7 +123,7 @@ export async function GET(req: Request) {
     });
 
   const classes = Object.fromEntries(
-    SHADED.map((f) => [f, classBreaks(features.map((x) => x.properties[f]).filter((v): v is number => typeof v === 'number'))]),
+    SHADED.map((f) => [f, divergingClasses(features.map((x) => x.properties[f]).filter((v): v is number => typeof v === 'number'), fieldMode(f))]),
   );
   if (statsOnly) {
     const missing = Object.fromEntries(SHADED.map((f) => [f, features.filter((x) => typeof x.properties[f] !== 'number').length]));

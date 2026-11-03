@@ -38,6 +38,8 @@ const fix = (x: number) => Number(x.toPrecision(10));
 export interface Classes {
   breaks: number[]; // ascending; class i covers [breaks[i-1], breaks[i]), first class is "< breaks[0]"
   counts: number[]; // units in each class (breaks.length + 1)
+  /** diverging scales: each class's step on the 7-step red -> yellow -> green scale (0 = worst ... 6 = best) */
+  idx?: number[];
 }
 
 export function countClasses(values: number[], breaks: number[]): number[] {
@@ -79,4 +81,33 @@ export function classBreaks(values: number[], k = 6): Classes {
     if (breaks.length === k - 1 && balanced) break;
   }
   return best ?? { breaks: [], counts: [v.length] };
+}
+
+/**
+ * Diverging classes: 7 steps centred on what's normal for Idaho.
+ *  - "sd": bell-shaped numbers (success rates): breaks at the mean -1.5, -1, -0.5, +0.5, +1, +1.5 SD
+ *  - "pct": lopsided numbers (draw odds, crowding, land): the same 7 bands at the matching percentiles
+ *    (6.7, 15.9, 30.9, 69.1, 84.1, 93.3), so a few extreme units can't squash everyone else into one color
+ * Steps nobody falls in (a break below the lowest value or above the highest, or two equal breaks) are dropped,
+ * and `idx` keeps each remaining class on its place in the 7-step scale.
+ */
+export type BreakMode = 'sd' | 'pct';
+const Z = [-1.5, -1, -0.5, 0.5, 1, 1.5];
+const P = [0.067, 0.159, 0.309, 0.691, 0.841, 0.933];
+
+export function divergingClasses(values: number[], mode: BreakMode): Classes {
+  const v = values.filter((x) => Number.isFinite(x)).sort((a, b) => a - b);
+  if (v.length < 4) return { breaks: [], counts: [v.length], idx: [3] };
+  const mean = v.reduce((a, b) => a + b, 0) / v.length;
+  const sd = Math.sqrt(v.reduce((a, b) => a + (b - mean) ** 2, 0) / v.length);
+  const breaks = (mode === 'sd' ? Z.map((z) => mean + z * sd) : P.map((p) => quantile(v, p))).map(fix);
+  const idx = [0, 1, 2, 3, 4, 5, 6];
+  const min = v[0];
+  const max = v[v.length - 1];
+  while (breaks.length && breaks[0] <= min) { breaks.shift(); idx.shift(); } // nothing below: bottom steps empty
+  while (breaks.length && breaks[breaks.length - 1] > max) { breaks.pop(); idx.pop(); } // nothing above
+  for (let i = breaks.length - 1; i > 0; i--) {
+    if (breaks[i] <= breaks[i - 1]) { breaks.splice(i, 1); idx.splice(i, 1); } // empty step between equal breaks
+  }
+  return { breaks, counts: countClasses(v, breaks), idx };
 }

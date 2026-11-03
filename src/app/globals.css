@@ -231,7 +231,7 @@ table.results .num { text-align: right; white-space: nowrap; }
 .mp-strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; margin-top: 7px; }
 .mp-cell i { display: block; height: 10px; border-radius: 2px; border: 1px solid rgba(0,0,0,.12); }
 .mp-cell span { display: block; font-size: .68rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mp-cell.nd { max-width: 40px; }
+.mp-cell.nd { max-width: 48px; margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--line); }
 .mp-details { margin-top: 6px; border-top: 1px solid var(--line); padding-top: 4px; }
 .mapinfo { position: absolute; left: 10px; bottom: 26px; z-index: 6; width: min(380px, calc(100% - 20px)); max-height: 50%; overflow: auto; padding: 10px 12px; }
 .mapinfo-x { position: absolute; top: 4px; right: 6px; border: 0; background: none; color: var(--muted); font-size: 1.4rem; line-height: 1; cursor: pointer; padding: 2px 6px; }

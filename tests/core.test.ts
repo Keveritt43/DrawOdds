@@ -1,5 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { divergingClasses } from '../src/lib/breaks';
+import { colorsFor, RYG7 } from '../src/lib/mapMetrics';
 import {
   parseStatsTable,
   parseLandPage,
@@ -330,4 +332,30 @@ test('moose / sheep / goat: no per-hunt nonresident limit wording', async () => 
   assert.equal(nrTags(4, 1, 1, 2026, false)?.kind, 'open');
   assert.equal(controlledTags(8, true, null, null, null, 'BIGHORN'), '8 tags');
   assert.equal(controlledTags(1, true, null, null, null, 'DEER'), '1 tag · up to 1 NR');
+});
+
+
+test('divergingClasses: SD mode puts the mean in yellow and maps colors by step', () => {
+  const v = Array.from({ length: 101 }, (_, i) => i); // mean 50
+  const c = divergingClasses(v, 'sd');
+  assert.equal(c.breaks.length, 6);
+  assert.deepEqual(c.idx, [0, 1, 2, 3, 4, 5, 6]);
+  assert.equal(c.counts.reduce((a, b) => a + b, 0), 101);
+  const cols = colorsFor(c);
+  assert.equal(cols[3], RYG7[3]);
+  assert.equal(colorsFor(c, 'low')[0], RYG7[6]); // fewer hunters = green
+});
+
+test('divergingClasses: drops steps nothing falls in, keeping the colors aligned', () => {
+  // everything at or above the mean except one low outlier: no deep-red step should survive empty
+  const v = [10, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90];
+  const c = divergingClasses(v, 'sd');
+  assert.equal(c.breaks.length + 1, c.idx!.length);
+  assert.ok(c.counts.every((n) => n >= 0));
+  assert.equal(c.counts.reduce((a, b) => a + b, 0), v.length);
+});
+
+test('divergingClasses: too few values = one neutral class', () => {
+  const c = divergingClasses([1, 2], 'pct');
+  assert.deepEqual(c.idx, [3]);
 });
