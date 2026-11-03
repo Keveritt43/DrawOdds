@@ -10,7 +10,7 @@ import { baseStyle, setBasemap, IDAHO_CENTER, type Basemap } from '@/lib/basemap
  * Filtering map: units with a matching hunt are filled blaze orange, the rest are outlines only.
  * Click a unit to narrow the results to it (click again to clear).
  */
-export function HuntMap({ matched, selected, chips }: { matched: string[]; selected: string; chips: { label: string; href: string }[] }) {
+export function HuntMap({ matched, selected, chips, showZones = false, zone = '' }: { matched: string[]; selected: string; chips: { label: string; href: string }[]; showZones?: boolean; zone?: string }) {
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const loaded = useRef(false);
@@ -75,6 +75,7 @@ export function HuntMap({ matched, selected, chips }: { matched: string[]; selec
       m.on('mouseleave', 'units-fill', () => (m.getCanvas().style.cursor = ''));
       loaded.current = true;
       paint();
+      m.fire('ready'); // units layers exist now: overlays (elk zones) can attach
     });
     return () => {
       m.remove();
@@ -86,6 +87,42 @@ export function HuntMap({ matched, selected, chips }: { matched: string[]; selec
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(paint, [matched.join(','), selected]);
+
+  // elk zone outlines (violet) whenever elk is in the results; the filtered zone is drawn heavier
+  const zonesAdded = useRef(false);
+  useEffect(() => {
+    const m = map.current;
+    if (!m) return;
+    const apply = async () => {
+      if (!loaded.current) return;
+      if (showZones && !zonesAdded.current) {
+        zonesAdded.current = true;
+        try {
+          const z = await (await fetch('/api/zones')).json();
+          m.addSource('zones', { type: 'geojson', data: z.zones });
+          m.addSource('zone-labels', { type: 'geojson', data: z.labels });
+          m.addLayer({ id: 'zones-casing', type: 'line', source: 'zones', paint: { 'line-color': '#ffffff', 'line-width': 5, 'line-opacity': 0.7 } }, 'units-label');
+          m.addLayer({ id: 'zones-line', type: 'line', source: 'zones', paint: { 'line-color': '#6a3fd6', 'line-width': 2.6 } }, 'units-label');
+          m.addLayer({
+            id: 'zones-label', type: 'symbol', source: 'zone-labels',
+            layout: { 'text-field': ['concat', ['get', 'zone'], ' Zone'], 'text-font': ['Noto Sans Bold'], 'text-size': 12, 'text-offset': [0, 1.4], 'text-allow-overlap': false },
+            paint: { 'text-color': '#4b23a8', 'text-halo-color': '#ffffff', 'text-halo-width': 1.8 },
+          });
+        } catch (e) {
+          zonesAdded.current = false;
+          console.error(e);
+          return;
+        }
+      }
+      if (!zonesAdded.current || !m.getLayer('zones-line')) return;
+      const vis = showZones ? 'visible' : 'none';
+      for (const id of ['zones-casing', 'zones-line', 'zones-label']) m.setLayoutProperty(id, 'visibility', vis);
+      m.setPaintProperty('zones-line', 'line-width', zone ? ['case', ['==', ['get', 'zone'], zone], 4.5, 2] : 2.6);
+    };
+    apply();
+    m.on('ready', apply);
+    return () => void m.off('ready', apply);
+  }, [showZones, zone]);
   useEffect(() => {
     if (map.current && loaded.current) setBasemap(map.current, kind);
   }, [kind]);

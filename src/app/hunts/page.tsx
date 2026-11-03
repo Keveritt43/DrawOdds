@@ -86,7 +86,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   return (
     <main className="filtering">
       <section className="f-map" aria-label="Map of matching units">
-        <HuntMap matched={matched} selected={f.unit} chips={chips(f, nr)} />
+        <HuntMap matched={matched} selected={f.unit} chips={chips(f, nr)} showZones={f.species !== 'DEER'} zone={f.zone} />
       </section>
 
       <section className="f-list" aria-label="Results">
