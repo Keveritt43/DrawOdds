@@ -165,7 +165,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       {nr && nrInfo && <p className="small muted" style={{ margin: '4px 0' }}>{nrInfo.long} Idaho limits nonresidents to 10% of a controlled hunt&apos;s tags (1 in hunts of 10 or fewer); IDFG sets a fixed number on some hunts, and leftover tags in the second drawing aren&apos;t limited.</p>}
       {nr && ctl && (s.nrAppsLast ?? 0) < 30 && (s.nrOddsLast ?? 0) < 0.995 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 
-      <ApplyChecklist kind={ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
+      <ApplyChecklist secondChoiceNote={ctl && (s.secondDrewLast ?? 0) > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear ?? 'the last drawing'}, but the nonresident limit was already full, so this hunt is a poor 2nd choice for nonresidents.` : `${int(s.secondDrewLast)} tags went to 2nd-choice applicants in ${s.oddsLastYear ?? 'the last drawing'}: a realistic 2nd choice.`) : ctl ? 'Its tags all went to 1st choices last time, so it rarely works as a 2nd choice.' : undefined}
+        kind={ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
 
       {alts.length > 0 && (
         <div className="card alts">

@@ -212,6 +212,8 @@ export async function buildSummaries(): Promise<StepResult> {
         ...base,
         ...gdates,
         ...nrFields,
+        // residents buy general tags over the counter: drawing is certain, so draw x fill = success
+        resTagAndFill: hs.success5,
         id: `g:${h.idfgId}:${unit}`,
         unit,
         areaName: unit,
@@ -393,6 +395,8 @@ async function nrTagSummary(
     successPrev: yearSuccess(recent, lastYear - 1),
     smallSample: hunters < 50,
     nrTagAndFill: tagAndFill(nrOdds, success),
+    // residents: elk zone A/B tags are over the counter unless the zone is capped
+    resTagAndFill: h.species === 'ELK' && !(quota?.capped ?? false) ? success : null,
     publicPct: wavg((u) => u.publicPct),
     privatePct: wavg((u) => u.privatePct),
     accessYesAcres: us.reduce((a, u) => a + (u.accessYesAcres ?? 0), 0),

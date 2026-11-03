@@ -53,7 +53,7 @@ function mode(xs: (number | null | undefined)[]): number | null {
   return [...c.entries()].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0]?.[0] ?? null;
 }
 
-type Listing = { kind: 'hunt'; key: string; r: HuntSummary } | { kind: 'zone'; key: string; zone: string; rows: HuntSummary[] };
+type Listing = { kind: 'hunt'; key: string; r: HuntSummary; also: HuntSummary[] } | { kind: 'zone'; key: string; zone: string; rows: HuntSummary[] };
 type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; species: string; rows: HuntSummary[] };
 
 export default async function Filtering({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
@@ -78,6 +78,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const listings: Listing[] = [];
   if (f.view === 'hunt') {
     const zones = new Map<string, Listing & { kind: 'zone' }>();
+    const gens = new Map<string, Listing & { kind: 'hunt' }>();
     for (const r of visible) {
       if (r.nrTag && r.species === 'ELK') {
         const zone = r.id.split(':')[2] ?? '?';
@@ -88,7 +89,18 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           zones.set(zone, l);
           listings.push(l);
         }
-      } else listings.push({ kind: 'hunt', key: r.id, r });
+      } else if (r.type === 'GENERAL' && !r.nrTag) {
+        // a unit's general seasons for one weapon share the unit's harvest numbers and (for nonresidents) its tag:
+        // one card with all their dates
+        const key = `gen:${r.species}:${r.unit ?? r.units[0]}:${r.weapon}`;
+        const g = gens.get(key);
+        if (g) g.also.push(r);
+        else {
+          const l = { kind: 'hunt' as const, key, r, also: [] as HuntSummary[] };
+          gens.set(key, l);
+          listings.push(l);
+        }
+      } else listings.push({ kind: 'hunt', key: r.id, r, also: [] });
     }
   }
 
@@ -132,7 +144,12 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
   // start here: one standout per reason, real samples only, bucks/bulls unless antlerless was asked for
   const picks = f.sort === 'best' && f.page === 1
-    ? choosePicks(visible.filter((r) => (r.type === 'CONTROLLED' || (nr && r.nrTag)) && !r.smallSample && !r.youthOnly && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS')), c)
+    ? choosePicks(
+        visible.filter((r) => (r.type === 'CONTROLLED' || (nr && r.nrTag)) && !r.smallSample && !r.youthOnly && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS')),
+        c,
+        // residents: the best general season / uncapped elk zone tag, bought over the counter
+        nr ? [] : visible.filter((r) => r.type === 'GENERAL' && !r.smallSample && !(r.nrTag && r.capped) && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS')),
+      )
     : [];
 
   const more = `/hunts${toQuery(f, { page: f.page + 1 })}`;
@@ -179,7 +196,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
         {f.view === 'hunt' && listings.slice(0, shown).map((l) => (l.kind === 'zone'
           ? <ZoneCard key={l.key} zone={l.zone} rows={l.rows} c={c} />
-          : <article key={l.key} className="ucard single"><HuntCard r={l.r} c={c} /></article>))}
+          : <article key={l.key} className="ucard single"><HuntCard r={l.r} also={l.also} c={c} /></article>))}
 
         {f.view === 'unit' && glist.slice(0, shown).map((g) => {
           const first = g.rows[0];

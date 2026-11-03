@@ -104,9 +104,9 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
           {everyone ? `Everyone who applied drew${r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}` : <>{int(apps)} {c.nr ? 'NR' : 'resident'} 1st-choice applicants{meaningfulChange(apps, r[c.rf.appsPrev], 20) && <Delta now={apps} prev={r[c.rf.appsPrev]} kind="pct" good="down" />}{r.appsLast !== null && r.appsLast !== apps ? ` (all ${int(r.appsLast)})` : ''}</>}
         </span>
       )}
-      {r.type === 'CONTROLLED' && (r.secondDrewLast ?? 0) > 0 && (
+      {r.type === 'CONTROLLED' && (r.secondDrewLast ?? 0) > 0 && !(c.nr && (r.nrAppsLast ?? 0) > (r.nrPermitsLast ?? 0)) && (
         <span className="pill good" title="Tags were left after every 1st-choice applicant drew, so 2nd-choice applicants got them. A realistic 2nd choice.">
-          {int(r.secondDrewLast)} tags went to 2nd choices{r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}
+          {int(r.secondDrewLast)} tag{r.secondDrewLast === 1 ? '' : 's'} went to 2nd choices{r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}
         </span>
       )}
       {r.youthOnly && <span className="pill">Youth</span>}
@@ -118,7 +118,7 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
 }
 
 /** One hunt, general season or tag. `inUnit`: shown inside a unit card (the unit is implied). */
-export function HuntCard({ r, c, inUnit = false }: { r: HuntSummary; c: CardCtx; inUnit?: boolean }) {
+export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; c: CardCtx; inUnit?: boolean; also?: HuntSummary[] }) {
   const sex = antlerLabel(r.species, r.antlerClass);
   const title = r.nrTag
     ? `${tagLabel(r)}${c.nr && r.tagCode ? ` · ${r.tagCode}` : ''}`
@@ -139,7 +139,9 @@ export function HuntCard({ r, c, inUnit = false }: { r: HuntSummary; c: CardCtx;
       : (!/^Unit \S+ General/i.test(r.name) ? r.name : '');
   const when = r.nrTag || (r.type === 'GENERAL' && seasonsSummary(r.tagSeasons))
     ? seasonsSummary(r.tagSeasons) || 'Seasons: see the regulations'
-    : r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations';
+    : r.openDate
+      ? [r, ...also].filter((x) => x.openDate).sort((a, b) => +a.openDate! - +b.openDate!).map((x) => range(x.openDate, x.closeDate)).filter((v, i, a) => a.indexOf(v) === i).join(', ')
+      : 'Dates: see regulations';
   return (
     <div className="hrow">
       <div className="hrow-top">
@@ -222,7 +224,7 @@ export function TopPicks({ picks, c }: { picks: Pick[]; c: CardCtx }) {
           <li key={p.label}>
             <span className="pick-label">{p.label}</span>
             <Link href={`/hunts/${encodeURIComponent(p.r.id)}`}>
-              {p.r.nrTag ? tagLabel(p.r) : `${SPECIES_LABEL[p.r.species]} hunt ${p.r.huntNumber} · ${antlerLabel(p.r.species, p.r.antlerClass)} · ${WEAPON[p.r.weapon]}`}
+              {p.r.nrTag ? p.r.name : p.r.type === 'GENERAL' ? `Unit ${p.r.unit ?? p.r.units[0]} general ${SPECIES_LABEL[p.r.species].toLowerCase()} · ${WEAPON[p.r.weapon]}` : `${SPECIES_LABEL[p.r.species]} hunt ${p.r.huntNumber} · ${antlerLabel(p.r.species, p.r.antlerClass)} · ${WEAPON[p.r.weapon]}`}
             </Link>
             <span className="small"> {p.why}</span>
           </li>
@@ -233,7 +235,7 @@ export function TopPicks({ picks, c }: { picks: Pick[]; c: CardCtx }) {
 }
 
 /** Picks one hunt per reason from the candidates (no hunt twice). */
-export function choosePicks(cands: HuntSummary[], c: CardCtx): Pick[] {
+export function choosePicks(cands: HuntSummary[], c: CardCtx, otc: HuntSummary[] = []): Pick[] {
   const odds = (r: HuntSummary) => (r.type === 'CONTROLLED' ? r[c.rf.odds5] : r.nrOdds5) ?? null;
   const lo = (r: HuntSummary) => ({ ELK: 0.15, DEER: 0.35, PRONGHORN: 0.35 } as Record<string, number>)[r.species] ?? 0.25;
   const used = new Set<string>();
@@ -252,5 +254,6 @@ export function choosePicks(cands: HuntSummary[], c: CardCtx): Pick[] {
     take('Easiest draw that still fills', ok.filter((r) => (r.success5 ?? 0) >= lo(r)).sort(by(odds, 1)), (r) => `${nums(r)}`),
     take('Highest success you can draw', ok.filter((r) => (odds(r) ?? 0) >= 0.1).sort(by((r) => r.success5, 1)), (r) => `${nums(r)}`),
     take('Least crowded', ok.filter((r) => (odds(r) ?? 0) >= 0.1 && (r.success5 ?? 0) >= lo(r) && r.huntersSqMi !== null).sort(by((r) => r.huntersSqMi, -1)), (r) => `${nums(r)}, ${density(r.huntersSqMi)} hunters/mi²`),
+    take('Best over the counter', otc.filter((r) => r.success5 !== null).sort(by((r) => r.success5, 1)), (r) => `no draw, ${pct(r.success5)} success, ${density(r.huntersSqMi)} hunters/mi²`),
   ].filter((p): p is Pick => !!p);
 }
