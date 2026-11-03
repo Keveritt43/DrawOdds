@@ -2,6 +2,8 @@ import { db, HP_BASE, SPECIES, thisYear, type StepResult } from '../core/context
 import { get } from '../core/http';
 import { parseHuntList, normArea, unitsFromName, type ListedHunt } from '../core/parse';
 import { readFileSync, existsSync } from 'node:fs';
+import { getBytes } from '../core/http';
+import { pdfLines } from '../core/pdf';
 import { join } from 'node:path';
 
 interface RegsHunt {
@@ -29,6 +31,48 @@ export function loadRegs(season: number): RegsHunt[] {
 
 const WEAPON_LABEL = { ANY: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader', SHORT_RANGE: 'Short-range only' } as const;
 const SEX_LABEL = { ANTLERED: 'Antlered', ANTLERLESS: 'Antlerless', EITHER: 'Either sex' } as const;
+const LABEL: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn Sheep', GOAT: 'Mountain Goat' };
+const MSG = ['MOOSE', 'BIGHORN', 'GOAT'] as const;
+const MON: Record<string, number> = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+
+/**
+ * Season dates for moose, bighorn sheep and mountain goat hunts from IDFG's two-year moose/sheep/goat
+ * Seasons & Rules PDF ("seasons-rules-moose-sheep-goat-2025-26.pdf"). Rows read "<hunt #> <area> ... <tags> ...
+ * <Mon d> - <Mon d>". Returns hunt # -> dates (and tags when they read cleanly); logs sample rows to check against.
+ */
+async function msgRegs(season: number, details: string[]): Promise<Map<number, { open: string; close: string; tags: number | null; text: string }>> {
+  const out = new Map<number, { open: string; close: string; tags: number | null; text: string }>();
+  const names = [season - 1, season].map((y) => `seasons-rules-moose-sheep-goat-${y}-${String(y + 1).slice(2)}.pdf`);
+  for (const name of names.reverse()) {
+    const bytes = await getBytes(`https://idfg.idaho.gov/sites/default/files/${name}`);
+    if (!bytes) continue;
+    const lines = (await pdfLines(bytes)).flat().map((l) => l.replace(/\s+/g, ' ').trim());
+    const DATE = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? ?(\d{1,2}) ?[-–—] ?(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)?[a-z]*\.? ?(\d{1,2})/;
+    const hits = lines.filter((l) => /^[3567]\d{3}\b/.test(l));
+    console.log(`[hunts] ${name}: ${lines.length} text rows, ${hits.length} start with a moose/sheep/goat hunt number`);
+    for (const l of hits.slice(0, 15)) console.log(`  | ${l.slice(0, 180)}`);
+    for (const l of hits) {
+      const n = Number(l.slice(0, 4));
+      const d = l.match(DATE);
+      if (!d || out.has(n)) continue;
+      const m1 = MON[d[1]], d1 = Number(d[2]), m2 = d[3] ? MON[d[3]] : m1, d2 = Number(d[4]);
+      const y2 = m2 < m1 ? season + 1 : season;
+      // tags: the first small number after the area and before the dates
+      const before = l.slice(4, d.index).trim().split(' ');
+      const tagTok = before.slice(1).find((t) => /^\d{1,3}$/.test(t));
+      out.set(n, {
+        open: `${season}-${String(m1).padStart(2, '0')}-${String(d1).padStart(2, '0')}`,
+        close: `${y2}-${String(m2).padStart(2, '0')}-${String(d2).padStart(2, '0')}`,
+        tags: tagTok ? Number(tagTok) : null,
+        text: l.slice(0, 300),
+      });
+    }
+    details.push(`Moose/sheep/goat regs ${name}: dates for ${out.size} hunts`);
+    break;
+  }
+  if (!out.size) details.push('Moose/sheep/goat regs PDF not found or unreadable - those hunts are listed without dates');
+  return out;
+}
 /** Stable negative id for hunts that aren't on IDFG's hunt lists (closed for the year, or general seasons). */
 export function syntheticId(key: string): number {
   let h = 2166136261;
@@ -45,8 +89,9 @@ export async function syncHunts(): Promise<StepResult> {
   const units = await db.unit.findMany({ where: { idfgId: { not: null } }, select: { name: true, idfgId: true } });
   if (units.length < 90) return { rows: 0, status: 'ERROR', details: [`Only ${units.length} units with Hunt Planner IDs - run the land step first`] };
 
-  const found = new Map<number, ListedHunt & { species: 'DEER' | 'ELK' | 'PRONGHORN'; units: Set<string> }>();
-  for (const { code, species } of SPECIES) {
+  const found = new Map<number, ListedHunt & { species: (typeof SPECIES)[number]['species']; units: Set<string> }>();
+  // the unit hunt lists cover deer, elk and pronghorn; moose, sheep and goat come from the draw data below
+  for (const { code, species } of SPECIES.filter((x) => ['DEER', 'ELK', 'PRONGHORN'].includes(x.species))) {
     for (const u of units) {
       try {
         const html = await get(`${HP_BASE}huntlist.aspx?Areas=Unit&AreasID=${u.idfgId}&BigGameID=${code}`);
@@ -115,7 +160,7 @@ export async function syncHunts(): Promise<StepResult> {
   // hunts already stored this season (seen on an earlier night, before they closed) count as listed too
   const stored = await db.hunt.findMany({ where: { year: { gte: season } } });
   for (const h of stored) {
-    if (!rows.has(h.idfgId) && h.source !== 'regs' && h.source !== 'harvest' && h.source !== 'nrtag') {
+    if (!rows.has(h.idfgId) && h.source !== 'regs' && h.source !== 'harvest' && h.source !== 'nrtag' && h.source !== 'odds') {
       const { updatedAt: _u, ...data } = h;
       rows.set(h.idfgId, data as Row);
     }
@@ -151,7 +196,7 @@ export async function syncHunts(): Promise<StepResult> {
         type: 'CONTROLLED',
         huntNumber: r.huntNumber,
         source: 'regs',
-        name: `${{ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' }[r.species]} Controlled Hunt ${r.huntNumber}`,
+        name: `${LABEL[r.species]} Controlled Hunt ${r.huntNumber}`,
         units: [],
         rawText: [r.section, r.notes].filter(Boolean).join(' - '),
       });
@@ -159,6 +204,51 @@ export async function syncHunts(): Promise<StepResult> {
     }
   }
   details.push(`Regs: ${regs.length} controlled hunts; ${corrected} matched IDFG's hunt lists, ${added} added (closed for the year or not listed)`);
+
+  // Moose, bighorn sheep, mountain goat: every hunt in the latest drawing, with its area and tags; weapon and
+  // sex from the latest harvest report for that hunt number; dates from the moose/sheep/goat regs PDF
+  const msgDates = await msgRegs(season, details);
+  let msgAdded = 0;
+  for (const sp of MSG) {
+    const latest = await db.drawOdds.findFirst({ where: { species: sp, draw: 1 }, orderBy: { year: 'desc' }, select: { year: true } });
+    if (!latest) continue;
+    const drawn = await db.drawOdds.findMany({ where: { species: sp, draw: 1, year: latest.year } });
+    const harvest = await db.controlledHarvest.findMany({ where: { species: sp, huntNumber: { in: drawn.map((d) => d.huntNumber) } }, orderBy: { year: 'desc' } });
+    for (const d of drawn) {
+      const h = harvest.find((x) => x.huntNumber === d.huntNumber && x.areaName === d.areaName) ?? harvest.find((x) => x.huntNumber === d.huntNumber);
+      const tm = (h?.takeMethod ?? '').toLowerCase();
+      const weapon = tm.includes('archery') ? 'ARCHERY' : tm.includes('muzzle') ? 'MUZZLELOADER' : tm.includes('short') ? 'SHORT_RANGE' : 'ANY';
+      // sex from what hunters took: only females -> antlerless (cow / ewe / nanny) hunt; any males -> antlered
+      const hs = harvest.filter((x) => x.huntNumber === d.huntNumber);
+      const males = hs.reduce((a, x) => a + (x.antlered ?? 0), 0);
+      const females = hs.reduce((a, x) => a + (x.antlerless ?? 0), 0);
+      const antlerClass = sp === 'GOAT' ? 'EITHER' : females > 0 && males === 0 ? 'ANTLERLESS' : 'ANTLERED';
+      const reg = msgDates.get(d.huntNumber);
+      const idfgId = syntheticId(`msg|${sp}|${d.huntNumber}`);
+      rows.set(idfgId, {
+        idfgId,
+        year: season,
+        species: sp,
+        type: 'CONTROLLED',
+        huntNumber: d.huntNumber,
+        source: 'odds',
+        name: `${LABEL[sp]} Controlled Hunt ${d.huntNumber}`,
+        areaName: d.areaName,
+        takeMethod: WEAPON_LABEL[weapon],
+        weapon,
+        antlerClass,
+        sexText: SEX_LABEL[antlerClass],
+        openDate: reg ? new Date(`${reg.open}T00:00:00Z`) : null,
+        closeDate: reg ? new Date(`${reg.close}T00:00:00Z`) : null,
+        tags: d.permits ?? reg?.tags ?? null,
+        youthOnly: false,
+        units: [],
+        rawText: reg?.text ?? `From IDFG's ${latest.year} drawing results.`,
+      });
+      msgAdded++;
+    }
+  }
+  details.push(`Moose / sheep / goat: ${msgAdded} hunts from the latest drawing`);
 
   // General seasons that closed before we first saw them: one row per unit + weapon that had general-season
   // hunters in the last two years, so every unit's general season can be found. Dates aren't known for these.
@@ -212,7 +302,7 @@ export async function syncHunts(): Promise<StepResult> {
     // Keep this season's hunts even when they drop off IDFG's lists (they closed). Drop older seasons
     // nobody saved, and stand-in rows that a real IDFG listing has since replaced.
     await tx.hunt.deleteMany({ where: { year: { lt: season }, source: { not: 'nrtag' }, saved: { none: {} } } });
-    await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { in: ['regs', 'harvest'] }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
+    await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { in: ['regs', 'harvest', 'odds'] }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
     // and anything this season that is no longer listed anywhere (e.g. outfitter-allocation hunts)
     await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { not: 'nrtag' }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
   }, { timeout: 180_000 });

@@ -9,6 +9,7 @@ import {
 import { residencyFields } from '@/lib/finder';
 import { Star } from './Star';
 import { Term } from './Term';
+import { SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 
 type RF = ReturnType<typeof residencyFields>;
 export interface CardCtx { nr: boolean; rf: RF; favHunts: Set<number>; signedIn: boolean; sort: string }
@@ -109,6 +110,7 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
           {int(r.secondDrewLast)} tag{r.secondDrewLast === 1 ? '' : 's'} went to 2nd choices{r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}
         </span>
       )}
+      {SIZE_LABEL[r.species as SpeciesKey] && r.avgSize5 !== null && <span><Term k="size">{SIZE_LABEL[r.species as SpeciesKey]}</Term> <b>{r.avgSize5.toFixed(1)}&quot;</b></span>}
       {r.youthOnly && <span className="pill">Youth</span>}
       {r.smallSample && <span className="pill warn" title="Fewer than 50 hunters over 5 years">Small Sample</span>}
       {recentBoundaryChanges(r.units) && <span className="pill warn" title="IDFG changed this unit's boundary recently; earlier years cover different ground">Boundary Changed {recentBoundaryChanges(r.units)!.year}</span>}
@@ -131,7 +133,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
       ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '')
       : r.type === 'GENERAL'
         ? (r.tags ? `${int(r.tags)} tags` : c.nr ? (r.tagCode ? `NR tag ${r.tagCode}` : 'NR tag required') : 'Over the counter')
-        : controlledTags(r.tags, c.nr, r.nrPermitsLast, r.nrAppsLast, r.oddsLastYear);
+        : controlledTags(r.tags, c.nr, r.nrPermitsLast, r.nrAppsLast, r.oddsLastYear, r.species);
   const where = r.nrTag
     ? (r.species === 'ELK' ? `Units ${r.units.join(', ')}` : `Unit ${r.unit ?? r.units[0]}`)
     : r.type === 'CONTROLLED'
@@ -240,7 +242,7 @@ export function TopPicks({ picks, c }: { picks: Pick[]; c: CardCtx }) {
 /** Picks one hunt per reason from the candidates (no hunt twice). */
 export function choosePicks(cands: HuntSummary[], c: CardCtx, otc: HuntSummary[] = []): Pick[] {
   const odds = (r: HuntSummary) => (r.type === 'CONTROLLED' ? r[c.rf.odds5] : r.nrOdds5) ?? null;
-  const lo = (r: HuntSummary) => ({ ELK: 0.15, DEER: 0.35, PRONGHORN: 0.35 } as Record<string, number>)[r.species] ?? 0.25;
+  const lo = (r: HuntSummary) => ({ ELK: 0.15, DEER: 0.35, PRONGHORN: 0.35, MOOSE: 0.55, BIGHORN: 0.6, GOAT: 0.55 } as Record<string, number>)[r.species] ?? 0.25;
   const used = new Set<string>();
   const where = (r: HuntSummary) => (r.units.length ? ` · unit${r.units.length > 1 ? 's' : ''} ${r.units.slice(0, 4).join(', ')}${r.units.length > 4 ? '…' : ''}` : '');
   const nums = (r: HuntSummary) => `${pctOdds(odds(r))} odds, ${pct(r.success5)} success`;

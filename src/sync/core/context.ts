@@ -9,11 +9,18 @@ export const GMU_LAYER =
   'https://services.arcgis.com/FjJI5xHF2dUPVrgK/ArcGIS/rest/services/GameManagementUnits/FeatureServer/0/query';
 export const HUNTING_MAPSERVER = 'https://gisportal-idfg.idaho.gov/hosting/rest/services/Hunting/MapServer';
 
-/** code = odds API / hunt list BigGameID; game = harvest stats page name (and the word its title uses); general = has general seasons */
+/**
+ * code = odds API / hunt list BigGameID; game = harvest stats page name(s) (bighorns are published as two pages,
+ * California and Rocky Mountain); title = the word the page title uses; general = has general seasons.
+ * Moose, bighorn sheep and mountain goat are a separate drawing (April) from deer, elk and pronghorn (May-June).
+ */
 export const SPECIES = [
-  { code: 1, species: 'DEER' as const, game: 'deer', title: 'Deer', general: true },
-  { code: 2, species: 'ELK' as const, game: 'elk', title: 'Elk', general: true },
-  { code: 3, species: 'PRONGHORN' as const, game: 'antelope', title: 'Antelope', general: false }, // controlled hunts only
+  { code: 1, species: 'DEER' as const, game: ['deer'], title: 'Deer', general: true },
+  { code: 2, species: 'ELK' as const, game: ['elk'], title: 'Elk', general: true },
+  { code: 3, species: 'PRONGHORN' as const, game: ['antelope'], title: 'Antelope', general: false }, // controlled hunts only
+  { code: 6, species: 'MOOSE' as const, game: ['moose'], title: 'Moose', general: false },
+  { code: 7, species: 'BIGHORN' as const, game: ['rocky mountain sheep', 'california sheep'], title: 'Sheep', general: false },
+  { code: 8, species: 'GOAT' as const, game: ['goat'], title: 'Goat', general: false },
 ];
 
 export const FIRST_ODDS_YEAR = 1998;

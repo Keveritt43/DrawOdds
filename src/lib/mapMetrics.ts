@@ -1,6 +1,6 @@
 /** Unit shading shared by every map: what each metric means, its color ramp and how to print it. */
 
-export type Sp = 'DEER' | 'ELK' | 'PRONGHORN';
+export type Sp = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT';
 export type Kind = 'land' | 'general' | 'controlled';
 export interface MetricDef {
   label: string;
@@ -12,7 +12,7 @@ export interface MetricDef {
   none: string;
   note: string;
 }
-const SPK = (sp: Sp) => ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' })[sp];
+const SPK = (sp: Sp) => ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' })[sp];
 // light -> dark, single hue per meaning: green = land you can hunt, orange = success / odds, plum = crowding
 export const GREEN = ['#eef4e6', '#d2e4bf', '#aecd92', '#84b267', '#5b9242', '#346c27'];
 export const ORANGE = ['#fdeadc', '#fbcaa7', '#f7a474', '#f27c44', '#d85b18', '#9c3d0a'];
@@ -47,9 +47,9 @@ export const METRICS: Record<Metric, MetricDef> = {
     note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Darker = more crowded.',
   },
   ctlOdds: {
-    label: 'Controlled Draw Odds (Best Buck / Bull)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
+    label: 'Controlled Draw Odds (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
     field: (sp, nr) => `ctlOdds${nr ? 'Nr' : 'Res'}${SPK(sp)}`,
-    note: 'Best 5-year first-choice odds, for your residency, of any adult buck / bull controlled hunt touching the unit (antlerless and youth hunts left out).',
+    note: 'Best 5-year first-choice odds, for your residency, of any adult buck / bull / ram controlled hunt touching the unit (antlerless and youth hunts left out; mountain goat hunts are either sex).',
   },
   ctlSuccess: {
     label: 'Controlled Hunt Success %', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No buck / bull controlled hunt / under 50 hunters',
@@ -66,7 +66,7 @@ export const pickRamp = (ramp: string[], n: number) =>
   Array.from({ length: n }, (_, i) => ramp[n === 1 ? ramp.length - 1 : Math.round((i * (ramp.length - 1)) / (n - 1))]);
 
 /** Every field a metric can read (for computing breaks client-side when the server didn't send them). */
-export const METRIC_FIELDS = [...new Set(Object.values(METRICS).flatMap((x) => (['DEER', 'ELK', 'PRONGHORN'] as Sp[]).flatMap((sp) => [x.field(sp, false), x.field(sp, true)])))];
+export const METRIC_FIELDS = [...new Set(Object.values(METRICS).flatMap((x) => (['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'] as Sp[]).flatMap((sp) => [x.field(sp, false), x.field(sp, true)])))];
 
 /**
  * MapLibre step expression for a metric's classes; units without a number get the no-data gray. `value` is a

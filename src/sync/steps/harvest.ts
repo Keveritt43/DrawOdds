@@ -11,15 +11,17 @@ function fields(species: SpeciesName, year: number, h: Row) {
     harvest: num(h['harvest']),
     successPct: num(h['success%']),
     days: num(h['days']),
-    antlered: num(h['antlered'] ?? h['horned']), // pronghorn: horned / hornless
-    antlerless: num(h['antlerless'] ?? h['hornless']),
+    // pronghorn: horned / hornless; moose: bulls / cows; sheep: rams / ewes; goat: billies / nannies
+    antlered: num(h['antlered'] ?? h['horned'] ?? h['bulls'] ?? h['rams'] ?? h['billies']),
+    antlerless: num(h['antlerless'] ?? h['hornless'] ?? h['cows'] ?? h['ewes'] ?? h['nannies']),
     pct4: num(h['%4+pts']),
     pct5: num(h['%5+pts']),
     pctWt: num(h['%whitetail']),
     pctSpike: num(h['%spike']),
     pct6: num(h['%6+pts']),
   };
-  return { ...base, ...estimates(species, year, base) };
+  const size = { avgSize: num(h['avg.antlerspread(in.)'] ?? h['avg.hornlength(in.)']), avgCircum: num(h['avg.horncircum.(in.)']) };
+  return { ...base, ...estimates(species, year, base), ...size };
 }
 
 /**
@@ -36,28 +38,34 @@ async function fetchSeason(
   const details: string[] = [];
   let rows = 0;
   for (const { species, game, title, general } of SPECIES) {
-    if (season === 'general' && !general) continue; // pronghorn: controlled hunts only
+    if (season === 'general' && !general) continue; // pronghorn, moose, sheep, goat: controlled hunts only
     for (const year of yearsToFetch(FIRST_HARVEST_YEAR, await haveYears(species), opts.full)) {
-      const url = `${STATS_BASE}?season=${season}&game=${game}&yr=${year}`;
-      let parsed: Row[];
-      try {
-        parsed = parseStatsTable(await get(url), season === 'controlled' ? 'hunt#' : 'unit');
-        // IDFG answers an unknown game name with the deer page: only keep a table with this species' columns
-        if (parsed.length && !speciesColumns(species, parsed[0])) {
-          details.push(`${species} ${year}: table columns aren't ${title} columns - skipped`);
-          continue;
+      // a species can span several pages (California + Rocky Mountain bighorns): one year's rows are all of them
+      let parsed: Row[] = [];
+      let failed = false;
+      for (const g of game) {
+        const url = `${STATS_BASE}?season=${season}&game=${encodeURIComponent(g)}&yr=${year}`;
+        try {
+          let page = parseStatsTable(await get(url), season === 'controlled' ? 'hunt#' : 'unit');
+          // IDFG answers an unknown game name with the deer page: only keep a table with this species' columns
+          if (page.length && !speciesColumns(species, page[0])) {
+            details.push(`${species} ${year} (${g}): table columns aren't ${title} columns - skipped`);
+            continue;
+          }
+          let problem = page.length && game.length === 1 ? await check(species, year, page) : '';
+          if (problem) {
+            const retry = parseStatsTable(await get(url), season === 'controlled' ? 'hunt#' : 'unit');
+            if (retry.length > page.length) page = retry;
+            problem = await check(species, year, page);
+            if (problem) details.push(`${species} ${year}: POSSIBLY INCOMPLETE (${problem})`);
+          }
+          parsed = parsed.concat(page);
+        } catch (e) {
+          details.push(`${species} ${year} (${g}): ${(e as Error).message} - kept existing rows`);
+          failed = true;
         }
-        let problem = parsed.length ? await check(species, year, parsed) : '';
-        if (problem) {
-          const retry = parseStatsTable(await get(url), season === 'controlled' ? 'hunt#' : 'unit');
-          if (retry.length > parsed.length) parsed = retry;
-          problem = await check(species, year, parsed);
-          if (problem) details.push(`${species} ${year}: POSSIBLY INCOMPLETE (${problem})`);
-        }
-      } catch (e) {
-        details.push(`${species} ${year}: ${(e as Error).message} - kept existing rows`);
-        continue;
       }
+      if (failed) continue; // never replace a year with only part of its pages
       if (!parsed.length) {
         if (year < new Date().getFullYear()) details.push(`${species} ${year}: no table found`);
         continue; // the current season's harvest isn't published until next year

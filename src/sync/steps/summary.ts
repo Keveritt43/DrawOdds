@@ -43,8 +43,8 @@ export async function buildSummaries(): Promise<StepResult> {
   const elkSeasons = loadElkTagSeasons();
   type NrOdds = { label: string; code: string; odds: number | null; applied: number; drew: number; tags: number; year: number };
   /** The nonresident tag(s) a general season needs: deer = the unit's Regular (and White-tailed) tag, elk = the zone tag(s) with a season for this weapon. */
-  const nrTagsFor = (species: 'DEER' | 'ELK' | 'PRONGHORN', unit: string, weapon: string): NrOdds[] => {
-    if (species === 'PRONGHORN') return [];
+  const nrTagsFor = (species: string, unit: string, weapon: string): NrOdds[] => {
+    if (species !== 'DEER' && species !== 'ELK') return []; // general tags exist for deer and elk only
     const mk = (label: string, code: string, key: string): NrOdds | null => {
       const d = nrDraws.get(key);
       return d ? { label, code, odds: capOdds(d.drew[0], d.applied[0]), applied: d.applied[0] ?? 0, drew: d.drew[0] ?? 0, tags: d.tags, year: d.year } : null;
@@ -150,6 +150,7 @@ export async function buildSummaries(): Promise<StepResult> {
         whitetailPct5: hs.whitetailPct5,
         deerType: hs.deerType,
         bigPct5: hs.bigPct5,
+        avgSize5: hs.avgSize5,
         antlerlessShare5: hs.antlerlessShare5,
         harvestYears: hs.years,
         smallSample: hs.smallSample,
@@ -290,7 +291,7 @@ type UnitRow = { name: string; publicPct: number | null; privatePct: number | nu
  * general-season success across its units (all weapons, last 5 seasons) and acreage-weighted land numbers.
  */
 async function nrTagSummary(
-  h: { idfgId: number; species: 'DEER' | 'ELK' | 'PRONGHORN'; rawText: string | null; units: string[] },
+  h: { idfgId: number; species: string; rawText: string | null; units: string[] },
   base: Omit<Prisma.HuntSummaryCreateManyInput, 'id'>,
   unitMap: Map<string, UnitRow>,
 ): Promise<Prisma.HuntSummaryCreateManyInput | null> {
@@ -407,8 +408,8 @@ async function nrTagSummary(
 }
 
 /** General seasons for a unit + weapon from the parsed regulations (null when the tables don't cover it). */
-function generalSeasons(species: 'DEER' | 'ELK' | 'PRONGHORN', unit: string, weapon: string): { year: number; seasons: TagSeason[] } | null {
-  if (species === 'PRONGHORN') return null;
+function generalSeasons(species: string, unit: string, weapon: string): { year: number; seasons: TagSeason[] } | null {
+  if (species !== 'DEER' && species !== 'ELK') return null;
   const want = weapon === 'ANY' ? ['ANY', 'SHORT_RANGE'] : [weapon];
   if (species === 'DEER') {
     const deer = loadDeerTagSeasons();

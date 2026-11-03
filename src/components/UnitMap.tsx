@@ -14,17 +14,24 @@ import { antlerLabel } from '@/lib/format';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean }) {
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP' }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG' }) {
+  const msg = draw === 'MSG';
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const [metric, setMetric] = useState<Metric>('public');
   // basic filters: which animal and which kind of hunt the shading (and the unit's hunt list) is about
-  const [sp, setSpRaw] = useState<Sp>('ELK');
-  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>('GENERAL');
+  const [sp, setSpRaw] = useState<Sp>(msg ? 'MOOSE' : 'ELK');
+  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg ? 'CONTROLLED' : 'GENERAL');
+  // the header's drawing switch: start over on that drawing's species
+  useEffect(() => {
+    setSpRaw(msg ? 'MOOSE' : 'ELK');
+    setHtypeRaw(msg ? 'CONTROLLED' : 'GENERAL');
+    setMetric((m) => (METRICS[m].kind === 'land' ? m : msg ? 'ctlOdds' : 'success'));
+  }, [msg]);
   const setSp = (x: Sp) => {
     setSpRaw(x);
-    // pronghorn are controlled only
-    if (x === 'PRONGHORN') setHtype('CONTROLLED');
+    // pronghorn, moose, sheep and goat are controlled only
+    if (x !== 'DEER' && x !== 'ELK') setHtype('CONTROLLED');
   };
   const setHtype = (t: 'GENERAL' | 'CONTROLLED') => {
     setHtypeRaw(t);
@@ -140,12 +147,12 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
       <MapKey
         filters={<>
-          <KeySeg label="Animal" value={sp} onChange={setSp} options={[['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
-          <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />
+          <KeySeg label="Animal" value={sp} onChange={setSp} options={msg ? [['MOOSE', 'Moose'], ['BIGHORN', 'Sheep'], ['GOAT', 'Goat']] : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
+          {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
         </>}
         value={metric} options={options} onChange={(x) => setMetric(x as Metric)}
         ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units' }}
-        note={`${M.note}${M.bySpecies ? ` Showing ${sp === 'ELK' ? 'elk' : sp === 'DEER' ? 'deer' : 'pronghorn'}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''} Each shade holds a similar number of units.`}
+        note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''} Each shade holds a similar number of units.`}
         extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />
       {sel && (
         <div className="card mapinfo">
@@ -157,7 +164,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
               <tr><td>Public land</td><td style={{ textAlign: 'right' }}>{v('publicPct') !== null ? `${Math.round(v('publicPct')!)}%` : '-'}</td></tr>
               <tr><td>Access Yes!</td><td style={{ textAlign: 'right' }}>{v('accessYesAcres') ? `${Math.round(v('accessYesAcres')!).toLocaleString()} ac (${v('accessYesPct')! < 1 ? '<1' : Math.round(v('accessYesPct')!)}%)` : 'none'}</td></tr>
               <tr><td>Public + Access Yes!</td><td style={{ textAlign: 'right' }}>{v('huntablePct') !== null ? `${Math.round(v('huntablePct')!)}%` : '-'}</td></tr>
-              {(['Elk', 'Deer'] as const).map((s) => (
+              {((msg ? [] : ['Elk', 'Deer']) as ('Elk' | 'Deer')[]).map((s) => (
                 <tr key={s}>
                   <td>General {s.toLowerCase()}</td>
                   <td style={{ textAlign: 'right' }}>
@@ -167,11 +174,11 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                 </tr>
               ))}
               <tr><td>Controlled hunts</td><td style={{ textAlign: 'right' }}>{v('controlled') ?? 0}</td></tr>
-              {(['Elk', 'Deer', 'Pronghorn'] as const).map((s) => (
+              {((msg ? ['Moose', 'Bighorn', 'Goat'] : ['Elk', 'Deer', 'Pronghorn']) as string[]).map((s) => (
                 <tr key={`c${s}`}>
-                  <td>Controlled {s.toLowerCase()}</td>
+                  <td>Controlled {s === 'Bighorn' ? 'sheep' : s.toLowerCase()}</td>
                   <td style={{ textAlign: 'right' }}>
-                    {v(`ctlCount${s}`) ? `${v(`ctlCount${s}`)} buck/bull hunt${v(`ctlCount${s}`) === 1 ? '' : 's'}` : '-'}
+                    {v(`ctlCount${s}`) ? `${v(`ctlCount${s}`)} ${msg ? '' : 'buck/bull '}hunt${v(`ctlCount${s}`) === 1 ? '' : 's'}` : '-'}
                     {v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`) !== null ? ` · best ${nr ? 'NR' : 'res'} odds ${(v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`)! * 100).toFixed(1)}%` : ''}
                     {v(`ctlSuccess${s}`) !== null ? ` · ${Math.round(v(`ctlSuccess${s}`)!)}% success` : ''}
                   </td>
@@ -182,7 +189,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           {recentBoundaryChanges([sel.name]) && <p className="small" style={{ color: 'var(--warn-ink)', margin: '4px 0 0' }}>Boundary changed in {recentBoundaryChanges([sel.name])!.year}.</p>}
           {sel.name !== focus && (
             <div className="mi-hunts">
-              <h4>{sp === 'ELK' ? 'Elk' : sp === 'DEER' ? 'Deer' : 'Pronghorn'} {htype === 'CONTROLLED' ? 'Controlled' : 'General'} Hunts</h4>
+              <h4>{({ ELK: 'Elk', DEER: 'Deer', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn Sheep', GOAT: 'Mountain Goat' })[sp]} {htype === 'CONTROLLED' ? 'Controlled' : 'General'} Hunts</h4>
               {uh?.unit !== sel.name ? <p className="small muted">Loading…</p> : !shownHunts.length ? <p className="small muted">No {htype === 'CONTROLLED' ? 'controlled' : 'general'} {sp.toLowerCase()} hunts here.</p> : (
                 <ul>
                   {shownHunts.map((h) => {

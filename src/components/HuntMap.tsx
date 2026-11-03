@@ -29,7 +29,8 @@ import { loadUnits } from '@/lib/unitData';
  */
 export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats = { units: {}, areas: {} } }: {
   matched: string[]; selected: string; chips: { label: string; href: string }[]; nr?: boolean; showZones?: boolean; zones?: string[];
-  /** a species hunted by its own hunt areas (pronghorn): draw those instead of filling units */
+  /** species hunted by their own hunt areas (pronghorn, moose, sheep, goat; comma list): draw those instead of filling units.
+   *  matchedAreas / selectedArea / stats.areas are keyed "<SPECIES>:<area>" */
   areaSpecies?: string; matchedAreas?: string[]; selectedArea?: string;
   species?: string;
   /** the matching hunts' numbers per unit and per hunt area (Filtering computes them from its results) */
@@ -218,7 +219,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
           const fc = await (await fetch(`/api/areas?species=${areaSpecies}`)).json();
           if (m.getSource('areas')) (m.getSource('areas') as maplibregl.GeoJSONSource).setData(fc);
           else {
-            m.addSource('areas', { type: 'geojson', data: fc, promoteId: 'name' });
+            m.addSource('areas', { type: 'geojson', data: fc, promoteId: 'key' });
             m.addLayer({ id: 'areas-fill', type: 'fill', source: 'areas', paint: { 'fill-color': AREA, 'fill-opacity': ['case', ['boolean', ['feature-state', 'match'], false], 0.35, 0.04] } }, 'units-label');
             m.addLayer({ id: 'areas-line', type: 'line', source: 'areas', paint: { 'line-color': '#0b4f3e', 'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 4, 1.6] } }, 'units-label');
             m.addLayer({
@@ -228,10 +229,14 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
             });
             m.on('click', 'areas-fill', (e) => {
               const name = String(e.features?.[0]?.properties?.name ?? '');
+              const species = String(e.features?.[0]?.properties?.species ?? '');
               if (!name) return;
               const p = new URLSearchParams(spRef.current.toString());
               if (p.get('q') === name) p.delete('q');
-              else p.set('q', name);
+              else {
+                p.set('q', name);
+                if (species) p.set('species', species); // area names repeat across species
+              }
               p.delete('page');
               router.push(`/hunts${p.size ? `?${p}` : ''}`, { scroll: false });
             });

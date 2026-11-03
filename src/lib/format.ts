@@ -14,13 +14,16 @@ export const ANTLER: Record<string, string> = { ANTLERED: 'Antlered', ANTLERLESS
 export const DEERTYPE: Record<string, string> = { MULE: 'Mule deer', WHITETAIL: 'Whitetail', MIXED: 'Mixed' };
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const SPECIES_LABEL: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' };
+export const SPECIES_LABEL: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn Sheep', GOAT: 'Mountain Goat' };
 
 /** Sex class in the species' own words: pronghorn have horns (bucks / does), not antlers. */
 export function antlerLabel(species: string, cls: string): string {
   if (species === 'PRONGHORN') return { ANTLERED: 'Buck', ANTLERLESS: 'Doe / fawn', EITHER: 'Either sex' }[cls] ?? cls;
   if (species === 'ELK') return { ANTLERED: 'Bull', ANTLERLESS: 'Cow / calf', EITHER: 'Either sex' }[cls] ?? cls;
   if (species === 'DEER') return { ANTLERED: 'Buck', ANTLERLESS: 'Doe / fawn', EITHER: 'Either sex' }[cls] ?? cls;
+  if (species === 'MOOSE') return { ANTLERED: 'Bull', ANTLERLESS: 'Cow', EITHER: 'Either sex' }[cls] ?? cls;
+  if (species === 'BIGHORN') return { ANTLERED: 'Ram', ANTLERLESS: 'Ewe', EITHER: 'Either sex' }[cls] ?? cls;
+  if (species === 'GOAT') return { ANTLERED: 'Billy', ANTLERLESS: 'Nanny', EITHER: 'Either sex' }[cls] ?? cls;
   return ANTLER[cls] ?? cls;
 }
 
@@ -59,7 +62,7 @@ export interface NrTagInfo {
  *  - everyone who applied drew -> no limit was hit (often leftover tags)
  *  - no drawing yet -> the 10% rule
  */
-export function nrTags(tags: number | null | undefined, nrDrew: number | null | undefined, nrApps: number | null | undefined, year: number | null | undefined): NrTagInfo | null {
+export function nrTags(tags: number | null | undefined, nrDrew: number | null | undefined, nrApps: number | null | undefined, year: number | null | undefined, perHuntRule = true): NrTagInfo | null {
   const y = year ?? null;
   if (nrDrew !== null && nrDrew !== undefined && nrApps !== null && nrApps !== undefined && y) {
     if (nrApps > nrDrew) {
@@ -75,6 +78,8 @@ export function nrTags(tags: number | null | undefined, nrDrew: number | null | 
       long: nrDrew ? `Every nonresident who applied drew in ${y} (${int(nrDrew)} tags), so the nonresident limit wasn't reached.` : `No nonresidents applied in ${y}.`,
     };
   }
+  // moose / sheep / goat: the 10% limit is statewide per species, not per hunt - no per-hunt number to show
+  if (!perHuntRule) return null;
   const cap = nrCap(tags);
   if (cap === null) return null;
   return {
@@ -85,11 +90,12 @@ export function nrTags(tags: number | null | undefined, nrDrew: number | null | 
 }
 
 /** Controlled-hunt tag line: "120 tags", and for nonresidents "2,293 tags · 240 for NR". */
-export const controlledTags = (tags: number | null | undefined, nr: boolean, nrDrew?: number | null, nrApps?: number | null, drawYear?: number | null) => {
+export const controlledTags = (tags: number | null | undefined, nr: boolean, nrDrew?: number | null, nrApps?: number | null, drawYear?: number | null, species = '') => {
   if (!tags) return 'Tags: see regs';
-  if (!nr) return `${int(tags)} tags`;
-  const info = nrTags(tags, nrDrew, nrApps, drawYear);
-  return `${int(tags)} tags${info ? ` · ${info.short}` : ''}`;
+  const t = `${int(tags)} tag${tags === 1 ? '' : 's'}`;
+  if (!nr) return t;
+  const info = nrTags(tags, nrDrew, nrApps, drawYear, !['MOOSE', 'BIGHORN', 'GOAT'].includes(species));
+  return `${t}${info ? ` · ${info.short}` : ''}`;
 };
 
 // ---------- plain-English verdicts (so a beginner can read a card without decoding numbers) ----------
@@ -107,7 +113,7 @@ export function oddsVerdict(v: number | null | undefined): Verdict {
 }
 
 /** Success thresholds differ by species: 20% is good for elk and poor for pronghorn. */
-const SUCCESS_BANDS: Record<string, [number, number]> = { ELK: [0.3, 0.15], DEER: [0.55, 0.35], PRONGHORN: [0.6, 0.35] };
+const SUCCESS_BANDS: Record<string, [number, number]> = { ELK: [0.3, 0.15], DEER: [0.55, 0.35], PRONGHORN: [0.6, 0.35], MOOSE: [0.8, 0.55], BIGHORN: [0.85, 0.6], GOAT: [0.8, 0.55] };
 export function successVerdict(v: number | null | undefined, species: string): Verdict {
   if (v === null || v === undefined) return { text: 'No harvest data', tone: 'none' };
   const [hi, lo] = SUCCESS_BANDS[species] ?? [0.5, 0.25];

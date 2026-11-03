@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
-import { getResidency } from '@/lib/residency';
+import { getResidency, getDraw } from '@/lib/residency';
+import { DRAW_SPECIES } from '@/lib/species';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
 import { pct100, int } from '@/lib/format';
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
 
 type SP = { species?: string; type?: string; weapon?: string; as?: string };
 const FILTERS = {
-  species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['PRONGHORN', 'Pronghorn']],
+  species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['PRONGHORN', 'Pronghorn'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn Sheep'], ['GOAT', 'Mountain Goat']],
   type: [['', 'All'], ['GENERAL', 'General'], ['CONTROLLED', 'Controlled']],
   weapon: [['', 'All'], ['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader']],
 } as const;
@@ -35,12 +36,13 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const unit = await db.unit.findUnique({ where: { name } });
   if (!unit) notFound();
   const { residency } = await getResidency(sp.as);
+  const draw = await getDraw();
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';
   const fav = await getFavorites();
   // nonresident general tags only matter to nonresidents
   // elk zone A/B tags are listed for everyone (residents choose A or B too); deer tags only for nonresidents
-  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
+  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
   const pick = (k: keyof typeof FILTERS) => (FILTERS[k].some(([v]) => v && v === sp[k]) ? sp[k]! : '');
   const fSpecies = pick('species');
   const fType = pick('type');
@@ -58,7 +60,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const gen = (species: 'DEER' | 'ELK', weapon: string) =>
     hunts.find((h) => h.type === 'GENERAL' && !h.nrTag && h.species === species && h.weapon === weapon);
   const mainWeapon = fWeapon || 'ANY';
-  const trendSpecies = (['DEER', 'ELK'] as const).filter((x) => !fSpecies || x === fSpecies);
+  const trendSpecies = draw === 'MSG' ? [] : (['DEER', 'ELK'] as const).filter((x) => !fSpecies || x === fSpecies);
   const trends = await Promise.all(
     trendSpecies.map(async (sp) => {
       const main = gen(sp, mainWeapon);
@@ -86,7 +88,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
 
       <div className="grid2">
         <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 360 }}>
-          <UnitMap savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" />
+          <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" />
         </div>
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Who manages the land</h3>
@@ -97,9 +99,9 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
 
       <h2 id="hunts">Hunts In Unit {unit.name}</h2>
       <div className="uh-filters">
-        {(Object.keys(FILTERS) as (keyof typeof FILTERS)[]).map((k) => (
+        {(Object.keys(FILTERS) as (keyof typeof FILTERS)[]).filter((k) => !(draw === 'MSG' && k === 'type')).map((k) => (
           <div key={k} className="seg light" role="group" aria-label={k}>
-            {FILTERS[k].map(([v, l]) => {
+            {FILTERS[k].filter(([v]) => k !== 'species' || !v || (DRAW_SPECIES[draw] as string[]).includes(v)).map(([v, l]) => {
               const cur = { species: fSpecies, type: fType, weapon: fWeapon }[k];
               return <Link key={v || 'all'} href={href({ [k]: v })} scroll={false} aria-pressed={cur === v} className="seg-link">{l}</Link>;
             })}
@@ -112,8 +114,8 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         {!shown.length && <p className="muted">{hunts.length ? 'No hunts match these filters.' : 'No hunts listed for this unit.'}</p>}
       </div>
 
-      <h2>General Season Trends</h2>
-      {trends.every((t) => !t.data.length) && <p className="muted">No general-season harvest data for this unit{fWeapon ? ' and weapon' : ''}.</p>}
+      {draw === 'DEP' && <h2>General Season Trends</h2>}
+      {draw === 'DEP' && trends.every((t) => !t.data.length) && <p className="muted">No general-season harvest data for this unit{fWeapon ? ' and weapon' : ''}.</p>}
       {trends.filter((t) => t.data.length).map((t) => (
         <section key={t.sp}>
           <h3>General {t.sp === 'DEER' ? 'Deer' : 'Elk'} · {WLABEL[mainWeapon] ?? mainWeapon} · Unit {unit.name}</h3>

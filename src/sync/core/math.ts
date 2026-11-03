@@ -2,7 +2,7 @@
  * Pure calculation logic shared by the sync job and the app. No I/O - unit tested.
  */
 
-export type SpeciesName = 'DEER' | 'ELK' | 'PRONGHORN';
+export type SpeciesName = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT';
 
 // IDFG footnote: "Beginning in 2016 calculations for %4+Pts are based on mule deer and %5+pts are based on white-tailed deer."
 export const SPLIT_YEAR = 2016;
@@ -191,6 +191,7 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
 
 export interface HarvestRow extends Estimates {
   year: number;
+  avgSize?: number | null;
   hunters: number | null;
   harvest: number | null;
   antlered: number | null;
@@ -203,6 +204,7 @@ export interface HarvestSummary {
   harvest5: number | null;
   whitetailPct5: number | null;
   deerType: 'WHITETAIL' | 'MULE' | 'MIXED' | null;
+  avgSize5: number | null; // moose antler spread / sheep, goat horn length: harvest-weighted (in.)
   bigPct5: number | null; // deer: mule 4+ share of mule antlered (or all antlered pre-2016); elk: 6+ share of antlered
   antlerlessShare5: number | null;
   years: number;
@@ -250,9 +252,16 @@ export function summarizeHarvest(species: SpeciesName, rows: HarvestRow[]): Harv
     whitetailPct5: wtPct,
     deerType: species === 'DEER' ? deerType(wtPct) : null,
     bigPct5: bigPct,
+    avgSize5: (() => {
+      // harvest-weighted average of each year's average size (only years that report it)
+      const ys = five.filter((r) => r.avgSize !== null && r.avgSize !== undefined && (r.antlered ?? r.harvest ?? 0) > 0);
+      const w = ys.reduce((a, r) => a + (r.antlered ?? r.harvest ?? 0), 0);
+      return w ? ys.reduce((a, r) => a + r.avgSize! * (r.antlered ?? r.harvest ?? 0), 0) / w : null;
+    })(),
     antlerlessShare5: ratio(sumOf(five, (r) => r.antlerless), harvest),
     years: five.length,
-    smallSample: (hunters ?? 0) < 50,
+    // moose / sheep / goat hunts have 1-10 tags: 50 hunters in 5 years would flag nearly all of them
+    smallSample: (hunters ?? 0) < (['MOOSE', 'BIGHORN', 'GOAT'].includes(species) ? 10 : 50),
     harvestLastYear: five[0]?.year ?? null,
     successLast: five[0] ? ratio(five[0].harvest, five[0].hunters) : null,
     successPrev: five[1] && five[1].year === five[0].year - 1 ? ratio(five[1].harvest, five[1].hunters) : null,

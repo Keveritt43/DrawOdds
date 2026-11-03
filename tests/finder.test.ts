@@ -58,3 +58,12 @@ test('elk zone filter: zone name -> its units', () => {
   assert.ok(toQuery(f).includes('zone=Pioneer'));
   assert.deepEqual(parseFilters({ zone: 'Nowhere' }).zones, []);
 });
+
+test('one drawing at a time: species outside the drawing are ignored', () => {
+  const dep = JSON.stringify(buildWhere(parseFilters({}), 'RESIDENT', 'DEP'));
+  assert.ok(dep.includes('"species":{"in":["DEER","ELK","PRONGHORN"]}'), dep);
+  const msg = JSON.stringify(buildWhere(parseFilters({ species: 'elk' }), 'RESIDENT', 'MSG'));
+  assert.ok(msg.includes('"species":{"in":["MOOSE","BIGHORN","GOAT"]}'), msg);
+  const moose = JSON.stringify(buildWhere(parseFilters({ species: 'moose' }), 'NONRESIDENT', 'MSG'));
+  assert.ok(moose.includes('"species":"MOOSE"'), moose);
+});

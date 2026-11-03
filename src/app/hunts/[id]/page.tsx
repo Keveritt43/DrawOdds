@@ -11,6 +11,7 @@ import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
 import { pct, pct100, pctOdds, int, range, WEAPON, DEERTYPE, nrTags, antlerLabel, oddsVerdict, drawFillLine, TROPHY_LABEL } from '@/lib/format';
 import { BackLink } from '@/components/BackLink';
+import { SIZE_LABEL, drawOf, type SpeciesKey } from '@/lib/species';
 import { ApplyChecklist } from '@/components/ApplyChecklist';
 import { laterChoices } from '@/components/HuntCards';
 import type { Metadata } from 'next';
@@ -80,7 +81,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const n = (v?: number | null) => (v != null ? int(v) : '-');
   const renumbered = new Set(history.map((h) => h.huntNumber).filter(Boolean)).size > 1;
   const sex = antlerLabel(s.species, s.antlerClass);
-  const nrInfo = ctl ? nrTags(s.tags, drawn[0]?.nrPermits, drawn[0]?.nrApps, drawn[0]?.year) : null;
+  const isMsg = drawOf(s.species) === 'MSG';
+  const nrInfo = ctl ? nrTags(s.tags, drawn[0]?.nrPermits, drawn[0]?.nrApps, drawn[0]?.year, !isMsg) : null;
   const yourOdds = ctl ? s[rf.oddsLast] : s.nrTag && nr ? s.nrOddsLast : null;
   const df = drawFillLine(s[rf.tagAndFill]);
   const tagSeasonText = seasonsSummary(s.tagSeasons, 6);
@@ -152,7 +154,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         )}
         <div className="stat"><div className="k">{s.nrTag && s.species === 'ELK' ? 'Success, this tag\'s weapons, ' : 'Hunter success, '}{s.harvestYears > 0 && s.harvestYears < 5 ? `${s.harvestYears}-yr` : '5-yr'}</div><div className="v">{pct(s.success5)}</div></div>
         <div className="stat"><div className="k">Hunters per sq mi{s.hunters5 && s.harvestYears ? ` (${int(s.hunters5 / s.harvestYears)}/yr)` : ''}</div><div className="v">{s.huntersSqMi === null ? '-' : s.huntersSqMi < 10 ? s.huntersSqMi.toFixed(1) : Math.round(s.huntersSqMi)}</div></div>
-        {s.species !== 'PRONGHORN' && <div className="stat"><div className="k">{TROPHY_LABEL[s.species]} share</div><div className="v">{pct(s.bigPct5)}</div></div>}
+        {TROPHY_LABEL[s.species] && <div className="stat"><div className="k">{TROPHY_LABEL[s.species]} share</div><div className="v">{pct(s.bigPct5)}</div></div>}
+        {SIZE_LABEL[s.species as SpeciesKey] && <div className="stat"><div className="k">{SIZE_LABEL[s.species as SpeciesKey]}, 5-yr</div><div className="v">{s.avgSize5 !== null ? `${s.avgSize5.toFixed(1)}"` : '-'}</div></div>}
         {s.species === 'DEER' && <div className="stat"><div className="k">Deer</div><div className="v" style={{ fontSize: 18 }}>{s.deerType ? `${DEERTYPE[s.deerType]} (${pct100(s.whitetailPct5)} WT)` : '-'}</div></div>}
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(s.publicPct)}</div></div>
         <div className="stat"><div className="k">Access Yes!</div><div className="v">{s.accessYesPct !== null ? `${s.accessYesPct > 0 && s.accessYesPct < 1 ? '<1' : Math.round(s.accessYesPct)}%` : '-'}</div></div>
@@ -162,11 +165,12 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       {s.smallSample && <div className="note">Fewer than 50 hunters over 5 years. One or two animals swing the success rate a lot. Don&apos;t read much into a single year.</div>}
       {recentBoundaryChanges(s.units) && <div className="note">IDFG changed the boundary of unit {recentBoundaryChanges(s.units)!.units.join(', ')} in {recentBoundaryChanges(s.units)!.year}. Earlier years may cover different ground.</div>}
       {renumbered && <div className="note">IDFG renumbered this hunt over the years (hunt numbers: {[...new Set(history.map((h) => h.huntNumber).filter(Boolean))].join(', ')}). History is matched by hunt area and tag count; check the IDFG page if a year looks off.</div>}
-      {nr && nrInfo && <p className="small muted" style={{ margin: '4px 0' }}>{nrInfo.long} Idaho limits nonresidents to 10% of a controlled hunt&apos;s tags (1 in hunts of 10 or fewer); IDFG sets a fixed number on some hunts, and leftover tags in the second drawing aren&apos;t limited.</p>}
+      {nr && nrInfo && <p className="small muted" style={{ margin: '4px 0' }}>{nrInfo.long} {isMsg ? 'For moose, sheep and goat, Idaho limits nonresidents to 10% of each species\' tags statewide, not per hunt.' : <>Idaho limits nonresidents to 10% of a controlled hunt&apos;s tags (1 in hunts of 10 or fewer); IDFG sets a fixed number on some hunts, and leftover tags in the second drawing aren&apos;t limited.</>}</p>}
+      {nr && isMsg && !nrInfo && <p className="small muted" style={{ margin: '4px 0' }}>For moose, sheep and goat, Idaho limits nonresidents to 10% of each species&apos; tags statewide, not per hunt.</p>}
       {nr && ctl && (s.nrAppsLast ?? 0) < 30 && (s.nrOddsLast ?? 0) < 0.995 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 
       <ApplyChecklist secondChoiceNote={ctl && (s.secondDrewLast ?? 0) > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear ?? 'the last drawing'}, but the nonresident limit was already full, so this hunt is a poor 2nd choice for nonresidents.` : `${int(s.secondDrewLast)} tags went to 2nd-choice applicants in ${s.oddsLastYear ?? 'the last drawing'}: a realistic 2nd choice.`) : ctl ? 'Its tags all went to 1st choices last time, so it rarely works as a 2nd choice.' : undefined}
-        kind={ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
+        kind={isMsg ? 'msg' : ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
 
       {alts.length > 0 && (
         <div className="card alts">
@@ -190,7 +194,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         {s.type === 'CONTROLLED' && <ApplicantsChart data={history} />}
         <SuccessChart data={history} compare={compare} />
         <HarvestChart data={history} />
-        {s.species !== 'PRONGHORN' && <QualityChart data={history} species={s.species} />}
+        {(s.species === 'DEER' || s.species === 'ELK') && <QualityChart data={history} species={s.species} />}
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Land and access</h3>
           <LandBar shares={land} />

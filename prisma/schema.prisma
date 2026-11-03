@@ -11,6 +11,9 @@ enum Species {
   DEER
   ELK
   PRONGHORN
+  MOOSE
+  BIGHORN
+  GOAT
 }
 
 enum Residency {
@@ -87,6 +90,8 @@ model ControlledHarvest {
   est5       Int?
   estSpike   Int?
   est6       Int?
+  avgSize    Float? // moose: avg antler spread (in.); sheep / goat: avg horn length (in.)
+  avgCircum  Float? // sheep / goat: avg horn circumference (in.)
 
   @@index([species, huntNumber])
 }
@@ -248,6 +253,7 @@ model HuntSummary {
   whitetailPct5    Float?
   deerType         String? // WHITETAIL | MULE | MIXED
   bigPct5          Float?
+  avgSize5         Float? // moose antler spread / sheep and goat horn length, harvest-weighted 5-yr avg (in.)
   antlerlessShare5 Float?
   harvestYears     Int     @default(0)
   harvestLastYear  Int?

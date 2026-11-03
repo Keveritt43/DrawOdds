@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { Residency } from '@prisma/client';
 import { Wordmark } from './Logo';
 import { ResidencySwitch } from './ResidencySwitch';
+import { DrawSwitch } from './DrawSwitch';
+import type { Draw } from '@/lib/species';
 
 const LINKS = [
   { href: '/hunts', label: 'Find Hunts' },
@@ -13,7 +15,7 @@ const LINKS = [
   { href: '/about', label: 'Data & Methods' },
 ];
 
-export function SiteHeader({ residency, signedIn }: { residency: Residency; signedIn: boolean }) {
+export function SiteHeader({ residency, signedIn, draw }: { residency: Residency; signedIn: boolean; draw: Draw }) {
   const path = usePathname() ?? '/';
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(false), [path]);
@@ -37,6 +39,12 @@ export function SiteHeader({ residency, signedIn }: { residency: Residency; sign
             <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
           </button>
         </div>
+      </div>
+      <div className="draw-bar">
+        <span>Drawing</span>
+        <Suspense fallback={<div className="seg draw-seg" />}>
+          <DrawSwitch value={draw} />
+        </Suspense>
       </div>
     </header>
   );

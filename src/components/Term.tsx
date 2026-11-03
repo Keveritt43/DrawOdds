@@ -8,7 +8,8 @@ export const DEFS = {
   drawfill: 'Draw and fill: your chance to draw the tag AND take an animal in one year (draw odds × success).',
   trophy: 'Trophy share: of the antlered animals taken, the share that were 4+ point mule deer (deer) or 6+ point bulls (elk). Estimated from IDFG’s rounded percentages.',
   tag: 'Elk zones have an A tag and a B tag with different seasons and weapons. You buy (or, as a nonresident, draw) one of them; its seasons are the only ones you can hunt.',
-  smallSample: 'Fewer than 50 hunters over 5 years: one or two animals swing the success rate a lot.',
+  size: 'Average antler spread (moose) or horn length (bighorn sheep, mountain goat) of the animals hunters took, in inches, from IDFG harvest reports over the last 5 years.',
+  smallSample: 'Fewer than 50 hunters over 5 years (10 for moose, sheep and goat): one or two animals swing the success rate a lot.',
   applicants: '1st-choice applicants in the latest drawing, for your residency. "All" adds residents and nonresidents.',
 } as const;
 

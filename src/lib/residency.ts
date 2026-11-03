@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import type { Residency } from '@prisma/client';
 import { auth } from '@/auth';
+import type { Draw } from './species';
 
 export const RESIDENCY_COOKIE = 'residency';
 
@@ -18,3 +19,12 @@ export async function getResidency(as?: string | string[]): Promise<{ residency:
 }
 
 export const isNR = (r: Residency) => r === 'NONRESIDENT';
+
+export const DRAW_COOKIE = 'draw';
+
+/** Which drawing the visitor is looking at (deer/elk/pronghorn or moose/sheep/goat). `?draw=msg|dep` overrides. */
+export async function getDraw(param?: string | string[]): Promise<Draw> {
+  const p = (Array.isArray(param) ? param[0] : param)?.toLowerCase();
+  if (p === 'msg' || p === 'dep') return p.toUpperCase() as Draw;
+  return (await cookies()).get(DRAW_COOKIE)?.value === 'MSG' ? 'MSG' : 'DEP';
+}

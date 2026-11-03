@@ -1,13 +1,16 @@
 import Link from 'next/link';
 import { db } from '@/lib/db';
-import { getResidency } from '@/lib/residency';
+import { getResidency, getDraw } from '@/lib/residency';
+import { DrawSwitch } from '@/components/DrawSwitch';
+import { Suspense } from 'react';
 import { ResidencySwitch } from '@/components/ResidencySwitch';
-import { NR_GENERAL_DRAW, CONTROLLED_DRAW, nextWindow, md } from '@/lib/applyInfo';
+import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, nextWindow, md } from '@/lib/applyInfo';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const { residency } = await getResidency();
+  const [{ residency }, draw] = await Promise.all([getResidency(), getDraw()]);
+  const msg = draw === 'MSG';
   const [hunts, controlled, units, oddsYears, accessYes] = await Promise.all([
     db.huntSummary.count(),
     db.huntSummary.count({ where: { type: 'CONTROLLED' } }),
@@ -20,7 +23,10 @@ export default async function Home() {
   // the next application window that matters to this visitor
   const nextNr = nextWindow(NR_GENERAL_DRAW.windows);
   const nextCtl = nextWindow(CONTROLLED_DRAW.windows);
-  const deadline = [nr && nextNr ? { what: `Nonresident general deer & elk tag draw (${NR_GENERAL_DRAW.season} season)`, ...nextNr } : null, nextCtl ? { what: 'Controlled hunt applications (deer, elk, pronghorn)', ...nextCtl } : null]
+  const nextMsg = nextWindow(MSG_DRAW.windows);
+  const deadline = (msg
+    ? [nextMsg ? { what: 'Moose, bighorn sheep & mountain goat applications', ...nextMsg } : null]
+    : [nr && nextNr ? { what: `Nonresident general deer & elk tag draw (${NR_GENERAL_DRAW.season} season)`, ...nextNr } : null, nextCtl ? { what: 'Controlled hunt applications (deer, elk, pronghorn)', ...nextCtl } : null])
     .filter((x): x is NonNullable<typeof x> => !!x).sort((a, b) => a.start.getTime() - b.start.getTime())[0];
   const span = yrs.length ? `${Math.min(...yrs)}–${Math.max(...yrs)}` : '-';
   const opt = (name: string, value: string, label: string, checked = false) => (
@@ -39,7 +45,7 @@ export default async function Home() {
               Find Your Idaho Hunt. <em>Know Your Odds.</em>
             </h1>
             <p className="lead">
-              Every Idaho deer, elk and pronghorn hunt in one place: draw odds for your residency, hunter success, how
+              Every Idaho deer, elk, pronghorn, moose, bighorn sheep and mountain goat hunt in one place: draw odds for your residency, hunter success, how
               crowded it gets, public land and Access Yes! acres, on a map. Answer a few questions and we&apos;ll show you
               where to start.
             </p>
@@ -58,23 +64,35 @@ export default async function Home() {
             <p className="small" style={{ color: '#a9b0a7', margin: 0 }}>Pick a few things. Refine everything else on the next page.</p>
             <label>I&apos;m Applying As</label>
             <ResidencySwitch value={residency} />
+            <label>Which Drawing</label>
+            <Suspense fallback={null}><DrawSwitch value={draw} /></Suspense>
+            <p className="hint">Idaho applicants pick one each year: deer, elk and pronghorn (May 1 – June 5), or one of moose, bighorn sheep or mountain goat (April 1 – 30).</p>
             <label>Species</label>
-            <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', 'PRONGHORN', 'Pronghorn')}{opt('species', '', 'Any')}</div>
-            <label>Hunt Type</label>
-            <div className="opts">
-              {opt('type', 'CONTROLLED', 'Controlled Draw', true)}
-              {opt('type', 'GENERAL', nr ? 'General Tag (Draw For Nonresidents)' : 'General (Over The Counter)')}
-              {opt('type', '', 'Either')}
-            </div>
-            <p className="hint">{nr
-              ? 'Controlled hunts: limited tags, separate odds. General: since 2026 nonresidents draw for general deer and elk tags too (elk by zone, deer by unit). Pronghorn are controlled only.'
-              : 'Controlled hunts: limited tags by draw, often better hunting. General: buy a tag over the counter and hunt the open seasons. Pronghorn are controlled only.'}</p>
+            {msg
+              ? <div className="opts">{opt('species', 'MOOSE', 'Moose', true)}{opt('species', 'BIGHORN', 'Bighorn Sheep')}{opt('species', 'GOAT', 'Mountain Goat')}{opt('species', '', 'Compare All Three')}</div>
+              : <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', 'PRONGHORN', 'Pronghorn')}{opt('species', '', 'Any')}</div>}
+            {!msg && (
+              <>
+                <label>Hunt Type</label>
+                <div className="opts">
+                  {opt('type', 'CONTROLLED', 'Controlled Draw', true)}
+                  {opt('type', 'GENERAL', nr ? 'General Tag (Draw For Nonresidents)' : 'General (Over The Counter)')}
+                  {opt('type', '', 'Either')}
+                </div>
+                <p className="hint">{nr
+                  ? 'Controlled hunts: limited tags, separate odds. General: since 2026 nonresidents draw for general deer and elk tags too (elk by zone, deer by unit). Pronghorn are controlled only.'
+                  : 'Controlled hunts: limited tags by draw, often better hunting. General: buy a tag over the counter and hunt the open seasons. Pronghorn are controlled only.'}</p>
+              </>
+            )}
             <label>What Are You After?</label>
-            <div className="opts">{opt('antler', 'ANTLERED', 'A Buck Or Bull', true)}{opt('antler', '', 'Any Animal (Incl. Does / Cows)')}</div>
+            <div className="opts">
+              {opt('antler', 'ANTLERED', msg ? 'A Bull Or Ram (Male)' : 'A Buck Or Bull', true)}
+              {opt('antler', '', msg ? 'Any (Incl. Cows / Ewes)' : 'Any Animal (Incl. Does / Cows)')}
+            </div>
             <label>Weapon</label>
             <div className="opts">{opt('weapon', '', 'Any', true)}{opt('weapon', 'ANY', 'Rifle')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
             <label>I Want</label>
-            <div className="opts">{opt('sort', 'best', 'Best Chance To Fill', true)}{opt('sort', 'densityLow', 'Fewer Hunters')}{opt('sort', 'big', 'Trophy Potential')}</div>
+            <div className="opts">{opt('sort', 'best', 'Best Chance To Fill', true)}{opt('sort', 'densityLow', 'Fewer Hunters')}{opt('sort', 'big', msg ? 'Biggest Antlers / Horns' : 'Trophy Potential')}</div>
             <button className="btn primary" type="submit">Show Me Hunts</button>
           </form>
         </div>

@@ -5,13 +5,19 @@ import { revalidatePath } from 'next/cache';
 import type { Residency } from '@prisma/client';
 import { auth, signIn, signOut } from '@/auth';
 import { db } from '@/lib/db';
-import { RESIDENCY_COOKIE } from '@/lib/residency';
+import { RESIDENCY_COOKIE, DRAW_COOKIE } from '@/lib/residency';
 
 export async function setResidency(residency: Residency) {
   if (residency !== 'RESIDENT' && residency !== 'NONRESIDENT') return;
   const session = await auth();
   if (session?.user) await db.user.update({ where: { id: session.user.id }, data: { residency } });
   (await cookies()).set(RESIDENCY_COOKIE, residency, { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', path: '/' });
+  revalidatePath('/', 'layout');
+}
+
+export async function setDraw(draw: 'DEP' | 'MSG') {
+  if (draw !== 'DEP' && draw !== 'MSG') return;
+  (await cookies()).set(DRAW_COOKIE, draw, { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', path: '/' });
   revalidatePath('/', 'layout');
 }
 

@@ -13,8 +13,10 @@ const SHADED = [
   'publicPct', 'huntablePct', 'genSuccessDeer', 'genSuccessElk', 'huntersSqMiDeer', 'huntersSqMiElk', 'bestResOdds', 'bestNrOdds',
   'ctlOddsResDeer', 'ctlOddsNrDeer', 'ctlSuccessDeer', 'ctlOddsResElk', 'ctlOddsNrElk', 'ctlSuccessElk',
   'ctlOddsResPronghorn', 'ctlOddsNrPronghorn', 'ctlSuccessPronghorn',
+  'ctlOddsResMoose', 'ctlOddsNrMoose', 'ctlSuccessMoose', 'ctlOddsResBighorn', 'ctlOddsNrBighorn', 'ctlSuccessBighorn',
+  'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat',
 ] as const;
-const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' };
+const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' };
 
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection (plus class breaks). */
 export async function GET(req: Request) {
@@ -41,9 +43,11 @@ export async function GET(req: Request) {
       for (const u of s.units) {
         bump(u, 'controlled', null, 'count');
         // leftover antlerless / youth tags sit at 100% almost everywhere and would paint every unit the same
-        if (s.antlerClass === 'ANTLERED' && !s.youthOnly) {
-          bump(u, 'bestResOdds', s.resOdds5);
-          bump(u, 'bestNrOdds', s.nrOdds5);
+        if ((s.antlerClass === 'ANTLERED' || (s.species === 'GOAT' && s.antlerClass === 'EITHER')) && !s.youthOnly) {
+          if (['DEER', 'ELK', 'PRONGHORN'].includes(s.species)) {
+            bump(u, 'bestResOdds', s.resOdds5);
+            bump(u, 'bestNrOdds', s.nrOdds5);
+          }
           // per species: best buck/bull odds, and pooled success of those hunts (harvest / hunters, 5 years)
           const sp = SP_KEY[s.species];
           bump(u, `ctlOddsRes${sp}`, s.resOdds5);

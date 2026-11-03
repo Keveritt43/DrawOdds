@@ -297,10 +297,13 @@ export function parentUnit(area: string): string {
 }
 
 /** Each species' stats table has its own columns: deer %4+/%whitetail, elk %6+/%spike, pronghorn horned/hornless. */
-export function speciesColumns(species: 'DEER' | 'ELK' | 'PRONGHORN', row: Row): boolean {
+export function speciesColumns(species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT', row: Row): boolean {
   const k = Object.keys(row);
   if (species === 'PRONGHORN') return k.includes('horned') || k.includes('hornless');
   if (species === 'ELK') return k.includes('%6+pts') || k.includes('%spike');
+  if (species === 'MOOSE') return k.includes('bulls') || k.includes('cows');
+  if (species === 'BIGHORN') return k.includes('rams') || k.includes('ewes');
+  if (species === 'GOAT') return k.includes('billies') || k.includes('nannies');
   return k.includes('%4+pts') || k.includes('%whitetail');
 }
 

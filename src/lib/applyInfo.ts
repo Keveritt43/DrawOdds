@@ -35,6 +35,25 @@ export const CONTROLLED_DRAW = {
   sourceLabel: 'IDFG applying for a controlled hunt',
 };
 
+/** Moose, bighorn sheep, mountain goat: a separate, earlier drawing (sources: IDFG controlled hunt application page;
+ *  IDFG 2026 release "Moose, bighorn sheep and mountain goat controlled hunt application period opens April 1";
+ *  IDAPA 13.01.08.257). */
+export const MSG_DRAW = {
+  checked: '2026-11-03',
+  windows: [
+    { label: 'Moose, bighorn sheep & mountain goat applications', start: '04-01', end: '04-30', note: 'Results in early June.' },
+    { label: 'Second drawing (leftover moose, sheep, goat tags)', start: '06-15', end: '06-25' },
+  ] as Window[],
+  license: 'A valid Idaho hunting license (nonresidents too).',
+  fees: 'You pay the full tag fee plus the application fee when you apply. The tag fee is refunded if you don’t draw; the license and application fee are not (2026: $16.75 resident, $45.75 nonresident application fee; $2,672.50 total up front for a nonresident).',
+  oneSpecies: 'Apply for only ONE of moose, bighorn sheep or mountain goat a year, and doing so keeps you out of the deer, elk and pronghorn controlled drawings that year (leftover tags, the second drawing, unlimited, depredation and extra-tag hunts excepted).',
+  waits: 'Draw a moose, sheep or goat tag and you wait 2 years before applying for that species again. Mountain goat (any taken in Idaho since 1977) and antlered moose are once in a lifetime; a bighorn ram is once per subspecies (California or Rocky Mountain).',
+  nr: 'Nonresidents can get at most 10% of each species’ tags statewide.',
+  choices: 'A first choice, and an optional second choice. Groups of up to two hunters.',
+  source: 'https://idfg.idaho.gov/licenses/controlled/apply',
+  sourceLabel: 'IDFG controlled hunt applications',
+};
+
 export const BUY_SITE = 'https://gooutdoorsidaho.com';
 
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

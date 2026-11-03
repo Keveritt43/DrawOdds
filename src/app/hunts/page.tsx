@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
-import { getResidency } from '@/lib/residency';
+import { getResidency, getDraw } from '@/lib/residency';
+import { DRAW_SPECIES, AREA_SPECIES, SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUnits, type Filters } from '@/lib/finder';
 import { FilterRail } from '@/components/FilterRail';
 import { HuntMap } from '@/components/HuntMap';
@@ -60,10 +61,17 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const sp = await searchParams;
   const f = parseFilters(sp);
   const { residency } = await getResidency(sp.as);
+  // one drawing at a time: a species from the other drawing (an old link) is dropped
+  const draw = await getDraw(sp.draw);
+  if (f.species && !DRAW_SPECIES[draw].includes(f.species)) f.species = '';
+  const msg = draw === 'MSG';
+  // species shown by their own hunt areas on the map (pronghorn; moose, sheep and goat)
+  const areaSp = (msg ? (f.species ? [f.species] : DRAW_SPECIES.MSG) : f.species === 'PRONGHORN' ? ['PRONGHORN'] : []) as SpeciesKey[];
+  const areaKey = (r: HuntSummary) => `${r.species}:${r.areaName}`;
   const nr = residency === 'NONRESIDENT';
   const rf = residencyFields(residency);
   const [rows, fav] = await Promise.all([
-    db.huntSummary.findMany({ where: buildWhere(f, residency), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
+    db.huntSummary.findMany({ where: buildWhere(f, residency, draw), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
     getFavorites(),
   ]);
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };
@@ -108,10 +116,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const groups = new Map<string, Group>();
   if (f.view === 'unit') {
     for (const r of visible) {
-      if (r.species === 'PRONGHORN') {
+      if (AREA_SPECIES.includes(r.species as SpeciesKey)) {
         if (f.unit && !r.units.includes(f.unit)) continue;
-        const key = `PRONGHORN|${r.areaName}`;
-        const g = groups.get(key) ?? groups.set(key, { key, kind: 'area', name: r.areaName ?? '?', species: 'PRONGHORN', rows: [], title: `Pronghorn Area ${r.areaName}` }).get(key)!;
+        const key = `${r.species}|${r.areaName}`;
+        const g = groups.get(key) ?? groups.set(key, { key, kind: 'area', name: r.areaName ?? '?', species: r.species, rows: [], title: `${SPECIES_LABEL[r.species]} Area ${r.areaName}` }).get(key)!;
         g.rows.push(r);
         continue;
       }
@@ -162,10 +170,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     <main className="filtering">
       <RememberQuery />
       <section className="f-map" aria-label="Map of matching units">
-        <HuntMap matched={matched} selected={f.unit} chips={chips(f)} nr={nr} species={f.species} showZones={f.species === 'ELK' || f.species === ''} zones={f.zones}
-          areaSpecies={f.species === 'PRONGHORN' ? 'PRONGHORN' : ''}
-          matchedAreas={f.species === 'PRONGHORN' ? [...new Set(rows.filter((r) => r.species === 'PRONGHORN').map((r) => r.areaName ?? ''))].filter(Boolean) : []}
-          selectedArea={f.species === 'PRONGHORN' ? f.q.toUpperCase() : ''} stats={stats} />
+        <HuntMap matched={areaSp.length ? [] : matched} selected={f.unit} chips={chips(f)} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
+          areaSpecies={areaSp.join(',')}
+          matchedAreas={[...new Set(rows.filter((r) => areaSp.includes(r.species as SpeciesKey) && r.areaName).map(areaKey))]}
+          selectedArea={areaSp.length && f.q ? `${f.species || areaSp[0]}:${f.q.toUpperCase()}` : ''} stats={stats} />
       </section>
 
       <section className="f-list" aria-label="Results">
@@ -226,7 +234,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
               </h2>
               <p className="desc">{desc}</p>
               <div className="ustats">
-                {g.species !== 'PRONGHORN' && <div><Term k="trophy">{TROPHY_LABEL[g.species]}</Term><b>{pct(big)}</b></div>}
+                {TROPHY_LABEL[g.species] && <div><Term k="trophy">{TROPHY_LABEL[g.species]}</Term><b>{pct(big)}</b></div>}
+                {SIZE_LABEL[g.species as SpeciesKey] && <div>{SIZE_LABEL[g.species as SpeciesKey]}<b>{(() => { const v = g.rows.map((r) => r.avgSize5).filter((x): x is number => x !== null); return v.length ? `${Math.max(...v).toFixed(1)}"` : '-'; })()}</b></div>}
                 <div>Public Land<b>{pct100(g.kind === 'area' ? first.publicPct : u?.publicPct ?? first.publicPct)}</b></div>
                 <div>Access Yes!<b>{g.kind === 'area' ? (first.accessYesPct !== null ? `${first.accessYesPct < 1 && first.accessYesPct > 0 ? '<1' : Math.round(first.accessYesPct)}%` : '-') : ay !== null ? `${ay < 1 && ay > 0 ? '<1' : Math.round(ay)}%` : '-'}</b></div>
                 {g.species === 'DEER' ? <div>Deer<b style={{ fontSize: '1rem' }}>{gen.deerType ? DEERTYPE[gen.deerType] : '-'}</b></div> : <div>Hunts<b>{g.rows.length}</b></div>}
@@ -249,7 +258,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         </p>
       </section>
 
-      <FilterRail residency={residency} />
+      <FilterRail residency={residency} draw={draw} />
     </main>
   );
 }
@@ -281,7 +290,7 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     }
   };
   for (const r of rows) {
-    if (r.species === 'PRONGHORN' && r.areaName) add(`area:${r.areaName}`, r, true);
+    if (AREA_SPECIES.includes(r.species as SpeciesKey) && r.areaName) add(`area:${r.species}:${r.areaName}`, r, true);
     const us = r.type === 'GENERAL' && !r.nrTag ? [r.unit ?? r.units[0]] : r.units;
     for (const u of us) if (u && (!zu || zu.includes(u))) add(`unit:${u}`, r, false);
   }

@@ -1,11 +1,12 @@
 import type { Prisma, Residency } from '@prisma/client';
 import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
+import { DRAW_SPECIES, type Draw } from './species';
 
 export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
 export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
 
 export interface Filters {
-  species: 'DEER' | 'ELK' | 'PRONGHORN' | '';
+  species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | '';
   type: 'CONTROLLED' | 'GENERAL' | 'NRTAG' | ''; // NRTAG = nonresident general tag draw
   weapon: ('ANY' | 'ARCHERY' | 'MUZZLELOADER' | 'SHORT_RANGE')[];
   antler: ('ANTLERED' | 'ANTLERLESS' | 'EITHER')[];
@@ -43,7 +44,7 @@ const pick = <T extends string>(v: string[], allowed: readonly T[]) => v.map((x)
 export function parseFilters(sp: SP): Filters {
   const sort = one(sp.sort) as Sort;
   return {
-    species: pick([one(sp.species)], ['DEER', 'ELK', 'PRONGHORN'] as const)[0] ?? '',
+    species: pick([one(sp.species)], ['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'] as const)[0] ?? '',
     type: pick([one(sp.type)], ['CONTROLLED', 'GENERAL', 'NRTAG'] as const)[0] ?? '',
     weapon: pick(list(sp.weapon), ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE'] as const),
     antler: pick(list(sp.antler), ['ANTLERED', 'ANTLERLESS', 'EITHER'] as const),
@@ -75,10 +76,12 @@ export function residencyFields(r: Residency) {
     : { odds5: 'resOdds5', oddsLast: 'resOddsLast', oddsPrev: 'resOddsPrev', tagAndFill: 'resTagAndFill', appsLast: 'resAppsLast', appsPrev: 'resAppsPrev' } as const;
 }
 
-export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInput {
+export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma.HuntSummaryWhereInput {
   const rf = residencyFields(r);
   const and: Prisma.HuntSummaryWhereInput[] = [];
-  if (f.species) and.push({ species: f.species });
+  // one drawing at a time: deer / elk / pronghorn, or moose / sheep / goat
+  if (f.species && DRAW_SPECIES[draw].includes(f.species)) and.push({ species: f.species });
+  else and.push({ species: { in: DRAW_SPECIES[draw] } });
   // nonresident general tags only exist for nonresidents (residents buy general tags over the counter)
   // (elk zone A/B tags are listed for everyone: residents pick an A or B tag too, bought over the counter)
   if (r !== 'NONRESIDENT') and.push({ OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' }] });
@@ -131,7 +134,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
     case 'public':
       return [desc('publicPct'), desc('success5')];
     case 'big':
-      return [desc('bigPct5'), desc('success5')];
+      // deer / elk: trophy share; moose / sheep / goat: average antler spread or horn length
+      return [desc('bigPct5'), desc('avgSize5'), desc('success5')];
     case 'harvest':
       return [desc('harvest5'), desc('success5')];
     case 'hunters':
