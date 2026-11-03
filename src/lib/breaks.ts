@@ -111,3 +111,12 @@ export function divergingClasses(values: number[], mode: BreakMode): Classes {
   }
   return { breaks, counts: countClasses(v, breaks), idx };
 }
+
+/**
+ * Classes against fixed benchmarks instead of the data's own spread. `idx` picks each class's color step,
+ * so a scale can skip the deepest red when nothing on it deserves that.
+ */
+export function benchmarkClasses(values: number[], breaks: number[], idx: number[]): Classes {
+  const v = values.filter((x) => Number.isFinite(x));
+  return { breaks: breaks.slice(), counts: countClasses(v, breaks), idx: idx.slice() };
+}

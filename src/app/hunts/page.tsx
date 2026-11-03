@@ -296,6 +296,8 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
   }
   const unitNames = [...acc.keys()].filter((k) => k.startsWith('unit:')).map((k) => k.slice(5));
   const land = new Map((await db.unit.findMany({ where: { name: { in: unitNames } }, select: { name: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]));
+  // moose / sheep / goat hunts have a handful of tags: 10 hunter-seasons is a real sample there
+  const minHunters = rows.some((r) => ['MOOSE', 'BIGHORN', 'GOAT'].includes(r.species)) ? 10 : 30;
   const out = { units: {} as Record<string, Stat>, areas: {} as Record<string, Stat> };
   for (const [k, a] of acc) {
     const [kind, name] = [k.slice(0, k.indexOf(':')), k.slice(k.indexOf(':') + 1)];
@@ -303,7 +305,7 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     const ay = u?.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : 0;
     const st: Stat = {
       odds: a.odds,
-      success: a.hunters >= 30 ? a.harvest / a.hunters : null,
+      success: a.hunters >= minHunters ? a.harvest / a.hunters : null,
       crowd: a.crowd,
       public: u ? u.publicPct : a.public,
       huntable: u ? (u.publicPct !== null ? Math.min(100, u.publicPct + ay) : null) : a.huntable,

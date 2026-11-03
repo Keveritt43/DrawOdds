@@ -8,7 +8,7 @@ import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import Link from 'next/link';
 import { Star } from './Star';
 import { MapKey, KeySeg } from './MapKey';
-import { METRICS, METRIC_KEYS, colorsFor, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
+import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
 
@@ -152,7 +152,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         </>}
         value={metric} options={options} onChange={(x) => setMetric(x as Metric)}
         ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units' }}
-        note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''} Yellow = normal for Idaho; red and green = well below or above it.`}
+        note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
         extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />
       {sel && (
         <div className="card mapinfo">

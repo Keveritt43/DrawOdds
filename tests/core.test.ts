@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { divergingClasses } from '../src/lib/breaks';
-import { colorsFor, RYG7 } from '../src/lib/mapMetrics';
+import { colorsFor, classesFor, RYG7 } from '../src/lib/mapMetrics';
 import {
   parseStatsTable,
   parseLandPage,
@@ -358,4 +358,13 @@ test('divergingClasses: drops steps nothing falls in, keeping the colors aligned
 test('divergingClasses: too few values = one neutral class', () => {
   const c = divergingClasses([1, 2], 'pct');
   assert.deepEqual(c.idx, [3]);
+});
+
+test('moose / sheep / goat success uses fixed benchmarks, not the spread', () => {
+  const c = classesFor('ctlSuccessMoose', [75, 82, 90, 95, 100, 100]);
+  assert.deepEqual(c.breaks, [50, 60, 70, 80, 90]);
+  const cols = colorsFor(c);
+  assert.equal(cols[3], RYG7[4]); // 70-80% = light green, not red
+  assert.ok(!cols.includes(RYG7[0])); // no deep red on this scale
+  assert.equal(classesFor('genSuccessElk', [1, 2, 3, 4, 5, 6, 7, 8]).breaks.length > 0, true);
 });

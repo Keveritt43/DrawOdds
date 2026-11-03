@@ -1,6 +1,5 @@
 import { db } from '@/lib/db';
-import { divergingClasses } from '@/lib/breaks';
-import { fieldMode } from '@/lib/mapMetrics';
+import { classesFor } from '@/lib/mapMetrics';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -123,7 +122,7 @@ export async function GET(req: Request) {
     });
 
   const classes = Object.fromEntries(
-    SHADED.map((f) => [f, divergingClasses(features.map((x) => x.properties[f]).filter((v): v is number => typeof v === 'number'), fieldMode(f))]),
+    SHADED.map((f) => [f, classesFor(f, features.map((x) => x.properties[f]).filter((v): v is number => typeof v === 'number'))]),
   );
   if (statsOnly) {
     const missing = Object.fromEntries(SHADED.map((f) => [f, features.filter((x) => typeof x.properties[f] !== 'number').length]));

@@ -122,7 +122,7 @@ export function oddsVerdict(v: number | null | undefined): Verdict {
 }
 
 /** Success thresholds differ by species: 20% is good for elk and poor for pronghorn. */
-const SUCCESS_BANDS: Record<string, [number, number]> = { ELK: [0.3, 0.15], DEER: [0.55, 0.35], PRONGHORN: [0.6, 0.35], MOOSE: [0.8, 0.55], BIGHORN: [0.85, 0.6], GOAT: [0.8, 0.55] };
+const SUCCESS_BANDS: Record<string, [number, number]> = { ELK: [0.3, 0.15], DEER: [0.55, 0.35], PRONGHORN: [0.6, 0.35], MOOSE: [0.7, 0.5], BIGHORN: [0.7, 0.5], GOAT: [0.7, 0.5] };
 export function successVerdict(v: number | null | undefined, species: string): Verdict {
   if (v === null || v === undefined) return { text: 'No harvest data', tone: 'none' };
   const [hi, lo] = SUCCESS_BANDS[species] ?? [0.5, 0.25];

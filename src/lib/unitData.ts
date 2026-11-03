@@ -1,7 +1,6 @@
 'use client';
 
-import { divergingClasses } from './breaks';
-import { METRIC_FIELDS, fieldMode, type Classes } from './mapMetrics';
+import { METRIC_FIELDS, classesFor, type Classes } from './mapMetrics';
 
 type Feature = { type: 'Feature'; geometry: { type: string; coordinates: unknown }; properties: Record<string, unknown> & { name: string } };
 export interface UnitData {
@@ -17,7 +16,7 @@ let cached: Promise<UnitData> | null = null;
  * (Versioned URL: an hour-cached response from before a deploy must not be reused.)
  */
 export function loadUnits(): Promise<UnitData> {
-  cached ??= fetch('/api/units?v=6')
+  cached ??= fetch('/api/units?v=7')
     .then((r) => {
       if (!r.ok) throw new Error(`units ${r.status}`);
       return r.json();
@@ -28,7 +27,7 @@ export function loadUnits(): Promise<UnitData> {
       const classes: Record<string, Classes> = { ...(fc.classes ?? {}) };
       const missing: Record<string, number> = {};
       for (const k of METRIC_FIELDS) {
-        if (!classes[k]?.idx) classes[k] = divergingClasses(vals(k), fieldMode(k));
+        if (!classes[k]?.idx) classes[k] = classesFor(k, vals(k));
         missing[k] = fc.features.length - vals(k).length;
       }
       return { fc, classes, missing };

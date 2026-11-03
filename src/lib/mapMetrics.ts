@@ -1,4 +1,5 @@
 import type { Classes, BreakMode } from './breaks';
+import { benchmarkClasses, divergingClasses } from './breaks';
 /** Unit shading shared by every map: what each metric means, its color ramp and how to print it. */
 
 export type Sp = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT';
@@ -62,7 +63,7 @@ export const METRICS: Record<Metric, MetricDef> = {
     note: 'Best 5-year first-choice odds, for your residency, of any adult buck / bull / ram controlled hunt touching the unit (antlerless and youth hunts left out; mountain goat hunts are either sex).',
   },
   ctlSuccess: {
-    label: 'Controlled Hunt Success %', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No buck / bull controlled hunt / under 50 hunters',
+    label: 'Controlled Hunt Success %', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No buck / bull hunt, or too few hunters (50; 10 for moose, sheep, goat)',
     field: (sp) => `ctlSuccess${SPK(sp)}`,
     note: 'Harvest ÷ hunters over 5 years, all adult buck / bull controlled hunts touching the unit together (a hunt spanning several units counts in each).',
   },
@@ -93,3 +94,17 @@ export function fillExpression(value: string | unknown[], cls: Classes, colors: 
 
 /** Idaho's bounding box: maps open framed on the whole state, clear of the key in the corner. */
 export const IDAHO_BOUNDS: [[number, number], [number, number]] = [[-117.25, 41.98], [-111.04, 49.0]];
+
+/**
+ * Moose, sheep and goat success runs 60-100%, so ranking units against each other paints a 75% unit red.
+ * Judge them against fixed standards instead: under 50% orange, 60-70% yellow, 70%+ greens. No deep red.
+ * Values in percent (the unit map); pass scale 0.01 for fractions (Find Hunts).
+ */
+export const MSG_SUCCESS_BREAKS = [50, 60, 70, 80, 90];
+const MSG_SUCCESS_IDX = [1, 2, 3, 4, 5, 6];
+export const isMsgSuccess = (field: string) => /^ctlSuccess(Moose|Bighorn|Goat)$/.test(field);
+export const msgSuccessClasses = (values: number[], scale = 1) =>
+  benchmarkClasses(values, MSG_SUCCESS_BREAKS.map((b) => b * scale), MSG_SUCCESS_IDX);
+/** The classes a unit-map field shades by. */
+export const classesFor = (field: string, values: number[]): Classes =>
+  isMsgSuccess(field) ? msgSuccessClasses(values) : divergingClasses(values, fieldMode(field));
