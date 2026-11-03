@@ -1,17 +1,17 @@
 import Link from 'next/link';
-import { seasonsSummary } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
-import { pct, pctOdds, pct100, int, range, WEAPON, antlerLabel, controlledTags } from '@/lib/format';
+import { pct100, int } from '@/lib/format';
 import type { Metadata } from 'next';
 import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
-import { sortUnitHunts, unitHuntLabel } from '@/lib/unitHunts';
+import { HuntCard } from '@/components/HuntCards';
+import { sortUnitHunts } from '@/lib/unitHunts';
 import { LandBar } from '@/components/LandBar';
 import { SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
 
@@ -107,28 +107,8 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         ))}
       </div>
       <p className="small muted" style={{ margin: '4px 0 8px' }}>{shown.length} of {hunts.length} hunts · odds are {nr ? 'nonresident' : 'resident'}, 5-yr</p>
-      <div className="uh-list">
-        {shown.map((h) => (
-          <div key={h.id} className="uh-row">
-            <div className="uh-name">
-              <Star kind="hunt" id={h.huntId} saved={fav.hunts.has(h.huntId)} signedIn={fav.signedIn} />
-              <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{unitHuntLabel(h)}</Link>
-              <span className={`pill ${h.type === 'GENERAL' && !h.nrTag ? '' : 'ctl'}`}>{h.nrTag ? (nr ? 'NR Tag Draw' : 'Zone Tag') : h.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
-              {h.youthOnly && <span className="pill">Youth</span>}
-            </div>
-            <div className="uh-meta">
-              {h.nrTag
-                ? `${nr ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''}` : h.capped ? `Capped${(h.tagSeasons as { residentQuota?: number } | null)?.residentQuota ? ` · ${int((h.tagSeasons as { residentQuota: number }).residentQuota)} resident tags` : ''}` : 'Over the counter'} · ${seasonsSummary(h.tagSeasons, 2) || (h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit')}`
-                : <>{h.type === 'GENERAL' && seasonsSummary(h.tagSeasons, 2) ? seasonsSummary(h.tagSeasons, 2) : h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {antlerLabel(h.species, h.antlerClass)}
-                  {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : ` · ${controlledTags(h.tags, nr, h.nrPermitsLast, h.nrAppsLast, h.oddsLastYear)}`}</>}
-            </div>
-            <div className="uh-stats">
-              {(h.type === 'CONTROLLED' || (nr && (h.nrTag || h.nrOdds5 !== null))) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pctOdds(h[rf.odds5])}</b></span>}
-              <span>Success <b>{pct(h.success5)}</b></span>
-              {h.huntersSqMi !== null && <span>Hunters/mi² <b>{h.huntersSqMi < 10 ? h.huntersSqMi.toFixed(1) : Math.round(h.huntersSqMi)}</b></span>}
-            </div>
-          </div>
-        ))}
+      <div className="uh-cards">
+        {shown.map((h) => <HuntCard key={h.id} r={h} c={{ nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: 'best' }} inUnit />)}
         {!shown.length && <p className="muted">{hunts.length ? 'No hunts match these filters.' : 'No hunts listed for this unit.'}</p>}
       </div>
 
