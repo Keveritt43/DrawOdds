@@ -67,3 +67,11 @@ test('one drawing at a time: species outside the drawing are ignored', () => {
   const moose = JSON.stringify(buildWhere(parseFilters({ species: 'moose' }), 'NONRESIDENT', 'MSG'));
   assert.ok(moose.includes('"species":"MOOSE"'), moose);
 });
+
+test('mule deer filter leaves out White-tailed Deer tags; whitetail filter includes them', () => {
+  const mule = JSON.stringify(buildWhere(parseFilters({ deerType: 'MULE' }), 'NONRESIDENT'));
+  assert.ok(mule.includes('"deerType":{"in":["MULE"]}') && mule.includes('"NOT":{"tagCode":{"startsWith":"WD"}}'), mule);
+  assert.ok(!mule.includes('{"tagCode":{"startsWith":"WD"}}]'), mule);
+  const wt = JSON.stringify(buildWhere(parseFilters({ deerType: 'WHITETAIL' }), 'NONRESIDENT'));
+  assert.ok(wt.includes('{"tagCode":{"startsWith":"WD"}}]'), wt);
+});

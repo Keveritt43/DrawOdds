@@ -91,7 +91,17 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma
   // (a tag passes when one of its seasons allows the weapon, or when its seasons aren't known yet)
   if (f.weapon.length) and.push({ OR: [{ nrTag: false, weapon: { in: f.weapon } }, { nrTag: true, weapons: { hasSome: f.weapon } }, { nrTag: true, weapons: { isEmpty: true } }] });
   if (f.antler.length) and.push({ OR: [{ antlerClass: { in: f.antler } }, { nrTag: true }] });
-  if (f.deerType.length) and.push({ deerType: { in: f.deerType } });
+  if (f.deerType.length) {
+    // White-tailed Deer tags (WD) hunt whitetails only, whatever the unit's mule / whitetail mix: they belong to the
+    // Whitetail choice alone. Everything else matches on the unit's 5-year harvest mix.
+    const notWd: Prisma.HuntSummaryWhereInput = { OR: [{ tagCode: null }, { NOT: { tagCode: { startsWith: 'WD' } } }] };
+    and.push({
+      OR: [
+        { AND: [{ deerType: { in: f.deerType } }, notWd] },
+        ...(f.deerType.includes('WHITETAIL') ? [{ tagCode: { startsWith: 'WD' } }] : []),
+      ],
+    });
+  }
   // hunt is open at some point during any chosen month (works for Dec-Jan seasons too)
   if (f.months.length) and.push({ months: { hasSome: f.months } });
   if (f.minOdds !== null) and.push({ [rf.odds5]: { gte: f.minOdds / 100 } });
