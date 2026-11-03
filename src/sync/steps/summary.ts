@@ -127,7 +127,8 @@ export async function buildSummaries(): Promise<StepResult> {
       const { years: oddsYears, ...o } = summarizeOdds(linOdds as OddsRow[]);
       // leftover tags: the most recent second drawing this hunt (by its number that year) was in
       const left = [...lin.entries()].sort((a, b) => b[0] - a[0]).map(([y, n]) => second.get(`${h.species}|${y}|${n}`)).find((x) => x && (x.permits ?? 0) > 0);
-      const leftover = left ? { leftoverYear: left.year, leftoverTags: left.permits, leftoverApps: left.apps1, leftoverDrew: left.drew1 } : {};
+      // only recent leftovers say anything about next year's
+      const leftover = left && left.year >= (o.oddsLastYear ?? 0) - 1 ? { leftoverYear: left.year, leftoverTags: left.permits, leftoverApps: left.apps1, leftoverDrew: left.drew1 } : {};
 
       const harvestRows = await db.controlledHarvest.findMany({
         where: { species: h.species, OR: [...lin.entries()].map(([year, huntNumber]) => ({ year, huntNumber })) },
