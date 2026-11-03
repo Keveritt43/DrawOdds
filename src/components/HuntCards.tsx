@@ -189,14 +189,17 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
               ) : (
                 <div className="ztag-odds"><b>{residentTag(r)}</b></div>
               )}
+              <div className="ztag-more">
+                <span><Term k="success">Success</Term> <b>{pct(r.success5)}</b> <Chip v={successVerdict(r.success5, 'ELK')} /></span>
+                <span><Term k="crowd">Hunters/mi²</Term> <b>{density(r.huntersSqMi)}</b> <Chip v={crowdVerdict(r.huntersSqMi)} /></span>
+              </div>
             </div>
           );
         })}
       </div>
       <div className="zshared">
-        <span><Term k="success">Zone success</Term> <b>{pct(any.success5)}</b> <Chip v={successVerdict(any.success5, 'ELK')} /> <span className="muted">5-yr, A and B hunters together</span></span>
-        <span><Term k="crowd">Hunters/mi²</Term> <b>{density(any.huntersSqMi)}</b> <Chip v={crowdVerdict(any.huntersSqMi)} /></span>
         {any.publicPct !== null && <span>Public land <b>{Math.round(any.publicPct)}%</b></span>}
+        <span className="muted">Success and crowding: 5-yr general-season numbers for the weapons each tag can hunt in these units.</span>
       </div>
     </article>
   );
