@@ -1,6 +1,7 @@
 import type { Prisma, Residency } from '@prisma/client';
 import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 import { DRAW_SPECIES, type Draw } from './species';
+import { unitsWithObjective, type ObjStatus } from './elkObjectives';
 
 export type Sort = 'score' | 'opp' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
 export const SORTS: readonly Sort[] = ['score', 'opp', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
@@ -19,6 +20,9 @@ export interface Filters {
   minHuntable: number | null; // percent public + Access Yes!
   minBig: number | null; // trophy share: deer mule 4+, elk 6+ (percent of antlered)
   minTags: number | null;
+  /** elk only: units whose bull / cow numbers are below, within or above IDFG's objective */
+  bullObj: ObjStatus[];
+  cowObj: ObjStatus[];
   minScore: number | null; // DrawOdds Score (quality), 0-100
   minOpp: number | null; // DrawOdds Opportunity for the user's residency, 0-100
   maxDensity: number | null; // at most this many hunters per square mile
@@ -59,6 +63,8 @@ export function parseFilters(sp: SP): Filters {
     minAccessYes: pct(sp.minAccessYes),
     minHuntable: pct(sp.minHuntable),
     minBig: pct(sp.minBig),
+    bullObj: pick(list(sp.bullObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
+    cowObj: pick(list(sp.cowObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
     minScore: pct(sp.minScore),
     minOpp: pct(sp.minOpp),
     minTags: Number(one(sp.minTags)) > 0 ? Math.min(10000, Math.round(Number(one(sp.minTags)))) : null,
@@ -116,6 +122,9 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma
   if (f.minAccessYes !== null) and.push({ accessYesPct: { gte: f.minAccessYes } });
   if (f.minHuntable !== null) and.push({ huntablePct: { gte: f.minHuntable } });
   if (f.minBig !== null) and.push({ bigPct5: { gte: f.minBig / 100 } });
+  // elk population objectives: any of the picked statuses (bulls AND cows when both are set); elk hunts only
+  if (f.bullObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('bull', f.bullObj) } });
+  if (f.cowObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('cow', f.cowObj) } });
   if (f.minScore !== null) and.push({ scoreQuality: { gte: f.minScore } });
   if (f.minOpp !== null) and.push({ [rf.opp]: { gte: f.minOpp } });
   if (f.minTags !== null) and.push({ OR: [{ tags: { gte: f.minTags } }, { type: 'GENERAL' }] });
@@ -201,6 +210,8 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('minAccessYes', m.minAccessYes);
   set('minHuntable', m.minHuntable);
   set('minBig', m.minBig);
+  set('bullObj', m.bullObj);
+  set('cowObj', m.cowObj);
   set('minScore', m.minScore);
   set('minOpp', m.minOpp);
   set('minTags', m.minTags);

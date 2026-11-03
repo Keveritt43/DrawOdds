@@ -11,6 +11,7 @@ type Opt = [value: string, label: string];
 const SPECIES: Opt[] = [['', 'All Species'], ['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn (controlled only)']];
 const SPECIES_MSG: Opt[] = [['', 'All Three'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn Sheep'], ['GOAT', 'Mountain Goat']];
 const SEX_MSG: Opt[] = [['ANTLERED', 'Bulls & rams (male)'], ['ANTLERLESS', 'Cows & ewes (female)'], ['EITHER', 'Either sex']];
+const OBJ: Opt[] = [['BELOW', 'Below objective'], ['WITHIN', 'Within objective'], ['ABOVE', 'Above objective']];
 const SCORE_STOPS: Opt[] = [['', 'Any'], ['50', '50+'], ['70', '70+'], ['85', '85+']];
 const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons']];
 const TYPES_NR: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons (tag draw)']];
@@ -46,7 +47,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
   };
   const labelOf = (opts: Opt[], v: string) => opts.find((o) => o[0] === v)?.[1] ?? v;
   const sp_ = get('species');
-  const moreSet = ['minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
+  const moreSet = ['bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
   const many = (opts: Opt[], k: string, none: string) => (list(k).length ? list(k).map((v) => labelOf(opts, v)).join(', ') : none);
 
   const radio = (k: string, opts: Opt[]) => (
@@ -111,6 +112,15 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
             <Section title="Trophy Potential" value={get('minBig') ? `${get('minBig')}%+` : 'Any'} set={!!get('minBig')}>
               <Slider value={Number(get('minBig') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minBig: v ? String(v) : null })} />
               <p className="small muted" style={{ margin: '6px 0 0' }}>Share of the antlered harvest that was 4+ point mule deer (deer) or 6+ point bulls (elk).</p>
+            </Section>
+          )}
+          {!msg && (sp_ === '' || sp_ === 'ELK') && (
+            <Section title="Elk Population Vs Objective" value={[list('bullObj').length && `Bulls: ${list('bullObj').map((x) => x.toLowerCase()).join('/')}`, list('cowObj').length && `Cows: ${list('cowObj').map((x) => x.toLowerCase()).join('/')}`].filter(Boolean).join(', ') || 'Any'} set={list('bullObj').length + list('cowObj').length > 0}>
+              <label>Bulls</label>
+              {checks('bullObj', OBJ)}
+              <label style={{ marginTop: 8, display: 'block' }}>Cows</label>
+              {checks('cowObj', OBJ)}
+              <p className="small muted" style={{ margin: '6px 0 0' }}>IDFG&rsquo;s 2026 status for each elk zone. Above objective = more elk than the target (often more tags); below = fewer. Elk hunts only; zones without a numeric objective drop out when this is set.</p>
             </Section>
           )}
           <Section title="Season Dates" value={many(MONTHS, 'month', 'Any Time')} set={list('month').length > 0}>

@@ -95,12 +95,13 @@ export type BreakMode = 'sd' | 'pct';
 const Z = [-1.5, -1, -0.5, 0.5, 1, 1.5];
 const P = [0.067, 0.159, 0.309, 0.691, 0.841, 0.933];
 
-export function divergingClasses(values: number[], mode: BreakMode): Classes {
+export function divergingClasses(values: number[], mode: BreakMode, snap = 0): Classes {
   const v = values.filter((x) => Number.isFinite(x)).sort((a, b) => a - b);
   if (v.length < 4) return { breaks: [], counts: [v.length], idx: [3] };
   const mean = v.reduce((a, b) => a + b, 0) / v.length;
   const sd = Math.sqrt(v.reduce((a, b) => a + (b - mean) ** 2, 0) / v.length);
-  const breaks = (mode === 'sd' ? Z.map((z) => mean + z * sd) : P.map((p) => quantile(v, p))).map(fix);
+  // snap: round each break to a readable step (5 points) so no band is narrower than the step
+  const breaks = (mode === 'sd' ? Z.map((z) => mean + z * sd) : P.map((p) => quantile(v, p))).map((b) => fix(snap ? Math.round(b / snap) * snap : b));
   const idx = [0, 1, 2, 3, 4, 5, 6];
   const min = v[0];
   const max = v[v.length - 1];

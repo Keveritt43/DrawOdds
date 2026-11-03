@@ -5,7 +5,7 @@ import { NODATA, type Classes } from '@/lib/mapMetrics';
 import type { Basemap } from '@/lib/basemap';
 
 export interface KeyItem { color: string; label: string; line?: boolean; dashed?: boolean }
-export interface Ramp { classes: Classes | undefined; colors: string[]; fmt: (v: number) => string; none: string; missing: number; unit: string }
+export interface Ramp { classes: Classes | undefined; colors: string[]; fmt: (v: number) => string; none: string; missing: number; unit: string; /** categories instead of ranges (elk objectives) */ labels?: string[] }
 
 /**
  * The key every shaded map carries: optional filters (animal, hunt type), a "Shade" picker that is always there,
@@ -36,8 +36,9 @@ export function MapKey({
   }, []);
   const b = ramp?.classes?.breaks ?? [];
   const fmt = ramp?.fmt ?? String;
-  const label = (i: number) => (!b.length ? `All ${ramp?.unit ?? 'units'}` : i === 0 ? `Under ${fmt(b[0])}` : i === b.length ? `${fmt(b[i - 1])}+` : `${fmt(b[i - 1])} to ${fmt(b[i])}`);
-  const tick = (i: number) => (!b.length ? 'All' : i === 0 ? `<${fmt(b[0])}` : fmt(b[i - 1]));
+  const cat = ramp?.labels && ramp.classes?.idx ? ramp.labels : null;
+  const label = (i: number) => cat ? cat[i] ?? '' : (!b.length ? `All ${ramp?.unit ?? 'units'}` : i === 0 ? `Under ${fmt(b[0])}` : i === b.length ? `${fmt(b[i - 1])}+` : `${fmt(b[i - 1])} to ${fmt(b[i])}`);
+  const tick = (i: number) => cat ? (cat[i] ?? '').split(' ')[0] : (!b.length ? 'All' : i === 0 ? `<${fmt(b[0])}` : fmt(b[i - 1]));
   const swatches = (xs: KeyItem[]) => (
     <div className="mk-items">
       {xs.map((x) => (

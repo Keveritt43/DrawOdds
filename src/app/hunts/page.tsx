@@ -1,3 +1,4 @@
+import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
@@ -38,6 +39,8 @@ function chips(f: Filters): { label: string; href: string }[] {
   if (f.minAccessYes) add(`Access Yes! ${f.minAccessYes}%+`, { minAccessYes: null });
   if (f.minHuntable) add(`Huntable ${f.minHuntable}%+`, { minHuntable: null });
   if (f.accessYes) add('Has Access Yes!', { accessYes: false });
+  if (f.bullObj.length) add(`Bulls ${f.bullObj.map((x) => x.toLowerCase()).join('/')} objective`, { bullObj: [] });
+  if (f.cowObj.length) add(`Cows ${f.cowObj.map((x) => x.toLowerCase()).join('/')} objective`, { cowObj: [] });
   if (f.minScore) add(`Score ${f.minScore}+`, { minScore: null });
   if (f.minOpp) add(`Opportunity ${f.minOpp}+`, { minOpp: null });
   if (f.minTags) add(`${f.minTags}+ tags`, { minTags: null });
@@ -265,7 +268,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   );
 }
 
-type Stat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
+type Stat = { objBull: number | null; objCow: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
 
 /** Per-unit and per-hunt-area numbers of the matching hunts, for the map's "Shade" options. */
 async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeof residencyFields>, zu: string[] | null) {
@@ -308,7 +311,10 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     const [kind, name] = [k.slice(0, k.indexOf(':')), k.slice(k.indexOf(':') + 1)];
     const u = kind === 'unit' ? land.get(name) : undefined;
     const ay = u?.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : 0;
+    const ob = kind === 'unit' ? unitObjective(name) : null;
     const st: Stat = {
+      objBull: ob?.bull ? OBJ_NUM[ob.bull] : null,
+      objCow: ob?.cow ? OBJ_NUM[ob.cow] : null,
       score: a.score,
       odds: a.odds,
       fill: a.fill,

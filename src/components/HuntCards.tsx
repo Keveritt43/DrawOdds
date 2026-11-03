@@ -12,6 +12,7 @@ import { Term } from './Term';
 import { SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { SCORE_PART_LABEL, type ScorePart } from '@/lib/score';
 import { RYG7 } from '@/lib/mapMetrics';
+import { objectiveSummary, OBJ_COLOR, type ObjStatus } from '@/lib/elkObjectives';
 
 type RF = ReturnType<typeof residencyFields>;
 export interface CardCtx { nr: boolean; rf: RF; favHunts: Set<number>; signedIn: boolean; sort: string }
@@ -165,11 +166,28 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
       </div>
       <div className="dates">{[where, when, r.type === 'GENERAL' && !r.nrTag ? '' : r.nrTag ? '' : WEAPON[r.weapon]].filter(Boolean).join(' · ')}</div>
       <Rules r={r} />
+      <ObjectivePills units={r.units} species={r.species} />
       <ScoreRow r={r} nr={c.nr} />
       <Stats r={r} c={c} />
       <Footer r={r} c={c} />
     </div>
   );
+}
+
+const OBJ_SHORT: Record<ObjStatus, string> = { BELOW: 'below', WITHIN: 'within', ABOVE: 'above' };
+/** Elk: bulls and cows against IDFG's population objective for the hunt's elk zone(s). */
+export function ObjectivePills({ units, species }: { units: string[]; species: string }) {
+  if (species !== 'ELK') return null;
+  const o = objectiveSummary(units);
+  if (!o.bull.length && !o.cow.length) return null;
+  const pill = (who: string, xs: ObjStatus[]) =>
+    xs.length ? (
+      <span className="pill obj" title={`${who} elk vs IDFG's population objective for ${o.zones.join(' / ')} zone (2026 Seasons & Rules p. 34). Above = more ${who.toLowerCase()} than the target.`}>
+        {xs.map((x) => <i key={x} style={{ background: OBJ_COLOR[x] }} />)}
+        {who} {xs.map((x) => OBJ_SHORT[x]).join(' / ')} objective
+      </span>
+    ) : null;
+  return <div className="rules objs">{pill('Bulls', o.bull)}{pill('Cows', o.cow)}</div>;
 }
 
 /** Green-yellow-red for a 0-100 score (same 7 steps as the maps). */
@@ -234,6 +252,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
     <article className="ucard zcard">
       <h2>{zone} Zone · Elk</h2>
       <p className="desc">Units {units.join(', ')} · <Term k="tag">Choose the A or the B tag</Term></p>
+      <ObjectivePills units={units} species="ELK" />
       <div className="ztags">
         {tags.map((r) => {
           const tag = (r.id.split(':')[3] ?? '').toUpperCase();

@@ -8,11 +8,13 @@ import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import Link from 'next/link';
 import { Star } from './Star';
 import { MapKey, KeySeg } from './MapKey';
-import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
+import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fixedScale, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
+
+const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale centered on a coin flip: 45-55% is yellow.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
 
 export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP' }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG' }) {
   const msg = draw === 'MSG';
@@ -151,8 +153,8 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
         </>}
         value={metric} options={options} onChange={(x) => setMetric(x as Metric)}
-        ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units' }}
-        note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
+        ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
+        note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : SCALE_NOTE[fixedScale(field) ?? ''] ?? ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
         extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />
       {sel && (
         <div className="card mapinfo">

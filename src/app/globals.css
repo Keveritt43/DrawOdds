@@ -395,3 +395,5 @@ table.results.compare td .small { display: block; }
 .sbar em { display: block; height: 100%; }
 .sbar small { text-align: right; }
 .srow.none { margin: 4px 0; }
+.pill.obj { display: inline-flex; align-items: center; gap: 4px; background: var(--card, #fff); border: 1px solid var(--line); color: inherit; cursor: help; }
+.pill.obj i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }

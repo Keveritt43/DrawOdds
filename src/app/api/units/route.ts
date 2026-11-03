@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
 import { classesFor } from '@/lib/mapMetrics';
+import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -16,6 +17,7 @@ const SHADED = [
   'ctlOddsResMoose', 'ctlOddsNrMoose', 'ctlSuccessMoose', 'ctlOddsResBighorn', 'ctlOddsNrBighorn', 'ctlSuccessBighorn',
   'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat',
   ...['Deer', 'Elk', 'Pronghorn', 'Moose', 'Bighorn', 'Goat'].flatMap((sp) => [`ctlFillRes${sp}`, `ctlFillNr${sp}`]),
+  'objBull', 'objCow',
 ];
 const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' };
 
@@ -123,6 +125,9 @@ export async function GET(req: Request) {
           wildernessPct: u.wildernessPct,
           boundaryChanged2022: u.boundaryChanged2022,
           ...(by.get(u.name) ?? {}),
+          // elk population vs IDFG objective, by elk zone: 0 below, 1 within, 2 above
+          objBull: (() => { const s = unitObjective(u.name).bull; return s ? OBJ_NUM[s] : null; })(),
+          objCow: (() => { const s = unitObjective(u.name).cow; return s ? OBJ_NUM[s] : null; })(),
         } as Record<string, unknown>,
       };
     });

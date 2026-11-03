@@ -15,7 +15,10 @@ export interface MetricDef {
   fmt: (v: number) => string;
   none: string;
   note: string;
+  /** category names instead of ranges */
+  labels?: string[];
 }
+const OBJECTIVE_LABELS_C = ['Below objective', 'Within objective', 'Above objective'];
 const SPK = (sp: Sp) => ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' })[sp];
 // light -> dark, single hue per meaning: green = land you can hunt, orange = success / odds, plum = crowding
 export const GREEN = ['#eef4e6', '#d2e4bf', '#aecd92', '#84b267', '#5b9242', '#346c27'];
@@ -37,7 +40,7 @@ const num = (v: number) => (v >= 10 ? String(Math.round(v)) : v >= 1 ? String(Nu
 const pctOf = (v: number) => `${num(v)}%`;
 export const fmtNum = num;
 
-export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess';
+export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow';
 export const METRICS: Record<Metric, MetricDef> = {
   public: {
     label: 'Public Land %', kind: 'land', field: () => 'publicPct', ramp: GREEN, fmt: pctOf, none: 'No data',
@@ -71,6 +74,14 @@ export const METRICS: Record<Metric, MetricDef> = {
     label: 'Controlled Hunt Success %', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No buck / bull hunt, or too few hunters (50; 10 for moose, sheep, goat)',
     field: (sp) => `ctlSuccess${SPK(sp)}`,
     note: 'Harvest ÷ hunters over 5 years, all adult buck / bull controlled hunts touching the unit together (a hunt spanning several units counts in each).',
+  },
+  objBull: {
+    label: 'Elk: Bulls vs Population Objective', kind: 'land', field: () => 'objBull', ramp: GREEN, fmt: String, none: 'No numeric objective', labels: OBJECTIVE_LABELS_C,
+    note: 'Bull elk numbers against IDFG’s objective for the elk zone (Big Game 2026 Seasons & Rules, p. 34). Above = more bulls than the target.',
+  },
+  objCow: {
+    label: 'Elk: Cows vs Population Objective', kind: 'land', field: () => 'objCow', ramp: GREEN, fmt: String, none: 'No numeric objective', labels: OBJECTIVE_LABELS_C,
+    note: 'Cow elk numbers against IDFG’s objective for the elk zone (Big Game 2026 Seasons & Rules, p. 34). Above = more cows than the target, often with extra antlerless tags.',
   },
 };
 export const METRIC_KEYS = Object.keys(METRICS) as Metric[];
@@ -111,9 +122,32 @@ export const isMsgSuccess = (field: string) => /^ctlSuccess(Moose|Bighorn|Goat)$
 export const msgSuccessClasses = (values: number[], scale = 1) =>
   benchmarkClasses(values, MSG_SUCCESS_BREAKS.map((b) => b * scale), MSG_SUCCESS_IDX);
 /** The classes a unit-map field shades by. */
-export const classesFor = (field: string, values: number[]): Classes =>
-  isMsgSuccess(field) ? msgSuccessClasses(values) : divergingClasses(values, fieldMode(field));
+export const classesFor = (field: string, values: number[]): Classes => {
+  if (isMsgSuccess(field)) return msgSuccessClasses(values);
+  const fixed = fixedScale(field);
+  if (fixed) return fixedClasses(values, fixed);
+  // success (percent): spread around Idaho's average, but in 5-point steps
+  return divergingClasses(values, fieldMode(field), /success/i.test(field) ? 5 : 0);
+};
 
 /** DrawOdds Score (0-100) in the badges' 7 even steps, so the map and the cards agree. */
 export const scoreClasses = (values: number[]) =>
   benchmarkClasses(values, [1, 2, 3, 4, 5, 6].map((i) => (100 / 7) * i), [0, 1, 2, 3, 4, 5, 6]);
+
+/**
+ * Fixed scales where a percent means the same thing everywhere (draw odds, land). Seven steps, red to green.
+ * Odds center on a coin flip: 45-55% is yellow. Values as stored: odds and draw-and-fill 0-1, land 0-100.
+ */
+export const FIXED_SCALES = {
+  odds: [0.1, 0.25, 0.45, 0.55, 0.7, 0.8],
+  fill: [0.05, 0.1, 0.2, 0.3, 0.45, 0.6],
+  land: [25, 40, 50, 60, 75, 90],
+  // elk population objectives: 0 below, 1 within, 2 above (no deep red / deep green: three plain categories)
+  objective: [0.5, 1.5],
+} as const;
+export type FixedScale = keyof typeof FIXED_SCALES;
+const FIXED_IDX: Record<FixedScale, number[]> = { odds: [0, 1, 2, 3, 4, 5, 6], fill: [0, 1, 2, 3, 4, 5, 6], land: [0, 1, 2, 3, 4, 5, 6], objective: [1, 4, 6] };
+export const fixedScale = (field: string): FixedScale | null =>
+  /^obj/i.test(field) ? 'objective' : /Odds/.test(field) ? 'odds' : /^ctlFill/.test(field) ? 'fill' : /^(publicPct|huntablePct)$/.test(field) ? 'land' : null;
+export const fixedClasses = (values: number[], scale: FixedScale) => benchmarkClasses(values, [...FIXED_SCALES[scale]], FIXED_IDX[scale]);
+export const OBJECTIVE_LABELS = OBJECTIVE_LABELS_C;

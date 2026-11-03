@@ -7,20 +7,24 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import { MapKey, type KeyItem } from './MapKey';
 import { divergingClasses, type BreakMode } from '@/lib/breaks';
-import { colorsFor, msgSuccessClasses, scoreClasses, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
+import { OBJ_SOURCE } from '@/lib/elkObjectives';
+import { colorsFor, msgSuccessClasses, scoreClasses, fixedClasses, FIXED_SCALES, OBJECTIVE_LABELS, type FixedScale, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
 
-export type MatchStat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
+export type MatchStat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null };
 type ShadeKey = 'match' | keyof MatchStat;
 const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
+type Mode = BreakMode | 'score' | FixedScale;
 /** What the Filtering map can shade by: always the matching hunts' own numbers, never units without a match. */
-const SHADES: Record<Exclude<ShadeKey, 'match'>, { label: string; mode: BreakMode | 'score'; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string }> = {
-  score: { label: 'DrawOdds Score (Best Matching Hunt)', mode: 'score', better: 'high', fmt: (v) => String(Math.round(v)), none: 'Not enough hunters to score', note: 'Highest DrawOdds Score (quality: success, access, elbow room, trophy) among the matching hunts in each unit. Same colors as the score badges.' },
-  odds: { label: 'Draw Odds (Best Matching Hunt)', mode: 'pct', better: 'high', fmt: pct1, none: 'No draw data', note: 'Best 5-year first-choice odds, for your residency, among the matching hunts in each unit. Resident general seasons are over the counter (100%).' },
-  fill: { label: 'Draw And Fill (Best Matching Hunt)', mode: 'pct', better: 'high', fmt: pct1, none: 'No draw or too few hunters', note: 'Draw odds × 5-year hunter success: the chance one application ends with an animal, for your residency. Best matching hunt in each unit. Resident general seasons: just success.' },
-  success: { label: 'Hunter Success (Matching Hunts)', mode: 'sd', better: 'high', fmt: pct1, none: 'Too few hunters', note: 'Harvest ÷ hunters over 5 years for the matching hunts in each unit, pooled.' },
-  crowd: { label: 'Hunters / Sq Mi (Least Crowded Match)', mode: 'pct', better: 'low', fmt: fmtNum, none: 'No hunter data', note: 'Hunters per square mile of the least crowded matching hunt in each unit. Green = fewer hunters.' },
-  public: { label: 'Public Land % (Matching Units)', mode: 'pct', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes!.' },
-  huntable: { label: 'Public + Access Yes! % (Matching Units)', mode: 'pct', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Public land plus Access Yes! land in each unit with a matching hunt.' },
+const SHADES: Record<Exclude<ShadeKey, 'match'>, { label: string; mode: Mode; snap?: number; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string; labels?: string[]; scaleNote: string }> = {
+  score: { label: 'DrawOdds Score (Best Matching Hunt)', mode: 'score', better: 'high', fmt: (v) => String(Math.round(v)), none: 'Not enough hunters to score', note: 'Highest DrawOdds Score (quality: success, access, elbow room, trophy) among the matching hunts in each unit.', scaleNote: 'Same colors as the score badges.' },
+  odds: { label: 'Draw Odds (Best Matching Hunt)', mode: 'odds', better: 'high', fmt: pct1, none: 'No draw data', note: 'Best 5-year first-choice odds, for your residency, among the matching hunts in each unit. Resident general seasons are over the counter (100%).', scaleNote: 'Fixed scale centered on a coin flip: 45-55% is yellow.' },
+  fill: { label: 'Draw And Fill (Best Matching Hunt)', mode: 'fill', better: 'high', fmt: pct1, none: 'No draw or too few hunters', note: 'Draw odds × 5-year hunter success: the chance one application ends with an animal, for your residency. Best matching hunt in each unit. Resident general seasons: just success.', scaleNote: 'Fixed scale: 20-30% is yellow.' },
+  success: { label: 'Hunter Success (Matching Hunts)', mode: 'sd', snap: 0.05, better: 'high', fmt: pct1, none: 'Too few hunters', note: 'Harvest ÷ hunters over 5 years for the matching hunts in each unit, pooled.', scaleNote: 'Yellow = average for these results, in 5-point steps.' },
+  crowd: { label: 'Hunters / Sq Mi (Least Crowded Match)', mode: 'pct', better: 'low', fmt: fmtNum, none: 'No hunter data', note: 'Hunters per square mile of the least crowded matching hunt in each unit. Green = fewer hunters.', scaleNote: 'Yellow = typical for these results.' },
+  public: { label: 'Public Land % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes!.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
+  huntable: { label: 'Public + Access Yes! % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Public land plus Access Yes! land in each unit with a matching hunt.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
+  objBull: { label: 'Elk: Bulls vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Bull elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more bulls than the target.`, scaleNote: '' },
+  objCow: { label: 'Elk: Cows vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Cow elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more cows than the target; often more antlerless tags.`, scaleNote: '' },
 };
 import { loadUnits } from '@/lib/unitData';
 
@@ -61,14 +65,14 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // moose / sheep / goat success is judged against fixed standards (see MSG_SUCCESS_BREAKS), not against each other
   const msgSuccess = metric === 'success' && areaSpecies.split(',').some((x) => ['MOOSE', 'BIGHORN', 'GOAT'].includes(x));
-  const cls = useMemo(() => (metric === 'match' || !S ? undefined : msgSuccess ? msgSuccessClasses(vals, 0.01) : S.mode === 'score' ? scoreClasses(vals) : divergingClasses(vals, S.mode)), [metric, statsKey, msgSuccess]);
+  const cls = useMemo(() => (metric === 'match' || !S ? undefined : msgSuccess ? msgSuccessClasses(vals, 0.01) : S.mode === 'score' ? scoreClasses(vals) : S.mode in FIXED_SCALES ? fixedClasses(vals, S.mode as FixedScale) : divergingClasses(vals, S.mode as BreakMode, S.snap ?? 0)), [metric, statsKey, msgSuccess]);
   const colors = useMemo(() => (S && cls ? colorsFor(cls, S.better) : []), [S, cls]);
   const missingN = metric === 'match' ? 0 : shownStats.length - vals.length + ((areaMode ? matchedAreas.length : matched.length) - shownStats.length);
 
   const paint = () => {
     const m = map.current;
     if (!m || !loaded.current) return;
-    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null });
+    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null });
     for (const u of matched) m.setFeatureState({ source: 'units', id: u }, { match: true, ...(stats.units[u] ?? {}) });
     prevMatched.current = matched;
     if (prevSel.current) m.setFeatureState({ source: 'units', id: prevSel.current }, { sel: false });
@@ -260,7 +264,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       m.setPaintProperty('units-line', 'line-opacity', on ? 0.35 : 0.85);
       m.setLayoutProperty('units-label', 'visibility', on ? 'none' : 'visible');
       if (on) {
-        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null });
+        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null });
         for (const a of matchedAreas) m.setFeatureState({ source: 'areas', id: a }, { match: true, sel: a === selectedArea, ...(stats.areas[a] ?? {}) });
         prevAreas.current = matchedAreas;
       }
@@ -282,7 +286,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   const where = areaMode ? 'hunt areas' : 'units';
   const options = [
     { value: 'match', label: areaMode ? 'Matching Hunt Areas' : 'Matching Hunts' },
-    ...(Object.keys(SHADES) as (keyof typeof SHADES)[]).map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
+    ...(Object.keys(SHADES) as (keyof typeof SHADES)[]).filter((k) => !(areaMode && k.startsWith('obj'))).map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
   ];
 
   return (
@@ -295,9 +299,9 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       )}
       <div className="mapkey-bottom" ref={keyEl}>
         <MapKey value={metric} options={options} onChange={(v) => setMetric(v as ShadeKey)}
-          ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where } : undefined}
+          ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where, labels: S.labels } : undefined}
           items={matchItems} extraItems={extraItems}
-          note={S ? `${S.note} ${msgSuccess ? 'Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : S.mode === 'score' ? '' : `Yellow = normal for these ${matched.length || matchedAreas.length} matching ${where}; red and green = well below or above it.`}` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
+          note={S ? `${S.note} ${msgSuccess ? 'Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : S.scaleNote}` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
           kind={kind} onKind={setKind} err={err} />
       </div>
     </div>

@@ -421,3 +421,25 @@ test('DrawOdds Score: access line, opportunity, sample floor, peer ranking', asy
   const cows = scoreHunts(Array.from({ length: 8 }, (_, i) => mk(i, { antlerClass: 'ANTLERLESS' })));
   assert.equal(cows.get('h3')!.scoreTrophy, null);
 });
+
+test('fixed map scales: odds center on a coin flip, success snaps to 5-point steps', async () => {
+  const { classesFor, fixedScale } = await import('../src/lib/mapMetrics');
+  assert.equal(fixedScale('ctlOddsResElk'), 'odds');
+  assert.equal(fixedScale('publicPct'), 'land');
+  assert.equal(fixedScale('objBull'), 'objective');
+  const odds = classesFor('ctlOddsResElk', [0.02, 0.5, 0.96, 1]);
+  assert.deepEqual(odds.breaks, [0.1, 0.25, 0.45, 0.55, 0.7, 0.8]);
+  assert.deepEqual(odds.counts, [1, 0, 0, 1, 0, 0, 2]);
+  const elk = classesFor('genSuccessElk', Array.from({ length: 91 }, (_, i) => 5 + (i % 23)));
+  assert.ok(elk.breaks.every((b) => b % 5 === 0));
+  assert.ok(elk.breaks.every((b, i) => i === 0 || b - elk.breaks[i - 1] >= 5));
+});
+
+test('elk objectives: zones and the Panhandle exceptions', async () => {
+  const { unitObjective, unitsWithObjective } = await import('../src/lib/elkObjectives');
+  assert.deepEqual(unitObjective('10'), { zone: 'Lolo', bull: 'BELOW', cow: 'BELOW' });
+  assert.deepEqual(unitObjective('6'), { zone: 'Panhandle', bull: 'WITHIN', cow: 'WITHIN' });
+  assert.equal(unitObjective('4').bull, null);
+  assert.equal(unitObjective('40').cow, null); // Owyhee: no numeric objective
+  assert.ok(unitsWithObjective('cow', ['ABOVE']).includes('38'));
+});

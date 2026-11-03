@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
-import { HuntCard } from '@/components/HuntCards';
+import { HuntCard, ObjectivePills } from '@/components/HuntCards';
 import { sortUnitHunts } from '@/lib/unitHunts';
 import { LandBar } from '@/components/LandBar';
 import { SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
@@ -75,6 +75,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
       <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?unit=${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
+      {draw === 'DEP' && <ObjectivePills units={[unit.name]} species="ELK" />}
       {recentBoundaryChanges([unit.name]) && <div className="note">IDFG changed this unit&apos;s boundary in {recentBoundaryChanges([unit.name])!.year}. Harvest numbers before then cover different ground.</div>}
 
       <div className="stats">
