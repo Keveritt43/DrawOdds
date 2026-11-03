@@ -2,6 +2,8 @@ name: Data snapshot
 # Manual: saves the live site's map data and hunt tables as a workflow artifact (for design / analysis work).
 on:
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   snapshot:
     runs-on: ubuntu-latest
@@ -14,8 +16,11 @@ jobs:
           for d in dep msg; do for a in res nr; do curl -sSf "$B/api/export?draw=$d&as=$a" -o hunts-$d-$a.csv; done; done
           curl -sSf "$B/api/areas?species=PRONGHORN,MOOSE,BIGHORN,GOAT" -o areas.json
           ls -la
-      - uses: actions/upload-artifact@v4
-        with:
-          name: snapshot
-          path: out
-          retention-days: 7
+      - name: Push to the data-snapshot branch (never main)
+        run: |
+          cd out
+          git init -q -b data-snapshot
+          git config user.name "snapshot-bot"
+          git config user.email "snapshot-bot@users.noreply.github.com"
+          git add -A && git commit -qm "Data snapshot $(date -u +%FT%TZ)"
+          git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" data-snapshot
