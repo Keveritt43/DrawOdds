@@ -202,8 +202,11 @@ export interface HarvestSummary {
   successPrev: number | null; // previous season, only when it was the year before
 }
 
+/** IDFG harvest rows with more animals than hunters are data errors (tiny samples): treat that year as missing. */
+export const validHarvest = (r: { hunters: number | null; harvest: number | null }) => !(r.harvest !== null && r.hunters !== null && r.harvest > r.hunters);
+
 export function summarizeHarvest(species: SpeciesName, rows: HarvestRow[]): HarvestSummary {
-  const five = rows.slice().sort((a, b) => b.year - a.year).slice(0, 5);
+  const five = rows.filter(validHarvest).slice().sort((a, b) => b.year - a.year).slice(0, 5);
   const hunters = sumOf(five, (r) => r.hunters);
   const harvest = sumOf(five, (r) => r.harvest);
   const wt = species === 'DEER' ? sumOf(five, (r) => r.estWt) : null;

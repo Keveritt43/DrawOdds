@@ -11,6 +11,7 @@ import {
   BOUNDARY_CHANGED_2022,
   monthsOpen,
   odds as capOdds,
+  validHarvest,
   type OddsRow,
   type HarvestRow,
 } from '../core/math';
@@ -306,7 +307,7 @@ async function nrTagSummary(
   });
   const lastYear = Math.max(0, ...gen.map((g) => g.year));
   // per unit, skip seasons before that unit's boundary change
-  const recent = gen.filter((g) => g.year > lastYear - 5 && g.year >= (boundarySince(g.unit) ?? 0));
+  const recent = gen.filter((g) => g.year > lastYear - 5 && g.year >= (boundarySince(g.unit) ?? 0) && validHarvest(g));
   const hunters = recent.reduce((a, g) => a + (g.hunters ?? 0), 0);
   const harvest = recent.reduce((a, g) => a + (g.harvest ?? 0), 0);
   const success = hunters ? harvest / hunters : null;
@@ -420,5 +421,6 @@ function generalSeasons(species: 'DEER' | 'ELK', unit: string, weapon: string): 
 function yearSuccess(rows: { year: number; hunters: number | null; harvest: number | null }[], year: number): number | null {
   const ys = rows.filter((g) => g.year === year);
   const hunters = ys.reduce((a, g) => a + (g.hunters ?? 0), 0);
-  return hunters ? ys.reduce((a, g) => a + (g.harvest ?? 0), 0) / hunters : null;
+  const harvest = ys.reduce((a, g) => a + (g.harvest ?? 0), 0);
+  return hunters && harvest <= hunters ? harvest / hunters : null;
 }

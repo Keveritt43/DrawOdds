@@ -25,7 +25,8 @@ export interface YearPoint {
   areaName?: string | null;
 }
 
-const r = (a?: number | null, b?: number | null) => (a == null || !b ? null : a / b);
+// success over 100% (more harvest than hunters) is an IDFG data error in tiny samples: show it as missing
+const r = (a?: number | null, b?: number | null) => (a == null || !b || a > b ? null : a / b);
 
 /** Year-by-year history for one summary row (controlled: followed through renumbering; general: the unit). */
 export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[]> {

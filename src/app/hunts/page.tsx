@@ -162,7 +162,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                         {nr && r.type === 'GENERAL' && !r.nrTag && <span className="sub">{nrTagLine(r.nrTagOdds)}</span>}
                       </div>
                       <div>Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}
-                        <b>{pct(r.successLast)}<Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" /></b>
+                        <b>{pct(r.successLast)}{!r.smallSample && <Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" />}</b>
                         <span className="sub">
                           {f.sort === 'harvest' ? `5-yr harvest ${int(r.harvest5)}` : f.sort === 'hunters' || f.sort === 'huntersLow' ? `5-yr hunters ${int(r.hunters5)}` : `${r.type === 'GENERAL' && r.harvestYears > 0 && r.harvestYears < 5 ? `${r.harvestYears}-yr` : '5-yr'} ${pct(r.success5)}`}
                         </span>

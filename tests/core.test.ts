@@ -258,3 +258,13 @@ test('hunt list: a bare area code ("10A", "63AX") is a controlled listing, not a
   const gen = '<div><a href="/ifwis/huntplanner/hunt?id=2">Unit 10A General Deer - Archery</a> Archery Aug 30, 2026 - Sep 30, 2026</div>';
   assert.equal(parseHuntList(gen)[0].type, 'GENERAL');
 });
+
+test('harvest rows with more harvest than hunters are dropped (no 400% success)', async () => {
+  const { summarizeHarvest } = await import('../src/sync/core/math');
+  const h = (year: number, hunters: number, harvest: number) => ({ year, hunters, harvest, antlered: harvest, antlerless: 0, estWt: null, estMule: null, est4: null, est5: null, estSpike: null, est6: null });
+  const s = summarizeHarvest('DEER', [h(2025, 1, 0), h(2024, 1, 4), h(2023, 4, 3)]);
+  assert.equal(s.successLast, 0);
+  assert.equal(s.successPrev, null); // 2024 (4 of 1) dropped
+  assert.equal(s.success5, 3 / 5);
+  assert.equal(s.years, 2);
+});

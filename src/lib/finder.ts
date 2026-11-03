@@ -123,7 +123,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
     case 'odds':
       return [desc(rf.odds5), desc('success5')];
     case 'success':
-      return [desc('success5'), desc(rf.odds5)];
+      // tiny samples (under 50 hunters over 5 years) swing to 0% or 100%: rank them after real numbers
+      return [{ smallSample: 'asc' }, desc('success5'), desc(rf.odds5)];
     case 'public':
       return [desc('publicPct'), desc('success5')];
     case 'big':
@@ -146,7 +147,7 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
       return [{ areaName: { sort: 'asc', nulls: 'last' } }, { huntNumber: { sort: 'asc', nulls: 'last' } }];
     default:
       // best bet: chance of drawing AND filling; general hunts (no draw) rank by success
-      return [desc(rf.tagAndFill), desc('success5')];
+      return [{ smallSample: 'asc' }, desc(rf.tagAndFill), desc('success5')];
   }
 }
 
