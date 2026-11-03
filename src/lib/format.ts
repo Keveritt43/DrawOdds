@@ -65,6 +65,14 @@ export interface NrTagInfo {
 export function nrTags(tags: number | null | undefined, nrDrew: number | null | undefined, nrApps: number | null | undefined, year: number | null | undefined, perHuntRule = true): NrTagInfo | null {
   const y = year ?? null;
   if (nrDrew !== null && nrDrew !== undefined && nrApps !== null && nrApps !== undefined && y) {
+    if (nrApps > nrDrew && !perHuntRule) {
+      // moose / sheep / goat: the nonresident limit is statewide per species, so a hunt's count is just what happened
+      return {
+        kind: 'open', n: nrDrew, year: y,
+        short: `${int(nrDrew)} NR drew '${String(y).slice(2)}`,
+        long: `${int(nrDrew)} of ${int(nrApps)} nonresident first-choice applicants drew in ${y}.`,
+      };
+    }
     if (nrApps > nrDrew) {
       return {
         kind: 'full', n: nrDrew, year: y,

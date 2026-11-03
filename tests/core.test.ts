@@ -321,3 +321,10 @@ test('verdicts and draw x fill wording', async () => {
   assert.equal(meaningfulChange(6, 2, 20), false);
   assert.equal(meaningfulChange(90, 79, 20), true);
 });
+
+test('moose / sheep / goat: no per-hunt nonresident limit wording', async () => {
+  const { controlledTags } = await import('../src/lib/format');
+  assert.equal(controlledTags(8, true, 0, 9, 2026, 'MOOSE'), "8 tags · 0 NR drew '26");
+  assert.equal(controlledTags(8, true, null, null, null, 'BIGHORN'), '8 tags');
+  assert.equal(controlledTags(1, true, null, null, null, 'DEER'), '1 tag · up to 1 NR');
+});

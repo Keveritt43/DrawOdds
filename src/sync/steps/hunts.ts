@@ -40,7 +40,7 @@ const MON: Record<string, number> = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Ju
  * Seasons & Rules PDF ("seasons-rules-moose-sheep-goat-2025-26.pdf"). Rows read "<hunt #> <area> ... <tags> ...
  * <Mon d> - <Mon d>". Returns hunt # -> dates (and tags when they read cleanly); logs sample rows to check against.
  */
-async function msgRegs(season: number, details: string[]): Promise<Map<number, { open: string; close: string; tags: number | null; text: string }>> {
+async function msgRegs(season: number, details: string[], wanted: number[] = []): Promise<Map<number, { open: string; close: string; tags: number | null; text: string }>> {
   const out = new Map<number, { open: string; close: string; tags: number | null; text: string }>();
   const names = [season - 1, season].map((y) => `seasons-rules-moose-sheep-goat-${y}-${String(y + 1).slice(2)}.pdf`);
   for (const name of names.reverse()) {
@@ -51,7 +51,17 @@ async function msgRegs(season: number, details: string[]): Promise<Map<number, {
     const hits = lines.filter((l) => /^[3567]\d{3}\b/.test(l));
     console.log(`[hunts] ${name}: ${lines.length} text rows, ${hits.length} start with a moose/sheep/goat hunt number`);
     for (const l of hits.slice(0, 15)) console.log(`  | ${l.slice(0, 180)}`);
-    for (const l of hits) {
+    // rows that start with the hunt number, plus any wanted hunt number found elsewhere on a line (rows can be
+    // laid out in two columns or wrap: then the dates sit later on that line or on the next two lines)
+    const cands: string[] = [...hits];
+    for (const n of wanted) {
+      if (hits.some((l) => l.startsWith(String(n)))) continue;
+      const i = lines.findIndex((l) => new RegExp(`(^|\\s)${n}(\\s|$)`).test(l));
+      if (i < 0) continue;
+      const from = lines[i].slice(lines[i].search(new RegExp(`(^|\\s)${n}(\\s|$)`))).trim();
+      cands.push([from, lines[i + 1] ?? '', lines[i + 2] ?? ''].join(' ').slice(0, 400));
+    }
+    for (const l of cands) {
       const n = Number(l.slice(0, 4));
       const d = l.match(DATE);
       if (!d || out.has(n)) continue;
@@ -68,6 +78,14 @@ async function msgRegs(season: number, details: string[]): Promise<Map<number, {
       });
     }
     details.push(`Moose/sheep/goat regs ${name}: dates for ${out.size} hunts`);
+    const missing = wanted.filter((n) => !out.has(n));
+    if (missing.length) {
+      details.push(`No dates found for hunts ${missing.join(', ')}`);
+      for (const n of missing.slice(0, 6)) {
+        const i = lines.findIndex((l) => l.includes(String(n)));
+        console.log(`[hunts] ${n}: ${i < 0 ? 'not in the PDF text' : lines.slice(Math.max(0, i - 1), i + 3).join(' || ').slice(0, 300)}`);
+      }
+    }
     break;
   }
   if (!out.size) details.push('Moose/sheep/goat regs PDF not found or unreadable - those hunts are listed without dates');
@@ -207,7 +225,8 @@ export async function syncHunts(): Promise<StepResult> {
 
   // Moose, bighorn sheep, mountain goat: every hunt in the latest drawing, with its area and tags; weapon and
   // sex from the latest harvest report for that hunt number; dates from the moose/sheep/goat regs PDF
-  const msgDates = await msgRegs(season, details);
+  const wantedMsg = (await db.drawOdds.findMany({ where: { species: { in: [...MSG] }, draw: 1, year: { gte: season - 1 } }, select: { huntNumber: true }, distinct: ['huntNumber'] })).map((d) => d.huntNumber);
+  const msgDates = await msgRegs(season, details, wantedMsg);
   let msgAdded = 0;
   for (const sp of MSG) {
     const latest = await db.drawOdds.findFirst({ where: { species: sp, draw: 1 }, orderBy: { year: 'desc' }, select: { year: true } });
