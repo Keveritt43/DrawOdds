@@ -53,6 +53,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
     if (gen) compare = { label: `General season, unit ${mainUnit}`, data: await historyFor(gen) };
   }
   // better-odds alternatives: same species, kind, sex and weapon, at least as good a hunt, easier to draw
+  const ctl = s.type === 'CONTROLLED';
   const myOdds = ctl ? s[rf.odds5] : s.nrTag ? s.nrOdds5 : null;
   const alts = (ctl || (s.nrTag && nr)) && myOdds !== null && myOdds < 0.95
     ? await db.huntSummary.findMany({
@@ -67,7 +68,6 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
     : [];
   const land = (area?.landOwnership ?? (unitRows.length === 1 ? unitRows[0].landOwnership : mergeLand(unitRows))) as { manager: string; pct: number }[] | null;
   const title = s.huntNumber ? `${SPECIES_LABEL[s.species]} controlled hunt ${s.huntNumber}` : s.name;
-  const ctl = s.type === 'CONTROLLED';
   const rows = history.filter((h) => h.permits != null || h.resApps != null || h.hunters != null).sort((a, b) => b.year - a.year);
   const drawn = rows.filter((h) => h.permits != null || h.resApps != null);
   // general season in a redrawn unit: years before the change are shown but not counted (different ground)
