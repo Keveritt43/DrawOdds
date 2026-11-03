@@ -40,6 +40,8 @@ export interface Classes {
   counts: number[]; // units in each class (breaks.length + 1)
   /** diverging scales: each class's step on the 7-step red -> yellow -> green scale (0 = worst ... 6 = best) */
   idx?: number[];
+  /** colors `idx` points into, when not the standard 7-step scale (draw odds use 8 steps) */
+  palette?: string[];
 }
 
 export function countClasses(values: number[], breaks: number[]): number[] {
@@ -117,7 +119,7 @@ export function divergingClasses(values: number[], mode: BreakMode, snap = 0): C
  * Classes against fixed benchmarks instead of the data's own spread. `idx` picks each class's color step,
  * so a scale can skip the deepest red when nothing on it deserves that.
  */
-export function benchmarkClasses(values: number[], breaks: number[], idx: number[]): Classes {
+export function benchmarkClasses(values: number[], breaks: number[], idx: number[], palette?: string[]): Classes {
   const v = values.filter((x) => Number.isFinite(x));
-  return { breaks: breaks.slice(), counts: countClasses(v, breaks), idx: idx.slice() };
+  return { breaks: breaks.slice(), counts: countClasses(v, breaks), idx: idx.slice(), ...(palette ? { palette: palette.slice() } : {}) };
 }

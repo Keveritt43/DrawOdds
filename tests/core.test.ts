@@ -423,13 +423,14 @@ test('DrawOdds Score: access line, opportunity, sample floor, peer ranking', asy
 });
 
 test('fixed map scales: odds center on a coin flip, success snaps to 5-point steps', async () => {
-  const { classesFor, fixedScale } = await import('../src/lib/mapMetrics');
+  const { classesFor, fixedScale, colorsFor } = await import('../src/lib/mapMetrics');
   assert.equal(fixedScale('ctlOddsResElk'), 'odds');
   assert.equal(fixedScale('publicPct'), 'land');
   assert.equal(fixedScale('objBull'), 'objective');
   const odds = classesFor('ctlOddsResElk', [0.02, 0.5, 0.96, 1]);
-  assert.deepEqual(odds.breaks, [0.1, 0.25, 0.45, 0.55, 0.7, 0.8]);
-  assert.deepEqual(odds.counts, [1, 0, 0, 1, 0, 0, 2]);
+  assert.deepEqual(odds.breaks, [0.02, 0.05, 0.1, 0.15, 0.3, 0.5, 0.8]);
+  assert.deepEqual(odds.counts, [0, 1, 0, 0, 0, 0, 1, 2]);
+  assert.equal(colorsFor(odds).length, 8);
   const elk = classesFor('genSuccessElk', Array.from({ length: 91 }, (_, i) => 5 + (i % 23)));
   assert.ok(elk.breaks.every((b) => b % 5 === 0));
   assert.ok(elk.breaks.every((b, i) => i === 0 || b - elk.breaks[i - 1] >= 5));

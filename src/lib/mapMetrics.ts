@@ -30,8 +30,12 @@ export const RYG7 = ['#b2182b', '#e0603f', '#f4a95c', '#f7e27a', '#b9dd80', '#66
 /** Success rates are bell-shaped (SD steps); odds, crowding and land are lopsided (percentile steps). */
 export const fieldMode = (field: string): BreakMode => (/success/i.test(field) ? 'sd' : 'pct');
 /** Colors for diverging classes; `better: 'low'` flips the scale (fewer hunters = green). */
-export const colorsFor = (cls: Classes, better: 'high' | 'low' = 'high') =>
-  (cls.idx ?? cls.breaks.concat(0).map((_, i) => i)).map((i) => RYG7[better === 'low' ? 6 - i : i]);
+export const colorsFor = (cls: Classes, better: 'high' | 'low' = 'high') => {
+  const pal = cls.palette ?? RYG7;
+  return (cls.idx ?? cls.breaks.concat(0).map((_, i) => i)).map((i) => pal[better === 'low' ? pal.length - 1 - i : i]);
+};
+/** 8 steps, same family as RYG7: draw odds need more room at the bottom (most controlled hunts are under 15%). */
+export const RYG8 = ['#b2182b', '#e0603f', '#f4a95c', '#f7e27a', '#d9ef8b', '#a6d96a', '#66bd63', '#1a9850'];
 export const MATCH = '#f0641e';
 export const ZONE = '#6a3fd6';
 export const AREA = '#0f6e56';
@@ -136,18 +140,19 @@ export const scoreClasses = (values: number[]) =>
 
 /**
  * Fixed scales where a percent means the same thing everywhere (draw odds, land). Seven steps, red to green.
- * Odds center on a coin flip: 45-55% is yellow. Values as stored: odds and draw-and-fill 0-1, land 0-100.
+ * Odds have 8 steps, fine-grained at the bottom where most controlled hunts sit: 10-15% is yellow. Values as stored: odds and draw-and-fill 0-1, land 0-100.
  */
 export const FIXED_SCALES = {
-  odds: [0.1, 0.25, 0.45, 0.55, 0.7, 0.8],
+  // under 2, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80+
+  odds: [0.02, 0.05, 0.1, 0.15, 0.3, 0.5, 0.8],
   fill: [0.05, 0.1, 0.2, 0.3, 0.45, 0.6],
   land: [25, 40, 50, 60, 75, 90],
   // elk population objectives: 0 below, 1 within, 2 above (no deep red / deep green: three plain categories)
   objective: [0.5, 1.5],
 } as const;
 export type FixedScale = keyof typeof FIXED_SCALES;
-const FIXED_IDX: Record<FixedScale, number[]> = { odds: [0, 1, 2, 3, 4, 5, 6], fill: [0, 1, 2, 3, 4, 5, 6], land: [0, 1, 2, 3, 4, 5, 6], objective: [1, 4, 6] };
+const FIXED_IDX: Record<FixedScale, number[]> = { odds: [0, 1, 2, 3, 4, 5, 6, 7], fill: [0, 1, 2, 3, 4, 5, 6], land: [0, 1, 2, 3, 4, 5, 6], objective: [1, 4, 6] };
 export const fixedScale = (field: string): FixedScale | null =>
   /^obj/i.test(field) ? 'objective' : /Odds/.test(field) ? 'odds' : /^ctlFill/.test(field) ? 'fill' : /^(publicPct|huntablePct)$/.test(field) ? 'land' : null;
-export const fixedClasses = (values: number[], scale: FixedScale) => benchmarkClasses(values, [...FIXED_SCALES[scale]], FIXED_IDX[scale]);
+export const fixedClasses = (values: number[], scale: FixedScale) => benchmarkClasses(values, [...FIXED_SCALES[scale]], FIXED_IDX[scale], scale === 'odds' ? RYG8 : undefined);
 export const OBJECTIVE_LABELS = OBJECTIVE_LABELS_C;

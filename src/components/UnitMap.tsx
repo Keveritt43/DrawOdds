@@ -14,7 +14,7 @@ import { antlerLabel } from '@/lib/format';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
-const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale centered on a coin flip: 45-55% is yellow.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
+const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
 
 export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP' }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG' }) {
   const msg = draw === 'MSG';
