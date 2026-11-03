@@ -372,7 +372,7 @@ test('moose / sheep / goat success uses fixed benchmarks, not the spread', () =>
 
 test('season rules: unit 40 general deer is 2-point bucks only', () => {
   const ts = { year: 2026, seasons: [{ weapon: 'ANY', sex: 'antlered (2-point deer only)', dates: [{ open: '2026-10-10', close: '2026-10-24' }], notes: '' }] };
-  assert.deepEqual(seasonRules(ts, 'DEER'), ['Bucks only', '2-point bucks only']);
+  assert.deepEqual(seasonRules(ts, 'DEER'), ['2-point bucks only']);
   assert.equal(seasonsClass(ts.seasons), 'ANTLERED');
 });
 

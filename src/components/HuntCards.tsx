@@ -114,7 +114,7 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
           {int(r.secondDrewLast)} tag{r.secondDrewLast === 1 ? '' : 's'} went to 2nd choices{r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}
         </span>
       )}
-      {TROPHY_LABEL[r.species] && r.bigPct5 !== null && !r.smallSample && (
+      {TROPHY_LABEL[r.species] && r.bigPct5 !== null && !r.smallSample && !seasonRules(r.tagSeasons, r.species).some((x) => x.startsWith('2-point')) && (
         <span><Term k="trophy">{TROPHY_LABEL[r.species]}</Term> <b>{pct(r.bigPct5)}</b> of {r.species === 'ELK' ? 'bulls' : 'bucks'} taken</span>
       )}
       {SIZE_LABEL[r.species as SpeciesKey] && r.avgSize5 !== null && <span><Term k="size">{SIZE_LABEL[r.species as SpeciesKey]}</Term> <b>{r.avgSize5.toFixed(1)}&quot;</b></span>}

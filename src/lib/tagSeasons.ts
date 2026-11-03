@@ -75,7 +75,8 @@ export function seasonRules(ts: unknown, species: string): string[] {
     allOrSome(males, /^spike only|spike only/, 'Spike bulls only');
     allOrSome(males, /brow-tined/, 'Brow-tined bulls only');
   }
-  return out;
+  // "2-point bucks only" already says bucks only
+  return out.includes('2-point bucks only') ? out.filter((x) => x !== 'Bucks only') : out;
 }
 
 /** What a rule means, for a tooltip. */
