@@ -31,7 +31,6 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   matched: string[]; selected: string; chips: { label: string; href: string }[]; nr?: boolean; showZones?: boolean; zones?: string[];
   /** a species hunted by its own hunt areas (pronghorn): draw those instead of filling units */
   areaSpecies?: string; matchedAreas?: string[]; selectedArea?: string;
-  nr?: boolean;
   species?: string;
   /** the matching hunts' numbers per unit and per hunt area (Filtering computes them from its results) */
   stats?: { units: Record<string, MatchStat>; areas: Record<string, MatchStat> };
