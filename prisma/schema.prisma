@@ -286,6 +286,14 @@ model HuntSummary {
   nrDraw    Json? // { year, tags, applied: [1st..5th], drew: [...] }
   nrTagOdds  Json? // general seasons: the nonresident tag(s) that hunt it [{ label, code, odds, applied, drew, tags, year }]
   weapons    Weapon[] // nonresident tags: the weapons its seasons allow (empty = unknown)
+  // DrawOdds Score (src/lib/score.ts): quality 0-100 and its parts; opportunity = quality x sqrt(5-yr odds)
+  scoreQuality Int?
+  scoreSuccess Int?
+  scoreAccess  Int?
+  scoreCrowd   Int?
+  scoreTrophy  Int?
+  scoreOppRes  Int?
+  scoreOppNr   Int?
   tagSeasons Json? // elk A/B tag seasons: [{ weapon, sex, dates: [{ open, close }], notes }] + { year }
   updatedAt       DateTime @updatedAt
 

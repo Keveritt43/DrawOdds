@@ -103,6 +103,7 @@ export default async function Home() {
               {opt('sort', 'odds', 'Best Chance To Get A Tag', true)}
               {opt('sort', 'success', 'Highest Harvest Rate')}
               {opt('sort', 'best', 'Best Mix Of Both')}
+              {opt('sort', 'score', 'Best Overall Hunt (DrawOdds Score)')}
               {opt('sort', 'densityLow', 'Fewer Hunters')}
               {opt('sort', 'big', msg ? 'Biggest Antlers / Horns' : 'Trophy Potential')}
             </div>
