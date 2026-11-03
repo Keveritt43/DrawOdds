@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { Star } from './Star';
 import { MapKey, KeySeg } from './MapKey';
 import { MigrationControls, type StudyLite } from './MigrationLayers';
+import { LandToggles } from './LandLayers';
 import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fixedScale, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
@@ -27,6 +28,16 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   // basic filters: which animal and which kind of hunt the shading (and the unit's hunt list) is about
   const [sp, setSpRaw] = useState<Sp>(msg ? 'MOOSE' : 'ELK');
   const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg ? 'CONTROLLED' : 'GENERAL');
+  // first visit: start on the animal last used in Find A Hunt (its remembered filters)
+  useEffect(() => {
+    try {
+      const last = decodeURIComponent(document.cookie.match(/(?:^|; )lastHunts=([^;]*)/)?.[1] ?? '');
+      const want = new URLSearchParams(last).get('species') as Sp | null;
+      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : ['ELK', 'DEER', 'PRONGHORN'];
+      if (want && ok.includes(want)) setSp(want);
+    } catch { /* keep the default */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // the header's drawing switch: start over on that drawing's species
   useEffect(() => {
     setSpRaw(msg ? 'MOOSE' : 'ELK');
@@ -153,13 +164,13 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   }, [field, cls, colors, bare, focus]);
 
   // the selected unit's hunts, narrowed to the key's animal and hunt type (zone / NR tags count as general)
-  const shownHunts = (uh?.rows ?? []).filter((h) => (!h.species || h.species === sp) && (htype === 'CONTROLLED' ? h.type === 'CONTROLLED' : h.type !== 'CONTROLLED'));
   const v = (k: string) => (sel && sel[k] !== null && sel[k] !== undefined ? Number(sel[k]) : null);
 
   return (
     <div style={{ position: 'relative', height }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
       {bare && migrations.length > 0 && <MigrationControls map={mapObj} studies={migrations} before="units-label" />}
+      {bare && <div className="card land-float"><LandToggles map={mapObj} before="units-line" /></div>}
       {bare ? (
         <Link className="card bare-link small" href={`/map`}>Shade by odds, success, land or elk objectives on the Unit Map →</Link>
       ) : <MapKey
@@ -170,7 +181,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         value={metric} options={options} onChange={(x) => setMetric(x as Metric)}
         ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
         note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : SCALE_NOTE[fixedScale(field) ?? ''] ?? ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
-        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />}
+        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} />}
       {sel && (
         <div className="card mapinfo">
           <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>
@@ -206,24 +217,39 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           {recentBoundaryChanges([sel.name]) && <p className="small" style={{ color: 'var(--warn-ink)', margin: '4px 0 0' }}>Boundary changed in {recentBoundaryChanges([sel.name])!.year}.</p>}
           {sel.name !== focus && (
             <div className="mi-hunts">
-              <h4>{({ ELK: 'Elk', DEER: 'Deer', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn Sheep', GOAT: 'Mountain Goat' })[sp]} {htype === 'CONTROLLED' ? 'Controlled' : 'General'} Hunts</h4>
-              {uh?.unit !== sel.name ? <p className="small muted">Loading…</p> : !shownHunts.length ? <p className="small muted">No {htype === 'CONTROLLED' ? 'controlled' : 'general'} {sp.toLowerCase()} hunts here.</p> : (
-                <ul>
-                  {shownHunts.map((h) => {
-                    const o = nr ? h.nrOdds5 : h.resOdds5;
-                    return (
-                      <li key={h.id}>
-                        <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.label}</Link>
-                        <span className="small muted">
-                          {h.antler && h.antler !== 'EITHER' ? ` · ${antlerLabel(h.species, h.antler)}` : ''}
-                          {h.type === 'GENERAL' ? (nr ? ' · NR tag required' : ' · OTC') : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% ${h.type === 'NRTAG' ? '1st-choice ' : ''}odds` : ''}
-                          {h.success5 !== null ? ` · ${Math.round(h.success5 * 100)}% success` : ''}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
+              {uh?.unit !== sel.name ? <p className="small muted">Loading hunts…</p> : (['GENERAL', 'CONTROLLED'] as const).map((kind) => {
+                // every hunt in the unit for this drawing: the key's animal first, then the others
+                const order = (x: string) => (x === sp ? 0 : 1);
+                const list = (uh?.rows ?? [])
+                  .filter((h) => (kind === 'CONTROLLED' ? h.type === 'CONTROLLED' : h.type !== 'CONTROLLED'))
+                  .filter((h) => nr || h.type !== 'NRTAG' || h.species === 'ELK') // deer tags matter to nonresidents only
+                  .filter((h) => !h.species || (msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : ['ELK', 'DEER', 'PRONGHORN']).includes(h.species))
+                  .sort((a, b) => order(a.species) - order(b.species) || a.species.localeCompare(b.species));
+                if (kind === 'GENERAL' && msg) return null;
+                return (
+                  <div key={kind}>
+                    <h4>{kind === 'GENERAL' ? 'General Tags & Seasons' : `Controlled Hunts (${list.length})`}</h4>
+                    {!list.length ? <p className="small muted">None here.</p> : (
+                      <ul>
+                        {list.slice(0, kind === 'CONTROLLED' ? 12 : 20).map((h) => {
+                          const o = nr ? h.nrOdds5 : h.resOdds5;
+                          return (
+                            <li key={h.id}>
+                              <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.label}</Link>
+                              <span className="small muted">
+                                {h.antler && h.antler !== 'EITHER' ? ` · ${antlerLabel(h.species, h.antler)}` : ''}
+                                {h.type === 'GENERAL' ? (nr ? ' · NR tag required' : ' · OTC') : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% ${h.type === 'NRTAG' ? '1st-choice ' : ''}odds` : ''}
+                                {h.success5 !== null ? ` · ${Math.round(h.success5 * 100)}% success` : ''}
+                              </span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                    {kind === 'CONTROLLED' && list.length > 12 && <p className="small"><Link href={`/hunts?unit=${encodeURIComponent(sel.name)}&type=CONTROLLED`}>All {list.length} controlled hunts →</Link></p>}
+                  </div>
+                );
+              })}
             </div>
           )}
           {sel.name !== focus && (

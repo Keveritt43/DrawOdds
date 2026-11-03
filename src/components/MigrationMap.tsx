@@ -7,6 +7,7 @@ import { baseStyle } from '@/lib/basemap';
 import { IDAHO_BOUNDS } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
 import { MigrationControls, type StudyLite } from './MigrationLayers';
+import { LandToggles } from './LandLayers';
 
 /** Every migration study on one map, on by default and framed to the routes; unit outlines for reference. */
 export function MigrationMap({ studies, height = '560px' }: { studies: StudyLite[]; height?: string }) {
@@ -40,6 +41,7 @@ export function MigrationMap({ studies, height = '560px' }: { studies: StudyLite
     <div style={{ position: 'relative', height }} className="card" >
       <div ref={el} style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', overflow: 'hidden' }} />
       <MigrationControls map={map} studies={studies} defaultOn fit before="units-label" />
+      <div className="card land-float"><LandToggles map={map} before="units-line" /></div>
     </div>
   );
 }

@@ -56,3 +56,33 @@ export async function emailSignIn(formData: FormData) {
 export async function doSignOut() {
   await signOut({ redirectTo: '/' });
 }
+
+const APP_KINDS = ['NR_ELK', 'NR_DEER', 'CTL_DEER', 'CTL_ELK', 'CTL_PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'];
+const RESULTS = ['PENDING', 'DREW', 'NOT_DRAWN'];
+
+/** Log an application on "My Applications". */
+export async function addApplication(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) return;
+  const year = Number(formData.get('year'));
+  const kind = String(formData.get('kind') ?? '');
+  const result = String(formData.get('result') ?? 'PENDING');
+  const codes = String(formData.get('codes') ?? '').slice(0, 120).trim();
+  if (!Number.isInteger(year) || year < 2000 || year > 2100 || !APP_KINDS.includes(kind) || !RESULTS.includes(result)) return;
+  await db.application.create({ data: { userId: session.user.id, year, kind, codes, result, note: String(formData.get('note') ?? '').slice(0, 200) || null } });
+  revalidatePath('/account');
+}
+
+export async function setApplicationResult(id: string, result: string) {
+  const session = await auth();
+  if (!session?.user || !RESULTS.includes(result)) return;
+  await db.application.updateMany({ where: { id, userId: session.user.id }, data: { result } });
+  revalidatePath('/account');
+}
+
+export async function deleteApplication(id: string) {
+  const session = await auth();
+  if (!session?.user) return;
+  await db.application.deleteMany({ where: { id, userId: session.user.id } });
+  revalidatePath('/account');
+}

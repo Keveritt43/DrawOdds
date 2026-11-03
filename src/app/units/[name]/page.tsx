@@ -1,5 +1,5 @@
-import { listStudies, type MigClass } from '@/lib/migrations';
-import { StudyCard, type SeasonOverlap } from '@/components/StudyCard';
+import { listStudies, md, type MigClass } from '@/lib/migrations';
+import type { SeasonOverlap } from '@/components/StudyCard';
 import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
@@ -107,17 +107,24 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         <div className="stat"><div className="k">Hunts touching unit</div><div className="v">{hunts.length}</div></div>
       </div>
 
-      <div className="grid2">
-        <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 360 }}>
-          <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, classes: s.classes as unknown as MigClass[] }))} />
-        </div>
-        <div className="card">
-          <h3 style={{ marginTop: 0 }}>Who manages the land</h3>
-          <LandBar shares={unit.landOwnership as { manager: string; pct: number }[] | null} />
-          <p className="small muted">Managing agency, not owner. State land is mostly open to hunting; check access on the ground.</p>
-        </div>
+      <div className="card" style={{ margin: '14px 0' }}>
+        <h3 style={{ marginTop: 0 }}>Who manages the land</h3>
+        <LandBar shares={unit.landOwnership as { manager: string; pct: number }[] | null} />
+        <p className="small muted" style={{ marginBottom: 0 }}>Managing agency, not owner. State land is mostly open to hunting; check access on the ground.</p>
       </div>
-      {studies.map((st) => <StudyCard key={st.slug} s={st} unit={name} overlaps={overlapsFor(st)} />)}
+      {studies.map((st) => {
+        const ov = overlapsFor(st);
+        const fall = (st.timing as { fall?: { startAvg: string; endAvg: string } }).fall;
+        return (
+          <p key={st.slug} className="note mig-note">
+            <b>Migration:</b> <Link href={`/migration#${st.slug}`}>{st.name}</Link> crosses this unit{fall ? ` (fall migration averages ${md(fall.startAvg)} – ${md(fall.endAvg)})` : ''}. Turn it on in the map below.
+            {ov.length > 0 && <> Deer seasons here in that window: {ov.map((o, i) => <span key={o.href}>{i ? ', ' : ''}<Link href={o.href}>{o.label}</Link></span>)}.</>}
+          </p>
+        );
+      })}
+      <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 480 }}>
+        <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="480px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, classes: s.classes as unknown as MigClass[] }))} />
+      </div>
 
       <h2 id="hunts">Hunts In Unit {unit.name}</h2>
       <div className="uh-filters">

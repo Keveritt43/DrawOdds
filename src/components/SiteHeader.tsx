@@ -15,6 +15,7 @@ const LINKS = [
   { href: '/planner', label: 'Planner' },
   { href: '/changes', label: 'What Changed' },
   { href: '/migration', label: 'Migration' },
+  { href: '/guide', label: 'How The Draw Works' },
   { href: '/about', label: 'Data & Methods' },
 ];
 

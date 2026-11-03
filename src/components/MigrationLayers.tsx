@@ -112,7 +112,7 @@ export function MigrationControls({ map, studies, defaultOn = false, fit = false
           {on[s.slug] && <MigrationKey classes={s.classes} />}
         </div>
       ))}
-      <p className="small muted" style={{ margin: '4px 0 0' }}>Share of collared deer using each route; hatching = stopover areas where deer rest and feed.</p>
+      {Object.values(on).some(Boolean) && <p className="muted" style={{ margin: '4px 0 0' }}>Share of collared deer using each route; hatching = stopovers.</p>}
       {err && <p className="small" style={{ color: 'var(--warn)', margin: 0 }}>{err}</p>}
     </div>
   );

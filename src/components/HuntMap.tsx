@@ -6,6 +6,7 @@ import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'map
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import { MapKey, type KeyItem } from './MapKey';
+import { LandToggles } from './LandLayers';
 import { divergingClasses, type BreakMode } from '@/lib/breaks';
 import { OBJ_SOURCE } from '@/lib/elkObjectives';
 import { colorsFor, msgSuccessClasses, scoreClasses, fixedClasses, FIXED_SCALES, OBJECTIVE_LABELS, type FixedScale, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
@@ -45,6 +46,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   const el = useRef<HTMLDivElement>(null);
   const keyEl = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
+  const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const loaded = useRef(false);
   const prevMatched = useRef<string[]>([]);
   const prevSel = useRef('');
@@ -137,6 +139,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       m.fitBounds(IDAHO_BOUNDS, { padding: { top: 46, bottom: Math.min(kh + 14, m.getContainer().clientHeight * 0.45), left: 10, right: 46 }, duration: 0 });
       paint();
       m.fire('ready'); // units layers exist now: overlays (shading, elk zones, areas) can attach
+      setMapObj(m);
     });
     return () => {
       m.remove();
@@ -302,7 +305,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
           ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where, labels: S.labels } : undefined}
           items={matchItems} extraItems={extraItems}
           note={S ? `${S.note} ${msgSuccess ? 'Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : S.scaleNote}` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
-          kind={kind} onKind={setKind} err={err} />
+          kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} />
       </div>
     </div>
   );

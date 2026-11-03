@@ -405,11 +405,11 @@ table.results.compare td .small { display: block; }
 .rail-reset { padding: 10px 16px 0; text-align: right; font-size: .88rem; }
 .reset-all { white-space: nowrap; }
 /* migration studies */
-.mig-panel { position: absolute; left: 10px; bottom: 30px; z-index: 2; max-width: min(340px, calc(100% - 70px)); padding: 10px 12px; font-size: .85rem; max-height: calc(100% - 60px); overflow-y: auto; }
+.mig-panel { position: absolute; right: 10px; top: 10px; z-index: 2; max-width: min(300px, calc(100% - 20px)); padding: 8px 10px; font-size: .78rem; max-height: calc(100% - 60px); overflow-y: auto; }
 .mig-row + .mig-row { margin-top: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
-.mig-key { display: grid; gap: 3px; margin: 6px 0 0 22px; }
+.mig-key { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; margin: 4px 0 0 20px; }
 .mig-key span { display: flex; align-items: center; gap: 7px; }
-.mig-key i { width: 22px; height: 11px; border-radius: 2px; border: 1px solid rgba(0,0,0,.25); flex: none; }
+.mig-key i { width: 16px; height: 9px; border-radius: 2px; border: 1px solid rgba(0,0,0,.25); flex: none; }
 .mig-key i.hatch { background: repeating-linear-gradient(45deg, #111 0 2px, transparent 2px 6px); }
 .mig-card { margin: 16px 0; }
 .mig-card .mig-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 10px 0; }
@@ -458,3 +458,26 @@ table.results.compare td .small { display: block; }
   .site-header, .site-footer, .no-print, .cmp-tray, .plan-sec:not(.plan-sheet), main.wrap > p, main.wrap > h1 + p { display: none !important; }
   body { background: #fff !important; } main.wrap { box-shadow: none; border: 0; }
 }
+
+.mig-note { margin: 10px 0; }
+.mig-card .mig-key { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); font-size: .85rem; }
+/* land layers */
+.land-toggles { display: grid; gap: 3px; font-size: .8rem; margin-top: 8px; }
+.land-toggles label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.land-toggles .sw { width: 12px; height: 10px; border-radius: 2px; display: inline-block; opacity: .7; }
+.land-toggles p { margin: 2px 0 0; font-size: .74rem; }
+.sma-key { display: grid; grid-template-columns: 1fr 1fr; gap: 1px 8px; font-size: .72rem; margin-left: 20px; }
+.sma-key span { display: flex; align-items: center; gap: 4px; } .sma-key img { flex: none; border: 1px solid rgba(0,0,0,.2); }
+.land-float { position: absolute; left: 10px; bottom: 34px; z-index: 2; padding: 8px 10px; max-width: min(300px, calc(100% - 70px)); }
+
+/* each number on a hunt card is its own small card */
+.hrow-stats.three { gap: 8px; }
+.hrow-stats.three > div { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+@media (max-width: 420px) { .hrow-stats.three { gap: 5px; } .hrow-stats.three > div { padding: 6px 7px; } }
+.mig-units { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.mig-unit h4 { margin: 10px 0 4px; font-size: .95rem; }
+.mig-list { margin: 0; padding-left: 18px; font-size: .88rem; display: grid; gap: 3px; }
+.mig-list .sbadge b { min-width: 24px; height: 18px; font-size: .75rem; }
+.app-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.app-form label { display: grid; gap: 2px; font-size: .82rem; color: var(--muted); }
+.app-form input, .app-form select { font: inherit; padding: 5px 6px; color: var(--ink); }

@@ -13,7 +13,7 @@ export interface Ramp { classes: Classes | undefined; colors: string[]; fmt: (v:
  * and the basemap switch.
  */
 export function MapKey({
-  filters, value, options, onChange, ramp, items = [], extraItems = [], note, kind, onKind, err,
+  filters, value, options, onChange, ramp, items = [], extraItems = [], note, kind, onKind, err, layers,
 }: {
   filters?: React.ReactNode;
   value: string;
@@ -28,6 +28,8 @@ export function MapKey({
   kind: Basemap;
   onKind: (k: Basemap) => void;
   err?: string;
+  /** extra map layers the reader can switch on (land ownership, Access Yes!) */
+  layers?: React.ReactNode;
 }) {
   // details start folded on phones (the key must not cover the map), open on wide screens
   const [open, setOpen] = useState(false);
@@ -77,6 +79,7 @@ export function MapKey({
         ) : <p className="small muted" style={{ margin: '6px 0 0' }}>Loading shading…</p>
       ) : swatches(items)}
       {extraItems.length > 0 && swatches(extraItems)}
+      {layers}
 
       {open && (
         <div className="mp-details">

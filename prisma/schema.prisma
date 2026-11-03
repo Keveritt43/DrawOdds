@@ -329,6 +329,7 @@ model User {
   sessions      Session[]
   saved         SavedHunt[]
   savedUnits    SavedUnit[]
+  applications  Application[]
 }
 
 /// A unit the user starred (units are stable across seasons; hunts get renumbered)
@@ -437,4 +438,19 @@ model MigrationStudy {
   unitAcres    Json      // { "49": { "HIGH": 29176, ... } } (approximate)
   geojson      Json
   updatedAt    DateTime  @updatedAt
+}
+
+/// A hunter's own application history ("My Applications" on the account page).
+model Application {
+  id        String   @id @default(cuid())
+  userId    String
+  year      Int
+  kind      String   // NR_ELK | NR_DEER | CTL_DEER | CTL_ELK | CTL_PRONGHORN | MOOSE | BIGHORN | GOAT
+  codes     String   // "ELK37, ELK21" / "1057, 1031"
+  result    String   @default("PENDING") // PENDING | DREW | NOT_DRAWN
+  note      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, year])
 }

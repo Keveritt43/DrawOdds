@@ -9,6 +9,7 @@ import { residencyFields } from '@/lib/finder';
 import { pct, pctOdds, pct100, range, int, density, drawFillLine, antlerLabel, WEAPON } from '@/lib/format';
 import { seasonsSummary } from '@/lib/tagSeasons';
 import { Star } from '@/components/Star';
+import { MyApplications } from '@/components/MyApplications';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +28,7 @@ export default async function Account() {
     }),
     db.savedUnit.findMany({ where: { userId: session.user.id }, orderBy: { createdAt: 'desc' } }),
   ]);
+  const apps = await db.application.findMany({ where: { userId: session.user.id }, orderBy: [{ year: 'desc' }, { createdAt: 'desc' }] });
   const units = new Map(
     (await db.unit.findMany({ where: { name: { in: savedUnits.map((u) => u.unit) } }, select: { name: true, elkZone: true, publicPct: true, acres: true } })).map((u) => [u.name, u]),
   );
@@ -39,6 +41,8 @@ export default async function Account() {
         <p className="small muted">Sets which draw odds you see everywhere: filters, sorting, charts and the map.</p>
         <ResidencySwitch value={session.user.residency} />
       </div>
+      <MyApplications apps={apps} />
+      <p className="small"><a href="/planner">Plan this year&apos;s applications →</a> · <a href="/api/calendar">Deadlines to your calendar</a></p>
       <h2>Favorite Units</h2>
       {!savedUnits.length && <p className="muted">No favorite units yet. Tap the ☆ next to a unit on the map, a unit page or Filtering.</p>}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
