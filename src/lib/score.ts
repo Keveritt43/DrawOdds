@@ -1,7 +1,8 @@
 /**
  * DrawOdds Score.
  *
- * Quality (0-100): how good the hunt is once you hold the tag, from four parts. Each part is a 0-100 rank
+ * Quality (0-100): how good the hunt is once you hold the tag, from four parts, blended by weight and then
+ * ranked within its peer group (80 = better than 80% of hunts like it). Each part is a 0-100 rank
  * against the same kind of tag (species · general / controlled / NR tag · sex · weapon), except Access:
  *   - Success (35%): 5-yr harvest ÷ hunters, pulled toward the tag type's average when there are few hunters
  *     (so 3 of 3 doesn't read as 100%)
@@ -109,6 +110,7 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
 
   const out = new Map<string, ScoreOutput>();
   for (const r of rows) out.set(r.id, { ...EMPTY });
+  const raw = new Map<string, { q: number; parts: Record<ScorePart, number | null> }>();
   for (const r of scored) {
     const p = peers(r);
     const nums = (f: (x: ScoreInput) => number | null | undefined, ok: (x: ScoreInput) => boolean = () => true) =>
@@ -127,7 +129,16 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
       tot += parts[k]! * SCORE_WEIGHTS[k];
       w += SCORE_WEIGHTS[k];
     }
-    const q = Math.round(tot / w);
+    raw.set(r.id, { q: tot / w, parts });
+  }
+  // A weighted average of ranks bunches up in the middle (nothing is last at everything), which would paint
+  // almost every hunt yellow. Rank the blend itself within the peer group, so 80 = better than 80% of hunts
+  // like it, and the colors spread evenly.
+  for (const r of scored) {
+    const me = raw.get(r.id);
+    if (!me) continue;
+    const parts = me.parts;
+    const q = percentileRank(me.q, peers(r).map((x) => raw.get(x.id)?.q).filter((v): v is number => v !== undefined)) ?? Math.round(me.q);
     // residents: general seasons and uncapped zone tags are over the counter
     const resOdds = r.type === 'CONTROLLED' ? r.resOdds5 : r.nrTag && r.capped ? null : 1;
     const nrOdds = r.type === 'CONTROLLED' ? r.nrOdds5 : r.nrOdds5;
