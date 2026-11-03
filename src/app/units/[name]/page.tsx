@@ -33,12 +33,16 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const nr = residency === 'NONRESIDENT';
   const fav = await getFavorites();
   // nonresident general tags only matter to nonresidents
-  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, ...(nr ? {} : { nrTag: false }) } }));
+  // elk zone A/B tags are listed for everyone (residents choose A or B too); deer tags only for nonresidents
+  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
   const pick = (k: keyof typeof FILTERS) => (FILTERS[k].some(([v]) => v && v === sp[k]) ? sp[k]! : '');
   const fSpecies = pick('species');
   const fType = pick('type');
   const fWeapon = pick('weapon');
-  const shown = hunts.filter((h) => (!fSpecies || h.species === fSpecies) && (!fType || h.type === fType) && (!fWeapon || h.weapon === fWeapon));
+  // elk: the A/B tag rows are the listing; the per-weapon general elk rows stay for the charts only. Deer: the
+  // general seasons carry the Regular Deer tag, so its tag row is hidden (the White-tailed tag stays).
+  const listed = hunts.filter((h) => (h.nrTag ? h.species === 'ELK' || !!h.tagCode?.startsWith('WD') : !(h.type === 'GENERAL' && h.species === 'ELK')));
+  const shown = listed.filter((h) => (!fSpecies || h.species === fSpecies) && (!fType || h.type === fType) && (!fWeapon || h.weapon === fWeapon || (h.nrTag && (h.weapons as string[]).includes(fWeapon))));
   const href = (patch: SP) => {
     const q = new URLSearchParams(Object.entries({ species: fSpecies, type: fType, weapon: fWeapon, ...patch }).filter(([, v]) => v) as [string, string][]);
     return `/units/${encodeURIComponent(name)}${q.size ? `?${q}` : ''}#hunts`;
@@ -103,17 +107,17 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
             <div className="uh-name">
               <Star kind="hunt" id={h.huntId} saved={fav.hunts.has(h.huntId)} signedIn={fav.signedIn} />
               <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{unitHuntLabel(h)}</Link>
-              <span className={`pill ${h.type === 'GENERAL' && !h.nrTag ? '' : 'ctl'}`}>{h.nrTag ? 'NR Tag Draw' : h.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
+              <span className={`pill ${h.type === 'GENERAL' && !h.nrTag ? '' : 'ctl'}`}>{h.nrTag ? (nr ? 'NR Tag Draw' : 'Zone Tag') : h.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
               {h.youthOnly && <span className="pill">Youth</span>}
             </div>
             <div className="uh-meta">
               {h.nrTag
-                ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''} · ${seasonsSummary(h.tagSeasons, 2) || (h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit')}`
+                ? `${nr ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''}` : h.capped ? `Capped${(h.tagSeasons as { residentQuota?: number } | null)?.residentQuota ? ` · ${int((h.tagSeasons as { residentQuota: number }).residentQuota)} resident tags` : ''}` : 'Over the counter'} · ${seasonsSummary(h.tagSeasons, 2) || (h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit')}`
                 : <>{h.type === 'GENERAL' && seasonsSummary(h.tagSeasons, 2) ? seasonsSummary(h.tagSeasons, 2) : h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {ANTLER[h.antlerClass]}
                   {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : h.tags ? ` · ${int(h.tags)} tags` : ''}</>}
             </div>
             <div className="uh-stats">
-              {(h.type === 'CONTROLLED' || h.nrTag || (nr && h.nrOdds5 !== null)) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pct(h[rf.odds5], 1)}</b></span>}
+              {(h.type === 'CONTROLLED' || (nr && (h.nrTag || h.nrOdds5 !== null))) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pct(h[rf.odds5], 1)}</b></span>}
               <span>Success <b>{pct(h.success5)}</b></span>
               {h.huntersSqMi !== null && <span>Hunters/mi² <b>{h.huntersSqMi < 10 ? h.huntersSqMi.toFixed(1) : Math.round(h.huntersSqMi)}</b></span>}
             </div>

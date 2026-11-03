@@ -77,7 +77,8 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   const and: Prisma.HuntSummaryWhereInput[] = [];
   if (f.species) and.push({ species: f.species });
   // nonresident general tags only exist for nonresidents (residents buy general tags over the counter)
-  if (r !== 'NONRESIDENT') and.push({ nrTag: false });
+  // (elk zone A/B tags are listed for everyone: residents pick an A or B tag too, bought over the counter)
+  if (r !== 'NONRESIDENT') and.push({ OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' }] });
   if (f.type === 'NRTAG') and.push({ nrTag: true });
   else if (f.type) and.push({ type: f.type });
   // a tag covers several weapons and sexes (its seasons do the narrowing), so those filters let tags through

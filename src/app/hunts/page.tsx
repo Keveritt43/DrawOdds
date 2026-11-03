@@ -59,7 +59,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   // Everything is listed by unit: one card per unit + species. General seasons first (for nonresidents they
   // carry the unit's / zone's tag odds, so the Regular Deer tag and elk zone A/B tag rows would only repeat
   // them), then the controlled hunts. A controlled hunt (or tag) covering several units appears in each.
-  const visible = f.type === 'NRTAG' ? rows : rows.filter((r) => !r.nrTag || r.tagCode?.startsWith('WD'));
+  // Elk: the zone A / B tag is the listing (it carries the seasons, odds and quota), so the per-weapon general
+  // elk rows would repeat it. Deer: the general seasons carry the Regular Deer tag; the White-tailed tag stays.
+  const visible = f.type === 'NRTAG' ? rows : rows.filter((r) =>
+    r.nrTag ? r.species === 'ELK' || !!r.tagCode?.startsWith('WD') : !(r.type === 'GENERAL' && r.species === 'ELK'));
   const groups = new Map<string, Group>();
   for (const r of visible) {
     const us = r.type === 'GENERAL' && !r.nrTag ? [r.unit ?? r.units[0]] : r.units;
@@ -135,12 +138,12 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       <span className="star-head">
                         <Star kind="hunt" id={r.huntId} saved={fav.hunts.has(r.huntId)} signedIn={fav.signedIn} />
                         <Link href={`/hunts/${encodeURIComponent(r.id)}`}>
-                          {r.nrTag ? `${tagLabel(r)}${r.tagCode ? ` · ${r.tagCode}` : ''}` : <>{r.huntNumber ? `Hunt ${r.huntNumber} · ` : r.type === 'GENERAL' ? 'General · ' : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}</>}
+                          {r.nrTag ? `${tagLabel(r)}${nr && r.tagCode ? ` · ${r.tagCode}` : ''}` : <>{r.huntNumber ? `Hunt ${r.huntNumber} · ` : r.type === 'GENERAL' ? 'General · ' : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}</>}
                         </Link>
-                        {r.nrTag && <span className="pill ctl">NR Tag Draw</span>}
+                        {r.nrTag && nr && <span className="pill ctl">NR Tag Draw</span>}
                       </span>
                       <span className="small muted">
-                        {r.nrTag ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '-') : r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : nr ? (r.tagCode ? `NR tag: ${r.tagCode}` : 'NR tag required') : 'OTC') : `${int(r.tags)} tags`}
+                        {r.nrTag && !nr ? residentTag(r) : r.nrTag ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '-') : r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : nr ? (r.tagCode ? `NR tag: ${r.tagCode}` : 'NR tag required') : 'OTC') : `${int(r.tags)} tags`}
                       </span>
                     </div>
                     <div className="dates">
@@ -151,11 +154,11 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                     <div className="hrow-stats">
                       <div>Draw Odds{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
-                          {r.type === 'GENERAL' && !r.nrTag && !(nr && oddsLast !== null) ? (nr ? 'Tag' : 'OTC') : pct(oddsLast, oddsLast !== null && oddsLast < 0.1 ? 1 : 0)}
+                          {r.nrTag && !nr ? (r.capped ? 'Capped' : 'OTC') : r.type === 'GENERAL' && !r.nrTag && !(nr && oddsLast !== null) ? (nr ? 'Tag' : 'OTC') : pct(oddsLast, oddsLast !== null && oddsLast < 0.1 ? 1 : 0)}
                           {r.type === 'CONTROLLED' && <Delta now={oddsLast} prev={r[rf.oddsPrev]} kind="pts" good="up" />}
                         </b>
                         {r.type === 'CONTROLLED' && <span className="sub">5-yr {pct(odds, odds !== null && odds < 0.1 ? 1 : 0)}</span>}
-                        {r.nrTag && <span className="sub">1st choice</span>}
+                        {r.nrTag && nr && <span className="sub">1st choice</span>}
                         {nr && r.type === 'GENERAL' && !r.nrTag && <span className="sub">{nrTagLine(r.nrTagOdds)}</span>}
                       </div>
                       <div>Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}
@@ -166,7 +169,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       </div>
                       <div>Applicants{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
                         <b>
-                          {r.type === 'GENERAL' && !r.nrTag && !(nr && apps !== null) ? '-' : int(apps)}
+                          {(r.type === 'GENERAL' && !r.nrTag && !(nr && apps !== null)) || (r.nrTag && !nr) ? '-' : int(apps)}
                           {r.type === 'CONTROLLED' && <Delta now={apps} prev={r[rf.appsPrev]} kind="pct" good="down" />}
                         </b>
                         {r.type === 'CONTROLLED' && r.appsLast !== null && <span className="sub">all {int(r.appsLast)}</span>}
@@ -216,7 +219,7 @@ function Delta({ now, prev, kind, good }: { now: number | null | undefined; prev
 
 /** "A Tag" / "Regular Deer Tag" / "White-tailed Deer Tag" for a nonresident general tag row. */
 function tagLabel(r: HuntSummary): string {
-  if (r.species === 'ELK') return `${(r.id.split(':')[3] ?? '').toUpperCase()} Tag`;
+  if (r.species === 'ELK') return `${r.id.split(':')[2] ?? ''} ${(r.id.split(':')[3] ?? '').toUpperCase()} Tag`;
   return r.tagCode?.startsWith('WD') ? 'White-tailed Deer Tag' : 'Regular Deer Tag';
 }
 
@@ -242,5 +245,11 @@ function unitHref(unit: string, f: Filters): string {
   if (f.type === 'GENERAL' || f.type === 'CONTROLLED') q.set('type', f.type);
   if (f.weapon.length === 1 && f.weapon[0] !== 'SHORT_RANGE') q.set('weapon', f.weapon[0]);
   return `/units/${encodeURIComponent(unit)}${q.size ? `?${q}` : ''}`;
+}
+
+/** Residents: zone A/B elk tags are over the counter; capped zones have a resident quota. */
+function residentTag(r: HuntSummary): string {
+  const q = (r.tagSeasons as { residentQuota?: number | null } | null)?.residentQuota;
+  return r.capped ? `Capped${q ? ` · ${int(q)} resident tags` : ''}` : 'Over the counter';
 }
 

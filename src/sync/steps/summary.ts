@@ -296,8 +296,13 @@ async function nrTagSummary(
     db.nrDraw.findFirst({ where: { code: key }, orderBy: { year: 'desc' } }),
     code ? db.nrQuota.findFirst({ where: { code }, orderBy: { year: 'desc' } }) : null,
   ]);
+  // elk A/B tags: only the weapons this tag's seasons allow (A and B differ); deer tags: all weapons
+  const tagLetter = key.startsWith('ELK:') ? key.split(':')[2] : null;
+  const tagSeasonsAll = tagLetter ? loadElkTagSeasons()?.zones.find((z) => z.zone.toLowerCase() === key.split(':')[1].toLowerCase())?.tags[tagLetter] : undefined;
+  const TM: Record<string, string> = { ANY: 'Any Weapon', SHORT_RANGE: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
+  const methods = tagSeasonsAll?.seasons.length ? [...new Set(tagSeasonsAll.seasons.map((x) => TM[x.weapon]).filter(Boolean))] : ['All Weapons Combined'];
   const gen = await db.generalHarvest.findMany({
-    where: { species: h.species, unit: { in: h.units }, takeMethod: 'All Weapons Combined', year: { gte: thisYear() - 6 } },
+    where: { species: h.species, unit: { in: h.units }, takeMethod: { in: methods }, year: { gte: thisYear() - 6 } },
   });
   const lastYear = Math.max(0, ...gen.map((g) => g.year));
   // per unit, skip seasons before that unit's boundary change
@@ -349,7 +354,9 @@ async function nrTagSummary(
     id: `t:${key}`,
     nrTag: true,
     tagCode: code || null,
-    tagSeasons: seasons.length ? (JSON.parse(JSON.stringify({ year: ts!.year, seasons })) as Prisma.InputJsonValue) : undefined,
+    tagSeasons: seasons.length
+      ? (JSON.parse(JSON.stringify({ year: ts!.year, seasons, residentQuota: (tagSeasonsAll as { residentQuota?: number } | undefined)?.residentQuota ?? null })) as Prisma.InputJsonValue)
+      : undefined,
     weapons: [...new Set(seasons.map((x) => x.weapon))],
     months,
     openDate,
