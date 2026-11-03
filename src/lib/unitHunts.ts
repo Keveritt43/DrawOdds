@@ -1,7 +1,7 @@
 import type { HuntSummary } from '@prisma/client';
 
 const WEAPON_ORDER = ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE', 'OTHER'];
-const SPECIES_NAME = { DEER: 'Deer', ELK: 'Elk' } as const;
+const SPECIES_NAME = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' } as const;
 const WEAPON_SHORT: Record<string, string> = { ANY: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader', SHORT_RANGE: 'Short Range', OTHER: 'Other' };
 
 type Row = Pick<HuntSummary, 'type' | 'species' | 'weapon' | 'huntNumber' | 'name' | 'openDate'> & { nrTag?: boolean };
