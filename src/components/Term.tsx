@@ -3,7 +3,7 @@
  */
 export const DEFS = {
   odds: 'Draw odds: of the people who put this hunt as their 1st choice in the latest drawing, the share who got a tag. For your residency.',
-  success: 'Hunter success: the share of hunters who killed an animal, from IDFG harvest reports. The latest season is shown; the 5-year number swings less.',
+  success: 'Hunter success: the share of hunters who killed an animal, from IDFG harvest reports. The big number is the 5-year average (what sorting and the verdict use); the latest season is underneath.',
   crowd: 'Hunters per square mile: average hunters per year for this hunt or season, spread over its area. Under 0.5 is uncrowded; over 1.5 is busy.',
   drawfill: 'Draw and fill: your chance to draw the tag AND take an animal in one year (draw odds × success).',
   trophy: 'Trophy share: of the antlered animals taken, the share that were 4+ point mule deer (deer) or 6+ point bulls (elk). Estimated from IDFG’s rounded percentages.',

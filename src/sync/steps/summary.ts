@@ -2,6 +2,7 @@ import type { DrawOdds, Prisma } from '@prisma/client';
 import { boundarySince } from '../../lib/boundaries';
 import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
+import { seasonsClass } from '../../lib/tagSeasons';
 import { loadElkTagSeasons, loadDeerTagSeasons, loadElkZones, type TagSeason } from '../core/datafiles';
 import {
   lineage,
@@ -185,16 +186,20 @@ export async function buildSummaries(): Promise<StepResult> {
       const u = unitMap.get(unit);
       // general seasons from the regulations for this unit and weapon (deer: Regular Deer tag table, elk: the
       // zone's A and B tag seasons). Fills the "see regulations" dates on harvest-derived rows.
-      const gs = h.openDate ? null : generalSeasons(h.species, unit, h.weapon);
-      const gspans = (gs?.seasons ?? []).flatMap((x) => x.dates).map((d) => ({ open: new Date(`${d.open}T00:00:00Z`), close: new Date(`${d.close}T00:00:00Z`) }));
-      const gdates = gspans.length
-        ? {
-            openDate: new Date(Math.min(...gspans.map((d) => +d.open))),
-            closeDate: new Date(Math.max(...gspans.map((d) => +d.close))),
-            months: [...new Set(gspans.flatMap((d) => monthsOpen(d.open, d.close)))],
-            tagSeasons: JSON.parse(JSON.stringify({ year: gs!.year, seasons: gs!.seasons })) as Prisma.InputJsonValue,
-          }
-        : {};
+      // Always kept as tagSeasons (they carry the antler rules: "2-point deer only", "antlered" only); their
+      // dates are used only when the listing has none.
+      const gs = generalSeasons(h.species, unit, h.weapon);
+      const gspans = h.openDate ? [] : (gs?.seasons ?? []).flatMap((x) => x.dates).map((d) => ({ open: new Date(`${d.open}T00:00:00Z`), close: new Date(`${d.close}T00:00:00Z`) }));
+      const gdates: Partial<Prisma.HuntSummaryCreateManyInput> & { openDate?: Date; closeDate?: Date } = {
+        ...(gs ? { tagSeasons: JSON.parse(JSON.stringify({ year: gs.year, seasons: gs.seasons })) as Prisma.InputJsonValue, antlerClass: seasonsClass(gs.seasons) } : {}),
+        ...(gspans.length
+          ? {
+              openDate: new Date(Math.min(...gspans.map((d) => +d.open))),
+              closeDate: new Date(Math.max(...gspans.map((d) => +d.close))),
+              months: [...new Set(gspans.flatMap((d) => monthsOpen(d.open, d.close)))],
+            }
+          : {}),
+      };
       if (gdates.openDate) Object.assign(gdates, { openMonth: gdates.openDate.getUTCMonth() + 1, closeMonth: gdates.closeDate!.getUTCMonth() + 1 });
       // nonresidents need the unit's / zone's tag to hunt this season: carry its draw odds
       const nrt = nrTagsFor(h.species, unit, h.weapon);
@@ -432,3 +437,4 @@ function yearSuccess(rows: { year: number; hunters: number | null; harvest: numb
   const harvest = ys.reduce((a, g) => a + (g.harvest ?? 0), 0);
   return hunters && harvest <= hunters ? harvest / hunters : null;
 }
+

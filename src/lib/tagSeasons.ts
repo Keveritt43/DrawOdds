@@ -32,3 +32,55 @@ export function seasonsSummary(ts: unknown, max = 3): string {
   const uniq = [...new Set(s.map((x) => `${W[x.weapon] ?? x.weapon} ${seasonDates(x)}`))];
   return `${uniq.slice(0, max).join(' · ')}${uniq.length > max ? ` · +${uniq.length - max} more` : ''}`;
 }
+
+/**
+ * Antler and animal rules worth seeing before you apply, from the regulations' season tables:
+ * "Bucks only", "2-point bucks only", "Whitetail only", "Antlerless: youth only", "Spike bulls only".
+ * Seasons' `sex` reads "antlered", "antlerless (youth hunt only)", "antlered (2-point deer only)", or for
+ * elk "A tag · spike only", "brow-tined bulls only", "any elk"...
+ */
+export function seasonRules(ts: unknown, species: string): string[] {
+  const sx = sortedSeasons(ts).map((x) => x.sex.replace(/^[AB] tag · /i, '').toLowerCase().trim()).filter(Boolean);
+  if (!sx.length) return [];
+  const male = species === 'ELK' ? 'Bulls' : 'Bucks';
+  const isFemale = (x: string) => /^antlerless/.test(x);
+  const isMale = (x: string) => /^antlered|spike|brow-tined|bull/.test(x) && !/^antlerless only/.test(x);
+  const isAny = (x: string) => /any elk|any deer|either|spike or antlerless|antlerless or spike/.test(x);
+  const females = sx.filter((x) => isFemale(x) || isAny(x));
+  const males = sx.filter((x) => (isMale(x) || isAny(x)) && !/^antlerless only$/.test(x));
+  const out: string[] = [];
+  const allOrSome = (list: string[], re: RegExp, label: string) => {
+    const hit = list.filter((x) => re.test(x)).length;
+    if (!hit) return;
+    out.push(hit === list.length ? label : `${label} (some seasons)`);
+  };
+  if (!females.length) out.push(`${male} only`);
+  else if (!males.length) out.push('Antlerless only');
+  else if (females.every((x) => /youth/.test(x))) out.push('Antlerless: youth only');
+  if (species === 'DEER') {
+    allOrSome(males, /2-point/, '2-point bucks only');
+    allOrSome(sx, /white-tailed/, 'Whitetail only');
+  } else if (species === 'ELK') {
+    allOrSome(males, /^spike only|spike only/, 'Spike bulls only');
+    allOrSome(males, /brow-tined/, 'Brow-tined bulls only');
+  }
+  return out;
+}
+
+/** What a rule means, for a tooltip. */
+export const RULE_HELP: Record<string, string> = {
+  '2-point bucks only': 'Only bucks with no more than two points on at least one antler (a 2x3 is legal; a 3x3 is not). Check the regulations for the exact definition.',
+  'Spike bulls only': 'Only bulls with antlers that don’t branch.',
+  'Brow-tined bulls only': 'Only bulls with a brow tine (the first point off the main beam, near the head).',
+  'Whitetail only': 'White-tailed deer only: mule deer are not legal in this season.',
+  'Antlerless: youth only': 'Antlerless animals are open to youth hunters only.',
+};
+
+/** A general season's sex class from its regulation seasons: unit 40's any-weapon deer season is bucks only. */
+export function seasonsClass(seasons: { sex: string }[]): 'ANTLERED' | 'ANTLERLESS' | 'EITHER' {
+  const sx = seasons.map((x) => x.sex.replace(/^[AB] tag · /i, '').toLowerCase());
+  const any = (x: string) => /any (elk|deer)|either|spike or antlerless|antlerless or spike/.test(x);
+  const f = sx.some((x) => any(x) || /^antlerless/.test(x));
+  const m = sx.some((x) => any(x) || /^antlered|spike|brow-tined|bull/.test(x));
+  return f && m ? 'EITHER' : f ? 'ANTLERLESS' : m ? 'ANTLERED' : 'EITHER';
+}

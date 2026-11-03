@@ -379,3 +379,6 @@ table.results.compare td .small { display: block; }
   .db-item > span { display: none; }
   .draw-bar .seg button { padding: 6px 8px; font-size: .78rem; }
 }
+.rules { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 2px; }
+.pill.rule { background: #fff4d6; color: #7a4b00; border: 1px solid #f0c66b; cursor: help; }
+@media (prefers-color-scheme: dark) { .pill.rule { background: #3a2e12; color: #f5d27a; border-color: #6b5420; } }

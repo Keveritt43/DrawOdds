@@ -15,7 +15,8 @@ const SHADED = [
   'ctlOddsResPronghorn', 'ctlOddsNrPronghorn', 'ctlSuccessPronghorn',
   'ctlOddsResMoose', 'ctlOddsNrMoose', 'ctlSuccessMoose', 'ctlOddsResBighorn', 'ctlOddsNrBighorn', 'ctlSuccessBighorn',
   'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat',
-] as const;
+  ...['Deer', 'Elk', 'Pronghorn', 'Moose', 'Bighorn', 'Goat'].flatMap((sp) => [`ctlFillRes${sp}`, `ctlFillNr${sp}`]),
+];
 const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' };
 
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection (plus class breaks). */
@@ -24,7 +25,7 @@ export async function GET(req: Request) {
   const [units, sums, general] = await Promise.all([
     db.unit.findMany({ where: { geometry: { not: undefined } } }),
     db.huntSummary.findMany({
-      select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true },
+      select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true },
     }),
     db.generalHarvest.findMany({ where: { takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
@@ -53,6 +54,11 @@ export async function GET(req: Request) {
           bump(u, `ctlOddsRes${sp}`, s.resOdds5);
           bump(u, `ctlOddsNr${sp}`, s.nrOdds5);
           bump(u, `ctlCount${sp}`, null, 'count');
+          // draw x fill: the chance a single application ends with an animal (small samples left out)
+          if (!s.smallSample) {
+            bump(u, `ctlFillRes${sp}`, s.resTagAndFill);
+            bump(u, `ctlFillNr${sp}`, s.nrTagAndFill);
+          }
           if (s.hunters5) {
             const k = `${s.species}|${u}`;
             const p = ctlPool.get(k) ?? ctlPool.set(k, { hunters: 0, harvest: 0 }).get(k)!;

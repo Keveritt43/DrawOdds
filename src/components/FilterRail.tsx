@@ -13,7 +13,6 @@ const SPECIES_MSG: Opt[] = [['', 'All Three'], ['MOOSE', 'Moose'], ['BIGHORN', '
 const SEX_MSG: Opt[] = [['ANTLERED', 'Bulls & rams (male)'], ['ANTLERLESS', 'Cows & ewes (female)'], ['EITHER', 'Either sex']];
 const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons']];
 const TYPES_NR: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons (tag draw)']];
-const NRTAG: Opt = ['NRTAG', 'General Tag Draw (Nonresident)'];
 const WEAPONS: Opt[] = [['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader'], ['SHORT_RANGE', 'Short Range']];
 const ANTLER: Opt[] = [['ANTLERED', 'Bucks & bulls'], ['ANTLERLESS', 'Does & cows'], ['EITHER', 'Either-sex hunts only']];
 const MONTHS: Opt[] = [['8', 'Aug'], ['9', 'Sep'], ['10', 'Oct'], ['11', 'Nov'], ['12', 'Dec'], ['1', 'Jan']];
@@ -80,9 +79,9 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           {radio('species', msg ? SPECIES_MSG : SPECIES)}
           {msg && <p className="small muted" style={{ margin: '6px 0 0' }}>You can apply for only one of moose, bighorn sheep or mountain goat a year, and doing so keeps you out of the deer, elk and pronghorn controlled drawings that year (leftover tags aside).</p>}
         </Section>
-        {!msg && <Section title="Hunt Type" value={labelOf(nr ? [...TYPES_NR, NRTAG] : TYPES, get('type'))} set={!!get('type')}>
-          {radio('type', nr ? [...TYPES_NR, NRTAG] : TYPES)}
-          {nr && <p className="small muted" style={{ margin: '6px 0 0' }}>Since 2026, nonresident general deer and elk tags are drawn: elk by zone (an A or a B tag), deer by unit. Both general options show those draw odds; &ldquo;General Tag Draw&rdquo; lists only the tags.</p>}
+        {!msg && <Section title="Hunt Type" value={labelOf(nr ? TYPES_NR : TYPES, get('type'))} set={!!get('type')}>
+          {radio('type', nr ? TYPES_NR : TYPES)}
+          {nr && <p className="small muted" style={{ margin: '6px 0 0' }}>Since 2026, nonresident general deer and elk tags are drawn: elk by zone (an A or a B tag), deer by unit. General seasons show the odds of the tag you&rsquo;d need.</p>}
           {sp_ === 'PRONGHORN' && <p className="small muted" style={{ margin: '6px 0 0' }}>Pronghorn are controlled hunts only.</p>}
         </Section>}
         <Section title="Weapon" value={many(WEAPONS, 'weapon', 'All Weapons')} set={list('weapon').length > 0}>{checks('weapon', WEAPONS)}</Section>

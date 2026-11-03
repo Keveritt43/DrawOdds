@@ -45,7 +45,8 @@ export function parseFilters(sp: SP): Filters {
   const sort = one(sp.sort) as Sort;
   return {
     species: pick([one(sp.species)], ['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'] as const)[0] ?? '',
-    type: pick([one(sp.type)], ['CONTROLLED', 'GENERAL', 'NRTAG'] as const)[0] ?? '',
+    // NRTAG (the old "General Tag Draw" option) now lives under General: old links keep working
+    type: one(sp.type) === 'NRTAG' ? 'GENERAL' : (pick([one(sp.type)], ['CONTROLLED', 'GENERAL'] as const)[0] ?? ''),
     weapon: pick(list(sp.weapon), ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE'] as const),
     antler: pick(list(sp.antler), ['ANTLERED', 'ANTLERLESS', 'EITHER'] as const),
     months: list(sp.month).map(Number).filter((m) => m >= 1 && m <= 12),

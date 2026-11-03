@@ -37,7 +37,7 @@ const num = (v: number) => (v >= 10 ? String(Math.round(v)) : v >= 1 ? String(Nu
 const pctOf = (v: number) => `${num(v)}%`;
 export const fmtNum = num;
 
-export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlSuccess';
+export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess';
 export const METRICS: Record<Metric, MetricDef> = {
   public: {
     label: 'Public Land %', kind: 'land', field: () => 'publicPct', ramp: GREEN, fmt: pctOf, none: 'No data',
@@ -61,6 +61,11 @@ export const METRICS: Record<Metric, MetricDef> = {
     label: 'Controlled Draw Odds (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
     field: (sp, nr) => `ctlOdds${nr ? 'Nr' : 'Res'}${SPK(sp)}`,
     note: 'Best 5-year first-choice odds, for your residency, of any adult buck / bull / ram controlled hunt touching the unit (antlerless and youth hunts left out; mountain goat hunts are either sex).',
+  },
+  ctlFill: {
+    label: 'Controlled Draw And Fill (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull hunt, or too few hunters',
+    field: (sp, nr) => `ctlFill${nr ? 'Nr' : 'Res'}${SPK(sp)}`,
+    note: 'Draw odds × hunter success (5-year): the chance one application ends with an animal, for your residency. Best adult buck / bull / ram hunt touching the unit.',
   },
   ctlSuccess: {
     label: 'Controlled Hunt Success %', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: pctOf, none: 'No buck / bull hunt, or too few hunters (50; 10 for moose, sheep, goat)',

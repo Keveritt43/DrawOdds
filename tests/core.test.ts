@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { divergingClasses } from '../src/lib/breaks';
 import { colorsFor, classesFor, RYG7 } from '../src/lib/mapMetrics';
+import { seasonRules, seasonsClass } from '../src/lib/tagSeasons';
 import {
   parseStatsTable,
   parseLandPage,
@@ -367,4 +368,20 @@ test('moose / sheep / goat success uses fixed benchmarks, not the spread', () =>
   assert.equal(cols[3], RYG7[4]); // 70-80% = light green, not red
   assert.ok(!cols.includes(RYG7[0])); // no deep red on this scale
   assert.equal(classesFor('genSuccessElk', [1, 2, 3, 4, 5, 6, 7, 8]).breaks.length > 0, true);
+});
+
+test('season rules: unit 40 general deer is 2-point bucks only', () => {
+  const ts = { year: 2026, seasons: [{ weapon: 'ANY', sex: 'antlered (2-point deer only)', dates: [{ open: '2026-10-10', close: '2026-10-24' }], notes: '' }] };
+  assert.deepEqual(seasonRules(ts, 'DEER'), ['Bucks only', '2-point bucks only']);
+  assert.equal(seasonsClass(ts.seasons), 'ANTLERED');
+});
+
+test('season rules: youth-only antlerless, some whitetail-only seasons, elk spike', () => {
+  const s = (sex: string) => ({ weapon: 'ANY', sex, dates: [{ open: '2026-10-10', close: '2026-10-31' }], notes: '' });
+  assert.deepEqual(seasonRules({ year: 2026, seasons: [s('antlered'), s('antlerless (youth hunt only)')] }, 'DEER'), ['Antlerless: youth only']);
+  assert.deepEqual(seasonRules({ year: 2026, seasons: [s('antlered (white-tailed deer only)'), s('antlered')] }, 'DEER'), ['Bucks only', 'Whitetail only (some seasons)']);
+  assert.deepEqual(seasonRules({ year: 2026, seasons: [s('A tag · spike only'), s('A tag · antlerless only')] }, 'ELK'), ['Spike bulls only']);
+  assert.deepEqual(seasonRules({ year: 2026, seasons: [s('any elk')] }, 'ELK'), []);
+  assert.equal(seasonsClass([s('antlered'), s('antlerless')]), 'EITHER');
+  assert.equal(seasonsClass([s('B tag · antlerless only')]), 'ANTLERLESS');
 });

@@ -263,11 +263,11 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   );
 }
 
-type Stat = { odds: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
+type Stat = { odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
 
 /** Per-unit and per-hunt-area numbers of the matching hunts, for the map's "Shade" options. */
 async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeof residencyFields>, zu: string[] | null) {
-  const acc = new Map<string, { odds: number | null; hunters: number; harvest: number; crowd: number | null; public: number | null; huntable: number | null }>();
+  const acc = new Map<string, { odds: number | null; fill: number | null; hunters: number; harvest: number; crowd: number | null; public: number | null; huntable: number | null }>();
   // elk zone tags carry the same general-season hunters as the general rows: don't count those twice
   const hasGeneral = new Set(rows.filter((r) => r.type === 'GENERAL' && !r.nrTag).map((r) => r.species));
   const oddsOf = (r: HuntSummary): number | null => {
@@ -276,9 +276,11 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     return r.nrTag && r.capped ? null : 1; // residents: over the counter
   };
   const add = (key: string, r: HuntSummary, land: boolean) => {
-    const a = acc.get(key) ?? acc.set(key, { odds: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
+    const a = acc.get(key) ?? acc.set(key, { odds: null, fill: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
     const o = oddsOf(r);
     if (o !== null && (a.odds === null || o > a.odds)) a.odds = o;
+    const fl = r.smallSample ? null : r[rf.tagAndFill];
+    if (fl !== null && (a.fill === null || fl > a.fill)) a.fill = fl;
     if (r.hunters5 && !(r.nrTag && hasGeneral.has(r.species))) {
       a.hunters += r.hunters5;
       a.harvest += r.harvest5 ?? 0;
@@ -305,6 +307,7 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     const ay = u?.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : 0;
     const st: Stat = {
       odds: a.odds,
+      fill: a.fill,
       success: a.hunters >= minHunters ? a.harvest / a.hunters : null,
       crowd: a.crowd,
       public: u ? u.publicPct : a.public,

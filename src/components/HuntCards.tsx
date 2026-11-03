@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
-import { seasonsSummary } from '@/lib/tagSeasons';
+import { seasonsSummary, seasonRules, RULE_HELP } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import {
   pct, pctOdds, int, range, WEAPON, antlerLabel, controlledTags, density, oddsVerdict, successVerdict, crowdVerdict,
-  drawFillLine, meaningfulChange, SPECIES_LABEL, type Verdict,
+  drawFillLine, meaningfulChange, SPECIES_LABEL, TROPHY_LABEL, type Verdict,
 } from '@/lib/format';
 import { residencyFields } from '@/lib/finder';
 import { Star } from './Star';
@@ -59,6 +59,9 @@ function oddsFor(r: HuntSummary, c: CardCtx): { value: number | null; label: str
   return { value: r.nrOddsLast ?? r.nrOdds5, label: 'NR tag odds' };
 }
 
+/** "5-yr", or fewer when the hunt (or a redrawn unit) has fewer seasons of data. */
+const yrs = (r: HuntSummary) => (r.harvestYears > 0 && r.harvestYears < 5 ? `${r.harvestYears}-yr` : '5-yr');
+
 function Stats({ r, c }: { r: HuntSummary; c: CardCtx }) {
   const o = oddsFor(r, c);
   const apps = r[c.rf.appsLast];
@@ -76,11 +79,12 @@ function Stats({ r, c }: { r: HuntSummary; c: CardCtx }) {
         {oddsSub && <span className="sub">{oddsSub}</span>}
       </div>
       <div>
-        <Term k="success">Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}</Term>
-        <b className={r.smallSample ? 'faint' : ''}>{pct(r.successLast)}{!r.smallSample && (r.hunters5 ?? 0) / Math.max(1, r.harvestYears) >= 30 && <Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" />}</b>
+        {/* the 5-year number leads: it's what the sort, the verdict and the picks use, and one season swings */}
+        <Term k="success">Success {yrs(r)}</Term>
+        <b className={r.smallSample ? 'faint' : ''}>{pct(r.success5)}</b>
         {r.smallSample ? <span className="verdict none">Small sample</span> : <Chip v={successVerdict(r.success5, r.species)} />}
         <span className="sub">
-          {c.sort === 'harvest' ? `5-yr harvest ${int(r.harvest5)}` : c.sort === 'hunters' || c.sort === 'huntersLow' ? `5-yr hunters ${int(r.hunters5)}` : `${r.harvestYears > 0 && r.harvestYears < 5 ? `${r.harvestYears}-yr` : '5-yr'} ${pct(r.success5)}`}
+          {c.sort === 'harvest' ? `5-yr harvest ${int(r.harvest5)}` : c.sort === 'hunters' || c.sort === 'huntersLow' ? `5-yr hunters ${int(r.hunters5)}` : r.harvestLastYear && r.successLast !== null ? <>{r.harvestLastYear}: {pct(r.successLast)}{!r.smallSample && (r.hunters5 ?? 0) / Math.max(1, r.harvestYears) >= 30 && <Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" />}</> : ''}
         </span>
       </div>
       <div>
@@ -109,6 +113,9 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
         <span className="pill good" title="Tags were left after every 1st-choice applicant drew, so 2nd-choice applicants got them. A realistic 2nd choice.">
           {int(r.secondDrewLast)} tag{r.secondDrewLast === 1 ? '' : 's'} went to 2nd choices{r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}
         </span>
+      )}
+      {TROPHY_LABEL[r.species] && r.bigPct5 !== null && !r.smallSample && (
+        <span><Term k="trophy">{TROPHY_LABEL[r.species]}</Term> <b>{pct(r.bigPct5)}</b> of {r.species === 'ELK' ? 'bulls' : 'bucks'} taken</span>
       )}
       {SIZE_LABEL[r.species as SpeciesKey] && r.avgSize5 !== null && <span><Term k="size">{SIZE_LABEL[r.species as SpeciesKey]}</Term> <b>{r.avgSize5.toFixed(1)}&quot;</b></span>}
       {r.youthOnly && <span className="pill">Youth</span>}
@@ -155,8 +162,20 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
         {tagsLine && <span className="small muted tags">{tagsLine}</span>}
       </div>
       <div className="dates">{[where, when, r.type === 'GENERAL' && !r.nrTag ? '' : r.nrTag ? '' : WEAPON[r.weapon]].filter(Boolean).join(' · ')}</div>
+      <Rules r={r} />
       <Stats r={r} c={c} />
       <Footer r={r} c={c} />
+    </div>
+  );
+}
+
+/** Antler / animal rules from the season tables ("2-point bucks only"): easy to miss, and they change the hunt. */
+export function Rules({ r }: { r: HuntSummary }) {
+  const rules = seasonRules(r.tagSeasons, r.species);
+  if (!rules.length) return null;
+  return (
+    <div className="rules" aria-label="Season rules">
+      {rules.map((x) => <span key={x} className="pill rule" title={RULE_HELP[x.replace(' (some seasons)', '')] ?? 'From the IDFG season tables. Check the regulations before you hunt.'}>{x}</span>)}
     </div>
   );
 }
@@ -182,6 +201,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
                 {c.nr && r.tagCode && <span className="small muted">{r.tagCode}</span>}
               </div>
               <div className="ztag-seasons">{seasonsSummary(r.tagSeasons, 4) || 'Seasons: see the regulations'}</div>
+              <Rules r={r} />
               {c.nr ? (
                 <div className="ztag-odds">
                   <b>{pctOdds(odds)}</b> <Chip v={oddsVerdict(odds)} />
