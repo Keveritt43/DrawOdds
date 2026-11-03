@@ -14,6 +14,7 @@ import {
   validHarvest,
   type OddsRow,
   type HarvestRow,
+  type SpeciesName,
 } from '../core/math';
 
 const METHOD: Record<string, string> = { ANY: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
@@ -291,7 +292,7 @@ type UnitRow = { name: string; publicPct: number | null; privatePct: number | nu
  * general-season success across its units (all weapons, last 5 seasons) and acreage-weighted land numbers.
  */
 async function nrTagSummary(
-  h: { idfgId: number; species: string; rawText: string | null; units: string[] },
+  h: { idfgId: number; species: SpeciesName; rawText: string | null; units: string[] },
   base: Omit<Prisma.HuntSummaryCreateManyInput, 'id'>,
   unitMap: Map<string, UnitRow>,
 ): Promise<Prisma.HuntSummaryCreateManyInput | null> {
