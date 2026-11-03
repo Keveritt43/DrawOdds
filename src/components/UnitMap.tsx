@@ -54,8 +54,10 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     // keep a land shading; otherwise switch to the same kind of number for the new hunt type
     setMetric((m) => (METRICS[m].kind === 'land' ? m : t === 'CONTROLLED' ? (m === 'pressure' ? 'ctlSuccess' : 'ctlOdds') : 'success'));
   };
-  const options = METRIC_KEYS.filter((k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'))
-    .map((k) => ({ value: k, label: METRICS[k].label }));
+  // "No Shading": just the unit outlines over the basemap
+  const [noShade, setNoShade] = useState(false);
+  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'))
+    .map((k) => ({ value: k, label: METRICS[k].label }))];
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
@@ -84,9 +86,11 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, fitBoundsOptions: { padding: { top: 96, bottom: 16, left: 16, right: 16 } }, maxZoom: 15, attributionControl: { compact: true } });
     map.current = m;
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    // full screen takes the map's wrapper, so the key and panels come along
+    m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
     m.on('load', async () => {
       try {
-        const { fc, classes: cl, missing: miss } = await loadUnits();
+        const { fc, classes: cl, missing: miss, labels } = await loadUnits();
         setClasses(cl);
         setMissing(miss);
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
@@ -96,8 +100,9 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           id: 'units-sel', type: 'line', source: 'units',
           paint: { 'line-color': '#eb6834', 'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 3, 0] },
         });
+        if (!m.getSource('unit-labels')) m.addSource('unit-labels', { type: 'geojson', data: labels as never });
         m.addLayer({
-          id: 'units-label', type: 'symbol', source: 'units',
+          id: 'units-label', type: 'symbol', source: 'unit-labels',
           layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 12, 'text-allow-overlap': false },
           paint: { 'text-color': '#1d1d1b', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
         });
@@ -155,13 +160,18 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         m.setPaintProperty('units-line', 'line-color', '#ffffff');
         return;
       }
+      if (noShade) {
+        m.setPaintProperty('units-fill', 'fill-opacity', 0);
+        return;
+      }
+      m.setPaintProperty('units-fill', 'fill-opacity', 0.62);
       if (!cls) return;
       m.setPaintProperty('units-fill', 'fill-color', fillExpression(field, cls, colors) as ExpressionSpecification);
     };
     apply();
     m?.on('metric', apply);
     return () => void m?.off('metric', apply);
-  }, [field, cls, colors, bare, focus]);
+  }, [field, cls, colors, bare, focus, noShade]);
 
   // the selected unit's hunts, narrowed to the key's animal and hunt type (zone / NR tags count as general)
   const v = (k: string) => (sel && sel[k] !== null && sel[k] !== undefined ? Number(sel[k]) : null);
@@ -178,10 +188,10 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           <KeySeg label="Animal" value={sp} onChange={setSp} options={msg ? [['MOOSE', 'Moose'], ['BIGHORN', 'Sheep'], ['GOAT', 'Goat']] : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
           {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
         </>}
-        value={metric} options={options} onChange={(x) => setMetric(x as Metric)}
-        ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
+        value={noShade ? 'none' : metric} options={options} onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
+        ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
         note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : SCALE_NOTE[fixedScale(field) ?? ''] ?? ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
-        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} />}
+        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} folded={!!sel && sel.name !== focus} />}
       {sel && (
         <div className="card mapinfo">
           <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>

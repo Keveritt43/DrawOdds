@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { tagChances } from '@/lib/plan';
+import { unitOrder } from '@/lib/format';
 
 /** One hunt or tag as the planner API returns it. */
 export interface PlanOpt {
@@ -106,7 +107,10 @@ export function Planner({ nr, windows, costs }: {
     const ids = plan[listKey];
     const chosen = ids.map((id) => byId(k, id));
     const ch = tagChances(chosen);
-    const all = (opts[k] ?? []).slice().sort((a, b) => (b.nrOdds5 ?? 0) - (a.nrOdds5 ?? 0));
+    // deer: Regular Deer tags first, then White-tailed, each by unit (1, 2 ... 10, 11, 20, 20A); elk: by zone, A then B
+    const all = (opts[k] ?? []).slice().sort((a, b) => species === 'DEER'
+      ? (a.tagCode ?? '').slice(0, 2).localeCompare((b.tagCode ?? '').slice(0, 2)) || unitOrder(a.units[0], b.units[0])
+      : a.name.localeCompare(b.name));
     const later = (o: PlanOpt) => (o.nrDraw?.drew ?? []).slice(1).reduce((a, b) => a + (b ?? 0), 0);
     return (
       <section className="card plan-sec">

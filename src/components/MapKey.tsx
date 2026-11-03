@@ -13,7 +13,7 @@ export interface Ramp { classes: Classes | undefined; colors: string[]; fmt: (v:
  * and the basemap switch.
  */
 export function MapKey({
-  filters, value, options, onChange, ramp, items = [], extraItems = [], note, kind, onKind, err, layers,
+  filters, value, options, onChange, ramp, items = [], extraItems = [], note, kind, onKind, err, layers, folded = false,
 }: {
   filters?: React.ReactNode;
   value: string;
@@ -30,12 +30,17 @@ export function MapKey({
   err?: string;
   /** extra map layers the reader can switch on (land ownership, Access Yes!) */
   layers?: React.ReactNode;
+  /** fold the details away (e.g. while a unit's popup is open) */
+  folded?: boolean;
 }) {
   // details start folded on phones (the key must not cover the map), open on wide screens
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (window.matchMedia('(min-width: 1100px)').matches) setOpen(true);
   }, []);
+  useEffect(() => {
+    if (folded) setOpen(false);
+  }, [folded]);
   const b = ramp?.classes?.breaks ?? [];
   const fmt = ramp?.fmt ?? String;
   const cat = ramp?.labels && ramp.classes?.idx ? ramp.labels : null;

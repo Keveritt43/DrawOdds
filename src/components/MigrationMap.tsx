@@ -17,13 +17,16 @@ export function MigrationMap({ studies, height = '560px' }: { studies: StudyLite
     if (!el.current) return;
     const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, maxZoom: 15, attributionControl: { compact: true } });
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    // full screen takes the map's wrapper, so the key and panels come along
+    m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
     m.on('load', async () => {
       try {
-        const { fc } = await loadUnits();
+        const { fc, labels } = await loadUnits();
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
         m.addLayer({ id: 'units-line', type: 'line', source: 'units', paint: { 'line-color': '#ffffff', 'line-width': 1.2, 'line-opacity': 0.85 } });
+        if (!m.getSource('unit-labels')) m.addSource('unit-labels', { type: 'geojson', data: labels as never });
         m.addLayer({
-          id: 'units-label', type: 'symbol', source: 'units',
+          id: 'units-label', type: 'symbol', source: 'unit-labels',
           layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 13 },
           paint: { 'text-color': '#1d1d1b', 'text-halo-color': '#fff', 'text-halo-width': 1.4 },
         });

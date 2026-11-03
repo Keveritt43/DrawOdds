@@ -7,6 +7,28 @@ export interface UnitData {
   fc: { type: 'FeatureCollection'; features: Feature[] };
   classes: Record<string, Classes>;
   missing: Record<string, number>;
+  /** one label point per unit (the middle of its largest piece), so a unit's number shows once */
+  labels: { type: 'FeatureCollection'; features: { type: 'Feature'; geometry: { type: 'Point'; coordinates: [number, number] }; properties: { name: string } }[] };
+}
+
+type Ring = [number, number][];
+/** Area-weighted centroid of a ring (shoelace), with its absolute area. */
+function ringCentroid(r: Ring): { c: [number, number]; a: number } {
+  let a = 0, x = 0, y = 0;
+  for (let i = 0, j = r.length - 1; i < r.length; j = i++) {
+    const f = r[j][0] * r[i][1] - r[i][0] * r[j][1];
+    a += f; x += (r[j][0] + r[i][0]) * f; y += (r[j][1] + r[i][1]) * f;
+  }
+  if (!a) return { c: r[0], a: 0 };
+  return { c: [x / (3 * a), y / (3 * a)], a: Math.abs(a / 2) };
+}
+export function labelPoints(fc: UnitData['fc']): UnitData['labels'] {
+  const features = fc.features.map((f) => {
+    const polys = (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates) as Ring[][];
+    const best = polys.map((p) => ringCentroid(p[0])).sort((a, b) => b.a - a.a)[0];
+    return { type: 'Feature' as const, geometry: { type: 'Point' as const, coordinates: best?.c ?? [0, 0] }, properties: { name: f.properties.name } };
+  });
+  return { type: 'FeatureCollection', features };
 }
 
 let cached: Promise<UnitData> | null = null;
@@ -30,7 +52,7 @@ export function loadUnits(): Promise<UnitData> {
         if (!classes[k]?.idx) classes[k] = classesFor(k, vals(k));
         missing[k] = fc.features.length - vals(k).length;
       }
-      return { fc, classes, missing };
+      return { fc, classes, missing, labels: labelPoints(fc) };
     })
     .catch((e) => {
       cached = null; // let the next map retry

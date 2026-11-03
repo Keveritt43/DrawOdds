@@ -480,3 +480,8 @@ test('hunter effort: days per hunter and per animal from years that report days'
   assert.equal(s.daysPerHunter5, 5);
   assert.equal(s.daysPerHarvest5, 25);
 });
+
+test('units sort in human order', async () => {
+  const { unitOrder } = await import('../src/lib/format');
+  assert.deepEqual(['40', '4', '20A', '11', '20', '1', '10', '4A'].sort(unitOrder), ['1', '4', '4A', '10', '11', '20', '20A', '40']);
+});

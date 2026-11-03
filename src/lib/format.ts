@@ -175,3 +175,14 @@ export function drawFillLine(v: number | null | undefined): string | null {
 /** A year-over-year change is noise on tiny numbers: only show it when both years have a real base. */
 export const meaningfulChange = (now: number | null | undefined, prev: number | null | undefined, minBase: number) =>
   now !== null && now !== undefined && prev !== null && prev !== undefined && Math.max(now, prev) >= minBase;
+
+/** "4" < "10" < "11" < "20" < "20A" < "40": unit / area names in human order (digits as numbers, then letters). */
+export function unitOrder(a: string | null | undefined, b: string | null | undefined): number {
+  const p = (s: string | null | undefined) => {
+    const m = String(s ?? '').toUpperCase().match(/^(\d+)([A-Z]*)(.*)$/);
+    return m ? [Number(m[1]), m[2], m[3]] as const : [Infinity, String(s ?? ''), ''] as const;
+  };
+  const [an, as, ar] = p(a);
+  const [bn, bs, br] = p(b);
+  return an - bn || as.localeCompare(bs) || ar.localeCompare(br, undefined, { numeric: true });
+}

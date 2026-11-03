@@ -4,7 +4,7 @@
   --charcoal: #1d2023; --granite: #2a2f34; --stone: #8a9188;
   --blaze: #f0641e; --blaze-ink: #b8460b;
   --sage: #6f9a6a; --sage-ink: #3f6b3b; --lake: #3a86a8; --lake-ink: #22607c; --larch: #d39b2f; --larch-ink: #8a5f0e;
-  --bg: #f3f4f0; --card: #ffffff; --panel: #ffffff; --ink: #1d2023; --muted: #5b6168; --line: #dde0d9;
+  --bg: #f3f4f0; --card: #ffffff; --panel: #ffffff; --stat-bg: #e9eee4; --stat-line: #c9d2c0; --ink: #1d2023; --muted: #5b6168; --line: #dde0d9;
   --accent: var(--blaze-ink); --warn: #b23a1c; --ok: var(--sage-ink);
   --warn-bg: #faeeda; --warn-ink: #633806;
   --res: #2a78d6; --nr: #eb6834;
@@ -14,7 +14,7 @@
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #15181a; --card: #1e2226; --panel: #191c1f; --ink: #eceee9; --muted: #a3aaa2; --line: #313840; --accent: #ff8a4c;
+  :root { --bg: #15181a; --card: #1e2226; --panel: #191c1f; --stat-bg: #232a24; --stat-line: #384236; --ink: #eceee9; --muted: #a3aaa2; --line: #313840; --accent: #ff8a4c;
     --warn: #ff8a6a; --ok: #9cc796; --warn-bg: #3a2a12; --warn-ink: #f5c77a; color-scheme: dark; }
 }
 * { box-sizing: border-box; }
@@ -472,7 +472,7 @@ table.results.compare td .small { display: block; }
 
 /* each number on a hunt card is its own small card */
 .hrow-stats.three { gap: 8px; }
-.hrow-stats.three > div { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.hrow-stats.three > div { background: var(--stat-bg); border: 1px solid var(--stat-line); border-radius: 8px; padding: 8px 10px; }
 @media (max-width: 420px) { .hrow-stats.three { gap: 5px; } .hrow-stats.three > div { padding: 6px 7px; } }
 .mig-units { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
 .mig-unit h4 { margin: 10px 0 4px; font-size: .95rem; }
@@ -481,3 +481,9 @@ table.results.compare td .small { display: block; }
 .app-form { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
 .app-form label { display: grid; gap: 2px; font-size: .82rem; color: var(--muted); }
 .app-form input, .app-form select { font: inherit; padding: 5px 6px; color: var(--ink); }
+/* full-screen maps: the wrapper fills the screen */
+:fullscreen { background: var(--charcoal); width: 100vw !important; height: 100vh !important; }
+
+/* unit popup on the full Unit Map: right side, clear of the key on the left */
+.mapbox .mapinfo { left: auto; right: 10px; top: 10px; bottom: auto; max-height: calc(100% - 120px); }
+@media (max-width: 700px) { .mapbox .mapinfo { left: 10px; right: 10px; top: auto; bottom: 26px; max-height: 55%; width: auto; } }

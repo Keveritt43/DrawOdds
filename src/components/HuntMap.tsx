@@ -12,11 +12,11 @@ import { OBJ_SOURCE } from '@/lib/elkObjectives';
 import { colorsFor, msgSuccessClasses, scoreClasses, fixedClasses, FIXED_SCALES, OBJECTIVE_LABELS, type FixedScale, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
 
 export type MatchStat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null };
-type ShadeKey = 'match' | keyof MatchStat;
+type ShadeKey = 'match' | 'none' | keyof MatchStat;
 const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
 type Mode = BreakMode | 'score' | FixedScale;
 /** What the Filtering map can shade by: always the matching hunts' own numbers, never units without a match. */
-const SHADES: Record<Exclude<ShadeKey, 'match'>, { label: string; mode: Mode; snap?: number; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string; labels?: string[]; scaleNote: string }> = {
+const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode: Mode; snap?: number; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string; labels?: string[]; scaleNote: string }> = {
   score: { label: 'DrawOdds Score (Best Matching Hunt)', mode: 'score', better: 'high', fmt: (v) => String(Math.round(v)), none: 'Not enough hunters to score', note: 'Highest DrawOdds Score (quality: success, access, elbow room, trophy) among the matching hunts in each unit.', scaleNote: 'Same colors as the score badges.' },
   odds: { label: 'Draw Odds (Best Matching Hunt)', mode: 'odds', better: 'high', fmt: pct1, none: 'No draw data', note: 'Best 5-year first-choice odds, for your residency, among the matching hunts in each unit. Resident general seasons are over the counter (100%).', scaleNote: 'Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.' },
   fill: { label: 'Draw And Fill (Best Matching Hunt)', mode: 'fill', better: 'high', fmt: pct1, none: 'No draw or too few hunters', note: 'Draw odds × 5-year hunter success: the chance one application ends with an animal, for your residency. Best matching hunt in each unit. Resident general seasons: just success.', scaleNote: 'Fixed scale: 20-30% is yellow.' },
@@ -59,17 +59,18 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   spRef.current = sp_;
 
   const areaMode = !!areaSpecies;
-  const S = metric === 'match' ? null : SHADES[metric];
+  const flat = metric === 'match' || metric === 'none';
+  const S = flat ? null : SHADES[metric as keyof typeof SHADES];
   // classes come from the matching units (or areas) only: the shades spread across these results
   const shownStats = areaMode ? matchedAreas.map((a) => stats.areas[a]).filter(Boolean) : matched.map((u) => stats.units[u]).filter(Boolean);
-  const vals = metric === 'match' ? [] : shownStats.map((x) => x[metric]).filter((v): v is number => typeof v === 'number');
+  const vals = flat ? [] : shownStats.map((x) => x[metric as keyof MatchStat]).filter((v): v is number => typeof v === 'number');
   const statsKey = JSON.stringify(stats).length + ':' + vals.join(',');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // moose / sheep / goat success is judged against fixed standards (see MSG_SUCCESS_BREAKS), not against each other
   const msgSuccess = metric === 'success' && areaSpecies.split(',').some((x) => ['MOOSE', 'BIGHORN', 'GOAT'].includes(x));
-  const cls = useMemo(() => (metric === 'match' || !S ? undefined : msgSuccess ? msgSuccessClasses(vals, 0.01) : S.mode === 'score' ? scoreClasses(vals) : S.mode in FIXED_SCALES ? fixedClasses(vals, S.mode as FixedScale) : divergingClasses(vals, S.mode as BreakMode, S.snap ?? 0)), [metric, statsKey, msgSuccess]);
+  const cls = useMemo(() => (flat || !S ? undefined : msgSuccess ? msgSuccessClasses(vals, 0.01) : S.mode === 'score' ? scoreClasses(vals) : S.mode in FIXED_SCALES ? fixedClasses(vals, S.mode as FixedScale) : divergingClasses(vals, S.mode as BreakMode, S.snap ?? 0)), [metric, statsKey, msgSuccess]);
   const colors = useMemo(() => (S && cls ? colorsFor(cls, S.better) : []), [S, cls]);
-  const missingN = metric === 'match' ? 0 : shownStats.length - vals.length + ((areaMode ? matchedAreas.length : matched.length) - shownStats.length);
+  const missingN = flat ? 0 : shownStats.length - vals.length + ((areaMode ? matchedAreas.length : matched.length) - shownStats.length);
 
   const paint = () => {
     const m = map.current;
@@ -90,10 +91,13 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     });
     map.current = m;
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    // full screen takes the map's wrapper, so the key and panels come along
+    m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'top-right');
     m.on('load', async () => {
       let fc;
+      let labels;
       try {
-        fc = (await loadUnits()).fc;
+        ({ fc, labels } = await loadUnits());
       } catch (e) {
         setErr('Could not load unit boundaries.');
         console.error(e);
@@ -116,8 +120,9 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
         id: 'units-sel', type: 'line', source: 'units',
         paint: { 'line-color': '#ffd400', 'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 4, 0] },
       });
+      if (!m.getSource('unit-labels')) m.addSource('unit-labels', { type: 'geojson', data: labels as never });
       m.addLayer({
-        id: 'units-label', type: 'symbol', source: 'units',
+        id: 'units-label', type: 'symbol', source: 'unit-labels',
         layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 12 },
         paint: { 'text-color': '#1d2023', 'text-halo-color': '#ffffff', 'text-halo-width': 1.6 },
       });
@@ -161,14 +166,14 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       if (!loaded.current || !m.getLayer('units-fill')) return;
       const base = kind === 'satellite' ? '#ffffff' : '#1d2023'; // unit outlines must read on imagery too
       const isMatch = (v: unknown, a: unknown) => ['case', ['boolean', ['feature-state', 'match'], false], v, a] as unknown as ExpressionSpecification;
-      const color = metric === 'match' || !cls ? MATCH : (fillExpression(['feature-state', metric], cls, colors) as ExpressionSpecification);
+      const color = flat || !cls ? MATCH : (fillExpression(['feature-state', metric], cls, colors) as ExpressionSpecification);
       m.setPaintProperty('units-fill', 'fill-color', color);
-      m.setPaintProperty('units-fill', 'fill-opacity', isMatch(metric === 'match' ? 0.38 : 0.7, 0.02));
-      m.setPaintProperty('units-line', 'line-color', isMatch(metric === 'match' ? '#b8460b' : '#1d2023', base));
-      m.setPaintProperty('units-line', 'line-width', isMatch(1.6, 0.8));
+      m.setPaintProperty('units-fill', 'fill-opacity', metric === 'none' ? 0 : isMatch(metric === 'match' ? 0.38 : 0.7, 0.02));
+      m.setPaintProperty('units-line', 'line-color', isMatch(flat ? '#eb6834' : '#1d2023', base));
+      m.setPaintProperty('units-line', 'line-width', isMatch(metric === 'none' ? 2.6 : 1.6, 0.8));
       if (m.getLayer('areas-fill')) {
         m.setPaintProperty('areas-fill', 'fill-color', color);
-        m.setPaintProperty('areas-fill', 'fill-opacity', isMatch(metric === 'match' ? 0.35 : 0.7, 0.04));
+        m.setPaintProperty('areas-fill', 'fill-opacity', metric === 'none' ? 0 : isMatch(metric === 'match' ? 0.35 : 0.7, 0.04));
       }
     };
     apply();
@@ -288,6 +293,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   ];
   const where = areaMode ? 'hunt areas' : 'units';
   const options = [
+    { value: 'none', label: 'No Shading (outline matches)' },
     { value: 'match', label: areaMode ? 'Matching Hunt Areas' : 'Matching Hunts' },
     ...(Object.keys(SHADES) as (keyof typeof SHADES)[]).filter((k) => !(areaMode && k.startsWith('obj'))).map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
   ];

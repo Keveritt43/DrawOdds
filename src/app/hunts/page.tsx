@@ -1,5 +1,6 @@
 import { migrationUnits } from '@/lib/migrations';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
+import { unitOrder } from '@/lib/format';
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
@@ -94,6 +95,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : []), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
     getFavorites(),
   ]);
+  // alphabetical: unit / area names in human order (4 before 10, 20A right after 20)
+  if (f.sort === 'alpha') rows.sort((a, b) => unitOrder(a.areaName ?? a.unit, b.areaName ?? b.unit) || (a.huntNumber ?? 0) - (b.huntNumber ?? 0) || (a.tagCode ?? '').localeCompare(b.tagCode ?? ''));
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };
 
   // Elk: the zone A / B tag is the listing (it carries the seasons, odds and quota), so the per-weapon general
