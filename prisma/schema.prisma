@@ -236,6 +236,8 @@ model HuntSummary {
   resAppsPrev Int?
   appsLast    Int? // first-choice applicants, residents + nonresidents, latest drawing
   nrAppsPrev  Int?
+  nrPermitsLast Int? // tags nonresidents drew, latest drawing
+  permitsLast Int? // all tags issued, latest drawing
 
   // harvest
   success5         Float?

@@ -6,7 +6,7 @@ import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
-import { pct, pct100, int, range, WEAPON, ANTLER } from '@/lib/format';
+import { pct, pct100, int, range, WEAPON, ANTLER, controlledTags } from '@/lib/format';
 import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
@@ -114,7 +114,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
               {h.nrTag
                 ? `${nr ? `${h.tagCode ?? ''}${h.quota !== null ? ` · ${int(h.quota)} NR tags${h.quotaYear ? ` (${h.quotaYear})` : ''}` : ''}` : h.capped ? `Capped${(h.tagSeasons as { residentQuota?: number } | null)?.residentQuota ? ` · ${int((h.tagSeasons as { residentQuota: number }).residentQuota)} resident tags` : ''}` : 'Over the counter'} · ${seasonsSummary(h.tagSeasons, 2) || (h.species === 'ELK' ? `zone units ${h.units.join(', ')}` : 'whole unit')}`
                 : <>{h.type === 'GENERAL' && seasonsSummary(h.tagSeasons, 2) ? seasonsSummary(h.tagSeasons, 2) : h.openDate ? range(h.openDate, h.closeDate) : 'Dates: see regs'} · {WEAPON[h.weapon]} · {ANTLER[h.antlerClass]}
-                  {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : h.tags ? ` · ${int(h.tags)} tags` : ''}</>}
+                  {h.type === 'GENERAL' ? (h.tags ? ` · ${int(h.tags)} tags` : nr ? ' · NR tag required' : ' · Over the counter') : ` · ${controlledTags(h.tags, nr, h.nrPermitsLast, h.oddsLastYear)}`}</>}
             </div>
             <div className="uh-stats">
               {(h.type === 'CONTROLLED' || (nr && (h.nrTag || h.nrOdds5 !== null))) && <span>{h.type === 'GENERAL' && !h.nrTag ? 'NR tag odds' : 'Odds'} <b>{pct(h[rf.odds5], 1)}</b></span>}

@@ -144,6 +144,8 @@ export interface OddsSummary {
   nrOddsPrev: number | null;
   resAppsPrev: number | null;
   nrAppsPrev: number | null;
+  nrPermitsLast: number | null; // tags nonresidents drew in the latest drawing
+  permitsLast: number | null;
 }
 
 /** Draw odds = permits / first-choice applicants, capped at 100% (undersubscribed hunts give 2nd-choice tags too). */
@@ -176,6 +178,8 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
     nrOddsPrev: prev ? odds(prev.nrPermits, prev.nrApps) : null,
     resAppsPrev: prev?.resApps ?? null,
     nrAppsPrev: prev?.nrApps ?? null,
+    nrPermitsLast: last?.nrPermits ?? null,
+    permitsLast: last?.permits ?? null,
   };
 }
 

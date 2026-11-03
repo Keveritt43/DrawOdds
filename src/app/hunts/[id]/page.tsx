@@ -9,7 +9,7 @@ import { auth } from '@/auth';
 import { getResidency } from '@/lib/residency';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
-import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE } from '@/lib/format';
+import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE, nrCap } from '@/lib/format';
 import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart, ChoiceChart } from '@/components/Charts';
 import { SeasonStrip } from '@/components/SeasonStrip';
 import { LandBar } from '@/components/LandBar';
@@ -98,6 +98,15 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
             <div className="stat"><div className="k">{drawn[0] ? `${drawn[0].year} draw` : 'Last draw'}</div><div className="v">{pct(s[rf.oddsLast], 1)}</div></div>
             <div className="stat"><div className="k">{nr ? 'Resident' : 'Nonresident'} odds, 5-yr</div><div className="v" style={{ color: 'var(--muted)' }}>{pct(nr ? s.resOdds5 : s.nrOdds5, 1)}</div></div>
             <div className="stat"><div className="k">Draw + fill, per year</div><div className="v">{pct(s[rf.tagAndFill], 1)}</div></div>
+            {nr && (
+              <div className="stat">
+                <div className="k">Tags · Nonresident max</div>
+                <div className="v">{s.tags ? `${int(s.tags)} · ${int(nrCap(s.tags))}` : '-'}</div>
+                {drawn[0] && drawn[0].nrPermits !== null && drawn[0].nrPermits !== undefined && (
+                  <div className="small muted">{int(drawn[0].nrPermits)} of {int(drawn[0].permits)} went to nonresidents in {drawn[0].year}</div>
+                )}
+              </div>
+            )}
           </>
         )}
         <div className="stat"><div className="k">Hunter success, {s.harvestYears > 0 && s.harvestYears < 5 ? `${s.harvestYears}-yr` : '5-yr'}</div><div className="v">{pct(s.success5)}</div></div>
@@ -112,7 +121,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       {s.smallSample && <div className="note">Fewer than 50 hunters over 5 years. One or two animals swing the success rate a lot. Don&apos;t read much into a single year.</div>}
       {recentBoundaryChanges(s.units) && <div className="note">IDFG changed the boundary of unit {recentBoundaryChanges(s.units)!.units.join(', ')} in {recentBoundaryChanges(s.units)!.year}. Earlier years may cover different ground.</div>}
       {renumbered && <div className="note">IDFG renumbered this hunt over the years (hunt numbers: {[...new Set(history.map((h) => h.huntNumber).filter(Boolean))].join(', ')}). History is matched by hunt area and tag count; check the IDFG page if a year looks off.</div>}
-      {nr && s.type === 'CONTROLLED' && (s.nrAppsLast ?? 0) < 30 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
+      {nr && s.type === 'CONTROLLED' && s.tags && <div className="note">Idaho caps nonresidents at 10% of a controlled hunt&apos;s tags (1 tag if the hunt has 10 or fewer). It&apos;s a ceiling, not a set-aside: tags go by random draw, so nonresidents can get fewer. The cap doesn&apos;t apply to leftover tags in the second drawing.</div>}
+      {nr && s.type === 'CONTROLLED' && (s.nrAppsLast ?? 0) < 30 &&<div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 
       <div className="grid2" style={{ marginTop: 12 }}>
         {s.type === 'CONTROLLED' && <OddsChart data={history} nr={nr} />}

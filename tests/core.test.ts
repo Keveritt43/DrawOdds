@@ -280,3 +280,17 @@ test('harvest tables are kept only when the columns match the species (no deer p
   assert.equal(speciesColumns('ELK', elk), true);
   assert.equal(speciesColumns('ELK', deer), false);
 });
+
+test('nonresident controlled-hunt cap: 10 or fewer tags -> 1, else 10% rounded down, unlimited -> none', async () => {
+  const { nrCap, controlledTags } = await import('../src/lib/format');
+  assert.equal(nrCap(1), 1);
+  assert.equal(nrCap(10), 1);
+  assert.equal(nrCap(11), 1);
+  assert.equal(nrCap(19), 1);
+  assert.equal(nrCap(20), 2);
+  assert.equal(nrCap(334), 33);
+  assert.equal(nrCap(null), null);
+  assert.equal(controlledTags(120, false), '120 tags');
+  assert.equal(controlledTags(120, true, 11, 2026), "120 tags · max 12 NR (11 drew '26)");
+  assert.equal(controlledTags(null, true), 'Tags: see regs');
+});

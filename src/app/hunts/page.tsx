@@ -9,7 +9,7 @@ import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUni
 import { FilterRail } from '@/components/FilterRail';
 import { HuntMap } from '@/components/HuntMap';
 import { SortSelect } from '@/components/SortSelect';
-import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE } from '@/lib/format';
+import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE, controlledTags } from '@/lib/format';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
 
@@ -157,7 +157,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                         {r.nrTag && nr && <span className="pill ctl">NR Tag Draw</span>}
                       </span>
                       <span className="small muted">
-                        {r.nrTag && !nr ? residentTag(r) : r.nrTag ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '-') : r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : nr ? (r.tagCode ? `NR tag: ${r.tagCode}` : 'NR tag required') : 'OTC') : `${int(r.tags)} tags`}
+                        {r.nrTag && !nr ? residentTag(r) : r.nrTag ? (r.quota !== null ? `${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}${r.capped ? ' · capped' : ''}` : '-') : r.type === 'GENERAL' ? (r.tags ? `${int(r.tags)} tags` : nr ? (r.tagCode ? `NR tag: ${r.tagCode}` : 'NR tag required') : 'OTC') : controlledTags(r.tags, nr, r.nrPermitsLast, r.oddsLastYear)}
                       </span>
                     </div>
                     <div className="dates">
