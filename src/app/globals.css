@@ -417,3 +417,32 @@ table.results.compare td .small { display: block; }
 .mig-card th, .mig-card td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); }
 .pill.mig { background: #fdf3d0; color: #6b4c00; border: 1px solid #e6c766; text-decoration: none; }
 @media (prefers-color-scheme: dark) { .pill.mig { background: #3a2f12; color: #f5d27a; border-color: #6b5420; } }
+/* table view: the list takes most of the width */
+.filtering.tablemode { grid-template-columns: minmax(0, .6fr) minmax(0, 1.6fr) 300px; }
+@media (max-width: 1100px) { .filtering.tablemode { grid-template-columns: 1fr; } }
+.htable-wrap { overflow-x: auto; margin: 0 12px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+.htable { border-collapse: collapse; width: 100%; font-size: .84rem; }
+.htable th, .htable td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+.htable thead th { position: sticky; top: 0; background: var(--card); z-index: 1; font-weight: 600; white-space: nowrap; }
+.htable th a { color: inherit; text-decoration: none; } .htable th a:hover { text-decoration: underline; }
+.htable td.num { text-align: right; white-space: nowrap; }
+.htable td.nowrap { white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.htable td.tname { white-space: nowrap; font-weight: 600; }
+.htable tbody tr:hover { background: var(--bg); }
+.tscore { display: inline-grid; place-items: center; min-width: 28px; height: 20px; border-radius: 5px; font-size: .8rem; }
+/* compare */
+.cmp-toggle { display: inline-flex; align-items: center; gap: 4px; font-size: .78rem; color: var(--muted); cursor: pointer; margin-left: auto; white-space: nowrap; }
+.cmp-toggle.compact { margin: 0; }
+.cmp-tray { position: fixed; left: 50%; transform: translateX(-50%); bottom: 14px; z-index: 50; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  background: var(--charcoal); color: #f4f5f0; border: 2px solid var(--blaze); border-radius: 12px; padding: 8px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.4); max-width: calc(100vw - 24px); }
+.cmp-tray .pill { background: #ffffff1a; color: #f4f5f0; border-color: #ffffff33; }
+.cmp-tray .pill button { background: none; border: 0; color: inherit; cursor: pointer; padding: 0 0 0 4px; font-size: 1rem; line-height: 1; }
+.cmp-names { display: flex; gap: 4px; flex-wrap: wrap; }
+.btn.disabled { opacity: .5; pointer-events: none; }
+.cmp-table { width: 100%; border-collapse: collapse; }
+.cmp-table th, .cmp-table td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.cmp-table thead th { font-family: var(--font-display); font-size: 1.15rem; }
+.cmp-table tbody th { color: var(--muted); font-weight: 500; white-space: nowrap; width: 1%; }
+.cmp-table td.best { background: #e6f4e3; font-weight: 700; }
+@media (prefers-color-scheme: dark) { .cmp-table td.best { background: #1f3a22; } }
+.cmp-wrap { overflow-x: auto; }

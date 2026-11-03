@@ -12,6 +12,7 @@ import { SortSelect } from '@/components/SortSelect';
 import { RememberQuery, LAST_HUNTS_COOKIE } from '@/components/BackLink';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { HuntTable } from '@/components/HuntTable';
 import { HuntCard, ZoneCard, TopPicks, choosePicks, type CardCtx } from '@/components/HuntCards';
 import { pct, pct100, WEAPON, DEERTYPE, SPECIES_LABEL, TROPHY_LABEL, antlerLabel } from '@/lib/format';
 import { getFavorites } from '@/lib/favorites';
@@ -152,7 +153,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     for (const g of groups.values()) g.rows.sort((a, b) => (a.type === 'CONTROLLED' ? 1 : 0) - (b.type === 'CONTROLLED' ? 1 : 0));
   }
   const glist = [...groups.values()];
-  const total = f.view === 'hunt' ? listings.length : glist.length;
+  // table: every hunt and tag on its own row (elk zone tags one row each)
+  const tableRows = f.view === 'table' ? visible : [];
+  const total = f.view === 'hunt' ? listings.length : f.view === 'table' ? tableRows.length : glist.length;
   const shown = Math.min(total, PER_PAGE * f.page);
 
   // highlight what was asked for: the clicked unit only, or the zone's units, or every unit with a match
@@ -182,10 +185,11 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     : [];
 
   const more = `/hunts${toQuery(f, { page: f.page + 1 })}`;
-  const viewHref = (v: 'hunt' | 'unit') => `/hunts${toQuery(f, { view: v, page: 1 })}`;
+  const sortHref = (s: string) => `/hunts${toQuery(f, { sort: s as Filters['sort'], page: 1 })}`;
+  const viewHref = (v: 'hunt' | 'unit' | 'table') => `/hunts${toQuery(f, { view: v, page: 1 })}`;
 
   return (
-    <main className="filtering">
+    <main className={`filtering${f.view === 'table' ? ' tablemode' : ''}`}>
       <RememberQuery />
       <section className="f-map" aria-label="Map of matching units">
         <HuntMap matched={areaSp.length ? [] : matched} selected={f.unit} chips={chips(f)} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
@@ -200,13 +204,14 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
             <h1>Find A Hunt</h1>
           </div>
           <div className="f-sub">
-            <span><b>{total}</b> {f.view === 'hunt' ? (total === 1 ? 'result' : 'results') : 'units'} · sort by</span>
+            <span><b>{total}</b> {f.view === 'unit' ? 'units' : total === 1 ? 'result' : 'results'} · sort by</span>
             <SortSelect value={f.sort} />
             {chips(f).length > 0 && <a className="small reset-all" href="/hunts?reset=1">Reset all filters</a>}
             <a className="small csv" href={`/api/export${toQuery(f, { page: 1 })}`} title="Every result with odds, success, crowding and tags, for a spreadsheet">Download CSV</a>
             <span className="seg light view-seg" role="group" aria-label="List by">
               <Link className="seg-link" href={viewHref('hunt')} aria-pressed={f.view === 'hunt'} scroll={false}>By hunt</Link>
               <Link className="seg-link" href={viewHref('unit')} aria-pressed={f.view === 'unit'} scroll={false}>By unit</Link>
+              <Link className="seg-link" href={viewHref('table')} aria-pressed={f.view === 'table'} scroll={false} title="Every hunt in one sortable table">Table</Link>
             </span>
           </div>
           {(oddsYear || harvestYear) && (
@@ -221,7 +226,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
             <p className="muted">Loosen a slider or remove a chip on the map. <Link href="/hunts">Clear all filters</Link>.</p>
           </div>
         )}
-        {picks.length > 0 && <TopPicks picks={picks} c={c} />}
+        {picks.length > 0 && f.view !== 'table' && <TopPicks picks={picks} c={c} />}
+        {f.view === 'table' && total > 0 && <HuntTable rows={tableRows.slice(0, shown)} c={c} sortHref={sortHref} />}
 
         {f.view === 'hunt' && listings.slice(0, shown).map((l) => (l.kind === 'zone'
           ? <ZoneCard key={l.key} zone={l.zone} rows={l.rows} c={c} />

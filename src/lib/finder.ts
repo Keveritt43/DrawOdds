@@ -36,7 +36,7 @@ export interface Filters {
   sort: Sort;
   page: number;
   /** list each hunt once (default), or group everything under each unit it touches */
-  view: 'hunt' | 'unit';
+  view: 'hunt' | 'unit' | 'table';
 }
 
 type SP = Record<string, string | string[] | undefined>;
@@ -80,7 +80,7 @@ export function parseFilters(sp: SP): Filters {
     q: one(sp.q).trim().slice(0, 60),
     sort: SORTS.includes(sort) ? sort : 'best',
     page: Math.max(1, Math.min(200, Number(one(sp.page)) || 1)),
-    view: one(sp.view) === 'unit' ? 'unit' : 'hunt',
+    view: one(sp.view) === 'unit' ? 'unit' : one(sp.view) === 'table' ? 'table' : 'hunt',
   };
 }
 
@@ -231,7 +231,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('q', m.q);
   if (m.sort && m.sort !== 'best') set('sort', m.sort);
   if (m.page && m.page > 1) set('page', m.page);
-  if (m.view === 'unit') set('view', 'unit');
+  if (m.view === 'unit' || m.view === 'table') set('view', m.view);
   const s = p.toString();
   return s ? `?${s}` : '';
 }

@@ -1,3 +1,4 @@
+import { CompareTray } from '@/components/Compare';
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import { Barlow, Barlow_Condensed } from 'next/font/google';
@@ -23,6 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a href="#content" className="skip">Skip to content</a>
         <SiteHeader residency={residency} signedIn={signedIn} draw={draw} />
         <div id="content">{children}</div>
+        <CompareTray />
         <footer className="site-footer">
           <div className="inner">
             <div className="foot-brand">

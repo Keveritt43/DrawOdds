@@ -8,6 +8,7 @@ import {
 } from '@/lib/format';
 import { residencyFields } from '@/lib/finder';
 import { Star } from './Star';
+import { CompareToggle } from './Compare';
 import { Term } from './Term';
 import { SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { SCORE_PART_LABEL, type ScorePart } from '@/lib/score';
@@ -163,6 +164,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
           <Star kind="hunt" id={r.huntId} saved={c.favHunts.has(r.huntId)} signedIn={c.signedIn} />
           <Link href={`/hunts/${encodeURIComponent(r.id)}`}>{title}</Link>
           <span className={`pill ${r.type === 'GENERAL' && !r.nrTag ? '' : 'ctl'}`}>{r.nrTag ? (c.nr ? 'NR Tag Draw' : 'Zone Tag') : r.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
+          <CompareToggle id={r.id} label={title} />
         </span>
         {tagsLine && <span className="small muted tags">{tagsLine}</span>}
       </div>
@@ -265,6 +267,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
                 <Star kind="hunt" id={r.huntId} saved={c.favHunts.has(r.huntId)} signedIn={c.signedIn} />
                 <Link href={`/hunts/${encodeURIComponent(r.id)}`}><b>{tag} Tag</b></Link>
                 {c.nr && r.tagCode && <span className="small muted">{r.tagCode}</span>}
+                <CompareToggle id={r.id} label={`${zone} ${tag} tag`} />
               </div>
               <div className="ztag-seasons">{seasonsSummary(r.tagSeasons, 4) || 'Seasons: see the regulations'}</div>
               <Rules r={r} />
