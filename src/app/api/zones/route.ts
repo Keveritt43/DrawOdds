@@ -24,6 +24,7 @@ export async function GET() {
     if (!merged) {
       merged = feature({ type: 'MultiPolygon', coordinates: parts.flatMap((p) => (p.geometry.type === 'Polygon' ? [p.geometry.coordinates] : p.geometry.coordinates)) });
     }
+    merged = outerOnly(merged);
     merged.properties = { zone, units: us.join(', ') };
     zones.push(merged);
     const pt = pointOnFeature(merged);
@@ -34,4 +35,17 @@ export async function GET() {
     { zones: featureCollection(zones), labels: featureCollection(labels) },
     { headers: { 'Cache-Control': 'public, max-age=86400' } },
   );
+}
+
+/**
+ * Unit outlines don't share edges exactly, so merging leaves slivers: tiny holes inside the zone and tiny
+ * stray pieces. Zones have no real holes: keep outer rings only, and drop pieces under 0.5% of the largest.
+ */
+function outerOnly(f: Feature<Polygon | MultiPolygon>): Feature<Polygon | MultiPolygon> {
+  const polys = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+  const ringArea = (r: number[][]) => Math.abs(r.reduce((a, p, i) => a + p[0] * r[(i + 1) % r.length][1] - r[(i + 1) % r.length][0] * p[1], 0) / 2);
+  const outers = polys.map((p) => [p[0]]).map((p) => ({ p, a: ringArea(p[0]) }));
+  const max = Math.max(...outers.map((o) => o.a));
+  const keep = outers.filter((o) => o.a >= max * 0.005).map((o) => o.p);
+  return { ...f, geometry: keep.length === 1 ? { type: 'Polygon', coordinates: keep[0] } : { type: 'MultiPolygon', coordinates: keep } };
 }

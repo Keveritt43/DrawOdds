@@ -43,11 +43,20 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
     const q = new URLSearchParams(Object.entries({ species: fSpecies, type: fType, weapon: fWeapon, ...patch }).filter(([, v]) => v) as [string, string][]);
     return `/units/${encodeURIComponent(name)}${q.size ? `?${q}` : ''}#hunts`;
   };
-  const gen = (species: 'DEER' | 'ELK', weapon: 'ANY' | 'ARCHERY') =>
-    hunts.find((h) => h.type === 'GENERAL' && h.species === species && h.weapon === weapon);
-  const [deerAny, elkAny, elkArch] = await Promise.all(
-    [gen('DEER', 'ANY'), gen('ELK', 'ANY'), gen('ELK', 'ARCHERY')].map((h) => (h ? historyFor(h) : Promise.resolve([]))),
+  // General-season trend charts, one labeled section per species (following the species / weapon filters):
+  // the unit's general season for the chosen weapon (any weapon by default), with archery against it.
+  const gen = (species: 'DEER' | 'ELK', weapon: string) =>
+    hunts.find((h) => h.type === 'GENERAL' && !h.nrTag && h.species === species && h.weapon === weapon);
+  const mainWeapon = fWeapon || 'ANY';
+  const trendSpecies = (['DEER', 'ELK'] as const).filter((x) => !fSpecies || x === fSpecies);
+  const trends = await Promise.all(
+    trendSpecies.map(async (sp) => {
+      const main = gen(sp, mainWeapon);
+      const arch = mainWeapon === 'ARCHERY' ? undefined : gen(sp, 'ARCHERY');
+      return { sp, main, data: main ? await historyFor(main) : [], arch: arch ? await historyFor(arch) : [] };
+    }),
   );
+  const WLABEL: Record<string, string> = { ANY: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
@@ -113,14 +122,22 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         {!shown.length && <p className="muted">{hunts.length ? 'No hunts match these filters.' : 'No deer or elk hunts listed for this unit.'}</p>}
       </div>
 
-      <h2>General season trends</h2>
-      <div className="grid2">
-        {deerAny.length > 0 && <SuccessChart data={deerAny} />}
-        {deerAny.length > 0 && <QualityChart data={deerAny} species="DEER" />}
-        {elkAny.length > 0 && <HarvestChart data={elkAny} />}
-        {elkArch.length > 0 && <SuccessChart data={elkArch} compare={elkAny.length ? { label: 'Elk any weapon', data: elkAny } : undefined} />}
-        {!deerAny.length && !elkAny.length && !elkArch.length && <p className="muted">No general-season harvest data for this unit.</p>}
-      </div>
+      <h2>General Season Trends</h2>
+      {trends.every((t) => !t.data.length) && <p className="muted">No general-season harvest data for this unit{fWeapon ? ' and weapon' : ''}.</p>}
+      {trends.filter((t) => t.data.length).map((t) => (
+        <section key={t.sp}>
+          <h3>General {t.sp === 'DEER' ? 'Deer' : 'Elk'} · {WLABEL[mainWeapon] ?? mainWeapon} · Unit {unit.name}</h3>
+          <p className="small muted" style={{ marginTop: -6 }}>
+            IDFG general-season harvest for this unit and weapon, all {t.sp === 'DEER' ? 'deer' : 'elk'} general seasons combined
+            {t.arch.length ? '; the success chart also shows archery.' : '.'} Controlled hunts are not included.
+          </p>
+          <div className="grid2">
+            <SuccessChart data={t.data} compare={t.arch.length ? { label: 'Archery', data: t.arch } : undefined} />
+            <HarvestChart data={t.data} />
+            <QualityChart data={t.data} species={t.sp} />
+          </div>
+        </section>
+      ))}
     </main>
   );
 }

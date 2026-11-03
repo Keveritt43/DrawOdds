@@ -114,7 +114,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
             <article key={g.key} className={`ucard ${f.unit === g.name ? 'sel' : ''}`}>
               <h2 className="star-head">
                 <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />
-                <Link href={`/units/${encodeURIComponent(g.name)}`}>{g.title}</Link>
+                <Link href={unitHref(g.name, f)}>{g.title}</Link>
               </h2>
               <p className="desc">{desc}</p>
               <div className="ustats">
@@ -231,5 +231,14 @@ function nrTagLine(v: unknown): string {
 function density(v: number | null): string {
   if (v === null || v === undefined) return '-';
   return v < 0.1 ? '<0.1' : v < 10 ? v.toFixed(1) : String(Math.round(v));
+}
+
+/** Unit page link that keeps what Filtering was narrowed to (species, hunt type, a single weapon). */
+function unitHref(unit: string, f: Filters): string {
+  const q = new URLSearchParams();
+  if (f.species) q.set('species', f.species);
+  if (f.type === 'GENERAL' || f.type === 'CONTROLLED') q.set('type', f.type);
+  if (f.weapon.length === 1 && f.weapon[0] !== 'SHORT_RANGE') q.set('weapon', f.weapon[0]);
+  return `/units/${encodeURIComponent(unit)}${q.size ? `?${q}` : ''}`;
 }
 
