@@ -1,4 +1,5 @@
 import type { Prisma, Residency } from '@prisma/client';
+import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 
 export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
 export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
@@ -21,6 +22,7 @@ export interface Filters {
   accessYes: boolean;
   youth: 'exclude' | 'include' | 'only';
   unit: string;
+  zone: string; // elk zone name: hunts in any of its units
   q: string;
   sort: Sort;
   page: number;
@@ -56,6 +58,7 @@ export function parseFilters(sp: SP): Filters {
     accessYes: one(sp.accessYes) === '1',
     youth: (['include', 'only'] as const).find((y) => y === one(sp.youth)) ?? 'exclude',
     unit: one(sp.unit).trim().toUpperCase().slice(0, 6),
+    zone: ELK_ZONE_NAMES.find((z) => z.toLowerCase() === one(sp.zone).trim().toLowerCase()) ?? '',
     q: one(sp.q).trim().slice(0, 60),
     sort: SORTS.includes(sort) ? sort : 'best',
     page: Math.max(1, Math.min(200, Number(one(sp.page)) || 1)),
@@ -97,6 +100,7 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   if (f.youth === 'exclude') and.push({ youthOnly: false });
   if (f.youth === 'only') and.push({ youthOnly: true });
   if (f.unit) and.push({ units: { has: f.unit } });
+  if (f.zone) and.push({ units: { hasSome: ELK_ZONES[f.zone] } });
   if (f.q) {
     const n = Number(f.q);
     and.push({
@@ -171,6 +175,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('accessYes', m.accessYes);
   if (m.youth && m.youth !== 'exclude') set('youth', m.youth);
   set('unit', m.unit);
+  set('zone', m.zone);
   set('q', m.q);
   if (m.sort && m.sort !== 'best') set('sort', m.sort);
   if (m.page && m.page > 1) set('page', m.page);

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ELK_ZONES } from '@/lib/elkZones';
 import { seasonsSummary } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import type { HuntSummary } from '@prisma/client';
@@ -39,6 +40,7 @@ function chips(f: Filters, nr: boolean): { label: string; href: string }[] {
   if (f.minTags) add(`${f.minTags}+ tags`, { minTags: null });
   if (f.maxDensity) add(`≤ ${f.maxDensity} hunters/mi²`, { maxDensity: null });
   if (f.unit) add(`Unit ${f.unit}`, { unit: '' });
+  if (f.zone) add(`${f.zone} elk zone`, { zone: '' });
   if (f.q) add(`"${f.q}"`, { q: '' });
   return out;
 }
@@ -62,7 +64,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   for (const r of visible) {
     const us = r.type === 'GENERAL' && !r.nrTag ? [r.unit ?? r.units[0]] : r.units;
     for (const u of us) {
-      if (!u || (f.unit && u !== f.unit)) continue;
+      if (!u || (f.unit && u !== f.unit) || (f.zone && !ELK_ZONES[f.zone].includes(u))) continue;
       const key = `${r.species}|${u}`;
       const g = groups.get(key) ?? groups.set(key, { key, kind: 'unit', name: u, rows: [], title: `Unit ${u} · ${r.species === 'ELK' ? 'Elk' : 'Deer'}` }).get(key)!;
       g.rows.push(r);
@@ -71,7 +73,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const list = [...groups.values()];
   // inside a card: general seasons (and the white-tailed tag) first, then controlled hunts; the chosen sort is kept within each
   for (const g of list) g.rows.sort((a, b) => (a.type === 'CONTROLLED' ? 1 : 0) - (b.type === 'CONTROLLED' ? 1 : 0));
-  const matched = [...new Set(rows.flatMap((r) => r.units))];
+  const matched = [...new Set(rows.flatMap((r) => r.units))].filter((u) => !f.zone || ELK_ZONES[f.zone].includes(u));
   const unitInfo = new Map(
     (await db.unit.findMany({ where: { name: { in: list.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]),
   );

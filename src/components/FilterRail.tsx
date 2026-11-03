@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { ELK_ZONES, ELK_ZONE_NAMES } from '@/lib/elkZones';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Residency } from '@prisma/client';
 import { ResidencySwitch } from './ResidencySwitch';
@@ -120,6 +121,13 @@ export function FilterRail({ residency }: { residency: Residency }) {
         </Section>
         <Section title="Youth Hunts" value={{ exclude: 'Hidden', include: 'Included', only: 'Youth Only' }[(get('youth') || 'exclude') as 'exclude']} set={!!get('youth')}>
           {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
+        </Section>
+        <Section title="Elk Zone" value={get('zone') ? `${get('zone')} (units ${(ELK_ZONES[get('zone')] ?? []).join(', ')})` : 'Any'} set={!!get('zone')}>
+          <select aria-label="Elk zone" value={get('zone')} onChange={(e) => push({ zone: e.target.value || null })}>
+            <option value="">Any zone</option>
+            {ELK_ZONE_NAMES.slice().sort().map((z) => <option key={z} value={z}>{z} ({ELK_ZONES[z].join(', ')})</option>)}
+          </select>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>Shows the zone&apos;s units with every hunt in them, deer and elk: pick the elk zone you&apos;re applying for and see the deer units that overlap.</p>
         </Section>
         <Section title="Unit / Search" value={[get('unit') && `Unit ${get('unit')}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>
           <TextField label="Unit" value={get('unit')} placeholder="e.g. 49 or 36A" onCommit={(v) => push({ unit: v.toUpperCase() || null })} />

@@ -44,3 +44,11 @@ test('hunters per sq mi: maximum filter, chip query round-trip', () => {
   assert.equal(parseFilters({ maxDensity: 'abc' }).maxDensity, null);
   assert.ok(parseFilters({ sort: 'densityLow' }).sort === 'densityLow');
 });
+
+test('elk zone filter: zone name -> its units', () => {
+  const f = parseFilters({ zone: 'pioneer' });
+  assert.equal(f.zone, 'Pioneer');
+  assert.ok(JSON.stringify(buildWhere(f, 'RESIDENT')).includes('"units":{"hasSome":["36A","49","50"]}'));
+  assert.ok(toQuery(f).includes('zone=Pioneer'));
+  assert.equal(parseFilters({ zone: 'Nowhere' }).zone, '');
+});
