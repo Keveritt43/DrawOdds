@@ -24,12 +24,23 @@ export function sortedSeasons(ts: unknown): TagSeason[] {
   return t.seasons.slice().sort((a, b) => (a.dates[0]?.open ?? '').localeCompare(b.dates[0]?.open ?? ''));
 }
 
+/** "antlerless (youth hunt only on private land only)" -> "youth antlerless"; "A tag · antlered only" -> "antlered". */
+export function shortSex(sex: string): string {
+  const t = sex.replace(/^[AB] tag · /i, '').toLowerCase();
+  const base = /^antlerless/.test(t) ? 'antlerless' : /^antlered/.test(t) ? 'antlered' : t.replace(/ only$/, '');
+  const q = /youth/.test(t) ? 'youth ' : '';
+  const extra = /2-point/.test(t) ? '2-pt ' : /white-tailed/.test(t) ? 'whitetail ' : '';
+  return `${q}${extra}${base}`.trim();
+}
+
 /** One line for a card: "Archery Aug 30 - Sep 30 · Any weapon Oct 10 - Oct 24 · +2 more". */
 export function seasonsSummary(ts: unknown, max = 3): string {
   const s = sortedSeasons(ts);
   if (!s.length) return '';
-  // antlered and antlerless seasons often share dates: one entry per weapon + dates
-  const uniq = [...new Set(s.map((x) => `${W[x.weapon] ?? x.weapon} ${seasonDates(x)}`))];
+  // antlered and antlerless seasons often share dates: one entry per weapon + dates. When one weapon has
+  // different dates (unit 30: bucks Oct 10-24, youth antlerless Oct 10-31), say which is which.
+  const split = new Set(s.map((x) => x.weapon).filter((w) => new Set(s.filter((x) => x.weapon === w).map(seasonDates)).size > 1));
+  const uniq = [...new Set(s.map((x) => `${W[x.weapon] ?? x.weapon}${split.has(x.weapon) ? ` (${shortSex(x.sex)})` : ''} ${seasonDates(x)}`))];
   return `${uniq.slice(0, max).join(' · ')}${uniq.length > max ? ` · +${uniq.length - max} more` : ''}`;
 }
 

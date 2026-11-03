@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { divergingClasses } from '../src/lib/breaks';
 import { colorsFor, classesFor, RYG7 } from '../src/lib/mapMetrics';
-import { seasonRules, seasonsClass } from '../src/lib/tagSeasons';
+import { seasonRules, seasonsClass, seasonsSummary } from '../src/lib/tagSeasons';
 import {
   parseStatsTable,
   parseLandPage,
@@ -384,4 +384,14 @@ test('season rules: youth-only antlerless, some whitetail-only seasons, elk spik
   assert.deepEqual(seasonRules({ year: 2026, seasons: [s('any elk')] }, 'ELK'), []);
   assert.equal(seasonsClass([s('antlered'), s('antlerless')]), 'EITHER');
   assert.equal(seasonsClass([s('B tag · antlerless only')]), 'ANTLERLESS');
+});
+
+test('season summary: same weapon, different dates says which is which', () => {
+  const ts = { year: 2026, seasons: [
+    { weapon: 'ANY', sex: 'antlered', dates: [{ open: '2026-10-10', close: '2026-10-24' }], notes: '' },
+    { weapon: 'ANY', sex: 'antlerless (youth hunt only on private land only)', dates: [{ open: '2026-10-10', close: '2026-10-31' }], notes: '' },
+    { weapon: 'ARCHERY', sex: 'antlered', dates: [{ open: '2026-08-30', close: '2026-09-30' }], notes: '' },
+    { weapon: 'ARCHERY', sex: 'antlerless', dates: [{ open: '2026-08-30', close: '2026-09-30' }], notes: '' },
+  ] };
+  assert.equal(seasonsSummary(ts, 5), 'Archery Aug 30 - Sep 30 · Any weapon (antlered) Oct 10 - Oct 24 · Any weapon (youth antlerless) Oct 10 - Oct 31');
 });
