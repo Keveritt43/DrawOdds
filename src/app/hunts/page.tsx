@@ -17,7 +17,7 @@ export const metadata = { title: 'Filtering: Find An Idaho Hunt - DrawOdds' };
 
 const MAX_ROWS = 800;
 
-type Group = { key: string; title: string; kind: 'unit' | 'area' | 'zone'; name: string; rows: HuntSummary[] };
+type Group = { key: string; title: string; kind: 'unit'; name: string; rows: HuntSummary[] };
 
 /** Active filters as removable chips over the map. */
 function chips(f: Filters, nr: boolean): { label: string; href: string }[] {
@@ -54,31 +54,27 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     getFavorites(),
   ]);
 
-  // group into unit / area cards, in the order the sort put their best hunt
+  // Everything is listed by unit: one card per unit + species. General seasons first (for nonresidents they
+  // carry the unit's / zone's tag odds, so the Regular Deer tag and elk zone A/B tag rows would only repeat
+  // them), then the controlled hunts. A controlled hunt (or tag) covering several units appears in each.
+  const visible = f.type === 'NRTAG' ? rows : rows.filter((r) => !r.nrTag || r.tagCode?.startsWith('WD'));
   const groups = new Map<string, Group>();
-  for (const r of rows) {
-    // nonresident elk tags are per zone; deer tags are per unit and sit with that unit's general seasons
-    const kind: Group['kind'] = r.nrTag && !r.unit ? 'zone' : r.type === 'GENERAL' ? 'unit' : 'area';
-    const name = (kind === 'unit' ? r.unit : r.areaName) ?? '?';
-    const key = `${r.species}|${kind}|${name}`;
-    const g = groups.get(key) ?? groups.set(key, {
-      key, kind, name, rows: [],
-      title: kind === 'zone' ? `${name} · Elk` : `${kind === 'unit' ? 'Unit' : 'Hunt Area'} ${name} · ${r.species === 'ELK' ? 'Elk' : 'Deer'}`,
-    }).get(key)!;
-    g.rows.push(r);
+  for (const r of visible) {
+    const us = r.type === 'GENERAL' && !r.nrTag ? [r.unit ?? r.units[0]] : r.units;
+    for (const u of us) {
+      if (!u || (f.unit && u !== f.unit)) continue;
+      const key = `${r.species}|${u}`;
+      const g = groups.get(key) ?? groups.set(key, { key, kind: 'unit', name: u, rows: [], title: `Unit ${u} · ${r.species === 'ELK' ? 'Elk' : 'Deer'}` }).get(key)!;
+      g.rows.push(r);
+    }
   }
   const list = [...groups.values()];
-  // looking at one unit: its general seasons first, then the controlled hunt areas (sort order kept within each)
-  if (f.unit) list.sort((a, b) => (a.kind === 'area' ? 1 : 0) - (b.kind === 'area' ? 1 : 0));
-  // within a unit card: the nonresident tag(s) first for nonresidents, then the general seasons
-  for (const g of list) if (g.kind === 'unit') g.rows.sort((a, b) => Number(b.nrTag) - Number(a.nrTag));
+  // inside a card: general seasons (and the white-tailed tag) first, then controlled hunts; the chosen sort is kept within each
+  for (const g of list) g.rows.sort((a, b) => (a.type === 'CONTROLLED' ? 1 : 0) - (b.type === 'CONTROLLED' ? 1 : 0));
   const matched = [...new Set(rows.flatMap((r) => r.units))];
-  const areaIds = [...new Set(rows.map((r) => r.areaId).filter((x): x is number => !!x))];
-  const areas = new Map(
-    (await db.huntArea.findMany({ where: { areaId: { in: areaIds } }, select: { areaId: true, description: true } })).map((a) => [a.areaId, a]),
+  const unitInfo = new Map(
+    (await db.unit.findMany({ where: { name: { in: list.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]),
   );
-  const unitNames = list.filter((g) => g.kind === 'unit').map((g) => g.name);
-  const unitInfo = new Map((await db.unit.findMany({ where: { name: { in: unitNames } }, select: { name: true, elkZone: true } })).map((u) => [u.name, u]));
 
   const best = (g: Group, k: keyof HuntSummary) => {
     const v = g.rows.map((r) => r[k] as number | null).filter((x): x is number => x !== null && x !== undefined);
@@ -107,24 +103,23 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         )}
         {list.map((g) => {
           const first = g.rows[0];
-          const desc = g.kind === 'zone'
-            ? `Units ${first.units.join(', ')}`
-            : g.kind === 'area'
-            ? (first.areaId ? areas.get(first.areaId)?.description : null) ?? (first.units.length ? `Units ${first.units.join(', ')}` : '')
-            : unitInfo.get(g.name)?.elkZone ? `${unitInfo.get(g.name)!.elkZone} elk zone` : '';
+          const u = unitInfo.get(g.name);
+          const gen = g.rows.find((r) => r.type === 'GENERAL' && !r.nrTag) ?? first;
+          const ay = u?.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : null;
+          const desc = [u?.elkZone ? `${u.elkZone} elk zone` : '', `${g.rows.length} hunt${g.rows.length === 1 ? '' : 's'}`].filter(Boolean).join(' · ');
           const big = best(g, 'bigPct5');
           return (
-            <article key={g.key} className={`ucard ${f.unit && first.units.includes(f.unit) ? 'sel' : ''}`}>
+            <article key={g.key} className={`ucard ${f.unit === g.name ? 'sel' : ''}`}>
               <h2 className="star-head">
-                {g.kind === 'unit' && <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />}
-                <Link href={g.kind === 'unit' ? `/units/${encodeURIComponent(g.name)}` : `/hunts/${encodeURIComponent(first.id)}`}>{g.title}</Link>
+                <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />
+                <Link href={`/units/${encodeURIComponent(g.name)}`}>{g.title}</Link>
               </h2>
-              {desc && <p className="desc">{desc.length > 150 ? `${desc.slice(0, 150)}…` : desc}</p>}
+              <p className="desc">{desc}</p>
               <div className="ustats">
                 <div>Trophy<b>{pct(big)}</b></div>
-                <div>Public Land<b>{pct100(first.publicPct)}</b></div>
-                <div>Access Yes!<b>{first.accessYesPct !== null ? `${first.accessYesPct < 1 && first.accessYesPct > 0 ? '<1' : Math.round(first.accessYesPct)}%` : '-'}</b></div>
-                <div>{first.species === 'DEER' ? 'Deer' : 'Units'}<b style={{ fontSize: first.species === 'DEER' ? '1rem' : undefined }}>{first.species === 'DEER' ? (first.deerType ? DEERTYPE[first.deerType] : '-') : first.units.length}</b></div>
+                <div>Public Land<b>{pct100(u?.publicPct ?? first.publicPct)}</b></div>
+                <div>Access Yes!<b>{ay !== null ? `${ay < 1 && ay > 0 ? '<1' : Math.round(ay)}%` : '-'}</b></div>
+                <div>{first.species === 'DEER' ? 'Deer' : 'Hunts'}<b style={{ fontSize: first.species === 'DEER' ? '1rem' : undefined }}>{first.species === 'DEER' ? (gen.deerType ? DEERTYPE[gen.deerType] : '-') : g.rows.length}</b></div>
               </div>
               {g.rows.map((r) => {
                 const odds = r[rf.odds5];
@@ -136,7 +131,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                       <span className="star-head">
                         <Star kind="hunt" id={r.huntId} saved={fav.hunts.has(r.huntId)} signedIn={fav.signedIn} />
                         <Link href={`/hunts/${encodeURIComponent(r.id)}`}>
-                          {r.nrTag ? `${tagLabel(r)}${r.tagCode ? ` · ${r.tagCode}` : ''}` : <>{r.huntNumber ? `Hunt ${r.huntNumber} · ` : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}</>}
+                          {r.nrTag ? `${tagLabel(r)}${r.tagCode ? ` · ${r.tagCode}` : ''}` : <>{r.huntNumber ? `Hunt ${r.huntNumber} · ` : r.type === 'GENERAL' ? 'General · ' : ''}{WEAPON[r.weapon]} · {ANTLER[r.antlerClass]}</>}
                         </Link>
                         {r.nrTag && <span className="pill ctl">NR Tag Draw</span>}
                       </span>
@@ -147,7 +142,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
                     <div className="dates">
                       {r.nrTag
                         ? (seasonsSummary(r.tagSeasons) || `Nonresident general tag · ${r.species === 'ELK' ? `units ${r.units.join(', ')}` : `unit ${r.unit}`} · seasons: see the regulations`)
-                        : <>{r.type === 'GENERAL' ? `${r.name} · ` : ''}{r.type === 'GENERAL' && seasonsSummary(r.tagSeasons) ? seasonsSummary(r.tagSeasons) : r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</>}
+                        : <>{r.type === 'CONTROLLED' ? `Area ${r.areaName}${r.units.length > 1 ? ` (units ${r.units.join(', ')})` : ''} · ` : ''}{r.type === 'GENERAL' && !/^Unit \S+ General/i.test(r.name) ? `${r.name} · ` : ''}{r.type === 'GENERAL' && seasonsSummary(r.tagSeasons) ? seasonsSummary(r.tagSeasons) : r.openDate ? range(r.openDate, r.closeDate) : 'Dates: see regulations'}</>}
                     </div>
                     <div className="hrow-stats">
                       <div>Draw Odds{r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}
