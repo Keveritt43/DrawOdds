@@ -472,3 +472,11 @@ test('planner: later choices only count when the tag reached them', async () => 
   const ics = icsFor([{ title: 'Test, window', start: new Date('2026-12-05'), end: new Date('2026-12-15') }]);
   assert.ok(ics.includes('DTSTART;VALUE=DATE:20261205') && ics.includes('DTEND;VALUE=DATE:20261216') && ics.includes('Test\\, window'));
 });
+
+test('hunter effort: days per hunter and per animal from years that report days', async () => {
+  const { summarizeHarvest } = await import('../src/sync/core/math');
+  const row = (year: number, hunters: number, harvest: number, days: number | null) => ({ year, hunters, harvest, days, antlered: null, antlerless: null, estWt: null, estMule: null, est4: null, est5: null, estSpike: null, est6: null });
+  const s = summarizeHarvest('ELK', [row(2025, 100, 20, 500), row(2024, 100, 10, null)] as never);
+  assert.equal(s.daysPerHunter5, 5);
+  assert.equal(s.daysPerHarvest5, 25);
+});

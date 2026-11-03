@@ -258,6 +258,8 @@ model HuntSummary {
   whitetailPct5    Float?
   deerType         String? // WHITETAIL | MULE | MIXED
   bigPct5          Float?
+  daysPerHunter5   Float? // hunter effort: days hunted per hunter (5-yr)
+  daysPerHarvest5  Float? // days hunted per animal taken (5-yr)
   avgSize5         Float? // moose antler spread / sheep and goat horn length, harvest-weighted 5-yr avg (in.)
   antlerlessShare5 Float?
   harvestYears     Int     @default(0)

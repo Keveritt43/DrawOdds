@@ -32,6 +32,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     { label: 'Draw and fill, per year', v: (r) => r[rf.tagAndFill], show: (r) => pct(r[rf.tagAndFill], 1), better: 'high' },
     { label: 'Hunter success, 5-yr', v: (r) => (r.smallSample ? null : r.success5), show: (r) => `${pct(r.success5)}${r.smallSample ? ' (small sample)' : ''}`, better: 'high' },
     { label: 'Latest season success', v: (r) => r.successLast, show: (r) => (r.successLast === null ? '-' : `${pct(r.successLast)}${r.harvestLastYear ? ` (${r.harvestLastYear})` : ''}`) },
+    { label: 'Days hunted per animal', v: (r) => (r.smallSample ? null : r.daysPerHarvest5), show: (r) => (r.daysPerHarvest5 === null ? '-' : `${Math.round(r.daysPerHarvest5)} days`), better: 'low' },
     { label: 'Hunters per sq mi', v: (r) => r.huntersSqMi, show: (r) => density(r.huntersSqMi), better: 'low' },
     { label: 'Hunters per year', v: (r) => (r.hunters5 && r.harvestYears ? r.hunters5 / r.harvestYears : null), show: (r) => (r.hunters5 && r.harvestYears ? int(r.hunters5 / r.harvestYears) : '-') },
     { label: 'Tags', v: (r) => r.tags ?? r.quota, show: (r) => (r.type === 'CONTROLLED' ? `${int(r.tags)}${nr && r.nrPermitsLast !== null ? ` (${int(r.nrPermitsLast)} NR drew)` : ''}` : r.nrTag && r.quota !== null ? `${int(r.quota)} NR quota` : 'Unlimited') },

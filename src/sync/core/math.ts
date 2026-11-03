@@ -198,6 +198,7 @@ export interface HarvestRow extends Estimates {
   harvest: number | null;
   antlered: number | null;
   antlerless: number | null;
+  days?: number | null;
 }
 
 export interface HarvestSummary {
@@ -214,6 +215,8 @@ export interface HarvestSummary {
   harvestLastYear: number | null;
   successLast: number | null;
   successPrev: number | null; // previous season, only when it was the year before
+  daysPerHunter5: number | null; // hunter effort: days hunted / hunters (years that report days)
+  daysPerHarvest5: number | null; // days hunted / animals taken
 }
 
 /** Fewer antlered animals than this over 5 years: the trophy share is too noisy to show. */
@@ -267,6 +270,12 @@ export function summarizeHarvest(species: SpeciesName, rows: HarvestRow[]): Harv
     harvestLastYear: five[0]?.year ?? null,
     successLast: five[0] ? ratio(five[0].harvest, five[0].hunters) : null,
     successPrev: five[1] && five[1].year === five[0].year - 1 ? ratio(five[1].harvest, five[1].hunters) : null,
+    ...(() => {
+      // effort: only years that report days, so the ratios use matching hunters and harvest
+      const ys = five.filter((r) => (r.days ?? 0) > 0);
+      const d = sumOf(ys, (r) => r.days ?? null);
+      return { daysPerHunter5: ratio(d, sumOf(ys, (r) => r.hunters)), daysPerHarvest5: ratio(d, sumOf(ys, (r) => r.harvest)) };
+    })(),
   };
 }
 

@@ -160,6 +160,8 @@ export async function buildSummaries(): Promise<StepResult> {
         whitetailPct5: hs.whitetailPct5,
         deerType: hs.deerType,
         bigPct5: hs.bigPct5,
+        daysPerHunter5: hs.daysPerHunter5,
+        daysPerHarvest5: hs.daysPerHarvest5,
         avgSize5: hs.avgSize5,
         antlerlessShare5: hs.antlerlessShare5,
         harvestYears: hs.years,
@@ -239,6 +241,8 @@ export async function buildSummaries(): Promise<StepResult> {
         whitetailPct5: hs.whitetailPct5,
         deerType: hs.deerType,
         bigPct5: hs.bigPct5,
+        daysPerHunter5: hs.daysPerHunter5,
+        daysPerHarvest5: hs.daysPerHarvest5,
         antlerlessShare5: hs.antlerlessShare5,
         harvestYears: hs.years,
         smallSample: hs.smallSample,
@@ -341,7 +345,7 @@ async function nrTagSummary(
   const success = hunters ? harvest / hunters : null;
   // trophy share and mule/whitetail split: same math as a general season, on the units' totals per year
   const perYear = new Map<number, HarvestRow>();
-  const F = ['hunters', 'harvest', 'antlered', 'antlerless', 'estWt', 'estMule', 'est4', 'est5', 'estSpike', 'est6'] as const;
+  const F = ['hunters', 'harvest', 'antlered', 'antlerless', 'estWt', 'estMule', 'est4', 'est5', 'estSpike', 'est6', 'days'] as const;
   for (const g of recent) {
     const y = perYear.get(g.year) ?? perYear.set(g.year, { year: g.year } as HarvestRow).get(g.year)!;
     for (const k of F) {
@@ -412,6 +416,8 @@ async function nrTagSummary(
     whitetailPct5: hs.whitetailPct5,
     deerType: hs.deerType,
     bigPct5: hs.bigPct5,
+    daysPerHunter5: hs.daysPerHunter5,
+    daysPerHarvest5: hs.daysPerHarvest5,
     antlerlessShare5: hs.antlerlessShare5,
     harvestYears: new Set(recent.map((g) => g.year)).size,
     harvestLastYear: lastYear || null,

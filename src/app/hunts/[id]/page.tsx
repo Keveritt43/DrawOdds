@@ -162,6 +162,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           </>
         )}
         <div className="stat"><div className="k">{s.nrTag && s.species === 'ELK' ? 'Success, this tag\'s weapons, ' : 'Hunter success, '}{s.harvestYears > 0 && s.harvestYears < 5 ? `${s.harvestYears}-yr` : '5-yr'}</div><div className="v">{pct(s.success5)}</div></div>
+        {s.daysPerHarvest5 !== null && <div className="stat"><div className="k">Hunter effort, 5-yr</div><div className="v">{Math.round(s.daysPerHarvest5)} days</div><div className="small muted">per animal taken · {s.daysPerHunter5 !== null ? `${s.daysPerHunter5.toFixed(1)} days per hunter` : ''}</div></div>}
         <div className="stat"><div className="k">Hunters per sq mi{s.hunters5 && s.harvestYears ? ` (${int(s.hunters5 / s.harvestYears)}/yr)` : ''}</div><div className="v">{s.huntersSqMi === null ? '-' : s.huntersSqMi < 10 ? s.huntersSqMi.toFixed(1) : Math.round(s.huntersSqMi)}</div></div>
         {TROPHY_LABEL[s.species] && <div className="stat"><div className="k">{TROPHY_LABEL[s.species]} share</div><div className="v">{pct(s.bigPct5)}</div></div>}
         {SIZE_LABEL[s.species as SpeciesKey] && <div className="stat"><div className="k">{SIZE_LABEL[s.species as SpeciesKey]}, 5-yr</div><div className="v">{s.avgSize5 !== null ? `${s.avgSize5.toFixed(1)}"` : '-'}</div></div>}

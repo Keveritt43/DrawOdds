@@ -120,6 +120,7 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
           {int(r.secondDrewLast)} tag{r.secondDrewLast === 1 ? '' : 's'} went to 2nd choices{r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}
         </span>
       )}
+      {r.daysPerHarvest5 !== null && !r.smallSample && <span title={r.daysPerHunter5 !== null ? `Hunters averaged ${r.daysPerHunter5.toFixed(1)} days afield` : undefined}><Term k="effort">Effort</Term> <b>{Math.round(r.daysPerHarvest5)} days</b> per animal</span>}
       {TROPHY_LABEL[r.species] && r.bigPct5 !== null && !r.smallSample && !seasonRules(r.tagSeasons, r.species).some((x) => x.startsWith('2-point')) && (
         <span><Term k="trophy">{TROPHY_LABEL[r.species]}</Term> <b>{pct(r.bigPct5)}</b> of {r.species === 'ELK' ? 'bulls' : 'bucks'} taken</span>
       )}
