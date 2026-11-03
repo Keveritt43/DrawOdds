@@ -457,3 +457,18 @@ test('score parts agree with the card chips', async () => {
   // archery deer at 25% is as good as rifle at 55%
   assert.equal(successVerdict(0.25, 'DEER', 'ARCHERY').tone, 'good');
 });
+
+test('planner: later choices only count when the tag reached them', async () => {
+  const { tagChances } = await import('../src/lib/plan');
+  const filled = { nrOdds5: 0.2, nrDraw: { applied: [500, 50], drew: [100, 0] } };
+  const open = { nrOdds5: 1, nrDraw: { applied: [100, 40, 10], drew: [100, 40, 10] } };
+  const c = tagChances([filled, open]);
+  assert.equal(c.at[0], 0.2);
+  assert.ok(Math.abs(c.at[1] - 0.8) < 1e-9); // the open tag catches everyone left
+  assert.ok(Math.abs(c.any - 1) < 1e-9);
+  const c2 = tagChances([open, filled]);
+  assert.equal(c2.at[1], 0); // never reached
+  const { icsFor } = await import('../src/lib/applyInfo');
+  const ics = icsFor([{ title: 'Test, window', start: new Date('2026-12-05'), end: new Date('2026-12-15') }]);
+  assert.ok(ics.includes('DTSTART;VALUE=DATE:20261205') && ics.includes('DTEND;VALUE=DATE:20261216') && ics.includes('Test\\, window'));
+});

@@ -1,3 +1,6 @@
+import { AddToPlan } from '@/components/Planner';
+import { CompareToggle } from '@/components/Compare';
+import { huntName } from '@/components/HuntTable';
 import Link from 'next/link';
 import { SPECIES_LABEL } from '@/lib/format';
 import { boundarySince } from '@/lib/boundaries';
@@ -117,6 +120,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'start' }}>
           <span className="btn" style={{ padding: '4px 10px' }}><Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></span>
+          {(ctl || (s.nrTag && nr)) && <AddToPlan id={s.id} kind={ctl ? 'controlled' : 'tag'} species={s.species} />}
+          <CompareToggle id={s.id} label={huntName(s)} />
           <a className="btn" target="_blank" rel="noreferrer"
             href={s.nrTag ? `https://idfg.idaho.gov/sites/default/files/nonresident-draw-data-and-descriptions_${(s.nrDraw as { year?: number } | null)?.year ?? s.hunt.year}-draw.pdf` : s.huntId > 0 ? `https://fishandgame.idaho.gov/ifwis/huntplanner/hunt?id=${s.huntId}` : `https://idfg.idaho.gov/sites/default/files/seasons-rules-big-game-${s.hunt.year}.pdf`}>
             {s.nrTag ? 'IDFG Draw Results' : s.huntId > 0 ? 'IDFG Page' : 'IDFG Regulations'}

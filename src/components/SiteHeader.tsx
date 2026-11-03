@@ -12,6 +12,7 @@ import type { Draw } from '@/lib/species';
 const LINKS = [
   { href: '/hunts', label: 'Find Hunts' },
   { href: '/map', label: 'Unit Map' },
+  { href: '/planner', label: 'Planner' },
   { href: '/migration', label: 'Migration' },
   { href: '/about', label: 'Data & Methods' },
 ];

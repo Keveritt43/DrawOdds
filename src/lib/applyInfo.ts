@@ -79,3 +79,57 @@ export function nextWindow(ws: Window[], now = new Date()): { w: Window; start: 
   const c = cands[0];
   return c ? { ...c, open: c.start <= today } : null;
 }
+
+/**
+ * Nonresident costs we've verified (2026 prices; IDFG sets 2027 fees in the nonresident supplement). Controlled
+ * hunt application fees and pronghorn / controlled tag prices aren't listed here: see IDFG's fee schedule.
+ * Sources: IDFG "Everything a nonresident hunter needs to know about the 2026 tag drawing"; goHUNT 2026 Idaho
+ * nonresident general season application strategy (fee table).
+ */
+export const NR_COSTS = {
+  year: 2026,
+  checked: '2026-11-03',
+  license: 185,
+  accessFee: 10,
+  generalDrawApp: 18,
+  deerTag: 351.75,
+  elkTag: 651.75,
+  note: 'License and application fees are nonrefundable. General deer and elk tags are bought only if you draw. Online purchases add a small convenience fee.',
+  feeSchedule: 'https://idfg.idaho.gov/licenses/fees-nonresident',
+};
+export const money = (n: number) => `$${n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
+
+/** Calendar file (.ics) for application windows. */
+export function icsFor(events: { title: string; start: Date; end: Date; note?: string }[]): string {
+  const d = (x: Date) => x.toISOString().slice(0, 10).replace(/-/g, '');
+  const esc = (s: string) => s.replace(/[\\,;]/g, (m) => `\\${m}`).replace(/\n/g, '\\n');
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//DrawOdds Idaho//Deadlines//EN', 'CALSCALE:GREGORIAN'];
+  for (const e of events) {
+    const end = new Date(e.end.getTime() + 86400_000); // all-day DTEND is exclusive
+    lines.push('BEGIN:VEVENT', `UID:${d(e.start)}-${e.title.replace(/\W+/g, '-').toLowerCase()}@drawodds`, `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z`,
+      `DTSTART;VALUE=DATE:${d(e.start)}`, `DTEND;VALUE=DATE:${d(end)}`, `SUMMARY:${esc(e.title)}`, ...(e.note ? [`DESCRIPTION:${esc(e.note)}`] : []),
+      'BEGIN:VALARM', 'TRIGGER:-P3D', 'ACTION:DISPLAY', `DESCRIPTION:${esc(e.title)}`, 'END:VALARM', 'END:VEVENT');
+  }
+  lines.push('END:VCALENDAR');
+  return lines.join('\r\n');
+}
+
+/** Every upcoming Idaho application window (next 12 months), for the calendar download and the planner. */
+export function upcomingWindows(now = new Date()): { title: string; start: Date; end: Date; note?: string }[] {
+  const out: { title: string; start: Date; end: Date; note?: string }[] = [];
+  const add = (prefix: string, ws: Window[]) => {
+    for (const w of ws) {
+      const yearly = w.start.split('-').length === 2;
+      for (const y of yearly ? [now.getUTCFullYear(), now.getUTCFullYear() + 1] : [0]) {
+        const r = (s: string) => { const p = s.split('-').map(Number); return p.length === 3 ? new Date(Date.UTC(p[0], p[1] - 1, p[2])) : new Date(Date.UTC(y, p[0] - 1, p[1])); };
+        const start = r(w.start);
+        const end = r(w.end);
+        if (end >= now && start.getTime() - now.getTime() < 366 * 86400_000) out.push({ title: `Idaho: ${prefix}${w.label}`, start, end, note: w.note });
+      }
+    }
+  };
+  add('NR general deer & elk tags - ', NR_GENERAL_DRAW.windows);
+  add('', CONTROLLED_DRAW.windows);
+  add('', MSG_DRAW.windows);
+  return out.sort((a, b) => a.start.getTime() - b.start.getTime());
+}

@@ -446,3 +446,15 @@ table.results.compare td .small { display: block; }
 .cmp-table td.best { background: #e6f4e3; font-weight: 700; }
 @media (prefers-color-scheme: dark) { .cmp-table td.best { background: #1f3a22; } }
 .cmp-wrap { overflow-x: auto; }
+/* planner */
+.plan-sec { margin: 14px 0; }
+.plan-sec h2 { margin-top: 0; }
+.plan-choices { padding-left: 22px; display: grid; gap: 8px; }
+.plan-choices select { width: 100%; max-width: 680px; padding: 6px; font: inherit; }
+.plan-p { display: block; font-size: .85rem; color: var(--muted); margin-top: 2px; }
+.plan-total { font-size: 1.05rem; }
+.btn.small { padding: 2px 8px; font-size: .8rem; }
+@media print {
+  .site-header, .site-footer, .no-print, .cmp-tray, .plan-sec:not(.plan-sheet), main.wrap > p, main.wrap > h1 + p { display: none !important; }
+  body { background: #fff !important; } main.wrap { box-shadow: none; border: 0; }
+}
