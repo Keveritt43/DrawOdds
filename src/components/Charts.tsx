@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  ResponsiveContainer, LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
+  ResponsiveContainer, LineChart, Line, BarChart, Bar, ComposedChart, XAxis, YAxis, Tooltip, CartesianGrid, Legend,
 } from 'recharts';
 import type { YearPoint } from '@/lib/history';
 
@@ -10,7 +10,7 @@ const NR = '#eb6834';
 const GRID = 'rgba(128,128,128,.2)';
 const pctFmt = (v: number) => `${Math.round(v * 100)}%`;
 const tip = (v: unknown, name: string) =>
-  typeof v === 'number' ? [name.includes('odds') || name.includes('success') ? `${(v * 100).toFixed(1)}%` : v.toLocaleString(), name] : [String(v), name];
+  typeof v === 'number' ? [name.includes('odds') || name.includes('success') || name.includes('share') ? `${(v * 100).toFixed(1)}%` : v.toLocaleString(), name] : [String(v), name];
 
 function Frame({ title, children, height = 220 }: { title: string; children: React.ReactElement; height?: number }) {
   return (
@@ -90,29 +90,41 @@ export function SuccessChart({ data, compare }: { data: YearPoint[]; compare?: {
   );
 }
 
+/**
+ * Antlered harvest (bars, counts) and the trophy share (line, %, right axis): 6+ point share of antlered bulls
+ * for elk, 4+ point share of antlered mule deer for deer. Counts are tiny in small hunts, so the share line is
+ * what shows the trend.
+ */
 export function QualityChart({ data, species }: { data: YearPoint[]; species: 'DEER' | 'ELK' }) {
+  const rows = data.map((d) => {
+    let base: number | null = d.antlered ?? null;
+    // deer: IDFG's 4+ is mule deer only (2016+), so compare with the mule share of the antlered harvest
+    if (species === 'DEER' && base !== null && d.mule != null && d.whitetail != null && d.mule + d.whitetail > 0) base = (base * d.mule) / (d.mule + d.whitetail);
+    return { ...d, bigShare: d.big != null && base ? Math.min(1, d.big / base) : null };
+  });
+  const elk = species === 'ELK';
   return (
-    <Frame title={species === 'DEER' ? 'Mule deer vs whitetail, and 4+ point mule deer (est)' : 'Antlered bulls and 6+ point bulls (est)'}>
-      <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+    <Frame title={elk ? 'Antlered bulls and 6+ point share (est)' : 'Mule deer vs whitetail, and 4+ point mule deer share (est)'}>
+      <ComposedChart data={rows} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
         <CartesianGrid stroke={GRID} vertical={false} />
         <XAxis dataKey="year" tickLine={false} />
-        <YAxis width={44} tickLine={false} />
+        <YAxis yAxisId="n" width={44} tickLine={false} />
+        <YAxis yAxisId="p" orientation="right" domain={[0, 1]} tickFormatter={pctFmt} width={40} tickLine={false} />
         <Tooltip formatter={tip} />
         <Legend />
-        {species === 'DEER' ? (
+        {elk ? (
           <>
-            <Bar name="Mule deer" dataKey="mule" stackId="s" fill="#2a78d6" />
-            <Bar name="Whitetail" dataKey="whitetail" stackId="s" fill="#eda100" />
-            <Bar name="Mule 4+ pts" dataKey="big" fill="#0f6e56" />
+            <Bar yAxisId="n" name="Antlered" dataKey="antlered" fill="#85B7EB" />
+            <Bar yAxisId="n" name="Antlerless" dataKey="antlerless" fill="#eda100" />
           </>
         ) : (
           <>
-            <Bar name="Antlered" dataKey="antlered" fill="#85B7EB" />
-            <Bar name="6+ point bulls" dataKey="big" fill="#0f6e56" />
-            <Bar name="Antlerless" dataKey="antlerless" fill="#eda100" />
+            <Bar yAxisId="n" name="Mule deer" dataKey="mule" stackId="s" fill="#2a78d6" />
+            <Bar yAxisId="n" name="Whitetail" dataKey="whitetail" stackId="s" fill="#eda100" />
           </>
         )}
-      </BarChart>
+        <Line yAxisId="p" name={elk ? '6+ point share' : 'Mule 4+ point share'} dataKey="bigShare" stroke="#0f6e56" strokeWidth={3} dot={{ r: 3 }} connectNulls />
+      </ComposedChart>
     </Frame>
   );
 }
