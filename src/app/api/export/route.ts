@@ -26,7 +26,9 @@ export async function GET(req: Request) {
     'Success latest %', 'Harvest year', 'Success 5-yr %', 'Hunters 5-yr', 'Harvest 5-yr', 'Hunters per sq mi', `Draw and fill ${res} %`,
     'Trophy share %', 'Deer type', 'Public land %', 'Access Yes! %', 'Small sample', 'Link',
   ];
-  const origin = new URL(req.url).origin;
+  // behind Railway's proxy req.url is the internal address: build links from the public host
+  const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host');
+  const origin = host ? `${req.headers.get('x-forwarded-proto') ?? 'https'}://${host}` : new URL(req.url).origin;
   const lines = [head.join(',')];
   for (const r of rows) {
     lines.push([
