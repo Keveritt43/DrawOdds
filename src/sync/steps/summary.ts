@@ -168,7 +168,9 @@ export async function buildSummaries(): Promise<StepResult> {
       continue;
     }
 
-    // general hunt: one row per unit (named in the hunt title when possible), using that unit's harvest for the same weapon
+    // general hunt: one row per unit (named in the hunt title when possible), using that unit's harvest for the same weapon.
+    // Listings with no weapon are controlled hunts IDFG linked by a bare area code ("10A"): skip them.
+    if (h.weapon === 'OTHER') continue;
     const named = unitsFromName(h.name);
     for (const unit of named.length ? named : h.units) {
       const method = METHOD[h.weapon] ?? 'All Weapons Combined';

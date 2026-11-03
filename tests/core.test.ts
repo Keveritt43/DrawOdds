@@ -248,3 +248,13 @@ test('harvest totals start at the unit boundary change', async () => {
   assert.equal(boundarySince('54'), null);
   assert.equal(boundarySince(null), null);
 });
+
+test('hunt list: a bare area code ("10A", "63AX") is a controlled listing, not a general season', async () => {
+  const { parseHuntList } = await import('../src/sync/core/parse');
+  for (const name of ['10A', '63AX', '36A-1X']) {
+    const html = `<div><a href="/ifwis/huntplanner/hunt?id=1">${name}</a> Oct 1, 2026 - Nov 15, 2026</div>`;
+    assert.equal(parseHuntList(html)[0].type, 'CONTROLLED', name);
+  }
+  const gen = '<div><a href="/ifwis/huntplanner/hunt?id=2">Unit 10A General Deer - Archery</a> Archery Aug 30, 2026 - Sep 30, 2026</div>';
+  assert.equal(parseHuntList(gen)[0].type, 'GENERAL');
+});
