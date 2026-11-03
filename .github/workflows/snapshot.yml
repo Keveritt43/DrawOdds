@@ -1,0 +1,21 @@
+name: Data snapshot
+# Manual: saves the live site's map data and hunt tables as a workflow artifact (for design / analysis work).
+on:
+  workflow_dispatch:
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch
+        run: |
+          mkdir out && cd out
+          B=https://web-production-39e54.up.railway.app
+          curl -sSf "$B/api/units?v=snapshot" -o units.json
+          for d in dep msg; do for a in res nr; do curl -sSf "$B/api/export?draw=$d&as=$a" -o hunts-$d-$a.csv; done; done
+          curl -sSf "$B/api/areas?species=PRONGHORN,MOOSE,BIGHORN,GOAT" -o areas.json
+          ls -la
+      - uses: actions/upload-artifact@v4
+        with:
+          name: snapshot
+          path: out
+          retention-days: 7
