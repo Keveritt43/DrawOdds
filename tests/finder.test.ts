@@ -49,8 +49,12 @@ test('hunters per sq mi: maximum filter, chip query round-trip', () => {
 
 test('elk zone filter: zone name -> its units', () => {
   const f = parseFilters({ zone: 'pioneer' });
-  assert.equal(f.zone, 'Pioneer');
+  assert.deepEqual(f.zones, ['Pioneer']);
+  const two = parseFilters({ zone: 'Pioneer,lolo,Nowhere' });
+  assert.deepEqual(two.zones, ['Pioneer', 'Lolo']);
+  assert.ok(JSON.stringify(buildWhere(two, 'RESIDENT')).includes('"units":{"hasSome":["36A","49","50","10","12"]}'));
+  assert.ok(toQuery(two).includes('zone=Pioneer%2CLolo'));
   assert.ok(JSON.stringify(buildWhere(f, 'RESIDENT')).includes('"units":{"hasSome":["36A","49","50"]}'));
   assert.ok(toQuery(f).includes('zone=Pioneer'));
-  assert.equal(parseFilters({ zone: 'Nowhere' }).zone, '');
+  assert.deepEqual(parseFilters({ zone: 'Nowhere' }).zones, []);
 });

@@ -10,3 +10,5 @@ export const WEAPON: Record<string, string> = { ANY: 'Any weapon', ARCHERY: 'Arc
 export const ANTLER: Record<string, string> = { ANTLERED: 'Antlered', ANTLERLESS: 'Antlerless', EITHER: 'Either sex' };
 export const DEERTYPE: Record<string, string> = { MULE: 'Mule deer', WHITETAIL: 'Whitetail', MIXED: 'Mixed' };
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+export const SPECIES_LABEL: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' };

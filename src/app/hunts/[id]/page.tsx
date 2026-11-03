@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SPECIES_LABEL } from '@/lib/format';
 import { boundarySince } from '@/lib/boundaries';
 import { sortedSeasons, seasonTitle, seasonDates } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
@@ -39,7 +40,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
     if (gen) compare = { label: `General season, unit ${mainUnit}`, data: await historyFor(gen) };
   }
   const land = (area?.landOwnership ?? (unitRows.length === 1 ? unitRows[0].landOwnership : null)) as { manager: string; pct: number }[] | null;
-  const title = s.huntNumber ? `${s.species === 'DEER' ? 'Deer' : 'Elk'} controlled hunt ${s.huntNumber}` : s.name;
+  const title = s.huntNumber ? `${SPECIES_LABEL[s.species]} controlled hunt ${s.huntNumber}` : s.name;
   const ctl = s.type === 'CONTROLLED';
   const rows = history.filter((h) => h.permits != null || h.resApps != null || h.hunters != null).sort((a, b) => b.year - a.year);
   const drawn = rows.filter((h) => h.permits != null || h.resApps != null);
@@ -101,7 +102,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         )}
         <div className="stat"><div className="k">Hunter success, {s.harvestYears > 0 && s.harvestYears < 5 ? `${s.harvestYears}-yr` : '5-yr'}</div><div className="v">{pct(s.success5)}</div></div>
         <div className="stat"><div className="k">Hunters per sq mi{s.hunters5 && s.harvestYears ? ` (${int(s.hunters5 / s.harvestYears)}/yr)` : ''}</div><div className="v">{s.huntersSqMi === null ? '-' : s.huntersSqMi < 10 ? s.huntersSqMi.toFixed(1) : Math.round(s.huntersSqMi)}</div></div>
-        <div className="stat"><div className="k">{s.species === 'DEER' ? 'Mule 4+ share' : '6+ bull share'}</div><div className="v">{pct(s.bigPct5)}</div></div>
+        {s.species !== 'PRONGHORN' && <div className="stat"><div className="k">{s.species === 'DEER' ? 'Mule 4+ share' : '6+ bull share'}</div><div className="v">{pct(s.bigPct5)}</div></div>}
         {s.species === 'DEER' && <div className="stat"><div className="k">Deer</div><div className="v" style={{ fontSize: 18 }}>{s.deerType ? `${DEERTYPE[s.deerType]} (${pct100(s.whitetailPct5)} WT)` : '-'}</div></div>}
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(s.publicPct)}</div></div>
         <div className="stat"><div className="k">Access Yes!</div><div className="v">{s.accessYesPct !== null ? `${s.accessYesPct > 0 && s.accessYesPct < 1 ? '<1' : Math.round(s.accessYesPct)}%` : '-'}</div></div>
@@ -118,7 +119,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         {s.type === 'CONTROLLED' && <ApplicantsChart data={history} />}
         <SuccessChart data={history} compare={compare} />
         <HarvestChart data={history} />
-        <QualityChart data={history} species={s.species} />
+        {s.species !== 'PRONGHORN' && <QualityChart data={history} species={s.species} />}
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Land and access</h3>
           <LandBar shares={land} />

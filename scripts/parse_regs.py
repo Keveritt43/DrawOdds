@@ -13,12 +13,14 @@ MON = {m: i for i, m in enumerate(['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'ju
 MONS = 'Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec'
 # hunt, area (a/b footnote letter and "(See pg N)" optional), anything (tags, "1st choice only"), first date range, notes
 LINE = re.compile(
-    r'^\s*(?P<hunt>[12]\d{3})\s+(?P<area>\d{1,2}[A-Z]?(?:-\d)?X?)[ab]?\s*(?:\(See pg \d+\))?(?P<mid>.*?)'
+    r'^\s*(?P<hunt>[124]\d{3})\s+(?P<area>\d{1,2}[A-Z]?(?:-\d)?X?)[ab]?\s*(?:\(See pg \d+\))?(?P<mid>.*?)'
     rf'(?P<d1>{MONS})\s+(?P<n1>\d{{1,2}})\s*-\s*(?P<d2>{MONS})\s+(?P<n2>\d{{1,2}})(?P<rest>.*)$'
 )
 # section headings, e.g. "2026 Controlled Hunts - Archery Only Deer - Archery Permit Required", "Antlerless Elk"
-HEAD = re.compile(r'(?P<h>(Youth Only ?-? ?)?(Extra )?(Antlered|Antlerless|Either Sex|Archery Only|Muzzleloader Only|Short[- ]Range (?:Weapon )?Only|Outfitter Allocation)[A-Za-z ()-]*?(Deer|Elk))\b')
-START = re.compile(r'^\s{0,40}[12]\d{3}\s+\d{1,2}[A-Z]?(?:-\d)?X?[ab]?\b')
+HEAD = re.compile(r'(?P<h>(Youth Only ?-? ?)?(Extra )?(Antlered|Antlerless|Either Sex|Doe or Fawn|Buck Only|Archery Only|Muzzleloader Only|Short[- ]Range (?:Weapon )?Only|Outfitter Allocation)[A-Za-z ()-]*?(Deer|Elk|Pronghorn))\b')
+# pronghorn's weapon sections name no species: "Archery Only - Archery Permit Required"
+HEAD2 = re.compile(r'^(?P<h>(Archery Only|Muzzleloader Only|Short[- ]Range Weapons? Only)\b.*Permit Required)')
+START = re.compile(r'^\s{0,40}[124]\d{3}\s+\d{1,2}[A-Z]?(?:-\d)?X?[ab]?\b')
 DATES = re.compile(r'[A-Z][a-z]{2}\s+\d{1,2}\s*-\s*[A-Z][a-z]{2}\s+\d{1,2}')
 
 
@@ -35,6 +37,10 @@ def classify(section: str, notes: str):
     n = notes.lower()
     if 'either sex' in n:
         antler = 'EITHER'
+    elif 'doe or fawn' in n or 'doe or fawn' in section.lower():
+        antler = 'ANTLERLESS'
+    elif 'buck only' in n or 'buck only' in section.lower():
+        antler = 'ANTLERED'
     elif 'antlerless' in n:
         antler = 'ANTLERLESS'
     elif 'antlered' in n:
@@ -60,7 +66,10 @@ def main(path, year):
         start = i
         i += 1
         if not START.match(line):
-            h = HEAD.search(line.strip())
+            if line.strip() == 'Youth Only' and 'Pronghorn' in lines[start - 1]:
+                section = 'Youth Only Pronghorn'  # mixed table: each hunt's note names its weapon
+                continue
+            h = HEAD.search(line.strip()) or HEAD2.search(line.strip())
             if h and len(line.strip()) < 110 and 'Controlled Hunt Area' not in line and 'DESCRIPTIONS' not in line:
                 section = h.group('h').strip()
             continue
@@ -77,7 +86,7 @@ def main(path, year):
             print(f'unparsed: {line[:120]}', file=sys.stderr)
             continue
         hunt = int(m['hunt'])
-        species = 'DEER' if hunt < 2000 else 'ELK'
+        species = 'DEER' if hunt < 2000 else 'ELK' if hunt < 3000 else 'PRONGHORN'
         d1, d2 = MON.get(m['d1'][:3].lower()), MON.get(m['d2'][:3].lower())
         if not d1 or not d2:
             continue
@@ -85,7 +94,23 @@ def main(path, year):
         y1 = year + 1 if d1 <= 3 else year
         y2 = y1 + 1 if d2 < d1 else y1
         notes = re.sub(r'\s+', ' ', m['rest']).strip()
+        if hunt >= 4000:
+            # pronghorn tables print some notes on the line(s) above the row: take a text-only line just above
+            # (the note block directly above, up to 6 lines back, stopping at the previous row or a heading)
+            block = []
+            for l in reversed(lines[max(0, start - 6):start]):
+                t = l.strip()
+                if not t or t == 'PRONGHORN':
+                    continue
+                if START.match(l) or DATES.search(t) or HEAD.search(t) or re.match(r'^(Hunt No|Controlled|Hunt Areas|Youth Only|[ab]$)', t):
+                    break
+                block.insert(0, t)
+            pre = ' '.join(block)
+            if pre and re.search(r'(Either sex|Doe or Fawn|Buck only|only)', pre, re.I):
+                notes = f'{pre} {notes}'.strip()
         weapon, antler = classify(section, notes)
+        if hunt >= 4000 and weapon == 'SHORT_RANGE' and re.search(r'short[- ]range weapons only on', notes, re.I):
+            weapon = 'ANY'  # short range only on named WMAs, not the whole hunt
         # tags: first number between area and dates; "Unlimited" there or on the line above means no cap
         prev = lines[start - 1] if start > 0 else ''
         tm = re.search(r'(?<![\w/])(\d[\d,]*)(?![\w/])', re.sub(r'\d+(st|nd|rd|th)\b', '', m['mid']))
@@ -102,7 +127,7 @@ def main(path, year):
         }
     rows = sorted(out.values(), key=lambda r: (r['species'], r['huntNumber']))
     json.dump({'year': year, 'source': 'IDFG Big Game Seasons & Rules', 'hunts': rows}, sys.stdout, indent=1)
-    print(f"\n{len(rows)} hunts: {sum(r['species']=='DEER' for r in rows)} deer, {sum(r['species']=='ELK' for r in rows)} elk", file=sys.stderr)
+    print(f"\n{len(rows)} hunts: {sum(r['species']=='DEER' for r in rows)} deer, {sum(r['species']=='ELK' for r in rows)} elk, {sum(r['species']=='PRONGHORN' for r in rows)} pronghorn", file=sys.stderr)
 
 
 if __name__ == '__main__':

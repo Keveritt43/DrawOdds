@@ -8,7 +8,7 @@ import { ResidencySwitch } from './ResidencySwitch';
 
 type Opt = [value: string, label: string];
 
-const SPECIES: Opt[] = [['', 'Deer & Elk'], ['ELK', 'Elk'], ['DEER', 'Deer']];
+const SPECIES: Opt[] = [['', 'All Species'], ['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn (controlled only)']];
 const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons']];
 const NRTAG: Opt = ['NRTAG', 'General Tag Draw (Nonresident)'];
 const WEAPONS: Opt[] = [['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader'], ['SHORT_RANGE', 'Short Range']];
@@ -122,11 +122,14 @@ export function FilterRail({ residency }: { residency: Residency }) {
         <Section title="Youth Hunts" value={{ exclude: 'Hidden', include: 'Included', only: 'Youth Only' }[(get('youth') || 'exclude') as 'exclude']} set={!!get('youth')}>
           {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
         </Section>
-        <Section title="Elk Zone" value={get('zone') ? `${get('zone')} (units ${(ELK_ZONES[get('zone')] ?? []).join(', ')})` : 'Any'} set={!!get('zone')}>
-          <select aria-label="Elk zone" value={get('zone')} onChange={(e) => push({ zone: e.target.value || null })}>
-            <option value="">Any zone</option>
-            {ELK_ZONE_NAMES.slice().sort().map((z) => <option key={z} value={z}>{z} ({ELK_ZONES[z].join(', ')})</option>)}
-          </select>
+        <Section title="Elk Zones" value={list('zone').length ? list('zone').join(', ') : 'Any'} set={list('zone').length > 0}>
+          <div className="checks2 zone-checks">
+            {ELK_ZONE_NAMES.slice().sort().map((z) => (
+              <label key={z} title={`Units ${ELK_ZONES[z].join(', ')}`}>
+                <input type="checkbox" checked={list('zone').includes(z)} onChange={() => toggle('zone', z)} /> {z} <span className="small muted">({ELK_ZONES[z].join(', ')})</span>
+              </label>
+            ))}
+          </div>
           <p className="small muted" style={{ margin: '6px 0 0' }}>Shows the zone&apos;s units with every hunt in them, deer and elk: pick the elk zone you&apos;re applying for and see the deer units that overlap.</p>
         </Section>
         <Section title="Unit / Search" value={[get('unit') && `Unit ${get('unit')}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>

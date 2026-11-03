@@ -268,3 +268,15 @@ test('harvest rows with more harvest than hunters are dropped (no 400% success)'
   assert.equal(s.success5, 3 / 5);
   assert.equal(s.years, 2);
 });
+
+test('harvest tables are kept only when the columns match the species (no deer page saved as pronghorn)', async () => {
+  const { speciesColumns } = await import('../src/sync/core/parse');
+  const deer = { 'hunt#': '1001', hunters: '5', '%4+pts': '40', '%whitetail': '10' };
+  const elk = { 'hunt#': '2001', hunters: '5', '%spike': '20', '%6+pts': '30' };
+  const ant = { 'hunt#': '4001', hunters: '5', horned: '3', hornless: '1' };
+  assert.equal(speciesColumns('DEER', deer), true);
+  assert.equal(speciesColumns('PRONGHORN', deer), false);
+  assert.equal(speciesColumns('PRONGHORN', ant), true);
+  assert.equal(speciesColumns('ELK', elk), true);
+  assert.equal(speciesColumns('ELK', deer), false);
+});

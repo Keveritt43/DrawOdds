@@ -292,3 +292,4 @@ table.results tr.old td { opacity: .45; }
 .sstrip-row i { position: absolute; top: 1px; height: 10px; border-radius: 3px; }
 .sstrip-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .76rem; color: var(--muted); margin-top: 6px; }
 .sstrip-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.zone-checks { grid-template-columns: 1fr; max-height: 260px; overflow: auto; }

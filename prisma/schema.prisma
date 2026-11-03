@@ -10,6 +10,7 @@ datasource db {
 enum Species {
   DEER
   ELK
+  PRONGHORN
 }
 
 enum Residency {

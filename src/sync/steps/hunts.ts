@@ -5,7 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 interface RegsHunt {
-  species: 'DEER' | 'ELK';
+  species: 'DEER' | 'ELK' | 'PRONGHORN';
   huntNumber: number;
   area: string;
   tags: number | null;
@@ -45,7 +45,7 @@ export async function syncHunts(): Promise<StepResult> {
   const units = await db.unit.findMany({ where: { idfgId: { not: null } }, select: { name: true, idfgId: true } });
   if (units.length < 90) return { rows: 0, status: 'ERROR', details: [`Only ${units.length} units with Hunt Planner IDs - run the land step first`] };
 
-  const found = new Map<number, ListedHunt & { species: 'DEER' | 'ELK'; units: Set<string> }>();
+  const found = new Map<number, ListedHunt & { species: 'DEER' | 'ELK' | 'PRONGHORN'; units: Set<string> }>();
   for (const { code, species } of SPECIES) {
     for (const u of units) {
       try {
@@ -151,7 +151,7 @@ export async function syncHunts(): Promise<StepResult> {
         type: 'CONTROLLED',
         huntNumber: r.huntNumber,
         source: 'regs',
-        name: `${r.species === 'DEER' ? 'Deer' : 'Elk'} Controlled Hunt ${r.huntNumber}`,
+        name: `${{ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' }[r.species]} Controlled Hunt ${r.huntNumber}`,
         units: [],
         rawText: [r.section, r.notes].filter(Boolean).join(' - '),
       });

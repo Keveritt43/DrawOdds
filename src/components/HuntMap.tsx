@@ -10,7 +10,11 @@ import { baseStyle, setBasemap, IDAHO_CENTER, type Basemap } from '@/lib/basemap
  * Filtering map: units with a matching hunt are filled blaze orange, the rest are outlines only.
  * Click a unit to narrow the results to it (click again to clear).
  */
-export function HuntMap({ matched, selected, chips, showZones = false, zone = '' }: { matched: string[]; selected: string; chips: { label: string; href: string }[]; showZones?: boolean; zone?: string }) {
+export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '' }: {
+  matched: string[]; selected: string; chips: { label: string; href: string }[]; showZones?: boolean; zones?: string[];
+  /** a species hunted by its own hunt areas (pronghorn): draw those instead of filling units */
+  areaSpecies?: string; matchedAreas?: string[]; selectedArea?: string;
+}) {
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const loaded = useRef(false);
@@ -117,15 +121,72 @@ export function HuntMap({ matched, selected, chips, showZones = false, zone = ''
       if (!zonesAdded.current || !m.getLayer('zones-line')) return;
       const vis = showZones ? 'visible' : 'none';
       for (const id of ['zones-casing', 'zones-line', 'zones-label']) m.setLayoutProperty(id, 'visibility', vis);
-      m.setPaintProperty('zones-line', 'line-width', zone ? ['case', ['==', ['get', 'zone'], zone], 4.5, 2] : 2.6);
+      m.setPaintProperty('zones-line', 'line-width', zones.length ? ['case', ['in', ['get', 'zone'], ['literal', zones]], 4.5, 2] : 2.6);
     };
     apply();
     m.on('ready', apply);
     return () => void m.off('ready', apply);
-  }, [showZones, zone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showZones, zones.join(',')]);
   useEffect(() => {
     if (map.current && loaded.current) setBasemap(map.current, kind);
   }, [kind]);
+
+  // hunt-area mode (pronghorn): its areas are filled, units become faint reference lines; click an area to narrow
+  const areasLoaded = useRef('');
+  const prevAreas = useRef<string[]>([]);
+  useEffect(() => {
+    const m = map.current;
+    if (!m) return;
+    const apply = async () => {
+      if (!loaded.current) return;
+      if (areaSpecies && areasLoaded.current !== areaSpecies) {
+        try {
+          const fc = await (await fetch(`/api/areas?species=${areaSpecies}`)).json();
+          if (m.getSource('areas')) (m.getSource('areas') as maplibregl.GeoJSONSource).setData(fc);
+          else {
+            m.addSource('areas', { type: 'geojson', data: fc, promoteId: 'name' });
+            m.addLayer({ id: 'areas-fill', type: 'fill', source: 'areas', paint: { 'fill-color': '#0f6e56', 'fill-opacity': ['case', ['boolean', ['feature-state', 'match'], false], 0.35, 0.04] } }, 'units-label');
+            m.addLayer({ id: 'areas-line', type: 'line', source: 'areas', paint: { 'line-color': '#0b4f3e', 'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 4, 1.6] } }, 'units-label');
+            m.addLayer({
+              id: 'areas-label', type: 'symbol', source: 'areas',
+              layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 11, 'text-allow-overlap': false },
+              paint: { 'text-color': '#0b4f3e', 'text-halo-color': '#ffffff', 'text-halo-width': 1.6 },
+            });
+            m.on('click', 'areas-fill', (e) => {
+              const name = String(e.features?.[0]?.properties?.name ?? '');
+              if (!name) return;
+              const p = new URLSearchParams(spRef.current.toString());
+              if (p.get('q') === name) p.delete('q');
+              else p.set('q', name);
+              p.delete('page');
+              router.push(`/hunts${p.size ? `?${p}` : ''}`, { scroll: false });
+            });
+            m.on('mouseenter', 'areas-fill', () => (m.getCanvas().style.cursor = 'pointer'));
+            m.on('mouseleave', 'areas-fill', () => (m.getCanvas().style.cursor = ''));
+          }
+          areasLoaded.current = areaSpecies;
+        } catch (e) {
+          console.error(e);
+          return;
+        }
+      }
+      const on = !!areaSpecies && !!m.getLayer('areas-fill');
+      for (const id of ['areas-fill', 'areas-line', 'areas-label']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+      // units: no fill / no click target while areas are shown
+      m.setLayoutProperty('units-fill', 'visibility', on ? 'none' : 'visible');
+      m.setPaintProperty('units-line', 'line-opacity', on ? 0.35 : 0.85);
+      if (on) {
+        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false });
+        for (const a of matchedAreas) m.setFeatureState({ source: 'areas', id: a }, { match: true, sel: a === selectedArea });
+        prevAreas.current = matchedAreas;
+      }
+    };
+    apply();
+    m.on('ready', apply);
+    return () => void m.off('ready', apply);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [areaSpecies, matchedAreas.join(','), selectedArea]);
 
   return (
     <div style={{ position: 'absolute', inset: 0 }}>

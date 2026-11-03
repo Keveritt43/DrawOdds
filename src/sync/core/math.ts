@@ -2,7 +2,7 @@
  * Pure calculation logic shared by the sync job and the app. No I/O - unit tested.
  */
 
-export type SpeciesName = 'DEER' | 'ELK';
+export type SpeciesName = 'DEER' | 'ELK' | 'PRONGHORN';
 
 // IDFG footnote: "Beginning in 2016 calculations for %4+Pts are based on mule deer and %5+pts are based on white-tailed deer."
 export const SPLIT_YEAR = 2016;
@@ -46,7 +46,7 @@ export function estimates(species: SpeciesName, year: number, h: HarvestInput): 
       e.est4 = pct(h.antlered, h.pct4);
       e.est5 = pct(h.antlered, h.pct5);
     }
-  } else {
+  } else if (species === 'ELK') {
     e.estSpike = pct(h.antlered, h.pctSpike);
     e.est6 = pct(h.antlered, h.pct6);
   }
@@ -214,7 +214,7 @@ export function summarizeHarvest(species: SpeciesName, rows: HarvestRow[]): Harv
   const antlered = sumOf(five, (r) => r.antlered);
   let bigPct: number | null = null;
   if (species === 'ELK') bigPct = ratio(sumOf(five, (r) => r.est6), antlered);
-  else {
+  else if (species === 'DEER') {
     const muleAnt = sumOf(five, (r) =>
       r.antlered === null ? null : r.year >= SPLIT_YEAR && r.estWt !== null && r.harvest ? r.antlered * (1 - r.estWt / r.harvest) : r.antlered,
     );

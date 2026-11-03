@@ -5,7 +5,7 @@ export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'al
 export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
 
 export interface Filters {
-  species: 'DEER' | 'ELK' | '';
+  species: 'DEER' | 'ELK' | 'PRONGHORN' | '';
   type: 'CONTROLLED' | 'GENERAL' | 'NRTAG' | ''; // NRTAG = nonresident general tag draw
   weapon: ('ANY' | 'ARCHERY' | 'MUZZLELOADER' | 'SHORT_RANGE')[];
   antler: ('ANTLERED' | 'ANTLERLESS' | 'EITHER')[];
@@ -22,7 +22,7 @@ export interface Filters {
   accessYes: boolean;
   youth: 'exclude' | 'include' | 'only';
   unit: string;
-  zone: string; // elk zone name: hunts in any of its units
+  zones: string[]; // elk zone names: hunts in any of their units
   q: string;
   sort: Sort;
   page: number;
@@ -41,7 +41,7 @@ const pick = <T extends string>(v: string[], allowed: readonly T[]) => v.map((x)
 export function parseFilters(sp: SP): Filters {
   const sort = one(sp.sort) as Sort;
   return {
-    species: pick([one(sp.species)], ['DEER', 'ELK'] as const)[0] ?? '',
+    species: pick([one(sp.species)], ['DEER', 'ELK', 'PRONGHORN'] as const)[0] ?? '',
     type: pick([one(sp.type)], ['CONTROLLED', 'GENERAL', 'NRTAG'] as const)[0] ?? '',
     weapon: pick(list(sp.weapon), ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE'] as const),
     antler: pick(list(sp.antler), ['ANTLERED', 'ANTLERLESS', 'EITHER'] as const),
@@ -58,7 +58,7 @@ export function parseFilters(sp: SP): Filters {
     accessYes: one(sp.accessYes) === '1',
     youth: (['include', 'only'] as const).find((y) => y === one(sp.youth)) ?? 'exclude',
     unit: one(sp.unit).trim().toUpperCase().slice(0, 6),
-    zone: ELK_ZONE_NAMES.find((z) => z.toLowerCase() === one(sp.zone).trim().toLowerCase()) ?? '',
+    zones: [...new Set(list(sp.zone).map((v) => ELK_ZONE_NAMES.find((z) => z.toLowerCase() === v.trim().toLowerCase())).filter((z): z is string => !!z))],
     q: one(sp.q).trim().slice(0, 60),
     sort: SORTS.includes(sort) ? sort : 'best',
     page: Math.max(1, Math.min(200, Number(one(sp.page)) || 1)),
@@ -101,7 +101,7 @@ export function buildWhere(f: Filters, r: Residency): Prisma.HuntSummaryWhereInp
   if (f.youth === 'exclude') and.push({ youthOnly: false });
   if (f.youth === 'only') and.push({ youthOnly: true });
   if (f.unit) and.push({ units: { has: f.unit } });
-  if (f.zone) and.push({ units: { hasSome: ELK_ZONES[f.zone] } });
+  if (f.zones.length) and.push({ units: { hasSome: zoneUnits(f.zones) } });
   if (f.q) {
     const n = Number(f.q);
     and.push({
@@ -177,10 +177,16 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('accessYes', m.accessYes);
   if (m.youth && m.youth !== 'exclude') set('youth', m.youth);
   set('unit', m.unit);
-  set('zone', m.zone);
+  set('zone', m.zones);
   set('q', m.q);
   if (m.sort && m.sort !== 'best') set('sort', m.sort);
   if (m.page && m.page > 1) set('page', m.page);
   const s = p.toString();
   return s ? `?${s}` : '';
 }
+
+/** Units of the chosen elk zones. */
+export function zoneUnits(zones: string[]): string[] {
+  return [...new Set(zones.flatMap((z) => ELK_ZONES[z] ?? []))];
+}
+

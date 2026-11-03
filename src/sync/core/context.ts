@@ -9,9 +9,11 @@ export const GMU_LAYER =
   'https://services.arcgis.com/FjJI5xHF2dUPVrgK/ArcGIS/rest/services/GameManagementUnits/FeatureServer/0/query';
 export const HUNTING_MAPSERVER = 'https://gisportal-idfg.idaho.gov/hosting/rest/services/Hunting/MapServer';
 
+/** code = odds API / hunt list BigGameID; game = harvest stats page name (and the word its title uses); general = has general seasons */
 export const SPECIES = [
-  { code: 1, species: 'DEER' as const, game: 'deer' },
-  { code: 2, species: 'ELK' as const, game: 'elk' },
+  { code: 1, species: 'DEER' as const, game: 'deer', title: 'Deer', general: true },
+  { code: 2, species: 'ELK' as const, game: 'elk', title: 'Elk', general: true },
+  { code: 3, species: 'PRONGHORN' as const, game: 'antelope', title: 'Antelope', general: false }, // controlled hunts only
 ];
 
 export const FIRST_ODDS_YEAR = 1998;

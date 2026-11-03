@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SPECIES_LABEL } from '@/lib/format';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
@@ -57,7 +58,7 @@ export default async function Account() {
         return (
           <div key={hunt.idfgId} className="card star-head" style={{ marginBottom: 8, flexWrap: 'wrap' }}>
             <Star kind="hunt" id={hunt.idfgId} saved signedIn />
-            {s ? <Link href={`/hunts/${encodeURIComponent(s.id)}`}><b>{s.huntNumber ? `${s.species === 'DEER' ? 'Deer' : 'Elk'} ${s.huntNumber}` : s.name}</b></Link> : <b>{hunt.name}</b>}
+            {s ? <Link href={`/hunts/${encodeURIComponent(s.id)}`}><b>{s.huntNumber ? `${SPECIES_LABEL[s.species]} ${s.huntNumber}` : s.name}</b></Link> : <b>{hunt.name}</b>}
             <span className="small muted">{hunt.openDate ? range(hunt.openDate, hunt.closeDate) : 'dates: see regulations'}{s ? ` · odds ${pct(s[rf.odds5], 1)} · success ${pct(s.success5)}` : ''}</span>
             {!s && <span className="pill warn">Not offered this season</span>}
           </div>

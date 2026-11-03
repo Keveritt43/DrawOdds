@@ -295,3 +295,12 @@ export function unitsFromName(name: string): string[] {
 export function parentUnit(area: string): string {
   return String(area).toUpperCase().replace(/X$/, '').replace(/-\d+$/, '');
 }
+
+/** Each species' stats table has its own columns: deer %4+/%whitetail, elk %6+/%spike, pronghorn horned/hornless. */
+export function speciesColumns(species: 'DEER' | 'ELK' | 'PRONGHORN', row: Row): boolean {
+  const k = Object.keys(row);
+  if (species === 'PRONGHORN') return k.includes('horned') || k.includes('hornless');
+  if (species === 'ELK') return k.includes('%6+pts') || k.includes('%spike');
+  return k.includes('%4+pts') || k.includes('%whitetail');
+}
+

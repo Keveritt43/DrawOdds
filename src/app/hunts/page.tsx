@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { ELK_ZONES } from '@/lib/elkZones';
+import { SPECIES_LABEL } from '@/lib/format';
 import { seasonsSummary } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
-import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, type Filters } from '@/lib/finder';
+import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUnits, type Filters } from '@/lib/finder';
 import { FilterRail } from '@/components/FilterRail';
 import { HuntMap } from '@/components/HuntMap';
 import { SortSelect } from '@/components/SortSelect';
@@ -18,13 +18,13 @@ export const metadata = { title: 'Filtering: Find An Idaho Hunt - DrawOdds' };
 
 const MAX_ROWS = 800;
 
-type Group = { key: string; title: string; kind: 'unit'; name: string; rows: HuntSummary[] };
+type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; rows: HuntSummary[] };
 
 /** Active filters as removable chips over the map. */
 function chips(f: Filters, nr: boolean): { label: string; href: string }[] {
   const out: { label: string; href: string }[] = [{ label: nr ? 'Nonresident' : 'Resident', href: '/account' }];
   const add = (label: string, patch: Partial<Filters>) => out.push({ label, href: `/hunts${toQuery(f, { ...patch, page: 1 })}` });
-  if (f.species) add(f.species === 'ELK' ? 'Elk' : 'Deer', { species: '' });
+  if (f.species) add(SPECIES_LABEL[f.species], { species: '' });
   if (f.type) add(f.type === 'CONTROLLED' ? 'Controlled' : 'General', { type: '' });
   f.weapon.forEach((w) => add(WEAPON[w], { weapon: f.weapon.filter((x) => x !== w) }));
   f.antler.forEach((a) => add(ANTLER[a], { antler: f.antler.filter((x) => x !== a) }));
@@ -40,7 +40,7 @@ function chips(f: Filters, nr: boolean): { label: string; href: string }[] {
   if (f.minTags) add(`${f.minTags}+ tags`, { minTags: null });
   if (f.maxDensity) add(`≤ ${f.maxDensity} hunters/mi²`, { maxDensity: null });
   if (f.unit) add(`Unit ${f.unit}`, { unit: '' });
-  if (f.zone) add(`${f.zone} elk zone`, { zone: '' });
+  for (const z of f.zones) add(`${z} elk zone`, { zones: f.zones.filter((x) => x !== z) });
   if (f.q) add(`"${f.q}"`, { q: '' });
   return out;
 }
@@ -61,15 +61,24 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   // them), then the controlled hunts. A controlled hunt (or tag) covering several units appears in each.
   // Elk: the zone A / B tag is the listing (it carries the seasons, odds and quota), so the per-weapon general
   // elk rows would repeat it. Deer: the general seasons carry the Regular Deer tag; the White-tailed tag stays.
+  const zu = f.zones.length ? zoneUnits(f.zones) : null;
   const visible = f.type === 'NRTAG' ? rows : rows.filter((r) =>
     r.nrTag ? r.species === 'ELK' || !!r.tagCode?.startsWith('WD') : !(r.type === 'GENERAL' && r.species === 'ELK'));
   const groups = new Map<string, Group>();
   for (const r of visible) {
+    // pronghorn: its own hunt-area boundaries, not units: one card per pronghorn hunt area
+    if (r.species === 'PRONGHORN') {
+      if (f.unit && !r.units.includes(f.unit)) continue;
+      const key = `PRONGHORN|${r.areaName}`;
+      const g = groups.get(key) ?? groups.set(key, { key, kind: 'area', name: r.areaName ?? '?', rows: [], title: `Pronghorn Area ${r.areaName}` }).get(key)!;
+      g.rows.push(r);
+      continue;
+    }
     const us = r.type === 'GENERAL' && !r.nrTag ? [r.unit ?? r.units[0]] : r.units;
     for (const u of us) {
-      if (!u || (f.unit && u !== f.unit) || (f.zone && !ELK_ZONES[f.zone].includes(u))) continue;
+      if (!u || (f.unit && u !== f.unit) || (zu && !zu.includes(u))) continue;
       const key = `${r.species}|${u}`;
-      const g = groups.get(key) ?? groups.set(key, { key, kind: 'unit', name: u, rows: [], title: `Unit ${u} · ${r.species === 'ELK' ? 'Elk' : 'Deer'}` }).get(key)!;
+      const g = groups.get(key) ?? groups.set(key, { key, kind: 'unit', name: u, rows: [], title: `Unit ${u} · ${SPECIES_LABEL[r.species]}` }).get(key)!;
       g.rows.push(r);
     }
   }
@@ -78,7 +87,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   for (const g of list) g.rows.sort((a, b) => (a.type === 'CONTROLLED' ? 1 : 0) - (b.type === 'CONTROLLED' ? 1 : 0));
   // highlight what was asked for: the clicked unit only, or the zone's units, or every unit with a match
   // (a multi-unit controlled hunt or zone tag in the results shouldn't light up its other units)
-  const matched = f.unit ? [f.unit] : [...new Set(rows.flatMap((r) => r.units))].filter((u) => !f.zone || ELK_ZONES[f.zone].includes(u));
+  const matched = f.unit ? [f.unit] : [...new Set(rows.flatMap((r) => r.units))].filter((u) => !zu || zu.includes(u));
   const unitInfo = new Map(
     (await db.unit.findMany({ where: { name: { in: list.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]),
   );
@@ -91,7 +100,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   return (
     <main className="filtering">
       <section className="f-map" aria-label="Map of matching units">
-        <HuntMap matched={matched} selected={f.unit} chips={chips(f, nr)} showZones={f.species !== 'DEER'} zone={f.zone} />
+        <HuntMap matched={matched} selected={f.unit} chips={chips(f, nr)} showZones={f.species === 'ELK' || f.species === ''} zones={f.zones}
+          areaSpecies={f.species === 'PRONGHORN' ? 'PRONGHORN' : ''}
+          matchedAreas={f.species === 'PRONGHORN' ? [...new Set(rows.filter((r) => r.species === 'PRONGHORN').map((r) => r.areaName ?? ''))].filter(Boolean) : []}
+          selectedArea={f.species === 'PRONGHORN' ? f.q.toUpperCase() : ''} />
       </section>
 
       <section className="f-list" aria-label="Results">
@@ -113,19 +125,21 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           const u = unitInfo.get(g.name);
           const gen = g.rows.find((r) => r.type === 'GENERAL' && !r.nrTag) ?? first;
           const ay = u?.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : null;
-          const desc = [u?.elkZone ? `${u.elkZone} elk zone` : '', `${g.rows.length} hunt${g.rows.length === 1 ? '' : 's'}`].filter(Boolean).join(' · ');
+          const desc = g.kind === 'area'
+            ? [`Units ${first.units.join(', ')}`, `${g.rows.length} hunt${g.rows.length === 1 ? '' : 's'}`].join(' · ')
+            : [u?.elkZone ? `${u.elkZone} elk zone` : '', `${g.rows.length} hunt${g.rows.length === 1 ? '' : 's'}`].filter(Boolean).join(' · ');
           const big = best(g, 'bigPct5');
           return (
             <article key={g.key} className={`ucard ${f.unit === g.name ? 'sel' : ''}`}>
               <h2 className="star-head">
-                <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />
-                <Link href={unitHref(g.name, f)}>{g.title}</Link>
+                {g.kind === 'unit' && <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />}
+                <Link href={g.kind === 'unit' ? unitHref(g.name, f) : `/hunts/${encodeURIComponent(first.id)}`}>{g.title}</Link>
               </h2>
               <p className="desc">{desc}</p>
               <div className="ustats">
                 <div>Trophy<b>{pct(big)}</b></div>
-                <div>Public Land<b>{pct100(u?.publicPct ?? first.publicPct)}</b></div>
-                <div>Access Yes!<b>{ay !== null ? `${ay < 1 && ay > 0 ? '<1' : Math.round(ay)}%` : '-'}</b></div>
+                <div>Public Land<b>{pct100(g.kind === 'area' ? first.publicPct : u?.publicPct ?? first.publicPct)}</b></div>
+                <div>Access Yes!<b>{g.kind === 'area' ? (first.accessYesPct !== null ? `${first.accessYesPct < 1 && first.accessYesPct > 0 ? '<1' : Math.round(first.accessYesPct)}%` : '-') : ay !== null ? `${ay < 1 && ay > 0 ? '<1' : Math.round(ay)}%` : '-'}</b></div>
                 <div>{first.species === 'DEER' ? 'Deer' : 'Hunts'}<b style={{ fontSize: first.species === 'DEER' ? '1rem' : undefined }}>{first.species === 'DEER' ? (gen.deerType ? DEERTYPE[gen.deerType] : '-') : g.rows.length}</b></div>
               </div>
               {g.rows.map((r) => {

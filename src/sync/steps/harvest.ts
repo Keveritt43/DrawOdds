@@ -1,6 +1,6 @@
 import { db, STATS_BASE, SPECIES, FIRST_HARVEST_YEAR, yearsToFetch, type StepOptions, type StepResult } from '../core/context';
 import { get } from '../core/http';
-import { parseStatsTable, normArea, num, type Row } from '../core/parse';
+import { parseStatsTable, normArea, num, speciesColumns, type Row } from '../core/parse';
 import { estimates, type SpeciesName } from '../core/math';
 
 const MIN_LAST_UNIT = 70; // general pages should reach the high-70s units; stopping earlier = cut off
@@ -11,8 +11,8 @@ function fields(species: SpeciesName, year: number, h: Row) {
     harvest: num(h['harvest']),
     successPct: num(h['success%']),
     days: num(h['days']),
-    antlered: num(h['antlered']),
-    antlerless: num(h['antlerless']),
+    antlered: num(h['antlered'] ?? h['horned']), // pronghorn: horned / hornless
+    antlerless: num(h['antlerless'] ?? h['hornless']),
     pct4: num(h['%4+pts']),
     pct5: num(h['%5+pts']),
     pctWt: num(h['%whitetail']),
@@ -35,12 +35,18 @@ async function fetchSeason(
 ): Promise<StepResult> {
   const details: string[] = [];
   let rows = 0;
-  for (const { species, game } of SPECIES) {
+  for (const { species, game, title, general } of SPECIES) {
+    if (season === 'general' && !general) continue; // pronghorn: controlled hunts only
     for (const year of yearsToFetch(FIRST_HARVEST_YEAR, await haveYears(species), opts.full)) {
       const url = `${STATS_BASE}?season=${season}&game=${game}&yr=${year}`;
       let parsed: Row[];
       try {
         parsed = parseStatsTable(await get(url), season === 'controlled' ? 'hunt#' : 'unit');
+        // IDFG answers an unknown game name with the deer page: only keep a table with this species' columns
+        if (parsed.length && !speciesColumns(species, parsed[0])) {
+          details.push(`${species} ${year}: table columns aren't ${title} columns - skipped`);
+          continue;
+        }
         let problem = parsed.length ? await check(species, year, parsed) : '';
         if (problem) {
           const retry = parseStatsTable(await get(url), season === 'controlled' ? 'hunt#' : 'unit');
