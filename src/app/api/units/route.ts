@@ -9,7 +9,12 @@ const ALL = 'All Weapons Combined';
 const MIN_HUNTERS = 50;
 
 /** Fields the map can color by. Breaks are computed from the live data on every request. */
-const SHADED = ['publicPct', 'huntablePct', 'genSuccessDeer', 'genSuccessElk', 'huntersSqMiDeer', 'huntersSqMiElk', 'bestResOdds', 'bestNrOdds'] as const;
+const SHADED = [
+  'publicPct', 'huntablePct', 'genSuccessDeer', 'genSuccessElk', 'huntersSqMiDeer', 'huntersSqMiElk', 'bestResOdds', 'bestNrOdds',
+  'ctlOddsResDeer', 'ctlOddsNrDeer', 'ctlSuccessDeer', 'ctlOddsResElk', 'ctlOddsNrElk', 'ctlSuccessElk',
+  'ctlOddsResPronghorn', 'ctlOddsNrPronghorn', 'ctlSuccessPronghorn',
+] as const;
+const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn' };
 
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection (plus class breaks). */
 export async function GET(req: Request) {
@@ -17,7 +22,7 @@ export async function GET(req: Request) {
   const [units, sums, general] = await Promise.all([
     db.unit.findMany({ where: { geometry: { not: undefined } } }),
     db.huntSummary.findMany({
-      select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true },
+      select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true },
     }),
     db.generalHarvest.findMany({ where: { takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
@@ -27,6 +32,7 @@ export async function GET(req: Request) {
     if (mode === 'count') m[k] = ((m[k] as number) ?? 0) + 1;
     else if (v !== null && (m[k] === undefined || m[k] === null || v > (m[k] as number))) m[k] = v;
   };
+  const ctlPool = new Map<string, { hunters: number; harvest: number }>();
   for (const s of sums) {
     if (s.type === 'GENERAL' && s.unit && s.weapon === 'ANY' && s.species === 'DEER' && s.deerType) {
       (by.get(s.unit) ?? by.set(s.unit, {}).get(s.unit)!).deerType = s.deerType;
@@ -38,8 +44,23 @@ export async function GET(req: Request) {
         if (s.antlerClass === 'ANTLERED' && !s.youthOnly) {
           bump(u, 'bestResOdds', s.resOdds5);
           bump(u, 'bestNrOdds', s.nrOdds5);
+          // per species: best buck/bull odds, and pooled success of those hunts (harvest / hunters, 5 years)
+          const sp = SP_KEY[s.species];
+          bump(u, `ctlOddsRes${sp}`, s.resOdds5);
+          bump(u, `ctlOddsNr${sp}`, s.nrOdds5);
+          bump(u, `ctlCount${sp}`, null, 'count');
+          if (s.hunters5) {
+            const k = `${s.species}|${u}`;
+            const p = ctlPool.get(k) ?? ctlPool.set(k, { hunters: 0, harvest: 0 }).get(k)!;
+            p.hunters += s.hunters5;
+            p.harvest += s.harvest5 ?? 0;
+          }
         }
       }
+  }
+  for (const [k, p] of ctlPool) {
+    const [species, unit] = k.split('|');
+    (by.get(unit) ?? by.set(unit, {}).get(unit)!)[`ctlSuccess${SP_KEY[species]}`] = p.hunters >= MIN_HUNTERS ? (p.harvest / p.hunters) * 100 : null;
   }
 
   // General season, all weapons, last 5 seasons of data. Units redrawn in 2022 only count 2022+ (the old

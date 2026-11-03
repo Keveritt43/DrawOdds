@@ -131,6 +131,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
   // highlight what was asked for: the clicked unit only, or the zone's units, or every unit with a match
   const matched = f.unit ? [f.unit] : [...new Set(rows.flatMap((r) => r.units))].filter((u) => !zu || zu.includes(u));
+  // map shading from the matching hunts themselves: per unit (pronghorn: per hunt area) the best odds, pooled
+  // success, least crowded hunt, and the land numbers - so whatever "Shade" shows is about these results
+  const stats = await matchStats(rows, nr, rf, zu);
   const unitInfo = new Map(
     f.view === 'unit'
       ? (await db.unit.findMany({ where: { name: { in: glist.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u])
@@ -162,7 +165,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         <HuntMap matched={matched} selected={f.unit} chips={chips(f)} nr={nr} species={f.species} showZones={f.species === 'ELK' || f.species === ''} zones={f.zones}
           areaSpecies={f.species === 'PRONGHORN' ? 'PRONGHORN' : ''}
           matchedAreas={f.species === 'PRONGHORN' ? [...new Set(rows.filter((r) => r.species === 'PRONGHORN').map((r) => r.areaName ?? ''))].filter(Boolean) : []}
-          selectedArea={f.species === 'PRONGHORN' ? f.q.toUpperCase() : ''} />
+          selectedArea={f.species === 'PRONGHORN' ? f.q.toUpperCase() : ''} stats={stats} />
       </section>
 
       <section className="f-list" aria-label="Results">
@@ -249,4 +252,54 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
       <FilterRail residency={residency} />
     </main>
   );
+}
+
+type Stat = { odds: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
+
+/** Per-unit and per-hunt-area numbers of the matching hunts, for the map's "Shade" options. */
+async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeof residencyFields>, zu: string[] | null) {
+  const acc = new Map<string, { odds: number | null; hunters: number; harvest: number; crowd: number | null; public: number | null; huntable: number | null }>();
+  // elk zone tags carry the same general-season hunters as the general rows: don't count those twice
+  const hasGeneral = new Set(rows.filter((r) => r.type === 'GENERAL' && !r.nrTag).map((r) => r.species));
+  const oddsOf = (r: HuntSummary): number | null => {
+    if (r.type === 'CONTROLLED') return r[rf.odds5];
+    if (nr) return r.nrOdds5; // nonresidents draw general tags too
+    return r.nrTag && r.capped ? null : 1; // residents: over the counter
+  };
+  const add = (key: string, r: HuntSummary, land: boolean) => {
+    const a = acc.get(key) ?? acc.set(key, { odds: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
+    const o = oddsOf(r);
+    if (o !== null && (a.odds === null || o > a.odds)) a.odds = o;
+    if (r.hunters5 && !(r.nrTag && hasGeneral.has(r.species))) {
+      a.hunters += r.hunters5;
+      a.harvest += r.harvest5 ?? 0;
+    }
+    if (r.huntersSqMi !== null && (a.crowd === null || r.huntersSqMi < a.crowd)) a.crowd = r.huntersSqMi;
+    if (land) {
+      a.public ??= r.publicPct;
+      a.huntable ??= r.huntablePct;
+    }
+  };
+  for (const r of rows) {
+    if (r.species === 'PRONGHORN' && r.areaName) add(`area:${r.areaName}`, r, true);
+    const us = r.type === 'GENERAL' && !r.nrTag ? [r.unit ?? r.units[0]] : r.units;
+    for (const u of us) if (u && (!zu || zu.includes(u))) add(`unit:${u}`, r, false);
+  }
+  const unitNames = [...acc.keys()].filter((k) => k.startsWith('unit:')).map((k) => k.slice(5));
+  const land = new Map((await db.unit.findMany({ where: { name: { in: unitNames } }, select: { name: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]));
+  const out = { units: {} as Record<string, Stat>, areas: {} as Record<string, Stat> };
+  for (const [k, a] of acc) {
+    const [kind, name] = [k.slice(0, k.indexOf(':')), k.slice(k.indexOf(':') + 1)];
+    const u = kind === 'unit' ? land.get(name) : undefined;
+    const ay = u?.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : 0;
+    const st: Stat = {
+      odds: a.odds,
+      success: a.hunters >= 30 ? a.harvest / a.hunters : null,
+      crowd: a.crowd,
+      public: u ? u.publicPct : a.public,
+      huntable: u ? (u.publicPct !== null ? Math.min(100, u.publicPct + ay) : null) : a.huntable,
+    };
+    (kind === 'unit' ? out.units : out.areas)[name] = st;
+  }
+  return out;
 }

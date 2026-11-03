@@ -7,8 +7,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import Link from 'next/link';
 import { Star } from './Star';
-import { MapKey } from './MapKey';
-import { METRICS, pickRamp, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
+import { MapKey, KeySeg } from './MapKey';
+import { METRICS, METRIC_KEYS, pickRamp, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
 
@@ -18,7 +18,21 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const [metric, setMetric] = useState<Metric>('public');
-  const [sp, setSp] = useState<Sp>('ELK');
+  // basic filters: which animal and which kind of hunt the shading (and the unit's hunt list) is about
+  const [sp, setSpRaw] = useState<Sp>('ELK');
+  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>('GENERAL');
+  const setSp = (x: Sp) => {
+    setSpRaw(x);
+    // pronghorn are controlled only
+    if (x === 'PRONGHORN') setHtype('CONTROLLED');
+  };
+  const setHtype = (t: 'GENERAL' | 'CONTROLLED') => {
+    setHtypeRaw(t);
+    // keep a land shading; otherwise switch to the same kind of number for the new hunt type
+    setMetric((m) => (METRICS[m].kind === 'land' ? m : t === 'CONTROLLED' ? (m === 'pressure' ? 'ctlSuccess' : 'ctlOdds') : 'success'));
+  };
+  const options = METRIC_KEYS.filter((k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'))
+    .map((k) => ({ value: k, label: METRICS[k].label }));
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
@@ -117,12 +131,21 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     return () => void m?.off('metric', apply);
   }, [field, cls, colors]);
 
+  // the selected unit's hunts, narrowed to the key's animal and hunt type (zone / NR tags count as general)
+  const shownHunts = (uh?.rows ?? []).filter((h) => (!h.species || h.species === sp) && (htype === 'CONTROLLED' ? h.type === 'CONTROLLED' : h.type !== 'CONTROLLED'));
   const v = (k: string) => (sel && sel[k] !== null && sel[k] !== undefined ? Number(sel[k]) : null);
 
   return (
     <div style={{ position: 'relative', height }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
-      <MapKey metric={metric} onMetric={(x) => x !== 'match' && setMetric(x)} sp={sp} onSp={setSp} classes={cls} colors={colors} missing={missing[field] ?? 0}
+      <MapKey
+        filters={<>
+          <KeySeg label="Animal" value={sp} onChange={setSp} options={[['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
+          <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />
+        </>}
+        value={metric} options={options} onChange={(x) => setMetric(x as Metric)}
+        ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units' }}
+        note={`${M.note}${M.bySpecies ? ` Showing ${sp === 'ELK' ? 'elk' : sp === 'DEER' ? 'deer' : 'pronghorn'}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''} Each shade holds a similar number of units.`}
         extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />
       {sel && (
         <div className="card mapinfo">
@@ -144,16 +167,25 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                 </tr>
               ))}
               <tr><td>Controlled hunts</td><td style={{ textAlign: 'right' }}>{v('controlled') ?? 0}</td></tr>
-              <tr><td>Best antlered {nr ? 'NR' : 'res'} odds</td><td style={{ textAlign: 'right' }}>{v(nr ? 'bestNrOdds' : 'bestResOdds') !== null ? `${(v(nr ? 'bestNrOdds' : 'bestResOdds')! * 100).toFixed(1)}%` : '-'}</td></tr>
+              {(['Elk', 'Deer', 'Pronghorn'] as const).map((s) => (
+                <tr key={`c${s}`}>
+                  <td>Controlled {s.toLowerCase()}</td>
+                  <td style={{ textAlign: 'right' }}>
+                    {v(`ctlCount${s}`) ? `${v(`ctlCount${s}`)} buck/bull hunt${v(`ctlCount${s}`) === 1 ? '' : 's'}` : '-'}
+                    {v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`) !== null ? ` · best ${nr ? 'NR' : 'res'} odds ${(v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`)! * 100).toFixed(1)}%` : ''}
+                    {v(`ctlSuccess${s}`) !== null ? ` · ${Math.round(v(`ctlSuccess${s}`)!)}% success` : ''}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           {recentBoundaryChanges([sel.name]) && <p className="small" style={{ color: 'var(--warn-ink)', margin: '4px 0 0' }}>Boundary changed in {recentBoundaryChanges([sel.name])!.year}.</p>}
           {sel.name !== focus && (
             <div className="mi-hunts">
-              <h4>Hunts Available</h4>
-              {uh?.unit !== sel.name ? <p className="small muted">Loading…</p> : !uh.rows.length ? <p className="small muted">No hunts listed.</p> : (
+              <h4>{sp === 'ELK' ? 'Elk' : sp === 'DEER' ? 'Deer' : 'Pronghorn'} {htype === 'CONTROLLED' ? 'Controlled' : 'General'} Hunts</h4>
+              {uh?.unit !== sel.name ? <p className="small muted">Loading…</p> : !shownHunts.length ? <p className="small muted">No {htype === 'CONTROLLED' ? 'controlled' : 'general'} {sp.toLowerCase()} hunts here.</p> : (
                 <ul>
-                  {uh.rows.map((h) => {
+                  {shownHunts.map((h) => {
                     const o = nr ? h.nrOdds5 : h.resOdds5;
                     return (
                       <li key={h.id}>

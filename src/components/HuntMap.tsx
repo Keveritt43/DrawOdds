@@ -6,7 +6,20 @@ import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'map
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import { MapKey, type KeyItem } from './MapKey';
-import { METRICS, pickRamp, fillExpression, IDAHO_BOUNDS, MATCH, ZONE, AREA, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
+import { classBreaks } from '@/lib/breaks';
+import { pickRamp, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA, GREEN, ORANGE, PLUM } from '@/lib/mapMetrics';
+
+export type MatchStat = { odds: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
+type ShadeKey = 'match' | keyof MatchStat;
+const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
+/** What the Filtering map can shade by: always the matching hunts' own numbers, never units without a match. */
+const SHADES: Record<Exclude<ShadeKey, 'match'>, { label: string; ramp: string[]; fmt: (v: number) => string; none: string; note: string }> = {
+  odds: { label: 'Draw Odds (Best Matching Hunt)', ramp: ORANGE, fmt: pct1, none: 'No draw data', note: 'Best 5-year first-choice odds, for your residency, among the matching hunts in each unit. Resident general seasons are over the counter (100%).' },
+  success: { label: 'Hunter Success (Matching Hunts)', ramp: ORANGE, fmt: pct1, none: 'Under 30 hunters', note: 'Harvest ÷ hunters over 5 years for the matching hunts in each unit, pooled.' },
+  crowd: { label: 'Hunters / Sq Mi (Least Crowded Match)', ramp: PLUM, fmt: fmtNum, none: 'No hunter data', note: 'Hunters per square mile of the least crowded matching hunt in each unit. Darker = more crowded.' },
+  public: { label: 'Public Land % (Matching Units)', ramp: GREEN, fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes!.' },
+  huntable: { label: 'Public + Access Yes! % (Matching Units)', ramp: GREEN, fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Public land plus Access Yes! land in each unit with a matching hunt.' },
+};
 import { loadUnits } from '@/lib/unitData';
 
 /**
@@ -14,12 +27,14 @@ import { loadUnits } from '@/lib/unitData';
  * "Shade" switches the fill to any unit metric (public land, success, crowding, odds) while matching units keep
  * a heavy orange outline. Click a unit to narrow the results to it (click again to clear).
  */
-export function HuntMap({ matched, selected, chips, nr = false, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', species = '' }: {
+export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats = { units: {}, areas: {} } }: {
   matched: string[]; selected: string; chips: { label: string; href: string }[]; nr?: boolean; showZones?: boolean; zones?: string[];
   /** a species hunted by its own hunt areas (pronghorn): draw those instead of filling units */
   areaSpecies?: string; matchedAreas?: string[]; selectedArea?: string;
-  /** the species filter: success / crowding shading follows it */
+  nr?: boolean;
   species?: string;
+  /** the matching hunts' numbers per unit and per hunt area (Filtering computes them from its results) */
+  stats?: { units: Record<string, MatchStat>; areas: Record<string, MatchStat> };
 }) {
   const el = useRef<HTMLDivElement>(null);
   const keyEl = useRef<HTMLDivElement>(null);
@@ -28,28 +43,29 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
   const prevMatched = useRef<string[]>([]);
   const prevSel = useRef('');
   const [kind, setKind] = useState<Basemap>('satellite');
-  const [metric, setMetric] = useState<Metric | 'match'>('match');
-  const [sp, setSp] = useState<Sp>(species === 'DEER' ? 'DEER' : 'ELK');
-  useEffect(() => { if (species === 'DEER' || species === 'ELK') setSp(species); }, [species]);
-  const [classes, setClasses] = useState<Record<string, Classes>>({});
-  const [missing, setMissing] = useState<Record<string, number>>({});
+  const [metric, setMetric] = useState<ShadeKey>('match');
   const [err, setErr] = useState('');
   const router = useRouter();
   const sp_ = useSearchParams();
   const spRef = useRef(sp_);
   spRef.current = sp_;
 
-  const M = metric === 'match' ? null : METRICS[metric];
-  const field = M ? M.field(sp, nr) : '';
-  const cls = field ? classes[field] : undefined;
-  const colors = useMemo(() => (M && cls ? pickRamp(M.ramp, cls.breaks.length + 1) : []), [M, cls]);
   const areaMode = !!areaSpecies;
+  const S = metric === 'match' ? null : SHADES[metric];
+  // classes come from the matching units (or areas) only: the shades spread across these results
+  const shownStats = areaMode ? matchedAreas.map((a) => stats.areas[a]).filter(Boolean) : matched.map((u) => stats.units[u]).filter(Boolean);
+  const vals = metric === 'match' ? [] : shownStats.map((x) => x[metric]).filter((v): v is number => typeof v === 'number');
+  const statsKey = JSON.stringify(stats).length + ':' + vals.join(',');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const cls = useMemo(() => (metric === 'match' ? undefined : classBreaks(vals)), [metric, statsKey]);
+  const colors = useMemo(() => (S && cls ? pickRamp(S.ramp, cls.breaks.length + 1) : []), [S, cls]);
+  const missingN = metric === 'match' ? 0 : shownStats.length - vals.length + ((areaMode ? matchedAreas.length : matched.length) - shownStats.length);
 
   const paint = () => {
     const m = map.current;
     if (!m || !loaded.current) return;
-    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false });
-    for (const u of matched) m.setFeatureState({ source: 'units', id: u }, { match: true });
+    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, odds: null, success: null, crowd: null, public: null, huntable: null });
+    for (const u of matched) m.setFeatureState({ source: 'units', id: u }, { match: true, ...(stats.units[u] ?? {}) });
     prevMatched.current = matched;
     if (prevSel.current) m.setFeatureState({ source: 'units', id: prevSel.current }, { sel: false });
     if (selected) m.setFeatureState({ source: 'units', id: selected }, { sel: true });
@@ -67,10 +83,7 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
     m.on('load', async () => {
       let fc;
       try {
-        const d = await loadUnits();
-        fc = d.fc;
-        setClasses(d.classes);
-        setMissing(d.missing);
+        fc = (await loadUnits()).fc;
       } catch (e) {
         setErr('Could not load unit boundaries.');
         console.error(e);
@@ -126,10 +139,10 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(paint, [matched.join(','), selected]);
+  useEffect(paint, [matched.join(','), selected, JSON.stringify(stats.units).length]);
 
-  // shading: "match" = orange fill on matching units; a metric = that metric's colors on every unit, and the
-  // matching units keep a heavy orange outline so the filter result is still visible
+  // shading: always the matching units only. "match" = flat orange; any other choice colors them by the matching
+  // hunts' own numbers (feature-state set in paint), and units without a match stay unfilled outlines
   useEffect(() => {
     const m = map.current;
     if (!m) return;
@@ -137,22 +150,20 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
       if (!loaded.current || !m.getLayer('units-fill')) return;
       const base = kind === 'satellite' ? '#ffffff' : '#1d2023'; // unit outlines must read on imagery too
       const isMatch = (v: unknown, a: unknown) => ['case', ['boolean', ['feature-state', 'match'], false], v, a] as unknown as ExpressionSpecification;
-      if (metric === 'match' || !cls) {
-        m.setPaintProperty('units-fill', 'fill-color', MATCH);
-        m.setPaintProperty('units-fill', 'fill-opacity', isMatch(0.38, 0.02));
-        m.setPaintProperty('units-line', 'line-color', isMatch('#b8460b', base));
-        m.setPaintProperty('units-line', 'line-width', isMatch(1.6, 0.8));
-      } else {
-        m.setPaintProperty('units-fill', 'fill-color', fillExpression(field, cls, colors) as ExpressionSpecification);
-        m.setPaintProperty('units-fill', 'fill-opacity', 0.62);
-        m.setPaintProperty('units-line', 'line-color', isMatch(MATCH, '#1d2023'));
-        m.setPaintProperty('units-line', 'line-width', isMatch(3, 0.6));
+      const color = metric === 'match' || !cls ? MATCH : (fillExpression(['feature-state', metric], cls, colors) as ExpressionSpecification);
+      m.setPaintProperty('units-fill', 'fill-color', color);
+      m.setPaintProperty('units-fill', 'fill-opacity', isMatch(metric === 'match' ? 0.38 : 0.7, 0.02));
+      m.setPaintProperty('units-line', 'line-color', isMatch(metric === 'match' ? '#b8460b' : '#1d2023', base));
+      m.setPaintProperty('units-line', 'line-width', isMatch(1.6, 0.8));
+      if (m.getLayer('areas-fill')) {
+        m.setPaintProperty('areas-fill', 'fill-color', color);
+        m.setPaintProperty('areas-fill', 'fill-opacity', isMatch(metric === 'match' ? 0.35 : 0.7, 0.04));
       }
     };
     apply();
     m.on('ready', apply);
     return () => void m.off('ready', apply);
-  }, [metric, field, cls, colors, kind]);
+  }, [metric, cls, colors, kind]);
 
   // elk zone outlines (violet) whenever elk is in the results; the filtered zone is drawn heavier
   const zonesAdded = useRef(false);
@@ -235,17 +246,14 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
         }
       }
       const on = !!areaSpecies && !!m.getLayer('areas-fill');
-      const shadedUnits = metric !== 'match';
-      for (const id of ['areas-line', 'areas-label']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
-      if (m.getLayer('areas-fill')) m.setLayoutProperty('areas-fill', 'visibility', on ? 'visible' : 'none');
-      if (on && m.getLayer('areas-fill')) m.setPaintProperty('areas-fill', 'fill-opacity', shadedUnits ? 0 : ['case', ['boolean', ['feature-state', 'match'], false], 0.35, 0.04]);
-      // units: no fill (unless a metric shades them), faint lines, no unit numbers competing with area names
-      m.setLayoutProperty('units-fill', 'visibility', on && !shadedUnits ? 'none' : 'visible');
+      for (const id of ['areas-fill', 'areas-line', 'areas-label']) if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+      // units: no fill, faint lines, no unit numbers competing with area names
+      m.setLayoutProperty('units-fill', 'visibility', on ? 'none' : 'visible');
       m.setPaintProperty('units-line', 'line-opacity', on ? 0.35 : 0.85);
       m.setLayoutProperty('units-label', 'visibility', on ? 'none' : 'visible');
       if (on) {
-        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false });
-        for (const a of matchedAreas) m.setFeatureState({ source: 'areas', id: a }, { match: true, sel: a === selectedArea });
+        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false, odds: null, success: null, crowd: null, public: null, huntable: null });
+        for (const a of matchedAreas) m.setFeatureState({ source: 'areas', id: a }, { match: true, sel: a === selectedArea, ...(stats.areas[a] ?? {}) });
         prevAreas.current = matchedAreas;
       }
     };
@@ -253,15 +261,20 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
     m.on('ready', apply);
     return () => void m.off('ready', apply);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [areaSpecies, matchedAreas.join(','), selectedArea, metric]);
+  }, [areaSpecies, matchedAreas.join(','), selectedArea, JSON.stringify(stats.areas).length]);
 
   const matchItems: KeyItem[] = areaMode
     ? [{ color: AREA, label: 'Hunt area with a match' }, { color: '#0b4f3e', label: 'Other hunt areas', line: true }]
     : [{ color: MATCH, label: 'Has matching hunts' }, { color: kind === 'satellite' ? '#9aa0a6' : '#1d2023', label: 'No match', line: true }];
   const extraItems: KeyItem[] = [
-    ...(metric !== 'match' ? [{ color: MATCH, label: areaMode ? 'Hunt areas: outlines' : 'Orange outline: matches', line: true }] : []),
+    ...(metric !== 'match' ? [{ color: kind === 'satellite' ? '#9aa0a6' : '#1d2023', label: `No match (${areaMode ? 'outline' : 'unfilled'})`, line: true }] : []),
     ...(showZones && !areaMode ? [{ color: ZONE, label: zones.length ? `${zones.join(', ')} zone${zones.length > 1 ? 's' : ''}` : 'Elk zones', line: true }] : []),
     ...(selected ? [{ color: '#ffd400', label: `Unit ${selected} (selected)`, line: true }] : []),
+  ];
+  const where = areaMode ? 'hunt areas' : 'units';
+  const options = [
+    { value: 'match', label: areaMode ? 'Matching Hunt Areas' : 'Matching Hunts' },
+    ...(Object.keys(SHADES) as (keyof typeof SHADES)[]).map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
   ];
 
   return (
@@ -273,8 +286,10 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
         </div>
       )}
       <div className="mapkey-bottom" ref={keyEl}>
-        <MapKey metric={metric} onMetric={setMetric} sp={sp} onSp={setSp} classes={cls} colors={colors} missing={field ? missing[field] ?? 0 : 0}
-          matchLabel={areaMode ? 'Matching hunt areas' : 'Matching hunts'} matchItems={matchItems} extraItems={extraItems}
+        <MapKey value={metric} options={options} onChange={(v) => setMetric(v as ShadeKey)}
+          ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where } : undefined}
+          items={matchItems} extraItems={extraItems}
+          note={S ? `${S.note} Shades split the ${matched.length || matchedAreas.length} matching ${where} into similar-sized groups.` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
           kind={kind} onKind={setKind} err={err} />
       </div>
     </div>
