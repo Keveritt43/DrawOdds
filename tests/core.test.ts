@@ -395,3 +395,24 @@ test('season summary: same weapon, different dates says which is which', () => {
   ] };
   assert.equal(seasonsSummary(ts, 5), 'Archery Aug 30 - Sep 30 · Any weapon (antlered) Oct 10 - Oct 24 · Any weapon (youth antlerless) Oct 10 - Oct 31');
 });
+
+test('DrawOdds Score: access line, opportunity, sample floor, peer ranking', async () => {
+  const { accessScore, opportunity, scoreHunts, percentileRank } = await import('../src/lib/score');
+  assert.equal(accessScore(50), 80);
+  assert.equal(accessScore(100), 100);
+  assert.equal(accessScore(25), 40);
+  assert.equal(opportunity(80, 0.25), 40);
+  assert.equal(opportunity(80, 0.01), 8);
+  assert.equal(percentileRank(5, [1, 2, 3, 4, 5, 6, 7, 8, 9]), 50);
+  const mk = (i: number, extra = {}) => ({ id: `h${i}`, species: 'ELK', type: 'CONTROLLED', weapon: 'ANY', antlerClass: 'ANTLERED', hunters5: 200, harvest5: 20 + i * 10, huntersSqMi: 1 / (i + 1), huntablePct: 80, bigPct5: 0.1 * i, resOdds5: 0.04, nrOdds5: 0.01, ...extra });
+  const rows = [...Array.from({ length: 10 }, (_, i) => mk(i)), mk(99, { id: 'tiny', hunters5: 3, harvest5: 3 })];
+  const s = scoreHunts(rows);
+  assert.equal(s.get('tiny')!.scoreQuality, null); // too few hunters
+  const best = s.get('h9')!;
+  const worst = s.get('h0')!;
+  assert.ok(best.scoreQuality! > worst.scoreQuality!);
+  assert.equal(best.scoreOppRes, Math.round(best.scoreQuality! * 0.2));
+  // antlerless: trophy not counted
+  const cows = scoreHunts(Array.from({ length: 8 }, (_, i) => mk(i, { antlerClass: 'ANTLERLESS' })));
+  assert.equal(cows.get('h3')!.scoreTrophy, null);
+});

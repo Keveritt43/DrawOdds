@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const SORTS: [string, string][] = [
+  ['score', 'DrawOdds Score (Quality)'],
+  ['opp', 'DrawOdds Opportunity'],
   ['best', 'Best Chance (Odds x Success)'],
   ['odds', 'Draw Odds'],
   ['success', 'Harvest Success'],

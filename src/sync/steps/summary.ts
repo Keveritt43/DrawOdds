@@ -2,7 +2,8 @@ import type { DrawOdds, Prisma } from '@prisma/client';
 import { boundarySince } from '../../lib/boundaries';
 import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
-import { seasonsClass } from '../../lib/tagSeasons';
+import { seasonsClass, seasonRules } from '../../lib/tagSeasons';
+import { scoreHunts } from '../../lib/score';
 import { loadElkTagSeasons, loadDeerTagSeasons, loadElkZones, type TagSeason } from '../core/datafiles';
 import {
   lineage,
@@ -279,6 +280,16 @@ export async function buildSummaries(): Promise<StepResult> {
   if (deduped.length < out.length) details.push(`Merged ${out.length - deduped.length} duplicate controlled-hunt listings`);
   out.length = 0;
   out.push(...deduped);
+
+  // DrawOdds Score: ranks need every hunt, so it runs once all rows are built
+  const scores = scoreHunts(out.map((r) => ({
+    id: r.id, species: r.species, type: r.type, nrTag: r.nrTag, weapon: r.weapon, antlerClass: r.antlerClass,
+    hunters5: r.hunters5, harvest5: r.harvest5, huntersSqMi: r.huntersSqMi, publicPct: r.publicPct, huntablePct: r.huntablePct,
+    bigPct5: r.bigPct5, deerType: r.deerType, twoPoint: seasonRules(r.tagSeasons, r.species).includes('2-point bucks only'),
+    resOdds5: r.resOdds5, nrOdds5: r.nrOdds5, capped: r.capped,
+  })));
+  for (const r of out) Object.assign(r, scores.get(r.id));
+  details.push(`DrawOdds Score: ${[...scores.values()].filter((s) => s.scoreQuality !== null).length} of ${out.length} hunts scored`);
 
   await db.$transaction(
     async (tx) => {

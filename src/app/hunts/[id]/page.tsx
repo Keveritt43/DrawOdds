@@ -13,7 +13,7 @@ import { pct, pct100, pctOdds, int, range, WEAPON, DEERTYPE, nrTags, antlerLabel
 import { BackLink } from '@/components/BackLink';
 import { SIZE_LABEL, drawOf, type SpeciesKey } from '@/lib/species';
 import { ApplyChecklist } from '@/components/ApplyChecklist';
-import { laterChoices, Rules } from '@/components/HuntCards';
+import { laterChoices, Rules, ScoreRow } from '@/components/HuntCards';
 import type { Metadata } from 'next';
 import type { Prisma } from '@prisma/client';
 import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart, ChoiceChart } from '@/components/Charts';
@@ -112,6 +112,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           <h1>{title}</h1>
           <p className="lead-sum">{summary}</p>
           <Rules r={s} />
+          <ScoreRow r={s} nr={nr} open />
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'start' }}>
           <span className="btn" style={{ padding: '4px 10px' }}><Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></span>

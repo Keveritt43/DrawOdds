@@ -38,6 +38,8 @@ function chips(f: Filters): { label: string; href: string }[] {
   if (f.minAccessYes) add(`Access Yes! ${f.minAccessYes}%+`, { minAccessYes: null });
   if (f.minHuntable) add(`Huntable ${f.minHuntable}%+`, { minHuntable: null });
   if (f.accessYes) add('Has Access Yes!', { accessYes: false });
+  if (f.minScore) add(`Score ${f.minScore}+`, { minScore: null });
+  if (f.minOpp) add(`Opportunity ${f.minOpp}+`, { minOpp: null });
   if (f.minTags) add(`${f.minTags}+ tags`, { minTags: null });
   if (f.maxDensity) add(`≤ ${f.maxDensity} hunters/mi²`, { maxDensity: null });
   if (f.unit) add(`Unit ${f.unit}`, { unit: '' });
@@ -155,7 +157,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const quotaYear = mode(rows.filter((r) => r.nrTag).map((r) => r.quotaYear));
 
   // start here: one standout per reason, real samples only, bucks/bulls unless antlerless was asked for
-  const picks = ['best', 'odds', 'success'].includes(f.sort) && f.page === 1 && visible.length >= 6
+  const picks = ['best', 'odds', 'success', 'score', 'opp'].includes(f.sort) && f.page === 1 && visible.length >= 6
     ? choosePicks(
         visible.filter((r) => (r.type === 'CONTROLLED' || (nr && r.nrTag)) && !r.smallSample && !r.youthOnly && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS')),
         c,
@@ -263,11 +265,11 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   );
 }
 
-type Stat = { odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
+type Stat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
 
 /** Per-unit and per-hunt-area numbers of the matching hunts, for the map's "Shade" options. */
 async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeof residencyFields>, zu: string[] | null) {
-  const acc = new Map<string, { odds: number | null; fill: number | null; hunters: number; harvest: number; crowd: number | null; public: number | null; huntable: number | null }>();
+  const acc = new Map<string, { score: number | null; odds: number | null; fill: number | null; hunters: number; harvest: number; crowd: number | null; public: number | null; huntable: number | null }>();
   // elk zone tags carry the same general-season hunters as the general rows: don't count those twice
   const hasGeneral = new Set(rows.filter((r) => r.type === 'GENERAL' && !r.nrTag).map((r) => r.species));
   const oddsOf = (r: HuntSummary): number | null => {
@@ -276,9 +278,10 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     return r.nrTag && r.capped ? null : 1; // residents: over the counter
   };
   const add = (key: string, r: HuntSummary, land: boolean) => {
-    const a = acc.get(key) ?? acc.set(key, { odds: null, fill: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
+    const a = acc.get(key) ?? acc.set(key, { score: null, odds: null, fill: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
     const o = oddsOf(r);
     if (o !== null && (a.odds === null || o > a.odds)) a.odds = o;
+    if (r.scoreQuality !== null && (a.score === null || r.scoreQuality > a.score)) a.score = r.scoreQuality;
     const fl = r.smallSample ? null : r[rf.tagAndFill];
     if (fl !== null && (a.fill === null || fl > a.fill)) a.fill = fl;
     if (r.hunters5 && !(r.nrTag && hasGeneral.has(r.species))) {
@@ -306,6 +309,7 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     const u = kind === 'unit' ? land.get(name) : undefined;
     const ay = u?.acres ? ((u.accessYesAcres ?? 0) / u.acres) * 100 : 0;
     const st: Stat = {
+      score: a.score,
       odds: a.odds,
       fill: a.fill,
       success: a.hunters >= minHunters ? a.harvest / a.hunters : null,

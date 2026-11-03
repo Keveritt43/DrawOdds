@@ -2,8 +2,8 @@ import type { Prisma, Residency } from '@prisma/client';
 import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 import { DRAW_SPECIES, type Draw } from './species';
 
-export type Sort = 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
-export const SORTS: readonly Sort[] = ['best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
+export type Sort = 'score' | 'opp' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
+export const SORTS: readonly Sort[] = ['score', 'opp', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
 
 export interface Filters {
   species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | '';
@@ -19,6 +19,8 @@ export interface Filters {
   minHuntable: number | null; // percent public + Access Yes!
   minBig: number | null; // trophy share: deer mule 4+, elk 6+ (percent of antlered)
   minTags: number | null;
+  minScore: number | null; // DrawOdds Score (quality), 0-100
+  minOpp: number | null; // DrawOdds Opportunity for the user's residency, 0-100
   maxDensity: number | null; // at most this many hunters per square mile
   accessYes: boolean;
   youth: 'exclude' | 'include' | 'only';
@@ -57,6 +59,8 @@ export function parseFilters(sp: SP): Filters {
     minAccessYes: pct(sp.minAccessYes),
     minHuntable: pct(sp.minHuntable),
     minBig: pct(sp.minBig),
+    minScore: pct(sp.minScore),
+    minOpp: pct(sp.minOpp),
     minTags: Number(one(sp.minTags)) > 0 ? Math.min(10000, Math.round(Number(one(sp.minTags)))) : null,
     maxDensity: Number(one(sp.maxDensity)) > 0 ? Math.min(100, Number(one(sp.maxDensity))) : null,
     accessYes: one(sp.accessYes) === '1',
@@ -73,8 +77,8 @@ export function parseFilters(sp: SP): Filters {
 /** Field names that depend on residency. */
 export function residencyFields(r: Residency) {
   return r === 'NONRESIDENT'
-    ? { odds5: 'nrOdds5', oddsLast: 'nrOddsLast', oddsPrev: 'nrOddsPrev', tagAndFill: 'nrTagAndFill', appsLast: 'nrAppsLast', appsPrev: 'nrAppsPrev' } as const
-    : { odds5: 'resOdds5', oddsLast: 'resOddsLast', oddsPrev: 'resOddsPrev', tagAndFill: 'resTagAndFill', appsLast: 'resAppsLast', appsPrev: 'resAppsPrev' } as const;
+    ? { odds5: 'nrOdds5', oddsLast: 'nrOddsLast', oddsPrev: 'nrOddsPrev', tagAndFill: 'nrTagAndFill', appsLast: 'nrAppsLast', appsPrev: 'nrAppsPrev', opp: 'scoreOppNr' } as const
+    : { odds5: 'resOdds5', oddsLast: 'resOddsLast', oddsPrev: 'resOddsPrev', tagAndFill: 'resTagAndFill', appsLast: 'resAppsLast', appsPrev: 'resAppsPrev', opp: 'scoreOppRes' } as const;
 }
 
 export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma.HuntSummaryWhereInput {
@@ -112,6 +116,8 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma
   if (f.minAccessYes !== null) and.push({ accessYesPct: { gte: f.minAccessYes } });
   if (f.minHuntable !== null) and.push({ huntablePct: { gte: f.minHuntable } });
   if (f.minBig !== null) and.push({ bigPct5: { gte: f.minBig / 100 } });
+  if (f.minScore !== null) and.push({ scoreQuality: { gte: f.minScore } });
+  if (f.minOpp !== null) and.push({ [rf.opp]: { gte: f.minOpp } });
   if (f.minTags !== null) and.push({ OR: [{ tags: { gte: f.minTags } }, { type: 'GENERAL' }] });
   // hunts with no hunter data are left out: an unknown density can't be "uncrowded"
   if (f.maxDensity !== null) and.push({ huntersSqMi: { lte: f.maxDensity } });
@@ -138,6 +144,10 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
   const desc = (k: string) => ({ [k]: { sort: 'desc', nulls: 'last' } }) as Prisma.HuntSummaryOrderByWithRelationInput;
   const asc = (k: string) => ({ [k]: { sort: 'asc', nulls: 'last' } }) as Prisma.HuntSummaryOrderByWithRelationInput;
   switch (f.sort) {
+    case 'score':
+      return [desc('scoreQuality'), desc(rf.opp), desc('success5')];
+    case 'opp':
+      return [desc(rf.opp), desc('scoreQuality')];
     case 'odds':
       return [desc(rf.odds5), desc('success5')];
     case 'success':
@@ -191,6 +201,8 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('minAccessYes', m.minAccessYes);
   set('minHuntable', m.minHuntable);
   set('minBig', m.minBig);
+  set('minScore', m.minScore);
+  set('minOpp', m.minOpp);
   set('minTags', m.minTags);
   set('maxDensity', m.maxDensity);
   set('accessYes', m.accessYes);

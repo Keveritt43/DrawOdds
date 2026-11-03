@@ -10,6 +10,8 @@ import { residencyFields } from '@/lib/finder';
 import { Star } from './Star';
 import { Term } from './Term';
 import { SIZE_LABEL, type SpeciesKey } from '@/lib/species';
+import { SCORE_PART_LABEL, type ScorePart } from '@/lib/score';
+import { RYG7 } from '@/lib/mapMetrics';
 
 type RF = ReturnType<typeof residencyFields>;
 export interface CardCtx { nr: boolean; rf: RF; favHunts: Set<number>; signedIn: boolean; sort: string }
@@ -163,9 +165,52 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
       </div>
       <div className="dates">{[where, when, r.type === 'GENERAL' && !r.nrTag ? '' : r.nrTag ? '' : WEAPON[r.weapon]].filter(Boolean).join(' · ')}</div>
       <Rules r={r} />
+      <ScoreRow r={r} nr={c.nr} />
       <Stats r={r} c={c} />
       <Footer r={r} c={c} />
     </div>
+  );
+}
+
+/** Green-yellow-red for a 0-100 score (same 7 steps as the maps). */
+export const scoreColor = (v: number) => RYG7[Math.min(6, Math.max(0, Math.floor((v / 100) * 7)))];
+const scoreInk = (v: number) => (v < 100 / 7 * 1 || v >= 100 / 7 * 6 ? '#fff' : '#1d1d1d');
+
+export function ScoreBadge({ v, label }: { v: number; label: string }) {
+  return (
+    <span className="sbadge">
+      <b style={{ background: scoreColor(v), color: scoreInk(v) }}>{v}</b>
+      <span>{label}</span>
+    </span>
+  );
+}
+
+/** Whether this hunt has a draw for this hunter (so Opportunity differs from Quality). */
+const hasDraw = (r: HuntSummary, nr: boolean) => r.type === 'CONTROLLED' || (nr && (r.nrTag || r.type === 'GENERAL')) || (!nr && r.nrTag && r.capped);
+
+/** DrawOdds Score: Quality (+ Opportunity when there's a draw); tap for the four parts. */
+export function ScoreRow({ r, nr, open = false }: { r: HuntSummary; nr: boolean; open?: boolean }) {
+  if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: not enough hunters to score</div>;
+  const opp = nr ? r.scoreOppNr : r.scoreOppRes;
+  const parts: [ScorePart, number | null][] = [['success', r.scoreSuccess], ['access', r.scoreAccess], ['crowd', r.scoreCrowd], ['trophy', r.scoreTrophy]];
+  return (
+    <details className="srow" open={open}>
+      <summary>
+        <ScoreBadge v={r.scoreQuality} label="Quality" />
+        {hasDraw(r, nr) && opp !== null && <ScoreBadge v={opp} label="Opportunity" />}
+        <span className="small muted s-why">why?</span>
+      </summary>
+      <div className="sbars">
+        {parts.map(([k, v]) => (
+          <div key={k} className="sbar">
+            <span>{SCORE_PART_LABEL[k]}</span>
+            <i><em style={{ width: `${v ?? 0}%`, background: v === null ? 'transparent' : scoreColor(v) }} /></i>
+            <small>{v ?? '—'}</small>
+          </div>
+        ))}
+        <p className="small muted">Ranked against other {SPECIES_LABEL[r.species].toLowerCase()} {r.nrTag ? 'general tags' : r.type === 'GENERAL' ? 'general seasons' : 'controlled hunts'} of the same sex and weapon. {r.scoreTrophy === null ? 'Trophy isn’t counted here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your 5-yr draw odds). ' : ''}<Link href="/score">How we score</Link></p>
+      </div>
+    </details>
   );
 }
 
@@ -202,6 +247,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
               </div>
               <div className="ztag-seasons">{seasonsSummary(r.tagSeasons, 4) || 'Seasons: see the regulations'}</div>
               <Rules r={r} />
+              <ScoreRow r={r} nr={c.nr} />
               {c.nr ? (
                 <div className="ztag-odds">
                   <b>{pctOdds(odds)}</b> <Chip v={oddsVerdict(odds)} />

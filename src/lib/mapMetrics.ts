@@ -113,3 +113,7 @@ export const msgSuccessClasses = (values: number[], scale = 1) =>
 /** The classes a unit-map field shades by. */
 export const classesFor = (field: string, values: number[]): Classes =>
   isMsgSuccess(field) ? msgSuccessClasses(values) : divergingClasses(values, fieldMode(field));
+
+/** DrawOdds Score (0-100) in the badges' 7 even steps, so the map and the cards agree. */
+export const scoreClasses = (values: number[]) =>
+  benchmarkClasses(values, [1, 2, 3, 4, 5, 6].map((i) => (100 / 7) * i), [0, 1, 2, 3, 4, 5, 6]);
