@@ -60,7 +60,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         where: {
           id: { not: s.id }, species: s.species, smallSample: false, youthOnly: false,
           ...(ctl ? { type: 'CONTROLLED' as const, antlerClass: s.antlerClass, weapon: s.weapon, [rf.odds5]: { gte: myOdds + 0.05 } } : { nrTag: true, nrOdds5: { gte: myOdds + 0.05 } }),
-          ...(s.success5 !== null ? { success5: { gte: s.success5 * 0.9 } } : {}),
+          ...(s.success5 !== null ? { success5: { gte: s.success5 * 0.8 } } : {}),
         },
         orderBy: [{ [rf.tagAndFill]: { sort: 'desc', nulls: 'last' } } as Prisma.HuntSummaryOrderByWithRelationInput],
         take: 3,
@@ -172,7 +172,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         <div className="card alts">
           <h3>Easier To Draw, Just As Good</h3>
           <p className="small muted" style={{ marginTop: 0 }}>
-            {ctl ? `Other ${SPECIES_LABEL[s.species].toLowerCase()} ${antlerLabel(s.species, s.antlerClass).toLowerCase()} ${WEAPON[s.weapon].toLowerCase()} hunts` : `Other ${SPECIES_LABEL[s.species].toLowerCase()} tags`} with better {nr ? 'nonresident' : 'resident'} 5-year odds and at least 90% of this hunt&apos;s success.
+            {ctl ? `Other ${SPECIES_LABEL[s.species].toLowerCase()} ${antlerLabel(s.species, s.antlerClass).toLowerCase()} ${WEAPON[s.weapon].toLowerCase()} hunts` : `Other ${SPECIES_LABEL[s.species].toLowerCase()} tags`} with better {nr ? 'nonresident' : 'resident'} 5-year odds and at least 80% of this hunt&apos;s success.
           </p>
           <ul>
             {alts.map((a) => (

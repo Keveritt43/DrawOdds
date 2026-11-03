@@ -25,12 +25,18 @@ export default function About() {
         <li><b>Public land</b> counts federal and state-managed land. State land is mostly open to hunting but check access on the ground.</li>
         <li><b>Access Yes!</b> is reported separately: it is mostly private land IDFG leases for hunter access, so it is not part of public land. <b>Huntable</b> = public + Access Yes!, capped at 100%.</li>
         <li><b>Access Yes! acres</b> are measured from IDFG&apos;s property boundaries that overlap each unit or hunt area.</li>
+        <li><b>Nonresident tags in a controlled hunt:</b> from the latest drawing. If more nonresidents applied than drew, the number that drew is the nonresident limit in practice (IDFG sets fixed numbers on some hunts). If everyone drew, the limit wasn&apos;t reached. With no drawing yet we show Idaho&apos;s rule: up to 10% of the tags, or 1 tag in hunts of 10 or fewer (IDAPA 13.01.08.255).</li>
+        <li><b>2nd-choice tags:</b> tags IDFG gave to second-choice applicants in the latest drawing, meaning first choices didn&apos;t use them all. For nonresidents they only help when the nonresident limit wasn&apos;t already full.</li>
+        <li><b>Residents and general seasons:</b> general tags are over the counter (no draw), so draw + fill is just the success rate. Elk zones that are capped are left out of that.</li>
+        <li><b>Plain-English labels:</b> odds of 50%+ are &ldquo;good&rdquo;, 15-50% &ldquo;fair&rdquo;, 5-15% a &ldquo;long shot&rdquo;. Success is judged per species (elk: 30%+ high, under 15% low; deer: 55%+ high, under 35% low; pronghorn: 60%+ high, under 35% low). Under 0.5 hunters per square mile is uncrowded; over 1.5 is crowded.</li>
+        <li><b>Trophy share</b> is left blank when fewer than 20 antlered animals were reported over 5 years, and never shown over 100% (rounded source percentages can add up past it).</li>
       </ul>
       <h2>Known Limits</h2>
       <ul>
         <li>When IDFG redraws a unit, map numbers only use seasons after the change. Changes from this year or last year are flagged on the unit and its hunts.</li>
         <li>Nonresident odds on small hunts rest on 0-2 tags a year. One tag swings the rate from 0% to 7%+.</li>
-        <li>General-season numbers cover the whole unit and every hunter in it, not just one tag type.</li>
+        <li>General-season numbers cover the whole unit and every hunter in it, not just one tag type. Elk A and B tag numbers use the general-season harvest for the weapons each tag can hunt, so tags that share a weapon share those numbers.</li>
+        <li>Controlled-hunt crowding counts only that hunt&apos;s hunters, not general-season hunters in the same area.</li>
       </ul>
       </div>
     </main>

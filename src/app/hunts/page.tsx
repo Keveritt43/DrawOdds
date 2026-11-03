@@ -143,7 +143,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const quotaYear = mode(rows.filter((r) => r.nrTag).map((r) => r.quotaYear));
 
   // start here: one standout per reason, real samples only, bucks/bulls unless antlerless was asked for
-  const picks = f.sort === 'best' && f.page === 1
+  const picks = f.sort === 'best' && f.page === 1 && visible.length >= 6
     ? choosePicks(
         visible.filter((r) => (r.type === 'CONTROLLED' || (nr && r.nrTag)) && !r.smallSample && !r.youthOnly && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS')),
         c,
