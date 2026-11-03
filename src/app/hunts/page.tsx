@@ -73,7 +73,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const list = [...groups.values()];
   // inside a card: general seasons (and the white-tailed tag) first, then controlled hunts; the chosen sort is kept within each
   for (const g of list) g.rows.sort((a, b) => (a.type === 'CONTROLLED' ? 1 : 0) - (b.type === 'CONTROLLED' ? 1 : 0));
-  const matched = [...new Set(rows.flatMap((r) => r.units))].filter((u) => !f.zone || ELK_ZONES[f.zone].includes(u));
+  // highlight what was asked for: the clicked unit only, or the zone's units, or every unit with a match
+  // (a multi-unit controlled hunt or zone tag in the results shouldn't light up its other units)
+  const matched = f.unit ? [f.unit] : [...new Set(rows.flatMap((r) => r.units))].filter((u) => !f.zone || ELK_ZONES[f.zone].includes(u));
   const unitInfo = new Map(
     (await db.unit.findMany({ where: { name: { in: list.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]),
   );

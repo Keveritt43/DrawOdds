@@ -128,3 +128,24 @@ export function QualityChart({ data, species }: { data: YearPoint[]; species: 'D
     </Frame>
   );
 }
+
+/** Nonresident tag draw: applicants and drawn by choice (1st..5th). */
+export function ChoiceChart({ applied, drew }: { applied: number[]; drew: number[] }) {
+  const ord = ['1st', '2nd', '3rd', '4th', '5th'];
+  const data = applied.map((a, i) => ({ choice: ord[i], Applied: a, Drew: drew[i] ?? 0 }));
+  return (
+    <div style={{ width: '100%', height: 210 }}>
+      <ResponsiveContainer>
+        <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+          <CartesianGrid stroke={GRID} vertical={false} />
+          <XAxis dataKey="choice" tickLine={false} />
+          <YAxis width={44} tickLine={false} />
+          <Tooltip formatter={tip} />
+          <Legend />
+          <Bar name="Applied" dataKey="Applied" fill="#85B7EB" />
+          <Bar name="Drew" dataKey="Drew" fill="#f0641e" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}

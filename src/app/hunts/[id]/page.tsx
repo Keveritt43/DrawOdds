@@ -9,7 +9,8 @@ import { getResidency } from '@/lib/residency';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
 import { pct, pct100, int, range, WEAPON, ANTLER, DEERTYPE } from '@/lib/format';
-import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart } from '@/components/Charts';
+import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart, ChoiceChart } from '@/components/Charts';
+import { SeasonStrip } from '@/components/SeasonStrip';
 import { LandBar } from '@/components/LandBar';
 import { Star } from '@/components/Star';
 
@@ -77,6 +78,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       {!s.nrTag && s.type === 'GENERAL' && sortedSeasons(s.tagSeasons).length > 0 && (
         <div className="card" style={{ marginTop: 16 }}>
           <h3 style={{ marginTop: 0 }}>{(s.tagSeasons as { year?: number }).year} General Seasons</h3>
+          <SeasonStrip seasons={sortedSeasons(s.tagSeasons)} year={(s.tagSeasons as { year?: number }).year ?? new Date().getFullYear()} />
           <div className="uh-list">
             {sortedSeasons(s.tagSeasons).map((x, i) => (
               <div key={i} className="uh-row" style={{ gridTemplateColumns: '1fr' }}>
@@ -199,7 +201,8 @@ function NrTagCard({ s }: { s: { nrDraw: unknown; tagSeasons: unknown; quota: nu
         <div className="stat"><div className="k">Apply with</div><div className="v" style={{ fontSize: 18 }}>{s.tagCode ?? '-'}</div></div>
       </div>
       {d && (
-        <div style={{ overflowX: 'auto' }}>
+        <div className="tag-draw">
+          <div style={{ overflowX: 'auto' }}>
           <table className="results compact">
             <thead><tr><th>Choice</th><th className="num">Applied</th><th className="num">Drew</th><th className="num">Odds</th></tr></thead>
             <tbody>
@@ -208,11 +211,14 @@ function NrTagCard({ s }: { s: { nrDraw: unknown; tagSeasons: unknown; quota: nu
               ))}
             </tbody>
           </table>
+          </div>
+          <ChoiceChart applied={d.applied} drew={d.drew} />
         </div>
       )}
       {seasons.length > 0 && (
         <>
           <h4 style={{ margin: '14px 0 6px' }}>{sy} Seasons For This Tag</h4>
+          <SeasonStrip seasons={seasons} year={sy ?? new Date().getFullYear()} />
           <div className="uh-list">
             {seasons.map((x, i) => (
               <div key={i} className="uh-row" style={{ gridTemplateColumns: '1fr' }}>

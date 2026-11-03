@@ -282,3 +282,13 @@ table.results.compact tr.total td { font-weight: 700; border-top: 2px solid var(
 .mi-hunts ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: .86rem; }
 .mi-hunts li a { font-weight: 600; }
 table.results tr.old td { opacity: .45; }
+/* tag page: draw table beside its chart; season calendar strip */
+.tag-draw { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: center; }
+@media (max-width: 700px) { .tag-draw { grid-template-columns: 1fr; } }
+.sstrip { margin: 6px 0 10px; }
+.sstrip-months { display: grid; grid-template-columns: repeat(6, 1fr); font-size: .72rem; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+.sstrip-months span { border-left: 1px solid var(--line); padding-left: 4px; }
+.sstrip-row { position: relative; height: 12px; margin-top: 4px; background: repeating-linear-gradient(90deg, transparent 0, transparent calc(100% / 6 - 1px), var(--line) calc(100% / 6 - 1px), var(--line) calc(100% / 6)); }
+.sstrip-row i { position: absolute; top: 1px; height: 10px; border-radius: 3px; }
+.sstrip-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .76rem; color: var(--muted); margin-top: 6px; }
+.sstrip-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
