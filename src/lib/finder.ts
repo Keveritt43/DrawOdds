@@ -90,7 +90,8 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma
   // a tag covers several weapons and sexes (its seasons do the narrowing), so those filters let tags through
   // (a tag passes when one of its seasons allows the weapon, or when its seasons aren't known yet)
   if (f.weapon.length) and.push({ OR: [{ nrTag: false, weapon: { in: f.weapon } }, { nrTag: true, weapons: { hasSome: f.weapon } }, { nrTag: true, weapons: { isEmpty: true } }] });
-  if (f.antler.length) and.push({ OR: [{ antlerClass: { in: f.antler } }, { nrTag: true }] });
+  // an either-sex hunt lets you take a buck / bull (or a doe / cow): it belongs under either choice
+  if (f.antler.length) and.push({ OR: [{ antlerClass: { in: [...new Set([...f.antler, 'EITHER' as const])] } }, { nrTag: true }] });
   if (f.deerType.length) {
     // White-tailed Deer tags (WD) hunt whitetails only, whatever the unit's mule / whitetail mix: they belong to the
     // Whitetail choice alone. Everything else matches on the unit's 5-year harvest mix.

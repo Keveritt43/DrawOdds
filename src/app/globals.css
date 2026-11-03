@@ -369,3 +369,5 @@ table.results.compare td .small { display: block; }
 .draw-bar > span { font-size: .72rem; color: #a9b0a7; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
 .draw-seg button { padding: 6px 11px; }
 @media (max-width: 600px) { .draw-bar { padding: 0 14px 8px; } .draw-seg button { padding: 6px 8px; font-size: .78rem; } .draw-bar > span { display: none; } }
+.quick .deer-type { display: none; }
+.quick:has(input[name='species'][value='DEER']:checked) .deer-type { display: block; }

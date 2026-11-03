@@ -64,6 +64,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   // one drawing at a time: a species from the other drawing (an old link) is dropped
   const draw = await getDraw(sp.draw);
   if (f.species && !DRAW_SPECIES[draw].includes(f.species)) f.species = '';
+  // deer type only means something for deer (a stale Quick Start pick would empty an elk search)
+  if (f.species && f.species !== 'DEER') f.deerType = [];
   const msg = draw === 'MSG';
   // species shown by their own hunt areas on the map (pronghorn; moose, sheep and goat)
   const areaSp = (msg ? (f.species ? [f.species] : DRAW_SPECIES.MSG) : f.species === 'PRONGHORN' ? ['PRONGHORN'] : []) as SpeciesKey[];
@@ -154,7 +156,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const quotaYear = mode(rows.filter((r) => r.nrTag).map((r) => r.quotaYear));
 
   // start here: one standout per reason, real samples only, bucks/bulls unless antlerless was asked for
-  const picks = f.sort === 'best' && f.page === 1 && visible.length >= 6
+  const picks = ['best', 'odds', 'success'].includes(f.sort) && f.page === 1 && visible.length >= 6
     ? choosePicks(
         visible.filter((r) => (r.type === 'CONTROLLED' || (nr && r.nrTag)) && !r.smallSample && !r.youthOnly && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS')),
         c,

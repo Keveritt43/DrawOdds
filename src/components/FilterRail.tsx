@@ -15,7 +15,7 @@ const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GE
 const TYPES_NR: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons (tag draw)']];
 const NRTAG: Opt = ['NRTAG', 'General Tag Draw (Nonresident)'];
 const WEAPONS: Opt[] = [['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader'], ['SHORT_RANGE', 'Short Range']];
-const ANTLER: Opt[] = [['ANTLERED', 'Bucks & bulls (antlered)'], ['ANTLERLESS', 'Does & cows'], ['EITHER', 'Either sex']];
+const ANTLER: Opt[] = [['ANTLERED', 'Bucks & bulls'], ['ANTLERLESS', 'Does & cows'], ['EITHER', 'Either-sex hunts only']];
 const MONTHS: Opt[] = [['8', 'Aug'], ['9', 'Sep'], ['10', 'Oct'], ['11', 'Nov'], ['12', 'Dec'], ['1', 'Jan']];
 const DENSITY = [0, 8, 5, 3, 2, 1.5, 1, 0.5, 0.25]; // 0 = any; dragging right = fewer hunters, like the other sliders
 const DEER: Opt[] = [['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED', 'Mixed']];
@@ -86,7 +86,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           {sp_ === 'PRONGHORN' && <p className="small muted" style={{ margin: '6px 0 0' }}>Pronghorn are controlled hunts only.</p>}
         </Section>}
         <Section title="Weapon" value={many(WEAPONS, 'weapon', 'All Weapons')} set={list('weapon').length > 0}>{checks('weapon', WEAPONS)}</Section>
-        <Section title={msg ? 'Male Or Female' : sp_ === 'PRONGHORN' ? 'Bucks Or Does' : 'Bucks/Bulls Or Antlerless'} value={many(msg ? SEX_MSG : ANTLER, 'antler', 'Any')} set={list('antler').length > 0}>{checks('antler', msg ? SEX_MSG : ANTLER)}</Section>
+        <Section title={msg ? 'Male Or Female' : sp_ === 'PRONGHORN' ? 'Bucks Or Does' : 'Bucks/Bulls Or Antlerless'} value={many(msg ? SEX_MSG : ANTLER, 'antler', 'Any')} set={list('antler').length > 0}>{checks('antler', msg ? SEX_MSG : ANTLER)}<p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take a male or a female on them.</p></Section>
         <Section title={`Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
           <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
           <p className="small muted" style={{ margin: '6px 0 0' }}>First choice, 5-year total. Hunts with no draw (resident general seasons) always show.</p>

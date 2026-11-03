@@ -72,6 +72,13 @@ export default async function Home() {
               ? <div className="opts">{opt('species', 'MOOSE', 'Moose', true)}{opt('species', 'BIGHORN', 'Bighorn Sheep')}{opt('species', 'GOAT', 'Mountain Goat')}{opt('species', '', 'Compare All Three')}</div>
               : <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', 'PRONGHORN', 'Pronghorn')}{opt('species', '', 'Any')}</div>}
             {!msg && (
+              // shown only while Deer is picked (CSS :has), no script needed
+              <div className="deer-type">
+                <label>Type Of Deer</label>
+                <div className="opts">{opt('deerType', '', 'Either', true)}{opt('deerType', 'MULE', 'Mule Deer')}{opt('deerType', 'WHITETAIL', 'Whitetail')}</div>
+              </div>
+            )}
+            {!msg && (
               <>
                 <label>Hunt Type</label>
                 <div className="opts">
@@ -86,13 +93,19 @@ export default async function Home() {
             )}
             <label>What Are You After?</label>
             <div className="opts">
-              {opt('antler', 'ANTLERED', msg ? 'A Bull Or Ram (Male)' : 'A Buck Or Bull', true)}
+              {opt('antler', 'ANTLERED', msg ? 'A Bull Or Ram (Male)' : 'A Buck Or Bull (Incl. Either-Sex Hunts)', true)}
               {opt('antler', '', msg ? 'Any (Incl. Cows / Ewes)' : 'Any Animal (Incl. Does / Cows)')}
             </div>
             <label>Weapon</label>
             <div className="opts">{opt('weapon', '', 'Any', true)}{opt('weapon', 'ANY', 'Rifle')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
             <label>I Want</label>
-            <div className="opts">{opt('sort', 'best', 'Best Chance To Fill', true)}{opt('sort', 'densityLow', 'Fewer Hunters')}{opt('sort', 'big', msg ? 'Biggest Antlers / Horns' : 'Trophy Potential')}</div>
+            <div className="opts">
+              {opt('sort', 'odds', 'Best Chance To Get A Tag', true)}
+              {opt('sort', 'success', 'Highest Harvest Rate')}
+              {opt('sort', 'best', 'Best Mix Of Both')}
+              {opt('sort', 'densityLow', 'Fewer Hunters')}
+              {opt('sort', 'big', msg ? 'Biggest Antlers / Horns' : 'Trophy Potential')}
+            </div>
             <button className="btn primary" type="submit">Show Me Hunts</button>
           </form>
         </div>

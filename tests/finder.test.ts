@@ -75,3 +75,8 @@ test('mule deer filter leaves out White-tailed Deer tags; whitetail filter inclu
   const wt = JSON.stringify(buildWhere(parseFilters({ deerType: 'WHITETAIL' }), 'NONRESIDENT'));
   assert.ok(wt.includes('{"tagCode":{"startsWith":"WD"}}]'), wt);
 });
+
+test('buck / bull includes either-sex hunts', () => {
+  const w = JSON.stringify(buildWhere(parseFilters({ antler: 'ANTLERED' }), 'RESIDENT'));
+  assert.ok(w.includes('"antlerClass":{"in":["ANTLERED","EITHER"]}'), w);
+});
