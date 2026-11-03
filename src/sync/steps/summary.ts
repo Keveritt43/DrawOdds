@@ -28,14 +28,16 @@ export async function buildSummaries(): Promise<StepResult> {
   const details: string[] = [];
   const [hunts, odds, areas, unitRows] = await Promise.all([
     db.hunt.findMany(),
-    db.drawOdds.findMany({ where: { draw: 1 } }),
+    db.drawOdds.findMany({ where: { draw: { in: [1, 2] } } }),
     db.huntArea.findMany({ select: { areaId: true, name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, units: true, acres: true } }),
     db.unit.findMany({ select: { name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, acres: true } }),
   ]);
   const unitMap = new Map(unitRows.map((u) => [u.name, u]));
   const areaMap = new Map(areas.map((a) => [a.areaId, a]));
+  // second drawing (leftover tags): species|year|hunt -> row; the rest is the main drawing
+  const second = new Map(odds.filter((o) => o.draw === 2).map((o) => [`${o.species}|${o.year}|${o.huntNumber}`, o]));
   const oddsBy = new Map<string, DrawOdds[]>(); // species|area
-  for (const o of odds) (oddsBy.get(`${o.species}|${o.areaName}`) ?? oddsBy.set(`${o.species}|${o.areaName}`, []).get(`${o.species}|${o.areaName}`)!).push(o);
+  for (const o of odds.filter((x) => x.draw === 1)) (oddsBy.get(`${o.species}|${o.areaName}`) ?? oddsBy.set(`${o.species}|${o.areaName}`, []).get(`${o.species}|${o.areaName}`)!).push(o);
 
   const out: Prisma.HuntSummaryCreateManyInput[] = [];
 
@@ -108,7 +110,7 @@ export async function buildSummaries(): Promise<StepResult> {
       // the hunt's most recent drawing-odds row tells us its area
       // IDFG reuses hunt numbers across areas: the drawing history must be for this hunt's area
       const cur = odds
-        .filter((o) => o.species === h.species && o.huntNumber === h.huntNumber && o.year <= h.year && (!h.areaName || o.areaName === h.areaName))
+        .filter((o) => o.draw === 1 && o.species === h.species && o.huntNumber === h.huntNumber && o.year <= h.year && (!h.areaName || o.areaName === h.areaName))
         .sort((a, b) => b.year - a.year)[0];
       if (!cur) {
         // new hunt with no draw history yet: area and units still come from the regs + GIS
@@ -123,6 +125,9 @@ export async function buildSummaries(): Promise<StepResult> {
       const lin = lineage(cur as OddsRow, hist as OddsRow[]);
       const linOdds = hist.filter((o) => lin.get(o.year) === o.huntNumber);
       const { years: oddsYears, ...o } = summarizeOdds(linOdds as OddsRow[]);
+      // leftover tags: the most recent second drawing this hunt (by its number that year) was in
+      const left = [...lin.entries()].sort((a, b) => b[0] - a[0]).map(([y, n]) => second.get(`${h.species}|${y}|${n}`)).find((x) => x && (x.permits ?? 0) > 0);
+      const leftover = left ? { leftoverYear: left.year, leftoverTags: left.permits, leftoverApps: left.apps1, leftoverDrew: left.drew1 } : {};
 
       const harvestRows = await db.controlledHarvest.findMany({
         where: { species: h.species, OR: [...lin.entries()].map(([year, huntNumber]) => ({ year, huntNumber })) },
@@ -145,6 +150,7 @@ export async function buildSummaries(): Promise<StepResult> {
         areaId: cur.areaId,
         units: allUnits,
         ...o,
+        ...leftover,
         oddsYears,
         appsLast: o.resAppsLast === null && o.nrAppsLast === null ? null : (o.resAppsLast ?? 0) + (o.nrAppsLast ?? 0),
         success5: hs.success5,

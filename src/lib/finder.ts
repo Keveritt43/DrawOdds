@@ -3,8 +3,8 @@ import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 import { DRAW_SPECIES, type Draw } from './species';
 import { unitsWithObjective, type ObjStatus } from './elkObjectives';
 
-export type Sort = 'score' | 'opp' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
-export const SORTS: readonly Sort[] = ['score', 'opp', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
+export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
+export const SORTS: readonly Sort[] = ['score', 'opp', 'leftover', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
 
 export interface Filters {
   species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | '';
@@ -25,6 +25,8 @@ export interface Filters {
   migration: 'yes' | 'no' | '';
   bullObj: ObjStatus[];
   cowObj: ObjStatus[];
+  /** controlled hunts that had tags in IDFG's second (leftover) drawing */
+  leftover: boolean;
   minScore: number | null; // DrawOdds Score (quality), 0-100
   minOpp: number | null; // DrawOdds Opportunity for the user's residency, 0-100
   maxDensity: number | null; // at most this many hunters per square mile
@@ -65,6 +67,7 @@ export function parseFilters(sp: SP): Filters {
     minAccessYes: pct(sp.minAccessYes),
     minHuntable: pct(sp.minHuntable),
     minBig: pct(sp.minBig),
+    leftover: one(sp.leftover) === '1',
     migration: one(sp.migration) === 'yes' ? 'yes' : one(sp.migration) === 'no' ? 'no' : '',
     bullObj: pick(list(sp.bullObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
     cowObj: pick(list(sp.cowObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
@@ -130,6 +133,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   // elk population objectives: any of the picked statuses (bulls AND cows when both are set); elk hunts only
   if (f.bullObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('bull', f.bullObj) } });
   if (f.cowObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('cow', f.cowObj) } });
+  if (f.leftover) and.push({ leftoverTags: { gt: 0 } });
   if (f.migration === 'yes') and.push({ units: { hasSome: migrationUnits.length ? migrationUnits : ['__none__'] } });
   if (f.migration === 'no' && migrationUnits.length) and.push({ NOT: { units: { hasSome: migrationUnits } } });
   if (f.minScore) and.push({ scoreQuality: { gte: f.minScore } });
@@ -162,6 +166,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
   switch (f.sort) {
     case 'score':
       return [desc('scoreQuality'), desc(rf.opp), desc('success5')];
+    case 'leftover':
+      return [desc('leftoverTags'), desc(rf.odds5)];
     case 'opp':
       return [desc(rf.opp), desc('scoreQuality')];
     case 'odds':
@@ -217,6 +223,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('minAccessYes', m.minAccessYes);
   set('minHuntable', m.minHuntable);
   set('minBig', m.minBig);
+  set('leftover', m.leftover);
   set('migration', m.migration);
   set('bullObj', m.bullObj);
   set('cowObj', m.cowObj);

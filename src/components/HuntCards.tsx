@@ -124,6 +124,10 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
         <span><Term k="trophy">{TROPHY_LABEL[r.species]}</Term> <b>{pct(r.bigPct5)}</b> of {r.species === 'ELK' ? 'bulls' : 'bucks'} taken</span>
       )}
       {SIZE_LABEL[r.species as SpeciesKey] && r.avgSize5 !== null && <span><Term k="size">{SIZE_LABEL[r.species as SpeciesKey]}</Term> <b>{r.avgSize5.toFixed(1)}&quot;</b></span>}
+      {r.type === 'CONTROLLED' && r.permitsLast !== null && r.permitsPrev !== null && Math.abs(r.permitsLast - r.permitsPrev) >= Math.max(3, r.permitsPrev * 0.1) && (
+        <span className={`pill ${r.permitsLast > r.permitsPrev ? 'good' : 'warn'}`} title="Tags in the latest drawing vs the year before">Tags {int(r.permitsPrev)} → {int(r.permitsLast)}</span>
+      )}
+      {r.leftoverTags ? <span className="pill" title={`IDFG's second drawing (Aug) for leftover tags${r.leftoverApps ? `: ${int(r.leftoverApps)} applied, ${int(r.leftoverDrew)} drew` : ''}`}>{int(r.leftoverTags)} leftover tags in {r.leftoverYear}</span> : null}
       {r.youthOnly && <span className="pill">Youth</span>}
       {r.smallSample && <span className="pill warn" title="Fewer than 50 hunters over 5 years">Small Sample</span>}
       {recentBoundaryChanges(r.units) && <span className="pill warn" title="IDFG changed this unit's boundary recently; earlier years cover different ground">Boundary Changed {recentBoundaryChanges(r.units)!.year}</span>}

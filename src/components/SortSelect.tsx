@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 const SORTS: [string, string][] = [
   ['score', 'DrawOdds Score (Quality)'],
   ['opp', 'DrawOdds Opportunity'],
+  ['leftover', 'Most Leftover Tags (2nd Drawing)'],
   ['best', 'Best Chance (Odds x Success)'],
   ['odds', 'Draw Odds'],
   ['success', 'Harvest Success'],

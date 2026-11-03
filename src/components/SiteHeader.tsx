@@ -13,6 +13,7 @@ const LINKS = [
   { href: '/hunts', label: 'Find Hunts' },
   { href: '/map', label: 'Unit Map' },
   { href: '/planner', label: 'Planner' },
+  { href: '/changes', label: 'What Changed' },
   { href: '/migration', label: 'Migration' },
   { href: '/about', label: 'Data & Methods' },
 ];

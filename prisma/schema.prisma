@@ -243,6 +243,11 @@ model HuntSummary {
   nrAppsPrev  Int?
   nrPermitsLast Int? // tags nonresidents drew, latest drawing
   permitsLast Int? // all tags issued, latest drawing
+  permitsPrev Int? // the drawing before that (year before only): tag changes
+  leftoverYear Int? // IDFG's second drawing (leftover tags) for this hunt, latest year it had one
+  leftoverTags Int?
+  leftoverApps Int?
+  leftoverDrew Int?
   secondDrewLast Int? // tags that reached 2nd-choice applicants, latest drawing
   secondAppsLast Int?
 

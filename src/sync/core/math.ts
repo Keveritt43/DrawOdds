@@ -150,6 +150,7 @@ export interface OddsSummary {
   secondDrewLast: number | null; // tags that went to 2nd-choice applicants in the latest drawing (leftovers)
   secondAppsLast: number | null;
   permitsLast: number | null;
+  permitsPrev: number | null; // all tags, the drawing before (only when it was the year before)
 }
 
 /** Draw odds = permits / first-choice applicants, capped at 100% (undersubscribed hunts give 2nd-choice tags too). */
@@ -186,6 +187,7 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
     secondDrewLast: last?.drew2 ?? null,
     secondAppsLast: last?.apps2 ?? null,
     permitsLast: last?.permits ?? null,
+    permitsPrev: prev?.permits ?? null,
   };
 }
 

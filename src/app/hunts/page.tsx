@@ -43,6 +43,7 @@ function chips(f: Filters): { label: string; href: string }[] {
   if (f.minAccessYes) add(`Access Yes! ${f.minAccessYes}%+`, { minAccessYes: null });
   if (f.minHuntable) add(`Huntable ${f.minHuntable}%+`, { minHuntable: null });
   if (f.accessYes) add('Has Access Yes!', { accessYes: false });
+  if (f.leftover) add('Had leftover tags', { leftover: false });
   if (f.migration) add(f.migration === 'yes' ? 'Has migration study' : 'No migration study', { migration: '' });
   if (f.bullObj.length) add(`Bulls ${f.bullObj.map((x) => x.toLowerCase()).join('/')} objective`, { bullObj: [] });
   if (f.cowObj.length) add(`Cows ${f.cowObj.map((x) => x.toLowerCase()).join('/')} objective`, { cowObj: [] });

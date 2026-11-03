@@ -49,7 +49,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
   };
   const labelOf = (opts: Opt[], v: string) => opts.find((o) => o[0] === v)?.[1] ?? v;
   const sp_ = get('species');
-  const moreSet = ['migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
+  const moreSet = ['leftover', 'migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
   const many = (opts: Opt[], k: string, none: string) => (list(k).length ? list(k).map((v) => labelOf(opts, v)).join(', ') : none);
 
   const radio = (k: string, opts: Opt[]) => (
@@ -154,6 +154,10 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
             <div className="checks2" style={{ marginTop: 10 }}>
               <label><input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} /> Has Access Yes! land</label>
             </div>
+          </Section>
+          <Section title="Leftover Tags" value={get('leftover') === '1' ? 'Had leftovers' : 'Any'} set={get('leftover') === '1'}>
+            <div className="checks2"><label><input type="checkbox" checked={get('leftover') === '1'} onChange={() => push({ leftover: get('leftover') === '1' ? null : '1' })} /> Had tags in the second drawing (Aug 5-15)</label></div>
+            <p className="small muted" style={{ margin: '6px 0 0' }}>Controlled hunts with tags left after the main drawing. Nonresident limits don&apos;t apply to leftovers. <a href="/changes#leftovers">All leftovers</a></p>
           </Section>
           <Section title="Tags" value={get('minTags') ? `${get('minTags')}+ tags` : 'Any'} set={!!get('minTags')}>
             <Slider value={Number(get('minTags') || 0)} max={100} step={5} suffix="" onCommit={(v) => push({ minTags: v ? String(v) : null })} />
