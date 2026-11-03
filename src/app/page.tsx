@@ -40,7 +40,7 @@ export default async function Home() {
             </h1>
             <p className="lead">
               Every Idaho deer, elk and pronghorn hunt in one place: draw odds for your residency, hunter success, how
-              crowded it gets, public land and Access Yes! acres, on a map. Answer four questions and we&apos;ll show you
+              crowded it gets, public land and Access Yes! acres, on a map. Answer a few questions and we&apos;ll show you
               where to start.
             </p>
             {deadline && (

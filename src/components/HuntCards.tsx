@@ -76,7 +76,7 @@ function Stats({ r, c }: { r: HuntSummary; c: CardCtx }) {
       </div>
       <div>
         <Term k="success">Success{r.harvestLastYear ? ` ${r.harvestLastYear}` : ''}</Term>
-        <b className={r.smallSample ? 'faint' : ''}>{pct(r.successLast)}{!r.smallSample && <Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" />}</b>
+        <b className={r.smallSample ? 'faint' : ''}>{pct(r.successLast)}{!r.smallSample && (r.hunters5 ?? 0) / Math.max(1, r.harvestYears) >= 30 && <Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" />}</b>
         {r.smallSample ? <span className="verdict none">Small sample</span> : <Chip v={successVerdict(r.success5, r.species)} />}
         <span className="sub">
           {c.sort === 'harvest' ? `5-yr harvest ${int(r.harvest5)}` : c.sort === 'hunters' || c.sort === 'huntersLow' ? `5-yr hunters ${int(r.hunters5)}` : `${r.harvestYears > 0 && r.harvestYears < 5 ? `${r.harvestYears}-yr` : '5-yr'} ${pct(r.success5)}`}
@@ -102,6 +102,11 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
       {r.type === 'CONTROLLED' && apps !== null && (
         <span className="muted">
           {everyone ? `Everyone who applied drew${r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}` : <>{int(apps)} {c.nr ? 'NR' : 'resident'} 1st-choice applicants{meaningfulChange(apps, r[c.rf.appsPrev], 20) && <Delta now={apps} prev={r[c.rf.appsPrev]} kind="pct" good="down" />}{r.appsLast !== null && r.appsLast !== apps ? ` (all ${int(r.appsLast)})` : ''}</>}
+        </span>
+      )}
+      {r.type === 'CONTROLLED' && (r.secondDrewLast ?? 0) > 0 && (
+        <span className="pill good" title="Tags were left after every 1st-choice applicant drew, so 2nd-choice applicants got them. A realistic 2nd choice.">
+          {int(r.secondDrewLast)} tags went to 2nd choices{r.oddsLastYear ? ` in ${r.oddsLastYear}` : ''}
         </span>
       )}
       {r.youthOnly && <span className="pill">Youth</span>}
@@ -177,6 +182,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
                 <div className="ztag-odds">
                   <b>{pctOdds(odds)}</b> <Chip v={oddsVerdict(odds)} />
                   <span className="sub">1st-choice odds{(r.nrDraw as { year?: number } | null)?.year ? ` ${(r.nrDraw as { year: number }).year}` : ''}{r.quota !== null ? ` · ${int(r.quota)} NR tags${r.quotaYear ? ` (${r.quotaYear})` : ''}` : ''}</span>
+                  <span className="sub">{laterChoices(r.nrDraw)}</span>
                 </div>
               ) : (
                 <div className="ztag-odds"><b>{residentTag(r)}</b></div>
@@ -188,34 +194,63 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
       <div className="zshared">
         <span><Term k="success">Zone success</Term> <b>{pct(any.success5)}</b> <Chip v={successVerdict(any.success5, 'ELK')} /> <span className="muted">5-yr, A and B hunters together</span></span>
         <span><Term k="crowd">Hunters/mi²</Term> <b>{density(any.huntersSqMi)}</b> <Chip v={crowdVerdict(any.huntersSqMi)} /></span>
+        {any.publicPct !== null && <span>Public land <b>{Math.round(any.publicPct)}%</b></span>}
       </div>
     </article>
   );
 }
 
-/** Three hunts worth a first look, with a one-line reason each. */
-export function TopPicks({ rows, c }: { rows: HuntSummary[]; c: CardCtx }) {
-  if (!rows.length) return null;
+/** Whether a nonresident general tag reached choices after the 1st: tells you if it works as a backup pick. */
+export function laterChoices(nrDraw: unknown): string {
+  const d = nrDraw as { drew?: number[]; applied?: number[] } | null;
+  if (!d?.drew?.length) return '';
+  const later = d.drew.slice(1).reduce((a, b) => a + (b ?? 0), 0);
+  return later > 0 ? `${int(later)} tags reached 2nd-5th choices: works as a backup pick` : 'Filled on 1st choices: only worth listing 1st';
+}
+
+export interface Pick { label: string; r: HuntSummary; why: string }
+
+/** A few hunts worth a first look, each for a different reason (best chance, best odds, best success, least crowded). */
+export function TopPicks({ picks, c }: { picks: Pick[]; c: CardCtx }) {
+  if (!picks.length) return null;
   return (
     <section className="picks" aria-label="Top picks">
       <h2>Start Here</h2>
-      <p className="small muted" style={{ margin: '0 0 6px' }}>Best mix of {c.nr ? 'nonresident' : 'resident'} draw odds and hunter success in these results (small samples left out).</p>
+      <p className="small muted" style={{ margin: '0 0 6px' }}>The standouts in these results for {c.nr ? 'nonresidents' : 'residents'}, using 5-year numbers (small samples and antlerless hunts left out unless you asked for them).</p>
       <ol>
-        {rows.map((r) => {
-          const o = r.type === 'CONTROLLED' ? r[c.rf.odds5] : r.nrOdds5;
-          const df = drawFillLine(r[c.rf.tagAndFill]);
-          return (
-            <li key={r.id}>
-              <Link href={`/hunts/${encodeURIComponent(r.id)}`}>
-                {r.nrTag ? `${tagLabel(r)}` : `${SPECIES_LABEL[r.species]} hunt ${r.huntNumber} · ${antlerLabel(r.species, r.antlerClass)} · ${WEAPON[r.weapon]}`}
-              </Link>
-              <span className="small">
-                {` ${pctOdds(o)} odds, ${pct(r.success5)} success`}{df ? ` → draw and fill ${df} a year` : ''}{r.units.length ? ` · unit${r.units.length > 1 ? 's' : ''} ${r.units.slice(0, 4).join(', ')}${r.units.length > 4 ? '…' : ''}` : ''}
-              </span>
-            </li>
-          );
-        })}
+        {picks.map((p) => (
+          <li key={p.label}>
+            <span className="pick-label">{p.label}</span>
+            <Link href={`/hunts/${encodeURIComponent(p.r.id)}`}>
+              {p.r.nrTag ? tagLabel(p.r) : `${SPECIES_LABEL[p.r.species]} hunt ${p.r.huntNumber} · ${antlerLabel(p.r.species, p.r.antlerClass)} · ${WEAPON[p.r.weapon]}`}
+            </Link>
+            <span className="small"> {p.why}</span>
+          </li>
+        ))}
       </ol>
     </section>
   );
+}
+
+/** Picks one hunt per reason from the candidates (no hunt twice). */
+export function choosePicks(cands: HuntSummary[], c: CardCtx): Pick[] {
+  const odds = (r: HuntSummary) => (r.type === 'CONTROLLED' ? r[c.rf.odds5] : r.nrOdds5) ?? null;
+  const lo = (r: HuntSummary) => ({ ELK: 0.15, DEER: 0.35, PRONGHORN: 0.35 } as Record<string, number>)[r.species] ?? 0.25;
+  const used = new Set<string>();
+  const where = (r: HuntSummary) => (r.units.length ? ` · unit${r.units.length > 1 ? 's' : ''} ${r.units.slice(0, 4).join(', ')}${r.units.length > 4 ? '…' : ''}` : '');
+  const nums = (r: HuntSummary) => `${pctOdds(odds(r))} odds, ${pct(r.success5)} success`;
+  const take = (label: string, xs: HuntSummary[], why: (r: HuntSummary) => string): Pick | null => {
+    const r = xs.find((x) => !used.has(x.id));
+    if (!r) return null;
+    used.add(r.id);
+    return { label, r, why: why(r) + where(r) };
+  };
+  const by = (f: (r: HuntSummary) => number | null, dir: 1 | -1) => (a: HuntSummary, b: HuntSummary) => ((f(b) ?? -Infinity) - (f(a) ?? -Infinity)) * dir;
+  const ok = cands.filter((r) => odds(r) !== null && r.success5 !== null);
+  return [
+    take('Best chance to fill', ok.slice().sort(by((r) => r[c.rf.tagAndFill], 1)), (r) => `${nums(r)} → draw and fill ${drawFillLine(r[c.rf.tagAndFill]) ?? '-'} a year`),
+    take('Easiest draw that still fills', ok.filter((r) => (r.success5 ?? 0) >= lo(r)).sort(by(odds, 1)), (r) => `${nums(r)}`),
+    take('Highest success you can draw', ok.filter((r) => (odds(r) ?? 0) >= 0.1).sort(by((r) => r.success5, 1)), (r) => `${nums(r)}`),
+    take('Least crowded', ok.filter((r) => (odds(r) ?? 0) >= 0.1 && (r.success5 ?? 0) >= lo(r) && r.huntersSqMi !== null).sort(by((r) => r.huntersSqMi, -1)), (r) => `${nums(r)}, ${density(r.huntersSqMi)} hunters/mi²`),
+  ].filter((p): p is Pick => !!p);
 }

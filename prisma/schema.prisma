@@ -238,6 +238,8 @@ model HuntSummary {
   nrAppsPrev  Int?
   nrPermitsLast Int? // tags nonresidents drew, latest drawing
   permitsLast Int? // all tags issued, latest drawing
+  secondDrewLast Int? // tags that reached 2nd-choice applicants, latest drawing
+  secondAppsLast Int?
 
   // harvest
   success5         Float?

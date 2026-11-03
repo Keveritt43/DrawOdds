@@ -88,6 +88,11 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
             m.fitBounds(b, { padding: { top: 96, bottom: 30, left: 30, right: 30 }, duration: 0 });
           }
         }
+        if (!focus) {
+          // frame Idaho below the key in the top-left corner
+          const kh = (el.current?.parentElement?.querySelector('.mappanel') as HTMLElement | null)?.offsetHeight ?? 80;
+          m.fitBounds(IDAHO_BOUNDS, { padding: { top: Math.min(kh + 14, m.getContainer().clientHeight * 0.4), bottom: 16, left: 16, right: 16 }, duration: 0 });
+        }
         m.fire('metric');
       } catch (e) {
         setErr('Could not load unit boundaries.');

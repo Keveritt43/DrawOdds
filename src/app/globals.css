@@ -348,3 +348,14 @@ table.results tr.old td { opacity: .45; }
 .home-hero .deadline b { color: #fff; }
 .quick .hint { color: #a9b0a7; font-size: .8rem; margin: 6px 0 0; }
 .f-map .chipsbar { right: 50px; }
+.picks .pick-label { display: block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--blaze-ink); }
+@media (prefers-color-scheme: dark) { .picks .pick-label { color: var(--accent); } }
+.f-sub .csv { font-weight: 600; }
+table.results.compare td { vertical-align: middle; }
+table.results.compare td .small { display: block; }
+.alts { margin-top: 12px; }
+.alts h3 { margin-top: 0; }
+.alts ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.alts li a { font-weight: 700; }
+.choice-tip { margin: 8px 0 0; padding: 8px 10px; background: var(--bg); border-radius: 8px; font-size: .9rem; }
+@media (max-width: 1100px) { .f-map { height: 52vh; } }

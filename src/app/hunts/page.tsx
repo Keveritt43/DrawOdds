@@ -8,7 +8,7 @@ import { HuntMap } from '@/components/HuntMap';
 import { SortSelect } from '@/components/SortSelect';
 import { ResidencySwitch } from '@/components/ResidencySwitch';
 import { RememberQuery } from '@/components/BackLink';
-import { HuntCard, ZoneCard, TopPicks, type CardCtx } from '@/components/HuntCards';
+import { HuntCard, ZoneCard, TopPicks, choosePicks, type CardCtx } from '@/components/HuntCards';
 import { pct, pct100, WEAPON, DEERTYPE, SPECIES_LABEL, TROPHY_LABEL, antlerLabel } from '@/lib/format';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
@@ -130,10 +130,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const harvestYear = mode(rows.map((r) => r.harvestLastYear));
   const quotaYear = mode(rows.filter((r) => r.nrTag).map((r) => r.quotaYear));
 
-  // start here: the best draw x fill in these results, real samples only, bucks/bulls unless asked for antlerless
+  // start here: one standout per reason, real samples only, bucks/bulls unless antlerless was asked for
   const picks = f.sort === 'best' && f.page === 1
-    ? visible.filter((r) => (r.type === 'CONTROLLED' || (nr && r.nrTag)) && !r.smallSample && r[rf.tagAndFill] !== null && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS') && !r.youthOnly)
-      .sort((a, b) => (b[rf.tagAndFill] ?? 0) - (a[rf.tagAndFill] ?? 0)).slice(0, 3)
+    ? choosePicks(visible.filter((r) => (r.type === 'CONTROLLED' || (nr && r.nrTag)) && !r.smallSample && !r.youthOnly && (f.antler.length ? true : r.antlerClass !== 'ANTLERLESS')), c)
     : [];
 
   const more = `/hunts${toQuery(f, { page: f.page + 1 })}`;
@@ -158,6 +157,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'hunt' ? (total === 1 ? 'result' : 'results') : 'units'} · sort by</span>
             <SortSelect value={f.sort} />
+            <a className="small csv" href={`/api/export${toQuery(f, { page: 1 })}`} title="Every result with odds, success, crowding and tags, for a spreadsheet">Download CSV</a>
             <span className="seg light view-seg" role="group" aria-label="List by">
               <Link className="seg-link" href={viewHref('hunt')} aria-pressed={f.view === 'hunt'} scroll={false}>By hunt</Link>
               <Link className="seg-link" href={viewHref('unit')} aria-pressed={f.view === 'unit'} scroll={false}>By unit</Link>
@@ -175,7 +175,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
             <p className="muted">Loosen a slider or remove a chip on the map. <Link href="/hunts">Clear all filters</Link>.</p>
           </div>
         )}
-        {picks.length > 0 && <TopPicks rows={picks} c={c} />}
+        {picks.length > 0 && <TopPicks picks={picks} c={c} />}
 
         {f.view === 'hunt' && listings.slice(0, shown).map((l) => (l.kind === 'zone'
           ? <ZoneCard key={l.key} zone={l.zone} rows={l.rows} c={c} />

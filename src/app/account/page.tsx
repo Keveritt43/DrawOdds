@@ -6,7 +6,8 @@ import { db } from '@/lib/db';
 import { doSignOut } from '@/app/actions';
 import { ResidencySwitch } from '@/components/ResidencySwitch';
 import { residencyFields } from '@/lib/finder';
-import { pct, pct100, range } from '@/lib/format';
+import { pct, pctOdds, pct100, range, int, density, drawFillLine, antlerLabel, WEAPON } from '@/lib/format';
+import { seasonsSummary } from '@/lib/tagSeasons';
 import { Star } from '@/components/Star';
 
 export const dynamic = 'force-dynamic';
@@ -17,6 +18,7 @@ export default async function Account() {
   const session = await auth();
   if (!session?.user) redirect('/login');
   const rf = residencyFields(session.user.residency);
+  const nr = session.user.residency === 'NONRESIDENT';
   const [saved, savedUnits] = await Promise.all([
     db.savedHunt.findMany({
       where: { userId: session.user.id },
@@ -54,18 +56,54 @@ export default async function Account() {
       </div>
 
       <h2>Favorite Hunts</h2>
-      {!saved.length && <p className="muted">No favorite hunts yet. Tap the ☆ next to any hunt.</p>}
-      {saved.map(({ hunt }) => {
-        const s = hunt.summaries[0];
-        return (
-          <div key={hunt.idfgId} className="card star-head" style={{ marginBottom: 8, flexWrap: 'wrap' }}>
-            <Star kind="hunt" id={hunt.idfgId} saved signedIn />
-            {s ? <Link href={`/hunts/${encodeURIComponent(s.id)}`}><b>{s.huntNumber ? `${SPECIES_LABEL[s.species]} ${s.huntNumber}` : s.name}</b></Link> : <b>{hunt.name}</b>}
-            <span className="small muted">{hunt.openDate ? range(hunt.openDate, hunt.closeDate) : 'dates: see regulations'}{s ? ` · odds ${pct(s[rf.odds5], 1)} · success ${pct(s.success5)}` : ''}</span>
-            {!s && <span className="pill warn">Not offered this season</span>}
-          </div>
-        );
-      })}
+      {!saved.length && <p className="muted">No favorite hunts yet. Tap the ☆ next to any hunt, then compare them here side by side.</p>}
+      {saved.length > 0 && (
+        <div style={{ overflowX: 'auto' }}>
+          <table className="results compare">
+            <thead>
+              <tr>
+                <th>Hunt</th><th>Season</th><th className="num">Odds latest</th><th className="num">Odds 5-yr</th><th className="num">Success 5-yr</th>
+                <th className="num">Hunters/mi²</th><th className="num">Draw + fill</th><th>Apply with</th>
+              </tr>
+            </thead>
+            <tbody>
+              {saved.map(({ hunt }) => {
+                const s = hunt.summaries[0];
+                if (!s) {
+                  return (
+                    <tr key={hunt.idfgId}>
+                      <td><span className="star-head"><Star kind="hunt" id={hunt.idfgId} saved signedIn /><b>{hunt.name}</b></span></td>
+                      <td colSpan={7}><span className="pill warn">Not offered this season</span></td>
+                    </tr>
+                  );
+                }
+                const ctl = s.type === 'CONTROLLED';
+                const oddsLast = ctl ? s[rf.oddsLast] : s.nrTag && nr ? s.nrOddsLast : null;
+                const odds5 = ctl ? s[rf.odds5] : s.nrTag && nr ? s.nrOdds5 : null;
+                return (
+                  <tr key={hunt.idfgId}>
+                    <td>
+                      <span className="star-head">
+                        <Star kind="hunt" id={hunt.idfgId} saved signedIn />
+                        <Link href={`/hunts/${encodeURIComponent(s.id)}`}><b>{s.huntNumber ? `${SPECIES_LABEL[s.species]} ${s.huntNumber}` : s.name}</b></Link>
+                      </span>
+                      <span className="small muted">{s.nrTag ? `Units ${s.units.join(', ')}` : `${WEAPON[s.weapon]} · ${antlerLabel(s.species, s.antlerClass)}${s.areaName ? ` · Area ${s.areaName}` : ''}`}</span>
+                    </td>
+                    <td className="small">{seasonsSummary(s.tagSeasons, 2) || (hunt.openDate ? range(hunt.openDate, hunt.closeDate) : 'See regulations')}</td>
+                    <td className="num">{ctl || (s.nrTag && nr) ? pctOdds(oddsLast) : 'OTC'}</td>
+                    <td className="num">{ctl || (s.nrTag && nr) ? pctOdds(odds5) : '-'}</td>
+                    <td className="num">{pct(s.success5)}{s.smallSample ? '*' : ''}</td>
+                    <td className="num">{density(s.huntersSqMi)}</td>
+                    <td className="num">{ctl ? drawFillLine(s[rf.tagAndFill]) ?? '-' : '-'}</td>
+                    <td>{ctl ? (s.huntNumber ?? '-') : s.tagCode ?? (s.nrTag ? '-' : 'OTC')}{ctl && s.tags ? <span className="small muted"> · {int(s.tags)} tags</span> : null}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <p className="small muted">Odds are {nr ? 'nonresident' : 'resident'} first-choice odds. * small sample (under 50 hunters in 5 years).</p>
+        </div>
+      )}
       <form action={doSignOut} style={{ marginTop: 24 }}><button className="btn" type="submit">Sign out</button></form>
     </main>
   );

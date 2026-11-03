@@ -22,6 +22,7 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
   species?: string;
 }) {
   const el = useRef<HTMLDivElement>(null);
+  const keyEl = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const loaded = useRef(false);
   const prevMatched = useRef<string[]>([]);
@@ -110,6 +111,9 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
       m.on('mouseenter', 'units-fill', () => (m.getCanvas().style.cursor = 'pointer'));
       m.on('mouseleave', 'units-fill', () => (m.getCanvas().style.cursor = ''));
       loaded.current = true;
+      // frame Idaho above the key (its height differs by screen and by what it lists)
+      const kh = keyEl.current?.offsetHeight ?? 90;
+      m.fitBounds(IDAHO_BOUNDS, { padding: { top: 46, bottom: Math.min(kh + 14, m.getContainer().clientHeight * 0.45), left: 10, right: 46 }, duration: 0 });
       paint();
       m.fire('ready'); // units layers exist now: overlays (shading, elk zones, areas) can attach
     });
@@ -268,7 +272,7 @@ export function HuntMap({ matched, selected, chips, nr = false, showZones = fals
           {chips.map((c) => <a key={c.label} href={c.href} title="Remove filter">{c.label}</a>)}
         </div>
       )}
-      <div className="mapkey-bottom">
+      <div className="mapkey-bottom" ref={keyEl}>
         <MapKey metric={metric} onMetric={setMetric} sp={sp} onSp={setSp} classes={cls} colors={colors} missing={field ? missing[field] ?? 0 : 0}
           matchLabel={areaMode ? 'Matching hunt areas' : 'Matching hunts'} matchItems={matchItems} extraItems={extraItems}
           kind={kind} onKind={setKind} err={err} />

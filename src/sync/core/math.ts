@@ -90,6 +90,8 @@ export interface OddsRow {
   resApps: number | null;
   nrApps: number | null;
   apps1: number | null;
+  apps2?: number | null;
+  drew2?: number | null;
 }
 
 /**
@@ -145,6 +147,8 @@ export interface OddsSummary {
   resAppsPrev: number | null;
   nrAppsPrev: number | null;
   nrPermitsLast: number | null; // tags nonresidents drew in the latest drawing
+  secondDrewLast: number | null; // tags that went to 2nd-choice applicants in the latest drawing (leftovers)
+  secondAppsLast: number | null;
   permitsLast: number | null;
 }
 
@@ -179,6 +183,8 @@ export function summarizeOdds(rows: OddsRow[]): OddsSummary {
     resAppsPrev: prev?.resApps ?? null,
     nrAppsPrev: prev?.nrApps ?? null,
     nrPermitsLast: last?.nrPermits ?? null,
+    secondDrewLast: last?.drew2 ?? null,
+    secondAppsLast: last?.apps2 ?? null,
     permitsLast: last?.permits ?? null,
   };
 }

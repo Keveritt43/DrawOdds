@@ -12,7 +12,9 @@ import { historyFor } from '@/lib/history';
 import { pct, pct100, pctOdds, int, range, WEAPON, DEERTYPE, nrTags, antlerLabel, oddsVerdict, drawFillLine, TROPHY_LABEL } from '@/lib/format';
 import { BackLink } from '@/components/BackLink';
 import { ApplyChecklist } from '@/components/ApplyChecklist';
+import { laterChoices } from '@/components/HuntCards';
 import type { Metadata } from 'next';
+import type { Prisma } from '@prisma/client';
 import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart, ChoiceChart } from '@/components/Charts';
 import { SeasonStrip } from '@/components/SeasonStrip';
 import { LandBar } from '@/components/LandBar';
@@ -50,6 +52,19 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
     const gen = await db.huntSummary.findFirst({ where: { type: 'GENERAL', species: s.species, unit: mainUnit, weapon: s.weapon } });
     if (gen) compare = { label: `General season, unit ${mainUnit}`, data: await historyFor(gen) };
   }
+  // better-odds alternatives: same species, kind, sex and weapon, at least as good a hunt, easier to draw
+  const myOdds = ctl ? s[rf.odds5] : s.nrTag ? s.nrOdds5 : null;
+  const alts = (ctl || (s.nrTag && nr)) && myOdds !== null && myOdds < 0.95
+    ? await db.huntSummary.findMany({
+        where: {
+          id: { not: s.id }, species: s.species, smallSample: false, youthOnly: false,
+          ...(ctl ? { type: 'CONTROLLED' as const, antlerClass: s.antlerClass, weapon: s.weapon, [rf.odds5]: { gte: myOdds + 0.05 } } : { nrTag: true, nrOdds5: { gte: myOdds + 0.05 } }),
+          ...(s.success5 !== null ? { success5: { gte: s.success5 * 0.9 } } : {}),
+        },
+        orderBy: [{ [rf.tagAndFill]: { sort: 'desc', nulls: 'last' } } as Prisma.HuntSummaryOrderByWithRelationInput],
+        take: 3,
+      })
+    : [];
   const land = (area?.landOwnership ?? (unitRows.length === 1 ? unitRows[0].landOwnership : mergeLand(unitRows))) as { manager: string; pct: number }[] | null;
   const title = s.huntNumber ? `${SPECIES_LABEL[s.species]} controlled hunt ${s.huntNumber}` : s.name;
   const ctl = s.type === 'CONTROLLED';
@@ -151,6 +166,23 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       {nr && ctl && (s.nrAppsLast ?? 0) < 30 && (s.nrOddsLast ?? 0) < 0.995 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 
       <ApplyChecklist kind={ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
+
+      {alts.length > 0 && (
+        <div className="card alts">
+          <h3>Easier To Draw, Just As Good</h3>
+          <p className="small muted" style={{ marginTop: 0 }}>
+            {ctl ? `Other ${SPECIES_LABEL[s.species].toLowerCase()} ${antlerLabel(s.species, s.antlerClass).toLowerCase()} ${WEAPON[s.weapon].toLowerCase()} hunts` : `Other ${SPECIES_LABEL[s.species].toLowerCase()} tags`} with better {nr ? 'nonresident' : 'resident'} 5-year odds and at least 90% of this hunt&apos;s success.
+          </p>
+          <ul>
+            {alts.map((a) => (
+              <li key={a.id}>
+                <Link href={`/hunts/${encodeURIComponent(a.id)}`}>{a.nrTag ? a.name : `Hunt ${a.huntNumber} · Area ${a.areaName}`}</Link>
+                <span className="small"> {pctOdds(a.type === 'CONTROLLED' ? a[rf.odds5] : a.nrOdds5)} odds (vs {pctOdds(myOdds)}) · {pct(a.success5)} success (vs {pct(s.success5)}){a.openDate ? ` · ${range(a.openDate, a.closeDate)}` : ''}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="grid2" style={{ marginTop: 12 }}>
         {s.type === 'CONTROLLED' && <OddsChart data={history} nr={nr} />}
@@ -254,6 +286,7 @@ function NrTagCard({ s }: { s: { nrDraw: unknown; tagSeasons: unknown; quota: nu
           <ChoiceChart applied={d.applied} drew={d.drew} />
         </div>
       )}
+      {d && laterChoices(d) && <p className="choice-tip"><b>Strategy:</b> {laterChoices(d)}.</p>}
       {seasons.length > 0 && (
         <>
           <h4 style={{ margin: '14px 0 6px' }}>{sy} Seasons For This Tag</h4>
