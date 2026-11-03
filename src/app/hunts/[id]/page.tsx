@@ -82,7 +82,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const renumbered = new Set(history.map((h) => h.huntNumber).filter(Boolean)).size > 1;
   const sex = antlerLabel(s.species, s.antlerClass);
   const isMsg = drawOf(s.species) === 'MSG';
-  const nrInfo = ctl ? nrTags(s.tags, drawn[0]?.nrPermits, drawn[0]?.nrApps, drawn[0]?.year, !isMsg) : null;
+  // the hunt's own latest first drawing (summary), not the area history's newest row: two hunts can share an area
+  const nrInfo = ctl ? nrTags(s.tags, s.nrPermitsLast, s.nrAppsLast, s.oddsLastYear, !isMsg) : null;
   const yourOdds = ctl ? s[rf.oddsLast] : s.nrTag && nr ? s.nrOddsLast : null;
   const df = drawFillLine(s[rf.tagAndFill]);
   const tagSeasonText = seasonsSummary(s.tagSeasons, 6);
@@ -98,7 +99,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
     s.nrTag && nr && s.quota !== null ? `${int(s.quota)} nonresident tags for ${s.quotaYear ?? 'next season'}.` : '',
     s.nrTag && !nr ? `Residents: ${s.capped ? 'capped zone, limited resident tags' : 'bought over the counter, no draw'}.` : '',
     !ctl && !s.nrTag ? (nr ? 'Nonresidents need a general tag from the nonresident draw.' : 'Residents buy the tag over the counter.') : '',
-    yourOdds !== null && yourOdds !== undefined ? `${oddsVerdict(yourOdds).text}: ${pctOdds(yourOdds)} of ${nr ? 'nonresident' : 'resident'} 1st-choice applicants drew in ${ctl ? drawn[0]?.year ?? '' : nrDrawYear ?? ''}.` : '',
+    yourOdds !== null && yourOdds !== undefined ? `${oddsVerdict(yourOdds).text}: ${pctOdds(yourOdds)} of ${nr ? 'nonresident' : 'resident'} 1st-choice applicants drew in ${ctl ? s.oddsLastYear ?? '' : nrDrawYear ?? ''}.` : '',
     s.success5 !== null ? `${pct(s.success5)} of hunters took an animal over ${s.harvestYears > 0 && s.harvestYears < 5 ? s.harvestYears : 5} seasons${s.smallSample ? ' (small sample)' : ''}.` : '',
     ctl && df && !s.smallSample ? `Chance to draw and fill: ${df} per year.` : '',
   ].filter(Boolean).join(' ');
@@ -140,7 +141,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         {s.type === 'CONTROLLED' && (
           <>
             <div className="stat"><div className="k">{nr ? 'Nonresident' : 'Resident'} odds, 5-yr</div><div className="v">{pct(s[rf.odds5], 1)}</div></div>
-            <div className="stat"><div className="k">{drawn[0] ? `${drawn[0].year} draw` : 'Last draw'}</div><div className="v">{pct(s[rf.oddsLast], 1)}</div></div>
+            <div className="stat"><div className="k">{s.oddsLastYear ? `${s.oddsLastYear} draw` : 'Last draw'}</div><div className="v">{pct(s[rf.oddsLast], 1)}</div></div>
             <div className="stat"><div className="k">{nr ? 'Resident' : 'Nonresident'} odds, 5-yr</div><div className="v" style={{ color: 'var(--muted)' }}>{pct(nr ? s.resOdds5 : s.nrOdds5, 1)}</div></div>
             <div className="stat"><div className="k">Draw + fill, per year</div><div className="v">{pct(s[rf.tagAndFill], 1)}</div></div>
             {nr && nrInfo && (
