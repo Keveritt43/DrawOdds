@@ -1,3 +1,5 @@
+import { listStudies, type MigClass } from '@/lib/migrations';
+import { StudyCard, type SeasonOverlap } from '@/components/StudyCard';
 import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
@@ -6,7 +8,7 @@ import { getResidency, getDraw } from '@/lib/residency';
 import { DRAW_SPECIES } from '@/lib/species';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
-import { pct100, int } from '@/lib/format';
+import { pct100, int, range, WEAPON } from '@/lib/format';
 import type { Metadata } from 'next';
 import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
@@ -43,6 +45,24 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   // nonresident general tags only matter to nonresidents
   // elk zone A/B tags are listed for everyone (residents choose A or B too); deer tags only for nonresidents
   const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
+  // migration studies whose routes cross this unit (deer / elk drawing pages only)
+  const studies = draw === 'DEP' ? await listStudies(name) : [];
+  const overlapsFor = (s: (typeof studies)[number]): SeasonOverlap[] => {
+    const fall = (s.timing as { fall?: { startAvg: string; endAvg: string } }).fall;
+    if (!fall) return [];
+    return listed
+      .filter((h) => h.species === s.species && h.openDate && h.closeDate)
+      .filter((h) => {
+        const y = h.openDate!.getUTCFullYear();
+        const a = new Date(`${y}-${fall.startAvg}T00:00:00Z`);
+        const b = new Date(`${y}-${fall.endAvg}T00:00:00Z`);
+        return h.openDate! <= b && h.closeDate! >= a;
+      })
+      .map((h) => ({
+        label: h.type === 'CONTROLLED' ? `hunt ${h.huntNumber} (${range(h.openDate, h.closeDate)})` : `general ${WEAPON[h.weapon]?.toLowerCase() ?? ''}${h.nrTag ? ` ${h.tagCode ?? ''} tag` : ''} (${range(h.openDate, h.closeDate)})`,
+        href: `/hunts/${encodeURIComponent(h.id)}`, open: h.openDate!, close: h.closeDate!,
+      }));
+  };
   const pick = (k: keyof typeof FILTERS) => (FILTERS[k].some(([v]) => v && v === sp[k]) ? sp[k]! : '');
   const fSpecies = pick('species');
   const fType = pick('type');
@@ -89,7 +109,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
 
       <div className="grid2">
         <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 360 }}>
-          <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" bare />
+          <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, classes: s.classes as unknown as MigClass[] }))} />
         </div>
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Who manages the land</h3>
@@ -97,6 +117,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
           <p className="small muted">Managing agency, not owner. State land is mostly open to hunting; check access on the ground.</p>
         </div>
       </div>
+      {studies.map((st) => <StudyCard key={st.slug} s={st} unit={name} overlaps={overlapsFor(st)} />)}
 
       <h2 id="hunts">Hunts In Unit {unit.name}</h2>
       <div className="uh-filters">

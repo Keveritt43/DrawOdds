@@ -1,3 +1,4 @@
+import { migrationUnits } from '@/lib/migrations';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
@@ -41,6 +42,7 @@ function chips(f: Filters): { label: string; href: string }[] {
   if (f.minAccessYes) add(`Access Yes! ${f.minAccessYes}%+`, { minAccessYes: null });
   if (f.minHuntable) add(`Huntable ${f.minHuntable}%+`, { minHuntable: null });
   if (f.accessYes) add('Has Access Yes!', { accessYes: false });
+  if (f.migration) add(f.migration === 'yes' ? 'Has migration study' : 'No migration study', { migration: '' });
   if (f.bullObj.length) add(`Bulls ${f.bullObj.map((x) => x.toLowerCase()).join('/')} objective`, { bullObj: [] });
   if (f.cowObj.length) add(`Cows ${f.cowObj.map((x) => x.toLowerCase()).join('/')} objective`, { cowObj: [] });
   if (f.minScore) add(`Score ${f.minScore}+`, { minScore: null });
@@ -87,7 +89,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const nr = residency === 'NONRESIDENT';
   const rf = residencyFields(residency);
   const [rows, fav] = await Promise.all([
-    db.huntSummary.findMany({ where: buildWhere(f, residency, draw), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
+    db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : []), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
     getFavorites(),
   ]);
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };

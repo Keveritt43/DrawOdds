@@ -31,7 +31,15 @@ async function bootstrap() {
   ]);
   // fill in when empty, or when the last load of the core data failed part-way
   const incomplete = !lastOdds || lastOdds.status === 'ERROR' || lastOdds.status === 'ABANDONED';
-  if (odds > 0 && summaries > 0 && !incomplete) return;
+  if (odds > 0 && summaries > 0 && !incomplete) {
+    // migration studies ship in data/migrations/: load them the first time they're missing
+    if ((await db.migrationStudy.count()) === 0) {
+      const { startSync } = await import('./lib/run-sync');
+      console.log('[bootstrap-sync] loading migration studies');
+      startSync(['migrations']);
+    }
+    return;
+  }
 
   const { startSync } = await import('./lib/run-sync');
   console.log('[bootstrap-sync] empty or incomplete database: starting IDFG data load in the background');

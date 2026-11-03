@@ -1,0 +1,107 @@
+{
+ "slug": "antelope-creek-mule-deer",
+ "name": "Antelope Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Antelope Creek mule deer",
+ "source": "Antelope Creek Migration Statistics and Mule Deer Seasonal Migration Routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-01",
+ "studyStart": "2011-04-20",
+ "studyEnd": "2018-12-22",
+ "summary": "Antelope Creek mule deer winter along Antelope Creek, west of the Big Lost River: rolling hills and steep, rocky slopes that hold 1,300 to 1,850 deer in winter (aerial surveys, 2006 and 2010). They migrate west through the White and Pioneer mountains toward Ketchum and the northern parts of units 49 and 50. They share routes and summer range with the neighboring Appendicitis Hills herd (950 to 2,120 deer). No major barriers today; development and habitat loss could add up over time.",
+ "winterCount": "1,300 - 1,850 deer (2006, 2010 surveys)",
+ "stats": {
+  "avgMiles": 42.4,
+  "maxMiles": 109.8,
+  "minMiles": 5.6,
+  "migrations": 99,
+  "individuals": 41,
+  "springMigrations": 59,
+  "fallMigrations": 40
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-08",
+   "startMin": "02-27",
+   "startMax": "05-30",
+   "endAvg": "05-16",
+   "endMin": "04-02",
+   "endMax": "07-22",
+   "durationAvgDays": 37.7,
+   "durationMinDays": 2.1,
+   "durationMaxDays": 115.4
+  },
+  "fall": {
+   "startAvg": "10-14",
+   "startMin": "08-03",
+   "startMax": "12-17",
+   "endAvg": "11-20",
+   "endMin": "10-22",
+   "endMax": "01-11",
+   "durationAvgDays": 37.2,
+   "durationMinDays": 2.9,
+   "durationMaxDays": 136.4
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 745369
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 377577
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 152464
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 48866
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 38104
+  }
+ ],
+ "unitAcres": {
+  "49": {
+   "ONE": 57538,
+   "LOW": 55610,
+   "MEDIUM": 34851,
+   "HIGH": 29176,
+   "STOPOVER": 14538
+  },
+  "50": {
+   "ONE": 61712,
+   "LOW": 55928,
+   "MEDIUM": 17430,
+   "HIGH": 23830,
+   "STOPOVER": 29852
+  },
+  "48": {
+   "ONE": 17987,
+   "LOW": 13058,
+   "MEDIUM": 3756,
+   "HIGH": 308,
+   "STOPOVER": 1024
+  }
+ },
+ "units": [
+  "48",
+  "49",
+  "50"
+ ]
+}

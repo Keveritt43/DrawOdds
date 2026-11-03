@@ -410,3 +410,26 @@ model NrQuota {
 
   @@index([code, year])
 }
+
+/// Big-game migration studies (corridors and stopovers), loaded from data/migrations/<slug>/ by the
+/// `migrations` sync step. geojson: FeatureCollection of polygons with properties.cls (a key in classes).
+model MigrationStudy {
+  slug         String    @id
+  name         String
+  species      Species
+  herd         String
+  summary      String
+  source       String
+  preparedBy   String?
+  preparedDate String?
+  studyStart   DateTime?
+  studyEnd     DateTime?
+  winterCount  String?
+  stats        Json      // { avgMiles, maxMiles, minMiles, migrations, individuals, springMigrations, fallMigrations }
+  timing       Json      // { spring: { startAvg: "MM-DD", ... }, fall: { ... } }
+  classes      Json      // [{ key, label, color, pattern?, acres }]
+  units        String[]  // units the routes cross
+  unitAcres    Json      // { "49": { "HIGH": 29176, ... } } (approximate)
+  geojson      Json
+  updatedAt    DateTime  @updatedAt
+}

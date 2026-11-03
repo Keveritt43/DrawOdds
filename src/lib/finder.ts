@@ -21,6 +21,8 @@ export interface Filters {
   minBig: number | null; // trophy share: deer mule 4+, elk 6+ (percent of antlered)
   minTags: number | null;
   /** elk only: units whose bull / cow numbers are below, within or above IDFG's objective */
+  /** units with a migration study: 'yes' only those, 'no' only units without one */
+  migration: 'yes' | 'no' | '';
   bullObj: ObjStatus[];
   cowObj: ObjStatus[];
   minScore: number | null; // DrawOdds Score (quality), 0-100
@@ -63,6 +65,7 @@ export function parseFilters(sp: SP): Filters {
     minAccessYes: pct(sp.minAccessYes),
     minHuntable: pct(sp.minHuntable),
     minBig: pct(sp.minBig),
+    migration: one(sp.migration) === 'yes' ? 'yes' : one(sp.migration) === 'no' ? 'no' : '',
     bullObj: pick(list(sp.bullObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
     cowObj: pick(list(sp.cowObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
     minScore: pct(sp.minScore),
@@ -87,7 +90,8 @@ export function residencyFields(r: Residency) {
     : { odds5: 'resOdds5', oddsLast: 'resOddsLast', oddsPrev: 'resOddsPrev', tagAndFill: 'resTagAndFill', appsLast: 'resAppsLast', appsPrev: 'resAppsPrev', opp: 'scoreOppRes' } as const;
 }
 
-export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma.HuntSummaryWhereInput {
+/** `migrationUnits`: units crossed by a migration study (from the database), for the migration filter. */
+export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrationUnits: string[] = []): Prisma.HuntSummaryWhereInput {
   const rf = residencyFields(r);
   const and: Prisma.HuntSummaryWhereInput[] = [];
   // one drawing at a time: deer / elk / pronghorn, or moose / sheep / goat
@@ -125,6 +129,8 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP'): Prisma
   // elk population objectives: any of the picked statuses (bulls AND cows when both are set); elk hunts only
   if (f.bullObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('bull', f.bullObj) } });
   if (f.cowObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('cow', f.cowObj) } });
+  if (f.migration === 'yes') and.push({ units: { hasSome: migrationUnits.length ? migrationUnits : ['__none__'] } });
+  if (f.migration === 'no' && migrationUnits.length) and.push({ NOT: { units: { hasSome: migrationUnits } } });
   if (f.minScore !== null) and.push({ scoreQuality: { gte: f.minScore } });
   if (f.minOpp !== null) and.push({ [rf.opp]: { gte: f.minOpp } });
   if (f.minTags !== null) and.push({ OR: [{ tags: { gte: f.minTags } }, { type: 'GENERAL' }] });
@@ -210,6 +216,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('minAccessYes', m.minAccessYes);
   set('minHuntable', m.minHuntable);
   set('minBig', m.minBig);
+  set('migration', m.migration);
   set('bullObj', m.bullObj);
   set('cowObj', m.cowObj);
   set('minScore', m.minScore);

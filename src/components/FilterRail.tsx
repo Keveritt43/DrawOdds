@@ -47,7 +47,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
   };
   const labelOf = (opts: Opt[], v: string) => opts.find((o) => o[0] === v)?.[1] ?? v;
   const sp_ = get('species');
-  const moreSet = ['bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
+  const moreSet = ['migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
   const many = (opts: Opt[], k: string, none: string) => (list(k).length ? list(k).map((v) => labelOf(opts, v)).join(', ') : none);
 
   const radio = (k: string, opts: Opt[]) => (
@@ -124,6 +124,12 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
               <label style={{ marginTop: 8, display: 'block' }}>Cows</label>
               {checks('cowObj', OBJ)}
               <p className="small muted" style={{ margin: '6px 0 0' }}>IDFG&rsquo;s 2026 status for each elk zone. Above objective = more elk than the target (often more tags); below = fewer. Elk hunts only; zones without a numeric objective drop out when this is set.</p>
+            </Section>
+          )}
+          {!msg && (
+            <Section title="Migration Study" value={{ yes: 'Has a study', no: 'No study' }[get('migration') as 'yes'] ?? 'Any'} set={!!get('migration')}>
+              {radio('migration', [['', 'Any unit'], ['yes', 'Units with a migration study'], ['no', 'Units without one']])}
+              <p className="small muted" style={{ margin: '6px 0 0' }}>Hunts in units crossed by a mapped big game migration route. <a href="/migration">See the studies</a></p>
             </Section>
           )}
           <Section title="Season Dates" value={many(MONTHS, 'month', 'Any Time')} set={list('month').length > 0}>

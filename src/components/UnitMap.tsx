@@ -8,6 +8,7 @@ import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
 import Link from 'next/link';
 import { Star } from './Star';
 import { MapKey, KeySeg } from './MapKey';
+import { MigrationControls, type StudyLite } from './MigrationLayers';
 import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fixedScale, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
@@ -17,7 +18,8 @@ type Props = Record<string, string | number | boolean | null | undefined> & { na
 const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
 
 /** `bare`: just the unit on the map (unit pages), no shading or key. */
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean }) {
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [] }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
+  const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const msg = draw === 'MSG';
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
@@ -118,6 +120,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           m.fitBounds(IDAHO_BOUNDS, { padding: { top: Math.min(kh + 14, m.getContainer().clientHeight * 0.4), bottom: 16, left: 16, right: 16 }, duration: 0 });
         }
         m.fire('metric');
+        setMapObj(m);
       } catch (e) {
         setErr('Could not load unit boundaries.');
         console.error(e);
@@ -156,6 +159,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   return (
     <div style={{ position: 'relative', height }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
+      {bare && migrations.length > 0 && <MigrationControls map={mapObj} studies={migrations} before="units-label" />}
       {bare ? (
         <Link className="card bare-link small" href={`/map`}>Shade by odds, success, land or elk objectives on the Unit Map →</Link>
       ) : <MapKey
