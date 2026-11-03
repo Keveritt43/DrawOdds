@@ -130,20 +130,29 @@ const SUCCESS_BANDS: Record<string, [number, number, number]> = {
   ELK: [0.3, 0.15, 0.6], DEER: [0.55, 0.35, 0.75], PRONGHORN: [0.6, 0.35, 0.85],
   MOOSE: [0.7, 0.5, 0.9], BIGHORN: [0.7, 0.5, 0.9], GOAT: [0.7, 0.5, 0.9],
 };
-const WEAPON_FACTOR: Record<string, Record<string, number>> = {
-  DEER: { ARCHERY: 0.45, MUZZLELOADER: 0.7 },
-  ELK: { ARCHERY: 0.9, MUZZLELOADER: 0.8 },
-  PRONGHORN: { ARCHERY: 0.3, MUZZLELOADER: 0.65 },
+/** Weapon vs rifle success, pooled IDFG harvest 2021-25, separately for general seasons and controlled hunts:
+ *  controlled muzzleloader deer run close to rifle (0.9), general muzzleloader deer well below it (0.7). */
+const WEAPON_FACTOR: Record<'GENERAL' | 'CONTROLLED', Record<string, Record<string, number>>> = {
+  GENERAL: {
+    DEER: { ARCHERY: 0.4, MUZZLELOADER: 0.7 },
+    ELK: { ARCHERY: 0.9, MUZZLELOADER: 0.8 },
+    PRONGHORN: { ARCHERY: 0.3, MUZZLELOADER: 0.65 },
+  },
+  CONTROLLED: {
+    DEER: { ARCHERY: 0.45, MUZZLELOADER: 0.9 },
+    ELK: { ARCHERY: 0.8, MUZZLELOADER: 0.55 },
+    PRONGHORN: { ARCHERY: 0.3, MUZZLELOADER: 0.65 },
+  },
 };
-/** [high, low, top] success for a species and weapon. */
-export function successBands(species: string, weapon = 'ANY'): [number, number, number] {
+/** [high, low, top] success for a species, weapon and kind of hunt. */
+export function successBands(species: string, weapon = 'ANY', type: string = 'GENERAL'): [number, number, number] {
   const [hi, lo, top] = SUCCESS_BANDS[species] ?? [0.5, 0.25, 0.75];
-  const f = WEAPON_FACTOR[species]?.[weapon] ?? 1;
+  const f = WEAPON_FACTOR[type === 'CONTROLLED' ? 'CONTROLLED' : 'GENERAL'][species]?.[weapon] ?? 1;
   return [hi * f, lo * f, top * f];
 }
-export function successVerdict(v: number | null | undefined, species: string, weapon = 'ANY'): Verdict {
+export function successVerdict(v: number | null | undefined, species: string, weapon = 'ANY', type = 'GENERAL'): Verdict {
   if (v === null || v === undefined) return { text: 'No harvest data', tone: 'none' };
-  const [hi, lo] = successBands(species, weapon);
+  const [hi, lo] = successBands(species, weapon, type);
   if (v >= hi) return { text: `High for ${SPECIES_LABEL[species]?.toLowerCase() ?? 'this'}`, tone: 'good' };
   if (v >= lo) return { text: 'Typical', tone: 'ok' };
   return { text: `Low for ${SPECIES_LABEL[species]?.toLowerCase() ?? 'this'}`, tone: 'bad' };

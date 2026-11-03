@@ -131,7 +131,7 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
   const out = new Map<string, ScoreOutput>();
   for (const r of rows) out.set(r.id, { ...EMPTY });
   for (const r of scored) {
-    const [hi, lo, top] = successBands(r.species, r.weapon);
+    const [hi, lo, top] = successBands(r.species, r.weapon, r.nrTag ? 'GENERAL' : r.type);
     const parts: Record<ScorePart, number | null> = {
       success: curve(adj.get(r.id)!, [[0, 0], [lo, 40], [hi, 75], [top, 100]]),
       access: accessScore(r.huntablePct ?? r.publicPct),

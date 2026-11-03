@@ -2,7 +2,7 @@
  * A label with a tap-to-read definition (works on phones: no hover needed). Pure HTML <details>, no JS.
  */
 export const DEFS = {
-  odds: 'Draw odds: of the people who put this hunt as their 1st choice in the latest drawing, the share who got a tag. For your residency.',
+  odds: 'Draw odds: of the people who put this hunt as their 1st choice, the share who got a tag, for your residency. The big number totals the last 5 drawings (tags ÷ applicants); the latest drawing is underneath. Idaho has no points: every year is a fresh draw, so these are your real odds.',
   success: 'Hunter success: the share of hunters who killed an animal, from IDFG harvest reports. The big number is the 5-year average (what sorting and the verdict use); the latest season is underneath.',
   crowd: 'Hunters per square mile: average hunters per year for this hunt or season, spread over its area. Under 0.5 is uncrowded; over 1.5 is busy.',
   drawfill: 'Draw and fill: your chance to draw the tag AND take an animal in one year (draw odds × success).',

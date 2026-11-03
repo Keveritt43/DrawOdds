@@ -45,7 +45,7 @@ function chips(f: Filters): { label: string; href: string }[] {
   if (f.migration) add(f.migration === 'yes' ? 'Has migration study' : 'No migration study', { migration: '' });
   if (f.bullObj.length) add(`Bulls ${f.bullObj.map((x) => x.toLowerCase()).join('/')} objective`, { bullObj: [] });
   if (f.cowObj.length) add(`Cows ${f.cowObj.map((x) => x.toLowerCase()).join('/')} objective`, { cowObj: [] });
-  if (f.minScore) add(`Score ${f.minScore}+`, { minScore: null });
+  if (f.minScore) add(f.sort === 'opp' && f.minScore === 50 ? 'Quality 50+ (Opportunity sort)' : `Score ${f.minScore}+`, { minScore: f.sort === 'opp' ? 0 : null });
   if (f.minOpp) add(`Opportunity ${f.minOpp}+`, { minOpp: null });
   if (f.minTags) add(`${f.minTags}+ tags`, { minTags: null });
   if (f.maxDensity) add(`≤ ${f.maxDensity} hunters/mi²`, { maxDensity: null });

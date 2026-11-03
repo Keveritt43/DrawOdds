@@ -68,7 +68,8 @@ export function parseFilters(sp: SP): Filters {
     migration: one(sp.migration) === 'yes' ? 'yes' : one(sp.migration) === 'no' ? 'no' : '',
     bullObj: pick(list(sp.bullObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
     cowObj: pick(list(sp.cowObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
-    minScore: pct(sp.minScore),
+    // Opportunity sorting: hunts under Quality 50 drop out unless asked for (minScore=0 = any)
+    minScore: one(sp.minScore) === '0' ? 0 : pct(sp.minScore) ?? (one(sp.sort) === 'opp' ? 50 : null),
     minOpp: pct(sp.minOpp),
     minTags: Number(one(sp.minTags)) > 0 ? Math.min(10000, Math.round(Number(one(sp.minTags)))) : null,
     maxDensity: Number(one(sp.maxDensity)) > 0 ? Math.min(100, Number(one(sp.maxDensity))) : null,
@@ -131,7 +132,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   if (f.cowObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('cow', f.cowObj) } });
   if (f.migration === 'yes') and.push({ units: { hasSome: migrationUnits.length ? migrationUnits : ['__none__'] } });
   if (f.migration === 'no' && migrationUnits.length) and.push({ NOT: { units: { hasSome: migrationUnits } } });
-  if (f.minScore !== null) and.push({ scoreQuality: { gte: f.minScore } });
+  if (f.minScore) and.push({ scoreQuality: { gte: f.minScore } });
   if (f.minOpp !== null) and.push({ [rf.opp]: { gte: f.minOpp } });
   if (f.minTags !== null) and.push({ OR: [{ tags: { gte: f.minTags } }, { type: 'GENERAL' }] });
   // hunts with no hunter data are left out: an unknown density can't be "uncrowded"
@@ -219,7 +220,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('migration', m.migration);
   set('bullObj', m.bullObj);
   set('cowObj', m.cowObj);
-  set('minScore', m.minScore);
+  if (m.minScore !== null && m.minScore !== undefined && !(m.sort === 'opp' && m.minScore === 50)) set('minScore', m.minScore === 0 ? '0' : m.minScore);
   set('minOpp', m.minOpp);
   set('minTags', m.minTags);
   set('maxDensity', m.maxDensity);

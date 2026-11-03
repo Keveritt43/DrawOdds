@@ -55,7 +55,8 @@ function nrTagLine(v: unknown): string {
 
 /** The odds this card should lead with, or why there isn't one. */
 function oddsFor(r: HuntSummary, c: CardCtx): { value: number | null; label: string; text?: string } {
-  if (r.type === 'CONTROLLED') return { value: r[c.rf.oddsLast], label: `Draw odds${r.oddsLastYear ? ` ${r.oddsLastYear}` : ''}` };
+  // 5-yr leads (same as success, the sort and the picks); the latest drawing sits underneath
+  if (r.type === 'CONTROLLED') return { value: r[c.rf.odds5] ?? r[c.rf.oddsLast], label: `Draw odds ${r.oddsYears > 0 && r.oddsYears < 5 ? `${r.oddsYears}-yr` : '5-yr'}` };
   if (r.nrTag) return c.nr ? { value: r.nrOddsLast, label: `NR tag odds${(r.nrDraw as { year?: number } | null)?.year ? ` ${(r.nrDraw as { year: number }).year}` : ''}` } : { value: null, label: 'Tag', text: r.capped ? 'Capped' : 'Over the counter' };
   // general season: residents buy over the counter; nonresidents carry the unit's / zone's tag odds
   if (!c.nr) return { value: null, label: 'Tag', text: 'Over the counter' };
@@ -68,7 +69,7 @@ const yrs = (r: HuntSummary) => (r.harvestYears > 0 && r.harvestYears < 5 ? `${r
 function Stats({ r, c }: { r: HuntSummary; c: CardCtx }) {
   const o = oddsFor(r, c);
   const apps = r[c.rf.appsLast];
-  const oddsSub = r.type === 'CONTROLLED' ? `5-yr ${pctOdds(r[c.rf.odds5])}` : r.nrTag && c.nr ? '1st choice' : c.nr && r.type === 'GENERAL' ? nrTagLine(r.nrTagOdds) : '';
+  const oddsSub = r.type === 'CONTROLLED' ? null : r.nrTag && c.nr ? '1st choice' : c.nr && r.type === 'GENERAL' ? nrTagLine(r.nrTagOdds) : '';
   const crowd = crowdVerdict(r.huntersSqMi);
   return (
     <div className="hrow-stats three">
@@ -76,16 +77,17 @@ function Stats({ r, c }: { r: HuntSummary; c: CardCtx }) {
         <Term k="odds">{o.label}</Term>
         <b>
           {o.text ?? (o.value === null && !(r.type === 'CONTROLLED') ? 'Tag draw' : pctOdds(o.value))}
-          {r.type === 'CONTROLLED' && meaningfulChange(apps, r[c.rf.appsPrev], 20) && <Delta now={o.value} prev={r[c.rf.oddsPrev]} kind="pts" good="up" />}
         </b>
         {!o.text && <Chip v={oddsVerdict(o.value)} />}
-        {oddsSub && <span className="sub">{oddsSub}</span>}
+        {r.type === 'CONTROLLED' ? (
+          <span className="sub">{r.oddsLastYear ?? 'Latest'}: {pctOdds(r[c.rf.oddsLast])}{meaningfulChange(apps, r[c.rf.appsPrev], 20) && <Delta now={r[c.rf.oddsLast]} prev={r[c.rf.oddsPrev]} kind="pts" good="up" />}</span>
+        ) : oddsSub && <span className="sub">{oddsSub}</span>}
       </div>
       <div>
         {/* the 5-year number leads: it's what the sort, the verdict and the picks use, and one season swings */}
         <Term k="success">Success {yrs(r)}</Term>
         <b className={r.smallSample ? 'faint' : ''}>{pct(r.success5)}</b>
-        {r.smallSample ? <span className="verdict none">Small sample</span> : <Chip v={successVerdict(r.success5, r.species, r.weapon)} />}
+        {r.smallSample ? <span className="verdict none">Small sample</span> : <Chip v={successVerdict(r.success5, r.species, r.weapon, r.nrTag ? 'GENERAL' : r.type)} />}
         <span className="sub">
           {c.sort === 'harvest' ? `5-yr harvest ${int(r.harvest5)}` : c.sort === 'hunters' || c.sort === 'huntersLow' ? `5-yr hunters ${int(r.hunters5)}` : r.harvestLastYear && r.successLast !== null ? <>{r.harvestLastYear}: {pct(r.successLast)}{!r.smallSample && (r.hunters5 ?? 0) / Math.max(1, r.harvestYears) >= 30 && <Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" />}</> : ''}
         </span>

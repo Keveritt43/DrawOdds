@@ -13,6 +13,8 @@ const SPECIES_MSG: Opt[] = [['', 'All Three'], ['MOOSE', 'Moose'], ['BIGHORN', '
 const SEX_MSG: Opt[] = [['ANTLERED', 'Bulls & rams (male)'], ['ANTLERLESS', 'Cows & ewes (female)'], ['EITHER', 'Either sex']];
 const OBJ: Opt[] = [['BELOW', 'Below objective'], ['WITHIN', 'Within objective'], ['ABOVE', 'Above objective']];
 const SCORE_STOPS: Opt[] = [['', 'Any'], ['50', '50+'], ['70', '70+'], ['85', '85+']];
+/** Opportunity sorting defaults Quality to 50+: its "Any" has to say so explicitly */
+const QUALITY_STOPS = (opp: boolean): Opt[] => (opp ? [['0', 'Any'], ['', '50+ (default)'], ['70', '70+'], ['85', '85+']] : SCORE_STOPS);
 const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons']];
 const TYPES_NR: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons (tag draw)']];
 const WEAPONS: Opt[] = [['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader'], ['SHORT_RANGE', 'Short Range']];
@@ -89,9 +91,9 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           {nr && <p className="small muted" style={{ margin: '6px 0 0' }}>Since 2026, nonresident general deer and elk tags are drawn: elk by zone (an A or a B tag), deer by unit. General seasons show the odds of the tag you&rsquo;d need.</p>}
           {sp_ === 'PRONGHORN' && <p className="small muted" style={{ margin: '6px 0 0' }}>Pronghorn are controlled hunts only.</p>}
         </Section>}
-        <Section title="DrawOdds Score" value={[get('minScore') && `Quality ${get('minScore')}+`, get('minOpp') && `Opportunity ${get('minOpp')}+`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minScore') || get('minOpp'))}>
+        <Section title="DrawOdds Score" value={[get('minScore') && get('minScore') !== '0' && `Quality ${get('minScore')}+`, get('minOpp') && `Opportunity ${get('minOpp')}+`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minScore') || get('minOpp'))}>
           <label>Quality (how good the hunt is)</label>
-          {radio('minScore', SCORE_STOPS)}
+          {radio('minScore', QUALITY_STOPS(get('sort') === 'opp'))}
           <label style={{ marginTop: 8, display: 'block' }}>Opportunity (quality × your draw odds)</label>
           {radio('minOpp', SCORE_STOPS)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>0-100 on fixed scales, so general and controlled hunts compare directly. <a href="/score">How we score</a></p>
