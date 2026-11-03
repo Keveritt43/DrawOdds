@@ -7,7 +7,6 @@ import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUni
 import { FilterRail } from '@/components/FilterRail';
 import { HuntMap } from '@/components/HuntMap';
 import { SortSelect } from '@/components/SortSelect';
-import { ResidencySwitch } from '@/components/ResidencySwitch';
 import { RememberQuery } from '@/components/BackLink';
 import { HuntCard, ZoneCard, TopPicks, choosePicks, type CardCtx } from '@/components/HuntCards';
 import { pct, pct100, WEAPON, DEERTYPE, SPECIES_LABEL, TROPHY_LABEL, antlerLabel } from '@/lib/format';
@@ -182,7 +181,6 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         <div className="f-head">
           <div className="f-title">
             <h1>Find A Hunt</h1>
-            <div className="f-res"><span>Odds for</span><ResidencySwitch value={residency} light /></div>
           </div>
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'hunt' ? (total === 1 ? 'result' : 'results') : 'units'} · sort by</span>

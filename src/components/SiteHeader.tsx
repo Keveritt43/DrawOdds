@@ -31,20 +31,25 @@ export function SiteHeader({ residency, signedIn, draw }: { residency: Residency
             <Link key={l.href} href={l.href} aria-current={here(l.href) ? 'page' : undefined}>{l.label}</Link>
           ))}
           <Link href={signedIn ? '/account' : '/login'}>{signedIn ? 'My Hunts' : 'Sign In'}</Link>
-          <div className="nav-res"><span>Draw Odds For</span><ResidencySwitch value={residency} /></div>
         </nav>
         <div className="header-right">
-          <ResidencySwitch value={residency} />
           <button className="menu-toggle" aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen((o) => !o)}>
             <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
           </button>
         </div>
       </div>
+      {/* the two choices every number depends on, always visible (phones too): which drawing, and residency */}
       <div className="draw-bar">
-        <span>Drawing</span>
-        <Suspense fallback={<div className="seg draw-seg" />}>
-          <DrawSwitch value={draw} />
-        </Suspense>
+        <div className="db-item">
+          <span>Drawing</span>
+          <Suspense fallback={<div className="seg draw-seg" />}>
+            <DrawSwitch value={draw} />
+          </Suspense>
+        </div>
+        <div className="db-item">
+          <span>Odds For</span>
+          <ResidencySwitch value={residency} />
+        </div>
       </div>
     </header>
   );

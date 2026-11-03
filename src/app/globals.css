@@ -371,3 +371,11 @@ table.results.compare td .small { display: block; }
 @media (max-width: 600px) { .draw-bar { padding: 0 14px 8px; } .draw-seg button { padding: 6px 8px; font-size: .78rem; } .draw-bar > span { display: none; } }
 .quick .deer-type { display: none; }
 .quick:has(input[name='species'][value='DEER']:checked) .deer-type { display: block; }
+.draw-bar { flex-wrap: wrap; row-gap: 6px; column-gap: 18px; }
+.db-item { display: flex; align-items: center; gap: 8px; }
+.db-item > span { font-size: .72rem; color: #a9b0a7; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+@media (max-width: 600px) {
+  .draw-bar { column-gap: 10px; }
+  .db-item > span { display: none; }
+  .draw-bar .seg button { padding: 6px 8px; font-size: .78rem; }
+}
