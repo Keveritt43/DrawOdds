@@ -95,7 +95,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       : ctl
         ? `${WEAPON[s.weapon]}, ${sex.toLowerCase()}, ${s.openDate ? range(s.openDate, s.closeDate) : 'dates in the regulations'}, hunt area ${s.areaName}${s.units.length > 1 ? ` (units ${s.units.join(', ')})` : ''}.`
         : `General ${SPECIES_LABEL[s.species].toLowerCase()} season, ${WEAPON[s.weapon].toLowerCase()}, unit ${s.unit}: ${tagSeasonText || (s.openDate ? range(s.openDate, s.closeDate) : 'dates in the regulations')}.`,
-    ctl ? `${s.tags ? `${int(s.tags)} tags` : 'Tag count: see the regulations'}${nr && nrInfo ? `; ${nrInfo.kind === 'full' ? `${int(nrInfo.n)} went to nonresidents in ${nrInfo.year} (the limit)` : nrInfo.kind === 'open' ? `every nonresident who applied drew in ${nrInfo.year}` : `nonresidents can get up to ${int(nrInfo.n)}`}` : ''}.` : '',
+    ctl ? `${s.tags ? `${int(s.tags)} tags` : 'Tag count: see the regulations'}${nr && nrInfo ? `; ${nrInfo.kind === 'full' ? `${int(nrInfo.n)} went to nonresidents in ${nrInfo.year} (the limit)` : nrInfo.kind === 'open' ? `every nonresident who applied drew in ${nrInfo.year}` : nrInfo.kind === 'count' ? `${int(nrInfo.n)} went to nonresidents in ${nrInfo.year}` : `nonresidents can get up to ${int(nrInfo.n)}`}` : ''}.` : '',
     s.nrTag && nr && s.quota !== null ? `${int(s.quota)} nonresident tags for ${s.quotaYear ?? 'next season'}.` : '',
     s.nrTag && !nr ? `Residents: ${s.capped ? 'capped zone, limited resident tags' : 'bought over the counter, no draw'}.` : '',
     !ctl && !s.nrTag ? (nr ? 'Nonresidents need a general tag from the nonresident draw.' : 'Residents buy the tag over the counter.') : '',
@@ -146,9 +146,9 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
             <div className="stat"><div className="k">Draw + fill, per year</div><div className="v">{pct(s[rf.tagAndFill], 1)}</div></div>
             {nr && nrInfo && (
               <div className="stat">
-                <div className="k">{nrInfo.kind === 'full' ? `Nonresident tags (${nrInfo.year})` : nrInfo.kind === 'open' ? `Nonresidents drew (${nrInfo.year})` : 'Nonresident max (10% rule)'}</div>
+                <div className="k">{nrInfo.kind === 'full' ? `Nonresident tags (${nrInfo.year})` : nrInfo.kind === 'open' || nrInfo.kind === 'count' ? `Nonresidents drew (${nrInfo.year})` : 'Nonresident max (10% rule)'}</div>
                 <div className="v">{int(nrInfo.n)}<span className="small muted"> of {int(s.tags)}</span></div>
-                <div className="small muted">{nrInfo.kind === 'full' ? 'Limit reached' : nrInfo.kind === 'open' ? 'Everyone drew' : 'A ceiling'}</div>
+                <div className="small muted">{nrInfo.kind === 'full' ? 'Limit reached' : nrInfo.kind === 'open' ? 'Everyone drew' : nrInfo.kind === 'count' ? `of ${int(s.nrAppsLast)} who applied` : 'A ceiling'}</div>
               </div>
             )}
           </>

@@ -46,7 +46,8 @@ export const nrCap = (tags: number | null | undefined): number | null =>
 
 export interface NrTagInfo {
   /** "full": nonresidents were turned away, so the number that drew is the real limit */
-  kind: 'full' | 'open' | 'rule';
+  /** "count": moose / sheep / goat, where the limit is statewide: just how many nonresidents drew */
+  kind: 'full' | 'open' | 'rule' | 'count';
   /** nonresident tags: drawn when we have a drawing, else the 10% rule */
   n: number | null;
   year: number | null;
@@ -68,7 +69,7 @@ export function nrTags(tags: number | null | undefined, nrDrew: number | null | 
     if (nrApps > nrDrew && !perHuntRule) {
       // moose / sheep / goat: the nonresident limit is statewide per species, so a hunt's count is just what happened
       return {
-        kind: 'open', n: nrDrew, year: y,
+        kind: 'count', n: nrDrew, year: y,
         short: `${int(nrDrew)} NR drew '${String(y).slice(2)}`,
         long: `${int(nrDrew)} of ${int(nrApps)} nonresident first-choice applicants drew in ${y}.`,
       };
