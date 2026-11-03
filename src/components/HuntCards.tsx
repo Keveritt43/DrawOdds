@@ -208,7 +208,7 @@ export function ScoreRow({ r, nr, open = false }: { r: HuntSummary; nr: boolean;
             <small>{v ?? '—'}</small>
           </div>
         ))}
-        <p className="small muted">Ranked against other {SPECIES_LABEL[r.species].toLowerCase()} {r.nrTag ? 'general tags' : r.type === 'GENERAL' ? 'general seasons' : 'controlled hunts'} of the same sex and weapon. {r.scoreTrophy === null ? 'Trophy isn’t counted here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your 5-yr draw odds). ' : ''}<Link href="/score">How we score</Link></p>
+        <p className="small muted">Ranked against other {SPECIES_LABEL[r.species].toLowerCase()} {r.nrTag ? 'general tags' : r.type === 'GENERAL' ? 'general seasons' : 'controlled hunts'} of the same sex and weapon. {r.scoreTrophy === null ? 'Trophy isn’t counted here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your 5-yr draw odds), ranked the same way. ' : ''}<Link href="/score">How we score</Link></p>
       </div>
     </details>
   );

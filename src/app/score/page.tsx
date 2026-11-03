@@ -26,7 +26,7 @@ export default function ScorePage() {
         <p>Hunts with fewer than 30 hunters over 5 years (10 for moose, sheep and goat) aren&apos;t scored: there isn&apos;t enough to go on.</p>
 
         <h2>Opportunity</h2>
-        <p>Quality × the square root of your 5-year first-choice draw odds, for your residency. The square root keeps a 25% draw at half its quality and drops a 1% draw to a tenth. Over-the-counter tags have no draw, so their Opportunity equals their Quality.</p>
+        <p>Quality × the square root of your 5-year first-choice draw odds, for your residency, then ranked against the same kind of tag, like Quality. The square root keeps a 25% draw at half its quality and drops a 1% draw to a tenth. Ranking it means a green Opportunity on a bull elk hunt says &ldquo;one of the best bets among bull elk hunts&rdquo;, not &ldquo;likely to draw&rdquo;: the draw odds sit right next to it on every card. Over-the-counter tags count as a sure draw.</p>
 
         <h2>Reading It</h2>
         <ul>

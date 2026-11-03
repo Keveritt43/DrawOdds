@@ -411,7 +411,12 @@ test('DrawOdds Score: access line, opportunity, sample floor, peer ranking', asy
   const best = s.get('h9')!;
   const worst = s.get('h0')!;
   assert.ok(best.scoreQuality! > worst.scoreQuality!);
-  assert.equal(best.scoreOppRes, Math.round(best.scoreQuality! * 0.2));
+  // same odds everywhere: opportunity ranks like quality
+  assert.ok(best.scoreOppRes! > worst.scoreOppRes!);
+  // a hunt with far better odds jumps ahead on opportunity, not quality
+  const s2 = scoreHunts(rows.map((r) => (r.id === 'h2' ? { ...r, resOdds5: 0.9 } : r)));
+  assert.equal(s2.get('h2')!.scoreQuality, s.get('h2')!.scoreQuality);
+  assert.ok(s2.get('h2')!.scoreOppRes! > s.get('h2')!.scoreOppRes!);
   // antlerless: trophy not counted
   const cows = scoreHunts(Array.from({ length: 8 }, (_, i) => mk(i, { antlerClass: 'ANTLERLESS' })));
   assert.equal(cows.get('h3')!.scoreTrophy, null);

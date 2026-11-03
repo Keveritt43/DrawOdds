@@ -12,8 +12,9 @@
  *     antlerless hunts, whitetail units, 2-point-only seasons and species without trophy data
  * Hunts with too few hunters (under 30 over 5 years; 10 for moose, sheep, goat) get no score.
  *
- * Opportunity (0-100): Quality × √(your 5-yr draw odds). The square root keeps a 25% draw at half its quality
- * rather than a quarter, and drops a 1% draw to a tenth. Over-the-counter tags: Opportunity = Quality.
+ * Opportunity (0-100): Quality × √(your 5-yr draw odds), then ranked within the same peer group, per residency.
+ * The square root keeps a 25% draw at half its quality and drops a 1% draw to a tenth. Over-the-counter tags
+ * count as 100% odds.
  */
 
 export const SCORE_WEIGHTS = { success: 35, access: 35, crowd: 20, trophy: 10 } as const;
@@ -141,7 +142,7 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
     const q = percentileRank(me.q, peers(r).map((x) => raw.get(x.id)?.q).filter((v): v is number => v !== undefined)) ?? Math.round(me.q);
     // residents: general seasons and uncapped zone tags are over the counter
     const resOdds = r.type === 'CONTROLLED' ? r.resOdds5 : r.nrTag && r.capped ? null : 1;
-    const nrOdds = r.type === 'CONTROLLED' ? r.nrOdds5 : r.nrOdds5;
+    const nrOdds = r.nrOdds5;
     out.set(r.id, {
       scoreQuality: q,
       scoreSuccess: parts.success,
@@ -151,6 +152,18 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
       scoreOppRes: opportunity(q, resOdds),
       scoreOppNr: opportunity(q, nrOdds),
     });
+  }
+  // Opportunity, like Quality, is ranked within the peer group (per residency): every good bull elk hunt is a
+  // long shot, so the useful question is which long shots are the best bets among hunts like it.
+  const rawOpp = new Map([...out].map(([id, o]) => [id, { res: o.scoreOppRes, nr: o.scoreOppNr }]));
+  for (const r of scored) {
+    const o = out.get(r.id)!;
+    if (o.scoreQuality === null) continue;
+    for (const [k, f] of [['res', 'scoreOppRes'], ['nr', 'scoreOppNr']] as const) {
+      const mine = rawOpp.get(r.id)![k];
+      const vals = peers(r).map((x) => rawOpp.get(x.id)?.[k]).filter((v): v is number => v !== null && v !== undefined);
+      o[f] = mine === null ? null : percentileRank(mine, vals) ?? mine;
+    }
   }
   return out;
 }
