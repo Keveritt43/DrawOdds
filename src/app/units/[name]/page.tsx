@@ -89,7 +89,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
 
       <div className="grid2">
         <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 360 }}>
-          <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" />
+          <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="360px" bare />
         </div>
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Who manages the land</h3>

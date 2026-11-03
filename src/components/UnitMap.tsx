@@ -16,7 +16,8 @@ type Props = Record<string, string | number | boolean | null | undefined> & { na
 
 const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
 
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP' }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG' }) {
+/** `bare`: just the unit on the map (unit pages), no shading or key. */
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean }) {
   const msg = draw === 'MSG';
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
@@ -132,13 +133,21 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   useEffect(() => {
     const m = map.current;
     const apply = () => {
-      if (!m?.getLayer('units-fill') || !cls) return;
+      if (!m?.getLayer('units-fill')) return;
+      if (bare) {
+        // the unit itself, lightly tinted; neighbours just outlined
+        m.setPaintProperty('units-fill', 'fill-color', ['case', ['==', ['get', 'name'], focus ?? ''], '#eb6834', '#ffffff'] as ExpressionSpecification);
+        m.setPaintProperty('units-fill', 'fill-opacity', ['case', ['==', ['get', 'name'], focus ?? ''], 0.18, 0.02] as ExpressionSpecification);
+        m.setPaintProperty('units-line', 'line-color', '#ffffff');
+        return;
+      }
+      if (!cls) return;
       m.setPaintProperty('units-fill', 'fill-color', fillExpression(field, cls, colors) as ExpressionSpecification);
     };
     apply();
     m?.on('metric', apply);
     return () => void m?.off('metric', apply);
-  }, [field, cls, colors]);
+  }, [field, cls, colors, bare, focus]);
 
   // the selected unit's hunts, narrowed to the key's animal and hunt type (zone / NR tags count as general)
   const shownHunts = (uh?.rows ?? []).filter((h) => (!h.species || h.species === sp) && (htype === 'CONTROLLED' ? h.type === 'CONTROLLED' : h.type !== 'CONTROLLED'));
@@ -147,7 +156,9 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   return (
     <div style={{ position: 'relative', height }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
-      <MapKey
+      {bare ? (
+        <Link className="card bare-link small" href={`/map`}>Shade by odds, success, land or elk objectives on the Unit Map →</Link>
+      ) : <MapKey
         filters={<>
           <KeySeg label="Animal" value={sp} onChange={setSp} options={msg ? [['MOOSE', 'Moose'], ['BIGHORN', 'Sheep'], ['GOAT', 'Goat']] : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
           {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
@@ -155,7 +166,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         value={metric} options={options} onChange={(x) => setMetric(x as Metric)}
         ramp={{ classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
         note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : SCALE_NOTE[fixedScale(field) ?? ''] ?? ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
-        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />
+        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} />}
       {sel && (
         <div className="card mapinfo">
           <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>

@@ -103,13 +103,15 @@ export function QualityChart({ data, species }: { data: YearPoint[]; species: 'D
     return { ...d, bigShare: d.big != null && base ? Math.min(1, d.big / base) : null };
   });
   const elk = species === 'ELK';
+  // some hunts report only the share, no counts: then the share gets the left axis and the chart its own title
+  const counts = rows.some((d) => (elk ? d.antlered ?? d.antlerless : d.mule ?? d.whitetail) != null);
   return (
-    <Frame title={elk ? 'Antlered bulls and 6+ point share (est)' : 'Mule deer vs whitetail, and 4+ point mule deer share (est)'}>
-      <ComposedChart data={rows} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+    <Frame title={!counts ? `${elk ? '6+ point bull' : '4+ point mule deer'} share (est)` : elk ? 'Antlered bulls and 6+ point share (est)' : 'Mule deer vs whitetail, and 4+ point mule deer share (est)'}>
+      <ComposedChart data={rows} margin={{ top: 5, right: 12, left: 0, bottom: 0 }}>
         <CartesianGrid stroke={GRID} vertical={false} />
         <XAxis dataKey="year" tickLine={false} />
-        <YAxis yAxisId="n" width={44} tickLine={false} />
-        <YAxis yAxisId="p" orientation="right" domain={[0, 1]} tickFormatter={pctFmt} width={40} tickLine={false} />
+        <YAxis yAxisId="n" width={44} tickLine={false} hide={!counts} />
+        <YAxis yAxisId="p" orientation={counts ? 'right' : 'left'} domain={[0, 1]} tickFormatter={pctFmt} width={48} tickLine={false} />
         <Tooltip formatter={tip} />
         <Legend />
         {elk ? (

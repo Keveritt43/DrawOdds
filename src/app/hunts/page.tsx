@@ -8,7 +8,9 @@ import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUni
 import { FilterRail } from '@/components/FilterRail';
 import { HuntMap } from '@/components/HuntMap';
 import { SortSelect } from '@/components/SortSelect';
-import { RememberQuery } from '@/components/BackLink';
+import { RememberQuery, LAST_HUNTS_COOKIE } from '@/components/BackLink';
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { HuntCard, ZoneCard, TopPicks, choosePicks, type CardCtx } from '@/components/HuntCards';
 import { pct, pct100, WEAPON, DEERTYPE, SPECIES_LABEL, TROPHY_LABEL, antlerLabel } from '@/lib/format';
 import { getFavorites } from '@/lib/favorites';
@@ -63,6 +65,14 @@ type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; 
 
 export default async function Filtering({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
+  // coming back with no filters in the link: bring back the last ones (until "Reset all")
+  // (only when arriving from another page: clearing the last filter on this page must stay cleared)
+  const ref = (await headers()).get('referer') ?? '';
+  const fromHere = /\/hunts(\?|$)/.test(ref.replace(/^https?:\/\/[^/]+/, ''));
+  if (!Object.keys(sp).length && !fromHere) {
+    const last = (await cookies()).get(LAST_HUNTS_COOKIE)?.value;
+    if (last) redirect(`/hunts?${decodeURIComponent(last)}`);
+  }
   const f = parseFilters(sp);
   const { residency } = await getResidency(sp.as);
   // one drawing at a time: a species from the other drawing (an old link) is dropped
@@ -190,6 +200,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'hunt' ? (total === 1 ? 'result' : 'results') : 'units'} · sort by</span>
             <SortSelect value={f.sort} />
+            {chips(f).length > 0 && <a className="small reset-all" href="/hunts?reset=1">Reset all filters</a>}
             <a className="small csv" href={`/api/export${toQuery(f, { page: 1 })}`} title="Every result with odds, success, crowding and tags, for a spreadsheet">Download CSV</a>
             <span className="seg light view-seg" role="group" aria-label="List by">
               <Link className="seg-link" href={viewHref('hunt')} aria-pressed={f.view === 'hunt'} scroll={false}>By hunt</Link>

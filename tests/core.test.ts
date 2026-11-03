@@ -444,3 +444,16 @@ test('elk objectives: zones and the Panhandle exceptions', async () => {
   assert.equal(unitObjective('40').cow, null); // Owyhee: no numeric objective
   assert.ok(unitsWithObjective('cow', ['ABOVE']).includes('38'));
 });
+
+test('score parts agree with the card chips', async () => {
+  const { scoreHunts, curve } = await import('../src/lib/score');
+  const { successVerdict } = await import('../src/lib/format');
+  assert.equal(curve(0.5, [[0, 100], [0.25, 85], [0.5, 70], [1, 50]]), 70);
+  const rows = Array.from({ length: 10 }, (_, i) => ({ id: `d${i}`, species: 'DEER', type: 'CONTROLLED', weapon: 'ANY', antlerClass: 'ANTLERED', hunters5: 1000, harvest5: 550 + i, huntersSqMi: 0.2, huntablePct: 80, bigPct5: 0.5, resOdds5: 0.05 }));
+  const s = scoreHunts(rows).get('d0')!;
+  assert.equal(successVerdict(0.55, 'DEER').tone, 'good');
+  assert.ok(s.scoreSuccess! >= 74); // "High for deer" = 75 on the bar
+  assert.ok(s.scoreCrowd! >= 85); // 0.2 hunters / sq mi is uncrowded
+  // archery deer at 25% is as good as rifle at 55%
+  assert.equal(successVerdict(0.25, 'DEER', 'ARCHERY').tone, 'good');
+});

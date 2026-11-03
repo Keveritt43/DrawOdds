@@ -85,7 +85,7 @@ function Stats({ r, c }: { r: HuntSummary; c: CardCtx }) {
         {/* the 5-year number leads: it's what the sort, the verdict and the picks use, and one season swings */}
         <Term k="success">Success {yrs(r)}</Term>
         <b className={r.smallSample ? 'faint' : ''}>{pct(r.success5)}</b>
-        {r.smallSample ? <span className="verdict none">Small sample</span> : <Chip v={successVerdict(r.success5, r.species)} />}
+        {r.smallSample ? <span className="verdict none">Small sample</span> : <Chip v={successVerdict(r.success5, r.species, r.weapon)} />}
         <span className="sub">
           {c.sort === 'harvest' ? `5-yr harvest ${int(r.harvest5)}` : c.sort === 'hunters' || c.sort === 'huntersLow' ? `5-yr hunters ${int(r.hunters5)}` : r.harvestLastYear && r.successLast !== null ? <>{r.harvestLastYear}: {pct(r.successLast)}{!r.smallSample && (r.hunters5 ?? 0) / Math.max(1, r.harvestYears) >= 30 && <Delta now={r.successLast} prev={r.successPrev} kind="pts" good="up" />}</> : ''}
         </span>
@@ -226,7 +226,7 @@ export function ScoreRow({ r, nr, open = false }: { r: HuntSummary; nr: boolean;
             <small>{v ?? '—'}</small>
           </div>
         ))}
-        <p className="small muted">Ranked against other {SPECIES_LABEL[r.species].toLowerCase()} {r.nrTag ? 'general tags' : r.type === 'GENERAL' ? 'general seasons' : 'controlled hunts'} of the same sex and weapon. {r.scoreTrophy === null ? 'Trophy isn’t counted here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your 5-yr draw odds), ranked the same way. ' : ''}<Link href="/score">How we score</Link></p>
+        <p className="small muted">Fixed scales for every {SPECIES_LABEL[r.species].toLowerCase()} hunt{r.weapon !== 'ANY' ? `, success adjusted for ${WEAPON[r.weapon]?.toLowerCase()}` : ''}: 75+ matches &ldquo;High&rdquo;, under 40 &ldquo;Low&rdquo;. {r.scoreTrophy === null ? 'Trophy isn’t counted here. ' : ''}{hasDraw(r, nr) ? `Opportunity = Quality × √(your 5-yr draw odds), ranked among ${SPECIES_LABEL[r.species].toLowerCase()} ${r.nrTag ? 'general tags' : r.type === 'GENERAL' ? 'general seasons' : 'controlled hunts'} like this one. ` : ''}<Link href="/score">How we score</Link></p>
       </div>
     </details>
   );

@@ -121,11 +121,29 @@ export function oddsVerdict(v: number | null | undefined): Verdict {
   return { text: 'Very long shot', tone: 'bad' };
 }
 
-/** Success thresholds differ by species: 20% is good for elk and poor for pronghorn. */
-const SUCCESS_BANDS: Record<string, [number, number]> = { ELK: [0.3, 0.15], DEER: [0.55, 0.35], PRONGHORN: [0.6, 0.35], MOOSE: [0.7, 0.5], BIGHORN: [0.7, 0.5], GOAT: [0.7, 0.5] };
-export function successVerdict(v: number | null | undefined, species: string): Verdict {
+/**
+ * Success bands by species for a rifle (any-weapon) hunt: [high, low, top]. 20% is good for elk and poor for
+ * pronghorn. Other weapons scale them down by how much lower Idaho's pooled success runs for that weapon
+ * (IDFG harvest, all hunts): archery deer ~0.45 of rifle, archery elk ~0.9, archery pronghorn ~0.3.
+ */
+const SUCCESS_BANDS: Record<string, [number, number, number]> = {
+  ELK: [0.3, 0.15, 0.6], DEER: [0.55, 0.35, 0.75], PRONGHORN: [0.6, 0.35, 0.85],
+  MOOSE: [0.7, 0.5, 0.9], BIGHORN: [0.7, 0.5, 0.9], GOAT: [0.7, 0.5, 0.9],
+};
+const WEAPON_FACTOR: Record<string, Record<string, number>> = {
+  DEER: { ARCHERY: 0.45, MUZZLELOADER: 0.7 },
+  ELK: { ARCHERY: 0.9, MUZZLELOADER: 0.8 },
+  PRONGHORN: { ARCHERY: 0.3, MUZZLELOADER: 0.65 },
+};
+/** [high, low, top] success for a species and weapon. */
+export function successBands(species: string, weapon = 'ANY'): [number, number, number] {
+  const [hi, lo, top] = SUCCESS_BANDS[species] ?? [0.5, 0.25, 0.75];
+  const f = WEAPON_FACTOR[species]?.[weapon] ?? 1;
+  return [hi * f, lo * f, top * f];
+}
+export function successVerdict(v: number | null | undefined, species: string, weapon = 'ANY'): Verdict {
   if (v === null || v === undefined) return { text: 'No harvest data', tone: 'none' };
-  const [hi, lo] = SUCCESS_BANDS[species] ?? [0.5, 0.25];
+  const [hi, lo] = successBands(species, weapon);
   if (v >= hi) return { text: `High for ${SPECIES_LABEL[species]?.toLowerCase() ?? 'this'}`, tone: 'good' };
   if (v >= lo) return { text: 'Typical', tone: 'ok' };
   return { text: `Low for ${SPECIES_LABEL[species]?.toLowerCase() ?? 'this'}`, tone: 'bad' };

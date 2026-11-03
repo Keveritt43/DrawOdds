@@ -173,27 +173,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       {nr && isMsg && !nrInfo && <p className="small muted" style={{ margin: '4px 0' }}>For moose, sheep and goat, Idaho limits nonresidents to 10% of each species&apos; tags statewide, not per hunt.</p>}
       {nr && ctl && (s.nrAppsLast ?? 0) < 30 && (s.nrOddsLast ?? 0) < 0.995 && <div className="note">Very few nonresident applicants or tags here. Nonresident odds swing hard on 0-2 tags a year.</div>}
 
-      <ApplyChecklist secondChoiceNote={ctl && (s.secondDrewLast ?? 0) > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear ?? 'the last drawing'}, but the nonresident limit was already full, so this hunt is a poor 2nd choice for nonresidents.` : `${int(s.secondDrewLast)} tags went to 2nd-choice applicants in ${s.oddsLastYear ?? 'the last drawing'}: a realistic 2nd choice.`) : ctl ? 'Its tags all went to 1st choices last time, so it rarely works as a 2nd choice.' : undefined}
-        kind={isMsg ? 'msg' : ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
-
-      {alts.length > 0 && (
-        <div className="card alts">
-          <h3>Easier To Draw, Just As Good</h3>
-          <p className="small muted" style={{ marginTop: 0 }}>
-            {ctl ? `Other ${SPECIES_LABEL[s.species].toLowerCase()} ${antlerLabel(s.species, s.antlerClass).toLowerCase()} ${WEAPON[s.weapon].toLowerCase()} hunts` : `Other ${SPECIES_LABEL[s.species].toLowerCase()} tags`} with better {nr ? 'nonresident' : 'resident'} 5-year odds and at least 80% of this hunt&apos;s success.
-          </p>
-          <ul>
-            {alts.map((a) => (
-              <li key={a.id}>
-                <Link href={`/hunts/${encodeURIComponent(a.id)}`}>{a.nrTag ? a.name : `Hunt ${a.huntNumber} · Area ${a.areaName}`}</Link>
-                <span className="small"> {pctOdds(a.type === 'CONTROLLED' ? a[rf.odds5] : a.nrOdds5)} odds (vs {pctOdds(myOdds)}) · {pct(a.success5)} success (vs {pct(s.success5)}){a.openDate ? ` · ${range(a.openDate, a.closeDate)}` : ''}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <div className="grid2" style={{ marginTop: 12 }}>
+      <div className="grid2" style={{ marginTop: 12, marginBottom: 12 }}>
         {s.type === 'CONTROLLED' && <OddsChart data={history} nr={nr} />}
         {s.type === 'CONTROLLED' && <ApplicantsChart data={history} />}
         <SuccessChart data={history} compare={compare} />
@@ -217,6 +197,27 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           {area?.description && <p className="small muted">{area.description.slice(0, 600)}</p>}
         </div>
       </div>
+
+      <ApplyChecklist secondChoiceNote={ctl && (s.secondDrewLast ?? 0) > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear ?? 'the last drawing'}, but the nonresident limit was already full, so this hunt is a poor 2nd choice for nonresidents.` : `${int(s.secondDrewLast)} tags went to 2nd-choice applicants in ${s.oddsLastYear ?? 'the last drawing'}: a realistic 2nd choice.`) : ctl ? 'Its tags all went to 1st choices last time, so it rarely works as a 2nd choice.' : undefined}
+        kind={isMsg ? 'msg' : ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
+
+      {alts.length > 0 && (
+        <div className="card alts">
+          <h3>Easier To Draw, Just As Good</h3>
+          <p className="small muted" style={{ marginTop: 0 }}>
+            {ctl ? `Other ${SPECIES_LABEL[s.species].toLowerCase()} ${antlerLabel(s.species, s.antlerClass).toLowerCase()} ${WEAPON[s.weapon].toLowerCase()} hunts` : `Other ${SPECIES_LABEL[s.species].toLowerCase()} tags`} with better {nr ? 'nonresident' : 'resident'} 5-year odds and at least 80% of this hunt&apos;s success.
+          </p>
+          <ul>
+            {alts.map((a) => (
+              <li key={a.id}>
+                <Link href={`/hunts/${encodeURIComponent(a.id)}`}>{a.nrTag ? a.name : `Hunt ${a.huntNumber} · Area ${a.areaName}`}</Link>
+                <span className="small"> {pctOdds(a.type === 'CONTROLLED' ? a[rf.odds5] : a.nrOdds5)} odds (vs {pctOdds(myOdds)}) · {pct(a.success5)} success (vs {pct(s.success5)}){a.openDate ? ` · ${range(a.openDate, a.closeDate)}` : ''}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {rows.length > 0 && (
         <div style={{ marginTop: 16, overflowX: 'auto' }}>
           <h3>Year By Year</h3>

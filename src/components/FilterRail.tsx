@@ -76,6 +76,9 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           {open ? 'Hide Filters' : 'Show Filters'}
         </button>
       </div>
+      {[...sp.keys()].some((k) => !['sort', 'view', 'page'].includes(k)) && (
+        <div className="rail-reset"><a href="/hunts?reset=1">Reset all filters</a></div>
+      )}
       <div className="rsec-wrap">
         <Section title="Species" value={labelOf(msg ? SPECIES_MSG : SPECIES, sp_)} set={!!sp_} defaultOpen={!sp_}>
           {radio('species', msg ? SPECIES_MSG : SPECIES)}
@@ -91,7 +94,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           {radio('minScore', SCORE_STOPS)}
           <label style={{ marginTop: 8, display: 'block' }}>Opportunity (quality × your draw odds)</label>
           {radio('minOpp', SCORE_STOPS)}
-          <p className="small muted" style={{ margin: '6px 0 0' }}>0-100, ranked against the same kind of tag. <a href="/score">How we score</a></p>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>0-100 on fixed scales, so general and controlled hunts compare directly. <a href="/score">How we score</a></p>
         </Section>
         <Section title="Weapon" value={many(WEAPONS, 'weapon', 'All Weapons')} set={list('weapon').length > 0}>{checks('weapon', WEAPONS)}</Section>
         <Section title={msg ? 'Male Or Female' : sp_ === 'PRONGHORN' ? 'Bucks Or Does' : 'Bucks/Bulls Or Antlerless'} value={many(msg ? SEX_MSG : ANTLER, 'antler', 'Any')} set={list('antler').length > 0}>{checks('antler', msg ? SEX_MSG : ANTLER)}<p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take a male or a female on them.</p></Section>

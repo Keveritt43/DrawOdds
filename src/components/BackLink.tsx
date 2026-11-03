@@ -24,10 +24,25 @@ export function BackLink() {
   );
 }
 
-/** Put on Filtering: remembers its query so hunt pages can link back to it. */
+export const LAST_HUNTS_COOKIE = 'lastHunts';
+
+/**
+ * Put on Filtering: remembers its query so hunt pages can link back to it, and (in a cookie, 30 days) so that
+ * coming back to Find A Hunt from anywhere brings the same filters back. `?reset=1` forgets them.
+ */
 export function RememberQuery() {
   useEffect(() => {
+    const p = new URLSearchParams(location.search);
+    if (p.has('reset')) {
+      document.cookie = `${LAST_HUNTS_COOKIE}=; path=/; max-age=0; samesite=lax`;
+      try { sessionStorage.removeItem('lastHuntsQuery'); } catch { /* ignore */ }
+      history.replaceState(null, '', '/hunts');
+      return;
+    }
+    p.delete('page');
+    const q = p.toString();
     try { sessionStorage.setItem('lastHuntsQuery', location.search); } catch { /* ignore */ }
+    document.cookie = `${LAST_HUNTS_COOKIE}=${encodeURIComponent(q)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`;
   });
   return null;
 }

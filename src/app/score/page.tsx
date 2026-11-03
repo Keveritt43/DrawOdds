@@ -16,21 +16,21 @@ export default function ScorePage() {
         </p>
 
         <h2>Quality</h2>
-        <p>Four parts, each ranked 0-100 against the same kind of tag: same species, general season or controlled hunt, buck/bull or antlerless, and weapon. A general archery deer season is compared with other general archery deer seasons, not with bull elk.</p>
+        <p>Four parts, each on a fixed 0-100 scale that means the same thing for every hunt of a species, general or controlled, so a controlled bull hunt and a general A tag can be compared head to head. The scales line up with the chips on each card: 75 or more is where &ldquo;High for deer&rdquo; or &ldquo;Uncrowded&rdquo; starts; under 40 is &ldquo;Low&rdquo; or &ldquo;Crowded&rdquo;.</p>
         <ul>
-          <li><b>Success ({SCORE_WEIGHTS.success}%):</b> 5-year harvest ÷ hunters. Hunts with few hunters are pulled toward the average for their tag type, so 3 kills by 3 hunters doesn&apos;t read as a sure thing.</li>
+          <li><b>Success ({SCORE_WEIGHTS.success}%):</b> 5-year harvest ÷ hunters, against bands for the species (deer: 35% scores 40, 55% scores 75, 75% scores 100), scaled for weapon: archery deer runs about 45% of rifle success, archery elk about 90%. Hunts with few hunters are pulled toward the average for their tag type, so 3 kills by 3 hunters doesn&apos;t read as a sure thing.</li>
           <li><b>Access ({SCORE_WEIGHTS.access}%):</b> public land plus Access Yes! land. 50% scores 80; above that it climbs slowly to 100, below it drops fast (25% scores 40). Most Idaho units are mostly public, so this mostly marks down the private-land units.</li>
-          <li><b>Elbow room ({SCORE_WEIGHTS.crowd}%):</b> fewer hunters per square mile ranks higher.</li>
-          <li><b>Trophy ({SCORE_WEIGHTS.trophy}%):</b> share of the antlered harvest that was 4+ point mule deer or 6+ point bulls. Not counted for antlerless hunts, whitetail units, 2-point-only seasons or moose, sheep and goat; its weight is shared among the other three.</li>
+          <li><b>Elbow room ({SCORE_WEIGHTS.crowd}%):</b> hunters per square mile: 0.25 scores 85, 0.5 scores 70, 1 scores 50, 1.5 scores 38, 3 scores 18.</li>
+          <li><b>Trophy ({SCORE_WEIGHTS.trophy}%):</b> share of bucks / bulls taken that were 4+ point mule deer or 6+ point bulls: 25% scores 45, 50% scores 75, 75% scores 100. Not counted for antlerless hunts, whitetail units, 2-point-only seasons or moose, sheep and goat; its weight is shared among the other three.</li>
         </ul>
         <p>Hunts with fewer than 30 hunters over 5 years (10 for moose, sheep and goat) aren&apos;t scored: there isn&apos;t enough to go on.</p>
 
         <h2>Opportunity</h2>
-        <p>Quality × the square root of your 5-year first-choice draw odds, for your residency, then ranked against the same kind of tag, like Quality. The square root keeps a 25% draw at half its quality and drops a 1% draw to a tenth. Ranking it means a green Opportunity on a bull elk hunt says &ldquo;one of the best bets among bull elk hunts&rdquo;, not &ldquo;likely to draw&rdquo;: the draw odds sit right next to it on every card. Over-the-counter tags count as a sure draw.</p>
+        <p>Quality × the square root of your 5-year first-choice draw odds, for your residency, then ranked among the same kind of hunt (same species, general or controlled, sex and weapon). The square root keeps a 25% draw at half its quality and drops a 1% draw to a tenth. Ranking it means a green Opportunity on a bull elk hunt says &ldquo;one of the best bets among bull elk hunts&rdquo;, not &ldquo;likely to draw&rdquo;: the draw odds sit right next to it on every card. Over-the-counter tags count as a sure draw.</p>
 
         <h2>Reading It</h2>
         <ul>
-          <li>A score is a rank, not a promise: 80 means better than about 80% of hunts like it on those measures.</li>
+          <li>Quality is a grade, not a rank: two hunts with the same numbers get the same score, whatever else is out there. Opportunity is a rank among hunts like it.</li>
           <li>The weights are our judgment of what most hunters want. Moving them around changes the top 50 hunts by about 5-15, so the ranking holds up well.</li>
           <li>Tap a score on any hunt to see its four parts. Filter and sort by score in <Link href="/hunts?sort=score">Find A Hunt</Link>, or shade the map by it.</li>
         </ul>
