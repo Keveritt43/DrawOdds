@@ -78,7 +78,53 @@
    "acres": 29354
   }
  ],
- "unitAcres": {},
- "units": [],
- "mapNote": "no route layers provided"
+ "unitAcres": {
+  "37": {
+   "ONE": 36870,
+   "LOW": 21959,
+   "MEDIUM": 15799,
+   "HIGH": 3893,
+   "STOPOVER": 4963
+  },
+  "27": {
+   "ONE": 23930,
+   "LOW": 1613,
+   "MEDIUM": 68
+  },
+  "36B": {
+   "ONE": 26591,
+   "LOW": 29738,
+   "MEDIUM": 39253,
+   "HIGH": 39684,
+   "STOPOVER": 22884
+  },
+  "36": {
+   "ONE": 5620
+  },
+  "36A": {
+   "ONE": 765,
+   "LOW": 441,
+   "MEDIUM": 69
+  },
+  "28": {
+   "ONE": 4188,
+   "LOW": 586,
+   "STOPOVER": 78
+  },
+  "37A": {
+   "ONE": 2060,
+   "LOW": 39,
+   "STOPOVER": 156
+  }
+ },
+ "units": [
+  "27",
+  "28",
+  "36",
+  "36A",
+  "36B",
+  "37",
+  "37A"
+ ],
+ "mapNote": null
 }

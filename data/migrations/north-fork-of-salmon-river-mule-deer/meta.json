@@ -72,7 +72,34 @@
    "acres": 24759
   }
  ],
- "unitAcres": {},
- "units": [],
- "mapNote": "no route layers provided"
+ "unitAcres": {
+  "30": {
+   "ONE": 1991,
+   "STOPOVER": 744
+  },
+  "21A": {
+   "ONE": 26190,
+   "MEDIUM": 37332,
+   "HIGH": 6331,
+   "STOPOVER": 23292
+  },
+  "21": {
+   "ONE": 10215,
+   "MEDIUM": 24335,
+   "HIGH": 1494,
+   "STOPOVER": 11091
+  },
+  "28": {
+   "ONE": 1215,
+   "MEDIUM": 925,
+   "STOPOVER": 145
+  }
+ },
+ "units": [
+  "21",
+  "21A",
+  "28",
+  "30"
+ ],
+ "mapNote": null
 }

@@ -74,19 +74,19 @@
  ],
  "unitAcres": {
   "41": {
-   "ONE": 104561,
-   "MEDIUM": 57169,
+   "ONE": 106581,
+   "MEDIUM": 57179,
    "HIGH": 60300,
    "STOPOVER": 24815
   },
   "42": {
-   "ONE": 90645,
+   "ONE": 91142,
    "MEDIUM": 41369,
    "HIGH": 49988,
    "STOPOVER": 10250
   },
   "40": {
-   "ONE": 3567,
+   "ONE": 3597,
    "STOPOVER": 2851
   }
  },

@@ -73,27 +73,27 @@
   }
  ],
  "unitAcres": {
+  "30A": {
+   "ONE": 18796,
+   "MEDIUM": 166
+  },
   "58": {
-   "ONE": 2942
+   "ONE": 2981
   },
   "59": {
-   "ONE": 39370,
+   "ONE": 43042,
    "MEDIUM": 60036,
    "HIGH": 29461,
    "STOPOVER": 29029
   },
-  "30A": {
-   "ONE": 18639,
-   "MEDIUM": 166
-  },
   "59A": {
-   "ONE": 10518,
+   "ONE": 10645,
    "MEDIUM": 569,
    "HIGH": 10,
    "STOPOVER": 726
   },
   "63": {
-   "ONE": 3252,
+   "ONE": 3272,
    "MEDIUM": 571,
    "STOPOVER": 286
   }

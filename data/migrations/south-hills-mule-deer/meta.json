@@ -72,7 +72,16 @@
    "acres": 11565
   }
  ],
- "unitAcres": {},
- "units": [],
- "mapNote": "route map is georeferenced in the wrong place"
+ "unitAcres": {
+  "54": {
+   "ONE": 41565,
+   "MEDIUM": 50592,
+   "HIGH": 23071,
+   "STOPOVER": 12442
+  }
+ },
+ "units": [
+  "54"
+ ],
+ "mapNote": null
 }

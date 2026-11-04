@@ -80,33 +80,33 @@
  ],
  "unitAcres": {
   "21A": {
-   "ONE": 35987,
+   "ONE": 35920,
    "LOW": 69813,
    "MEDIUM": 20178,
    "HIGH": 96,
    "STOPOVER": 17294
   },
   "30": {
-   "ONE": 18384,
+   "ONE": 15215,
    "LOW": 18569,
    "MEDIUM": 19,
    "STOPOVER": 6664
   },
   "21": {
-   "ONE": 19395,
+   "ONE": 19414,
    "LOW": 32781,
    "MEDIUM": 19095,
    "HIGH": 983,
    "STOPOVER": 16338
   },
   "28": {
-   "ONE": 3648,
+   "ONE": 3658,
    "LOW": 1929,
    "MEDIUM": 974,
    "STOPOVER": 1205
   },
   "29": {
-   "ONE": 1037,
+   "ONE": 397,
    "STOPOVER": 804
   }
  },

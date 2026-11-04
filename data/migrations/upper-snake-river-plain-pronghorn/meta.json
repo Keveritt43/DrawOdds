@@ -79,36 +79,43 @@
   }
  ],
  "unitAcres": {
-  "30": {
-   "ONE": 16640,
-   "LOW": 2331,
-   "MEDIUM": 351,
-   "STOPOVER": 263
-  },
-  "30A": {
-   "ONE": 24834,
-   "LOW": 38469,
-   "MEDIUM": 8264,
-   "STOPOVER": 1388
-  },
-  "59A": {
-   "ONE": 46991,
-   "LOW": 17370,
-   "MEDIUM": 7204,
-   "STOPOVER": 8370
-  },
-  "59": {
-   "ONE": 45967,
-   "LOW": 480,
-   "MEDIUM": 323,
-   "STOPOVER": 443
-  },
   "63": {
-   "ONE": 161404,
+   "ONE": 162258,
    "LOW": 32861,
    "MEDIUM": 35928,
    "HIGH": 50027,
    "STOPOVER": 45321
+  },
+  "59": {
+   "ONE": 45288,
+   "LOW": 480,
+   "MEDIUM": 235,
+   "STOPOVER": 443
+  },
+  "30": {
+   "ONE": 16630,
+   "LOW": 2313,
+   "MEDIUM": 351,
+   "STOPOVER": 263
+  },
+  "30A": {
+   "ONE": 15196,
+   "LOW": 28834,
+   "MEDIUM": 4897,
+   "STOPOVER": 694
+  },
+  "59A": {
+   "ONE": 46847,
+   "LOW": 17370,
+   "MEDIUM": 7204,
+   "STOPOVER": 8370
+  },
+  "51": {
+   "ONE": 33488,
+   "LOW": 34065,
+   "MEDIUM": 10061,
+   "HIGH": 5580,
+   "STOPOVER": 3232
   },
   "68": {
    "ONE": 6167,
@@ -117,38 +124,31 @@
    "HIGH": 24600,
    "STOPOVER": 8833
   },
-  "51": {
-   "ONE": 33370,
-   "LOW": 34065,
-   "MEDIUM": 10061,
-   "HIGH": 5580,
-   "STOPOVER": 3232
-  },
   "58": {
-   "ONE": 19220,
-   "LOW": 27803,
-   "MEDIUM": 44559,
+   "ONE": 19289,
+   "LOW": 27773,
+   "MEDIUM": 44609,
    "HIGH": 32983,
    "STOPOVER": 21263
   },
   "49": {
-   "ONE": 5428,
-   "LOW": 13099,
+   "ONE": 9959,
+   "LOW": 13129,
    "MEDIUM": 16073,
    "HIGH": 28494,
    "STOPOVER": 9885
   },
   "50": {
-   "ONE": 4731,
+   "ONE": 4741,
    "LOW": 29225,
    "MEDIUM": 11106,
    "HIGH": 23048,
    "STOPOVER": 14707
   },
   "52A": {
-   "ONE": 428,
+   "ONE": 1574,
    "LOW": 3583,
-   "MEDIUM": 4503,
+   "MEDIUM": 4513,
    "HIGH": 13453,
    "STOPOVER": 1403
   }

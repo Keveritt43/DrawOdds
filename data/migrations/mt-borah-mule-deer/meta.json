@@ -73,34 +73,34 @@
   }
  ],
  "unitAcres": {
-  "49": {
-   "ONE": 456,
-   "MEDIUM": 278,
-   "HIGH": 1348
-  },
-  "50": {
-   "ONE": 24650,
-   "MEDIUM": 31307,
-   "HIGH": 54159,
-   "STOPOVER": 14602
-  },
-  "37": {
-   "ONE": 12063,
-   "MEDIUM": 7644,
-   "HIGH": 138,
-   "STOPOVER": 1689
-  },
   "36A": {
    "ONE": 1485,
    "MEDIUM": 1093,
    "HIGH": 1516,
    "STOPOVER": 1023
   },
+  "37": {
+   "ONE": 12073,
+   "MEDIUM": 7644,
+   "HIGH": 138,
+   "STOPOVER": 1689
+  },
+  "50": {
+   "ONE": 24738,
+   "MEDIUM": 31317,
+   "HIGH": 54159,
+   "STOPOVER": 14602
+  },
   "48": {
-   "ONE": 99,
+   "ONE": 7076,
    "MEDIUM": 28174,
    "HIGH": 10206,
    "STOPOVER": 6049
+  },
+  "49": {
+   "ONE": 486,
+   "MEDIUM": 278,
+   "HIGH": 1348
   }
  },
  "units": [

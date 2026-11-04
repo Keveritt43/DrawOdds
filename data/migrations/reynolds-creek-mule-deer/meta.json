@@ -80,11 +80,11 @@
  ],
  "unitAcres": {
   "40": {
-   "ONE": 73910,
-   "LOW": 25008,
+   "ONE": 74734,
+   "LOW": 24508,
    "MEDIUM": 17088,
    "HIGH": 14659,
-   "STOPOVER": 15429
+   "STOPOVER": 15089
   }
  },
  "units": [

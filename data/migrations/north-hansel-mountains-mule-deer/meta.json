@@ -63,9 +63,30 @@
    "label": "More than 20%",
    "color": "#e3241b",
    "acres": 18198
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch"
   }
  ],
- "unitAcres": {},
- "units": [],
- "mapNote": "route map is georeferenced in the wrong place"
+ "unitAcres": {
+  "73A": {
+   "ONE": 11110,
+   "MEDIUM": 31,
+   "STOPOVER": 649
+  },
+  "73": {
+   "ONE": 29722,
+   "MEDIUM": 23852,
+   "HIGH": 19270,
+   "STOPOVER": 10690
+  }
+ },
+ "units": [
+  "73",
+  "73A"
+ ],
+ "mapNote": null
 }

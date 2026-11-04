@@ -81,27 +81,27 @@
  ],
  "unitAcres": {
   "72": {
-   "ONE": 20487,
+   "ONE": 20527,
    "LOW": 18597,
    "MEDIUM": 13223,
    "HIGH": 6581,
    "STOPOVER": 8675
   },
   "69": {
-   "ONE": 18845,
+   "ONE": 18755,
    "LOW": 1323,
    "MEDIUM": 110,
    "STOPOVER": 651
   },
   "76": {
-   "ONE": 51559,
+   "ONE": 51178,
    "LOW": 37438,
    "MEDIUM": 16654,
    "HIGH": 3100,
    "STOPOVER": 11694
   },
   "66A": {
-   "ONE": 8165,
+   "ONE": 583,
    "LOW": 732,
    "MEDIUM": 1184,
    "HIGH": 914,

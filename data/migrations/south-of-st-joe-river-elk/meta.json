@@ -80,14 +80,13 @@
  ],
  "unitAcres": {
   "6": {
-   "ONE": 53531,
+   "ONE": 52080,
    "LOW": 18152,
    "MEDIUM": 31398,
    "HIGH": 4860,
    "STOPOVER": 12857
   },
   "10A": {
-   "ONE": 2275,
    "STOPOVER": 1461
   }
  },

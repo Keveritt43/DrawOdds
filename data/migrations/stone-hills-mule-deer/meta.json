@@ -73,13 +73,13 @@
  ],
  "unitAcres": {
   "56": {
-   "ONE": 26060,
+   "ONE": 25999,
    "MEDIUM": 29972,
    "HIGH": 24774,
    "STOPOVER": 10653
   },
   "73A": {
-   "ONE": 16010,
+   "ONE": 12665,
    "MEDIUM": 1352,
    "STOPOVER": 691
   }

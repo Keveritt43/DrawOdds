@@ -80,7 +80,7 @@
  ],
  "unitAcres": {
   "36": {
-   "ONE": 99066,
+   "ONE": 100065,
    "LOW": 27446,
    "MEDIUM": 7901,
    "STOPOVER": 11083
@@ -97,7 +97,7 @@
    "STOPOVER": 23754
   },
   "36A": {
-   "ONE": 7129,
+   "ONE": 7139,
    "LOW": 3720,
    "MEDIUM": 1732,
    "STOPOVER": 4096
