@@ -183,12 +183,12 @@ export function MigrationExplorer({ studies, initial, initialUnits = [], initial
 
       <div style={{ position: 'relative', height: 'min(640px, 75vh)' }} className="card">
         <div ref={el} style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', overflow: 'hidden' }} />
-        <div className="card mig-panel">
-          <MigrationKey classes={STANDARD_CLASSES} />
-          <p className="muted" style={{ margin: '4px 0 0' }}>{keyNote(species)} Tap a route for its study. Overlapping studies stack.</p>
-          {err && <p className="small" style={{ color: 'var(--warn)', margin: 0 }}>{err}</p>}
-        </div>
         <div className="card land-float"><LandToggles map={map} before="units-line" /></div>
+      </div>
+      <div className="mig-legend">
+        <MigrationKey classes={STANDARD_CLASSES} />
+        <p className="small muted">{keyNote(species)} Tap a route for its study.</p>
+        {err && <p className="small" style={{ color: 'var(--warn)', margin: 0 }}>{err}</p>}
       </div>
 
       <div className="mig-studies">

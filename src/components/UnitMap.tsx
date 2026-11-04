@@ -13,6 +13,7 @@ import { LandToggles } from './LandLayers';
 import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fixedScale, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
+import { ELK_ZONES } from '@/lib/elkZones';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
@@ -61,6 +62,22 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
+  // outline units or elk zones (elk zones only exist on the deer/elk/pronghorn drawing)
+  const [bounds, setBoundsRaw] = useState<'units' | 'zones'>('units');
+  const [zoneSel, setZoneSel] = useState<string | null>(null);
+  const boundsRef = useRef<'units' | 'zones'>('units');
+  const setBounds = (b: 'units' | 'zones') => {
+    setBoundsRaw(b);
+    boundsRef.current = b;
+    setSel(null);
+    setZoneSel(null);
+    try { localStorage.setItem('unitMapBounds', b); } catch { /* not remembered */ }
+  };
+  useEffect(() => {
+    try { if (!bare && !msg && localStorage.getItem('unitMapBounds') === 'zones') { setBoundsRaw('zones'); boundsRef.current = 'zones'; } } catch { /* default */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => { if (msg && bounds === 'zones') setBounds('units'); /* no elk zones on that drawing */ }, [msg]); // eslint-disable-line react-hooks/exhaustive-deps
   type UH = { id: string; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
   const [uh, setUh] = useState<{ unit: string; rows: UH[] } | null>(null);
   const selName = sel ? String(sel.name) : null;
@@ -114,6 +131,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           setSel(props);
         };
         m.on('click', 'units-fill', (e) => {
+          if (boundsRef.current === 'zones') return;
           const f = e.features?.[0];
           if (f) select(String(f.properties.name), f.properties as Props);
         });
@@ -173,6 +191,51 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     return () => void m?.off('metric', apply);
   }, [field, cls, colors, bare, focus, noShade]);
 
+  // elk zone outlines and names (fetched once); unit numbers step back while zones are shown
+  const zonesAdded = useRef(false);
+  useEffect(() => {
+    const m = mapObj;
+    if (!m) return;
+    let live = true;
+    const show = bounds === 'zones';
+    const apply = () => {
+      if (!m.getLayer('zones-line')) return;
+      for (const id of ['zones-fill', 'zones-casing', 'zones-line', 'zones-label']) m.setLayoutProperty(id, 'visibility', show ? 'visible' : 'none');
+      m.setLayoutProperty('units-label', 'visibility', show ? 'none' : 'visible');
+      m.setPaintProperty('units-line', 'line-opacity', show ? 0.35 : 1);
+      if (show) m.setFeatureState({ source: 'units', id: String(sel?.name ?? '') }, { sel: false });
+    };
+    if (show && !zonesAdded.current) {
+      zonesAdded.current = true;
+      fetch('/api/zones').then((r) => r.json()).then((z) => {
+        if (!m.getStyle()) return;
+        m.addSource('zones', { type: 'geojson', data: z.zones, promoteId: 'zone' });
+        m.addSource('zone-labels', { type: 'geojson', data: z.labels });
+        m.addLayer({ id: 'zones-fill', type: 'fill', source: 'zones', paint: { 'fill-color': '#000', 'fill-opacity': 0 } }, 'units-label');
+        m.addLayer({ id: 'zones-casing', type: 'line', source: 'zones', paint: { 'line-color': '#ffffff', 'line-width': 5, 'line-opacity': 0.75 } }, 'units-label');
+        m.addLayer({ id: 'zones-line', type: 'line', source: 'zones', paint: { 'line-color': ['case', ['boolean', ['feature-state', 'sel'], false], '#eb6834', '#4b23a8'], 'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 4, 2.4] } }, 'units-label');
+        m.addLayer({
+          id: 'zones-label', type: 'symbol', source: 'zone-labels',
+          layout: { 'text-field': ['get', 'zone'], 'text-font': ['Noto Sans Bold'], 'text-size': 13, 'text-allow-overlap': false },
+          paint: { 'text-color': '#2b1366', 'text-halo-color': '#ffffff', 'text-halo-width': 2 },
+        });
+        let prev: string | null = null;
+        m.on('click', 'zones-fill', (e) => {
+          if (boundsRef.current !== 'zones') return;
+          const z = String(e.features?.[0]?.properties?.zone ?? '');
+          if (!z) return;
+          if (prev) m.setFeatureState({ source: 'zones', id: prev }, { sel: false });
+          m.setFeatureState({ source: 'zones', id: z }, { sel: true });
+          prev = z;
+          setZoneSel(z);
+        });
+        apply();
+      }).catch(() => { zonesAdded.current = false; setErr('Could not load elk zones.'); });
+    } else apply();
+    return () => { live = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bounds, mapObj]);
+
   // the selected unit's hunts, narrowed to the key's animal and hunt type (zone / NR tags count as general)
   const v = (k: string) => (sel && sel[k] !== null && sel[k] !== undefined ? Number(sel[k]) : null);
 
@@ -185,11 +248,24 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         filters={<>
           <KeySeg label="Animal" value={sp} onChange={setSp} options={msg ? [['MOOSE', 'Moose'], ['BIGHORN', 'Sheep'], ['GOAT', 'Goat']] : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
           {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
+          {!msg && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
         </>}
         value={noShade ? 'none' : metric} options={options} onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
         ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
         note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : SCALE_NOTE[fixedScale(field) ?? ''] ?? ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
         extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} folded={!!sel && sel.name !== focus} />}
+      {zoneSel && bounds === 'zones' && (
+        <div className="card mapinfo">
+          <button type="button" className="mapinfo-x" aria-label="Close zone details" onClick={() => setZoneSel(null)}>×</button>
+          <h3 style={{ margin: '0 0 2px' }}>{zoneSel} Elk Zone</h3>
+          <div style={{ display: 'flex', gap: 8, margin: '8px 0' }}>
+            <Link className="btn primary" href={`/hunts?zone=${encodeURIComponent(zoneSel)}&species=ELK`}>Elk Hunts Here</Link>
+            <Link className="btn" href={`/migration?zone=${encodeURIComponent(zoneSel)}`}>Migrations</Link>
+          </div>
+          <p className="small" style={{ margin: 0 }}>Units: {(ELK_ZONES[zoneSel] ?? []).map((u, i) => <span key={u}>{i ? ', ' : ''}<Link href={`/units/${encodeURIComponent(u)}`}>{u}</Link></span>)}</p>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>Shading is still by unit. Switch Outline back to Units to tap a unit.</p>
+        </div>
+      )}
       {sel && (
         <div className="card mapinfo">
           <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>

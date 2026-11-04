@@ -89,7 +89,7 @@ export function MigrationKey({ classes }: { classes: MigClass[] }) {
  * map (null until it loads). Studies start off unless `defaultOn`. Studies without route polygons are listed with a
  * link only.
  */
-export function MigrationControls({ map, studies, defaultOn = false, fit = false, before, collapsible = false }: { map: MlMap | null; studies: StudyLite[]; defaultOn?: boolean; fit?: boolean; before?: string; collapsible?: boolean }) {
+export function MigrationControls({ map, studies, defaultOn = false, fit = false, before, collapsible = false, headless = false }: { map: MlMap | null; studies: StudyLite[]; defaultOn?: boolean; fit?: boolean; before?: string; collapsible?: boolean; headless?: boolean }) {
   const [open, setOpen] = useState(!collapsible);
   const drawable = studies.filter((s) => s.routes !== false);
   const [on, setOn] = useState<Record<string, boolean>>(() => Object.fromEntries(drawable.map((s) => [s.slug, defaultOn])));
@@ -110,7 +110,7 @@ export function MigrationControls({ map, studies, defaultOn = false, fit = false
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, on, studies, fit, before]);
-  if (!studies.length) return null;
+  if (!studies.length || headless) return err ? <p className="small" style={{ color: 'var(--warn)', position: 'absolute', left: 10, top: 10, zIndex: 2, margin: 0 }}>{err}</p> : null;
   const groups = Object.keys(SPECIES_NAME).map((sp) => [sp, studies.filter((s) => s.species === sp)] as const).filter(([, g]) => g.length);
   const shown = drawable.filter((s) => on[s.slug]);
   return (

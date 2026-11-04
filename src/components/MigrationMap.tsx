@@ -6,7 +6,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle } from '@/lib/basemap';
 import { IDAHO_BOUNDS } from '@/lib/mapMetrics';
 import { loadUnits } from '@/lib/unitData';
-import { MigrationControls, type StudyLite } from './MigrationLayers';
+import { MigrationControls, MigrationKey, type StudyLite } from './MigrationLayers';
+import { STANDARD_CLASSES, keyNote } from '@/lib/migrationShared';
 import { LandToggles } from './LandLayers';
 
 /** Every migration study on one map, on by default and framed to the routes; unit outlines for reference. */
@@ -41,10 +42,16 @@ export function MigrationMap({ studies, height = '560px' }: { studies: StudyLite
     };
   }, []);
   return (
+    <>
     <div style={{ position: 'relative', height }} className="card" >
       <div ref={el} style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', overflow: 'hidden' }} />
-      <MigrationControls map={map} studies={studies} defaultOn fit before="units-label" />
+      <MigrationControls map={map} studies={studies} defaultOn fit before="units-label" headless />
       <div className="card land-float"><LandToggles map={map} before="units-line" /></div>
     </div>
+    <div className="mig-legend">
+      <MigrationKey classes={STANDARD_CLASSES.filter((c) => studies.some((s) => s.classes.some((k) => k.key === c.key && !k.notMapped)))} />
+      <p className="small muted">{keyNote(studies.map((s) => s.species))}</p>
+    </div>
+    </>
   );
 }
