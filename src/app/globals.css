@@ -665,3 +665,7 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
   .co-bar { min-width: 0; } .co-bar i { display: none; }
   .co-ladder th, .co-ladder td { padding: 5px 6px; }
 }
+.co-facts { display: grid; gap: 8px; }
+.co-facts > div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.co-facts .k { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+@media (max-width: 600px) { .co-facts > div { grid-template-columns: 1fr; gap: 2px; } }

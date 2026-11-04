@@ -17,7 +17,7 @@ export class FetchError extends Error {
   }
 }
 
-export async function get(url: string, opts: { retries?: number; accept?: string } = {}): Promise<string> {
+export async function get(url: string, opts: { retries?: number; accept?: string; headers?: Record<string, string> } = {}): Promise<string> {
   const retries = opts.retries ?? 3;
   for (let attempt = 0; ; attempt++) {
     const wait = last + DELAY - Date.now();
@@ -25,7 +25,7 @@ export async function get(url: string, opts: { retries?: number; accept?: string
     last = Date.now();
     try {
       const res = await fetch(url, {
-        headers: { 'User-Agent': UA, Accept: opts.accept ?? 'text/html,application/json;q=0.9,*/*;q=0.8' },
+        headers: { 'User-Agent': UA, Accept: opts.accept ?? 'text/html,application/json;q=0.9,*/*;q=0.8', ...(opts.headers ?? {}) },
         signal: AbortSignal.timeout(60_000),
       });
       if (res.ok) return await res.text();

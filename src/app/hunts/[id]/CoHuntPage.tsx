@@ -6,7 +6,7 @@ import { getPoints } from '@/lib/points';
 import { Star } from '@/components/Star';
 import { int } from '@/lib/format';
 import { unitKey } from '@/lib/states';
-import { decodeCode, myOdds, poolFor, POOL_LABEL, CO_POOLS, type CoPool, type PointOdds, type PoolOdds } from '@/lib/coHunt';
+import { decodeCode, myOdds, poolFor, POOL_LABEL, CO_POOLS, type CoPool, type PointOdds, type PoolOdds, type HarvestYear } from '@/lib/coHunt';
 import { CHANCE_LABEL, drawsToDraw, cutFromEff, RULE_CHANGE_YEAR } from '@/lib/coOdds';
 import { fmtNeed, fmtCreep } from '../CoFinder';
 
@@ -77,6 +77,17 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         </div>
       </div>
 
+      <h2>Season And Units</h2>
+      <div className="co-facts">
+        <div><span className="k">Dates{po.dates ? ` (${po.dates.year})` : ''}</span>{po.dates ? fmtDates(po.dates.start, po.dates.end) : 'See the CPW brochure'}{po.dates && po.dates.year !== po.projYear ? <span className="small muted"> · {po.projYear} dates aren&apos;t in the regulations yet</span> : null}</div>
+        <div><span className="k">Units</span>{(po.regs?.units ?? [d.unit]).map((u, i) => <span key={u}>{i ? ', ' : ''}<Link href={`/units/${encodeURIComponent(unitKey('CO', u))}`}>{u}</Link></span>)}{po.regs?.guessed ? <span className="small muted"> (from the hunt code; not found in the regulations)</span> : null}</div>
+        {po.regs?.partial && <div><span className="k">Where exactly</span>{po.regs.unitText}</div>}
+        {s.privateOnly && <div><span className="k">Access</span>Private land only: you need permission from a landowner in the unit before you hunt.</div>}
+      </div>
+
+      <h2>Hunter Success</h2>
+      {po.harvest?.length ? <Harvest rows={po.harvest} /> : <p className="muted">No harvest estimates for this hunt code yet.</p>}
+
       <h2>Point Creep</h2>
       <CreepChart po={po} />
 
@@ -111,7 +122,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           : `What happened in the ${po.year} primary draw: first-choice applicants and how many drew, by preference points. A few applicants above the cutoff sometimes don't draw; CPW doesn't say why.`}
         {P?.hybrid ? ` Hybrid draw: ${pct(P.hybrid)} of 5+ point applicants below the cutoff drew at random.` : ''}
       </p>
-      <p className="small muted">Source: Colorado Parks and Wildlife Draw Recap reports. Not affiliated with CPW; confirm hunt codes, dates and rules in the current big game brochure.</p>
+      <p className="small muted">Sources: Colorado Parks and Wildlife Draw Recap reports, harvest estimates and Chapter W-2 big game regulations. Not affiliated with CPW; confirm hunt codes, dates and rules in the current big game brochure.</p>
     </main>
   );
 }
@@ -124,6 +135,38 @@ function cutRange(qs: number[]): string {
   const lo = at(qs[0]), hi = at(qs[n - 1]);
   const m = mid[0] === mid[1] ? `${mid[0]} point${mid[0] === 1 ? '' : 's'}` : `${mid[0]}–${mid[1]} points`;
   return `most likely ${m}${lo < mid[0] || hi > mid[1] ? ` (1 in 10 chance it's ${lo} or fewer, 1 in 10 it's ${hi} or more)` : ''}`;
+}
+
+function fmtDates(a: string, b: string): string {
+  const f = (iso: string, y = false) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(y ? { year: 'numeric' } : {}), timeZone: 'UTC' });
+  return `${f(a)} – ${f(b, true)}`;
+}
+
+function Harvest({ rows }: { rows: HarvestYear[] }) {
+  const last5 = rows.slice(-5);
+  const h = last5.reduce((a, r) => a + r.harvest, 0), n = last5.reduce((a, r) => a + r.hunters, 0);
+  const basis = (b: HarvestYear['basis']) => (b === 'code' ? 'This hunt code' : b === 'units' ? 'Its units, this season (limited licenses)' : 'Its units, every license this season');
+  return (
+    <>
+      <p style={{ marginTop: 0 }}><b>{n ? `${Math.round((h / n) * 100)}%` : '–'}</b> over the last {last5.length} season{last5.length === 1 ? '' : 's'} ({h.toLocaleString('en-US')} deer taken by {n.toLocaleString('en-US')} hunters).</p>
+      <div className="htable-wrap">
+        <table>
+          <thead><tr><th>Season</th><th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th><th className="num">Days / animal</th><th>Counted from</th></tr></thead>
+          <tbody>
+            {rows.slice().reverse().map((r) => (
+              <tr key={r.year}>
+                <td>{r.year}</td><td className="num">{r.hunters.toLocaleString('en-US')}</td><td className="num">{r.harvest.toLocaleString('en-US')}</td>
+                <td className="num">{r.hunters ? `${Math.round((r.harvest / r.hunters) * 100)}%` : '–'}{r.few ? '*' : ''}</td>
+                <td className="num">{r.days && r.harvest ? (r.days / r.harvest).toFixed(1) : '–'}</td>
+                <td className="small muted">{basis(r.basis)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="small muted">CPW harvest survey estimates. Before 2025 CPW reported by unit and season, not hunt code, so earlier seasons add up the code&apos;s units{rows.some((r) => r.few) ? '; * few hunters responded' : ''}.</p>
+    </>
+  );
 }
 
 function effText(eff: number, text: string | null): string {

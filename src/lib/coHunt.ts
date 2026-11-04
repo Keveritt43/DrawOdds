@@ -19,6 +19,11 @@ export interface PoolOdds {
   /** Every draw on file: effective points and CPW's "drawn out at" words. */
   history: { year: number; eff: number | null; text: string | null }[];
 }
+/** One season of harvest: from the by-hunt-code report ('code'), or summed over the code's units from the season table
+ *  ('units': antlered / antlerless limited licenses; 'units-all': every license of that season and weapon there). */
+export interface HarvestYear { year: number; hunters: number; harvest: number; days: number | null; basis: 'code' | 'units' | 'units-all'; few?: boolean }
+export interface RegsInfo { year: number | null; units: string[]; partial: boolean; unitText: string; licenses: number | null; guessed: boolean }
+
 export interface PointOdds {
   year: number;
   projYear: number;
@@ -29,6 +34,10 @@ export interface PointOdds {
   hybridCap: number | null;
   list: string | null;
   apps: number[];
+  /** From the W-2 regulations: the units the code covers, and its dates for the projected year (or the latest known). */
+  regs?: RegsInfo | null;
+  dates?: { start: string; end: string; year: number } | null;
+  harvest?: HarvestYear[];
 }
 
 const ORD = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];

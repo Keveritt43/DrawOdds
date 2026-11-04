@@ -60,6 +60,12 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
           <MaxSlider value={get('maxPts') === '' ? null : Number(get('maxPts'))} max={25} onCommit={(v) => push({ maxPts: v === null ? null : String(v) })} />
           <p className="small muted" style={{ margin: '6px 0 0' }}>The level the licenses ran out at in the last draw. 0 = every first choice drew.</p>
         </Section>
+        <Section title="Hunter Success" value={get('minSucc') ? `${get('minSucc')}%+` : 'Any'} set={!!get('minSucc')}>
+          <div className="checks2">
+            {['', '30', '50', '70'].map((v) => <label key={v || 'any'}><input type="radio" name="co-succ" checked={get('minSucc') === v} onChange={() => push({ minSucc: v || null })} /> {v ? `${v}%+` : 'Any'}</label>)}
+          </div>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>Up to 5 seasons of CPW harvest estimates for the hunt code (or its units and season before 2025).</p>
+        </Section>
         <Section title="Choice & Draw" value={[get('second') && '2nd choice', get('hybrid') && 'Hybrid', get('priv') && 'Private land shown'].filter(Boolean).join(', ') || 'Any'} set={!!(get('second') || get('hybrid') || get('priv'))}>
           <div className="checks2">
             {flag('second', 'Drew as a 2nd choice (keeps your points)')}

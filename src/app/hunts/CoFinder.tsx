@@ -30,7 +30,8 @@ export async function CoFinder({ sp }: { sp: SP }) {
   const chances = many(sp.chance) as Chance[];
   const maxPts = one(sp.maxPts) === '' ? null : Number(one(sp.maxPts));
   const unit = one(sp.unit).replace(/\D/g, '');
-  const sort = ['pts', 'tags', 'unit', 'creep'].includes(one(sp.sort)) ? one(sp.sort) : 'odds';
+  const sort = ['pts', 'tags', 'unit', 'creep', 'success'].includes(one(sp.sort)) ? one(sp.sort) : 'odds';
+  const minSucc = Number(one(sp.minSucc)) || 0;
   const page = Math.max(1, Number(one(sp.page)) || 1);
 
   const ptsField = nr ? 'ptsNr' : 'ptsRes';
@@ -41,12 +42,14 @@ export async function CoFinder({ sp }: { sp: SP }) {
     ...(one(sp.hybrid) === '1' ? { hybrid: true } : {}),
     ...(unit ? { units: { has: unit } } : {}),
     ...(maxPts !== null && Number.isFinite(maxPts) ? { [ptsField]: { lte: maxPts } } : {}),
+    ...(minSucc ? { success5: { gte: minSucc / 100 } } : {}),
   };
   const [rows, fav] = await Promise.all([
     db.huntSummary.findMany({
       where,
       select: { id: true, slug: true, huntId: true, name: true, tagCode: true, unit: true, units: true, tags: true, permitsPrev: true, oddsLastYear: true,
-        ptsRes: true, ptsNr: true, ptsResPct: true, ptsNrPct: true, creepRes: true, creepNr: true, secondChoice: true, hybrid: true, privateOnly: true, oddsByPts: true },
+        ptsRes: true, ptsNr: true, ptsResPct: true, ptsNrPct: true, creepRes: true, creepNr: true, secondChoice: true, hybrid: true, privateOnly: true, oddsByPts: true,
+        openDate: true, closeDate: true, success5: true, successLast: true, hunters5: true, harvestLastYear: true, harvestYears: true, smallSample: true },
     }),
     getFavorites(),
   ]);
@@ -69,6 +72,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     : sort === 'tags' ? (b.r.tags ?? 0) - (a.r.tags ?? 0)
     : sort === 'unit' ? Number(a.d!.unit) - Number(b.d!.unit) || (a.r.tagCode ?? '').localeCompare(b.r.tagCode ?? '')
     : sort === 'creep' ? creep(a.r) - creep(b.r)
+    : sort === 'success' ? (b.r.success5 ?? -1) - (a.r.success5 ?? -1)
     : (b.odds ?? -1) - (a.odds ?? -1) || need(a.r) - need(b.r) || (b.r.tags ?? 0) - (a.r.tags ?? 0));
   const shown = decorated.slice(0, PER_PAGE * page);
   const matched = [...new Set(decorated.flatMap((x) => x.r.units))];
@@ -83,6 +87,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     ...(maxPts !== null ? [{ label: `≤ ${maxPts} pts needed`, href: q({ maxPts: null, page: null }) }] : []),
     ...(unit ? [{ label: `Unit ${unit}`, href: q({ unit: null, page: null }) }] : []),
     ...(one(sp.second) === '1' ? [{ label: '2nd choice', href: q({ second: null, page: null }) }] : []),
+    ...(minSucc ? [{ label: `Success ${minSucc}%+`, href: q({ minSucc: null, page: null }) }] : []),
   ];
   const projYear = (year ?? 0) + 1;
   const spLabel = species === 'DEER' ? 'deer' : 'elk';
@@ -98,7 +103,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
           <div className="f-sub">
             <span><b>{decorated.length}</b> limited {spLabel} licenses · sort by</span>
             <span className="seg light" role="group" aria-label="Sort">
-              {([['odds', 'My odds'], ['pts', 'Points needed'], ['tags', 'Licenses'], ['creep', 'Point creep'], ['unit', 'Unit']] as const).map(([k, l]) => (
+              {([['odds', 'My odds'], ['success', 'Success'], ['pts', 'Points needed'], ['tags', 'Licenses'], ['creep', 'Point creep'], ['unit', 'Unit']] as const).map(([k, l]) => (
                 <Link key={k} className="seg-link" href={q({ sort: k === 'odds' ? null : k, page: null })} aria-pressed={sort === k} scroll={false}>{l}</Link>
               ))}
             </span>
@@ -130,10 +135,11 @@ export async function CoFinder({ sp }: { sp: SP }) {
               </span>
               <span className="small muted tags">{r.tags !== null ? `${int(r.tags)} licenses` : ''}{r.permitsPrev !== null && r.tags !== null && r.permitsPrev !== r.tags ? ` (${r.tags > r.permitsPrev ? '+' : ''}${r.tags - r.permitsPrev})` : ''}</span>
             </div>
-            <div className="dates">{r.tagCode}{r.privateOnly ? ' · Private land only' : ''}{d!.type === 'K' ? ' · Youth only' : ''}</div>
+            <div className="dates">{[r.tagCode, r.units.length > 1 ? `Units ${r.units.join(', ')}` : '', dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land only' : '', d!.type === 'K' ? 'Youth only' : ''].filter(Boolean).join(' · ')}</div>
             <div className="co-stats">
               <span className="co-my"><span className="k">My odds at {myPts}</span><b>{pct(odds)}</b></span>
               <span><span className="k">Points needed ({year})</span><span className="res">Res {fmtNeed(r.ptsRes, r.ptsResPct)}</span> · <span className="nr">Nonres {fmtNeed(r.ptsNr, r.ptsNrPct)}</span></span>
+              <span><span className="k">Success{r.harvestYears > 1 ? ` (${Math.min(5, r.harvestYears)}-yr)` : ''}</span>{r.success5 === null ? '–' : `${Math.round(r.success5 * 100)}%`}{r.successLast !== null && r.harvestLastYear ? <span className="small muted"> · {r.harvestLastYear}: {Math.round(r.successLast * 100)}%</span> : null}{r.smallSample ? <span className="small muted"> · few hunters</span> : null}</span>
               <span><span className="k">Creep</span>{fmtCreep(nr ? r.creepNr : r.creepRes)}</span>
               {r.secondChoice && <span className="pill">Drew as 2nd choice</span>}
               {r.hybrid && <span className="pill">Hybrid draw</span>}
@@ -143,11 +149,18 @@ export async function CoFinder({ sp }: { sp: SP }) {
         {shown.length < decorated.length && (
           <p style={{ textAlign: 'center' }}><Link className="btn" href={q({ page: String(page + 1) })} scroll={false}>Show more ({decorated.length - shown.length} left)</Link></p>
         )}
-        <p className="small muted">Source: Colorado Parks and Wildlife Draw Recap reports, {year ? `2021–${year}` : ''}. First-choice adult applicants unless you set youth. Not affiliated with CPW; confirm hunt codes and dates in the current big game brochure.</p>
+        <p className="small muted">Source: Colorado Parks and Wildlife Draw Recap reports{year ? ` 2021–${year}` : ''}, harvest estimates and Chapter W-2 regulations (units and dates). First-choice adult applicants unless you set youth. Not affiliated with CPW; confirm hunt codes and dates in the current big game brochure.</p>
       </section>
       <CoFilters nr={nr} points={myPts} speciesLabel={spLabel} />
     </main>
   );
+}
+
+/** "Nov 6 – Nov 14, 2027" */
+export function dateRange(a: Date | null, b: Date | null): string {
+  if (!a || !b) return '';
+  const f = (d: Date, y = false) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(y ? { year: 'numeric' } : {}), timeZone: 'UTC' });
+  return `${f(a)} – ${f(b, true)}`;
 }
 
 /** "6 (60%)": the level licenses ran out at and the share drawn there. */

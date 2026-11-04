@@ -537,3 +537,18 @@ model DrawRecap {
   @@index([state, species, code])
   @@index([state, species, year])
 }
+
+/// A parsed agency report kept whole (Colorado harvest estimates, W-2 regulations), one row per report and year.
+/// Small enough as JSON; the summary step reads it per hunt code.
+model StateReport {
+  id        String   @id // "CO|harvest|DEER|2025" / "CO|regs|2026"
+  state     String
+  kind      String // harvest-code | harvest-unit | regs
+  species   Species?
+  year      Int
+  source    String // the report link
+  data      Json
+  updatedAt DateTime @updatedAt
+
+  @@index([state, kind])
+}

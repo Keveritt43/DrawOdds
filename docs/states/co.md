@@ -9,8 +9,11 @@ Status: deer loaded and live behind a link (`/api/state?code=co&next=/hunts`); n
 |---|---|---|---|
 | CPW Draw Recap (primary), deer | 2021-2026 | `co-draw` -> `DrawRecap` | 5,832 hunt-years; every one passes the row-total check. Links in `src/sync/co/manifest.ts` (new link each May). |
 | CPW GMU boundaries | current | `co-gmu` -> `Unit` (state CO) | 186 units, with deer/elk herd (DAU) per unit. |
+| CPW harvest estimates, deer | 2019-2025 | `co-reports` -> `StateReport` | 2025 is by hunt code; 2019-2024 by unit and season, summed over a code's units (antlered/antlerless split tables where CPW has them). 2024-2025 live on cpw.widencollective.com: `resolvePdf` makes the viewer's anonymous API call to find the PDF. |
+| CPW Chapter W-2 regulations | 2026 | `co-reports` -> `StateReport` | Units per hunt code (incl. "portion of" descriptions), licenses, season dates: rifle 1-4 and muzzleloader by year through 2029, archery annual, others the row's own (2026) dates. |
+| Hunt boundaries | | none needed | CPW publishes no hunt-code boundary layer (checked the Colorado Geospatial Portal and CPWAdminData: GMUs, DAUs, RFW, walk-in, managed properties). A code is its W-2 unit list; partial-unit codes carry the text. |
 | Draw Recap, elk | 2021-2026 | not yet | Same parser; hybrid draw common (38 elk codes in 2026). |
-| Harvest, population, secondary draw, brochure dates, hunt-code -> GMU lists | | not yet | Hunts are named for their code's unit only; some codes cover neighbors. No season dates yet. |
+| Population, secondary draw, land ownership (public %) | | not yet | |
 
 Parser: `src/sync/co/recap.ts` reads text positions (cells wrap, tables continue on the next page; a hunt ends at
 its Grand Total row). The point-only code `DP99999P` is parsed but not shown.

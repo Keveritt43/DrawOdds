@@ -21,5 +21,34 @@ export function originalPdfUrl(sharePageHtml: string): string | null {
   return m ? `https://cpw.widen.net/${m[0].replace(/&amp;/g, '&')}` : null;
 }
 
+/** Harvest estimates (2025 on by hunt code; earlier by unit and season). From the deer statistics page. */
+export const HARVEST: ReportLink[] = [
+  { species: 'DEER', year: 2025, url: 'https://cpw.widencollective.com/assets/share/asset/wp8zjwayji' },
+  { species: 'DEER', year: 2024, url: 'https://cpw.widencollective.com/assets/share/asset/pdnoekykc6' },
+  { species: 'DEER', year: 2023, url: 'https://cpw.widen.net/s/vczl7tkhxr/2023statewidedeerhuntingharvestestimates' },
+  { species: 'DEER', year: 2022, url: 'https://cpw.widen.net/s/lkpnmjwk9m/2022statewidedeerharvest' },
+  { species: 'DEER', year: 2021, url: 'https://cpw.widen.net/s/zskvhjdmq5/2021statewidedeerharvest' },
+  { species: 'DEER', year: 2020, url: 'https://cpw.widen.net/s/8hx8lnprk6/2020statewidedeerharvest' },
+  { species: 'DEER', year: 2019, url: 'https://cpw.widen.net/s/r2ns9grsqh/2019statewidedeerharvest' },
+];
+
+/** Chapter W-2, big game regulations (units per hunt code, licenses, season dates). Newest first. */
+export const REGS = [{ year: 2026, url: 'https://cpw.widen.net/s/s97gq9wqrf/chapter-w-2---big-game-regulations' }];
+
+/**
+ * Where a report link's PDF actually is. cpw.widen.net share pages link to the original; the newer
+ * cpw.widencollective.com pages load it through Widen's viewer API (the same anonymous calls the page makes).
+ */
+export async function resolvePdf(url: string, getText: (u: string, headers?: Record<string, string>) => Promise<string>): Promise<string | null> {
+  const wc = /widencollective\.com\/assets\/share\/asset\/([a-z0-9]+)/i.exec(url);
+  if (wc) {
+    const j = JSON.parse(await getText(`https://cpw.widencollective.com/albert/viewer/anonymous/asset/widen:assets:asset:CPWZZ:${wc[1]}`, {
+      accept: 'application/json', 'x-widen-albert-client': 'einstein', 'x-widen-context-actor': 'widen:users:visitor:CPWZZ:anonymous', 'x-widen-context-tracking': 'doNotTrack=false; anonymous=true',
+    })) as { document_previews?: { uri?: string }; download_source?: string };
+    return j.document_previews?.uri ?? j.download_source ?? null;
+  }
+  return originalPdfUrl(await getText(url));
+}
+
 /** CPW big game GMU boundaries (Colorado's game management units, with each unit's herd per species). */
 export const CO_GMU_LAYER = 'https://services5.arcgis.com/ttNGmDvKQA7oeDQ3/ArcGIS/rest/services/CPWAdminData/FeatureServer/6/query';
