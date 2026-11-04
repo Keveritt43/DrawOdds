@@ -41,6 +41,8 @@ const RANGE = /(\d{2})\/(\d{2})(?:\/\s*(\d{4}))?\s*[-–]\s*(\d{2})\/(\d{2})(?:\
 /** GMU numbers in a unit cell: "4, 14, 214, 441" -> [4, 14, 214, 441]; skips dates, elevations ("10,000 feet") and years. */
 export function unitsIn(text: string): string[] {
   const t = text
+    // road numbers in boundary descriptions ("bounded by Colo 291 and US 50")
+    .replace(/\b(Colo\.?|Colorado|US|U\.S\.|Hwy\.?|Highway|CR|County Road|Road|Rd\.?|I|Interstate|SH|FR|FS Road|Forest Road|Trail)\s*[-#]?\s*\d+[A-Z]?\b/gi, ' ')
     .replace(/\d{1,2}\/\d{1,2}(\/\s*\d{2,4})?/g, ' ')
     .replace(/\d{1,3},\d{3}/g, ' ')
     .replace(/\b\d+\s*(feet|ft)\b/gi, ' ')

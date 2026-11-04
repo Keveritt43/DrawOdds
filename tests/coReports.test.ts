@@ -1,0 +1,29 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { unitsIn, datesFor } from '../src/sync/co/regs';
+import { tableKind, kindForCode, codeFromUnits, type UnitTables } from '../src/sync/co/harvest';
+
+test('unit lists from W-2 cells skip elevations, dates and road numbers', () => {
+  assert.deepEqual(unitsIn('3, 4, 5, 14, 214, 301, 441'), ['3', '4', '5', '14', '214', '301', '441']);
+  assert.deepEqual(unitsIn('That portion of GMU 6 above 10,000 feet elevation and GMU 7 within the Rawah'), ['6', '7']);
+  assert.deepEqual(unitsIn('56, 57 - Those portions of 56 and 57 bounded on the N and E by Colo 291; on the S by US 50'), ['56', '57']);
+  assert.deepEqual(unitsIn('3, 301 11/18/2026 - 11/22/2026'), ['3', '301']);
+});
+
+test('season dates: the projected year from the section table, a row\'s own year otherwise', () => {
+  const rifle3 = { row: null, table: { byYear: { 2027: { start: '2027-11-06', end: '2027-11-14' } } } };
+  assert.deepEqual(datesFor({ dates: rifle3 }, 2027), { start: '2027-11-06', end: '2027-11-14', year: 2027 });
+  const late = { row: { start: '2026-12-01', end: '2027-01-31', annual: false }, table: null };
+  assert.equal(datesFor({ dates: late }, 2027)?.year, 2026); // the 2026 season, even though it ends in 2027
+  const annual = { row: { start: '09-01', end: '11-30', annual: true }, table: null };
+  assert.deepEqual(datesFor({ dates: annual }, 2027), { start: '2027-09-01', end: '2027-11-30', year: 2027 });
+});
+
+test('harvest tables: which season, and a code from its units', () => {
+  assert.deepEqual(tableKind('2023 Deer Harvest, Hunters and Percent Success for 3rd Rifle Seasons'), { kind: 'rifle3', split: true });
+  assert.equal(tableKind('2023 Deer Harvest, Hunters and Recreation Days for All Whitetail Only Rifle Seasons'), null);
+  assert.equal(kindForCode('DM070O3R'), 'rifle3');
+  assert.equal(kindForCode('DE003P2R'), null);
+  const t: UnitTables = { totals: {}, split: { rifle3: [{ unit: '69', mHarvest: 100, mHunters: 200, fHarvest: 1, fHunters: 2 }, { unit: '84', mHarvest: 20, mHunters: 30 }] } };
+  assert.deepEqual(codeFromUnits('DM069O3R', ['69', '84'], t), { harvest: 120, hunters: 230, days: null, basis: 'split' });
+});

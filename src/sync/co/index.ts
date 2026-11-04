@@ -202,6 +202,8 @@ export async function buildCoSummaries(): Promise<StepResult> {
   const reports = await db.stateReport.findMany({ where: { state: STATE } });
   const regsRow = reports.filter((r) => r.kind === 'regs').sort((a, b) => b.year - a.year)[0];
   const regs = (regsRow?.data ?? null) as unknown as { codes: Record<string, RegCode>; year: number | null } | null;
+  // unit lists keep real GMUs only (a boundary description can still slip a stray number through)
+  const gmus = new Set((await db.unit.findMany({ where: { state: STATE }, select: { name: true } })).map((u) => u.name));
   if (!regs) details.push('No W-2 regulations loaded: units and dates fall back to the hunt code (run co-reports)');
 
   for (const species of ['DEER', 'ELK'] as const) {
@@ -252,7 +254,8 @@ export async function buildCoSummaries(): Promise<StepResult> {
       const creep = (p?: PoolOdds) => trendNext((p?.history ?? []).filter((h) => h.eff !== null) as { year: number; eff: number }[])?.slope ?? null;
       const cuts = [res?.cut, nr?.cut].filter(Boolean) as { text: string }[];
       const reg = regs?.codes[code];
-      const units = reg?.units?.length ? reg.units : [d.unit];
+      const known = (reg?.units ?? []).filter((u) => !gmus.size || gmus.has(u));
+      const units = known.length ? known : [d.unit];
       const when = reg ? datesFor(reg, latest + 1) : null;
       const harvest = harvestHistory(code, units, hCode, hUnit);
       const h5 = harvest.slice(-5);

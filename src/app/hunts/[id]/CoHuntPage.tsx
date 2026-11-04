@@ -134,7 +134,8 @@ function cutRange(qs: number[]): string {
   const mid = [at(qs[Math.floor(n * 0.3)]), at(qs[Math.ceil(n * 0.7) - 1])];
   const lo = at(qs[0]), hi = at(qs[n - 1]);
   const m = mid[0] === mid[1] ? `${mid[0]} point${mid[0] === 1 ? '' : 's'}` : `${mid[0]}–${mid[1]} points`;
-  return `most likely ${m}${lo < mid[0] || hi > mid[1] ? ` (1 in 10 chance it's ${lo} or fewer, 1 in 10 it's ${hi} or more)` : ''}`;
+  const tails = [lo < mid[0] ? `1 in 10 chance it's ${lo === 0 ? '0 (every 1st choice draws)' : `${lo} or fewer`}` : '', hi > mid[1] ? `1 in 10 it's ${hi} or more` : ''].filter(Boolean);
+  return `most likely ${m}${tails.length ? ` (${tails.join(', ')})` : ''}`;
 }
 
 function fmtDates(a: string, b: string): string {

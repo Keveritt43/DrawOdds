@@ -65,6 +65,8 @@ export async function CoFinder({ sp }: { sp: SP }) {
     .filter(({ d }) => !!d && (!methods.length || methods.includes(d.method)) && (!sexes.length || sexes.includes(d.sex)))
     .filter(({ d }) => !seasons.length || seasons.some((s) => (/^\d$/.test(s) ? d!.type === 'O' && d!.method === 'R' && String(d!.no) === s : d!.type === s)))
     .filter(({ ch }) => !chances.length || chances.includes(ch));
+  // a 100% from 3 hunters shouldn't top the list: pull small samples toward the middle (30 hunters' worth at 50%)
+  const succKey = (r: (typeof rows)[number]) => (r.success5 === null ? -1 : (r.success5 * (r.hunters5 ?? 0) + 15) / ((r.hunters5 ?? 0) + 30));
   const need = (r: (typeof rows)[number]) => (nr ? r.ptsNr : r.ptsRes) ?? 99;
   const creep = (r: (typeof rows)[number]) => (nr ? r.creepNr : r.creepRes) ?? 0;
   decorated.sort((a, b) =>
@@ -72,7 +74,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     : sort === 'tags' ? (b.r.tags ?? 0) - (a.r.tags ?? 0)
     : sort === 'unit' ? Number(a.d!.unit) - Number(b.d!.unit) || (a.r.tagCode ?? '').localeCompare(b.r.tagCode ?? '')
     : sort === 'creep' ? creep(a.r) - creep(b.r)
-    : sort === 'success' ? (b.r.success5 ?? -1) - (a.r.success5 ?? -1)
+    : sort === 'success' ? succKey(b.r) - succKey(a.r)
     : (b.odds ?? -1) - (a.odds ?? -1) || need(a.r) - need(b.r) || (b.r.tags ?? 0) - (a.r.tags ?? 0));
   const shown = decorated.slice(0, PER_PAGE * page);
   const matched = [...new Set(decorated.flatMap((x) => x.r.units))];
@@ -131,7 +133,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
               <span className="star-head">
                 <Star kind="hunt" id={r.huntId} saved={fav.hunts.has(r.huntId)} signedIn={fav.signedIn} />
                 <Link href={`/hunts/${r.slug}`}>{r.name}</Link>
-                <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span>
+                {odds === null ? <span className="pill">No {nr ? 'nonresident' : 'resident'} draw data</span> : <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span>}
               </span>
               <span className="small muted tags">{r.tags !== null ? `${int(r.tags)} licenses` : ''}{r.permitsPrev !== null && r.tags !== null && r.permitsPrev !== r.tags ? ` (${r.tags > r.permitsPrev ? '+' : ''}${r.tags - r.permitsPrev})` : ''}</span>
             </div>
