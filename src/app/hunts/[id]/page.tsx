@@ -41,6 +41,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const key = decodeURIComponent((await params).id);
   const s = (await db.huntSummary.findFirst({ where: { slug: key }, include: { hunt: true } })) ?? (await db.huntSummary.findUnique({ where: { id: key }, include: { hunt: true } }));
   if (!s) notFound();
+  if (s.state !== 'ID') notFound(); // Colorado hunt pages: CoHuntPage (coming with the point tracker)
   if (s.slug && key !== s.slug) permanentRedirect(`/hunts/${encodeURIComponent(s.slug)}`);
   const { residency } = await getResidency((await searchParams).as);
   const session = await auth();

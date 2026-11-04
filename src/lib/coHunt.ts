@@ -1,0 +1,108 @@
+/**
+ * Colorado hunt codes and the per-hunt draw data stored on HuntSummary.pointOdds. Client-safe.
+ * Hunt code: D M 070 O3 R = species, sex, unit, season (type letter + number), method of take.
+ */
+import { effective, exactAt, projectedOdds, oddsAt, chanceOf, type PoolYear, type Projection, type Chance } from './coOdds';
+
+export const CO_POOLS = ['res', 'nr', 'yres', 'ynr'] as const;
+export type CoPool = (typeof CO_POOLS)[number];
+export const POOL_LABEL: Record<CoPool, string> = { res: 'Resident', nr: 'Nonresident', yres: 'Youth resident', ynr: 'Youth nonresident' };
+
+/** What HuntSummary.pointOdds holds for one pool. */
+export interface PoolOdds {
+  /** Last draw, first choice: [points, applicants, drawn]. */
+  levels: [number, number, number][];
+  cut: { text: string; points: number | null; pct: number | null } | null;
+  eff: number | null;
+  proj: Projection | null;
+  hybrid: number;
+  /** Every draw on file: effective points and CPW's "drawn out at" words. */
+  history: { year: number; eff: number | null; text: string | null }[];
+}
+export interface PointOdds {
+  year: number;
+  projYear: number;
+  pools: Partial<Record<CoPool, PoolOdds>>;
+  history: { year: number; quota: number | null; nrCapPct: number | null; hybridCap: number | null; apps1: number | null }[];
+  nrCapPct: number | null;
+  nrCap: number | null;
+  hybridCap: number | null;
+  list: string | null;
+  apps: number[];
+}
+
+const ORD = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];
+const METHOD: Record<string, string> = { R: 'Rifle', A: 'Archery', M: 'Muzzleloader', X: 'Season Choice' };
+
+export function decodeCode(code: string) {
+  const m = /^([DE])([MFEP])(\d{3})([A-Z0-9])(\d)([A-Z])$/.exec(code);
+  if (!m) return null;
+  const [, sp, sex, unit, type, no, method] = m;
+  return { species: sp === 'D' ? 'DEER' : 'ELK', sex, unit: String(Number(unit)), type, no: Number(no), method } as const;
+}
+
+/** "3rd Rifle", "Archery", "Early Rifle", "Private Land Only Rifle". From the hunt code; dates come from the brochure. */
+export function seasonLabel(code: string): string {
+  const d = decodeCode(code);
+  if (!d) return code;
+  const meth = METHOD[d.method] ?? d.method;
+  switch (d.type) {
+    case 'O': return d.method === 'R' ? `${ORD[d.no] ?? d.no} Rifle` : meth;
+    case 'E': return `Early ${meth}`;
+    case 'L': return `Late ${meth}`;
+    case 'K': return `Youth ${meth}`;
+    case 'P': return `Private Land Only ${meth}${d.no > 1 ? ` (${d.no})` : ''}`;
+    case 'W': case 'J': return `Ranching for Wildlife ${meth}`;
+    default: return `${meth} (season ${d.type}${d.no})`;
+  }
+}
+
+export function huntTitle(code: string): string {
+  const d = decodeCode(code);
+  if (!d) return code;
+  const animal = d.species === 'DEER' ? (d.sex === 'M' ? 'Buck Deer' : d.sex === 'F' ? 'Doe Deer' : 'Either-Sex Deer') : d.sex === 'M' ? 'Bull Elk' : d.sex === 'F' ? 'Cow Elk' : 'Either-Sex Elk';
+  return `Unit ${d.unit} · ${seasonLabel(code)} · ${animal}`;
+}
+
+export const isPrivateOnly = (code: string) => ['P', 'W', 'J'].includes(decodeCode(code)?.type ?? '');
+
+/** The pool a hunter is in. */
+export const poolFor = (nr: boolean, youth: boolean): CoPool => (youth ? (nr ? 'ynr' : 'yres') : nr ? 'nr' : 'res');
+
+/** Rebuilds a PoolYear (last draw) from stored levels, for exact odds. */
+export function lastDraw(po: PoolOdds, year: number): PoolYear {
+  const pre: Record<number, number> = {}, post: Record<number, number> = {};
+  for (const [p, a, d] of po.levels) {
+    pre[p] = a;
+    if (d) post[p] = d;
+  }
+  return { year, pre, post, cut: po.cut ? { text: po.cut.text, points: po.cut.points, choice: null, leftover: false, drawnAtLevel: null, appsAtLevel: null } : null };
+}
+
+export interface MyOdds {
+  /** Projected (next draw) or last draw. */
+  odds: number | null;
+  lo: number;
+  hi: number;
+  chance: Chance;
+  /** Last draw at these points: applicants and how many drew (null when nobody had exactly these points). */
+  last: { apps: number; drawn: number } | null;
+}
+
+/** Odds at p points for one pool, next draw (projected) or the last draw (what happened). */
+export function myOdds(po: PoolOdds | undefined, p: number, mode: 'proj' | 'last', year: number): MyOdds | null {
+  if (!po) return null;
+  const ex = exactAt(lastDraw(po, year), p);
+  const last = ex.apps ? { apps: ex.apps, drawn: ex.drawn } : null;
+  if (mode === 'proj') {
+    if (!po.proj) return null;
+    const r = projectedOdds(p, po.proj, po.hybrid);
+    return { odds: r.odds, lo: r.lo, hi: r.hi, chance: r.chance, last };
+  }
+  // last draw: what happened at exactly p points; with nobody there, what the cutoff implies
+  if (po.eff === null) return null;
+  const o = ex.odds ?? oddsAt(p, po.eff, po.hybrid);
+  return { odds: o, lo: o, hi: o, chance: chanceOf(o, o, o), last };
+}
+
+export { effective };

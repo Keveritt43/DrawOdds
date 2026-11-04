@@ -27,3 +27,24 @@ export async function pdfLines(data: Uint8Array): Promise<string[][]> {
   await doc.destroy?.();
   return pages;
 }
+
+/** Every text item with its position, per page; y measured from the top of the page (CPW's table parser). */
+export async function pdfItems(data: Uint8Array): Promise<{ s: string; x: number; y: number }[][]> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pdfjs: any = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  const doc = await pdfjs.getDocument({ data, isEvalSupported: false, disableFontFace: true, useSystemFonts: false, verbosity: 0 }).promise;
+  const pages: { s: string; x: number; y: number }[][] = [];
+  for (let p = 1; p <= doc.numPages; p++) {
+    const page = await doc.getPage(p);
+    const h = page.getViewport({ scale: 1 }).height;
+    const tc = await page.getTextContent();
+    pages.push(
+      (tc.items as { str?: string; transform?: number[] }[])
+        .filter((i) => typeof i.str === 'string' && i.str.trim() && i.transform)
+        .map((i) => ({ s: i.str!, x: i.transform![4], y: h - i.transform![5] })),
+    );
+    page.cleanup?.();
+  }
+  await doc.destroy?.();
+  return pages;
+}

@@ -1,6 +1,6 @@
 /**
  * Nightly IDFG sync.  Usage:  npm run sync [-- <steps...>] [--full]
- *   steps: odds harvest general gis land hunts nrdraw summary migrations   (default: all, in that order)
+ *   steps: odds harvest general gis land hunts nrdraw summary migrations co-gmu co-draw co-summary   (default: all, in that order)
  *   --full  re-pull every year instead of just the last two + missing years
  *
  * Railway: a separate Cron service runs `npm run sync` (e.g. 0 10 * * * = 3am Pacific).
@@ -14,6 +14,7 @@ import { syncHunts } from './steps/hunts';
 import { buildSummaries } from './steps/summary';
 import { syncNrDraw } from './steps/nrdraw';
 import { syncMigrations } from './steps/migrations';
+import { syncCoGmus, syncCoDraw, buildCoSummaries } from './co';
 
 const STEPS: Record<string, (o: StepOptions) => Promise<{ rows: number }>> = {
   odds: syncOdds,
@@ -25,6 +26,10 @@ const STEPS: Record<string, (o: StepOptions) => Promise<{ rows: number }>> = {
   nrdraw: () => syncNrDraw(),
   summary: () => buildSummaries(),
   migrations: () => syncMigrations(),
+  // Colorado (src/sync/co): units, draw reports (skips years already loaded), hunts + point odds
+  'co-gmu': syncCoGmus,
+  'co-draw': syncCoDraw,
+  'co-summary': () => buildCoSummaries(),
 };
 
 async function main() {

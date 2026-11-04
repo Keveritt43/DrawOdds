@@ -143,6 +143,7 @@ model Unit {
   accessYesAcres      Float?
   accessYesCount      Int?
   boundaryChanged2022 Boolean  @default(false)
+  herds               Json? // Colorado: the herd (data analysis unit) per species, { DEER: "D-19", ELK: "E-20" }
   landUpdatedAt       DateTime?
   updatedAt           DateTime @updatedAt
 
@@ -317,6 +318,22 @@ model HuntSummary {
   scoreOppRes  Int?
   scoreOppNr   Int?
   tagSeasons Json? // elk A/B tag seasons: [{ weapon, sex, dates: [{ open, close }], notes }] + { year }
+
+  // Colorado preference-point draw (src/lib/coOdds.ts). "Points" = adult first-choice applicants, latest draw.
+  ptsRes      Int? // points needed: the level the licenses ran out at (0 when every first choice drew)
+  ptsNr       Int?
+  ptsResPct   Float? // share drawn at that level (0..1)
+  ptsNrPct    Float?
+  effRes      Float? // the same as one number: 6 points at 60% = 6.4 (src/lib/coOdds.ts effective())
+  effNr       Float?
+  projRes     Float? // next draw's cutoff, middle of the projection (effective points)
+  projNr      Float?
+  creepRes    Float? // points per year the cutoff has risen (5-year trend)
+  creepNr     Float?
+  secondChoice Boolean @default(false) // licenses reached 2nd+ choices last draw: drawable as a 2nd choice
+  hybrid      Boolean @default(false) // some 5+ point applicants below the cutoff drew (hybrid draw)
+  privateOnly Boolean @default(false) // private-land-only or Ranching for Wildlife license
+  pointOdds   Json? // per pool: last draw's levels, projection quantiles, hybrid rate, history (src/lib/coHunt.ts)
   updatedAt       DateTime @updatedAt
 
   @@index([species, type, weapon, antlerClass])
@@ -345,6 +362,7 @@ model User {
   residency     Residency   @default(RESIDENT)
   createdAt     DateTime    @default(now())
   plan          Json?       // the application planner, synced across devices (newest edit wins)
+  points        Json?       // preference points per state: { CO: { res: "NR", DEER: 3, ELK: 0, youth: false } }
   planUpdatedAt DateTime?
   accounts      Account[]
   sessions      Session[]
@@ -482,4 +500,39 @@ model Application {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, year])
+}
+
+/// One hunt code's line in a Colorado Draw Recap report (primary draw), parsed by src/sync/co/recap.ts.
+/// Pools: res / nr (adult), yres / ynr (youth), lppu / lppr (landowner unrestricted / restricted).
+model DrawRecap {
+  id           String  @id // "CO|DEER|2026|DM070O3R"
+  state        String  @default("CO")
+  species      Species
+  year         Int
+  code         String
+  list         String?
+  quota        Int?
+  generalQuota Int?
+  lppUnres     Int?
+  lppRes       Int?
+  youthPrefPct Float?
+  youthPref    Int?
+  nrCapPct     Float?
+  nrCap        Int?
+  hybridPct    Float?
+  hybridCap    Int?
+  apps         Int[] // general-draw applications, 1st..4th choice
+  lppApps      Int[]
+  drawnTotal   Int?
+  balance      Int?
+  drawn        Json // { res, nr, yres, ynr, lppu, lppr }
+  cutoff       Json // { pool: { text, points, choice, leftover, drawnAtLevel, appsAtLevel } }
+  pre          Json // first-choice applicants: { pool: { points: count } }
+  post         Json // first-choice successful applicants, same shape
+  preTotals    Json // [choice][pool]
+  postTotals   Json
+  updatedAt    DateTime @updatedAt
+
+  @@index([state, species, code])
+  @@index([state, species, year])
 }
