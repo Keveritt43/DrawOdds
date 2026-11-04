@@ -1,6 +1,5 @@
 import { listStudies, md, type MigClass } from '@/lib/migrations';
 import type { SeasonOverlap } from '@/components/StudyCard';
-import { SPECIES_NAME } from '@/lib/migrationShared';
 import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
@@ -122,7 +121,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
               const fall = (st.timing as { fall?: { startAvg: string; endAvg: string } } | null)?.fall;
               return (
                 <li key={st.slug}>
-                  <Link href={`/migration/${st.slug}`}>{st.name.replace(/ Migration$/, '')}</Link> <span className="muted">({SPECIES_NAME[st.species]?.toLowerCase()})</span>
+                  <Link href={`/migration/${st.slug}`}>{st.name.replace(/ Migration$/, '')}</Link>
                   {fall ? ` · fall move averages ${md(fall.startAvg)} – ${md(fall.endAvg)}` : ''}
                   {ov.length > 0 && <> · seasons in that window: {ov.map((o, i) => <span key={o.href}>{i ? ', ' : ''}<Link href={o.href}>{o.label}</Link></span>)}</>}
                 </li>

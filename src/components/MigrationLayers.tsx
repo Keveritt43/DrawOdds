@@ -132,7 +132,7 @@ export function MigrationControls({ map, studies, defaultOn = false, fit = false
       ))}
       {shown.length > 0 && (
         <>
-          <MigrationKey classes={STANDARD_CLASSES} />
+          <MigrationKey classes={STANDARD_CLASSES.filter((c) => shown.some((s) => s.classes.some((k) => k.key === c.key && !k.notMapped)))} />
           <p className="muted" style={{ margin: '4px 0 0' }}>{keyNote(shown.map((s) => s.species))}</p>
         </>
       )}

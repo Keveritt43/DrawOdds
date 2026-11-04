@@ -28,7 +28,7 @@ export default async function StudyPage({ params }: { params: Promise<{ slug: st
       {near.length > 0 && (
         <p className="small">
           <b>Other studies in these units:</b>{' '}
-          {near.map((o, i) => <span key={o.slug}>{i ? ' · ' : ''}<Link href={`/migration/${o.slug}`}>{o.name.replace(/ Migration$/, '')}</Link> <span className="muted">({SPECIES_NAME[o.species]?.toLowerCase()})</span></span>)}
+          {near.map((o, i) => <span key={o.slug}>{i ? ' · ' : ''}<Link href={`/migration/${o.slug}`}>{o.name.replace(/ Migration$/, '')}</Link></span>)}
         </p>
       )}
       {s.units.length > 0 && <MigrationUnits s={s} nr={nr} />}
