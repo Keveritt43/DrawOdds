@@ -678,3 +678,4 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .co-herd-now .up { color: var(--ok); font-weight: 600; } .co-herd-now .down { color: var(--warn); font-weight: 600; }
 .co-herd-table th, .co-herd-table td { padding: 3px 8px; font-size: .88rem; white-space: nowrap; }
 .co-herd-table tbody th { text-align: left; font-family: var(--font-body); font-weight: 600; font-size: .82rem; color: var(--muted); }
+.beta-tag { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 999px; font: 700 .62rem/1.4 var(--font-body); letter-spacing: .08em; text-transform: uppercase; background: var(--blaze); color: #fff; vertical-align: middle; }
