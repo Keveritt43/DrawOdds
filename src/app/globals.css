@@ -582,7 +582,7 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 /* state picker: the state name beside the brand ("IDAHO ▾") */
 .brand-wrap { display: inline-flex; align-items: center; gap: 8px; }
 .state-switch { position: relative; }
-.state-switch summary { list-style: none; cursor: pointer; font: 600 .8rem/1 var(--font-body); color: var(--blaze); letter-spacing: .12em; text-transform: uppercase; padding: 6px 4px; border-radius: 6px; }
+.state-switch summary { white-space: nowrap; list-style: none; cursor: pointer; font: 600 .8rem/1 var(--font-body); color: var(--blaze); letter-spacing: .12em; text-transform: uppercase; padding: 6px 4px; border-radius: 6px; }
 .state-switch summary::-webkit-details-marker { display: none; }
 .state-switch summary:hover, .state-switch[open] summary { background: rgba(255,255,255,.08); }
 .state-switch summary span { font-size: .7rem; letter-spacing: 0; }
