@@ -1,0 +1,84 @@
+{
+ "slug": "pattee-creek-mule-deer",
+ "name": "Pattee Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Pattee Creek mule deer",
+ "source": "Pattee Creek Mule Deer Seasonal Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2012-05-02",
+ "studyEnd": "2018-10-13",
+ "summary": "Pattee Creek mule deer winter in the Lemhi Valley north of Tendoy and Pattee Creek in Idaho. These mule deer generally cross the Beaverhead Mountains near the headwaters of Pattee Creek and migrate north of Horse Prairie to summer in the Pioneer Mountains in Montana. On average, Pattee Creek mule deer travel more than 29 miles to migrate between summer and winter ranges, with more extensive migrations measuring 67 miles. The wintering population of mule deer used for this analysis approximated 1,800 observed individuals in 2016. Managing for quality winter range resilient to invasive plants and noxious weeds is a priority in sustaining healthy mule deer populations in this area",
+ "caveat": null,
+ "methods": "Of 53 individual seasonal migrations, 6 used Brownian bridge movement models with an 8-hour time-lag, 23 used forced motion variance (1400 m) models with a 14-hour time-lag, and 24 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 29.7,
+  "maxMiles": 67.1,
+  "minMiles": 3.4,
+  "migrations": 53,
+  "individuals": 33,
+  "springMigrations": 37,
+  "fallMigrations": 16
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "05-03",
+   "startMin": "03-13",
+   "startMax": "05-20",
+   "endAvg": "05-24",
+   "endMin": "04-20",
+   "endMax": "06-28",
+   "durationAvgDays": 18.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 66.0
+  },
+  "fall": {
+   "startAvg": "10-03",
+   "startMin": "09-10",
+   "startMax": "01-11",
+   "endAvg": "10-09",
+   "endMin": "09-21",
+   "endMax": "01-14",
+   "durationAvgDays": 10.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 66.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 357702
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 163308
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 57871
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 14604
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 19892
+  }
+ ],
+ "unitAcres": {},
+ "units": [],
+ "mapNote": "no route layers provided"
+}

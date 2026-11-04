@@ -1,0 +1,109 @@
+{
+ "slug": "medicine-lodge-elk",
+ "name": "Medicine Lodge Elk Migration",
+ "species": "ELK",
+ "herd": "Medicine Lodge elk",
+ "source": "Medicine Lodge Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2015-03-04",
+ "studyEnd": "2019-06-15",
+ "summary": "Wintering concentrations for the Medicine Lodge elk herd are northwest of Dubois, Idaho. Habitat types are typically comprised of sagebrush and grasslands on southerly slopes, Douglas fir on most northern aspects, and aspen and willow communities in many of the riparian zones. Other mountain shrub species and aspen communities tend to increase towards Pleasant Valley. Elk in the area typically follow the Medicine Lodge Creek valley up to summer ranges in the Tendoy and Beaverhead Mountains, with some individuals spending time in the Red Rock River valley. On average, elk in this population travel 25 miles, with some individuals traveling as far as 62 miles. Elk abundance was low in this area throughout most of the 1900s. Elk immigrated into the Medicine Lodge Creek area from other populations in Idaho and Montana, and the population reached a level in 1988 that IDFG determined was large enough to support antlerless harvest. The Medicine Lodge population has continued to increase gradually, reaching 1,370 elk in 2016. This herd was described by the DOI 2014\u20132024 Elk Plan as being moderately limited by agricultural effects. The most common conflicts are depredation of actively growing alfalfa fields during summer and haystack depredations during winter. In addition, a bison livestock operation built a livestock-proof fence on private lands in GMU 59 and 59A, resulting in a significant barrier to elk movement in core habitat. Loss of habitat because of fire also affected large portions of this population\u2019s winter range and continues to be a concern. Lastly, overall use of this area from multiple user groups, especially with regards to expansion of both legal and illegal recreational motorized vehicle use, presents continuing management challenges related to habitat quality and quantity.",
+ "caveat": "The Medicine Lodge analysis has a limited number of individuals and will be updated as soon as more location data becomes available for analysis.",
+ "methods": "Of 38 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 22 used forced motion variance (1400 m) models with a 14-hour time-lag, and 16 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 25.4,
+  "maxMiles": 62.1,
+  "minMiles": 9.4,
+  "migrations": 38,
+  "individuals": 20,
+  "springMigrations": 28,
+  "fallMigrations": 10
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-03",
+   "startMin": "02-29",
+   "startMax": "05-13",
+   "endAvg": "04-23",
+   "endMin": "03-06",
+   "endMax": "06-15",
+   "durationAvgDays": 21.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 53.0
+  },
+  "fall": {
+   "startAvg": "11-23",
+   "startMin": "10-27",
+   "startMax": "01-28",
+   "endAvg": "12-23",
+   "endMin": "11-24",
+   "endMax": "02-27",
+   "durationAvgDays": 16.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 50.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 502801
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 167695
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 30303
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 34372
+  }
+ ],
+ "unitAcres": {
+  "58": {
+   "ONE": 2942
+  },
+  "59": {
+   "ONE": 39370,
+   "MEDIUM": 60036,
+   "HIGH": 29461,
+   "STOPOVER": 29029
+  },
+  "30A": {
+   "ONE": 18639,
+   "MEDIUM": 166
+  },
+  "59A": {
+   "ONE": 10518,
+   "MEDIUM": 569,
+   "HIGH": 10,
+   "STOPOVER": 726
+  },
+  "63": {
+   "ONE": 3252,
+   "MEDIUM": 571,
+   "STOPOVER": 286
+  }
+ },
+ "units": [
+  "30A",
+  "58",
+  "59",
+  "59A",
+  "63"
+ ],
+ "mapNote": null
+}

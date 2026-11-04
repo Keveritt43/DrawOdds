@@ -1,0 +1,118 @@
+{
+ "slug": "gooding-pronghorn",
+ "name": "Gooding Pronghorn Migration",
+ "species": "PRONGHORN",
+ "herd": "Gooding pronghorn",
+ "source": "Gooding Pronghorn Antelope Seasonal Migration Statistics and seasonal migration routes map, analyzed / prepared by Scott Bergen, January 2021",
+ "preparedBy": "Scott Bergen",
+ "preparedDate": "2021-01",
+ "studyStart": "2019-03-14",
+ "studyEnd": "2020-11-28",
+ "summary": "The winter range is extensive for the Gooding Pronghorn winter herd, which is capable of moving large distances within this range (more than 10 miles), but in essence is centered on the plateaus west of McKinney Butte in Idaho. The seasonal migration route travels from this location to the east where it breaks into two distinct routes. The first route follows to the west of Black Canyon Creek, skirting the Mount Bennett Hills to the west and onto the Davis Flats section of the Camas Prairie. The second branch travels east past Rattlesnake Canyon and crosses the Mount Bennett Hills onto the Macon Flat section of the Camas Prairie. Summer range is centered on the Camas Prairie where agriculture and sage steppe systems meet the front range of the Soldier Mountains. The ancient seasonal migration route of this winter herd may be threatened by wildlife unfriendly fencing, wildfire, residential development, and increased energy developments.",
+ "caveat": null,
+ "methods": "Of 67 individual seasonal migrations, 67 used Brownian bridge movement models.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 43.8,
+  "maxMiles": 101.7,
+  "minMiles": 18.8,
+  "migrations": 67,
+  "individuals": 32,
+  "springMigrations": 24,
+  "fallMigrations": 45
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-27",
+   "startMin": "03-04",
+   "startMax": "04-19",
+   "endAvg": "04-13",
+   "endMin": "03-22",
+   "endMax": "07-05",
+   "durationAvgDays": 17.8,
+   "durationMinDays": 1.5,
+   "durationMaxDays": 100.5
+  },
+  "fall": {
+   "startAvg": "10-30",
+   "startMin": "10-05",
+   "startMax": "11-28",
+   "endAvg": "11-12",
+   "endMin": "10-20",
+   "endMax": "12-31",
+   "durationAvgDays": 13.2,
+   "durationMinDays": 1.2,
+   "durationMaxDays": 48.5
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 550201
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 372683
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 188615
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 85863
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 55073
+  }
+ ],
+ "unitAcres": {
+  "45": {
+   "ONE": 47155,
+   "LOW": 59435,
+   "MEDIUM": 43243,
+   "HIGH": 48505,
+   "STOPOVER": 27650
+  },
+  "52": {
+   "ONE": 35952,
+   "LOW": 35646,
+   "MEDIUM": 54172,
+   "HIGH": 33008,
+   "STOPOVER": 18322
+  },
+  "44": {
+   "ONE": 40175,
+   "LOW": 47588,
+   "MEDIUM": 15221,
+   "HIGH": 539,
+   "STOPOVER": 4503
+  },
+  "48": {
+   "ONE": 6389,
+   "LOW": 5182,
+   "MEDIUM": 2667,
+   "HIGH": 1558,
+   "STOPOVER": 1707
+  }
+ },
+ "units": [
+  "44",
+  "45",
+  "48",
+  "52"
+ ],
+ "mapNote": null
+}

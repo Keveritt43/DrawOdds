@@ -20,7 +20,7 @@ export async function GET(req: Request) {
   const { residency } = await getResidency(sp.as);
   const draw = await getDraw(sp.draw);
   const rf = residencyFields(residency);
-  const rows = await db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : []), orderBy: buildOrder(f, residency), take: 2000 });
+  const rows = await db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : {}), orderBy: buildOrder(f, residency), take: 2000 });
   const res = residency === 'NONRESIDENT' ? 'NR' : 'Res';
   const head = [
     'Species', 'Type', 'Hunt / tag', 'Code', 'Area', 'Units', 'Weapon', 'Sex', 'Open', 'Close', 'Tags',

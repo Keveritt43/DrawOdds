@@ -1,0 +1,84 @@
+{
+ "slug": "morgan-creek-mule-deer",
+ "name": "Morgan Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Morgan Creek mule deer",
+ "source": "Morgan Creek Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-01",
+ "studyStart": "2012-05-13",
+ "studyEnd": "2018-12-31",
+ "summary": "Morgan Creek\u2019s mule deer use areas of the foothills north of the Challis in winter. After the snow melts, a handful of mule deer migrate to the east (Pahsimeroi Valley) while the majority migrate to the west. The western migration fans out across rural and Wilderness areas, whereas the eastern migration mainly follows the Pahsimeroi Mountains. On average, Morgan Creek mule deer travel over 25 miles to migrate between summer and winter ranges, with more extensive migrations occurring to the west and reaching over 85 miles. The wintering population of deer used for this analysis approximates 2,650.",
+ "caveat": null,
+ "methods": "Of 114 individual seasonal migrations, 1 used Brownian bridge movement models with an 8-hour time-lag, 66 used forced motion variance (1000 m) with a 14-hour time-lag, and 48 used forced motion variance (1000 m) with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 25.4,
+  "maxMiles": 87.1,
+  "minMiles": 5.5,
+  "migrations": 114,
+  "individuals": 39,
+  "springMigrations": 66,
+  "fallMigrations": 48
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-30",
+   "startMin": "03-08",
+   "startMax": "06-26",
+   "endAvg": "05-16",
+   "endMin": "03-14",
+   "endMax": "06-29",
+   "durationAvgDays": 16.2,
+   "durationMinDays": 1.6,
+   "durationMaxDays": 48.2
+  },
+  "fall": {
+   "startAvg": "10-29",
+   "startMin": "09-09",
+   "startMax": "03-04",
+   "endAvg": "12-23",
+   "endMin": "10-12",
+   "endMax": "03-14",
+   "durationAvgDays": 54.6,
+   "durationMinDays": 2.7,
+   "durationMaxDays": 163.5
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 548599
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 212486
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 61529
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 16902
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 36399
+  }
+ ],
+ "unitAcres": {},
+ "units": [],
+ "mapNote": "no route layers provided"
+}

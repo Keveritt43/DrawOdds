@@ -1,0 +1,94 @@
+{
+ "slug": "reynolds-creek-mule-deer",
+ "name": "Reynolds Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Reynolds Creek mule deer",
+ "source": "Reynolds Creek Migration Statistics and seasonal migration routes map, analyzed / prepared by Robert Ritson and Scott Bergen, January 2024",
+ "preparedBy": "Robert Ritson and Scott Bergen",
+ "preparedDate": "2024-01",
+ "studyStart": "2018-03-20",
+ "studyEnd": "2023-12-12",
+ "summary": "The Reynolds Creek mule deer herd spends the winter at lower elevations east of U.S. Highway 95, west of Idaho State Highway 78, south of the Snake River, and generally north of Reynolds, Idaho (Figure 1). During the spring, these mule deer migrate an average of 15 mi south-southwest along Reynolds Creek and its tributaries to higher elevations in the Owyhee Mountains west of Johnston Lakes and north of Silver City, Idaho. The winter range and migration habitat primarily comprise low-lying Wyoming big sagebrush steppe, invasive annual grasses, and occasional agriculture. The summer range comprises a mix of montane grassland, aspen, conifer forest, mountain mahogany, and deciduous shrubland. Publicly owned, most of this area is grazed by livestock. Important considerations for environmental planning of the herd\u2019s winter range include mitigating adverse effects of recreation and potential renewable energy development, as well as continued management of wildfire and invasive cheatgrass encroachment.",
+ "caveat": null,
+ "methods": "Of 53 individual seasonal migrations 26 used Brownian bridge movement models with an 8-hour time lag, 22 used Fixed Motion Variance (1000m) with a 14-hour time lag, and 5 used Fixed Motion Variance (1000m) with a 27-hour time lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 15.4,
+  "maxMiles": 42.3,
+  "minMiles": 5.1,
+  "migrations": 53,
+  "individuals": 23,
+  "springMigrations": 31,
+  "fallMigrations": 22
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-19",
+   "startMin": "02-28",
+   "startMax": "06-12",
+   "endAvg": "05-05",
+   "endMin": "03-01",
+   "endMax": "06-23",
+   "durationAvgDays": 14.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 62.0
+  },
+  "fall": {
+   "startAvg": "11-27",
+   "startMin": "08-08",
+   "startMax": "02-11",
+   "endAvg": "12-05",
+   "endMin": "08-25",
+   "endMax": "02-27",
+   "durationAvgDays": 7.0,
+   "durationMinDays": 1.0,
+   "durationMaxDays": 22.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 81469
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 23456
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 17025
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 14569
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 14632
+  }
+ ],
+ "unitAcres": {
+  "40": {
+   "ONE": 73910,
+   "LOW": 25008,
+   "MEDIUM": 17088,
+   "HIGH": 14659,
+   "STOPOVER": 15429
+  }
+ },
+ "units": [
+  "40"
+ ],
+ "mapNote": null
+}

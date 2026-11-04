@@ -427,6 +427,9 @@ model MigrationStudy {
   species      Species
   herd         String
   summary      String
+  caveat       String?   // the report's own warning, e.g. few collared animals
+  methods      String?   // how the routes were modelled
+  mapNote      String?   // why no routes are drawn (null when they are)
   source       String
   preparedBy   String?
   preparedDate String?
@@ -434,7 +437,7 @@ model MigrationStudy {
   studyEnd     DateTime?
   winterCount  String?
   stats        Json      // { avgMiles, maxMiles, minMiles, migrations, individuals, springMigrations, fallMigrations }
-  timing       Json      // { spring: { startAvg: "MM-DD", ... }, fall: { ... } }
+  timing       Json?     // { spring: { startAvg: "MM-DD", ... }, fall: { ... } }
   classes      Json      // [{ key, label, color, pattern?, acres }]
   units        String[]  // units the routes cross
   unitAcres    Json      // { "49": { "HIGH": 29176, ... } } (approximate)

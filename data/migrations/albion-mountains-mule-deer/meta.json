@@ -1,0 +1,94 @@
+{
+ "slug": "albion-mountains-mule-deer",
+ "name": "Albion Mountains Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Albion Mountains mule deer",
+ "source": "Albion Mountains Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, August 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-08",
+ "studyStart": "2015-05-25",
+ "studyEnd": "2018-11-30",
+ "summary": "Albion Mountains mule deer winter on the lower south and west-facing aspect of the Albion Mountains. However, the majority of deer that summer in the Albions migrate east to the Jim Sage Mountain and to a lesser extent, north to the Cotterel Mountains. In 2017, an estimated 4,000 mule deer wintered in the Albion Mountains, with approximately half of them on the southern end of Jim Sage Mountain. The Albion Mountain range is a small, isolated mountain range surrounded by private agricultural land in the valley. The Cottrell Mountains and Jim Sage Mountain are other isolated ranges, separated by private agricultural valleys only a few miles away. On average, the Albion Mountains mule deer migrate 15.3 miles between their summer and winter habitats. There is currently low risk of conversion of private agricultural lands to habitat unsuitable for mule deer. Because many of these deer have to cross private lands to reach their winter range, it is important to maintain private land as agricultural so migrations are not inhibited.",
+ "caveat": null,
+ "methods": "Of 85 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 57 used forced motion variance (1000 m) models with a 14-hour time-lag, and 28 used forced motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 15.3,
+  "maxMiles": 52.7,
+  "minMiles": 2.1,
+  "migrations": 85,
+  "individuals": 32,
+  "springMigrations": 55,
+  "fallMigrations": 30
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-03",
+   "startMin": "03-01",
+   "startMax": "07-10",
+   "endAvg": "04-23",
+   "endMin": "03-04",
+   "endMax": "08-04",
+   "durationAvgDays": 21.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 83.0
+  },
+  "fall": {
+   "startAvg": "12-02",
+   "startMin": "08-12",
+   "startMax": "02-08",
+   "endAvg": "12-18",
+   "endMin": "08-30",
+   "endMax": "02-10",
+   "durationAvgDays": 17.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 87.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 263259
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 127686
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 59948
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 21518
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 14247
+  }
+ ],
+ "unitAcres": {
+  "55": {
+   "ONE": 59319,
+   "LOW": 25383,
+   "MEDIUM": 17187,
+   "HIGH": 21991,
+   "STOPOVER": 14111
+  }
+ },
+ "units": [
+  "55"
+ ],
+ "mapNote": null
+}

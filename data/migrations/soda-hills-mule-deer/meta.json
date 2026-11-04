@@ -1,0 +1,124 @@
+{
+ "slug": "soda-hills-mule-deer",
+ "name": "Soda Hills Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Soda Hills mule deer",
+ "source": "Soda Hills Mule Deer Migration Statistics, v2 2024 and seasonal migration routes map, analyzed / prepared by Scott Bergen and Robert Ritson, January 2024",
+ "preparedBy": "Scott Bergen and Robert Ritson",
+ "preparedDate": "2024-01",
+ "studyStart": "2013-04-24",
+ "studyEnd": "2022-12-22",
+ "summary": "The Soda Hills mule deer herd primarily resides in southeastern Idaho, close to the Idaho-Wyoming border. The herd was originally included in Kauffman and others (2020) but has been updated for this report because data from seasonally migrating mule deer have more than doubled (from 15 to 31 mule deer) since this analysis was first conducted (Kauffman and others, 2020). Soda Hills mule deer winter north of Soda Springs, Idaho (Figure 1). The mule deer migrate north, northeast, and south to several summer ranges in the Chesterfield Range, Caribou\u2013Grays Range, and northern extent of the Bear River Range. On average, Soda Hills mule deer migrate 22 mi (36 km) between their summer and winter ranges. The Soda Hills mule deer herd population numbers 3,000\u20135,000 animals during the winter, depending on recent winter conditions. Seasonal movements for mule deer wintering in the Soda Hills may be influenced by development infrastructure and busy roads, such as U.S. Highway 34 north of Soda Springs, Idaho. Habitat loss from mineral extraction, compounded by the loss of important aspen communities associated with fire suppression and Pseudotsuga menziesii (Douglas fir) encroachment, are changing the herd\u2019s summer habitats.",
+ "caveat": null,
+ "methods": "Of 65 individual seasonal migrations, 27 used Brownian bridge movement models with an 8-hour time-lag, 25 used forced motion variance (1000m) with a 14 hour time-lag, and 14 used a forced motion variance (1000m) with a 27 hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 22.1,
+  "maxMiles": 47.2,
+  "minMiles": 6.6,
+  "migrations": 66,
+  "individuals": 32,
+  "springMigrations": 35,
+  "fallMigrations": 31,
+  "median": true
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-27",
+   "startMin": "03-24",
+   "startMax": "05-26",
+   "endAvg": "05-15",
+   "endMin": "04-08",
+   "endMax": "08-23",
+   "durationAvgDays": 11.0,
+   "durationMinDays": 0.5,
+   "durationMaxDays": 115.0
+  },
+  "fall": {
+   "startAvg": "10-23",
+   "startMin": "08-12",
+   "startMax": "01-08",
+   "endAvg": "11-15",
+   "endMin": "09-28",
+   "endMax": "01-17",
+   "durationAvgDays": 9.5,
+   "durationMinDays": 1.7,
+   "durationMaxDays": 88.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 224488
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 104263
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 35983
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 10784
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 23431
+  }
+ ],
+ "unitAcres": {
+  "72": {
+   "ONE": 20487,
+   "LOW": 18597,
+   "MEDIUM": 13223,
+   "HIGH": 6581,
+   "STOPOVER": 8675
+  },
+  "69": {
+   "ONE": 18845,
+   "LOW": 1323,
+   "MEDIUM": 110,
+   "STOPOVER": 651
+  },
+  "76": {
+   "ONE": 51559,
+   "LOW": 37438,
+   "MEDIUM": 16654,
+   "HIGH": 3100,
+   "STOPOVER": 11694
+  },
+  "66A": {
+   "ONE": 8165,
+   "LOW": 732,
+   "MEDIUM": 1184,
+   "HIGH": 914,
+   "STOPOVER": 5014
+  },
+  "75": {
+   "LOW": 1272,
+   "MEDIUM": 91,
+   "STOPOVER": 40
+  }
+ },
+ "units": [
+  "66A",
+  "69",
+  "72",
+  "75",
+  "76"
+ ],
+ "mapNote": null
+}

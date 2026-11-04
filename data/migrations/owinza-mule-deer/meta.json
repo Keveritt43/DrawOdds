@@ -1,0 +1,137 @@
+{
+ "slug": "owinza-mule-deer",
+ "name": "Owinza Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Owinza mule deer",
+ "source": "Owinza Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Scott Bergen, April 2023",
+ "preparedBy": "Scott Bergen",
+ "preparedDate": "2023-04",
+ "studyStart": "2018-05-08",
+ "studyEnd": "2020-12-31",
+ "summary": "The Owinza mule deer herd summers in higher elevation habitats in the Pioneer and Soldier Mountains, as well as Craters of the Moon National Preserve (Figure 1). Starting in spring, this herd will start to migrate from \u2018terminal\u2019 winter range through portions of the big desert near Owinza and Sid Butte towards higher elevation habitats within the Sawtooth National Forest surrounding the Big Wood River Valley. In autumn, the Owinza mule deer herd seasonally migrates toward lower elevation habitats. Within this herd, some mule deer will migrate towards terminal winter range south of Perine, whereas others will hold on winter range between the Picabo Hills and northeast of Dietrich. When winter snows start to accumulate, these holdover individuals will move further to the south towards terminal winter range. Often these winter movements will not occur until January or February and are over 50 miles in straight-line distance. About one-fifth of the Owinza mule deer winter herd use this type of winter movement strategy to complete their annual life history.",
+ "caveat": null,
+ "methods": "Of 27 individual seasonal migrations, 25 used Brownian bridge movement models with an 8-hour time-lag, and 2 individuals used a fixed motion variance (1100m) with a 14-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 55.9,
+  "maxMiles": 111.0,
+  "minMiles": 14.8,
+  "migrations": 52,
+  "individuals": 27,
+  "springMigrations": 27,
+  "fallMigrations": 19
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-27",
+   "startMin": "03-08",
+   "startMax": "04-26",
+   "endAvg": "04-25",
+   "endMin": "03-23",
+   "endMax": "06-13",
+   "durationAvgDays": 29.4,
+   "durationMinDays": 3.8,
+   "durationMaxDays": 72.0
+  },
+  "fall": {
+   "startAvg": "10-25",
+   "startMin": "09-26",
+   "startMax": "12-24",
+   "endAvg": "11-09",
+   "endMin": "10-11",
+   "endMax": "12-27",
+   "durationAvgDays": 16.4,
+   "durationMinDays": 2.1,
+   "durationMaxDays": 64.8
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 844610
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 472871
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 245975
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 52559
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 86110
+  }
+ ],
+ "unitAcres": {
+  "52": {
+   "ONE": 41459,
+   "LOW": 25118,
+   "MEDIUM": 36789,
+   "HIGH": 21792,
+   "STOPOVER": 20051
+  },
+  "52A": {
+   "ONE": 57855,
+   "LOW": 56305,
+   "MEDIUM": 109709,
+   "HIGH": 16231,
+   "STOPOVER": 36231
+  },
+  "48": {
+   "ONE": 23768,
+   "LOW": 26700,
+   "MEDIUM": 28369,
+   "HIGH": 1179,
+   "STOPOVER": 8763
+  },
+  "44": {
+   "ONE": 36251,
+   "LOW": 7428,
+   "MEDIUM": 6125,
+   "STOPOVER": 8491
+  },
+  "49": {
+   "ONE": 64080,
+   "LOW": 24669,
+   "MEDIUM": 3648,
+   "HIGH": 510,
+   "STOPOVER": 7125
+  },
+  "53": {
+   "ONE": 40676,
+   "LOW": 38370,
+   "MEDIUM": 70688,
+   "HIGH": 18004,
+   "STOPOVER": 31682
+  },
+  "43": {
+   "ONE": 2677
+  }
+ },
+ "units": [
+  "43",
+  "44",
+  "48",
+  "49",
+  "52",
+  "52A",
+  "53"
+ ],
+ "mapNote": null
+}

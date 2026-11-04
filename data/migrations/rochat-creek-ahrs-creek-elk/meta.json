@@ -1,0 +1,93 @@
+{
+ "slug": "rochat-creek-ahrs-creek-elk",
+ "name": "Rochat Creek-Ahrs Creek Elk Migration",
+ "species": "ELK",
+ "herd": "Rochat Creek-Ahrs Creek elk",
+ "source": "Rochat Creek-Ahrs Creek Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, May 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-05",
+ "studyStart": "2015-06-03",
+ "studyEnd": "2019-12-17",
+ "summary": "Rochat Creek-Ahrs Creek elk winter north of St. Joe River, approximately seven miles east of St. Maries, Idaho. Much of their winter range habitat lies on private timber company lands on south-facing slopes that were recently logged (Ellstrom and others, 2020). Most elk in this population migrate north and summer on the south side of the St. Joe Divide. A few individuals continue north to the South Fork of the Coeur d\u2019Alene River drainage, while others migrate south of the St. Joe River. On average, these elk migrate more than seven miles between their summer and winter ranges. Rochat Creek-Ahrs Creek elk summer on a mix of Bureau of Land Management, U.S. Forest Service, and private timber company lands. Land use (logged versus unlogged) likely influences seasonal migration routes and seasonal ranges.",
+ "caveat": "The Rochat and Ahrs Creek analysis has a limited number of individuals and will be updated as soon as more location data becomes available for analysis.",
+ "methods": "Of 39 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 24 used forced motion variance (1400 m) models with a 14-hour time-lag, and 15 used forced motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 7.8,
+  "maxMiles": 19.4,
+  "minMiles": 1.2,
+  "migrations": 39,
+  "individuals": 16,
+  "springMigrations": 23,
+  "fallMigrations": 16
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "05-20",
+   "startMin": "03-13",
+   "startMax": "07-29",
+   "endAvg": "06-02",
+   "endMin": "03-18",
+   "endMax": "08-28",
+   "durationAvgDays": 10.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 26.0
+  },
+  "fall": {
+   "startAvg": "10-31",
+   "startMin": "08-14",
+   "startMax": "12-26",
+   "endAvg": "11-08",
+   "endMin": "08-19",
+   "endMax": "01-03",
+   "durationAvgDays": 12.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 34.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 113344
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 38912
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 7311
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 7999
+  }
+ ],
+ "unitAcres": {
+  "6": {
+   "ONE": 18493,
+   "MEDIUM": 12617,
+   "HIGH": 7575,
+   "STOPOVER": 8450
+  },
+  "4": {
+   "ONE": 23237,
+   "MEDIUM": 11694,
+   "STOPOVER": 74
+  }
+ },
+ "units": [
+  "4",
+  "6"
+ ],
+ "mapNote": null
+}

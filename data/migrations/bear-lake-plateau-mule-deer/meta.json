@@ -1,0 +1,94 @@
+{
+ "slug": "bear-lake-plateau-mule-deer",
+ "name": "Bear Lake Plateau Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Bear Lake Plateau mule deer",
+ "source": "Bear Lake Plateau Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-01",
+ "studyStart": "2018-05-08",
+ "studyEnd": "2020-12-31",
+ "summary": "The winter range for the tristate Bear Lake Plateau mule deer herd is on the Bear Lake Plateau in Idaho and Utah. The seasonal migration route for this mule deer herd is funneled through the Rocky Point section where state highways, the Bear River, and railways converge and the migration route is condensed. Once crossing these natural and manmade barriers, the migration follows the Preuss Range north into summer ranges splitting off from the predominant migration route. These summer ranges include the Gannett Hills in Wyoming, and the Aspen and Caribou Ranges in Idaho. Challenges to this herd include vehicular collision, wildlife unfriendly fencing, and mining developments in their summer range.",
+ "caveat": null,
+ "methods": "Of 28 individual seasonal migrations, 28 used Brownian bridge movement models with an 8-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 37.2,
+  "maxMiles": 70.9,
+  "minMiles": 5.0,
+  "migrations": 52,
+  "individuals": 28,
+  "springMigrations": 28,
+  "fallMigrations": 24
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-13",
+   "startMin": "03-11",
+   "startMax": "05-08",
+   "endAvg": "05-15",
+   "endMin": "03-15",
+   "endMax": "06-06",
+   "durationAvgDays": 32.4,
+   "durationMinDays": 3.8,
+   "durationMaxDays": 72.0
+  },
+  "fall": {
+   "startAvg": "10-28",
+   "startMin": "09-26",
+   "startMax": "11-28",
+   "endAvg": "11-19",
+   "endMin": "10-21",
+   "endMax": "12-31",
+   "durationAvgDays": 22.0,
+   "durationMinDays": 2.1,
+   "durationMaxDays": 64.8
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 223361
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 105795
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 60810
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 18233
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 21996
+  }
+ ],
+ "unitAcres": {
+  "76": {
+   "ONE": 51386,
+   "LOW": 34884,
+   "MEDIUM": 55693,
+   "HIGH": 19949,
+   "STOPOVER": 37126
+  }
+ },
+ "units": [
+  "76"
+ ],
+ "mapNote": null
+}

@@ -1,0 +1,114 @@
+{
+ "slug": "central-beaverhead-elk",
+ "name": "Central Beaverhead Elk Migration",
+ "species": "ELK",
+ "herd": "Central Beaverhead elk",
+ "source": "Central Beaverhead Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, October 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-10",
+ "studyStart": "2015-03-05",
+ "studyEnd": "2019-12-26",
+ "summary": "The Central Beaverhead elk herd use wintering areas spread across the Lemhi Valley in Idaho. During more severe winters, elk move down the valley and concentrate at lower elevations. Elk migrate across the Beaverhead Mountains to summer in and around the Big Hole River, Horse Prairie Creek, and Medicine Lodge Creek, with some individuals traveling as far as the Red Rock River valley. Common areas to cross the Idaho\u2212Montana divide include near the headwaters of Peterson Creek in Idaho and Black Canyon Creek in Montana, as well as Lemhi Pass to the north and Bannock Pass to the south. On average, the Central Beaverhead elk travel more than 30 miles to migrate between summer and winter range, with the farthest individuals traveling close to 80 miles. Collar data indicate a significant portion of these elk have low fidelity to specific winter ranges and often use different winter ranges year to year. The population estimate for GMU 30 and 30A (including elk migrating into the Lemhi Valley farther north) was 1,554 elk in 2016, a slight increase of 32 elk since the 2009 estimate. Because the Central Beaverhead elk use both Idaho and Montana lands, management of this shared elk population is complicated. Actions taken in one state can affect elk behavior and management actions in a neighboring state. Weather conditions, hunting pressure, crop depredations, and changes in private land use are likely to affect movement and migration of these elk in the future. Conflict between elk and agricultural operations, predominately cattle ranching, can be severe during harsh winters. Retaining high-quality winter range while working with landowners to minimize conflict is a priority.",
+ "caveat": null,
+ "methods": "Of 101 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 45 used forced motion variance (1400 m) models with a 14-hour time-lag, and 56 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 30.5,
+  "maxMiles": 78.9,
+  "minMiles": 4.7,
+  "migrations": 101,
+  "individuals": 59,
+  "springMigrations": 69,
+  "fallMigrations": 32
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-18",
+   "startMin": "03-03",
+   "startMax": "06-26",
+   "endAvg": "05-07",
+   "endMin": "03-19",
+   "endMax": "07-04",
+   "durationAvgDays": 26.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 94.0
+  },
+  "fall": {
+   "startAvg": "10-08",
+   "startMin": "07-28",
+   "startMax": "12-21",
+   "endAvg": "11-07",
+   "endMin": "08-06",
+   "endMax": "12-26",
+   "durationAvgDays": 21.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 62.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 1006174
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 473481
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 131503
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 20357
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 54189
+  }
+ ],
+ "unitAcres": {
+  "30": {
+   "ONE": 23084,
+   "LOW": 42802,
+   "MEDIUM": 27843,
+   "HIGH": 10954,
+   "STOPOVER": 24192
+  },
+  "29": {
+   "ONE": 2457,
+   "LOW": 4124,
+   "MEDIUM": 381
+  },
+  "30A": {
+   "ONE": 17835,
+   "LOW": 74652,
+   "MEDIUM": 52032,
+   "HIGH": 8287,
+   "STOPOVER": 23889
+  },
+  "58": {
+   "ONE": 1099,
+   "LOW": 7160,
+   "STOPOVER": 706
+  }
+ },
+ "units": [
+  "29",
+  "30",
+  "30A",
+  "58"
+ ],
+ "mapNote": null
+}

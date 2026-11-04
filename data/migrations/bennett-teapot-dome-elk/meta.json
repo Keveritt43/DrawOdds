@@ -1,0 +1,125 @@
+{
+ "slug": "bennett-teapot-dome-elk",
+ "name": "Bennett-Teapot Dome Elk Migration",
+ "species": "ELK",
+ "herd": "Bennett-Teapot Dome elk",
+ "source": "Bennett-Teapot Dome Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-07",
+ "studyStart": "2015-02-28",
+ "studyEnd": "2019-12-06",
+ "summary": "The Bennett-Teapot Dome elk herd winters in the foothills of Bennett Mountain between Teapot Dome northeast of Mountain Home and King Hill northeast of Glenns Ferry, Idaho. Elk wintering in this area typically traverse the Bennett Mountains to reach summer ranges in the Soldier Mountains. On average, Bennett-Teapot Dome elk travel more than 42 miles to migrate between winter and summer ranges, with some individuals traveling more than 95 miles. These animals are part of the broader Smoky-Bennett elk population, which was estimated by aerial survey to be 3,622 elk in 2021, down from 4,874 elk counted in 2015. Wildfire and the estab-lishment of invasive species, such as medusahead and cheatgrass, have compromised a large portion of the winter range used by this elk herd. Additionally, U.S. Highway 20, which serves as a connector route between Boise and Sun Valley, has seen increasing traffic volumes and an elevated risk of wildlife-vehicle collisions. Proposed energy development projects could also affect this elk herd, particularly during migration.",
+ "caveat": null,
+ "methods": "Of 46 individual seasonal migrations, 1 used Brownian bridge movement models with an 8-hour time-lag, 22 used forced motion variance (1400 m) models with a 14-hour time-lag, and 23 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 41.9,
+  "maxMiles": 95.0,
+  "minMiles": 12.6,
+  "migrations": 46,
+  "individuals": 25,
+  "springMigrations": 28,
+  "fallMigrations": 18
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-15",
+   "startMin": "02-11",
+   "startMax": "06-10",
+   "endAvg": "04-20",
+   "endMin": "03-22",
+   "endMax": "07-01",
+   "durationAvgDays": 39.0,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 103.0
+  },
+  "fall": {
+   "startAvg": "10-30",
+   "startMin": "08-06",
+   "startMax": "12-10",
+   "endAvg": "11-30",
+   "endMin": "08-15",
+   "endMax": "01-02",
+   "durationAvgDays": 24.0,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 65.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 875673
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 356121
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 170993
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 63628
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 54065
+  }
+ ],
+ "unitAcres": {
+  "39": {
+   "ONE": 61684,
+   "LOW": 18794,
+   "MEDIUM": 13651,
+   "HIGH": 13481,
+   "STOPOVER": 14080
+  },
+  "45": {
+   "ONE": 133239,
+   "LOW": 29486,
+   "MEDIUM": 19202,
+   "HIGH": 27369,
+   "STOPOVER": 22957
+  },
+  "44": {
+   "ONE": 50615,
+   "LOW": 20620,
+   "MEDIUM": 20867,
+   "HIGH": 25734,
+   "STOPOVER": 28580
+  },
+  "52": {
+   "ONE": 29153,
+   "STOPOVER": 590
+  },
+  "48": {
+   "ONE": 1489
+  },
+  "43": {
+   "ONE": 22089,
+   "LOW": 2941,
+   "STOPOVER": 289
+  }
+ },
+ "units": [
+  "39",
+  "43",
+  "44",
+  "45",
+  "48",
+  "52"
+ ],
+ "mapNote": null
+}

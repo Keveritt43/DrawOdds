@@ -1,0 +1,100 @@
+{
+ "slug": "trout-and-big-creeks-elk",
+ "name": "Trout and Big Creeks Elk Migration",
+ "species": "ELK",
+ "herd": "Trout and Big Creeks elk",
+ "source": "Trout and Big Creeks Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, May 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-05",
+ "studyStart": "2015-03-07",
+ "studyEnd": "2019-11-02",
+ "summary": "Trout Creek-Big Creek elk winter north of the St. Joe River and approximately 15 miles east of St. Maries, Idaho. Much of their winter range habitat is private timber company lands on south-facing slopes that were recently logged (Ellstrom and others, 2020). Most elk in this population migrate north and summer on the south side of the St. Joe Divide. A few individuals continue north to the South Fork of the Coeur d\u2019Alene River drainage, while others migrate south of the St. Joe River. On average, these elk migrate more than eight miles between their summer and winter ranges. Trout Creek-Big Creek elk summer on a mix of private timber company and U.S. Forest Service lands. Land use (logged versus unlogged) probably influences seasonal migration routes and seasonal ranges.",
+ "caveat": null,
+ "methods": "Of 68 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 46 used forced motion variance (1400 m) models with a 14-hour time-lag, and 22 used forced motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 8.8,
+  "maxMiles": 54.1,
+  "minMiles": 1.8,
+  "migrations": 68,
+  "individuals": 31,
+  "springMigrations": 44,
+  "fallMigrations": 24
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-25",
+   "startMin": "02-20",
+   "startMax": "08-02",
+   "endAvg": "05-12",
+   "endMin": "03-05",
+   "endMax": "09-02",
+   "durationAvgDays": 16.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 86.0
+  },
+  "fall": {
+   "startAvg": "11-30",
+   "startMin": "07-23",
+   "startMax": "01-24",
+   "endAvg": "12-23",
+   "endMin": "08-18",
+   "endMax": "02-09",
+   "durationAvgDays": 17.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 81.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 181107
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 84954
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 39852
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 12976
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 10026
+  }
+ ],
+ "unitAcres": {
+  "6": {
+   "ONE": 32785,
+   "LOW": 16175,
+   "MEDIUM": 14432,
+   "HIGH": 13513,
+   "STOPOVER": 10542
+  },
+  "4": {
+   "ONE": 17977,
+   "LOW": 1430,
+   "MEDIUM": 9
+  }
+ },
+ "units": [
+  "4",
+  "6"
+ ],
+ "mapNote": null
+}

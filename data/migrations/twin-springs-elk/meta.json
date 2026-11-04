@@ -1,0 +1,100 @@
+{
+ "slug": "twin-springs-elk",
+ "name": "Twin Springs Elk Migration",
+ "species": "ELK",
+ "herd": "Twin Springs elk",
+ "source": "Twin Springs Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-07",
+ "studyStart": "2008-11-05",
+ "studyEnd": "2020-01-04",
+ "summary": "The Twin Springs elk herd winters between the South Fork Boise River and Arrowrock Reservoir in Idaho (fig. 62). During their spring migrations, these elk typically move through the Boise Mountains and northeast along the North Fork Boise River. Some individuals may travel as far as the South Fork Payette River. On average, the Twin Springs elk herd travels 38 miles to migrate between winter and summer range. The population in the Boise River Elk Zone was esti-mated to be 8,800 elk in 2021.",
+ "caveat": "The Twin Springs analysis has a limited number of individuals and will be updated as soon as more location data becomes available for analysis.",
+ "methods": "Of 21 individual seasonal migrations, 9 used Brownian bridge movement models with an 8-hour time-lag, 4 used forced motion variance (1400 m) models with a 14-hour time-lag, and 8 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 37.9,
+  "maxMiles": 59.1,
+  "minMiles": 15.3,
+  "migrations": 21,
+  "individuals": 12,
+  "springMigrations": 9,
+  "fallMigrations": 12
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-14",
+   "startMin": "03-08",
+   "startMax": "04-26",
+   "endAvg": "05-08",
+   "endMin": "03-21",
+   "endMax": "05-26",
+   "durationAvgDays": 21.0,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 35.0
+  },
+  "fall": {
+   "startAvg": "11-05",
+   "startMin": "10-27",
+   "startMax": "01-01",
+   "endAvg": "12-13",
+   "endMin": "11-05",
+   "endMax": "01-24",
+   "durationAvgDays": 31.0,
+   "durationMinDays": 10.0,
+   "durationMaxDays": 61.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 256391
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 122932,
+   "notMapped": true
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623"
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 48036
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 13936
+  }
+ ],
+ "unitAcres": {
+  "39": {
+   "ONE": 44764,
+   "MEDIUM": 23488,
+   "HIGH": 50372,
+   "STOPOVER": 15004
+  },
+  "35": {
+   "ONE": 5137,
+   "MEDIUM": 1440,
+   "HIGH": 799,
+   "STOPOVER": 30
+  }
+ },
+ "units": [
+  "35",
+  "39"
+ ],
+ "mapNote": null
+}

@@ -1,0 +1,108 @@
+{
+ "slug": "north-fork-of-st-joe-elk",
+ "name": "North Fork of St. Joe Elk Migration",
+ "species": "ELK",
+ "herd": "North Fork of St. Joe elk",
+ "source": "North Fork of St. Joe Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, May 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-05",
+ "studyStart": "2015-03-11",
+ "studyEnd": "2019-10-07",
+ "summary": "North Fork of St. Joe River elk winter on the brushy, south-facing slopes near Avery, approximately 35 miles east of St. Maries, Idaho, between Slate Creek and the North Fork of the St. Joe River. They migrate north-northeast and summer near the border of Montana, sometimes as far as Interstate 90 in Montana. This elk population has the longest known migration in the Idaho Panhandle, migrating an average of 16 miles between the winter and summer ranges. The North Fork of St. Joe River elk population, part of Game Management Units 6 and 7, declined by more than half in 2009\u20132020 (Ellstrom and others, 2020). Interstate 90 may constrict migration distances, but seasonal routes are probably not affected as the migrations occur almost solely on public U.S. Forest Service lands.",
+ "caveat": null,
+ "methods": "Of 104 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 33 used forced motion variance (1400 m) models with a 14-hour time-lag, and 71 used forced motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 16.0,
+  "maxMiles": 31.8,
+  "minMiles": 2.3,
+  "migrations": 104,
+  "individuals": 35,
+  "springMigrations": 61,
+  "fallMigrations": 43
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-24",
+   "startMin": "03-02",
+   "startMax": "05-24",
+   "endAvg": "05-11",
+   "endMin": "03-22",
+   "endMax": "06-10",
+   "durationAvgDays": 20.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 100.0
+  },
+  "fall": {
+   "startAvg": "10-12",
+   "startMin": "07-30",
+   "startMax": "12-06",
+   "endAvg": "11-15",
+   "endMin": "09-29",
+   "endMax": "01-04",
+   "durationAvgDays": 30.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 86.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 325896
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 194635
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 89112
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 33389
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 13770
+  }
+ ],
+ "unitAcres": {
+  "7": {
+   "ONE": 11538,
+   "LOW": 17559,
+   "MEDIUM": 12888,
+   "HIGH": 18177,
+   "STOPOVER": 6860
+  },
+  "4": {
+   "ONE": 1635,
+   "LOW": 2286,
+   "MEDIUM": 9
+  },
+  "6": {
+   "ONE": 940,
+   "LOW": 5565,
+   "MEDIUM": 4759,
+   "HIGH": 14543,
+   "STOPOVER": 7022
+  }
+ },
+ "units": [
+  "4",
+  "6",
+  "7"
+ ],
+ "mapNote": null
+}

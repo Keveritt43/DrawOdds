@@ -1,0 +1,92 @@
+{
+ "slug": "stone-hills-mule-deer",
+ "name": "Stone Hills Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Stone Hills mule deer",
+ "source": "Stone Hills Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-07",
+ "studyStart": "2017-04-14",
+ "studyEnd": "2021-04-29",
+ "summary": "Stone Hills mule deer winter west and south-west of Stone, ID and north of Snowville, UT between I84 and Stone Road. Mule deer migrate in the spring north north-west and north north-east into the Sublette and Deep Creek mountain ranges, respectively. On average, these mule deer migrate 25.9 miles between summer and winter ranges. Recent aerial abundance surveys documented over 1,900 mule deer wintered in the Stone Hills in 2015 and 2022. Seasonal movement pathways of the Stone Hills mule deer may be affected by development and transportation infrastructure, whereas winter and summer habitats are changing due to fire, the proliferation of exotic annual grasses, and livestock utilization. Relatively high road densities occur on both summer and winter ranges. Additionally, a deer-exclusion fence along I-84, along with the interstate itself, prevents deer from migrating as far south as they may have historically done. A large portion of the southernmost winter range is private, which could potentially limit land management activities.",
+ "caveat": null,
+ "methods": "Of 31 individual seasonal migrations, 12 used Brownian bridge movement models with an 8-hour time-lag, 17 used forced motion variance (1000 m) models with a 14-hour time-lag, and 2 used forced motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 25.9,
+  "maxMiles": 37.3,
+  "minMiles": 11.1,
+  "migrations": 31,
+  "individuals": 19,
+  "springMigrations": 23,
+  "fallMigrations": 8
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-29",
+   "startMin": "01-18",
+   "startMax": "04-30",
+   "endAvg": "04-23",
+   "endMin": "04-05",
+   "endMax": "05-10",
+   "durationAvgDays": 21.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 42.0
+  },
+  "fall": {
+   "startAvg": "11-28",
+   "startMin": "10-18",
+   "startMax": "12-02",
+   "endAvg": "12-15",
+   "endMin": "11-08",
+   "endMax": "01-19",
+   "durationAvgDays": 21.0,
+   "durationMinDays": 12.0,
+   "durationMaxDays": 29.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 176777
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 76186
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 23554
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch"
+  }
+ ],
+ "unitAcres": {
+  "56": {
+   "ONE": 26060,
+   "MEDIUM": 29972,
+   "HIGH": 24774,
+   "STOPOVER": 10653
+  },
+  "73A": {
+   "ONE": 16010,
+   "MEDIUM": 1352,
+   "STOPOVER": 691
+  }
+ },
+ "units": [
+  "56",
+  "73A"
+ ],
+ "mapNote": null
+}

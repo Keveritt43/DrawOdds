@@ -1,0 +1,122 @@
+{
+ "slug": "teton-river-elk",
+ "name": "Teton River Elk Migration",
+ "species": "ELK",
+ "herd": "Teton River elk",
+ "source": "Teton River Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, December 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-12",
+ "studyStart": "2018-03-05",
+ "studyEnd": "2020-02-27",
+ "summary": "The Teton River elk herd includes approximately 500 individuals and is managed as part of the larger Island Park population. Historically, these elk wintered in aspen and shrub communities associated with the Teton Canyon and migrated east to summer in forested habitats in the eastern portion of Game Management Unit (GMU) 62 in Idaho and into Wyoming. Over time, this herd has shifted primarily to summer habitats associated with agriculture in GMU 62, with fewer individuals migrating to Wyoming. This shift has resulted in increased conflict with agricultural producers. Winter distributions have also shifted in response to habitat loss and human disturbance, with most individuals now wintering in the Hog Hollow area along the Teton River. In February 2019, approximately 300 of these elk moved west, crossing U.S. Highway 20, and wintering along the Henry\u2019s Fork of the Snake River and the Sand Creek Desert near Egin, Idaho. Elk repeated this pattern in 2020 and 2021, raising concerns of increased wildlife-vehicle collisions, and increased conflict with livestock operations and associated fencing infrastructure.",
+ "caveat": null,
+ "methods": "Of 75 individual seasonal migrations, 46 used Brownian bridge movement models with an 8-hour time-lag, 15 used forced motion variance (1400 m) models with a 14-hour time-lag, and 14 used forced motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 35.5,
+  "maxMiles": 93.3,
+  "minMiles": 2.1,
+  "migrations": 75,
+  "individuals": 23,
+  "springMigrations": 39,
+  "fallMigrations": 36
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-29",
+   "startMin": "03-05",
+   "startMax": "05-28",
+   "endAvg": "04-21",
+   "endMin": "03-14",
+   "endMax": "06-23",
+   "durationAvgDays": 26.0,
+   "durationMinDays": 1.0,
+   "durationMaxDays": 101.0
+  },
+  "fall": {
+   "startAvg": "12-06",
+   "startMin": "09-28",
+   "startMax": "01-08",
+   "endAvg": "12-20",
+   "endMin": "10-17",
+   "endMax": "04-06",
+   "durationAvgDays": 35.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 113.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 500131
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 282165
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 145041
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 47997
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 23335
+  }
+ ],
+ "unitAcres": {
+  "60A": {
+   "ONE": 18397,
+   "LOW": 1158,
+   "MEDIUM": 1930,
+   "HIGH": 79,
+   "STOPOVER": 721
+  },
+  "62": {
+   "ONE": 23833,
+   "LOW": 20377,
+   "MEDIUM": 38086,
+   "HIGH": 51461,
+   "STOPOVER": 23617
+  },
+  "60": {
+   "ONE": 2306,
+   "STOPOVER": 20
+  },
+  "64": {
+   "ONE": 5975,
+   "LOW": 6747,
+   "MEDIUM": 13475,
+   "STOPOVER": 1189
+  },
+  "65": {
+   "ONE": 149,
+   "LOW": 2200,
+   "MEDIUM": 1199,
+   "HIGH": 69,
+   "STOPOVER": 555
+  }
+ },
+ "units": [
+  "60",
+  "60A",
+  "62",
+  "64",
+  "65"
+ ],
+ "mapNote": null
+}

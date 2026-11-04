@@ -1,0 +1,146 @@
+{
+ "slug": "mckinney-butte-elk",
+ "name": "McKinney Butte Elk Migration",
+ "species": "ELK",
+ "herd": "McKinney Butte elk",
+ "source": "McKinney Butte Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-07",
+ "studyStart": "2015-03-08",
+ "studyEnd": "2020-01-19",
+ "summary": "The McKinney Butte elk herd winters north of Bliss and the Snake River near McKinney Butte in Idaho. The McKinney Butte elk herd typically travels north following Burnt Willow and Rattlesnake canyons across the Mount Bennett Hills and Camas Prairie to reach summer ranges in the Smoky Mountains. Some individuals may travel as far as the Sawtooth Valley. On average, elk in this population travel 57 miles, with some individuals traveling as far as 98 miles. These animals are part of the broader Smoky-Bennett elk population, which was estimated by aerial survey to be 3,622 elk in 2021, down from 4,874 elk counted in 2015. Wildfire and the establishment of invasive species, such as medusahead and cheatgrass, have compromised portions of the winter range used by this herd. Additionally, U.S. Highway 20, which serves as a connector route between Boise and Sun Valley, has seen increasing traffic volumes and an elevated risk of wildlife-vehicle collisions.",
+ "caveat": null,
+ "methods": "Of 44 individual seasonal migrations, 1 used Brownian bridge movement models with an 8-hour time-lag, 15 used forced motion variance (1400 m) models with a 14-hour time-lag, and 28 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 57.3,
+  "maxMiles": 98.3,
+  "minMiles": 15.3,
+  "migrations": 44,
+  "individuals": 23,
+  "springMigrations": 21,
+  "fallMigrations": 23
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-16",
+   "startMin": "02-14",
+   "startMax": "04-21",
+   "endAvg": "05-08",
+   "endMin": "04-11",
+   "endMax": "06-28",
+   "durationAvgDays": 47.0,
+   "durationMinDays": 13.0,
+   "durationMaxDays": 101.0
+  },
+  "fall": {
+   "startAvg": "11-11",
+   "startMin": "09-20",
+   "startMax": "12-11",
+   "endAvg": "12-23",
+   "endMin": "11-01",
+   "endMax": "01-31",
+   "durationAvgDays": 41.0,
+   "durationMinDays": 11.0,
+   "durationMaxDays": 87.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 1295990
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 679154
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 344062
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 100842
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 63134
+  }
+ ],
+ "unitAcres": {
+  "43": {
+   "ONE": 65430,
+   "LOW": 18938,
+   "MEDIUM": 30374,
+   "HIGH": 12718,
+   "STOPOVER": 11358
+  },
+  "45": {
+   "ONE": 81990,
+   "LOW": 13773,
+   "MEDIUM": 40467,
+   "HIGH": 43967,
+   "STOPOVER": 27683
+  },
+  "44": {
+   "ONE": 40539,
+   "LOW": 15807,
+   "MEDIUM": 34507,
+   "HIGH": 28747,
+   "STOPOVER": 23714
+  },
+  "39": {
+   "ONE": 2001
+  },
+  "36": {
+   "ONE": 10115,
+   "LOW": 5803,
+   "MEDIUM": 436
+  },
+  "52": {
+   "ONE": 64406,
+   "LOW": 25340,
+   "MEDIUM": 45882,
+   "HIGH": 20608,
+   "STOPOVER": 18431
+  },
+  "48": {
+   "ONE": 4672,
+   "LOW": 968,
+   "MEDIUM": 3714,
+   "HIGH": 1627,
+   "STOPOVER": 160
+  },
+  "53": {
+   "ONE": 11326,
+   "STOPOVER": 7343
+  },
+  "52A": {
+   "ONE": 2252,
+   "STOPOVER": 1528
+  }
+ },
+ "units": [
+  "36",
+  "39",
+  "43",
+  "44",
+  "45",
+  "48",
+  "52",
+  "52A",
+  "53"
+ ],
+ "mapNote": null
+}

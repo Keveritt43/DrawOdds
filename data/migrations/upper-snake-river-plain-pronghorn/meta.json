@@ -1,0 +1,170 @@
+{
+ "slug": "upper-snake-river-plain-pronghorn",
+ "name": "Upper Snake River Plain Pronghorn Migration",
+ "species": "PRONGHORN",
+ "herd": "Upper Snake River Plain pronghorn",
+ "source": "Upper Snake River Plain Seasonal Migration Statistics and seasonal migration routes map, analyzed / prepared by Scott Bergen, December 2020",
+ "preparedBy": "Scott Bergen",
+ "preparedDate": "2020-12",
+ "studyStart": "2004-10-05",
+ "studyEnd": "2011-11-11",
+ "summary": "The winter range supports several summer pronghorn herds radiating from core winter habitat where the Snake River Plains meets the mountain valley system of Idaho. This region from Howe to Crooked Creek is windswept, keeping snow depth minimal. From this central location, herds migrate across the Continental Divide into several regions in Montana, higher elevation sage steppe system in Idaho, as well as the surrounding Snake River Plain. Historically, summer herds also migrated to the east towards higher elevations near the vicinity of Island Park Reservoir. Seasonal migrations still occur at great distances, especially to higher elevation habitats securing better forage and precipitation during the hot summer months. Far from secure, pronghorn encounter many fence lines, fire burn scars, invasive cheatgrass, and natural barriers such as lava flows, to reach these more fertile summer ranges. Future challenges to these migra-tions include energy developments (solar and wind farm) and expansion of irrigated agriculture.",
+ "caveat": null,
+ "methods": "Of 51 individual seasonal migrations, 51 used Brownian bridge movement models.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 83.8,
+  "maxMiles": 136.1,
+  "minMiles": 30.5,
+  "migrations": 51,
+  "individuals": 33,
+  "springMigrations": 25,
+  "fallMigrations": 26
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-24",
+   "startMin": "02-27",
+   "startMax": "05-12",
+   "endAvg": "04-25",
+   "endMin": "04-02",
+   "endMax": "05-29",
+   "durationAvgDays": 31.6,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 64.0
+  },
+  "fall": {
+   "startAvg": "10-10",
+   "startMin": "09-18",
+   "startMax": "11-05",
+   "endAvg": "10-31",
+   "endMin": "10-08",
+   "endMax": "01-15",
+   "durationAvgDays": 20.4,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 97.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 511594
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 276390
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 114266
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 166030
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 104072
+  }
+ ],
+ "unitAcres": {
+  "30": {
+   "ONE": 16640,
+   "LOW": 2331,
+   "MEDIUM": 351,
+   "STOPOVER": 263
+  },
+  "30A": {
+   "ONE": 24834,
+   "LOW": 38469,
+   "MEDIUM": 8264,
+   "STOPOVER": 1388
+  },
+  "59A": {
+   "ONE": 46991,
+   "LOW": 17370,
+   "MEDIUM": 7204,
+   "STOPOVER": 8370
+  },
+  "59": {
+   "ONE": 45967,
+   "LOW": 480,
+   "MEDIUM": 323,
+   "STOPOVER": 443
+  },
+  "63": {
+   "ONE": 161404,
+   "LOW": 32861,
+   "MEDIUM": 35928,
+   "HIGH": 50027,
+   "STOPOVER": 45321
+  },
+  "68": {
+   "ONE": 6167,
+   "LOW": 9471,
+   "MEDIUM": 9576,
+   "HIGH": 24600,
+   "STOPOVER": 8833
+  },
+  "51": {
+   "ONE": 33370,
+   "LOW": 34065,
+   "MEDIUM": 10061,
+   "HIGH": 5580,
+   "STOPOVER": 3232
+  },
+  "58": {
+   "ONE": 19220,
+   "LOW": 27803,
+   "MEDIUM": 44559,
+   "HIGH": 32983,
+   "STOPOVER": 21263
+  },
+  "49": {
+   "ONE": 5428,
+   "LOW": 13099,
+   "MEDIUM": 16073,
+   "HIGH": 28494,
+   "STOPOVER": 9885
+  },
+  "50": {
+   "ONE": 4731,
+   "LOW": 29225,
+   "MEDIUM": 11106,
+   "HIGH": 23048,
+   "STOPOVER": 14707
+  },
+  "52A": {
+   "ONE": 428,
+   "LOW": 3583,
+   "MEDIUM": 4503,
+   "HIGH": 13453,
+   "STOPOVER": 1403
+  }
+ },
+ "units": [
+  "30",
+  "30A",
+  "49",
+  "50",
+  "51",
+  "52A",
+  "58",
+  "59",
+  "59A",
+  "63",
+  "68"
+ ],
+ "mapNote": null
+}

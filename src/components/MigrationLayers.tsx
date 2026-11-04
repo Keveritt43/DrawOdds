@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
-import type { MigClass } from '@/lib/migrations';
+import { STANDARD_CLASSES, SPECIES_NAME, keyNote, type MigClass } from '@/lib/migrationShared';
 
-export interface StudyLite { slug: string; name: string; classes: MigClass[] }
+
+export interface StudyLite { slug: string; name: string; species: string; classes: MigClass[]; routes?: boolean }
+
 
 const HATCH = 'mig-hatch';
 /** Diagonal black lines on transparent: the study map's stopover crosshatch. */
@@ -25,8 +27,11 @@ function ensureHatch(m: MlMap) {
 
 const loaded = new WeakMap<MlMap, Map<string, Promise<{ bounds: maplibregl.LngLatBounds }>>>();
 
+/** Fill layer ids of a study (for click queries). */
+export const studyLayers = (slug: string) => [`mig-${slug}-fill`, `mig-${slug}-stop`];
+
 /** Adds a study's corridor and stopover layers (once per map) under the unit labels. */
-export function addStudy(m: MlMap, s: StudyLite, before?: string): Promise<{ bounds: maplibregl.LngLatBounds }> {
+export function addStudy(m: MlMap, s: StudyLite, before?: string, opacity = 0.72): Promise<{ bounds: maplibregl.LngLatBounds }> {
   const mine = loaded.get(m) ?? loaded.set(m, new Map()).get(m)!;
   const existing = mine.get(s.slug);
   if (existing) return existing;
@@ -45,7 +50,7 @@ export function addStudy(m: MlMap, s: StudyLite, before?: string): Promise<{ bou
       color.push('#999');
       const b4 = before && m.getLayer(before) ? before : undefined;
       if (!m.getLayer(`${src}-fill`)) {
-        m.addLayer({ id: `${src}-fill`, type: 'fill', source: src, filter: ['!=', ['get', 'cls'], 'STOPOVER'], paint: { 'fill-color': color as ExpressionSpecification, 'fill-opacity': 0.72 } }, b4);
+        m.addLayer({ id: `${src}-fill`, type: 'fill', source: src, filter: ['!=', ['get', 'cls'], 'STOPOVER'], paint: { 'fill-color': color as ExpressionSpecification, 'fill-opacity': opacity } }, b4);
         m.addLayer({ id: `${src}-stop`, type: 'fill', source: src, filter: ['==', ['get', 'cls'], 'STOPOVER'], paint: { 'fill-pattern': HATCH } }, b4);
         m.addLayer({ id: `${src}-stop-line`, type: 'line', source: src, filter: ['==', ['get', 'cls'], 'STOPOVER'], paint: { 'line-color': '#111', 'line-width': 1 } }, b4);
       }
@@ -80,15 +85,17 @@ export function MigrationKey({ classes }: { classes: MigClass[] }) {
 }
 
 /**
- * On / off switches for the studies on a map, with their key. `map` is the live MapLibre map (null until it
- * loads). Studies start off unless `defaultOn`.
+ * On / off switches for the studies on a map (grouped by species), with one shared key. `map` is the live MapLibre
+ * map (null until it loads). Studies start off unless `defaultOn`. Studies without route polygons are listed with a
+ * link only.
  */
 export function MigrationControls({ map, studies, defaultOn = false, fit = false, before }: { map: MlMap | null; studies: StudyLite[]; defaultOn?: boolean; fit?: boolean; before?: string }) {
-  const [on, setOn] = useState<Record<string, boolean>>(() => Object.fromEntries(studies.map((s) => [s.slug, defaultOn])));
+  const drawable = studies.filter((s) => s.routes !== false);
+  const [on, setOn] = useState<Record<string, boolean>>(() => Object.fromEntries(drawable.map((s) => [s.slug, defaultOn])));
   const [err, setErr] = useState('');
   useEffect(() => {
     if (!map) return;
-    for (const s of studies) {
+    for (const s of drawable) {
       if (!on[s.slug]) {
         setStudyVisible(map, s.slug, false);
         continue;
@@ -100,19 +107,35 @@ export function MigrationControls({ map, studies, defaultOn = false, fit = false
         })
         .catch(() => setErr('Could not load the migration routes.'));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, on, studies, fit, before]);
   if (!studies.length) return null;
+  const groups = Object.keys(SPECIES_NAME).map((sp) => [sp, studies.filter((s) => s.species === sp)] as const).filter(([, g]) => g.length);
+  const shown = drawable.filter((s) => on[s.slug]);
   return (
     <div className="card mig-panel">
-      {studies.map((s) => (
-        <div key={s.slug} className="mig-row">
-          <label>
-            <input type="checkbox" checked={!!on[s.slug]} onChange={() => setOn((o) => ({ ...o, [s.slug]: !o[s.slug] }))} /> <b>{s.name}</b>
-          </label>
-          {on[s.slug] && <MigrationKey classes={s.classes} />}
+      {groups.map(([sp, g]) => (
+        <div key={sp} className="mig-row">
+          <div className="mig-sp">{SPECIES_NAME[sp]}</div>
+          {g.map((s) => (
+            <div key={s.slug}>
+              {s.routes === false ? (
+                <span className="muted"><a href={`/migration/${s.slug}`}>{s.name}</a> (no map)</span>
+              ) : (
+                <label>
+                  <input type="checkbox" checked={!!on[s.slug]} onChange={() => setOn((o) => ({ ...o, [s.slug]: !o[s.slug] }))} /> <b>{s.name.replace(/ Migration$/, '')}</b>
+                </label>
+              )}
+            </div>
+          ))}
         </div>
       ))}
-      {Object.values(on).some(Boolean) && <p className="muted" style={{ margin: '4px 0 0' }}>Share of collared deer using each route; hatching = stopovers.</p>}
+      {shown.length > 0 && (
+        <>
+          <MigrationKey classes={STANDARD_CLASSES} />
+          <p className="muted" style={{ margin: '4px 0 0' }}>{keyNote(shown.map((s) => s.species))}</p>
+        </>
+      )}
       {err && <p className="small" style={{ color: 'var(--warn)', margin: 0 }}>{err}</p>}
     </div>
   );

@@ -1,0 +1,71 @@
+{
+ "slug": "north-hansel-mountains-mule-deer",
+ "name": "North Hansel Mountains Mule Deer Migration",
+ "species": "DEER",
+ "herd": "North Hansel Mountains mule deer",
+ "source": "North Hansel Mountains Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-07",
+ "studyStart": "2016-03-12",
+ "studyEnd": "2021-06-02",
+ "summary": "North Hansel Mountains mule deer winter east of Stone, Idaho along the border of Idaho and Utah. Recent aerial abundance surveys indicate that 1,600\u20132,200 mule deer winter in the North Hansel Mountains. Winter severity dictates winter distributions; below-average snow depths result in deer dispersed throughout the North Hansel Mountains and the Pleasantview Hills to the north. In contrast, above-average snow depths force deer farther south into Utah. In the spring, deer migrate north-northeast and north-northwest into the Pleasantview Hills and Deepcreek Mountains, respectively. On average, these mule deer travel 27 miles between their summer and winter ranges. Development and transportation infrastructure may affect the seasonal migration routes of the North Hansel Mountains mule deer, fire, the proliferation of exotic annual grasses, and livestock use threaten winter and summer habitats.",
+ "caveat": null,
+ "methods": "Of 22 individual seasonal migrations, 12 used Brownian bridge movement models with an 8-hour time-lag, 4 used forced motion variance (1000 m) models with a 14-hour time-lag, and 6 used forced motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 27.0,
+  "maxMiles": 45.7,
+  "minMiles": 10.8,
+  "migrations": 22,
+  "individuals": 16,
+  "springMigrations": 18,
+  "fallMigrations": 4
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-01",
+   "startMin": "02-25",
+   "startMax": "04-28",
+   "endAvg": "04-22",
+   "endMin": "03-24",
+   "endMax": "06-02",
+   "durationAvgDays": 24.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 85.0
+  },
+  "fall": {
+   "startAvg": "11-28",
+   "startMin": "10-28",
+   "startMax": "12-19",
+   "endAvg": "12-02",
+   "endMin": "11-01",
+   "endMax": "03-06",
+   "durationAvgDays": 27.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 94.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 147687
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 58759
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 18198
+  }
+ ],
+ "unitAcres": {},
+ "units": [],
+ "mapNote": "route map is georeferenced in the wrong place"
+}

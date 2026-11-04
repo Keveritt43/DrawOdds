@@ -1,0 +1,140 @@
+{
+ "slug": "south-fork-of-the-payette-river-elk",
+ "name": "South Fork of the Payette River Elk Migration",
+ "species": "ELK",
+ "herd": "South Fork of the Payette River elk",
+ "source": "South Fork of the Payette River Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-07",
+ "studyStart": "2008-04-04",
+ "studyEnd": "2020-02-16",
+ "summary": "The South Fork of the Payette River elk herd winters along the South Fork Payette River in Idaho. Elk wintering in this area typically migrate north into the Salmon River Mountains east of the Middle Fork Payette River and west of Stanley. On average, Sawtooth elk travel more than 29 miles to migrate between summer and winter range, with the farthest individuals traveling more than 113 miles. The population in the Sawtooth Elk Zone was estimated to be 3,500 elk in 2017.",
+ "caveat": null,
+ "methods": "Of 547 individual seasonal migrations, 188 used Brownian bridge movement models with an 8-hour time-lag, 141 used forced motion variance (1400 m) models with a 14-hour time-lag, and 218 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 29.0,
+  "maxMiles": 113.8,
+  "minMiles": 3.0,
+  "migrations": 547,
+  "individuals": 218,
+  "springMigrations": 338,
+  "fallMigrations": 209
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-28",
+   "startMin": "02-01",
+   "startMax": "08-19",
+   "endAvg": "05-24",
+   "endMin": "02-23",
+   "endMax": "08-21",
+   "durationAvgDays": 27.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 144.0
+  },
+  "fall": {
+   "startAvg": "10-26",
+   "startMin": "07-19",
+   "startMax": "03-06",
+   "endAvg": "11-30",
+   "endMin": "09-03",
+   "endMax": "03-17",
+   "durationAvgDays": 35.0,
+   "durationMinDays": 1.0,
+   "durationMaxDays": 137.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 1555865
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 685875
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 86930
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 23573
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 90982
+  }
+ ],
+ "unitAcres": {
+  "33": {
+   "ONE": 55898,
+   "LOW": 205190,
+   "MEDIUM": 18892,
+   "HIGH": 5406,
+   "STOPOVER": 40773
+  },
+  "25": {
+   "ONE": 18920
+  },
+  "34": {
+   "ONE": 37029,
+   "LOW": 161381,
+   "MEDIUM": 2941,
+   "STOPOVER": 6604
+  },
+  "36": {
+   "ONE": 58425,
+   "LOW": 45534,
+   "MEDIUM": 157,
+   "STOPOVER": 1421
+  },
+  "24": {
+   "ONE": 3687
+  },
+  "39": {
+   "ONE": 20852,
+   "LOW": 11411,
+   "MEDIUM": 109,
+   "STOPOVER": 1659
+  },
+  "35": {
+   "ONE": 13687,
+   "LOW": 117005,
+   "MEDIUM": 20882,
+   "HIGH": 19788,
+   "STOPOVER": 57568
+  },
+  "48": {
+   "ONE": 2395,
+   "STOPOVER": 960
+  },
+  "27": {
+   "ONE": 1500
+  }
+ },
+ "units": [
+  "24",
+  "25",
+  "27",
+  "33",
+  "34",
+  "35",
+  "36",
+  "39",
+  "48"
+ ],
+ "mapNote": null
+}

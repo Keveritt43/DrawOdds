@@ -1,0 +1,113 @@
+{
+ "slug": "centennial-flats-mule-deer",
+ "name": "Centennial Flats Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Centennial Flats mule deer",
+ "source": "Centennial Flats Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-01",
+ "studyStart": "2003-05-27",
+ "studyEnd": "2018-12-03",
+ "summary": "Centennial Flat\u2019s mule deer use areas of the foothills south of the Challis, adjacent to the Salmon River in winter. After the snow melts, mule deer migrate and fan out to the west. The western migration fans out across rural areas of the Challis National Forest, with some traveling through the Stanley Basin to summer range in the Sawtooth Mountains. On average, Centennial Flat\u2019s mule deer travel over 30 miles to migrate between summer and winter range. The wintering population of deer used for this analysis approximates 3,370.",
+ "caveat": null,
+ "methods": "Of 35 individual seasonal migrations, 15 used Brownian bridge movement models with an 8-hour time-lag, 10 used forced motion variance (1000 m) with a 14-hour time-lag, and 10 used forced motion variance (1000 m) with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 32.9,
+  "maxMiles": 51.2,
+  "minMiles": 5.6,
+  "migrations": 35,
+  "individuals": 21,
+  "springMigrations": 22,
+  "fallMigrations": 13
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "05-19",
+   "startMin": "05-07",
+   "startMax": "07-08",
+   "endAvg": "06-01",
+   "endMin": "05-13",
+   "endMax": "07-12",
+   "durationAvgDays": 13.7,
+   "durationMinDays": 1.0,
+   "durationMaxDays": 43.3
+  },
+  "fall": {
+   "startAvg": "10-11",
+   "startMin": "09-22",
+   "startMax": "11-08",
+   "endAvg": "11-03",
+   "endMin": "10-12",
+   "endMax": "12-26",
+   "durationAvgDays": 23.4,
+   "durationMinDays": 0.5,
+   "durationMaxDays": 65.5
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 395171
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 134598
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 42774
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 5634
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 27132
+  }
+ ],
+ "unitAcres": {
+  "36": {
+   "ONE": 99066,
+   "LOW": 27446,
+   "MEDIUM": 7901,
+   "STOPOVER": 11083
+  },
+  "34": {
+   "ONE": 1139,
+   "STOPOVER": 10
+  },
+  "36B": {
+   "ONE": 31629,
+   "LOW": 20654,
+   "MEDIUM": 27570,
+   "HIGH": 6596,
+   "STOPOVER": 23754
+  },
+  "36A": {
+   "ONE": 7129,
+   "LOW": 3720,
+   "MEDIUM": 1732,
+   "STOPOVER": 4096
+  }
+ },
+ "units": [
+  "34",
+  "36",
+  "36A",
+  "36B"
+ ],
+ "mapNote": null
+}

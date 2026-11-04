@@ -1,0 +1,84 @@
+{
+ "slug": "morgan-creek-elk",
+ "name": "Morgan Creek Elk Migration",
+ "species": "ELK",
+ "herd": "Morgan Creek elk",
+ "source": "Morgan Creek Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg, October 2020",
+ "preparedBy": "Jodi Berg",
+ "preparedDate": "2020-10",
+ "studyStart": "2015-03-01",
+ "studyEnd": "2019-12-31",
+ "summary": "Morgan Creek\u2019s elk use areas of the foothills north of the Challis in winter. The winter range is primarily on public land, but there is some use of private, agricultural land on the valley floor. After the snow melts, elk migrate west, fanning out into the Salmon River Mountains. Most of the elk migrate up through the main drainages of Challis, Darling, and Morgan Creeks. The summer range is almost entirely on public land in the Salmon-Challis National Forest. On average, Morgan Creek elk travel over 25 miles to migrate between summer and winter ranges, with more extensive migrations reaching over 67 miles. The wintering population of elk used for this analysis is part of the Salmon Elk Zone, which had an estimated population of 9,955 elk in 2016.",
+ "caveat": null,
+ "methods": "Of 88 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 19 used forced motion variance (1400 m) models with a 14-hour time-lag, and 69 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 25.4,
+  "maxMiles": 67.0,
+  "minMiles": 5.6,
+  "migrations": 88,
+  "individuals": 34,
+  "springMigrations": 52,
+  "fallMigrations": 36
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-01",
+   "startMin": "02-10",
+   "startMax": "06-01",
+   "endAvg": "05-22",
+   "endMin": "03-12",
+   "endMax": "08-21",
+   "durationAvgDays": 44.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 99.0
+  },
+  "fall": {
+   "startAvg": "10-23",
+   "startMin": "08-11",
+   "startMax": "02-11",
+   "endAvg": "12-03",
+   "endMin": "08-30",
+   "endMax": "03-04",
+   "durationAvgDays": 33.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 104.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 570137
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 288261
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 135142
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 42590
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 29354
+  }
+ ],
+ "unitAcres": {},
+ "units": [],
+ "mapNote": "no route layers provided"
+}

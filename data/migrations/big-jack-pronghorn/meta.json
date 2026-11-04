@@ -1,0 +1,99 @@
+{
+ "slug": "big-jack-pronghorn",
+ "name": "Big Jack Pronghorn Migration",
+ "species": "PRONGHORN",
+ "herd": "Big Jack pronghorn",
+ "source": "Big Jack Pronghorn Antelope Seasonal Migration Statistics and seasonal migration routes map, analyzed / prepared by Scott Bergen, January 2021",
+ "preparedBy": "Scott Bergen",
+ "preparedDate": "2021-01",
+ "studyStart": "2019-04-07",
+ "studyEnd": "2020-12-20",
+ "summary": "The winter Big Jacks pronghorn herd is centered in the vicinity of Big Jacks Creek Wilderness Area and Big Hill in southwestern Idaho. The migration route follows a route from the southwest to arid tables just north of the Owyhee River Wilderness Area at the foothills of Juniper Mountain. The Big Jacks herd faces future challenges associated with wildfire converting sage steppe habitats into invasive cheatgrass flats.",
+ "caveat": null,
+ "methods": "Of 16 individual seasonal migrations, 16 used Brownian bridge movement models.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 55.4,
+  "maxMiles": 138.8,
+  "minMiles": 8.5,
+  "migrations": 16,
+  "individuals": 12,
+  "springMigrations": 4,
+  "fallMigrations": 12
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-06",
+   "startMin": "03-03",
+   "startMax": "04-24",
+   "endAvg": "04-23",
+   "endMin": "04-09",
+   "endMax": "05-15",
+   "durationAvgDays": 16.8,
+   "durationMinDays": 12.2,
+   "durationMaxDays": 36.7
+  },
+  "fall": {
+   "startAvg": "10-07",
+   "startMin": "09-09",
+   "startMax": "12-01",
+   "endAvg": "10-31",
+   "endMin": "09-27",
+   "endMax": "12-20",
+   "durationAvgDays": 24.8,
+   "durationMinDays": 2.2,
+   "durationMaxDays": 69.2
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 417457
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 199654
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 104461
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 41189
+  }
+ ],
+ "unitAcres": {
+  "41": {
+   "ONE": 104561,
+   "MEDIUM": 57169,
+   "HIGH": 60300,
+   "STOPOVER": 24815
+  },
+  "42": {
+   "ONE": 90645,
+   "MEDIUM": 41369,
+   "HIGH": 49988,
+   "STOPOVER": 10250
+  },
+  "40": {
+   "ONE": 3567,
+   "STOPOVER": 2851
+  }
+ },
+ "units": [
+  "40",
+  "41",
+  "42"
+ ],
+ "mapNote": null
+}

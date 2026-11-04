@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { Prisma } from '@prisma/client';
 import { db } from '../core/context';
 
 /**
@@ -19,15 +20,16 @@ export async function syncMigrations(): Promise<{ rows: number; details: string[
     const geojson = JSON.parse(readFileSync(routes, 'utf8'));
     const data = {
       name: m.name, species: m.species, herd: m.herd, summary: m.summary, source: m.source,
+      caveat: m.caveat ?? null, methods: m.methods ?? null, mapNote: m.mapNote ?? null,
       preparedBy: m.preparedBy ?? null, preparedDate: m.preparedDate ?? null,
       studyStart: m.studyStart ? new Date(`${m.studyStart}T00:00:00Z`) : null,
       studyEnd: m.studyEnd ? new Date(`${m.studyEnd}T00:00:00Z`) : null,
       winterCount: m.winterCount ?? null,
-      stats: m.stats, timing: m.timing, classes: m.classes, units: m.units, unitAcres: m.unitAcres, geojson,
+      stats: m.stats, timing: m.timing ?? Prisma.DbNull, classes: m.classes, units: m.units, unitAcres: m.unitAcres, geojson,
     };
     await db.migrationStudy.upsert({ where: { slug }, create: { slug, ...data }, update: data });
     slugs.push(slug);
-    details.push(`${m.name}: ${geojson.features.length} polygons, units ${m.units.join(', ')}`);
+    details.push(`${m.name}: ${geojson.features.length} polygons, units ${m.units.join(', ') || 'none'}`);
   }
   await db.migrationStudy.deleteMany({ where: { slug: { notIn: slugs } } });
   return { rows: slugs.length, details };

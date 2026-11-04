@@ -1,0 +1,89 @@
+{
+ "slug": "sand-creek-mule-deer",
+ "name": "Sand Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Sand Creek mule deer",
+ "source": "Sand Creek Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, May 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-05",
+ "studyStart": "2013-04-16",
+ "studyEnd": "2019-06-05",
+ "summary": "Approximately 3,800 mule deer winter on the slightly rolling terrain of the Sand Creek Desert, located in Game Management Unit (GMU) 60A (fig. 18). Human entry restrictions across much of the area during winter provide mule deer with undisturbed access to high-quality sage steppe habitats. The Sand Creek Desert primarily consists of sagebrush or bitterbrush overstory with grass and forb understory. In certain areas, these brush communities are interspersed with stands of juniper, chokecherry, and other shrub species that provide both cover and browse for mule deer. Douglas fir and lodgepole pine communities become common throughout Big Bend Ridge as elevation increases to the north of the Sand Creek Desert. In the summer, Sand Creek mule deer largely disperse north and east into forested habitats, often east of U.S. Highway 20, to GMUs 60, 62, and 62A, with some individuals traveling to Wyoming. Two main challenges these mule deer face during migration include an extensive network of fencing on private and public lands and ever-increasing traffic on U.S. Highway 20.",
+ "caveat": null,
+ "methods": "Of 56 individual seasonal migrations, 9 used Brownian bridge movement models with an 8-hour time-lag, 9 used forced motion variance (1400 m) models with a 14-hour time-lag, and 38 used forced motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 35.3,
+  "maxMiles": 74.4,
+  "minMiles": 11.5,
+  "migrations": 56,
+  "individuals": 24,
+  "springMigrations": 34,
+  "fallMigrations": 22
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-01",
+   "startMin": "02-16",
+   "startMax": "05-03",
+   "endAvg": "05-07",
+   "endMin": "03-12",
+   "endMax": "06-07",
+   "durationAvgDays": 33.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 77.0
+  },
+  "fall": {
+   "startAvg": "10-29",
+   "startMin": "09-27",
+   "startMax": "12-01",
+   "endAvg": "12-01",
+   "endMin": "10-24",
+   "endMax": "12-22",
+   "durationAvgDays": 25.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 77.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 565658
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 279661
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 143739
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 56150
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 30885
+  }
+ ],
+ "unitAcres": {},
+ "units": [
+  "60A",
+  "60",
+  "62",
+  "62A"
+ ],
+ "mapNote": "no route layers provided"
+}

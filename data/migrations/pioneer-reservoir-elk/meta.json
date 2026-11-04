@@ -1,0 +1,127 @@
+{
+ "slug": "pioneer-reservoir-elk",
+ "name": "Pioneer Reservoir Elk Migration",
+ "species": "ELK",
+ "herd": "Pioneer Reservoir elk",
+ "source": "Pioneer Reservoir Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-07",
+ "studyStart": "2015-03-11",
+ "studyEnd": "2020-01-26",
+ "summary": "The Pioneer Reservoir elk herd winters east of Mountain Home, Idaho, in vicinity of the confluence between Clover Creek and the Snake River. They migrate north-northeast past Mormon Reservoir and Camas Creek to summer in the Soldier Mountains. On average, these elk travel more than 53 miles to migrate between summer and winter ranges with some individuals traveling more than 104 miles. These animals are part of the broader Smoky-Bennett elk population, which was estimated by aerial survey to be 3,622 elk in 2021, down from 4,874 elk in 2015. Seasonal movement pathways of the Pioneer Reservoir elk may be affected by energy development and transportation infrastructure, whereas winter habitats are changing because of fire and the proliferation of exotic annual grasses.",
+ "caveat": null,
+ "methods": "Of 42 individual seasonal migrations, 1 used Brownian bridge movement models with an 8-hour time-lag, 26 used forced motion variance (1400 m) models with a 14-hour time-lag, and 15 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 53.4,
+  "maxMiles": 104.6,
+  "minMiles": 22.1,
+  "migrations": 42,
+  "individuals": 30,
+  "springMigrations": 31,
+  "fallMigrations": 11
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-26",
+   "startMin": "02-09",
+   "startMax": "04-18",
+   "endAvg": "04-24",
+   "endMin": "03-22",
+   "endMax": "06-10",
+   "durationAvgDays": 41.0,
+   "durationMinDays": 6.0,
+   "durationMaxDays": 94.0
+  },
+  "fall": {
+   "startAvg": "10-10",
+   "startMin": "09-14",
+   "startMax": "11-26",
+   "endAvg": "12-09",
+   "endMin": "10-27",
+   "endMax": "01-26",
+   "durationAvgDays": 51.0,
+   "durationMinDays": 8.0,
+   "durationMaxDays": 95.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 1074539
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 458593
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 156439
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 45936
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 61355
+  }
+ ],
+ "unitAcres": {
+  "45": {
+   "ONE": 129071,
+   "LOW": 77514,
+   "MEDIUM": 100862,
+   "HIGH": 65948,
+   "STOPOVER": 67511
+  },
+  "52": {
+   "ONE": 31622,
+   "LOW": 6668,
+   "MEDIUM": 1999,
+   "STOPOVER": 201
+  },
+  "44": {
+   "ONE": 71532,
+   "LOW": 33107,
+   "MEDIUM": 27045,
+   "HIGH": 569,
+   "STOPOVER": 10494
+  },
+  "39": {
+   "ONE": 15802,
+   "LOW": 410,
+   "MEDIUM": 300,
+   "HIGH": 60
+  },
+  "43": {
+   "ONE": 23949,
+   "LOW": 2936,
+   "MEDIUM": 269,
+   "STOPOVER": 20
+  },
+  "48": {
+   "ONE": 4552
+  }
+ },
+ "units": [
+  "39",
+  "43",
+  "44",
+  "45",
+  "48",
+  "52"
+ ],
+ "mapNote": null
+}

@@ -1,0 +1,78 @@
+{
+ "slug": "south-hills-mule-deer",
+ "name": "South Hills Mule Deer Migration",
+ "species": "DEER",
+ "herd": "South Hills mule deer",
+ "source": "South Hills Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, June 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-06",
+ "studyStart": "2015-04-03",
+ "studyEnd": "2018-12-07",
+ "summary": "South Hills mule deer primarily winter on the northern end of the South Hills, south of Kimberly, Idaho and spend the summer on Sawtooth National Forest lands to the south-southeast. Lower south-facing slopes are generally free from significant snow, and an abundance of bitterbrush provides forage for over 6,000 mule deer. The South Hills are quite popular for off-road and ATV enthusiasts due to extensive motorized trails and roads in the area. Fortunately, some seasonal access restrictions protect mule deer on their winter range. On average, these mule deer migrate 20 miles between winter range and summer range in the higher elevations of the South Hills. Several large wildfires have burned hundreds of thousands of acres in the South Hills in the last decade, affecting winter range distributions.",
+ "caveat": null,
+ "methods": "Of 44 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 32 used forced motion variance (1000 m) models with a 14-hour time-lag, and 12 used forced motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 20.4,
+  "maxMiles": 40.9,
+  "minMiles": 3.3,
+  "migrations": 44,
+  "individuals": 18,
+  "springMigrations": 27,
+  "fallMigrations": 17
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-16",
+   "startMin": "03-21",
+   "startMax": "05-25",
+   "endAvg": "05-08",
+   "endMin": "03-29",
+   "endMax": "07-08",
+   "durationAvgDays": 23.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 110.0
+  },
+  "fall": {
+   "startAvg": "11-24",
+   "startMin": "10-13",
+   "startMax": "02-04",
+   "endAvg": "01-01",
+   "endMin": "11-09",
+   "endMax": "02-14",
+   "durationAvgDays": 25.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 65.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 201352
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 89783
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 21212
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 11565
+  }
+ ],
+ "unitAcres": {},
+ "units": [],
+ "mapNote": "route map is georeferenced in the wrong place"
+}

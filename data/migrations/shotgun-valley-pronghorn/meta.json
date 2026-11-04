@@ -1,0 +1,103 @@
+{
+ "slug": "shotgun-valley-pronghorn",
+ "name": "Shotgun Valley Pronghorn Migration",
+ "species": "PRONGHORN",
+ "herd": "Shotgun Valley pronghorn",
+ "source": "Shotgun Valley Seasonal Migration Statistics and seasonal migration routes map, analyzed / prepared by Scott Bergen, December 2021",
+ "preparedBy": "Scott Bergen",
+ "preparedDate": "2021-12",
+ "studyStart": "2021-04-02",
+ "studyEnd": "2021-10-29",
+ "summary": "The Shotgun Valley pronghorn population totals approximately 300 animals. Summer range distributions are largely east and north of Dubois, Idaho, ranging from the Camas Creek watershed to Shotgun Valley. The Shotgun Valley pronghorn winter in and around Dubois and Hamer, Idaho, often becoming dependent on haystacks once snow accumulations reach moderate levels for the area. In winters with average snow accumulations, these pronghorn often use the railroad tracks in the area as travel corridors and sleeping/loafing locations. Several train-pronghorn collision events have occurred in the past, with one notable event killing almost 100 pronghorns (Bodie and others, 1979). The development of Interstate 15 introduced a woven-wire right-of-way fence that is impermeable to pronghorn passage. This fencing reduced the range for this pronghorn population, restricting them to winter in areas that were probably not part of their historic winter range. Historically, these animals would have continued their fall migrations to the west and wintered in the desert areas near Mud Lake, Idaho. Shotgun Valley pronghorn face a number of challenges during their seasonal movements including numerous fences that decrease landscape permeability, the loss of native range, and seasonal range restrictions.",
+ "caveat": null,
+ "methods": "Of 16 individual seasonal migrations, 16 used Brownian bridge movement models.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 36.6,
+  "maxMiles": 65.1,
+  "minMiles": 13.0,
+  "migrations": 26,
+  "individuals": 15,
+  "springMigrations": 15,
+  "fallMigrations": 11
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-19",
+   "startMin": "03-30",
+   "startMax": "05-30",
+   "endAvg": "05-12",
+   "endMin": "05-02",
+   "endMax": "06-02",
+   "durationAvgDays": 24.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 56.0
+  },
+  "fall": {
+   "startAvg": "10-08",
+   "startMin": "08-27",
+   "startMax": "10-25",
+   "endAvg": "10-18",
+   "endMin": "10-02",
+   "endMax": "01-29",
+   "durationAvgDays": 9.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 36.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 434063
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 234730
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 102230
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 18352
+  }
+ ],
+ "unitAcres": {
+  "60": {
+   "MEDIUM": 6890,
+   "HIGH": 25667,
+   "STOPOVER": 1463
+  },
+  "61": {
+   "MEDIUM": 6368,
+   "HIGH": 7397
+  },
+  "60A": {
+   "MEDIUM": 16594,
+   "HIGH": 70658,
+   "STOPOVER": 16717
+  },
+  "63": {
+   "MEDIUM": 897,
+   "HIGH": 1390,
+   "STOPOVER": 49
+  }
+ },
+ "units": [
+  "60",
+  "60A",
+  "61",
+  "63"
+ ],
+ "mapNote": null
+}

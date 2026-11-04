@@ -1,0 +1,117 @@
+{
+ "slug": "bennett-teapot-dome-mule-deer",
+ "name": "Bennett-Teapot Dome Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Bennett-Teapot Dome mule deer",
+ "source": "Bennett-Teapot Dome Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-01",
+ "studyStart": "2013-03-28",
+ "studyEnd": "2018-12-02",
+ "summary": "Bennett-Teapot Dome mule deer use areas of the foothills between Mountain Home across the Bennett Mountain front just north of King Hill and west of King Hill Creek. Mule deer wintering in this area typically traverse the Bennett Mountains using several migration pathways (2 major, 1 moderate, and several low-use) to reach summer ranges across Camas Prairie, in the Soldier and Smoky Mountains. On average, Bennett-Teapot Dome mule deer travel over 38 miles to migrate between summer and winter range with the farthest individuals traveling over 60 miles. Deer used for this analysis wintered in two Population Management Units: Smoky-Bennett (Game Management Units 43, 44, 45, 48, and 52) and Boise (GMU 39). The 2018 population estimates for mule deer in the Smoky-Bennett and Boise PMUs were 16,358 and 28,600, respectively.",
+ "caveat": null,
+ "methods": "Of 105 individual seasonal migrations, 2 used Brownian bridge movement models with an 8-hour time-lag, 34 used forced motion variance (1000 m) with a 14-hour time-lag, and 69 used forced motion variance (1000 m) with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 38.5,
+  "maxMiles": 62.4,
+  "minMiles": 20.6,
+  "migrations": 105,
+  "individuals": 40,
+  "springMigrations": 57,
+  "fallMigrations": 48
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-16",
+   "startMin": "03-06",
+   "startMax": "05-11",
+   "endAvg": "05-12",
+   "endMin": "04-20",
+   "endMax": "07-07",
+   "durationAvgDays": 26.1,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 78.0
+  },
+  "fall": {
+   "startAvg": "10-04",
+   "startMin": "09-02",
+   "startMax": "10-31",
+   "endAvg": "10-30",
+   "endMin": "10-04",
+   "endMax": "01-28",
+   "durationAvgDays": 25.5,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 105.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 1048122
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 521096
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 183426
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 27725
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 54264
+  }
+ ],
+ "unitAcres": {
+  "44": {
+   "ONE": 51911,
+   "LOW": 54590,
+   "MEDIUM": 46175,
+   "HIGH": 21573,
+   "STOPOVER": 23320
+  },
+  "43": {
+   "ONE": 70207,
+   "LOW": 41812,
+   "MEDIUM": 21644,
+   "HIGH": 30,
+   "STOPOVER": 9404
+  },
+  "39": {
+   "ONE": 20315,
+   "LOW": 44302,
+   "MEDIUM": 7278,
+   "STOPOVER": 2596
+  },
+  "45": {
+   "ONE": 15020,
+   "LOW": 39335,
+   "MEDIUM": 63175,
+   "HIGH": 8866,
+   "STOPOVER": 24532
+  }
+ },
+ "units": [
+  "39",
+  "43",
+  "44",
+  "45"
+ ],
+ "mapNote": null
+}

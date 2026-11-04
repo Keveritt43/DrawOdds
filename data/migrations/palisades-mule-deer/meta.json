@@ -1,0 +1,109 @@
+{
+ "slug": "palisades-mule-deer",
+ "name": "Palisades Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Palisades mule deer",
+ "source": "Palisades Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, December 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-12",
+ "studyStart": "2013-04-23",
+ "studyEnd": "2018-12-20",
+ "summary": "The Palisades mule deer herd winter in GMU 67, north of the Snake River in the Big Hole Mountains in Idaho, with the largest concentrations wintering on sagebrush steppe and juniper slopes near Kelly Mountain, in the Snake River valley, and along Pine Creek Bench. Much of the winter range is associated with the southern aspects along the Snake River. The river and associated topography are a funnel for many of these mule deer, as they follow the river southeast towards summer ranges in the Palisades and Snake River Ranges north and east of U.S. Highway 26 and the Palisades Reservoir. Other mule deer make shorter movements to the north, spending time along the boundaries of GMU 64 and 65. Some mule deer summer in Wyoming. On average, Palisades mule deer travel 28 miles to migrate between summer and winter ranges, with more extensive migrations measuring more than 53 miles. Migration routes of this population cross and run adjacent to State Highway 31 and U.S. Highway 26, where wildlife-vehicle collisions occur frequently. The Palisades population is the largest component (approximately 80 percent) of the mule deer in the Big Hole Mountains and the portion of the Snake River Range in Idaho. The total population ranges between 3,500 and 5,000 mule deer; in January 2021, the winter population of mule deer used in this analysis approximated 2,300 for the Heise and Swan Valley concentration, 400 mule deer for the Teton Basin area, and 800 mule deer for the Canyon Creek and Moody Creek areas. It is important to note that the results of the January 2021 population survey and subsequent estimates show significant mortality related to winter severity. The 2021 population estimate is likely about only 50 percent of what the population was in fall 2016. The Palisades mule deer population has access to an abundant, high-quality summer range, but is limited by periodic severe winters when conditions push them to terminal winter range. These terminal ranges are a mix of public and private lands that are changing rapidly. The development and conversion of these ranges from shrub to grass for livestock grazing will reduce their carrying capacity and likely will result in reduced populations of mule deer. Thus, protection of the winter ranges and functional migration routes may need to be considered for prioritization.",
+ "caveat": null,
+ "methods": "Of 28 individual seasonal migrations, 2 used Brownian bridge movement models with an 8-hour time-lag, 5 used forced motion variance (1000 m) models with a 14-hour time-lag, and 21 used force motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 28.0,
+  "maxMiles": 53.7,
+  "minMiles": 6.2,
+  "migrations": 28,
+  "individuals": 21,
+  "springMigrations": 17,
+  "fallMigrations": 11
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-30",
+   "startMin": "04-04",
+   "startMax": "06-05",
+   "endAvg": "05-30",
+   "endMin": "05-05",
+   "endMax": "08",
+   "durationAvgDays": 16.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 65.0
+  },
+  "fall": {
+   "startAvg": "11-09",
+   "startMin": "09-20",
+   "startMax": "12-14",
+   "endAvg": "12-06",
+   "endMin": "11-16",
+   "endMax": "12-20",
+   "durationAvgDays": 14.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 52.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 176084
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 88411
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 47624
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 21869
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 17900
+  }
+ ],
+ "unitAcres": {
+  "67": {
+   "ONE": 45687,
+   "LOW": 33770,
+   "MEDIUM": 25538,
+   "HIGH": 20365,
+   "STOPOVER": 18647
+  },
+  "65": {
+   "ONE": 1403,
+   "LOW": 318,
+   "MEDIUM": 50,
+   "STOPOVER": 10
+  },
+  "69": {
+   "ONE": 487,
+   "LOW": 1711,
+   "MEDIUM": 1433,
+   "HIGH": 2765,
+   "STOPOVER": 50
+  }
+ },
+ "units": [
+  "65",
+  "67",
+  "69"
+ ],
+ "mapNote": null
+}

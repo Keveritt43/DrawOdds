@@ -1,0 +1,116 @@
+{
+ "slug": "sand-creek-elk",
+ "name": "Sand Creek Elk Migration",
+ "species": "ELK",
+ "herd": "Sand Creek elk",
+ "source": "Sand Creek Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, June 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-06",
+ "studyStart": "2011-04-03",
+ "studyEnd": "2020-02-07",
+ "summary": "Approximately 4,500 elk from the Island Park population winter in the gentle rolling terrain of the Sand Creek Desert. In the spring, the Sand Creek elk herd migrates to their summer range in Game Management Units 60, 61, and 62A. Human entry restrictions across much of the area in winter provide elk with undisturbed access to high-quality sage-steppe habitats. Sagebrush and bitterbrush with herbaceous understory are interspersed with stands of juniper, chokecherry, and other shrub species. Douglas fir and lodgepole pine communities are common in migratory habitats along Big Bend Ridge, as elevation increases north of Sand Creek Desert. Two main challenges these elk face during migration include an extensive network of fencing on private and public lands, and ever-increasing traffic on U.S. Highway 20.",
+ "caveat": "The Sand Creek analysis has a limited number of individuals and will be updated as soon as more location data becomes available for analysis.",
+ "methods": "Of 45 individual seasonal migrations, 1 used Brownian bridge movement models with an 8-hour time-lag, 23 used forced motion variance (1400 m) models with a 14-hour time-lag, and 21 used forced motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 61.3,
+  "maxMiles": 138.8,
+  "minMiles": 29.5,
+  "migrations": 45,
+  "individuals": 18,
+  "springMigrations": 28,
+  "fallMigrations": 17
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-06",
+   "startMin": "03-09",
+   "startMax": "05-13",
+   "endAvg": "05-12",
+   "endMin": "04-16",
+   "endMax": "06-12",
+   "durationAvgDays": 34.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 70.0
+  },
+  "fall": {
+   "startAvg": "11-07",
+   "startMin": "09-28",
+   "startMax": "01-10",
+   "endAvg": "12-18",
+   "endMin": "11-13",
+   "endMax": "02-07",
+   "durationAvgDays": 35.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 71.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 1019223
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 453467
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 138412
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 57818
+  }
+ ],
+ "unitAcres": {
+  "62": {
+   "ONE": 11374,
+   "STOPOVER": 138
+  },
+  "62A": {
+   "ONE": 28383,
+   "MEDIUM": 13317,
+   "STOPOVER": 2332
+  },
+  "61": {
+   "ONE": 43523,
+   "MEDIUM": 14377,
+   "HIGH": 167,
+   "STOPOVER": 3723
+  },
+  "60": {
+   "ONE": 64272,
+   "MEDIUM": 72722,
+   "HIGH": 31896,
+   "STOPOVER": 18387
+  },
+  "60A": {
+   "ONE": 60386,
+   "MEDIUM": 74634,
+   "HIGH": 113588,
+   "STOPOVER": 36277
+  },
+  "63": {
+   "ONE": 2152
+  }
+ },
+ "units": [
+  "60",
+  "60A",
+  "61",
+  "62",
+  "62A",
+  "63"
+ ],
+ "mapNote": null
+}

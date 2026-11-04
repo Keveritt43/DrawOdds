@@ -1,0 +1,132 @@
+{
+ "slug": "east-fork-salmon-river-elk",
+ "name": "East Fork Salmon River Elk Migration",
+ "species": "ELK",
+ "herd": "East Fork Salmon River elk",
+ "source": "East Fork Salmon River Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg & Scott Bergen, October 2020",
+ "preparedBy": "Jodi Berg & Scott Bergen",
+ "preparedDate": "2020-10",
+ "studyStart": "2008-11-25",
+ "studyEnd": "2019-12-31",
+ "summary": "The East Fork Salmon River elk herd winters east of the Salmon River between Bradbury and Antelope Flats in Idaho. Elk travel the Salmon River and East Fork Salmon River to reach summer ranges in the Salmon River Mountains and the Sawtooth Valley. On average, elk in this population travel 38 miles, with some individuals traveling as far as 84 miles. The population estimate for GMU 36A was about 5,300 elk in 2017. The migration route along the main stem of the Salmon River follows Highway 75 closely and does result in mortalities from wildlife-vehicle collisions.",
+ "caveat": null,
+ "methods": "Of 67 individual seasonal migrations, 3 used Brownian bridge movement models with an 8-hour time-lag, 14 used forced motion variance (1400 m) models with a 14-hour time-lag, and 50 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 38.4,
+  "maxMiles": 84.4,
+  "minMiles": 11.2,
+  "migrations": 67,
+  "individuals": 24,
+  "springMigrations": 38,
+  "fallMigrations": 29
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-18",
+   "startMin": "02-01",
+   "startMax": "05-31",
+   "endAvg": "05-23",
+   "endMin": "04-19",
+   "endMax": "07-15",
+   "durationAvgDays": 31.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 93.0
+  },
+  "fall": {
+   "startAvg": "11-16",
+   "startMin": "09-16",
+   "startMax": "12-15",
+   "endAvg": "12-28",
+   "endMin": "11-06",
+   "endMax": "01-27",
+   "durationAvgDays": 31.0,
+   "durationMinDays": 10.0,
+   "durationMaxDays": 85.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 926860
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 437211
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 175782
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 41958
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 50902
+  }
+ ],
+ "unitAcres": {
+  "36A": {
+   "ONE": 87031,
+   "LOW": 53767,
+   "MEDIUM": 61584,
+   "HIGH": 31920,
+   "STOPOVER": 28784
+  },
+  "36B": {
+   "ONE": 24340,
+   "LOW": 31760,
+   "MEDIUM": 24169,
+   "HIGH": 8828,
+   "STOPOVER": 20428
+  },
+  "36": {
+   "ONE": 58284,
+   "LOW": 20406,
+   "MEDIUM": 13201,
+   "HIGH": 4613,
+   "STOPOVER": 8015
+  },
+  "50": {
+   "ONE": 6384,
+   "LOW": 4037,
+   "MEDIUM": 49,
+   "STOPOVER": 49
+  },
+  "37": {
+   "ONE": 11378,
+   "LOW": 9889,
+   "MEDIUM": 3300,
+   "STOPOVER": 206
+  },
+  "48": {
+   "ONE": 1178
+  },
+  "34": {
+   "ONE": 3453
+  }
+ },
+ "units": [
+  "34",
+  "36",
+  "36A",
+  "36B",
+  "37",
+  "48",
+  "50"
+ ],
+ "mapNote": null
+}

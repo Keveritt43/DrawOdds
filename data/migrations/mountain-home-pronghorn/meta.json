@@ -1,0 +1,116 @@
+{
+ "slug": "mountain-home-pronghorn",
+ "name": "Mountain Home Pronghorn Migration",
+ "species": "PRONGHORN",
+ "herd": "Mountain Home pronghorn",
+ "source": "Mountain Home Pronghorn Antelope Seasonal Migration Statistics and seasonal migration routes map, analyzed / prepared by Scott Bergen, January 2021",
+ "preparedBy": "Scott Bergen",
+ "preparedDate": "2021-01",
+ "studyStart": "2019-03-17",
+ "studyEnd": "2020-12-27",
+ "summary": "The Mountain Home pronghorn winter herd is probably the most visible herd in Idaho because of its proximity to Boise and being bound to the south by Interstate 84. This herd also exhibits winter movements that can exceed 10 miles presumably to move to better snow conditions. The seasonal migration route appears to go in several directions. The first migration route extends to the west almost to the city limits of Boise. The second migration route extends towards the northeast through the western edge of the Mount Bennett Hills to sage steppe habitat surrounding the Anderson Ranch Reservoir. The third migration route follows the front range of the Mount Bennett Hills to the east where pronghorn use the same migration routes as the Gooding pronghorn herd over the Mount Bennett Hills and into the eastern Camas Prairie. Pronghorn navigate a sage steppe system degraded by wildfire and invasive cheatgrass and dissected by wildlife unfriendly fence lines. Future challenges are energy developments (hydroelectric and solar), expanding human developments in this high growth area of Idaho, and wildfires.",
+ "caveat": null,
+ "methods": "Of 29 individual seasonal migrations, 29 used Brownian bridge movement models.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 25.5,
+  "maxMiles": 72.5,
+  "minMiles": 2.2,
+  "migrations": 29,
+  "individuals": 15,
+  "springMigrations": 11,
+  "fallMigrations": 18
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-17",
+   "startMin": "02-23",
+   "startMax": "05-17",
+   "endAvg": "04-02",
+   "endMin": "02-28",
+   "endMax": "05-27",
+   "durationAvgDays": 10.2,
+   "durationMinDays": 0.7,
+   "durationMaxDays": 55.8
+  },
+  "fall": {
+   "startAvg": "11-30",
+   "startMin": "09-20",
+   "startMax": "01-19",
+   "endAvg": "12-09",
+   "endMin": "09-30",
+   "endMax": "01-21",
+   "durationAvgDays": 9.2,
+   "durationMinDays": 0.8,
+   "durationMaxDays": 47.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 380553
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 141962
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 53392
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 38990
+  }
+ ],
+ "unitAcres": {
+  "52": {
+   "ONE": 52187
+  },
+  "45": {
+   "ONE": 114848,
+   "MEDIUM": 59666,
+   "HIGH": 3613,
+   "STOPOVER": 5640
+  },
+  "39": {
+   "ONE": 35585,
+   "MEDIUM": 20373,
+   "HIGH": 53664,
+   "STOPOVER": 30857
+  },
+  "44": {
+   "ONE": 8267,
+   "MEDIUM": 4655,
+   "HIGH": 3028,
+   "STOPOVER": 2706
+  },
+  "43": {
+   "ONE": 2116
+  },
+  "38": {
+   "ONE": 1679,
+   "MEDIUM": 1677,
+   "HIGH": 3962,
+   "STOPOVER": 140
+  }
+ },
+ "units": [
+  "38",
+  "39",
+  "43",
+  "44",
+  "45",
+  "52"
+ ],
+ "mapNote": null
+}

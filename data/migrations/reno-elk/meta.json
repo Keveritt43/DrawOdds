@@ -1,0 +1,119 @@
+{
+ "slug": "reno-elk",
+ "name": "Reno Elk Migration",
+ "species": "ELK",
+ "herd": "Reno elk",
+ "source": "Reno Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2015-03-08",
+ "studyEnd": "2019-12-04",
+ "summary": "The Reno elk herd winters at the southern end of the Beaverhead Mountains in Idaho. The Reno Elk herd migrates north along the Beaverhead Mountains to reach summer ranges near Baldy Mountain, Texas Creek, and Eighteen-mile Creek. Habitat is sagebrush and mixed grasses on south-facing slopes with mountain mahogany at lower elevations. Douglas fir communities occur on northern-facing slopes, and riparian areas are typically dominated by willow and more mesic species with occasional aspen stands. Limber pine is not uncommon at upper elevations near tree line. On average, Reno elk migrate 32 miles and may migrate as far as 79 miles. Elk abundance was low in this area throughout most of the 1900s. Elk immigrated into the Reno area from other populations in Idaho and Montana, and the population reached a level in 1988 that IDFG determined was large enough to support antlerless harvest. The Reno elk population has continued to increase gradually and was estimated to be 2,100 elk in 2017. This herd was described by the DOI 2014\u20132024 Elk Plan as being moderately limited by agricultural effects. The most common conflicts are depredation of actively growing alfalfa fields during summer and haystack depredations during winter, as well as increasing recreational activity during all months of the year. Loss of habitat because of fire also affected large portions of this population\u2019s winter range and continues to be a concern. Lastly, overall use of this area from multiple user groups, especially with regards to expansion of both legal and illegal recreational motorized vehicle use, presents continuing management challenges related to habitat quality and quantity.",
+ "caveat": null,
+ "methods": "Of 72 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 24 used forced motion variance (1400 m) models with a 14-hour time-lag, and 48 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 32.4,
+  "maxMiles": 79.0,
+  "minMiles": 4.1,
+  "migrations": 72,
+  "individuals": 44,
+  "springMigrations": 44,
+  "fallMigrations": 28
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-28",
+   "startMin": "02-28",
+   "startMax": "06-15",
+   "endAvg": "05-01",
+   "endMin": "03-06",
+   "endMax": "07-10",
+   "durationAvgDays": 21.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 66.0
+  },
+  "fall": {
+   "startAvg": "11-01",
+   "startMin": "06-29",
+   "startMax": "12-31",
+   "endAvg": "12-02",
+   "endMin": "09-24",
+   "endMax": "03-07",
+   "durationAvgDays": 22.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 94.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 844478
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 393321
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 140419
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 39037
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 45763
+  }
+ ],
+ "unitAcres": {
+  "58": {
+   "ONE": 45509,
+   "LOW": 63093,
+   "MEDIUM": 38665,
+   "HIGH": 24922,
+   "STOPOVER": 25585
+  },
+  "29": {
+   "ONE": 11626,
+   "STOPOVER": 39
+  },
+  "30A": {
+   "ONE": 36062,
+   "LOW": 40403,
+   "MEDIUM": 13422,
+   "HIGH": 2227,
+   "STOPOVER": 2833
+  },
+  "30": {
+   "ONE": 8262
+  },
+  "59A": {
+   "ONE": 23181,
+   "LOW": 28777,
+   "MEDIUM": 13985,
+   "HIGH": 14058,
+   "STOPOVER": 21723
+  }
+ },
+ "units": [
+  "29",
+  "30",
+  "30A",
+  "58",
+  "59A"
+ ],
+ "mapNote": null
+}

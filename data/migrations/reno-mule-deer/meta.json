@@ -1,0 +1,123 @@
+{
+ "slug": "reno-mule-deer",
+ "name": "Reno Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Reno mule deer",
+ "source": "Reno Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2009-04-26",
+ "studyEnd": "2018-12-21",
+ "summary": "The Reno mule deer herd winters at the southern end of the Beaverhead Mountains in Idaho, congregating at the southern intersection of GMUs 58 and 59A on Reno Point in GMU 59A and in Medicine Lodge Creek drainage at the intersection of GMUs 59A and 59. Mule deer in this population migrate northeast to reach summer ranges in the Beaverhead Mountains, with some individuals crossing Interstate 15 to summer ranges in the Centennial Mountains. On average, Reno mule deer migrate 36 miles and may migrate as far as 78 miles. This population fluctuates with approximately 3,000 estimated in 2019. The summer and winter ranges of the Reno mule deer are relatively arid, and habitat for these mule deer primarily consists of sagebrush overstory with grass and forb understory at low elevations, particularly on south-facing slopes. Zones of mountain mahogany and juniper become intermixed with sagebrush habitat as elevation increases. Douglas fir communities are common at mid-elevation zones and on north-facing slopes. Riparian habitats are found adjacent to drainage corridors, which may be ephemeral, and are composed of willow and aspen communities. The highest elevation segments of this region are above tree line and are dominated by alpine and subalpine species. The population is likely limited by summer precipitation and subsequent forage availability, while winter range conditions are relatively mild when compared to the winter ranges of adjacent mule deer populations. Invasive weeds and conversion of brush dominated range to grass-dominated range or agriculture are potential risks for this population. Conflict between mule deer and humans has also arisen during both the crop growing season and during crop storage. Especially of note is the expansion of motorized vehicle use, which may place added stress on animals and is a continuing concern for managers.",
+ "caveat": null,
+ "methods": "Of 140 individual seasonal migrations, 6 used Brownian bridge movement models with an 8-hour time-lag, 62 used forced motion variance (1000 m) models with a 14-hour time-lag, and 72 used force motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 36.1,
+  "maxMiles": 78.1,
+  "minMiles": 9.3,
+  "migrations": 140,
+  "individuals": 56,
+  "springMigrations": 87,
+  "fallMigrations": 53
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-16",
+   "startMin": "03-05",
+   "startMax": "05-10",
+   "endAvg": "05-06",
+   "endMin": "03-17",
+   "endMax": "06-23",
+   "durationAvgDays": 20.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 56.0
+  },
+  "fall": {
+   "startAvg": "10-14",
+   "startMin": "09-21",
+   "startMax": "12-19",
+   "endAvg": "10-21",
+   "endMin": "09-22",
+   "endMax": "01-05",
+   "durationAvgDays": 46.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 128.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 703667
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 368648
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 153227
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 51990
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 34866
+  }
+ ],
+ "unitAcres": {
+  "61": {
+   "ONE": 42963,
+   "LOW": 13691,
+   "MEDIUM": 1481,
+   "STOPOVER": 794
+  },
+  "63": {
+   "ONE": 10083,
+   "LOW": 148,
+   "STOPOVER": 69
+  },
+  "59A": {
+   "ONE": 18023,
+   "LOW": 43796,
+   "MEDIUM": 26622,
+   "HIGH": 36329,
+   "STOPOVER": 21561
+  },
+  "59": {
+   "ONE": 18461,
+   "LOW": 51161,
+   "MEDIUM": 23814,
+   "HIGH": 17422,
+   "STOPOVER": 17515
+  },
+  "58": {
+   "ONE": 3750,
+   "LOW": 3502,
+   "MEDIUM": 1075,
+   "HIGH": 730,
+   "STOPOVER": 3049
+  }
+ },
+ "units": [
+  "58",
+  "59",
+  "59A",
+  "61",
+  "63"
+ ],
+ "mapNote": null
+}

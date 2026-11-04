@@ -1,0 +1,105 @@
+{
+ "slug": "tex-creek-elk",
+ "name": "Tex Creek Elk Migration",
+ "species": "ELK",
+ "herd": "Tex Creek elk",
+ "source": "Tex Creek Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2007-03-04",
+ "studyEnd": "2009-01-06",
+ "summary": "The Tex Creek elk herd winters in the tributaries of Willow and Meadow Creeks on the northwest end of the Caribou Range, with the majority of elk using the Tex Creek Wildlife Management Area (WMA) in Idaho. Tex Creek WMA and surrounding private lands are varied, consisting of steep, rocky canyon walls, small drainages covered in native vegetation and shrubs, and open benches and flats of native and non-native vegetation. Portions of the winter range have been developed for wind energy. Tex Creek elk migrate southeast to the Caribou Range to summer, traveling 40 miles on average with the longest recorded migration of 63 miles. The wintering population of elk used for this analysis approximated 5,500 in winter 2020\u20132021 with approximately 4,000 elk using Tex Creek WMA, and the remaining 1,500 elk using public and private lands with lower snow loads in the vicinity of Tex Creek WMA. In 2016, the Henry Creek fire burned approximately 57,000 acres of winter and transitional range associated with the Tex Creek herd. The effect of this fire on elk seems minimal, but the significant loss of healthy shrub habitat likely affected elk distribution and forage availability. Managers continue to monitor habitat and wildlife responses to this fire. Development, expansion of both legal and illegal motorized recreational vehicle use, and overgrazing are threats facing this herd during migration and at wintering and stopover locations. Depredation and private land conflicts are also issues, especially during deep snow years when elk leave the WMA and other public lands and move into adjacent populated areas to the north and west.",
+ "caveat": "The Tex Creek analysis has a limited number of individuals and will be updated as soon as more location data becomes available for analysis.",
+ "methods": "Of 48 individual seasonal migrations, 24 used Brownian bridge movement models with an 8-hour time-lag, 14 used forced motion variance (1400 m) models with a 14-hour time-lag, and 10 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 40.1,
+  "maxMiles": 63.1,
+  "minMiles": 0.9,
+  "migrations": 48,
+  "individuals": 20,
+  "springMigrations": 31,
+  "fallMigrations": 17
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-23",
+   "startMin": "03-04",
+   "startMax": "05-17",
+   "endAvg": "05-07",
+   "endMin": "03-31",
+   "endMax": "07-06",
+   "durationAvgDays": 35.0,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 79.0
+  },
+  "fall": {
+   "startAvg": "12-02",
+   "startMin": "05-20",
+   "startMax": "01-06",
+   "endAvg": "12-22",
+   "endMin": "05-22",
+   "endMax": "03-22",
+   "durationAvgDays": 31.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 93.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 432855
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 197553
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 60696
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 24290
+  }
+ ],
+ "unitAcres": {
+  "66A": {
+   "ONE": 32455,
+   "MEDIUM": 19443,
+   "HIGH": 5234,
+   "STOPOVER": 2187
+  },
+  "66": {
+   "ONE": 23688,
+   "MEDIUM": 38979,
+   "HIGH": 40447,
+   "STOPOVER": 20470
+  },
+  "76": {
+   "ONE": 3336
+  },
+  "69": {
+   "ONE": 24543,
+   "MEDIUM": 17796,
+   "HIGH": 17800,
+   "STOPOVER": 4900
+  }
+ },
+ "units": [
+  "66",
+  "66A",
+  "69",
+  "76"
+ ],
+ "mapNote": null
+}

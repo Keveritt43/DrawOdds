@@ -1,0 +1,116 @@
+{
+ "slug": "tex-creek-mule-deer",
+ "name": "Tex Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Tex Creek mule deer",
+ "source": "Tex Creek Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-01",
+ "studyStart": "2007-03-16",
+ "studyEnd": "2018-12-23",
+ "summary": "Tex Creek mule deer use the Ririe Reservoir tributaries (Tex Creek, Willow Creek, Grays Lake Outlet, Meadow Creek) for their winter range. This habitat is varied, consisting of steep, rocky canyon walls, small drainages, and open flats. They migrate through the Caribou Range to summer ranges spread across Game Management Units (GMUs) 66 and 66A, with some deer extending southward into GMU 76. On average, Tex Creek mule deer migrate ~35 miles, with the longest migration recorded as 65 miles. The winter herd historically numbered ~4,500 individuals, but the Henry\u2019s Creek fire in 2016 burned ~52,000 acres. The fire burned areas used by 80% of the wintering deer. The fire was followed by heavy snow accumulations in winter. The combination dramatically altered the 2016 winter range and impacted subsequent deer densities. The 2019 population estimate indicated a 40% population decline in the northern portion of Caribou Data Analysis Unit (DAU) and a 75% decline within the fire footprint. The impacts of the fire, along with human recreation (particularly motorized vehicles), changing land management, and human development, continues to challenge mule deer in the vicinity.",
+ "caveat": null,
+ "methods": "Of 108 individual seasonal migrations, 35 used Brownian bridge movement models with an 8-hour time-lag, 19 used forced motion variance (1000 m) with a 14-hour time-lag, and 54 used forced motion variance (1000 m) with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 35.2,
+  "maxMiles": 64.9,
+  "minMiles": 2.3,
+  "migrations": 108,
+  "individuals": 63,
+  "springMigrations": 76,
+  "fallMigrations": 32
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-18",
+   "startMin": "03-07",
+   "startMax": "05-18",
+   "endAvg": "05-09",
+   "endMin": "03-16",
+   "endMax": "06-05",
+   "durationAvgDays": 19.9,
+   "durationMinDays": 1.0,
+   "durationMaxDays": 65.0
+  },
+  "fall": {
+   "startAvg": "11-03",
+   "startMin": "10-15",
+   "startMax": "01-22",
+   "endAvg": "12-20",
+   "endMin": "10-15",
+   "endMax": "03-14",
+   "durationAvgDays": 40.9,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 100.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 717059
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 286858
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 66396
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 12775
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 44478
+  }
+ ],
+ "unitAcres": {
+  "69": {
+   "ONE": 104501,
+   "LOW": 46315,
+   "MEDIUM": 17761,
+   "HIGH": 7452,
+   "STOPOVER": 27981
+  },
+  "66A": {
+   "ONE": 19512,
+   "LOW": 38271,
+   "MEDIUM": 3680,
+   "HIGH": 381,
+   "STOPOVER": 2587
+  },
+  "66": {
+   "ONE": 31755,
+   "LOW": 74078,
+   "MEDIUM": 24793,
+   "HIGH": 6582,
+   "STOPOVER": 25578
+  },
+  "76": {
+   "ONE": 1939,
+   "LOW": 9348,
+   "STOPOVER": 1086
+  }
+ },
+ "units": [
+  "66",
+  "66A",
+  "69",
+  "76"
+ ],
+ "mapNote": null
+}

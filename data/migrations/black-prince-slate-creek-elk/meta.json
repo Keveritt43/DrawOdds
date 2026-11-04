@@ -1,0 +1,78 @@
+{
+ "slug": "black-prince-slate-creek-elk",
+ "name": "Black Prince-Slate Creek Elk Migration",
+ "species": "ELK",
+ "herd": "Black Prince-Slate Creek elk",
+ "source": "Black Prince-Slate Creek Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, May 2021",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2021-05",
+ "studyStart": "2015-04-25",
+ "studyEnd": "2019-09-15",
+ "summary": "Black Prince-Slate Creek elk winter north of the St. Joe River, approximately 30 miles east of St. Maries, Idaho. Much of their winter range habitat lies on private timber company lands on south-facing slopes that were recently logged (Ellstrom and others, 2020). The Black Prince-Slate Creek elk migrate to U.S. Forest Service lands in the spring and summer: they travel north-northeast and summer on the south side of the St. Joe Divide, the divide between the Coeur d\u2019Alene River and St. Joe River drainages. On average, these elk migrate more than nine miles between their summer and winter ranges.",
+ "caveat": "The Black Prince \u2013 Slate Creek analysis has a limited number of individuals and will be updated as soon as more location data becomes available for analysis.",
+ "methods": "Of 34 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 17 used forced motion variance (1400 m) models with a 14-hour time-lag, and 17 used forced motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 9.2,
+  "maxMiles": 22.2,
+  "minMiles": 1.7,
+  "migrations": 34,
+  "individuals": 17,
+  "springMigrations": 22,
+  "fallMigrations": 12
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "05-07",
+   "startMin": "03-21",
+   "startMax": "07-28",
+   "endAvg": "05-29",
+   "endMin": "04-04",
+   "endMax": "07-31",
+   "durationAvgDays": 11.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 35.0
+  },
+  "fall": {
+   "startAvg": "10-21",
+   "startMin": "09-02",
+   "startMax": "01-23",
+   "endAvg": "12-12",
+   "endMin": "09-15",
+   "endMax": "02-10",
+   "durationAvgDays": 25.0,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 77.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 106083
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 50949
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 16035
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 5780
+  }
+ ],
+ "unitAcres": {},
+ "units": [],
+ "mapNote": "no route layers provided"
+}

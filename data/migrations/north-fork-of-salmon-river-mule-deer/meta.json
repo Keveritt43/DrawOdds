@@ -1,0 +1,78 @@
+{
+ "slug": "north-fork-of-salmon-river-mule-deer",
+ "name": "North Fork of Salmon River Mule Deer Migration",
+ "species": "DEER",
+ "herd": "North Fork of Salmon River mule deer",
+ "source": "North Fork of Salmon River Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2013-05-10",
+ "studyEnd": "2018-10-29",
+ "summary": "North Fork Salmon River mule deer winter in the foothills of the Beaverhead Mountains and along the Salmon River Valley near North Fork, Idaho. They generally travel northeast across the Beaverhead Mountains towards summer ranges in Montana. On average, North Fork Salmon River mule deer travel 33 miles to migrate between summer and winter ranges, with more extensive migrations reaching 65 miles. Winter range is characterized by open sagebrush-grassland foothills, with summer range more forested and more productive because of increased precipitation. Snow depth during the spring migration can be significant when crossing the mountains. The wintering population of mule deer used for this analysis approximated 3,000 in 2016.",
+ "caveat": null,
+ "methods": "Of 31 individual seasonal migrations, 1 used Brownian bridge movement models with an 8-hour time-lag, 11 used forced motion variance (1400 m) models with a 14-hour time-lag, and 19 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 33.4,
+  "maxMiles": 64.5,
+  "minMiles": 9.0,
+  "migrations": 31,
+  "individuals": 16,
+  "springMigrations": 20,
+  "fallMigrations": 11
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-28",
+   "startMin": "03-29",
+   "startMax": "06-20",
+   "endAvg": "05-24",
+   "endMin": "05-08",
+   "endMax": "07-13",
+   "durationAvgDays": 19.0,
+   "durationMinDays": 5.0,
+   "durationMaxDays": 40.0
+  },
+  "fall": {
+   "startAvg": "09-26",
+   "startMin": "09-04",
+   "startMax": "10-19",
+   "endAvg": "10-29",
+   "endMin": "10-10",
+   "endMax": "01-22",
+   "durationAvgDays": 33.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 83.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 303562
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 70498
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 6548
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 24759
+  }
+ ],
+ "unitAcres": {},
+ "units": [],
+ "mapNote": "no route layers provided"
+}

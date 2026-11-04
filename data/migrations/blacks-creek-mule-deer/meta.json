@@ -1,0 +1,106 @@
+{
+ "slug": "blacks-creek-mule-deer",
+ "name": "Blacks Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Blacks Creek mule deer",
+ "source": "Blacks Creek Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-01",
+ "studyStart": "2015-03-15",
+ "studyEnd": "2018-12-17",
+ "summary": "Blacks Creek-Danskin mule deer winter in the foothills southeast of Lucky Peak Reservoir. During their spring migrations, these mule deer typically traverse the Boise River Valley into reaches much farther up the valley. They may also travel as far as the Sawtooth Valley. On average, Blacks Creek-Danskin mule deer travel over 40 miles to migrate between winter and summer range. Individuals with the longest routes may travel over 75 miles. The population of wintering mule deer in the greater area (including the Boise River population) was estimated at 28,600 in January 2018.",
+ "caveat": null,
+ "methods": "Of 119 individual seasonal migrations, 25 used forced motion variance (1000 m) with a 14-hour time-lag, and 94 used forced motion variance (1000 m) with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 40.4,
+  "maxMiles": 76.3,
+  "minMiles": 8.7,
+  "migrations": 119,
+  "individuals": 48,
+  "springMigrations": 73,
+  "fallMigrations": 46
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-08",
+   "startMin": "02-29",
+   "startMax": "05-01",
+   "endAvg": "05-04",
+   "endMin": "03-25",
+   "endMax": "08-16",
+   "durationAvgDays": 25.3,
+   "durationMinDays": 7.0,
+   "durationMaxDays": 113.0
+  },
+  "fall": {
+   "startAvg": "10-09",
+   "startMin": "09-02",
+   "startMax": "12-23",
+   "endAvg": "11-20",
+   "endMin": "10-02",
+   "endMax": "03-05",
+   "durationAvgDays": 41.9,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 122.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 1000755
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 487553
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 158861
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 29800
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 52904
+  }
+ ],
+ "unitAcres": {
+  "43": {
+   "ONE": 41199,
+   "LOW": 44447,
+   "MEDIUM": 10510,
+   "HIGH": 79,
+   "STOPOVER": 3908
+  },
+  "39": {
+   "ONE": 87785,
+   "LOW": 153835,
+   "MEDIUM": 96097,
+   "HIGH": 32317,
+   "STOPOVER": 54284
+  },
+  "36": {
+   "ONE": 2494
+  }
+ },
+ "units": [
+  "36",
+  "39",
+  "43"
+ ],
+ "mapNote": null
+}

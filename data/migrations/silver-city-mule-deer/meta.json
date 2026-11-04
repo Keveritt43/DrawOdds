@@ -1,0 +1,100 @@
+{
+ "slug": "silver-city-mule-deer",
+ "name": "Silver City Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Silver City mule deer",
+ "source": "Silver City Migration Statistics and seasonal migration routes map, analyzed / prepared by Robert Ritson and Scott Bergen, January 2024",
+ "preparedBy": "Robert Ritson and Scott Bergen",
+ "preparedDate": "2024-01",
+ "studyStart": "2018-03-20",
+ "studyEnd": "2022-12-15",
+ "summary": "The Silver City mule deer winter east of Silver City, Idaho, along Sinker Creek and west of Idaho State Highway 78 (Figure 1). This herd generally spends the summer at higher elevations in Game Management Unit (GMU) 40 south and west of the historic mining towns of Silver City, Idaho, and De Lamar, Idaho. Migration distances averaged 17 mi (27 km), but some migrations were considerably longer (>40 mi) and spilled into GMU 41, as far south as the basin of Little Jacks Creek. The Silver City mule deer herd shares summer ranges in the Owyhee Mountains with several distinct mule deer herds, which winter in eastern Oregon. Summer habitats comprise mixed-conifer forest, aspen, and some mountain mahogany-woodland communities, whereas their migration and winter range habitats comprise a mix of Wyoming big sagebrush steppe, invasive annual grasses, and juniper woodland. Seasonal migrations near Silver City, Idaho, span Federal, State, and private land ownership. The area includes important mineral reserves and potential renewable energy sources, and provides abundant recreational opportunities, so mitigating adverse effects from these land uses may be an important consideration for environmental planning.",
+ "caveat": null,
+ "methods": "Of 84 individual seasonal migrations 55 used Brownian bridge movement models with an 8-hour time lag, 20 used Fixed Motion Variance (1000m) with a 14-hour time lag, and 9 used Fixed Motion Variance (1000m) with a 27-hour time lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 18.5,
+  "maxMiles": 57.3,
+  "minMiles": 3.4,
+  "migrations": 84,
+  "individuals": 39,
+  "springMigrations": 50,
+  "fallMigrations": 34
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-15",
+   "startMin": "03-20",
+   "startMax": "06-07",
+   "endAvg": "04-30",
+   "endMin": "04-01",
+   "endMax": "06-29",
+   "durationAvgDays": 16.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 66.0
+  },
+  "fall": {
+   "startAvg": "10-20",
+   "startMin": "09-11",
+   "startMax": "12-17",
+   "endAvg": "11-18",
+   "endMin": "09-20",
+   "endMax": "12-20",
+   "durationAvgDays": 14.0,
+   "durationMinDays": 1.0,
+   "durationMaxDays": 73.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 144213
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 117158
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 33075
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 2113
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 32297
+  }
+ ],
+ "unitAcres": {
+  "40": {
+   "ONE": 25924,
+   "LOW": 34889,
+   "MEDIUM": 18772,
+   "HIGH": 14447,
+   "STOPOVER": 12049
+  },
+  "41": {
+   "ONE": 3271,
+   "LOW": 8228,
+   "STOPOVER": 323
+  }
+ },
+ "units": [
+  "40",
+  "41"
+ ],
+ "mapNote": null
+}

@@ -1,5 +1,6 @@
 import { listStudies, md, type MigClass } from '@/lib/migrations';
 import type { SeasonOverlap } from '@/components/StudyCard';
+import { SPECIES_NAME } from '@/lib/migrationShared';
 import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
@@ -45,17 +46,17 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   // nonresident general tags only matter to nonresidents
   // elk zone A/B tags are listed for everyone (residents choose A or B too); deer tags only for nonresidents
   const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
-  // migration studies whose routes cross this unit (deer / elk drawing pages only)
+  // migration studies whose routes cross this unit (deer / elk / pronghorn drawing page only)
   const studies = draw === 'DEP' ? await listStudies(name) : [];
   const overlapsFor = (s: (typeof studies)[number]): SeasonOverlap[] => {
-    const fall = (s.timing as { fall?: { startAvg: string; endAvg: string } }).fall;
-    if (!fall) return [];
+    const fall = (s.timing as { fall?: { startAvg: string; endAvg: string } } | null)?.fall;
+    if (!fall || fall.startAvg.length < 5 || fall.endAvg.length < 5) return [];
     return listed
       .filter((h) => h.species === s.species && h.openDate && h.closeDate)
       .filter((h) => {
         const y = h.openDate!.getUTCFullYear();
         const a = new Date(`${y}-${fall.startAvg}T00:00:00Z`);
-        const b = new Date(`${y}-${fall.endAvg}T00:00:00Z`);
+        const b = new Date(`${fall.endAvg < fall.startAvg ? y + 1 : y}-${fall.endAvg}T00:00:00Z`);
         return h.openDate! <= b && h.closeDate! >= a;
       })
       .map((h) => ({
@@ -112,18 +113,26 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         <LandBar shares={unit.landOwnership as { manager: string; pct: number }[] | null} />
         <p className="small muted" style={{ marginBottom: 0 }}>Managing agency, not owner. State land is mostly open to hunting; check access on the ground.</p>
       </div>
-      {studies.map((st) => {
-        const ov = overlapsFor(st);
-        const fall = (st.timing as { fall?: { startAvg: string; endAvg: string } }).fall;
-        return (
-          <p key={st.slug} className="note mig-note">
-            <b>Migration:</b> <Link href={`/migration#${st.slug}`}>{st.name}</Link> crosses this unit{fall ? ` (fall migration averages ${md(fall.startAvg)} – ${md(fall.endAvg)})` : ''}. Turn it on in the map below.
-            {ov.length > 0 && <> Deer seasons here in that window: {ov.map((o, i) => <span key={o.href}>{i ? ', ' : ''}<Link href={o.href}>{o.label}</Link></span>)}.</>}
-          </p>
-        );
-      })}
+      {studies.length > 0 && (
+        <div className="note mig-note">
+          <b>Migration {studies.length === 1 ? 'study' : 'studies'} crossing this unit</b> (turn them on in the map below):
+          <ul className="mig-list" style={{ marginTop: 4 }}>
+            {studies.map((st) => {
+              const ov = overlapsFor(st);
+              const fall = (st.timing as { fall?: { startAvg: string; endAvg: string } } | null)?.fall;
+              return (
+                <li key={st.slug}>
+                  <Link href={`/migration/${st.slug}`}>{st.name.replace(/ Migration$/, '')}</Link> <span className="muted">({SPECIES_NAME[st.species]?.toLowerCase()})</span>
+                  {fall ? ` · fall move averages ${md(fall.startAvg)} – ${md(fall.endAvg)}` : ''}
+                  {ov.length > 0 && <> · seasons in that window: {ov.map((o, i) => <span key={o.href}>{i ? ', ' : ''}<Link href={o.href}>{o.label}</Link></span>)}</>}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
       <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 480 }}>
-        <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="480px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, classes: s.classes as unknown as MigClass[] }))} />
+        <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="480px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, species: s.species, routes: !s.mapNote, classes: s.classes as unknown as MigClass[] }))} />
       </div>
 
       <h2 id="hunts">Hunts In Unit {unit.name}</h2>

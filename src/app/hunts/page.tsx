@@ -92,7 +92,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const nr = residency === 'NONRESIDENT';
   const rf = residencyFields(residency);
   const [rows, fav] = await Promise.all([
-    db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : []), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
+    db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : {}), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
     getFavorites(),
   ]);
   // alphabetical: unit / area names in human order (4 before 10, 20A right after 20)

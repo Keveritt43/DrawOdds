@@ -1,0 +1,114 @@
+{
+ "slug": "mt-borah-mule-deer",
+ "name": "Mt. Borah Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Mt. Borah mule deer",
+ "source": "Mt. Borah Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, December 2019",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2019-12",
+ "studyStart": "2017-04-22",
+ "studyEnd": "2018-12-31",
+ "summary": "The Mt. Borah mule deer winter on the western flats at the base of the Lost River Range between the Vance Canyon area in the south and Lime Creek in the north. Winter habitat, which is shared by elk, pronghorn, and bighorn sheep, is limited by steep, rocky slopes and deep snow. As snow on the ground subsides, mule deer migrate to the west and converge past Thousand Springs Valley and Trail Creek Summit, reaching their summer range north of Ketchum in the Smoky Mountains. On average, these mule deer migrate nearly 50 miles, and some migrate as far as 73 miles. Continued improvements to Trail Creek Road and associated infrastructure development could result in deer mortalities due to increased traffic as the migration route follows the roadway quite closely. In addition, human development, particularly in Game Management Unit (GMU) 49, could prove detrimental for migrating and summering mule deer. The Mt. Borah population of mule deer consists of roughly 400 \u2013 500 individuals (based on aerial surveys in 2010).",
+ "caveat": null,
+ "methods": "Of 27 individual seasonal migrations none used Brownian bridge movement models, 2 used forced motion variance (1000m) with a 14 hour time-lag, and 25 used force motion variance (1000M) with a 27 hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 48.9,
+  "maxMiles": 73.4,
+  "minMiles": 27.8,
+  "migrations": 27,
+  "individuals": 12,
+  "springMigrations": 18,
+  "fallMigrations": 9
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-17",
+   "startMin": "03-25",
+   "startMax": "05-15",
+   "endAvg": "05-27",
+   "endMin": "05-12",
+   "endMax": "07-07",
+   "durationAvgDays": 39.4,
+   "durationMinDays": 7.0,
+   "durationMaxDays": 62.8
+  },
+  "fall": {
+   "startAvg": "11-22",
+   "startMin": "10-02",
+   "startMax": "01-12",
+   "endAvg": "12-23",
+   "endMin": "11-20",
+   "endMax": "01-22",
+   "durationAvgDays": 31.0,
+   "durationMinDays": 8.1,
+   "durationMaxDays": 63.3
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 403054
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 197931
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 76089
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 21992
+  }
+ ],
+ "unitAcres": {
+  "49": {
+   "ONE": 456,
+   "MEDIUM": 278,
+   "HIGH": 1348
+  },
+  "50": {
+   "ONE": 24650,
+   "MEDIUM": 31307,
+   "HIGH": 54159,
+   "STOPOVER": 14602
+  },
+  "37": {
+   "ONE": 12063,
+   "MEDIUM": 7644,
+   "HIGH": 138,
+   "STOPOVER": 1689
+  },
+  "36A": {
+   "ONE": 1485,
+   "MEDIUM": 1093,
+   "HIGH": 1516,
+   "STOPOVER": 1023
+  },
+  "48": {
+   "ONE": 99,
+   "MEDIUM": 28174,
+   "HIGH": 10206,
+   "STOPOVER": 6049
+  }
+ },
+ "units": [
+  "36A",
+  "37",
+  "48",
+  "49",
+  "50"
+ ],
+ "mapNote": null
+}

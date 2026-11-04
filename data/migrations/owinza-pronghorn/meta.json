@@ -1,0 +1,144 @@
+{
+ "slug": "owinza-pronghorn",
+ "name": "Owinza Pronghorn Migration",
+ "species": "PRONGHORN",
+ "herd": "Owinza pronghorn",
+ "source": "Owinza Pronghorn Antelope Seasonal Migration Statistics and seasonal migration routes map, analyzed / prepared by Scott Bergen, March 2024",
+ "preparedBy": "Scott Bergen",
+ "preparedDate": "2024-03",
+ "studyStart": "2019-10-28",
+ "studyEnd": "2023-12-31",
+ "summary": "The Owinza pronghorn winter herd migrates by weaving through lava fields below the Mount Bennett Hills and further to the east in the Snake River Plains in Idaho. The seasonal migration moves north, traversing the Picabo Hills into the eastern side of Camas Prairie and west side of the Wood River Valley. This summer range is shared with members of the Gooding herd to the west. Wildlife unfriendly fencing, lava fields, and vehicular traffic endanger the ability of the herd to conduct this seasonal migration. Wildfire and the subsequent invasion of cheatgrass further degrade natural habitat. Future housing development in the Wood River Valley and associated energy developments are likely to challenge the longevity of this seasonal migration.",
+ "caveat": null,
+ "methods": "Of 72 individual seasonal migrations, 72 used Brownian bridge movement models.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 56.7,
+  "maxMiles": 141.8,
+  "minMiles": 8.1,
+  "migrations": 72,
+  "individuals": 29,
+  "springMigrations": 32,
+  "fallMigrations": 40
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-18",
+   "startMin": "02-05",
+   "startMax": "05-10",
+   "endAvg": "04-18",
+   "endMin": "03-07",
+   "endMax": "06-20",
+   "durationAvgDays": 31.2,
+   "durationMinDays": 2.5,
+   "durationMaxDays": 85.8
+  },
+  "fall": {
+   "startAvg": "11-09",
+   "startMin": "09-30",
+   "startMax": "12-14",
+   "endAvg": "11-25",
+   "endMin": "10-12",
+   "endMax": "12-31",
+   "durationAvgDays": 16.4,
+   "durationMinDays": 1.2,
+   "durationMaxDays": 79.2
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 248761
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 102661
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 124636
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 150990
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 63914
+  }
+ ],
+ "unitAcres": {
+  "52": {
+   "ONE": 17916,
+   "LOW": 12309,
+   "MEDIUM": 27659,
+   "HIGH": 46522,
+   "STOPOVER": 20716
+  },
+  "49": {
+   "ONE": 23585,
+   "LOW": 2228,
+   "MEDIUM": 2247,
+   "STOPOVER": 1749
+  },
+  "48": {
+   "ONE": 20236,
+   "LOW": 10838,
+   "MEDIUM": 14237,
+   "HIGH": 10295,
+   "STOPOVER": 8469
+  },
+  "52A": {
+   "ONE": 93763,
+   "LOW": 35910,
+   "MEDIUM": 59961,
+   "HIGH": 56487,
+   "STOPOVER": 15469
+  },
+  "53": {
+   "ONE": 78756,
+   "LOW": 15391,
+   "MEDIUM": 39952,
+   "HIGH": 42021,
+   "STOPOVER": 35782
+  },
+  "68": {
+   "ONE": 3981
+  },
+  "44": {
+   "ONE": 3989,
+   "STOPOVER": 70
+  },
+  "56": {
+   "ONE": 5666,
+   "STOPOVER": 3885
+  },
+  "55": {
+   "ONE": 921,
+   "STOPOVER": 587
+  }
+ },
+ "units": [
+  "44",
+  "48",
+  "49",
+  "52",
+  "52A",
+  "53",
+  "55",
+  "56",
+  "68"
+ ],
+ "mapNote": null
+}

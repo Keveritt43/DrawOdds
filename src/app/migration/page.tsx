@@ -1,36 +1,40 @@
 import Link from 'next/link';
-import { listStudies, type MigClass } from '@/lib/migrations';
-import { MigrationMap } from '@/components/MigrationMap';
-import { StudyCard } from '@/components/StudyCard';
-import { MigrationUnits } from '@/components/MigrationUnits';
-import { getResidency } from '@/lib/residency';
+import { listStudies, MIG_SPECIES, type MigClass, type MigStats, type MigTiming } from '@/lib/migrations';
+import { MigrationExplorer, type StudyRow } from '@/components/MigrationExplorer';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'Migration Studies', description: 'Idaho big game migration routes and stopovers, with timing, on a map, and the hunting units they cross.' };
+export const metadata = { title: 'Migration Studies', description: 'Idaho mule deer, elk and pronghorn migration routes and stopovers: timing, distances and the hunting units they cross.' };
 
-export default async function MigrationPage() {
+export default async function MigrationPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const sp = await searchParams;
+  const initial = String(sp.species ?? '').split(',').filter((x) => (MIG_SPECIES as string[]).includes(x));
   const studies = await listStudies();
-  const nr = (await getResidency()).residency === 'NONRESIDENT';
+  const rows: StudyRow[] = studies.map((s) => {
+    const st = s.stats as unknown as MigStats;
+    const t = s.timing as unknown as { spring: MigTiming; fall: MigTiming } | null;
+    return {
+      slug: s.slug, name: s.name, species: s.species, classes: s.classes as unknown as MigClass[], routes: !s.mapNote, units: s.units,
+      avgMiles: st.avgMiles, maxMiles: st.maxMiles, individuals: st.individuals, median: !!st.median,
+      fallStart: t?.fall.startAvg ?? null, fallEnd: t?.fall.endAvg ?? null, springStart: t?.spring.startAvg ?? null, springEnd: t?.spring.endAvg ?? null,
+      year: s.studyStart && s.studyEnd ? `${new Date(s.studyStart).getUTCFullYear()}–${new Date(s.studyEnd).getUTCFullYear()}` : '',
+    };
+  });
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>Migration Studies</h1>
-      <p className="muted" style={{ maxWidth: '70ch' }}>
-        Where collared deer travel between summer and winter range, how heavily each route is used, where they stop over, and when they move. Turn each study on or off on the map; every unit it crosses shows it too, and Find A Hunt can filter to those units.
+      <p className="muted" style={{ maxWidth: '72ch' }}>
+        Where collared mule deer, elk and pronghorn travel between summer and winter range, how heavily each route is used, where they stop over, and when they move.
+        Pick any mix of species, tap a route to see whose it is, and open a study for its full report numbers and the hunts in the units it crosses.
       </p>
-      {studies.length === 0 ? (
+      {rows.length === 0 ? (
         <p>No migration studies loaded yet.</p>
       ) : (
-        <>
-          <MigrationMap studies={studies.map((s) => ({ slug: s.slug, name: s.name, classes: s.classes as unknown as MigClass[] }))} />
-          {studies.map((s) => (
-            <div key={s.slug} id={s.slug}>
-              <StudyCard s={s} />
-              <MigrationUnits s={s} nr={nr} />
-            </div>
-          ))}
-          <p className="small"><Link href={`/hunts?migration=yes&species=DEER`}>Find deer hunts in units with a migration study →</Link></p>
-        </>
+        <MigrationExplorer studies={rows} initial={initial} />
       )}
+      <p className="small">
+        Find hunts in units with a study:{' '}
+        <Link href="/hunts?migration=yes&species=DEER">deer</Link> · <Link href="/hunts?migration=yes&species=ELK">elk</Link> · <Link href="/hunts?migration=yes&species=PRONGHORN">pronghorn</Link>
+      </p>
     </main>
   );
 }

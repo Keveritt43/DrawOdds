@@ -1,0 +1,136 @@
+{
+ "slug": "emmett-mule-deer",
+ "name": "Emmett Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Emmett mule deer",
+ "source": "Emmett Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, December 2019",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2019-12",
+ "studyStart": "2003-03-16",
+ "studyEnd": "2018-12-28",
+ "summary": "Emmett mule deer winter on a mix of private and public land northeast of the towns of Payette and Emmett, in vicinity of Paddock Valley Reservoir. Repeated fires have left winter range in relatively poor condition with significant presence of annual grasses and noxious weeds. The majority of these mule deer migrate northward to summer on public land west of Cascade Reservoir. Relatively fewer deer migrate eastward. Deer that do summer east of the North Fork of the Payette River and the Cascade Reservoir must cross State Highway 55. On average, Emmett mule deer travel over 42 miles to migrate between summer and winter ranges. The winter herd is estimated at 24,000 mule deer.",
+ "caveat": null,
+ "methods": "Of 146 individual seasonal migrations, 11 used Brownian bridge movement models with an 8-hour time-lag, 53 used forced motion variance (1000 m) models with a 14-hour time-lag, and 82 used forced motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 42.0,
+  "maxMiles": 85.8,
+  "minMiles": 12.8,
+  "migrations": 146,
+  "individuals": 60,
+  "springMigrations": 85,
+  "fallMigrations": 61
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "03-25",
+   "startMin": "01-31",
+   "startMax": "04-26",
+   "endAvg": "05-02",
+   "endMin": "02-23",
+   "endMax": "07-02",
+   "durationAvgDays": 31.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 77.0
+  },
+  "fall": {
+   "startAvg": "10-17",
+   "startMin": "05-26",
+   "startMax": "12-02",
+   "endAvg": "11-01",
+   "endMin": "10-13",
+   "endMax": "03-08",
+   "durationAvgDays": 20.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 147.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 951384
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 455751
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 169634
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 52262
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 51965
+  }
+ ],
+ "unitAcres": {
+  "32": {
+   "ONE": 50842,
+   "LOW": 32298,
+   "MEDIUM": 30717,
+   "HIGH": 23563,
+   "STOPOVER": 26804
+  },
+  "32A": {
+   "ONE": 25432,
+   "LOW": 85148,
+   "MEDIUM": 38658,
+   "HIGH": 32140,
+   "STOPOVER": 32608
+  },
+  "24": {
+   "ONE": 21928,
+   "LOW": 26325,
+   "STOPOVER": 929
+  },
+  "33": {
+   "ONE": 4701,
+   "LOW": 15727,
+   "STOPOVER": 137
+  },
+  "27": {
+   "ONE": 7846
+  },
+  "34": {
+   "ONE": 13545,
+   "LOW": 2630,
+   "STOPOVER": 39
+  },
+  "23": {
+   "ONE": 4495,
+   "LOW": 1382
+  },
+  "22": {
+   "ONE": 4701,
+   "LOW": 4442,
+   "MEDIUM": 1707,
+   "STOPOVER": 1285
+  }
+ },
+ "units": [
+  "22",
+  "23",
+  "24",
+  "27",
+  "32",
+  "32A",
+  "33",
+  "34"
+ ],
+ "mapNote": null
+}

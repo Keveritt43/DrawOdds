@@ -1,4 +1,4 @@
-import type { Prisma, Residency } from '@prisma/client';
+import type { Prisma, Residency, Species } from '@prisma/client';
 import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 import { DRAW_SPECIES, type Draw } from './species';
 import { unitsWithObjective, type ObjStatus } from './elkObjectives';
@@ -94,8 +94,8 @@ export function residencyFields(r: Residency) {
     : { odds5: 'resOdds5', oddsLast: 'resOddsLast', oddsPrev: 'resOddsPrev', tagAndFill: 'resTagAndFill', appsLast: 'resAppsLast', appsPrev: 'resAppsPrev', opp: 'scoreOppRes' } as const;
 }
 
-/** `migrationUnits`: units crossed by a migration study (from the database), for the migration filter. */
-export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrationUnits: string[] = []): Prisma.HuntSummaryWhereInput {
+/** `migrationUnits`: per species, the units crossed by a migration study of that species (from the database). */
+export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrationUnits: Partial<Record<string, string[]>> = {}): Prisma.HuntSummaryWhereInput {
   const rf = residencyFields(r);
   const and: Prisma.HuntSummaryWhereInput[] = [];
   // one drawing at a time: deer / elk / pronghorn, or moose / sheep / goat
@@ -134,8 +134,12 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   if (f.bullObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('bull', f.bullObj) } });
   if (f.cowObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('cow', f.cowObj) } });
   if (f.leftover) and.push({ leftoverTags: { gt: 0 } });
-  if (f.migration === 'yes') and.push({ units: { hasSome: migrationUnits.length ? migrationUnits : ['__none__'] } });
-  if (f.migration === 'no' && migrationUnits.length) and.push({ NOT: { units: { hasSome: migrationUnits } } });
+  // a hunt counts when its unit has a study of the same species (an elk study doesn't make a deer hunt "migration")
+  const migOr = Object.entries(migrationUnits)
+    .filter(([, u]) => u && u.length)
+    .map(([sp, u]) => ({ species: sp as Species, units: { hasSome: u! } }));
+  if (f.migration === 'yes') and.push(migOr.length ? { OR: migOr } : { id: '__none__' });
+  if (f.migration === 'no' && migOr.length) and.push({ NOT: { OR: migOr } });
   if (f.minScore) and.push({ scoreQuality: { gte: f.minScore } });
   if (f.minOpp !== null) and.push({ [rf.opp]: { gte: f.minOpp } });
   if (f.minTags !== null) and.push({ OR: [{ tags: { gte: f.minTags } }, { type: 'GENERAL' }] });

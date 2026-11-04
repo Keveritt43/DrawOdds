@@ -6,7 +6,7 @@ import { residencyFields } from '@/lib/finder';
 import { pct, pctOdds, density, WEAPON, antlerLabel, SPECIES_LABEL, int } from '@/lib/format';
 import { SuccessChart } from './Charts';
 import { ScoreBadge } from './HuntCards';
-import type { StudyInfo } from '@/lib/migrations';
+import { ANIMAL, type StudyInfo } from '@/lib/migrations';
 
 /**
  * One card per unit a study crosses: the study species' general seasons and controlled hunts there, with the
@@ -38,7 +38,7 @@ export async function MigrationUnits({ s, nr }: { s: StudyInfo; nr: boolean }) {
             <h3 style={{ marginTop: 0 }}><Link href={`/units/${encodeURIComponent(u)}`}>Unit {u}</Link></h3>
             <p className="small muted" style={{ marginTop: 0 }}>
               {unitInfo.get(u)?.publicPct !== null && unitInfo.get(u)?.publicPct !== undefined ? `${Math.round(unitInfo.get(u)!.publicPct!)}% public · ` : ''}
-              about {int(routeAcres(u))} acres of 2+ deer routes and stopovers
+              {routeAcres(u) > 0 ? `about ${int(routeAcres(u))} acres of routes used by 2+ ${ANIMAL[s.species] ?? 'animals'} and stopovers` : 'unit named in the report (no route map yet)'}
             </p>
             <h4>General {SPECIES_LABEL[s.species].toLowerCase()}</h4>
             {!general.length ? <p className="small muted">No general season.</p> : (

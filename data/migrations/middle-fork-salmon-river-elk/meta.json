@@ -1,0 +1,116 @@
+{
+ "slug": "middle-fork-salmon-river-elk",
+ "name": "Middle Fork Salmon River Elk Migration",
+ "species": "ELK",
+ "herd": "Middle Fork Salmon River elk",
+ "source": "Middle Fork Salmon River Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, October 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-10",
+ "studyStart": "2010-10-27",
+ "studyEnd": "2018-06-16",
+ "summary": "The Middle Fork Salmon River elk herd winters at the lower elevations along the Middle Fork Salmon River in Idaho. In spring, the elk generally follow the Middle Fork Salmon River upstream towards Dagger Falls to their summer range in the Salmon River Mountains. However, some of the elk branch off into the larger tributaries such as Pistol and Little Loon Creeks. This population of elk resides almost entirely on public land, largely within the Frank Church-River of No Return Wilderness. On average, Middle Fork Salmon River elk herd travels 25 miles, with some individuals traveling as far as 62 miles. These elk belong to the Middle Fork Elk Zone, which had a population estimate of 4,860 elk in 2017.",
+ "caveat": null,
+ "methods": "Of 70 individual seasonal migrations, 6 used Brownian bridge movement models with an 8-hour time-lag, 8 used forced motion variance (1400 m) models with a 14-hour time-lag, and 56 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 35.8,
+  "maxMiles": 63.0,
+  "minMiles": 8.1,
+  "migrations": 70,
+  "individuals": 32,
+  "springMigrations": 47,
+  "fallMigrations": 23
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-20",
+   "startMin": "03-01",
+   "startMax": "05-28",
+   "endAvg": "05-29",
+   "endMin": "04-22",
+   "endMax": "07-25",
+   "durationAvgDays": 34.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 72.0
+  },
+  "fall": {
+   "startAvg": "10-24",
+   "startMin": "09-09",
+   "startMax": "12-25",
+   "endAvg": "12-14",
+   "endMin": "11-10",
+   "endMax": "01-27",
+   "durationAvgDays": 38.0,
+   "durationMinDays": 6.0,
+   "durationMaxDays": 81.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 885410
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 385329
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 154836
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 55555
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 52086
+  }
+ ],
+ "unitAcres": {
+  "27": {
+   "ONE": 142462,
+   "LOW": 91866,
+   "MEDIUM": 39733,
+   "HIGH": 57717,
+   "STOPOVER": 52845
+  },
+  "36": {
+   "ONE": 22269,
+   "LOW": 12202,
+   "MEDIUM": 3582,
+   "HIGH": 39,
+   "STOPOVER": 2483
+  },
+  "25": {
+   "ONE": 31864,
+   "LOW": 4707,
+   "MEDIUM": 49,
+   "STOPOVER": 643
+  },
+  "34": {
+   "ONE": 42266,
+   "LOW": 20866,
+   "MEDIUM": 5685,
+   "STOPOVER": 1773
+  }
+ },
+ "units": [
+  "25",
+  "27",
+  "34",
+  "36"
+ ],
+ "mapNote": null
+}

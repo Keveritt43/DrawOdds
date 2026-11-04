@@ -1,0 +1,87 @@
+{
+ "slug": "teton-river-mule-deer",
+ "name": "Teton River Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Teton River mule deer",
+ "source": "Teton River Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, December 2019",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2019-12",
+ "studyStart": "2018-04-10",
+ "studyEnd": "2018-12-05",
+ "summary": "Teton River mule deer winter adjacent to the Teton River in eastern Idaho. Because of the limited quality and quantity of winter habitat, the 1,000 \u2013 2,500 individuals within this population are greatly influenced by winter severity. They experience dramatic swings in productivity and mortality, especially of fawns. Teton River mule deer migrate eastward across the Idaho-Wyoming border to two areas west of Jackson Lake. The more northern summer range is generally located southwest of Pitchstone Plateau. The southern summer range is in the foothills of the Teton Range. The southern deer face obstacles as they travel through Teton Canyon, such as development of agricultural land into subdivisions and increased recreational activity. On average, Teton River mule deer travel over 25 miles to migrate between summer and winter ranges, with the longest migration measured at over 70 miles.",
+ "caveat": null,
+ "methods": "Of 30 individual seasonal migrations, 17 used Brownian bridge movement models with an 8-hour time-lag, 11 used forced motion variance (1000 m) models with a 14-hour time-lag, and 2 used force motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 25.4,
+  "maxMiles": 70.1,
+  "minMiles": 8.2,
+  "migrations": 30,
+  "individuals": 15,
+  "springMigrations": 15,
+  "fallMigrations": 15
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "05-04",
+   "startMin": "04-10",
+   "startMax": "05-12",
+   "endAvg": "05-16",
+   "endMin": "04-28",
+   "endMax": "06-14",
+   "durationAvgDays": 19.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 50.0
+  },
+  "fall": {
+   "startAvg": "11-07",
+   "startMin": "09-03",
+   "startMax": "12-03",
+   "endAvg": "11-13",
+   "endMin": "10-17",
+   "endMax": "12-05",
+   "durationAvgDays": 14.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 75.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 189007
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 66593
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 23598
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 12948
+  }
+ ],
+ "unitAcres": {
+  "62": {
+   "ONE": 22420,
+   "MEDIUM": 9931,
+   "HIGH": 22416,
+   "STOPOVER": 17377
+  }
+ },
+ "units": [
+  "62"
+ ],
+ "mapNote": null
+}

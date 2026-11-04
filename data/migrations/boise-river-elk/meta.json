@@ -1,0 +1,105 @@
+{
+ "slug": "boise-river-elk",
+ "name": "Boise River Elk Migration",
+ "species": "ELK",
+ "herd": "Boise River elk",
+ "source": "Boise River Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, July 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-07",
+ "studyStart": "2015-03-01",
+ "studyEnd": "2020-01-02",
+ "summary": "The Boise River elk herd uses areas of the foothills west of Lucky Peak Lake in Idaho in winter. Elk wintering in this area typically migrate to summer range in the upper Boise River watershed. On average, the Boise River elk herd travels more than 26 miles to migrate between summer and winter range, with the farthest individuals traveling more than 63 miles. Elk must navigate State Highway 21 near Lucky Peak Lake, an area where wildlife-vehicle collisions have regularly occurred. However, recent and upcoming infrastructure improvement projects are mitigating some of those issues. The population in the Boise River Elk Zone was estimated to be 8,800 elk in 2021. Animal Capture and Data",
+ "caveat": null,
+ "methods": "Of 71 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 25 used forced motion variance (1400 m) models with a 14-hour time-lag, and 46 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 26.1,
+  "maxMiles": 63.5,
+  "minMiles": 6.4,
+  "migrations": 71,
+  "individuals": 39,
+  "springMigrations": 50,
+  "fallMigrations": 21
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-08",
+   "startMin": "02-16",
+   "startMax": "05-26",
+   "endAvg": "04-26",
+   "endMin": "03-02",
+   "endMax": "07-28",
+   "durationAvgDays": 23.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 73.0
+  },
+  "fall": {
+   "startAvg": "11-30",
+   "startMin": "10-18",
+   "startMax": "12-27",
+   "endAvg": "12-20",
+   "endMin": "11-05",
+   "endMax": "01-30",
+   "durationAvgDays": 18.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 62.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 693387
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 311420
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 124168
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 25649
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 38671
+  }
+ ],
+ "unitAcres": {
+  "33": {
+   "ONE": 23369,
+   "STOPOVER": 20
+  },
+  "39": {
+   "ONE": 131634,
+   "LOW": 82268,
+   "MEDIUM": 72440,
+   "HIGH": 26935,
+   "STOPOVER": 38979
+  },
+  "35": {
+   "ONE": 14659,
+   "LOW": 582,
+   "STOPOVER": 10
+  }
+ },
+ "units": [
+  "33",
+  "35",
+  "39"
+ ],
+ "mapNote": null
+}

@@ -3,12 +3,14 @@
  "name": "Antelope Creek Mule Deer Migration",
  "species": "DEER",
  "herd": "Antelope Creek mule deer",
- "source": "Antelope Creek Migration Statistics and Mule Deer Seasonal Migration Routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
+ "source": "Antelope Creek Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, January 2020",
  "preparedBy": "Jodi Berg and Scott Bergen",
  "preparedDate": "2020-01",
  "studyStart": "2011-04-20",
  "studyEnd": "2018-12-22",
- "summary": "Antelope Creek mule deer winter along Antelope Creek, west of the Big Lost River: rolling hills and steep, rocky slopes that hold 1,300 to 1,850 deer in winter (aerial surveys, 2006 and 2010). They migrate west through the White and Pioneer mountains toward Ketchum and the northern parts of units 49 and 50. They share routes and summer range with the neighboring Appendicitis Hills herd (950 to 2,120 deer). No major barriers today; development and habitat loss could add up over time.",
+ "summary": "Antelope Creek mule deer winter along Antelope Creek, west of Big Lost River. Antelope Creek provides crucial winter habitat for mule deer because of the availability of winter forage, particularly when deer face more severe winters. The rolling hills and steep, rocky slopes of Antelope Creek hold between 1,300 and 1,850 mule deer during winter (based on aerial surveys in 2006 and 2010). These mule deer migrate westward through the White and Pioneer Mountains towards Ketchum and the northern portions of Game Management Units (GMUs) 49 and 50. On average, Antelope Creek mule deer travel over 42 miles to migrate between summer and winter range with the farthest individuals traveling close to 110 miles. The Antelope Creek mule deer are adjacent to the Appendicitis Hills deer (950 \u2013 2,120 deer), and individuals may move between these two areas during winter and often share migration routes and summer ranges. Currently, there are no glaring migration challenges for this deer herd, but continued development of infrastructure and loss of native habitat across their range could result in cumulative impacts over time.",
+ "caveat": null,
+ "methods": "Of 99 individual seasonal migrations, 14 used Brownian bridge movement models with an 8-hour time-lag, 34 used forced motion variance (1000 m) with a 14-hour time-lag, and 51 used force motion variance (1000 m) with a 27-hour time-lag.",
  "winterCount": "1,300 - 1,850 deer (2006, 2010 surveys)",
  "stats": {
   "avgMiles": 42.4,
@@ -78,30 +80,31 @@
  ],
  "unitAcres": {
   "49": {
-   "ONE": 57538,
-   "LOW": 55610,
-   "MEDIUM": 34851,
-   "HIGH": 29176,
-   "STOPOVER": 14538
-  },
-  "50": {
-   "ONE": 61712,
-   "LOW": 55928,
-   "MEDIUM": 17430,
-   "HIGH": 23830,
-   "STOPOVER": 29852
+   "ONE": 49404,
+   "LOW": 53864,
+   "MEDIUM": 35295,
+   "HIGH": 29146,
+   "STOPOVER": 14301
   },
   "48": {
-   "ONE": 17987,
-   "LOW": 13058,
-   "MEDIUM": 3756,
-   "HIGH": 308,
-   "STOPOVER": 1024
+   "ONE": 16634,
+   "LOW": 12745,
+   "MEDIUM": 3691,
+   "HIGH": 298,
+   "STOPOVER": 1022
+  },
+  "50": {
+   "ONE": 54447,
+   "LOW": 54542,
+   "MEDIUM": 17673,
+   "HIGH": 23853,
+   "STOPOVER": 27991
   }
  },
  "units": [
   "48",
   "49",
   "50"
- ]
+ ],
+ "mapNote": null
 }

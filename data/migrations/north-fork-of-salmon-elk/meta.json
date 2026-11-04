@@ -1,0 +1,121 @@
+{
+ "slug": "north-fork-of-salmon-elk",
+ "name": "North Fork of Salmon Elk Migration",
+ "species": "ELK",
+ "herd": "North Fork of Salmon elk",
+ "source": "North Fork of Salmon Elk Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2015-03-08",
+ "studyEnd": "2019-12-01",
+ "summary": "The North Fork Salmon River elk herd originate primarily from the Salmon Elk Zone with some elk at the most southerly portion originating from the Beaverhead Elk Zone in Idaho. These elk winter in the foothills of the Beaverhead Mountains and along the Salmon River valley between North Fork and Salmon, Idaho. They fan out across higher elevations of the Bitterroot Mountains, where some travel northeast towards summer ranges in the Big Hole River valley in Montana. On average, North Fork Salmon River elk travel 25 miles to migrate between summer and winter ranges, with more extensive migrations reaching more than 57 miles. Because they initiate migration in April, these elk encounter relatively deep snow when crossing the mountains into Montana. The wintering population of elk used for this analysis approximated 3,800 in 2016.",
+ "caveat": null,
+ "methods": "Of 74 individual seasonal migrations, none used Brownian bridge movement models with an 8-hour time-lag, 36 used forced motion variance (1400 m) models with a 14-hour time-lag, and 38 used force motion variance (1400 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 24.5,
+  "maxMiles": 57.7,
+  "minMiles": 4.7,
+  "migrations": 74,
+  "individuals": 36,
+  "springMigrations": 40,
+  "fallMigrations": 34
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "04-18",
+   "startMin": "02-27",
+   "startMax": "07-05",
+   "endAvg": "05-14",
+   "endMin": "04-22",
+   "endMax": "07-19",
+   "durationAvgDays": 25.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 85.0
+  },
+  "fall": {
+   "startAvg": "10-31",
+   "startMin": "09-05",
+   "startMax": "08-28",
+   "endAvg": "11-09",
+   "endMin": "09-25",
+   "endMax": "03-02",
+   "durationAvgDays": 29.0,
+   "durationMinDays": 4.0,
+   "durationMaxDays": 112.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 669018
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 261506
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 45535
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 895
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 41834
+  }
+ ],
+ "unitAcres": {
+  "21A": {
+   "ONE": 35987,
+   "LOW": 69813,
+   "MEDIUM": 20178,
+   "HIGH": 96,
+   "STOPOVER": 17294
+  },
+  "30": {
+   "ONE": 18384,
+   "LOW": 18569,
+   "MEDIUM": 19,
+   "STOPOVER": 6664
+  },
+  "21": {
+   "ONE": 19395,
+   "LOW": 32781,
+   "MEDIUM": 19095,
+   "HIGH": 983,
+   "STOPOVER": 16338
+  },
+  "28": {
+   "ONE": 3648,
+   "LOW": 1929,
+   "MEDIUM": 974,
+   "STOPOVER": 1205
+  },
+  "29": {
+   "ONE": 1037,
+   "STOPOVER": 804
+  }
+ },
+ "units": [
+  "21",
+  "21A",
+  "28",
+  "29",
+  "30"
+ ],
+ "mapNote": null
+}

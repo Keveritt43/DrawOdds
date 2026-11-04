@@ -1,0 +1,107 @@
+{
+ "slug": "reese-creek-mule-deer",
+ "name": "Reese Creek Mule Deer Migration",
+ "species": "DEER",
+ "herd": "Reese Creek mule deer",
+ "source": "Reese Creek Mule Deer Migration Statistics and seasonal migration routes map, analyzed / prepared by Jodi Berg and Scott Bergen, September 2020",
+ "preparedBy": "Jodi Berg and Scott Bergen",
+ "preparedDate": "2020-09",
+ "studyStart": "2004-05-01",
+ "studyEnd": "2018-06-04",
+ "summary": "The Reese Creek mule deer herd winters in the Lemhi Valley in Idaho, where Reese Creek meets the Lemhi River. These mule deer generally migrate northeast across the Beaverhead Mountains towards Horse Prairie. On average, Reese Creek mule deer travel more than 16 miles to migrate between summer and winter ranges, with more extensive migrations measuring 56 miles. The wintering population of mule deer used for this analysis approximated 700 observed individuals in 2016. Managing for quality winter range resilient to invasive plants and noxious weeds is a priority in sustaining healthy mule deer populations in this area.",
+ "caveat": null,
+ "methods": "Of 44 individual seasonal migrations, 5 used Brownian bridge movement models with an 8-hour time-lag, 32 used forced motion variance (1000 m) models with a 14-hour time-lag, and 7 used force motion variance (1000 m) models with a 27-hour time-lag.",
+ "winterCount": null,
+ "stats": {
+  "avgMiles": 16.7,
+  "maxMiles": 56.3,
+  "minMiles": 2.7,
+  "migrations": 44,
+  "individuals": 21,
+  "springMigrations": 30,
+  "fallMigrations": 14
+ },
+ "timing": {
+  "spring": {
+   "startAvg": "05-01",
+   "startMin": "03-02",
+   "startMax": "06-01",
+   "endAvg": "05-29",
+   "endMin": "04-22",
+   "endMax": "07-16",
+   "durationAvgDays": 20.0,
+   "durationMinDays": 2.0,
+   "durationMaxDays": 56.0
+  },
+  "fall": {
+   "startAvg": "10-31",
+   "startMin": "09-14",
+   "startMax": "12-15",
+   "endAvg": "12-24",
+   "endMin": "09-23",
+   "endMax": "02-12",
+   "durationAvgDays": 46.0,
+   "durationMinDays": 3.0,
+   "durationMaxDays": 128.0
+  }
+ },
+ "classes": [
+  {
+   "key": "ONE",
+   "label": "1 individual",
+   "color": "#9a9a9a",
+   "acres": 145987
+  },
+  {
+   "key": "LOW",
+   "label": "2 individuals to 10%",
+   "color": "#f2e600",
+   "acres": 48753
+  },
+  {
+   "key": "MEDIUM",
+   "label": "10 to 20%",
+   "color": "#f5a623",
+   "acres": 20386
+  },
+  {
+   "key": "HIGH",
+   "label": "More than 20%",
+   "color": "#e3241b",
+   "acres": 7759
+  },
+  {
+   "key": "STOPOVER",
+   "label": "Stopover",
+   "color": "#111111",
+   "pattern": "hatch",
+   "acres": 10082
+  }
+ ],
+ "unitAcres": {
+  "29": {
+   "ONE": 23229,
+   "LOW": 4569,
+   "MEDIUM": 536,
+   "STOPOVER": 3245
+  },
+  "30": {
+   "ONE": 2147,
+   "LOW": 1999,
+   "MEDIUM": 2494,
+   "HIGH": 7840,
+   "STOPOVER": 8039
+  },
+  "30A": {
+   "ONE": 205,
+   "LOW": 4026,
+   "STOPOVER": 1016
+  }
+ },
+ "units": [
+  "29",
+  "30",
+  "30A"
+ ],
+ "mapNote": null
+}
