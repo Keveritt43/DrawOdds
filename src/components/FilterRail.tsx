@@ -53,7 +53,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
   };
   const labelOf = (opts: Opt[], v: string) => opts.find((o) => o[0] === v)?.[1] ?? v;
   const sp_ = get('species');
-  const moreSet = ['from', 'leftover', 'migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
+  const moreSet = ['from', 'leftover', 'migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
   const many = (opts: Opt[], k: string, none: string) => (list(k).length ? list(k).map((v) => labelOf(opts, v)).join(', ') : none);
 
   const radio = (k: string, opts: Opt[]) => (
@@ -115,6 +115,17 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           <StopSlider stops={DENSITY} value={Number(get('maxDensity') || 0)} onCommit={(v) => push({ maxDensity: v ? String(v) : null })} />
           <p className="small muted" style={{ margin: '6px 0 0' }}>Average hunters per year for the hunt or season, per square mile. Under 0.5 is uncrowded. Controlled hunts count only their own hunters.</p>
         </Section>
+        <Section title="Land Access" value={[get('minPublic') && `${get('minPublic')}%+ public`, get('minAccessYes') && `${get('minAccessYes')}%+ Access Yes!`, get('minHuntable') && `${get('minHuntable')}%+ huntable`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minPublic') || get('minAccessYes') || get('minHuntable') || get('accessYes'))}>
+          <label>Public Land</label>
+          <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
+          <label>Access Yes! (Private Land Open To Hunting)</label>
+          <Slider value={Number(get('minAccessYes') || 0)} max={25} step={1} suffix="%" onCommit={(v) => push({ minAccessYes: v ? String(v) : null })} />
+          <label>Huntable (Public + Access Yes!)</label>
+          <Slider value={Number(get('minHuntable') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minHuntable: v ? String(v) : null })} />
+          <div className="checks2" style={{ marginTop: 10 }}>
+            <label><input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} /> Has Access Yes! land</label>
+          </div>
+        </Section>
         <details className="rmore" open={moreSet}>
           <summary>More Filters{moreSet ? ' (in use)' : ''}</summary>
           {!msg && sp_ !== 'PRONGHORN' && (
@@ -155,17 +166,6 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
               <p className="small muted" style={{ margin: '6px 0 0' }}>From 5 years of harvest: 60%+ whitetail = Whitetail, 40% or less = Mule Deer.</p>
             </Section>
           )}
-          <Section title="Land Access" value={[get('minPublic') && `${get('minPublic')}%+ public`, get('minAccessYes') && `${get('minAccessYes')}%+ Access Yes!`, get('minHuntable') && `${get('minHuntable')}%+ huntable`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minPublic') || get('minAccessYes') || get('minHuntable') || get('accessYes'))}>
-            <label>Public Land</label>
-            <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
-            <label>Access Yes! (Private Land Open To Hunting)</label>
-            <Slider value={Number(get('minAccessYes') || 0)} max={25} step={1} suffix="%" onCommit={(v) => push({ minAccessYes: v ? String(v) : null })} />
-            <label>Huntable (Public + Access Yes!)</label>
-            <Slider value={Number(get('minHuntable') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minHuntable: v ? String(v) : null })} />
-            <div className="checks2" style={{ marginTop: 10 }}>
-              <label><input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} /> Has Access Yes! land</label>
-            </div>
-          </Section>
           {feat.leftovers && <Section title="Leftover Tags" value={get('leftover') === '1' ? 'Had leftovers' : 'Any'} set={get('leftover') === '1'}>
             <div className="checks2"><label><input type="checkbox" checked={get('leftover') === '1'} onChange={() => push({ leftover: get('leftover') === '1' ? null : '1' })} /> Had tags in the second drawing (Aug 5-15)</label></div>
             <p className="small muted" style={{ margin: '6px 0 0' }}>Controlled hunts with tags left after the main drawing. Nonresident limits don&apos;t apply to leftovers. <a href="/changes#leftovers">All leftovers</a></p>

@@ -142,9 +142,11 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       m.on('mouseenter', 'units-fill', () => (m.getCanvas().style.cursor = 'pointer'));
       m.on('mouseleave', 'units-fill', () => (m.getCanvas().style.cursor = ''));
       loaded.current = true;
-      // frame Idaho above the key (its height differs by screen and by what it lists)
+      // frame all of Idaho below the chips and folded key (top-left), nudged right of the key's column
       const kh = keyEl.current?.offsetHeight ?? 90;
-      m.fitBounds(IDAHO_BOUNDS, { padding: { top: 46, bottom: Math.min(kh + 14, m.getContainer().clientHeight * 0.45), left: 10, right: 46 }, duration: 0 });
+      const cw = m.getContainer().clientWidth;
+      const ch = m.getContainer().clientHeight;
+      m.fitBounds(IDAHO_BOUNDS, { padding: { top: Math.min(kh + 18, ch * 0.4), bottom: 12, left: cw > 700 ? Math.min(160, cw * 0.18) : 12, right: 50 }, duration: 0 });
       paint();
       m.fire('ready'); // units layers exist now: overlays (shading, elk zones, areas) can attach
       setMapObj(m);
@@ -304,17 +306,18 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   return (
     <div style={{ position: 'absolute', inset: 0 }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
-      {chips.length > 0 && (
-        <div className="chipsbar" aria-label="Active filters">
-          {chips.map((c) => <a key={c.label} href={c.href} title="Remove filter">{c.label}</a>)}
-        </div>
-      )}
-      <div className="mapkey-bottom" ref={keyEl}>
+      {/* top-left: the active filter chips, then the key (folded: just the shade picker and its colors) */}
+      <div className="map-topleft" ref={keyEl}>
+        {chips.length > 0 && (
+          <div className="chipsbar" aria-label="Active filters">
+            {chips.map((c) => <a key={c.label} href={c.href} title="Remove filter">{c.label}</a>)}
+          </div>
+        )}
         <MapKey value={metric} options={options} onChange={(v) => setMetric(v as ShadeKey)}
           ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where, labels: S.labels } : undefined}
           items={matchItems} extraItems={extraItems}
           note={S ? `${S.note} ${msgSuccess ? 'Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : S.scaleNote}` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
-          kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} />
+          kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} folded />
       </div>
     </div>
   );
