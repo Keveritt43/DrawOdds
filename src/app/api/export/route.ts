@@ -40,7 +40,7 @@ export async function GET(req: Request) {
       r3(r[rf.oddsLast]), r.oddsLastYear, r3(r[rf.odds5]), r[rf.appsLast], r.appsLast, r.nrPermitsLast, r.secondDrewLast,
       r3(r.successLast), r.harvestLastYear, r3(r.success5), r.hunters5, r.harvest5, r.huntersSqMi === null ? null : Math.round(r.huntersSqMi * 100) / 100, r3(r[rf.tagAndFill]),
       r3(r.bigPct5), r.avgSize5 === null ? null : Math.round(r.avgSize5 * 10) / 10, r.deerType, r.publicPct === null ? null : Math.round(r.publicPct), r.accessYesPct === null ? null : Math.round(r.accessYesPct * 10) / 10, r.smallSample ? 'yes' : '',
-      `${origin}/hunts/${encodeURIComponent(r.id)}`,
+      `${origin}/hunts/${encodeURIComponent(r.slug ?? r.id)}`,
     ].map(cell).join(','));
   }
   return new Response(lines.join('\n') + '\n', {

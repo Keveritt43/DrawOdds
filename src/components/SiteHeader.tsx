@@ -8,6 +8,8 @@ import { Wordmark } from './Logo';
 import { ResidencySwitch } from './ResidencySwitch';
 import { DrawSwitch } from './DrawSwitch';
 import { SiteSearch } from './SiteSearch';
+import { StateSwitch } from './StateSwitch';
+import { useStateConfig } from './StateContext';
 import type { Draw } from '@/lib/species';
 
 const LINKS = [
@@ -25,14 +27,20 @@ export function SiteHeader({ residency, signedIn, draw }: { residency: Residency
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(false), [path]);
   const here = (href: string) => path === href || path.startsWith(href + '/');
+  const st = useStateConfig();
+  // links to pages a state doesn't have (no migration studies loaded) stay out of its menu
+  const links = LINKS.filter((l) => l.href !== '/migration' || st.features.migration);
   return (
     <header className="site-header">
       <div className="header-bar">
-        <Link href="/" className="brand" aria-label="DrawOdds home">
-          <Wordmark />
-        </Link>
+        <span className="brand-wrap">
+          <Link href="/" className="brand" aria-label="DrawOdds home">
+            <Wordmark />
+          </Link>
+          <StateSwitch />
+        </span>
         <nav className={`nav-main ${open ? 'open' : ''}`} aria-label="Main">
-          {LINKS.map((l) => (
+          {links.map((l) => (
             <Link key={l.href} href={l.href} aria-current={here(l.href) ? 'page' : undefined}>{l.label}</Link>
           ))}
           <Link href={signedIn ? '/account' : '/login'}>{signedIn ? 'My Hunts' : 'Sign In'}</Link>
@@ -46,12 +54,12 @@ export function SiteHeader({ residency, signedIn, draw }: { residency: Residency
       </div>
       {/* the two choices every number depends on, always visible (phones too): which drawing, and residency */}
       <div className="draw-bar">
-        <div className="db-item">
+        {st.draws.length > 1 && <div className="db-item">
           <span>Drawing</span>
           <Suspense fallback={<div className="seg draw-seg" />}>
             <DrawSwitch value={draw} />
           </Suspense>
-        </div>
+        </div>}
         <div className="db-item">
           <span>Odds For</span>
           <ResidencySwitch value={residency} />

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { ELK_ZONES, ELK_ZONE_NAMES } from '@/lib/elkZones';
+import { useStateConfig } from './StateContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Residency } from '@prisma/client';
 import type { Draw } from '@/lib/species';
@@ -26,6 +27,8 @@ const DEER: Opt[] = [['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED'
 /** goHunt-style rail: each section shows its current value and opens to edit. Every change updates the URL. */
 export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; draw?: Draw }) {
   const msg = draw === 'MSG';
+  // filters that only exist in some states (elk zones, objectives, migration studies...)
+  const feat = useStateConfig().features;
   const router = useRouter();
   const sp = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -86,8 +89,8 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           {radio('species', msg ? SPECIES_MSG : SPECIES)}
           {msg && <p className="small muted" style={{ margin: '6px 0 0' }}>You can apply for only one of moose, bighorn sheep or mountain goat a year, and doing so keeps you out of the deer, elk and pronghorn controlled drawings that year (leftover tags aside).</p>}
         </Section>
-        {!msg && <Section title="Hunt Type" value={labelOf(nr ? TYPES_NR : TYPES, get('type'))} set={!!get('type')}>
-          {radio('type', nr ? TYPES_NR : TYPES)}
+        {!msg && <Section title="Hunt Type" value={labelOf(nr && feat.nrGeneralTagDraw ? TYPES_NR : TYPES, get('type'))} set={!!get('type')}>
+          {radio('type', nr && feat.nrGeneralTagDraw ? TYPES_NR : TYPES)}
           {nr && <p className="small muted" style={{ margin: '6px 0 0' }}>Since 2026, nonresident general deer and elk tags are drawn: elk by zone (an A or a B tag), deer by unit. General seasons show the odds of the tag you&rsquo;d need.</p>}
           {sp_ === 'PRONGHORN' && <p className="small muted" style={{ margin: '6px 0 0' }}>Pronghorn are controlled hunts only.</p>}
         </Section>}
@@ -119,7 +122,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
               <p className="small muted" style={{ margin: '6px 0 0' }}>Share of the antlered harvest that was 4+ point mule deer (deer) or 6+ point bulls (elk).</p>
             </Section>
           )}
-          {!msg && (sp_ === '' || sp_ === 'ELK') && (
+          {feat.elkObjectives && !msg && (sp_ === '' || sp_ === 'ELK') && (
             <Section title="Elk Population Vs Objective" value={[list('bullObj').length && `Bulls: ${list('bullObj').map((x) => x.toLowerCase()).join('/')}`, list('cowObj').length && `Cows: ${list('cowObj').map((x) => x.toLowerCase()).join('/')}`].filter(Boolean).join(', ') || 'Any'} set={list('bullObj').length + list('cowObj').length > 0}>
               <label>Bulls</label>
               {checks('bullObj', OBJ)}
@@ -128,7 +131,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
               <p className="small muted" style={{ margin: '6px 0 0' }}>IDFG&rsquo;s 2026 status for each elk zone. Above objective = more elk than the target (often more tags); below = fewer. Elk hunts only; zones without a numeric objective drop out when this is set.</p>
             </Section>
           )}
-          {!msg && (
+          {feat.migration && !msg && (
             <Section title="Migration Study" value={{ yes: 'Has a study', no: 'No study' }[get('migration') as 'yes'] ?? 'Any'} set={!!get('migration')}>
               {radio('migration', [['', 'Any unit'], ['yes', 'Units with a migration study'], ['no', 'Units without one']])}
               <p className="small muted" style={{ margin: '6px 0 0' }}>Hunts in units crossed by a mapped big game migration route. <a href="/migration">See the studies</a></p>
@@ -155,10 +158,10 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
               <label><input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} /> Has Access Yes! land</label>
             </div>
           </Section>
-          <Section title="Leftover Tags" value={get('leftover') === '1' ? 'Had leftovers' : 'Any'} set={get('leftover') === '1'}>
+          {feat.leftovers && <Section title="Leftover Tags" value={get('leftover') === '1' ? 'Had leftovers' : 'Any'} set={get('leftover') === '1'}>
             <div className="checks2"><label><input type="checkbox" checked={get('leftover') === '1'} onChange={() => push({ leftover: get('leftover') === '1' ? null : '1' })} /> Had tags in the second drawing (Aug 5-15)</label></div>
             <p className="small muted" style={{ margin: '6px 0 0' }}>Controlled hunts with tags left after the main drawing. Nonresident limits don&apos;t apply to leftovers. <a href="/changes#leftovers">All leftovers</a></p>
-          </Section>
+          </Section>}
           <Section title="Tags" value={get('minTags') ? `${get('minTags')}+ tags` : 'Any'} set={!!get('minTags')}>
             <Slider value={Number(get('minTags') || 0)} max={100} step={5} suffix="" onCommit={(v) => push({ minTags: v ? String(v) : null })} />
             <p className="small muted" style={{ margin: '6px 0 0' }}>Hide tiny hunts: 2-3 tag hunts swing hard on one applicant.</p>
@@ -166,7 +169,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           <Section title="Youth Hunts" value={{ exclude: 'Hidden', include: 'Included', only: 'Youth Only' }[(get('youth') || 'exclude') as 'exclude']} set={!!get('youth')}>
             {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
           </Section>
-          {!msg && (sp_ === '' || sp_ === 'ELK' || sp_ === 'DEER') && (
+          {feat.elkZones && !msg && (sp_ === '' || sp_ === 'ELK' || sp_ === 'DEER') && (
             <Section title="Elk Zones" value={list('zone').length ? list('zone').join(', ') : 'Any'} set={list('zone').length > 0}>
               <div className="checks2 zone-checks">
                 {ELK_ZONE_NAMES.slice().sort().map((z) => (

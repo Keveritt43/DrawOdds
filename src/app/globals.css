@@ -571,3 +571,22 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
   .site-search input { width: 128px; }
 }
 @media (min-width: 901px) and (max-width: 1200px) { .site-search { display: none; } }
+/* first visit: resident or nonresident? */
+.res-prompt { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 16px; padding: 10px 16px; background: #fff4e8; color: #3b2a1a; border-bottom: 1px solid #f0c9a6; font-size: .92rem; }
+.res-prompt-btns { display: inline-flex; gap: 8px; align-items: center; }
+.res-prompt .btn { padding: 6px 14px; }
+.res-prompt-x { border: 0; background: none; font-size: 1.3rem; line-height: 1; cursor: pointer; color: inherit; opacity: .6; padding: 2px 6px; }
+@media (prefers-color-scheme: dark) { .res-prompt { background: #33261a; color: #f3e3d1; border-color: #5b4027; } }
+/* big monitors: the hunt cards get room (two tag columns side by side) instead of a narrow strip */
+@media (min-width: 1600px) { .filtering:not(.tablemode) { grid-template-columns: minmax(0, 1fr) minmax(520px, 780px) 300px; } }
+/* state picker: the state name beside the brand ("IDAHO ▾") */
+.brand-wrap { display: inline-flex; align-items: center; gap: 8px; }
+.state-switch { position: relative; }
+.state-switch summary { list-style: none; cursor: pointer; font: 600 .8rem/1 var(--font-body); color: var(--blaze); letter-spacing: .12em; text-transform: uppercase; padding: 6px 4px; border-radius: 6px; }
+.state-switch summary::-webkit-details-marker { display: none; }
+.state-switch summary:hover, .state-switch[open] summary { background: rgba(255,255,255,.08); }
+.state-switch summary span { font-size: .7rem; letter-spacing: 0; }
+.state-menu { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; min-width: 200px; padding: 6px; display: grid; gap: 2px; }
+.state-menu button { all: unset; cursor: pointer; padding: 8px 10px; border-radius: 6px; font-weight: 600; color: var(--ink); }
+.state-menu button:hover, .state-menu button:focus-visible { background: var(--bg); }
+.state-menu p { margin: 4px 10px 4px; }

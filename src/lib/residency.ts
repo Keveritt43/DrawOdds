@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import type { Residency } from '@prisma/client';
 import { auth } from '@/auth';
 import type { Draw } from './species';
+import { stateConfig, STATE_COOKIE, type StateConfig } from './states';
 
 export const RESIDENCY_COOKIE = 'residency';
 
@@ -27,4 +28,10 @@ export async function getDraw(param?: string | string[]): Promise<Draw> {
   const p = (Array.isArray(param) ? param[0] : param)?.toLowerCase();
   if (p === 'msg' || p === 'dep') return p.toUpperCase() as Draw;
   return (await cookies()).get(DRAW_COOKIE)?.value === 'MSG' ? 'MSG' : 'DEP';
+}
+
+/** The state the visitor is looking at: `?state=` overrides, then the cookie, then Idaho. Only enabled states. */
+export async function getState(param?: string | string[]): Promise<StateConfig> {
+  const p = Array.isArray(param) ? param[0] : param;
+  return stateConfig(p || (await cookies()).get(STATE_COOKIE)?.value);
 }

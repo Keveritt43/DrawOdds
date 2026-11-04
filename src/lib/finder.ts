@@ -1,6 +1,7 @@
 import type { Prisma, Residency, Species } from '@prisma/client';
 import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 import { DRAW_SPECIES, type Draw } from './species';
+import { DEFAULT_STATE } from './states';
 import { unitsWithObjective, type ObjStatus } from './elkObjectives';
 
 export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
@@ -95,9 +96,9 @@ export function residencyFields(r: Residency) {
 }
 
 /** `migrationUnits`: per species, the units crossed by a migration study of that species (from the database). */
-export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrationUnits: Partial<Record<string, string[]>> = {}): Prisma.HuntSummaryWhereInput {
+export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrationUnits: Partial<Record<string, string[]>> = {}, state: string = DEFAULT_STATE): Prisma.HuntSummaryWhereInput {
   const rf = residencyFields(r);
-  const and: Prisma.HuntSummaryWhereInput[] = [];
+  const and: Prisma.HuntSummaryWhereInput[] = [{ state }];
   // one drawing at a time: deer / elk / pronghorn, or moose / sheep / goat
   if (f.species && DRAW_SPECIES[draw].includes(f.species)) and.push({ species: f.species });
   else and.push({ species: { in: DRAW_SPECIES[draw] } });

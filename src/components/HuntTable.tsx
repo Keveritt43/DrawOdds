@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { huntHref } from '@/lib/huntSlug';
 import type { HuntSummary } from '@prisma/client';
 import { pct, pctOdds, int, range, WEAPON, antlerLabel, density, SPECIES_LABEL } from '@/lib/format';
 import { seasonsSummary } from '@/lib/tagSeasons';
@@ -53,7 +54,7 @@ export function HuntTable({ rows, c, sortHref }: { rows: HuntSummary[]; c: CardC
             return (
               <tr key={r.id}>
                 <td><CompareToggle id={r.id} label={name} compact /></td>
-                <td className="tname"><Link href={`/hunts/${encodeURIComponent(r.id)}`}>{name}</Link>{r.type === 'CONTROLLED' ? '' : r.nrTag ? <span className="muted"> · tag</span> : <span className="muted"> · general</span>}</td>
+                <td className="tname"><Link href={huntHref(r)}>{name}</Link>{r.type === 'CONTROLLED' ? '' : r.nrTag ? <span className="muted"> · tag</span> : <span className="muted"> · general</span>}</td>
                 <td>{r.type === 'CONTROLLED' ? `${r.areaName ?? ''}${r.units.length ? ` (${r.units.join(', ')})` : ''}` : r.units.join(', ')}</td>
                 <td>{r.nrTag ? 'Tag seasons' : WEAPON[r.weapon]} · {antlerLabel(r.species, r.antlerClass)}</td>
                 <td className="nowrap">{when || '-'}</td>

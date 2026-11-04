@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { huntHref } from '@/lib/huntSlug';
 import { SPECIES_LABEL } from '@/lib/format';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
@@ -89,7 +90,7 @@ export default async function Account() {
                     <td>
                       <span className="star-head">
                         <Star kind="hunt" id={hunt.idfgId} saved signedIn />
-                        <Link href={`/hunts/${encodeURIComponent(s.id)}`}><b>{s.huntNumber ? `${SPECIES_LABEL[s.species]} ${s.huntNumber}` : s.name}</b></Link>
+                        <Link href={huntHref(s)}><b>{s.huntNumber ? `${SPECIES_LABEL[s.species]} ${s.huntNumber}` : s.name}</b></Link>
                       </span>
                       <span className="small muted">{s.nrTag ? `Units ${s.units.join(', ')}` : `${WEAPON[s.weapon]} · ${antlerLabel(s.species, s.antlerClass)}${s.areaName ? ` · Area ${s.areaName}` : ''}`}</span>
                     </td>

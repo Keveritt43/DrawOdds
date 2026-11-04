@@ -14,6 +14,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
   return Response.json(
     rows.map((h) => ({
       id: h.id,
+      slug: h.slug,
       type: h.nrTag ? 'NRTAG' : h.type,
       label: unitHuntLabel(h),
       species: h.species,

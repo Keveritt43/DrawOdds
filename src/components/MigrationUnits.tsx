@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { huntHref } from '@/lib/huntSlug';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { historyFor } from '@/lib/history';
@@ -44,16 +45,16 @@ export async function MigrationUnits({ s, nr }: { s: StudyInfo; nr: boolean }) {
             {!general.length ? <p className="small muted">No general season.</p> : (
               <ul className="mig-list">
                 {general.map((r) => (
-                  <li key={r.id}><Link href={`/hunts/${encodeURIComponent(r.id)}`}>{WEAPON[r.weapon]}</Link> · {pct(r.success5)} success · {density(r.huntersSqMi)} hunters/mi²{r.scoreQuality !== null ? <> · <ScoreBadge v={r.scoreQuality} label="" /></> : null}</li>
+                  <li key={r.id}><Link href={huntHref(r)}>{WEAPON[r.weapon]}</Link> · {pct(r.success5)} success · {density(r.huntersSqMi)} hunters/mi²{r.scoreQuality !== null ? <> · <ScoreBadge v={r.scoreQuality} label="" /></> : null}</li>
                 ))}
-                {tags.map((r) => <li key={r.id}><Link href={`/hunts/${encodeURIComponent(r.id)}`}>{r.tagCode} tag</Link> · {pctOdds(r.nrOdds5)} NR odds{r.quota !== null ? ` · ${int(r.quota)} NR tags` : ''}</li>)}
+                {tags.map((r) => <li key={r.id}><Link href={huntHref(r)}>{r.tagCode} tag</Link> · {pctOdds(r.nrOdds5)} NR odds{r.quota !== null ? ` · ${int(r.quota)} NR tags` : ''}</li>)}
               </ul>
             )}
             <h4>Controlled ({controlled.length})</h4>
             {!controlled.length ? <p className="small muted">None.</p> : (
               <ul className="mig-list">
                 {controlled.slice(0, 6).map((r) => (
-                  <li key={r.id}><Link href={`/hunts/${encodeURIComponent(r.id)}`}>Hunt {r.huntNumber}</Link> · {antlerLabel(r.species, r.antlerClass)} · {WEAPON[r.weapon]} · {pctOdds(odds(r))} odds · {pct(r.success5)} success{r.scoreQuality !== null ? <> · <ScoreBadge v={r.scoreQuality} label="" /></> : null}</li>
+                  <li key={r.id}><Link href={huntHref(r)}>Hunt {r.huntNumber}</Link> · {antlerLabel(r.species, r.antlerClass)} · {WEAPON[r.weapon]} · {pctOdds(odds(r))} odds · {pct(r.success5)} success{r.scoreQuality !== null ? <> · <ScoreBadge v={r.scoreQuality} label="" /></> : null}</li>
                 ))}
                 {controlled.length > 6 && <li><Link href={`/hunts?unit=${encodeURIComponent(u)}&species=${s.species}&type=CONTROLLED`}>All {controlled.length} →</Link></li>}
               </ul>

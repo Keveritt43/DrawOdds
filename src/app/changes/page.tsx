@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { huntHref } from '@/lib/huntSlug';
 import { db } from '@/lib/db';
 import { getDraw } from '@/lib/residency';
 import { DRAW_SPECIES } from '@/lib/species';
@@ -25,7 +26,7 @@ export default async function ChangesPage() {
   const dropped = draws.filter((d) => d.year === year - 1 && !now.has(`${d.species}|${d.areaName}`));
 
   const leftovers = rows.filter((r) => (r.leftoverTags ?? 0) > 0).sort((a, b) => (b.leftoverYear ?? 0) - (a.leftoverYear ?? 0) || (b.leftoverTags ?? 0) - (a.leftoverTags ?? 0));
-  const link = (r: (typeof rows)[number]) => <Link href={`/hunts/${encodeURIComponent(r.id)}`}>{label(r)}</Link>;
+  const link = (r: (typeof rows)[number]) => <Link href={huntHref(r)}>{label(r)}</Link>;
 
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>

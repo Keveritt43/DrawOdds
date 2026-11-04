@@ -3,7 +3,10 @@ import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import { Barlow, Barlow_Condensed } from 'next/font/google';
 import './globals.css';
-import { getResidency, getDraw } from '@/lib/residency';
+import { getResidency, getDraw, getState, RESIDENCY_COOKIE } from '@/lib/residency';
+import { StateProvider } from '@/components/StateContext';
+import { cookies } from 'next/headers';
+import { ResidencyPrompt } from '@/components/ResidencyPrompt';
 import { SiteHeader } from '@/components/SiteHeader';
 import { LogoMark } from '@/components/Logo';
 
@@ -17,12 +20,15 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#1d2023' };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [{ residency, signedIn }, draw] = await Promise.all([getResidency(), getDraw()]);
+  const [{ residency, signedIn }, draw, jar, state] = await Promise.all([getResidency(), getDraw(), cookies(), getState()]);
+  const askResidency = !signedIn && !jar.get(RESIDENCY_COOKIE);
   return (
     <html lang="en" className={`${body.variable} ${display.variable}`}>
       <body>
+        <StateProvider code={state.code}>
         <a href="#content" className="skip">Skip to content</a>
         <SiteHeader residency={residency} signedIn={signedIn} draw={draw} />
+        {askResidency && <ResidencyPrompt />}
         <div id="content">{children}</div>
         <CompareTray />
         <footer className="site-footer">
@@ -50,6 +56,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </nav>
           </div>
         </footer>
+        </StateProvider>
       </body>
     </html>
   );

@@ -14,12 +14,13 @@ export function LogoMark({ size = 36, title = 'DrawOdds' }: { size?: number; tit
   );
 }
 
-export function Wordmark() {
+/** `state`: the state name under the brand (left out when a state picker sits beside it instead). */
+export function Wordmark({ state }: { state?: string | null } = {}) {
   return (
     <span className="wordmark">
       <LogoMark size={34} />
       <span>
-        DrawOdds <small>Idaho</small>
+        DrawOdds{state ? <> <small>{state}</small></> : null}
       </span>
     </span>
   );

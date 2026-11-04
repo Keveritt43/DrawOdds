@@ -4,6 +4,7 @@ import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
 import { seasonsClass, seasonRules } from '../../lib/tagSeasons';
 import { scoreHunts } from '../../lib/score';
+import { assignSlugs } from '../../lib/huntSlug';
 import { loadElkTagSeasons, loadDeerTagSeasons, loadElkZones, type TagSeason } from '../core/datafiles';
 import {
   lineage,
@@ -300,6 +301,8 @@ export async function buildSummaries(): Promise<StepResult> {
     resOdds5: r.resOdds5, nrOdds5: r.nrOdds5, capped: r.capped,
   })));
   for (const r of out) Object.assign(r, scores.get(r.id));
+  // readable addresses; controlled hunts first so 'deer-1016' goes to the hunt, not a lookalike
+  assignSlugs(out.slice().sort((x, y) => Number(y.id.startsWith('c:')) - Number(x.id.startsWith('c:'))) as Parameters<typeof assignSlugs>[0]);
   details.push(`DrawOdds Score: ${[...scores.values()].filter((s) => s.scoreQuality !== null).length} of ${out.length} hunts scored`);
 
   await db.$transaction(

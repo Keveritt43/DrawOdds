@@ -44,6 +44,7 @@ enum AntlerClass {
 
 /// One row per species / year / drawing / hunt number (IDFG drawing-odds API).
 model DrawOdds {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id         String  @id // DEER|2025|1|1039
   species    Species
   year       Int
@@ -67,6 +68,7 @@ model DrawOdds {
 
 /// Controlled-hunt harvest, one row per species / year / hunt number.
 model ControlledHarvest {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id         String  @id // ELK|2025|2029
   species    Species
   year       Int
@@ -98,6 +100,7 @@ model ControlledHarvest {
 
 /// General-season harvest, one row per species / year / unit / take method.
 model GeneralHarvest {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id         String  @id // DEER|2025|49|Any Weapon
   species    Species
   year       Int
@@ -126,6 +129,7 @@ model GeneralHarvest {
 
 /// Game Management Unit (IDFG GMU layer + unit.aspx page).
 model Unit {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   name                String   @id // "49", "36A"
   idfgId              Int?     @unique
   elkZone             String?
@@ -145,6 +149,7 @@ model Unit {
 
 /// Controlled hunt area (IDFG Hunting MapServer layer 4 + area.aspx page). AreaID matches the odds API.
 model HuntArea {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   areaId         Int       @id
   name           String // "49", "36B-1"
   bigGame        String?
@@ -165,6 +170,7 @@ model HuntArea {
 }
 
 model AccessYesProperty {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id        Int     @id
   name      String
   acres     Float?
@@ -176,6 +182,7 @@ model AccessYesProperty {
 
 /// Hunts offered this season (IDFG huntlist.aspx pages, one per unit and species).
 model Hunt {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   idfgId      Int         @id
   year        Int
   species     Species
@@ -204,7 +211,9 @@ model Hunt {
 
 /// Precomputed, filter-ready row. Controlled hunt = one row; general hunt = one row per unit.
 model HuntSummary {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id          String      @id // "c:82056" or "g:80930:49"
+  slug        String?     @unique // readable address: "deer-1016", "elk-unit-39-general-archery"
   huntId      Int
   hunt        Hunt        @relation(fields: [huntId], references: [idfgId], onDelete: Cascade)
   species     Species
@@ -305,6 +314,7 @@ model HuntSummary {
   updatedAt       DateTime @updatedAt
 
   @@index([species, type, weapon, antlerClass])
+  @@index([state])
 }
 
 model SyncLog {
@@ -327,6 +337,8 @@ model User {
   image         String?
   residency     Residency   @default(RESIDENT)
   createdAt     DateTime    @default(now())
+  plan          Json?       // the application planner, synced across devices (newest edit wins)
+  planUpdatedAt DateTime?
   accounts      Account[]
   sessions      Session[]
   saved         SavedHunt[]
@@ -336,6 +348,7 @@ model User {
 
 /// A unit the user starred (units are stable across seasons; hunts get renumbered)
 model SavedUnit {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   userId    String
   unit      String
   createdAt DateTime @default(now())
@@ -393,6 +406,7 @@ model VerificationToken {
 
 /// Nonresident general tag draw results (IDFG nonresident-draw-data PDF), one row per year + tag
 model NrDraw {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id      String  @id // "2026|ELK:McCall:A" / "2026|RD01"
   year    Int
   species Species
@@ -410,6 +424,7 @@ model NrDraw {
 
 /// Nonresident general tag quotas (IDFG supplemental proclamation), one row per year + hunt code
 model NrQuota {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id      String  @id // "2027|ELK21"
   year    Int
   code    String // ELK21 / RD39 / WD10A
@@ -422,6 +437,7 @@ model NrQuota {
 /// Big-game migration studies (corridors and stopovers), loaded from data/migrations/<slug>/ by the
 /// `migrations` sync step. geojson: FeatureCollection of polygons with properties.cls (a key in classes).
 model MigrationStudy {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   slug         String    @id
   name         String
   species      Species
@@ -447,6 +463,7 @@ model MigrationStudy {
 
 /// A hunter's own application history ("My Applications" on the account page).
 model Application {
+  state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id        String   @id @default(cuid())
   userId    String
   year      Int

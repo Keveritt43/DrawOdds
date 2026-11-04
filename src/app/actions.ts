@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { STATES, STATE_COOKIE } from '@/lib/states';
 import { revalidatePath } from 'next/cache';
 import type { Residency } from '@prisma/client';
 import { auth, signIn, signOut } from '@/auth';
@@ -85,4 +86,11 @@ export async function deleteApplication(id: string) {
   if (!session?.user) return;
   await db.application.deleteMany({ where: { id, userId: session.user.id } });
   revalidatePath('/account');
+}
+
+export async function setStateCode(code: string) {
+  const s = STATES[code.toUpperCase() as keyof typeof STATES];
+  if (!s?.enabled) return;
+  (await cookies()).set(STATE_COOKIE, s.code, { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', path: '/' });
+  revalidatePath('/', 'layout');
 }

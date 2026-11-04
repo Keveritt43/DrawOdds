@@ -1,4 +1,5 @@
 import { migrationUnits } from '@/lib/migrations';
+import { huntHref } from '@/lib/huntSlug';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 import { unitOrder } from '@/lib/format';
 import Link from 'next/link';
@@ -258,7 +259,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
             <article key={g.key} className={`ucard ${f.unit === g.name ? 'sel' : ''}`}>
               <h2 className="star-head">
                 {g.kind === 'unit' && <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />}
-                <Link href={g.kind === 'unit' ? unitHref : `/hunts/${encodeURIComponent(first.id)}`}>{g.title}</Link>
+                <Link href={g.kind === 'unit' ? unitHref : huntHref(first)}>{g.title}</Link>
               </h2>
               <p className="desc">{desc}</p>
               <div className="ustats">

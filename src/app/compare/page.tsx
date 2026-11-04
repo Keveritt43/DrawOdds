@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { huntHref } from '@/lib/huntSlug';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
@@ -63,7 +64,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
             <thead>
               <tr>
                 <th />
-                {hunts.map((h) => <th key={h.id}><Link href={`/hunts/${encodeURIComponent(h.id)}`}>{huntName(h)}</Link></th>)}
+                {hunts.map((h) => <th key={h.id}><Link href={huntHref(h)}>{huntName(h)}</Link></th>)}
               </tr>
             </thead>
             <tbody>

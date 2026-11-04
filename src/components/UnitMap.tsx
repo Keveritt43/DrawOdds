@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { huntHref } from '@/lib/huntSlug';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -15,6 +16,7 @@ import { inPageGestures } from '@/lib/mapGestures';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
 import { ELK_ZONES } from '@/lib/elkZones';
+import { useStateConfig } from './StateContext';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
@@ -24,6 +26,7 @@ const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5,
 export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [] }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const msg = draw === 'MSG';
+  const st = useStateConfig();
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const [metric, setMetric] = useState<Metric>('public');
@@ -79,7 +82,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { if (msg && bounds === 'zones') setBounds('units'); /* no elk zones on that drawing */ }, [msg]); // eslint-disable-line react-hooks/exhaustive-deps
-  type UH = { id: string; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
+  type UH = { id: string; slug?: string | null; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
   const [uh, setUh] = useState<{ unit: string; rows: UH[] } | null>(null);
   const selName = sel ? String(sel.name) : null;
   useEffect(() => {
@@ -251,7 +254,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         filters={<>
           <KeySeg label="Animal" value={sp} onChange={setSp} options={msg ? [['MOOSE', 'Moose'], ['BIGHORN', 'Sheep'], ['GOAT', 'Goat']] : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
           {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
-          {!msg && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
+          {!msg && st.features.elkZones && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
         </>}
         value={noShade ? 'none' : metric} options={options} onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
         ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
@@ -328,7 +331,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                           const o = nr ? h.nrOdds5 : h.resOdds5;
                           return (
                             <li key={h.id}>
-                              <Link href={`/hunts/${encodeURIComponent(h.id)}`}>{h.label}</Link>
+                              <Link href={huntHref(h)}>{h.label}</Link>
                               <span className="small muted">
                                 {h.antler && h.antler !== 'EITHER' ? ` · ${antlerLabel(h.species, h.antler)}` : ''}
                                 {h.type === 'GENERAL' ? (nr ? ' · NR tag required' : ' · OTC') : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% ${h.type === 'NRTAG' ? '1st-choice ' : ''}odds` : ''}

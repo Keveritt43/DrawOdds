@@ -12,7 +12,7 @@ export interface PlanOpt {
   secondDrewLast: number | null; secondAppsLast: number | null; nrDraw: { year?: number; applied?: number[]; drew?: number[] } | null; quota: number | null;
   tags: number | null; success5: number | null; resTagAndFill: number | null; nrTagAndFill: number | null; scoreQuality: number | null;
 }
-export interface Plan { elkTags: string[]; deerTags: string[]; ctl: Record<string, [string, string]> }
+export interface Plan { elkTags: string[]; deerTags: string[]; ctl: Record<string, [string, string]>; updatedAt?: number }
 const EMPTY: Plan = { elkTags: [], deerTags: [], ctl: {} };
 const KEY = 'applicationPlan';
 const EVT = 'plan-change';
@@ -25,9 +25,35 @@ export function readPlan(): Plan {
     return EMPTY;
   }
 }
-export function writePlan(p: Plan) {
-  try { localStorage.setItem(KEY, JSON.stringify(p)); } catch { /* not saved */ }
+export function writePlan(p: Plan, fromServer = false) {
+  const stamped = fromServer ? p : { ...p, updatedAt: Date.now() };
+  try { localStorage.setItem(KEY, JSON.stringify(stamped)); } catch { /* not saved */ }
   window.dispatchEvent(new Event(EVT));
+  // signed in: keep the account's copy in step (visitors get a 401 and the plan stays in this browser)
+  if (!fromServer) fetch('/api/plan', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ plan: stamped, updatedAt: stamped.updatedAt }), keepalive: true }).catch(() => {});
+}
+
+/** Signed in: take the account's plan if it is newer than this browser's, or send this one up if it is newer. */
+export async function syncPlan(): Promise<'pulled' | 'pushed' | 'same' | 'visitor'> {
+  try {
+    const r = await fetch('/api/plan', { cache: 'no-store' });
+    if (r.status === 401) return 'visitor';
+    const { plan, updatedAt } = (await r.json()) as { plan: Plan | null; updatedAt: number };
+    const local = readPlan();
+    const localAt = local.updatedAt ?? 0;
+    if (plan && updatedAt > localAt) {
+      writePlan({ ...EMPTY, ...plan, ctl: plan.ctl ?? {}, updatedAt }, true);
+      return 'pulled';
+    }
+    const hasLocal = local.elkTags.length || local.deerTags.length || Object.keys(local.ctl).length;
+    if (hasLocal && localAt > updatedAt) {
+      await fetch('/api/plan', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ plan: local, updatedAt: localAt || Date.now() }) });
+      return 'pushed';
+    }
+    return 'same';
+  } catch {
+    return 'visitor';
+  }
 }
 
 /** "Add to my plan" on a hunt page. */
@@ -85,6 +111,10 @@ export function Planner({ nr, windows, costs }: {
   useEffect(() => {
     const p = readPlan();
     setCtlSpecies((s) => [...new Set([...s, ...Object.keys(p.ctl)])]);
+    // signed in: the same plan on every device
+    syncPlan().then((r) => {
+      if (r === 'pulled') setCtlSpecies((s) => [...new Set([...s, ...Object.keys(readPlan().ctl)])]);
+    });
   }, []);
   const need = useMemo(() => [...(nr ? ['tag:ELK', 'tag:DEER'] : []), ...ctlSpecies.map((s) => `controlled:${s}`)], [nr, ctlSpecies]);
   useEffect(() => {
