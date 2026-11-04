@@ -232,6 +232,8 @@ model HuntSummary {
   openMonth   Int?
   closeMonth  Int?
   months      Int[] // every calendar month the season is open (handles Dec-Jan seasons)
+  seasonDays  Int[] // every open day, Jul 1 = 0 (src/lib/seasonDays.ts): the date-range filter
+  closeDay    Int? // the last open day, same scale
   tags        Int?
   youthOnly   Boolean     @default(false)
 

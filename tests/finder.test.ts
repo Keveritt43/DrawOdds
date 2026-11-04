@@ -80,3 +80,16 @@ test('buck / bull includes either-sex hunts', () => {
   const w = JSON.stringify(buildWhere(parseFilters({ antler: 'ANTLERED' }), 'RESIDENT'));
   assert.ok(w.includes('"antlerClass":{"in":["ANTLERED","EITHER"]}'), w);
 });
+
+test('season date window: open-during and ends-during, round trip through the address', () => {
+  const f = parseFilters({ from: '10-25', to: '10-31' });
+  assert.equal(f.dayFrom, 116);
+  assert.equal(f.dayTo, 122);
+  const w = JSON.stringify(buildWhere(f, 'RESIDENT'));
+  assert.ok(w.includes('"seasonDays":{"hasSome":[116,117,118,119,120,121,122]}'));
+  const e = parseFilters({ from: '10-31', to: '10-10', dmode: 'end' });
+  assert.equal(e.dayFrom, 101); // backwards window is swapped
+  assert.ok(JSON.stringify(buildWhere(e, 'RESIDENT')).includes('"closeDay":{"gte":101,"lte":122}'));
+  assert.equal(toQuery(e), '?from=10-10&to=10-31&dmode=end');
+  assert.equal(toQuery(f, { dayFrom: null, dayTo: null }), '');
+});

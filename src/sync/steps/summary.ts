@@ -5,6 +5,7 @@ import { unitsFromName, parentUnit } from '../core/parse';
 import { seasonsClass, seasonRules } from '../../lib/tagSeasons';
 import { scoreHunts } from '../../lib/score';
 import { assignSlugs } from '../../lib/huntSlug';
+import { seasonDays } from '../../lib/seasonDays';
 import { loadElkTagSeasons, loadDeerTagSeasons, loadElkZones, type TagSeason } from '../core/datafiles';
 import {
   lineage,
@@ -301,6 +302,16 @@ export async function buildSummaries(): Promise<StepResult> {
     resOdds5: r.resOdds5, nrOdds5: r.nrOdds5, capped: r.capped,
   })));
   for (const r of out) Object.assign(r, scores.get(r.id));
+  // open days for the date-range filter: the regulation seasons when known (they keep the gaps between
+  // seasons), else the listing's open-close span
+  for (const r of out) {
+    const ts = (r.tagSeasons ?? null) as { seasons?: { dates?: { open: string; close: string }[] }[] } | null;
+    const spans = (ts?.seasons ?? []).flatMap((x) => x.dates ?? []).map((d) => ({ open: new Date(`${d.open}T00:00:00Z`), close: new Date(`${d.close}T00:00:00Z`) }));
+    if (!spans.length && r.openDate && r.closeDate) spans.push({ open: new Date(r.openDate), close: new Date(r.closeDate) });
+    const days = seasonDays(spans);
+    r.seasonDays = days;
+    r.closeDay = days.length ? days[days.length - 1] : null;
+  }
   // readable addresses; controlled hunts first so 'deer-1016' goes to the hunt, not a lookalike
   assignSlugs(out.slice().sort((x, y) => Number(y.id.startsWith('c:')) - Number(x.id.startsWith('c:'))) as Parameters<typeof assignSlugs>[0]);
   details.push(`DrawOdds Score: ${[...scores.values()].filter((s) => s.scoreQuality !== null).length} of ${out.length} hunts scored`);

@@ -2,6 +2,15 @@ import type { Prisma, Residency, Species } from '@prisma/client';
 import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 import { DRAW_SPECIES, type Draw } from './species';
 import { DEFAULT_STATE } from './states';
+import { parseMonthDay, toMonthDay } from './seasonDays';
+
+/** A valid from-to pair from ?from=10-20&to=10-31 (swapped if backwards), or no window. */
+function dayWindow(from?: string, to?: string): { dayFrom: number | null; dayTo: number | null } {
+  const a = parseMonthDay(from);
+  const b = parseMonthDay(to);
+  if (a === null || b === null) return { dayFrom: null, dayTo: null };
+  return { dayFrom: Math.min(a, b), dayTo: Math.max(a, b) };
+}
 import { unitsWithObjective, type ObjStatus } from './elkObjectives';
 
 export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
@@ -13,6 +22,10 @@ export interface Filters {
   weapon: ('ANY' | 'ARCHERY' | 'MUZZLELOADER' | 'SHORT_RANGE')[];
   antler: ('ANTLERED' | 'ANTLERLESS' | 'EITHER')[];
   months: number[]; // 8 = Aug ... 12 = Dec, 1 = Jan
+  /** date window (season-year day index, Jul 1 = 0); 'open' = open any day in it, 'end' = last day falls in it */
+  dayFrom: number | null;
+  dayTo: number | null;
+  dayMode: 'open' | 'end';
   deerType: ('MULE' | 'WHITETAIL' | 'MIXED')[];
   minOdds: number | null; // percent, applied to the user's residency
   minSuccess: number | null; // percent
@@ -61,6 +74,8 @@ export function parseFilters(sp: SP): Filters {
     weapon: pick(list(sp.weapon), ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE'] as const),
     antler: pick(list(sp.antler), ['ANTLERED', 'ANTLERLESS', 'EITHER'] as const),
     months: list(sp.month).map(Number).filter((m) => m >= 1 && m <= 12),
+    ...dayWindow(one(sp.from), one(sp.to)),
+    dayMode: one(sp.dmode) === 'end' ? 'end' : 'open',
     deerType: pick(list(sp.deerType), ['MULE', 'WHITETAIL', 'MIXED'] as const),
     minOdds: pct(sp.minOdds),
     minSuccess: pct(sp.minSuccess),
@@ -125,6 +140,10 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   }
   // hunt is open at some point during any chosen month (works for Dec-Jan seasons too)
   if (f.months.length) and.push({ months: { hasSome: f.months } });
+  if (f.dayFrom !== null && f.dayTo !== null) {
+    if (f.dayMode === 'end') and.push({ closeDay: { gte: f.dayFrom, lte: f.dayTo } });
+    else and.push({ seasonDays: { hasSome: Array.from({ length: f.dayTo - f.dayFrom + 1 }, (_, i) => f.dayFrom! + i) } });
+  }
   if (f.minOdds !== null) and.push({ [rf.odds5]: { gte: f.minOdds / 100 } });
   if (f.minSuccess !== null) and.push({ success5: { gte: f.minSuccess / 100 } });
   if (f.minPublic !== null) and.push({ publicPct: { gte: f.minPublic } });
@@ -222,6 +241,11 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('weapon', m.weapon);
   set('antler', m.antler);
   set('month', m.months);
+  if (typeof m.dayFrom === 'number' && typeof m.dayTo === 'number') {
+    set('from', toMonthDay(m.dayFrom));
+    set('to', toMonthDay(m.dayTo));
+    if (m.dayMode === 'end') set('dmode', 'end');
+  }
   set('deerType', m.deerType);
   set('minOdds', m.minOdds);
   set('minSuccess', m.minSuccess);

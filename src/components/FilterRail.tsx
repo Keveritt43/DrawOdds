@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { DAY_MIN, DAY_MAX, dayLabel, parseMonthDay, toMonthDay } from '@/lib/seasonDays';
 import { ELK_ZONES, ELK_ZONE_NAMES } from '@/lib/elkZones';
 import { useStateConfig } from './StateContext';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -52,7 +53,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
   };
   const labelOf = (opts: Opt[], v: string) => opts.find((o) => o[0] === v)?.[1] ?? v;
   const sp_ = get('species');
-  const moreSet = ['leftover', 'migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
+  const moreSet = ['from', 'leftover', 'migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minPublic', 'minAccessYes', 'minHuntable', 'accessYes', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
   const many = (opts: Opt[], k: string, none: string) => (list(k).length ? list(k).map((v) => labelOf(opts, v)).join(', ') : none);
 
   const radio = (k: string, opts: Opt[]) => (
@@ -137,9 +138,16 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
               <p className="small muted" style={{ margin: '6px 0 0' }}>Hunts in units crossed by a mapped big game migration route. <a href="/migration">See the studies</a></p>
             </Section>
           )}
-          <Section title="Season Dates" value={many(MONTHS, 'month', 'Any Time')} set={list('month').length > 0}>
+          <Section title="Season Dates" value={[many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time'} set={list('month').length > 0 || !!get('from')}>
             {checks('month', MONTHS)}
-            <p className="small muted" style={{ margin: '6px 0 0' }}>Hunts open at some point in the months you pick.</p>
+            <p className="small muted" style={{ margin: '6px 0 10px' }}>Hunts open at some point in the months you pick.</p>
+            <label>Or Pick Exact Dates</label>
+            <DateRange
+              from={parseMonthDay(get('from')) ?? DAY_MIN}
+              to={parseMonthDay(get('to')) ?? DAY_MAX}
+              mode={get('dmode') === 'end' ? 'end' : 'open'}
+              onCommit={(a, b, mode) => push(a === DAY_MIN && b === DAY_MAX ? { from: null, to: null, dmode: null } : { from: toMonthDay(a), to: toMonthDay(b), dmode: mode === 'end' ? 'end' : null })}
+            />
           </Section>
           {!msg && (sp_ === '' || sp_ === 'DEER') && (
             <Section title="Deer: Mule Or Whitetail" value={many(DEER, 'deerType', 'Any')} set={list('deerType').length > 0}>
@@ -212,6 +220,39 @@ function Section({ title, value, set, defaultOpen, children }: { title: string; 
 }
 
 /** Range slider that only updates the URL when you let go (not on every pixel of drag). */
+/**
+ * Two-handle date window (Aug 1 - Jan 31). "Open during" keeps hunts open any day in the window; "Ends during"
+ * keeps hunts whose last day falls in it (e.g. general deer that closes mid-October vs late October).
+ */
+function DateRange({ from, to, mode, onCommit }: { from: number; to: number; mode: 'open' | 'end'; onCommit: (a: number, b: number, mode: 'open' | 'end') => void }) {
+  const [a, setA] = useState(from);
+  const [b, setB] = useState(to);
+  const [m, setM] = useState(mode);
+  useEffect(() => { setA(from); setB(to); setM(mode); }, [from, to, mode]);
+  const commit = (na = a, nb = b, nm = m) => {
+    if (na !== from || nb !== to || nm !== mode) onCommit(Math.min(na, nb), Math.max(na, nb), nm);
+  };
+  const all = a === DAY_MIN && b === DAY_MAX;
+  const pctOf = (v: number) => ((v - DAY_MIN) / (DAY_MAX - DAY_MIN)) * 100;
+  return (
+    <div className="daterange">
+      <div className="seg light dr-mode" role="group" aria-label="Date window means">
+        <button type="button" aria-pressed={m === 'open'} onClick={() => { setM('open'); commit(a, b, 'open'); }}>Open During</button>
+        <button type="button" aria-pressed={m === 'end'} onClick={() => { setM('end'); commit(a, b, 'end'); }}>Ends During</button>
+      </div>
+      <div className="dr-val"><span className="slider-val">{all ? 'Any dates' : `${dayLabel(Math.min(a, b))} – ${dayLabel(Math.max(a, b))}`}</span></div>
+      <div className="dr-track" style={{ ['--a' as string]: `${pctOf(Math.min(a, b))}%`, ['--b' as string]: `${pctOf(Math.max(a, b))}%` }}>
+        <input type="range" min={DAY_MIN} max={DAY_MAX} step={1} value={a} aria-label="From date" aria-valuetext={dayLabel(a)}
+          onChange={(e) => setA(Number(e.target.value))} onPointerUp={() => commit()} onKeyUp={() => commit()} onBlur={() => commit()} />
+        <input type="range" min={DAY_MIN} max={DAY_MAX} step={1} value={b} aria-label="To date" aria-valuetext={dayLabel(b)}
+          onChange={(e) => setB(Number(e.target.value))} onPointerUp={() => commit()} onKeyUp={() => commit()} onBlur={() => commit()} />
+      </div>
+      <div className="slider-ends"><span>Aug 1</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan 31</span></div>
+      {!all && <button type="button" className="linkish small" onClick={() => { setA(DAY_MIN); setB(DAY_MAX); onCommit(DAY_MIN, DAY_MAX, 'open'); }}>Clear dates</button>}
+    </div>
+  );
+}
+
 function Slider({ value, max, step, suffix, onCommit }: { value: number; max: number; step: number; suffix: string; onCommit: (v: number) => void }) {
   const [v, setV] = useState(value);
   const committed = useRef(value);

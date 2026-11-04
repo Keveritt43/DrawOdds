@@ -1,4 +1,5 @@
 import { migrationUnits } from '@/lib/migrations';
+import { dayLabel } from '@/lib/seasonDays';
 import { huntHref } from '@/lib/huntSlug';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 import { unitOrder } from '@/lib/format';
@@ -37,6 +38,7 @@ function chips(f: Filters): { label: string; href: string }[] {
   f.weapon.forEach((w) => add(WEAPON[w], { weapon: f.weapon.filter((x) => x !== w) }));
   f.antler.forEach((a) => add(sex(a), { antler: f.antler.filter((x) => x !== a) }));
   f.deerType.forEach((d) => add(DEERTYPE[d], { deerType: f.deerType.filter((x) => x !== d) }));
+  if (f.dayFrom !== null && f.dayTo !== null) add(`${f.dayMode === 'end' ? 'Ends' : 'Open'} ${dayLabel(f.dayFrom)} – ${dayLabel(f.dayTo)}`, { dayFrom: null, dayTo: null, dayMode: 'open' });
   if (f.months.length) add(`Open: ${f.months.map((m) => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m - 1]).join(', ')}`, { months: [] });
   if (f.minOdds) add(`Odds ${f.minOdds}%-100%`, { minOdds: null });
   if (f.minSuccess) add(`Success ${f.minSuccess}%+`, { minSuccess: null });
