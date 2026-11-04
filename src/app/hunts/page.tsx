@@ -172,7 +172,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const stats = await matchStats(rows, nr, rf, zu);
   const unitInfo = new Map(
     f.view === 'unit'
-      ? (await db.unit.findMany({ where: { name: { in: glist.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u])
+      ? (await db.unit.findMany({ where: { state: 'ID', name: { in: glist.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u])
       : [],
   );
 
@@ -329,7 +329,7 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     for (const u of us) if (u && (!zu || zu.includes(u))) add(`unit:${u}`, r, false);
   }
   const unitNames = [...acc.keys()].filter((k) => k.startsWith('unit:')).map((k) => k.slice(5));
-  const land = new Map((await db.unit.findMany({ where: { name: { in: unitNames } }, select: { name: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]));
+  const land = new Map((await db.unit.findMany({ where: { state: 'ID', name: { in: unitNames } }, select: { name: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u]));
   // moose / sheep / goat hunts have a handful of tags: 10 hunter-seasons is a real sample there
   const minHunters = rows.some((r) => ['MOOSE', 'BIGHORN', 'GOAT'].includes(r.species)) ? 10 : 30;
   const out = { units: {} as Record<string, Stat>, areas: {} as Record<string, Stat> };

@@ -130,7 +130,7 @@ model GeneralHarvest {
 /// Game Management Unit (IDFG GMU layer + unit.aspx page).
 model Unit {
   state       String   @default("ID") // two-letter state; see docs/multi-state.md
-  name                String   @id // "49", "36A"
+  name                String // "49", "36A" (unique per state: see @@id)
   idfgId              Int?     @unique
   elkZone             String?
   acres               Float?
@@ -145,6 +145,9 @@ model Unit {
   boundaryChanged2022 Boolean  @default(false)
   landUpdatedAt       DateTime?
   updatedAt           DateTime @updatedAt
+
+  // composite key: Colorado has a unit 70 too. Changed from name-only by prisma/prepush.sql (db push can't do it without a data-loss prompt)
+  @@id([state, name])
 }
 
 /// Controlled hunt area (IDFG Hunting MapServer layer 4 + area.aspx page). AreaID matches the odds API.
@@ -188,6 +191,7 @@ model Hunt {
   species     Species
   type        HuntType
   huntNumber  Int?
+  code        String? // the agency's hunt code when it isn't a number (Colorado "DM070O3R")
   areaName    String? // controlled hunts: hunt area from the regs
   source      String      @default("huntlist") // huntlist | regs | harvest
   name        String
@@ -357,7 +361,7 @@ model SavedUnit {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([userId, unit])
+  @@id([userId, state, unit])
 }
 
 model SavedHunt {

@@ -15,10 +15,10 @@ export async function syncLand(opts: StepOptions): Promise<StepResult> {
   const ids = parseUnitLinks(await get(`${STATS_BASE}?season=general&game=deer&yr=${thisYear() - 1}`));
   if (ids.size < 90) details.push(`Only ${ids.size} unit links found on the stats page`);
   for (const [name, idfgId] of ids) {
-    await db.unit.upsert({ where: { name }, create: { name, idfgId }, update: { idfgId } });
+    await db.unit.upsert({ where: { state_name: { state: 'ID', name } }, create: { name, idfgId }, update: { idfgId } });
   }
 
-  const units = await db.unit.findMany({ select: { name: true, idfgId: true, landUpdatedAt: true } });
+  const units = await db.unit.findMany({ where: { state: 'ID' }, select: { name: true, idfgId: true, landUpdatedAt: true } });
   for (const u of units) {
     if (!u.idfgId || !stale(u.landUpdatedAt, opts.full)) continue;
     try {
@@ -28,7 +28,7 @@ export async function syncLand(opts: StepOptions): Promise<StepResult> {
         continue;
       }
       await db.unit.update({
-        where: { name: u.name },
+        where: { state_name: { state: 'ID', name: u.name } },
         data: {
           landOwnership: p.shares as object,
           publicPct: p.publicPct,

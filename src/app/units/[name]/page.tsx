@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
+import { parseUnitKey } from '@/lib/states';
 import { getResidency, getDraw } from '@/lib/residency';
 import { DRAW_SPECIES } from '@/lib/species';
 import { residencyFields } from '@/lib/finder';
@@ -33,8 +34,10 @@ const FILTERS = {
 
 export default async function UnitPage({ params, searchParams }: { params: Promise<{ name: string }>; searchParams: Promise<SP> }) {
   const sp = await searchParams;
-  const name = decodeURIComponent((await params).name).toUpperCase();
-  const unit = await db.unit.findUnique({ where: { name } });
+  const ref = parseUnitKey(decodeURIComponent((await params).name));
+  if (ref.state !== 'ID') notFound(); // other states' unit pages: see OtherUnitPage once they have data
+  const name = ref.name.toUpperCase();
+  const unit = await db.unit.findUnique({ where: { state_name: { state: 'ID', name } } });
   if (!unit) notFound();
   const { residency } = await getResidency(sp.as);
   const draw = await getDraw();
@@ -43,7 +46,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const fav = await getFavorites();
   // nonresident general tags only matter to nonresidents
   // elk zone A/B tags are listed for everyone (residents choose A or B too); deer tags only for nonresidents
-  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
+  const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { state: 'ID', units: { has: name }, species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
   // migration studies whose routes cross this unit (deer / elk / pronghorn drawing page only)
   const studies = draw === 'DEP' ? await listStudies(name) : [];
   const pick = (k: keyof typeof FILTERS) => (FILTERS[k].some(([v]) => v && v === sp[k]) ? sp[k]! : '');

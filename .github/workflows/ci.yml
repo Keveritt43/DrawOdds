@@ -17,10 +17,19 @@ jobs:
       AUTH_SECRET: ci-only-secret-not-used-in-production
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm install --no-audit --no-fund
-      - run: npx prisma db push --skip-generate
+      # Upgrade check: build the previous commit's schema with a few rows, then run the real start-up push
+      # (prepush.sql + db push). Fails if a schema change would need --accept-data-loss on the live database.
+      - name: Schema upgrade check
+        run: |
+          if git show HEAD~1:prisma/schema.prisma > /tmp/prev.prisma 2>/dev/null; then
+            npx prisma db push --skip-generate --schema /tmp/prev.prisma
+            psql "$DATABASE_URL" -c "INSERT INTO \"Unit\" (name, \"updatedAt\") VALUES ('70', now()), ('39', now()) ON CONFLICT DO NOTHING;" || true
+          fi
+          npm run db:push
       - run: npm run typecheck
       - run: npm test
       - run: npm run build

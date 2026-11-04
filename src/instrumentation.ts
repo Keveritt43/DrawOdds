@@ -26,7 +26,7 @@ async function bootstrap() {
   });
   const [odds, summaries, lastOdds] = await Promise.all([
     db.drawOdds.count(),
-    db.huntSummary.count(),
+    db.huntSummary.count({ where: { state: 'ID' } }),
     db.syncLog.findFirst({ where: { step: 'odds' }, orderBy: { startedAt: 'desc' } }),
   ]);
   // fill in when empty, or when the last load of the core data failed part-way

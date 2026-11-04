@@ -122,7 +122,7 @@ export async function syncGis(): Promise<StepResult> {
       boundaryChanged2022: BOUNDARY_CHANGED_2022.has(u.name),
       ...(a ? { accessYesAcres: a.acres, accessYesCount: a.count } : {}),
     };
-    await db.unit.upsert({ where: { name: u.name }, create: { name: u.name, ...data }, update: data });
+    await db.unit.upsert({ where: { state_name: { state: 'ID', name: u.name } }, create: { name: u.name, ...data }, update: data });
   }
 
   for (const p of ay) {

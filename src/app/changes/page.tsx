@@ -11,7 +11,7 @@ export const metadata = { title: 'What Changed', description: 'Idaho controlled 
 export default async function ChangesPage() {
   const draw = await getDraw();
   const species = DRAW_SPECIES[draw];
-  const rows = await db.huntSummary.findMany({ where: { type: 'CONTROLLED', species: { in: species } } });
+  const rows = await db.huntSummary.findMany({ where: { state: 'ID', type: 'CONTROLLED', species: { in: species } } });
   const label = (r: (typeof rows)[number]) => `${SPECIES_LABEL[r.species]} ${r.huntNumber} · ${antlerLabel(r.species, r.antlerClass)} · ${WEAPON[r.weapon]} · area ${r.areaName}`;
   const year = Math.max(...rows.map((r) => r.oddsLastYear ?? 0));
 

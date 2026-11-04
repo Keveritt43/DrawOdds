@@ -12,9 +12,9 @@ export default async function Home() {
   const [{ residency }, draw] = await Promise.all([getResidency(), getDraw()]);
   const msg = draw === 'MSG';
   const [hunts, controlled, units, oddsYears, accessYes] = await Promise.all([
-    db.huntSummary.count(),
-    db.huntSummary.count({ where: { type: 'CONTROLLED' } }),
-    db.unit.count({ where: { geometry: { not: undefined } } }),
+    db.huntSummary.count({ where: { state: 'ID' } }),
+    db.huntSummary.count({ where: { state: 'ID', type: 'CONTROLLED' } }),
+    db.unit.count({ where: { state: 'ID', geometry: { not: undefined } } }),
     db.drawOdds.findMany({ select: { year: true }, distinct: ['year'] }),
     db.accessYesProperty.aggregate({ _sum: { acres: true }, where: { active: true } }),
   ]);

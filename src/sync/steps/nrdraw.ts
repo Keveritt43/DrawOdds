@@ -142,7 +142,7 @@ export async function syncNrDraw(): Promise<StepResult> {
         };
         await tx.hunt.upsert({ where: { idfgId }, create: { idfgId, ...data }, update: data });
       }
-      await tx.hunt.deleteMany({ where: { source: 'nrtag', idfgId: { notIn: ids }, saved: { none: {} } } });
+      await tx.hunt.deleteMany({ where: { state: 'ID', source: 'nrtag', idfgId: { notIn: ids }, saved: { none: {} } } });
     },
     { timeout: 180_000 },
   );

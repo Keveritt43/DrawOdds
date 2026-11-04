@@ -67,3 +67,15 @@ export const stateConfig = (code?: string | null): StateConfig => {
   const c = (code ?? '').toUpperCase() as StateCode;
   return STATES[c]?.enabled ? STATES[c] : STATES[DEFAULT_STATE];
 };
+
+/**
+ * A unit's address in URLs and favorites. Idaho keeps its bare names ("39", "36A") so old links work; other states
+ * get a prefix ("co-70"), because Colorado has a unit 70 too.
+ */
+export const unitKey = (state: string, name: string) => (state === 'ID' ? name : `${state.toLowerCase()}-${name}`);
+export function parseUnitKey(key: string): { state: StateCode; name: string } {
+  const m = /^([a-z]{2})-(.+)$/i.exec(key);
+  const code = m?.[1].toUpperCase() as StateCode | undefined;
+  if (m && code && code in STATES) return { state: code, name: m[2] };
+  return { state: 'ID', name: key };
+}

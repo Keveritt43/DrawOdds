@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { stateConfig } from '@/lib/states';
 import { classesFor } from '@/lib/mapMetrics';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 
@@ -23,13 +24,16 @@ const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'P
 
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection (plus class breaks). */
 export async function GET(req: Request) {
-  const statsOnly = new URL(req.url).searchParams.has('stats');
+  const url = new URL(req.url);
+  const statsOnly = url.searchParams.has('stats');
+  const state = stateConfig(url.searchParams.get('state')).code;
   const [units, sums, general] = await Promise.all([
-    db.unit.findMany({ where: { geometry: { not: undefined } } }),
+    db.unit.findMany({ where: { state, geometry: { not: undefined } } }),
     db.huntSummary.findMany({
+      where: { state },
       select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true },
     }),
-    db.generalHarvest.findMany({ where: { takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
+    db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
   const by = new Map<string, Record<string, number | string | null>>();
   const bump = (u: string, k: string, v: number | null, mode: 'max' | 'count' = 'max') => {

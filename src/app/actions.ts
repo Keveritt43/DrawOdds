@@ -1,7 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { STATES, STATE_COOKIE } from '@/lib/states';
+import { STATES, STATE_COOKIE, parseUnitKey } from '@/lib/states';
 import { revalidatePath } from 'next/cache';
 import type { Residency } from '@prisma/client';
 import { auth, signIn, signOut } from '@/auth';
@@ -33,15 +33,17 @@ export async function toggleSaved(huntId: number) {
   return { saved: !existing };
 }
 
+/** `unit`: the unit's key ("39" in Idaho, "co-70" elsewhere; see unitKey). */
 export async function toggleSavedUnit(unit: string) {
   const session = await auth();
   if (!session?.user) return { error: 'Sign in to save units' };
-  const name = unit.trim().toUpperCase().slice(0, 8);
-  if (!(await db.unit.findUnique({ where: { name }, select: { name: true } }))) return { error: 'Unknown unit' };
-  const key = { userId_unit: { userId: session.user.id, unit: name } };
+  const { state, name: raw } = parseUnitKey(unit.trim());
+  const name = raw.toUpperCase().slice(0, 8);
+  if (!(await db.unit.findUnique({ where: { state_name: { state, name } }, select: { name: true } }))) return { error: 'Unknown unit' };
+  const key = { userId_state_unit: { userId: session.user.id, state, unit: name } };
   const existing = await db.savedUnit.findUnique({ where: key });
   if (existing) await db.savedUnit.delete({ where: key });
-  else await db.savedUnit.create({ data: { userId: session.user.id, unit: name } });
+  else await db.savedUnit.create({ data: { userId: session.user.id, state, unit: name } });
   revalidatePath('/', 'layout');
   return { saved: !existing };
 }

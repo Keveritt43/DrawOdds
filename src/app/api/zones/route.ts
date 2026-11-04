@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 /** Elk zone boundaries (units merged per zone) and a label point for each, for the Filtering map. */
 export async function GET() {
-  const units = await db.unit.findMany({ where: { geometry: { not: undefined } }, select: { name: true, geometry: true } });
+  const units = await db.unit.findMany({ where: { state: 'ID', geometry: { not: undefined } }, select: { name: true, geometry: true } });
   const geom = new Map(units.map((u) => [u.name, u.geometry as unknown as Polygon | MultiPolygon | null]));
   const zones: Feature<Polygon | MultiPolygon>[] = [];
   const labels: Feature[] = [];

@@ -126,10 +126,10 @@ export async function syncGeneralHarvest(opts: StepOptions): Promise<StepResult>
           return { id: `${species}|${yr}|${unit}|${takeMethod}`, species, year: yr, unit, takeMethod, ...fields(species, yr, h) };
         })
         .filter((r, i, a) => a.findIndex((x) => x.id === r.id) === i);
-      await db.$transaction([db.generalHarvest.deleteMany({ where: { species, year } }), db.generalHarvest.createMany({ data })]);
+      await db.$transaction([db.generalHarvest.deleteMany({ where: { state: 'ID', species, year } }), db.generalHarvest.createMany({ data })]);
       return data.length;
     },
     async (species) =>
-      new Set((await db.generalHarvest.findMany({ where: { species }, select: { year: true }, distinct: ['year'] })).map((r) => r.year)),
+      new Set((await db.generalHarvest.findMany({ where: { state: 'ID', species }, select: { year: true }, distinct: ['year'] })).map((r) => r.year)),
   );
 }

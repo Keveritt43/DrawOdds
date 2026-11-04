@@ -60,7 +60,7 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
     const TM: Record<string, string> = { ANY: 'Any Weapon', SHORT_RANGE: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
     const tagMethods = s.species === 'ELK' ? [...new Set((s.weapons as string[]).map((w) => TM[w]).filter(Boolean))] : [];
     const methods = tagMethods.length ? tagMethods : ['All Weapons Combined'];
-    const harv = await db.generalHarvest.findMany({ where: { species: s.species, unit: { in: s.units }, takeMethod: { in: methods } } });
+    const harv = await db.generalHarvest.findMany({ where: { state: s.state, species: s.species, unit: { in: s.units }, takeMethod: { in: methods } } });
     for (const h of harv) {
       const p = at(h.year);
       const add = (k: keyof YearPoint, v: number | null) => {
@@ -77,7 +77,7 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
     for (const p of byYear.values()) p.success = r(p.harvest, p.hunters);
   } else if (s.unit) {
     const method = METHOD[s.weapon] ?? 'All Weapons Combined';
-    const harv = await db.generalHarvest.findMany({ where: { species: s.species, unit: s.unit, takeMethod: method } });
+    const harv = await db.generalHarvest.findMany({ where: { state: s.state, species: s.species, unit: s.unit, takeMethod: method } });
     for (const h of harv)
       Object.assign(at(h.year), {
         hunters: h.hunters, harvest: h.harvest, success: r(h.harvest, h.hunters), antlered: h.antlered, antlerless: h.antlerless,

@@ -104,7 +104,7 @@ export function syntheticId(key: string): number {
  */
 export async function syncHunts(): Promise<StepResult> {
   const details: string[] = [];
-  const units = await db.unit.findMany({ where: { idfgId: { not: null } }, select: { name: true, idfgId: true } });
+  const units = await db.unit.findMany({ where: { state: 'ID', idfgId: { not: null } }, select: { name: true, idfgId: true } });
   if (units.length < 90) return { rows: 0, status: 'ERROR', details: [`Only ${units.length} units with Hunt Planner IDs - run the land step first`] };
 
   const found = new Map<number, ListedHunt & { species: (typeof SPECIES)[number]['species']; units: Set<string> }>();
@@ -176,7 +176,7 @@ export async function syncHunts(): Promise<StepResult> {
     });
   }
   // hunts already stored this season (seen on an earlier night, before they closed) count as listed too
-  const stored = await db.hunt.findMany({ where: { year: { gte: season } } });
+  const stored = await db.hunt.findMany({ where: { state: 'ID', year: { gte: season } } });
   for (const h of stored) {
     if (!rows.has(h.idfgId) && h.source !== 'regs' && h.source !== 'harvest' && h.source !== 'nrtag' && h.source !== 'odds') {
       const { updatedAt: _u, ...data } = h;
@@ -279,7 +279,7 @@ export async function syncHunts(): Promise<StepResult> {
     for (const u of us.length ? us : ((x.units as string[]) ?? [])) covered.add(`${x.species}|${u}|${x.weapon}`);
   }
   const recent = await db.generalHarvest.findMany({
-    where: { year: { gte: season - 2 }, takeMethod: { in: Object.keys(METHOD) }, hunters: { gt: 0 } },
+    where: { state: 'ID', year: { gte: season - 2 }, takeMethod: { in: Object.keys(METHOD) }, hunters: { gt: 0 } },
     select: { species: true, unit: true, takeMethod: true },
     distinct: ['species', 'unit', 'takeMethod'],
   });
@@ -320,10 +320,10 @@ export async function syncHunts(): Promise<StepResult> {
     }
     // Keep this season's hunts even when they drop off IDFG's lists (they closed). Drop older seasons
     // nobody saved, and stand-in rows that a real IDFG listing has since replaced.
-    await tx.hunt.deleteMany({ where: { year: { lt: season }, source: { not: 'nrtag' }, saved: { none: {} } } });
-    await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { in: ['regs', 'harvest', 'odds'] }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
+    await tx.hunt.deleteMany({ where: { state: 'ID', year: { lt: season }, source: { not: 'nrtag' }, saved: { none: {} } } });
+    await tx.hunt.deleteMany({ where: { state: 'ID', year: { gte: season }, source: { in: ['regs', 'harvest', 'odds'] }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
     // and anything this season that is no longer listed anywhere (e.g. outfitter-allocation hunts)
-    await tx.hunt.deleteMany({ where: { year: { gte: season }, source: { not: 'nrtag' }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
+    await tx.hunt.deleteMany({ where: { state: 'ID', year: { gte: season }, source: { not: 'nrtag' }, idfgId: { notIn: [...rows.keys()] }, saved: { none: {} } } });
   }, { timeout: 180_000 });
 
   return { rows: rows.size, details };

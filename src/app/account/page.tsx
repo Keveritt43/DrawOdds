@@ -4,6 +4,7 @@ import { SPECIES_LABEL } from '@/lib/format';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
+import { unitKey, STATES, type StateCode } from '@/lib/states';
 import { doSignOut } from '@/app/actions';
 import { ResidencySwitch } from '@/components/ResidencySwitch';
 import { residencyFields } from '@/lib/finder';
@@ -31,7 +32,7 @@ export default async function Account() {
   ]);
   const apps = await db.application.findMany({ where: { userId: session.user.id }, orderBy: [{ year: 'desc' }, { createdAt: 'desc' }] });
   const units = new Map(
-    (await db.unit.findMany({ where: { name: { in: savedUnits.map((u) => u.unit) } }, select: { name: true, elkZone: true, publicPct: true, acres: true } })).map((u) => [u.name, u]),
+    (await db.unit.findMany({ where: { OR: savedUnits.map((u) => ({ state: u.state, name: u.unit })) }, select: { state: true, name: true, elkZone: true, publicPct: true, acres: true } })).map((u) => [unitKey(u.state, u.name), u]),
   );
   return (
     <main className="wrap" style={{ margin: '24px auto 48px', maxWidth: 820 }}>
@@ -47,12 +48,13 @@ export default async function Account() {
       <h2>Favorite Units</h2>
       {!savedUnits.length && <p className="muted">No favorite units yet. Tap the ☆ next to a unit on the map, a unit page or Filtering.</p>}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {savedUnits.map(({ unit }) => {
+        {savedUnits.map(({ state, unit: name }) => {
+          const unit = unitKey(state, name);
           const u = units.get(unit);
           return (
             <div key={unit} className="card star-head" style={{ padding: '8px 12px' }}>
               <Star kind="unit" id={unit} saved signedIn />
-              <Link href={`/units/${encodeURIComponent(unit)}`}><b>Unit {unit}</b></Link>
+              <Link href={`/units/${encodeURIComponent(unit)}`}><b>{state === 'ID' ? '' : `${STATES[state as StateCode]?.name ?? state} `}Unit {name}</b></Link>
               <span className="small muted">{u?.elkZone ? `${u.elkZone} · ` : ''}{pct100(u?.publicPct ?? null)} public</span>
               <Link className="small" href={`/hunts?unit=${encodeURIComponent(unit)}`}>Hunts</Link>
             </div>

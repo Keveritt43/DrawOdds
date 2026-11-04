@@ -29,10 +29,10 @@ const month = (d: Date | null) => (d ? d.getUTCMonth() + 1 : null);
 export async function buildSummaries(): Promise<StepResult> {
   const details: string[] = [];
   const [hunts, odds, areas, unitRows] = await Promise.all([
-    db.hunt.findMany(),
+    db.hunt.findMany({ where: { state: 'ID' } }),
     db.drawOdds.findMany({ where: { draw: { in: [1, 2] } } }),
     db.huntArea.findMany({ select: { areaId: true, name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, units: true, acres: true } }),
-    db.unit.findMany({ select: { name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, acres: true } }),
+    db.unit.findMany({ where: { state: 'ID' }, select: { name: true, publicPct: true, privatePct: true, accessYesAcres: true, accessYesCount: true, acres: true } }),
   ]);
   const unitMap = new Map(unitRows.map((u) => [u.name, u]));
   const areaMap = new Map(areas.map((a) => [a.areaId, a]));
@@ -193,7 +193,7 @@ export async function buildSummaries(): Promise<StepResult> {
       const method = METHOD[h.weapon] ?? 'All Weapons Combined';
       // a unit redrawn by IDFG: only seasons on the current ground count toward the 5-yr numbers
       const since = boundarySince(unit) ?? 0;
-      const rows = await db.generalHarvest.findMany({ where: { species: h.species, unit, takeMethod: method, year: { gte: Math.max(thisYear() - 6, since) } } });
+      const rows = await db.generalHarvest.findMany({ where: { state: 'ID', species: h.species, unit, takeMethod: method, year: { gte: Math.max(thisYear() - 6, since) } } });
       const hs = summarizeHarvest(h.species, rows as HarvestRow[]);
       const u = unitMap.get(unit);
       // general seasons from the regulations for this unit and weapon (deer: Regular Deer tag table, elk: the
@@ -318,7 +318,7 @@ export async function buildSummaries(): Promise<StepResult> {
 
   await db.$transaction(
     async (tx) => {
-      await tx.huntSummary.deleteMany({});
+      await tx.huntSummary.deleteMany({ where: { state: 'ID' } }); // other states' rows come from their own steps
       await tx.huntSummary.createMany({ data: out });
     },
     { timeout: 120_000 },
@@ -349,7 +349,7 @@ async function nrTagSummary(
   const TM: Record<string, string> = { ANY: 'Any Weapon', SHORT_RANGE: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
   const methods = tagSeasonsAll?.seasons.length ? [...new Set(tagSeasonsAll.seasons.map((x) => TM[x.weapon]).filter(Boolean))] : ['All Weapons Combined'];
   const gen = await db.generalHarvest.findMany({
-    where: { species: h.species, unit: { in: h.units }, takeMethod: { in: methods }, year: { gte: thisYear() - 6 } },
+    where: { state: 'ID', species: h.species, unit: { in: h.units }, takeMethod: { in: methods }, year: { gte: thisYear() - 6 } },
   });
   const lastYear = Math.max(0, ...gen.map((g) => g.year));
   // per unit, skip seasons before that unit's boundary change

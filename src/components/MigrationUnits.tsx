@@ -15,8 +15,8 @@ import { ANIMAL, type StudyInfo } from '@/lib/migrations';
  */
 export async function MigrationUnits({ s, nr }: { s: StudyInfo; nr: boolean }) {
   const rf = residencyFields(nr ? 'NONRESIDENT' : 'RESIDENT');
-  const rows = await db.huntSummary.findMany({ where: { species: s.species, units: { hasSome: s.units }, youthOnly: false } });
-  const unitInfo = new Map((await db.unit.findMany({ where: { name: { in: s.units } }, select: { name: true, publicPct: true, acres: true } })).map((u) => [u.name, u]));
+  const rows = await db.huntSummary.findMany({ where: { state: 'ID', species: s.species, units: { hasSome: s.units }, youthOnly: false } });
+  const unitInfo = new Map((await db.unit.findMany({ where: { state: 'ID', name: { in: s.units } }, select: { name: true, publicPct: true, acres: true } })).map((u) => [u.name, u]));
   const ua = s.unitAcres as Record<string, Record<string, number>>;
   const cards = await Promise.all(
     s.units.map(async (u) => {

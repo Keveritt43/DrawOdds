@@ -49,7 +49,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const [history, area, unitRows, saved] = await Promise.all([
     historyFor(s),
     s.areaId ? db.huntArea.findUnique({ where: { areaId: s.areaId } }) : null,
-    db.unit.findMany({ where: { name: { in: s.units } } }),
+    db.unit.findMany({ where: { state: s.state, name: { in: s.units } } }),
     session?.user ? db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } }) : null,
   ]);
 
@@ -57,7 +57,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   let compare: { label: string; data: Awaited<ReturnType<typeof historyFor>> } | undefined;
   const mainUnit = ((area?.units as { unit: string; pct: number }[] | null) ?? [])[0]?.unit ?? s.units[0];
   if (s.type === 'CONTROLLED' && mainUnit) {
-    const gen = await db.huntSummary.findFirst({ where: { type: 'GENERAL', species: s.species, unit: mainUnit, weapon: s.weapon } });
+    const gen = await db.huntSummary.findFirst({ where: { state: s.state, type: 'GENERAL', species: s.species, unit: mainUnit, weapon: s.weapon } });
     if (gen) compare = { label: `General season, unit ${mainUnit}`, data: await historyFor(gen) };
   }
   // better-odds alternatives: same species, kind, sex and weapon, at least as good a hunt, easier to draw
@@ -66,7 +66,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const alts = (ctl || (s.nrTag && nr)) && myOdds !== null && myOdds < 0.95
     ? await db.huntSummary.findMany({
         where: {
-          id: { not: s.id }, species: s.species, smallSample: false, youthOnly: false,
+          id: { not: s.id }, state: s.state, species: s.species, smallSample: false, youthOnly: false,
           ...(ctl ? { type: 'CONTROLLED' as const, antlerClass: s.antlerClass, weapon: s.weapon, [rf.odds5]: { gte: myOdds + 0.05 } } : { nrTag: true, nrOdds5: { gte: myOdds + 0.05 } }),
           ...(s.success5 !== null ? { success5: { gte: s.success5 * 0.8 } } : {}),
         },

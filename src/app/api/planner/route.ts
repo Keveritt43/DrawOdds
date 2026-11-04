@@ -12,8 +12,8 @@ export async function GET(req: Request) {
   const kind = u.searchParams.get('kind');
   const species = u.searchParams.get('species') ?? '';
   const where: Prisma.HuntSummaryWhereInput = kind === 'tag'
-    ? { nrTag: true, species: species === 'DEER' ? 'DEER' : 'ELK' }
-    : { type: 'CONTROLLED', species: (['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'].includes(species) ? species : 'DEER') as never, youthOnly: false };
+    ? { state: 'ID', nrTag: true, species: species === 'DEER' ? 'DEER' : 'ELK' }
+    : { state: 'ID', type: 'CONTROLLED', species: (['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'].includes(species) ? species : 'DEER') as never, youthOnly: false };
   const rows = await db.huntSummary.findMany({
     where,
     select: {
