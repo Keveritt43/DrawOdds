@@ -24,7 +24,7 @@ export function SiteSearch({ onDone }: { onDone?: () => void }) {
         onDone?.();
       }}
     >
-      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Unit, hunt # or tag" aria-label="Search units, hunt numbers or tag codes" />
+      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Unit, hunt #, tag" aria-label="Search units, hunt numbers or tag codes" />
     </form>
   );
 }
