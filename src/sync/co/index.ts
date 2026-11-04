@@ -12,7 +12,7 @@ import { syntheticId } from '../steps/hunts';
 import { parseRecap, type RecapHunt, type Pool } from './recap';
 import { DRAW_RECAPS, originalPdfUrl, CO_GMU_LAYER } from './manifest';
 import { effective, hybridRate, project, trendNext, calibrate, DEFAULT_CALIBRATION, type PoolYear, type Calibration, type CutoffInfo } from '../../lib/coOdds';
-import { decodeCode, huntTitle, seasonLabel, isPrivateOnly, CO_POOLS, type CoPool, type PointOdds, type PoolOdds } from '../../lib/coHunt';
+import { decodeCode, huntTitle, seasonLabel, isPrivateOnly, oddsTable, CO_POOLS, type CoPool, type PointOdds, type PoolOdds } from '../../lib/coHunt';
 
 const STATE = 'CO';
 
@@ -98,9 +98,9 @@ function recapRow(h: RecapHunt, species: Species): Prisma.DrawRecapCreateManyInp
 type RecapRow = Awaited<ReturnType<typeof db.drawRecap.findMany>>[number];
 const poolYear = (r: RecapRow, pool: Pool): PoolYear => ({
   year: r.year,
-  pre: ((r.pre as Record<string, Record<string, number>>)[pool] ?? {}) as Record<number, number>,
-  post: ((r.post as Record<string, Record<string, number>>)[pool] ?? {}) as Record<number, number>,
-  cut: ((r.cutoff as Record<string, CutoffInfo>)[pool] ?? null),
+  pre: ((r.pre as unknown as Record<string, Record<string, number>>)[pool] ?? {}) as Record<number, number>,
+  post: ((r.post as unknown as Record<string, Record<string, number>>)[pool] ?? {}) as Record<number, number>,
+  cut: ((r.cutoff as unknown as Record<string, CutoffInfo>)[pool] ?? null),
 });
 
 /** How far cutoffs moved from one draw to the next, across every hunt code (adult pools). */
@@ -189,6 +189,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
         hybrid: (res?.hybrid ?? 0) > 0 || (nr?.hybrid ?? 0) > 0,
         privateOnly: isPrivateOnly(code),
         pointOdds: po as object,
+        oddsByPts: oddsTable(po) as object,
       });
     }
   }

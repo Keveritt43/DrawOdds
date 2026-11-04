@@ -14,6 +14,12 @@ export async function getResidency(as?: string | string[]): Promise<{ residency:
   const asv = (Array.isArray(as) ? as[0] : as)?.toLowerCase();
   const session = await auth();
   if (asv === 'nr' || asv === 'res') return { residency: asv === 'nr' ? 'NONRESIDENT' : 'RESIDENT', signedIn: !!session?.user, email: session?.user?.email };
+  // residency is per state: an Idaho resident applies in Colorado as a nonresident (stored with their points)
+  const st = await getState();
+  if (st.code !== 'ID') {
+    const { getPoints } = await import('./points');
+    return { residency: (await getPoints(st.code)).res, signedIn: !!session?.user, email: session?.user?.email };
+  }
   if (session?.user) return { residency: session.user.residency, signedIn: true, email: session.user.email };
   const c = (await cookies()).get(RESIDENCY_COOKIE)?.value;
   return { residency: c === 'NONRESIDENT' ? 'NONRESIDENT' : 'RESIDENT', signedIn: false };

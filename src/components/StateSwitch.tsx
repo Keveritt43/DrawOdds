@@ -15,7 +15,8 @@ export function StateSwitch() {
     document.addEventListener('click', close);
     return () => document.removeEventListener('click', close);
   }, []);
-  const states = enabledStates();
+  // listed states, plus the current one when it's reached by link and not listed yet (a preview)
+  const states = enabledStates().some((s) => s.code === cur.code) ? enabledStates() : [...enabledStates(), cur];
   return (
     <details ref={ref} className="state-switch">
       <summary aria-label={`State: ${cur.name}. Change state`}>{cur.name} <span aria-hidden="true">▾</span></summary>

@@ -105,4 +105,31 @@ export function myOdds(po: PoolOdds | undefined, p: number, mode: 'proj' | 'last
   return { odds: o, lo: o, hi: o, chance: chanceOf(o, o, o), last };
 }
 
+/** Odds at 0..maxPts points per pool, projected and last draw (beyond the end: the last value). */
+export type OddsTable = Record<'proj' | 'last', Partial<Record<CoPool, number[]>>>;
+export function oddsTable(po: PointOdds, maxPts = 30): OddsTable {
+  const t: OddsTable = { proj: {}, last: {} };
+  for (const pool of CO_POOLS) {
+    const p = po.pools[pool];
+    if (!p) continue;
+    for (const mode of ['proj', 'last'] as const) {
+      const arr: number[] = [];
+      for (let k = 0; k <= maxPts; k++) {
+        const o = myOdds(p, k, mode, po.year)?.odds;
+        if (o === null || o === undefined) break;
+        arr.push(Math.round(o * 1000) / 1000);
+      }
+      // trim the flat tail: once it's 100% it stays 100%
+      while (arr.length > 1 && arr[arr.length - 1] === arr[arr.length - 2] && arr[arr.length - 1] >= 0.999) arr.pop();
+      if (arr.length) t[mode][pool] = arr;
+    }
+  }
+  return t;
+}
+/** Odds at p points from an OddsTable row (null when the pool had nobody). */
+export const tableOdds = (t: OddsTable | null | undefined, mode: 'proj' | 'last', pool: CoPool, p: number): number | null => {
+  const a = t?.[mode]?.[pool];
+  return a && a.length ? a[Math.min(p, a.length - 1)] : null;
+};
+
 export { effective };

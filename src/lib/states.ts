@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID';
+export type StateCode = 'ID' | 'CO';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -27,6 +27,7 @@ export interface StateConfig {
   name: string;
   /** URL segment once routes are state-prefixed: /idaho/... */
   slug: string;
+  /** Listed in the state picker. An unlisted state still works by link (/api/state?code=co) for previews. */
   enabled: boolean;
   agency: { short: string; name: string; url: string };
   /** Hunting-on-private-land access program, if any ("Access Yes!"). */
@@ -58,15 +59,31 @@ export const STATES: Record<StateCode, StateConfig> = {
     bounds: [[-117.3, 41.95], [-111.0, 49.05]],
     features: { elkZones: true, nrGeneralTagDraw: true, elkObjectives: true, migration: true, leftovers: true, areaSpecies: ['PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'] },
   },
+  CO: {
+    code: 'CO',
+    name: 'Colorado',
+    slug: 'colorado',
+    enabled: false,
+    agency: { short: 'CPW', name: 'Colorado Parks and Wildlife', url: 'https://cpw.state.co.us/activities/hunting/big-game' },
+    accessProgram: null,
+    points: 'preference',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-109.06, 36.99], [-102.04, 41.0]],
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
 };
 
 export const DEFAULT_STATE: StateCode = 'ID';
 export const STATE_COOKIE = 'state';
 export const enabledStates = () => Object.values(STATES).filter((s) => s.enabled);
+/** Any known state (unlisted ones too: they're reached by link); unknown codes fall back to Idaho. */
 export const stateConfig = (code?: string | null): StateConfig => {
   const c = (code ?? '').toUpperCase() as StateCode;
-  return STATES[c]?.enabled ? STATES[c] : STATES[DEFAULT_STATE];
+  return STATES[c] ?? STATES[DEFAULT_STATE];
 };
+/** Species that use preference points in a state's draw (point tracker rows). */
+export const POINT_SPECIES: Partial<Record<StateCode, ('DEER' | 'ELK')[]>> = { CO: ['DEER', 'ELK'] };
 
 /**
  * A unit's address in URLs and favorites. Idaho keeps its bare names ("39", "36A") so old links work; other states

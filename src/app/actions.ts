@@ -6,10 +6,13 @@ import { revalidatePath } from 'next/cache';
 import type { Residency } from '@prisma/client';
 import { auth, signIn, signOut } from '@/auth';
 import { db } from '@/lib/db';
-import { RESIDENCY_COOKIE, DRAW_COOKIE } from '@/lib/residency';
+import { RESIDENCY_COOKIE, DRAW_COOKIE, getState } from '@/lib/residency';
+import { getPointsStore, readState, POINTS_COOKIE, type StatePoints } from '@/lib/points';
 
 export async function setResidency(residency: Residency) {
   if (residency !== 'RESIDENT' && residency !== 'NONRESIDENT') return;
+  const st = (await getState()).code;
+  if (st !== 'ID') return setPoints(st, { res: residency }); // residency is per state; Idaho's stays on the profile
   const session = await auth();
   if (session?.user) await db.user.update({ where: { id: session.user.id }, data: { residency } });
   (await cookies()).set(RESIDENCY_COOKIE, residency, { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', path: '/' });
@@ -92,7 +95,25 @@ export async function deleteApplication(id: string) {
 
 export async function setStateCode(code: string) {
   const s = STATES[code.toUpperCase() as keyof typeof STATES];
-  if (!s?.enabled) return;
+  if (!s) return;
   (await cookies()).set(STATE_COOKIE, s.code, { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', path: '/' });
+  revalidatePath('/', 'layout');
+}
+
+/** Save preference points / residency for a state (signed in: the profile too). */
+export async function setPoints(state: string, patch: Partial<StatePoints>) {
+  if (!(state in STATES) || state === 'ID') return;
+  const { store, userId } = await getPointsStore();
+  const cur = readState(store, state);
+  const next: StatePoints = {
+    res: patch.res === 'RESIDENT' || patch.res === 'NONRESIDENT' ? patch.res : cur.res,
+    DEER: patch.DEER !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.DEER) || 0))) : cur.DEER,
+    ELK: patch.ELK !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.ELK) || 0))) : cur.ELK,
+    youth: patch.youth !== undefined ? !!patch.youth : cur.youth,
+    set: true,
+  };
+  const all = { ...store, [state]: next };
+  if (userId) await db.user.update({ where: { id: userId }, data: { points: all as object } });
+  (await cookies()).set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), { maxAge: 60 * 60 * 24 * 365 * 2, sameSite: 'lax', path: '/' });
   revalidatePath('/', 'layout');
 }

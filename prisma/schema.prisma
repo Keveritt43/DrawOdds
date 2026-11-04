@@ -334,6 +334,7 @@ model HuntSummary {
   hybrid      Boolean @default(false) // some 5+ point applicants below the cutoff drew (hybrid draw)
   privateOnly Boolean @default(false) // private-land-only or Ranching for Wildlife license
   pointOdds   Json? // per pool: last draw's levels, projection quantiles, hybrid rate, history (src/lib/coHunt.ts)
+  oddsByPts   Json? // { proj: { res: [odds at 0, 1, 2... points] , nr, yres, ynr }, last: { ... } }: list filters and sorting
   updatedAt       DateTime @updatedAt
 
   @@index([species, type, weapon, antlerClass])
