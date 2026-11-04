@@ -9,25 +9,27 @@ import { cookies } from 'next/headers';
 import { ResidencyPrompt } from '@/components/ResidencyPrompt';
 import { SiteHeader } from '@/components/SiteHeader';
 import { LogoMark } from '@/components/Logo';
+import { getPoints } from '@/lib/points';
 
 const body = Barlow({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-barlow', display: 'swap' });
 const display = Barlow_Condensed({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-barlow-condensed', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: { default: 'DrawOdds Idaho: Draw Odds For Deer, Elk, Pronghorn, Moose, Sheep And Goat', template: '%s · DrawOdds Idaho' },
+  title: { default: 'DrawOdds Idaho: Draw Odds For Deer, Elk, Pronghorn, Moose, Sheep And Goat', template: '%s · DrawOdds' },
   description: 'Find Idaho deer, elk, pronghorn, moose, bighorn sheep and mountain goat hunts by draw odds for your residency, hunter success, crowding, season, weapon, public land and Access Yes!',
 };
 export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#1d2023' };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const [{ residency, signedIn }, draw, jar, state] = await Promise.all([getResidency(), getDraw(), cookies(), getState()]);
-  const askResidency = !signedIn && !jar.get(RESIDENCY_COOKIE);
+  const askResidency = !signedIn && !jar.get(RESIDENCY_COOKIE) && state.code === 'ID';
+  const points = state.points !== 'none' ? await getPoints(state.code) : null;
   return (
     <html lang="en" className={`${body.variable} ${display.variable}`}>
       <body>
         <StateProvider code={state.code}>
         <a href="#content" className="skip">Skip to content</a>
-        <SiteHeader residency={residency} signedIn={signedIn} draw={draw} />
+        <SiteHeader residency={residency} signedIn={signedIn} draw={draw} points={points} />
         {askResidency && <ResidencyPrompt />}
         <div id="content">{children}</div>
         <CompareTray />

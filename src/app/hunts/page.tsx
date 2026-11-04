@@ -6,7 +6,8 @@ import { unitOrder } from '@/lib/format';
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
-import { getResidency, getDraw } from '@/lib/residency';
+import { getResidency, getDraw, getState } from '@/lib/residency';
+import { CoFinder } from './CoFinder';
 import { DRAW_SPECIES, AREA_SPECIES, SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUnits, type Filters } from '@/lib/finder';
 import { FilterRail } from '@/components/FilterRail';
@@ -73,6 +74,8 @@ type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; 
 
 export default async function Filtering({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
+  // Colorado: preference-point odds at your own points (its own page; Idaho's filters below don't apply)
+  if ((await getState(sp.state)).code === 'CO') return <CoFinder sp={sp} />;
   // coming back with no filters in the link: bring back the last ones (until "Reset all")
   // (only when arriving from another page: clearing the last filter on this page must stay cleared)
   const ref = (await headers()).get('referer') ?? '';

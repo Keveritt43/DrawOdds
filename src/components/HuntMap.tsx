@@ -1,4 +1,5 @@
 'use client';
+import { useStateConfig } from './StateContext';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -46,6 +47,9 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
 }) {
   const el = useRef<HTMLDivElement>(null);
   const keyEl = useRef<HTMLDivElement>(null);
+  const st = useStateConfig();
+  const stCode = st.code;
+  const stBounds = st.code === 'ID' ? IDAHO_BOUNDS : st.bounds;
   const map = useRef<MlMap | null>(null);
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const loaded = useRef(false);
@@ -87,7 +91,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   useEffect(() => {
     if (!el.current || map.current) return;
     const m = new maplibregl.Map({
-      container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS,
+      container: el.current, style: baseStyle('satellite'), bounds: stBounds,
       fitBoundsOptions: { padding: { top: 48, bottom: 110, left: 12, right: 12 } }, minZoom: 4, maxZoom: 15, attributionControl: { compact: true },
     });
     // below 1100px the map sits above the list in the page instead of in a side panel
@@ -100,7 +104,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       let fc;
       let labels;
       try {
-        ({ fc, labels } = await loadUnits());
+        ({ fc, labels } = await loadUnits(stCode));
       } catch (e) {
         setErr('Could not load unit boundaries.');
         console.error(e);
@@ -146,7 +150,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       const kh = keyEl.current?.offsetHeight ?? 90;
       const cw = m.getContainer().clientWidth;
       const ch = m.getContainer().clientHeight;
-      m.fitBounds(IDAHO_BOUNDS, { padding: { top: Math.min(kh + 18, ch * 0.4), bottom: 12, left: cw > 700 ? Math.min(160, cw * 0.18) : 12, right: 50 }, duration: 0 });
+      m.fitBounds(stBounds, { padding: { top: Math.min(kh + 18, ch * 0.4), bottom: 12, left: cw > 700 ? Math.min(160, cw * 0.18) : 12, right: 50 }, duration: 0 });
       paint();
       m.fire('ready'); // units layers exist now: overlays (shading, elk zones, areas) can attach
       setMapObj(m);

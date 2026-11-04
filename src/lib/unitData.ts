@@ -31,14 +31,14 @@ export function labelPoints(fc: UnitData['fc']): UnitData['labels'] {
   return { type: 'FeatureCollection', features };
 }
 
-let cached: Promise<UnitData> | null = null;
+const cached: Record<string, Promise<UnitData> | null> = {};
 
 /**
  * Unit boundaries + the per-unit numbers every map shades by, fetched once per page.
  * (Versioned URL: an hour-cached response from before a deploy must not be reused.)
  */
-export function loadUnits(): Promise<UnitData> {
-  cached ??= fetch('/api/units?v=10')
+export function loadUnits(state = 'ID'): Promise<UnitData> {
+  cached[state] ??= fetch(state === 'ID' ? '/api/units?v=10' : `/api/units?v=10&state=${state}`)
     .then((r) => {
       if (!r.ok) throw new Error(`units ${r.status}`);
       return r.json();
@@ -55,8 +55,8 @@ export function loadUnits(): Promise<UnitData> {
       return { fc, classes, missing, labels: labelPoints(fc) };
     })
     .catch((e) => {
-      cached = null; // let the next map retry
+      cached[state] = null; // let the next map retry
       throw e;
     });
-  return cached;
+  return cached[state]!;
 }

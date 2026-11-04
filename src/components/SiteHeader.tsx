@@ -10,6 +10,8 @@ import { DrawSwitch } from './DrawSwitch';
 import { SiteSearch } from './SiteSearch';
 import { StateSwitch } from './StateSwitch';
 import { useStateConfig } from './StateContext';
+import { PointTracker } from './PointTracker';
+import type { StatePoints } from '@/lib/points';
 import type { Draw } from '@/lib/species';
 
 const LINKS = [
@@ -22,7 +24,7 @@ const LINKS = [
   { href: '/about', label: 'Data & Methods' },
 ];
 
-export function SiteHeader({ residency, signedIn, draw }: { residency: Residency; signedIn: boolean; draw: Draw }) {
+export function SiteHeader({ residency, signedIn, draw, points }: { residency: Residency; signedIn: boolean; draw: Draw; points?: StatePoints | null }) {
   const path = usePathname() ?? '/';
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(false), [path]);
@@ -64,6 +66,7 @@ export function SiteHeader({ residency, signedIn, draw }: { residency: Residency
           <span>Odds For</span>
           <ResidencySwitch value={residency} />
         </div>
+        {st.points !== 'none' && points && <div className="db-item"><PointTracker value={points} /></div>}
       </div>
     </header>
   );

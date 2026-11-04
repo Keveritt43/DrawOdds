@@ -4,6 +4,7 @@ import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { parseUnitKey } from '@/lib/states';
+import { CoUnitPage } from './CoUnitPage';
 import { getResidency, getDraw } from '@/lib/residency';
 import { DRAW_SPECIES } from '@/lib/species';
 import { residencyFields } from '@/lib/finder';
@@ -21,7 +22,9 @@ import { SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
-  const name = decodeURIComponent((await params).name).toUpperCase();
+  const ref = parseUnitKey(decodeURIComponent((await params).name));
+  const name = ref.name.toUpperCase();
+  if (ref.state === 'CO') return { title: `Colorado Unit ${name}`, description: `Colorado game management unit ${name}: limited deer and elk licenses and draw odds at your preference points.` };
   return { title: `Unit ${name}`, description: `Idaho hunting unit ${name}: deer, elk and pronghorn hunts, draw odds, success and public land.` };
 }
 
@@ -35,7 +38,8 @@ const FILTERS = {
 export default async function UnitPage({ params, searchParams }: { params: Promise<{ name: string }>; searchParams: Promise<SP> }) {
   const sp = await searchParams;
   const ref = parseUnitKey(decodeURIComponent((await params).name));
-  if (ref.state !== 'ID') notFound(); // other states' unit pages: see OtherUnitPage once they have data
+  if (ref.state === 'CO') return <CoUnitPage name={ref.name.toUpperCase()} />;
+  if (ref.state !== 'ID') notFound();
   const name = ref.name.toUpperCase();
   const unit = await db.unit.findUnique({ where: { state_name: { state: 'ID', name } } });
   if (!unit) notFound();

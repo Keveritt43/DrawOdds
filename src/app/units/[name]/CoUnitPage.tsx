@@ -1,0 +1,63 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { db } from '@/lib/db';
+import { getPoints } from '@/lib/points';
+import { getFavorites } from '@/lib/favorites';
+import { Star } from '@/components/Star';
+import { int } from '@/lib/format';
+import { unitKey } from '@/lib/states';
+import { poolFor, tableOdds, decodeCode, type OddsTable } from '@/lib/coHunt';
+import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
+import { fmtNeed } from '@/app/hunts/CoFinder';
+
+const pct = (o: number | null) => (o === null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
+
+/** A Colorado game management unit: its limited deer and elk licenses with odds at your points. */
+export async function CoUnitPage({ name }: { name: string }) {
+  const unit = await db.unit.findUnique({ where: { state_name: { state: 'CO', name } } });
+  if (!unit) notFound();
+  const [pts, fav, hunts] = await Promise.all([
+    getPoints('CO'),
+    getFavorites(),
+    db.huntSummary.findMany({ where: { state: 'CO', units: { has: name } }, orderBy: [{ species: 'asc' }, { tagCode: 'asc' }] }),
+  ]);
+  const nr = pts.res === 'NONRESIDENT';
+  const pool = poolFor(nr, pts.youth);
+  const herds = (unit.herds ?? {}) as Record<string, string | null>;
+  const key = unitKey('CO', name);
+  return (
+    <main className="wrap" style={{ margin: '20px auto 40px' }}>
+      <p className="small"><Link href={`/hunts?unit=${name}`}>Find hunts in this unit →</Link></p>
+      <h1 className="star-head">Unit {name} <span className="muted" style={{ fontSize: '.5em' }}>Colorado</span> <Star kind="unit" id={key} saved={fav.units.has(key)} signedIn={fav.signedIn} label /></h1>
+      <p className="muted">{unit.acres ? `${int(unit.acres)} acres` : ''}{herds.DEER ? ` · Deer herd ${herds.DEER}` : ''}{herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}</p>
+      <h2>Limited Licenses</h2>
+      {!hunts.length && <p className="muted">No limited deer licenses drawn in this unit in the latest draw.</p>}
+      {hunts.length > 0 && (
+        <div className="htable-wrap">
+          <table>
+            <thead><tr><th>Hunt</th><th>Code</th><th className="num">Licenses</th><th>Res needs</th><th>Nonres needs</th><th>Your odds ({pts[hunts[0].species === 'ELK' ? 'ELK' : 'DEER']} pts)</th></tr></thead>
+            <tbody>
+              {hunts.map((h) => {
+                const p = pts[h.species === 'ELK' ? 'ELK' : 'DEER'];
+                const o = tableOdds(h.oddsByPts as unknown as OddsTable, 'proj', pool, p);
+                const ch = o === null ? 'none' : chanceOf(o, o >= 0.995 ? 1 : 0, o > 0 ? 1 : 0);
+                const d = decodeCode(h.tagCode ?? '');
+                return (
+                  <tr key={h.id}>
+                    <td><Link href={`/hunts/${h.slug}`}>{h.name.replace(/^Unit \d+ · /, '')}</Link>{h.privateOnly ? <span className="pill">Private land</span> : null}{d?.type === 'K' ? <span className="pill">Youth</span> : null}</td>
+                    <td>{h.tagCode}</td>
+                    <td className="num">{h.tags ?? '–'}</td>
+                    <td>{fmtNeed(h.ptsRes, h.ptsResPct)}</td>
+                    <td>{fmtNeed(h.ptsNr, h.ptsNrPct)}</td>
+                    <td>{pct(o)} <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <p className="small muted">Odds are projected for the next draw, first choice, {nr ? 'nonresident' : 'resident'}{pts.youth ? ' youth' : ''}. Hunt codes named for this unit; some cover neighboring units too (see the CPW brochure).</p>
+    </main>
+  );
+}

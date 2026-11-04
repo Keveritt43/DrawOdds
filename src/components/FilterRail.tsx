@@ -207,7 +207,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
   );
 }
 
-function Section({ title, value, set, defaultOpen, children }: { title: string; value: string; set?: boolean; defaultOpen?: boolean; children: React.ReactNode }) {
+export function Section({ title, value, set, defaultOpen, children }: { title: string; value: string; set?: boolean; defaultOpen?: boolean; children: React.ReactNode }) {
   return (
     <details className="rsec" open={defaultOpen}>
       <summary>
@@ -253,7 +253,7 @@ function DateRange({ from, to, mode, onCommit }: { from: number; to: number; mod
   );
 }
 
-function Slider({ value, max, step, suffix, onCommit }: { value: number; max: number; step: number; suffix: string; onCommit: (v: number) => void }) {
+export function Slider({ value, max, step, suffix, onCommit }: { value: number; max: number; step: number; suffix: string; onCommit: (v: number) => void }) {
   const [v, setV] = useState(value);
   const committed = useRef(value);
   useEffect(() => {

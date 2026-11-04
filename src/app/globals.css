@@ -611,3 +611,52 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .map-topleft .mappanel { position: static; pointer-events: auto; width: min(380px, 100%); max-height: none; }
 .map-topleft .mappanel:not(.open) .mk-items, .map-topleft .mappanel:not(.open) .mk-layers { display: none; }
 .map-topleft .mappanel.open { max-height: 60vh; overflow: auto; }
+
+/* ---------- Colorado: point tracker (header) ---------- */
+.pt-tracker { position: relative; }
+.pt-tracker summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; white-space: nowrap; border: 1px solid #4a5157; border-radius: 999px; padding: 5px 12px; font-size: .85rem; color: #f4f5f0; }
+.pt-tracker summary::-webkit-details-marker { display: none; }
+.pt-tracker summary:hover, .pt-tracker[open] summary { border-color: var(--blaze); }
+.pt-tracker .pt-k { font-size: .72rem; color: #a9b0a7; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+.pt-tracker .pt-v b { color: var(--blaze); font-variant-numeric: tabular-nums; }
+.pt-menu { position: absolute; top: calc(100% + 6px); left: 0; z-index: 35; width: min(320px, calc(100vw - 28px)); padding: 14px; display: grid; gap: 12px; color: var(--ink); }
+.pt-menu[aria-busy='true'] { opacity: .85; }
+.pt-title { font: 600 1.15rem/1.1 var(--font-display); margin: 0; }
+.pt-rows { display: grid; gap: 8px; }
+.pt-row { display: flex; align-items: center; justify-content: space-between; font-weight: 600; }
+.pt-step { display: inline-flex; align-items: center; gap: 10px; }
+.pt-step button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font-size: 1.15rem; cursor: pointer; }
+.pt-step button:disabled { opacity: .35; cursor: default; }
+.pt-step output { font: 700 1.6rem/1 var(--font-display); min-width: 30px; text-align: center; font-variant-numeric: tabular-nums; }
+.pt-youth { display: flex; gap: 8px; align-items: center; font-size: .9rem; }
+@media (max-width: 600px) { .pt-tracker summary { gap: 7px; padding: 5px 10px; font-size: .8rem; } .pt-tracker .pt-k { display: none; } .pt-menu { left: auto; right: 0; position: fixed; top: 108px; right: 14px; } }
+
+/* ---------- Colorado: odds at your points ---------- */
+.co-res, .co-row .res { color: var(--res); font-weight: 600; }
+.co-row .nr { color: var(--nr); font-weight: 600; }
+.pill.ch-sure, .pill.ch-likely { background: rgba(111,154,106,.15); border-color: var(--sage); color: var(--sage-ink); }
+.pill.ch-possible, .pill.ch-longshot { background: var(--warn-bg); border-color: transparent; color: var(--warn-ink); }
+.pill.ch-none { color: var(--muted); }
+.co-oddsbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin: 8px 0 2px; font-size: .92rem; }
+.co-stats { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 22px; margin-top: 6px; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.co-stats .k { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+.co-stats .co-my b { font: 700 1.5rem/1 var(--font-display); }
+.co-top { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 14px; margin: 14px 0; }
+@media (max-width: 760px) { .co-top { grid-template-columns: 1fr; } }
+.co-top .card { padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
+.co-top .k { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+.co-big { font: 700 2.6rem/1 var(--font-display); display: flex; align-items: center; gap: 12px; font-variant-numeric: tabular-nums; }
+.co-big .pill { font-family: var(--font-body); font-size: .8rem; }
+.co-need-row { display: grid; grid-template-columns: 110px auto 1fr; align-items: baseline; gap: 10px; }
+.co-need-row b { font: 700 1.5rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.co-need-row .small { text-align: right; }
+.co-hunt .res { color: var(--res); font-weight: 600; } .co-hunt .nr { color: var(--nr); font-weight: 600; }
+.co-ladder td { padding: 5px 8px; vertical-align: middle; }
+.co-ladder tr.me td { background: rgba(240,100,30,.10); }
+.co-ladder tr.me td:first-child { box-shadow: inset 4px 0 0 var(--blaze); }
+.co-bar { display: flex; align-items: center; gap: 10px; min-width: 200px; }
+.co-bar i { display: block; height: 10px; border-radius: 5px; background: var(--line); flex: 1; position: relative; overflow: hidden; max-width: 220px; }
+.co-bar i s { position: absolute; inset: 0 auto 0 0; background: var(--blaze); text-decoration: none; }
+.co-bar em { font-style: normal; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.co-creep .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 4px; }
+.co-creep .legend i { display: inline-block; width: 14px; height: 3px; vertical-align: middle; margin-right: 6px; }
