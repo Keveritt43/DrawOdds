@@ -99,7 +99,7 @@ export function Planner({ nr, windows, costs }: {
   const odds5 = (o: PlanOpt) => (nr ? o.nrOdds5 : o.resOdds5);
   const WEAPON_LABEL: Record<string, string> = { ANY: 'any weapon', ARCHERY: 'archery', MUZZLELOADER: 'muzzleloader', SHORT_RANGE: 'short range' };
   const tagLabel = (o: PlanOpt) => `${o.species === 'ELK' ? o.name.replace(/^Elk (?!City)/, '') : o.name} · ${o.tagCode ?? ''} · ${pct(o.nrOdds5)} 1st-choice${o.quota !== null ? ` · ${o.quota} tags` : ''}`;
-  const ctlLabel = (o: PlanOpt) => `${o.huntNumber} · area ${o.areaName} · ${WEAPON_LABEL[o.weapon] ?? o.weapon.toLowerCase()} · ${o.antlerClass === 'ANTLERED' ? (o.species === 'ELK' ? 'bull' : o.species === 'DEER' ? 'buck' : 'male') : o.antlerClass === 'ANTLERLESS' ? 'antlerless' : 'either sex'} · ${odds5(o) === null ? 'new hunt, no odds yet' : `${pct(odds5(o))} odds`}${o.success5 === null ? '' : ` · ${pct(o.success5)} success`}`;
+  const ctlLabel = (o: PlanOpt) => `${o.huntNumber} · area ${o.areaName} · ${WEAPON_LABEL[o.weapon] ?? o.weapon.toLowerCase()} · ${o.antlerClass === 'ANTLERED' ? (o.species === 'ELK' ? 'bull' : o.species === 'DEER' ? 'buck' : 'male') : o.antlerClass === 'ANTLERLESS' ? 'antlerless' : 'either sex'} · ${odds5(o) === null ? 'no odds yet' : `${pct(odds5(o))} odds`}${o.success5 === null ? '' : ` · ${pct(o.success5)} success`}`;
 
   // ---- nonresident general tags
   const tagSection = (species: 'ELK' | 'DEER') => {

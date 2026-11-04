@@ -56,8 +56,9 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
       {hunts.length < 2 ? (
         <p>Pick at least two hunts with the <b>Compare</b> box on any hunt card or table row, then come back here.</p>
       ) : (
+        <>
+        <p className="small muted">Odds for {nr ? 'nonresidents' : 'residents'}. Green = best of these {hunts.length}.</p>
         <div className="cmp-wrap">
-          <p className="small muted">Odds for {nr ? 'nonresidents' : 'residents'}. Green = best of these {hunts.length}.</p>
           <table className="cmp-table">
             <thead>
               <tr>
@@ -85,6 +86,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
             </tbody>
           </table>
         </div>
+        </>
       )}
     </main>
   );
