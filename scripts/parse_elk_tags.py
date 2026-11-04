@@ -81,6 +81,13 @@ def parse_box(b, year):
         return None
     weapon = {'archery only': 'ARCHERY', 'muzzleloader only': 'MUZZLELOADER', 'any weapon': 'ANY'}.get(m.group(1).lower(), 'SHORT_RANGE')
     sex = m.group(2).strip().rstrip('|').strip()
+    if not sex:
+        # the sex sits on its own line ("antlerless only", "Units 20A and 26: antlered only"): take the first one
+        for seg in text.split('|')[1:]:
+            mm = re.search(r'(antlered|antlerless|any elk|spike|brow-tined)[^|]*?only|any elk', seg, re.I)
+            if mm:
+                sex = mm.group(0).strip()
+                break
     dates = []
     mo = {k: i + 1 for i, k in enumerate(MONTHS.split('|'))}
     for d in DATE.finditer(text):

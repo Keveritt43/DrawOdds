@@ -6,6 +6,7 @@ import maplibregl, { type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle } from '@/lib/basemap';
 import { IDAHO_BOUNDS } from '@/lib/mapMetrics';
+import { inPageGestures } from '@/lib/mapGestures';
 import { loadUnits } from '@/lib/unitData';
 import { md, MIG_SPECIES, STANDARD_CLASSES, SPECIES_NAME, keyNote, type MigClass } from '@/lib/migrationShared';
 import { addStudy, setStudyVisible, studyLayers, MigrationKey } from './MigrationLayers';
@@ -79,8 +80,9 @@ export function MigrationExplorer({ studies, initial, initialUnits = [], initial
 
   useEffect(() => {
     if (!el.current) return;
-    const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, maxZoom: 15, attributionControl: { compact: true } });
+    const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, fitBoundsOptions: { padding: 8 }, maxZoom: 15, attributionControl: { compact: true } });
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    inPageGestures(m);
     m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
     m.on('load', async () => {
       try {

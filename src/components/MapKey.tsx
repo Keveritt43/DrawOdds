@@ -58,7 +58,7 @@ export function MapKey({
   );
 
   return (
-    <div className="card mappanel">
+    <div className={`card mappanel${open ? ' open' : ''}`}>
       {filters && <div className="mk-filters">{filters}</div>}
       <div className="mp-row">
         <label className="mk-lab" htmlFor="shade-by">Shade</label>
@@ -84,7 +84,7 @@ export function MapKey({
         ) : <p className="small muted" style={{ margin: '6px 0 0' }}>Loading shading…</p>
       ) : swatches(items)}
       {extraItems.length > 0 && swatches(extraItems)}
-      {layers}
+      {layers && <div className="mk-layers">{layers}</div>}
 
       {open && (
         <div className="mp-details">

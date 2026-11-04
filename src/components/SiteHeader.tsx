@@ -7,6 +7,7 @@ import type { Residency } from '@prisma/client';
 import { Wordmark } from './Logo';
 import { ResidencySwitch } from './ResidencySwitch';
 import { DrawSwitch } from './DrawSwitch';
+import { SiteSearch } from './SiteSearch';
 import type { Draw } from '@/lib/species';
 
 const LINKS = [
@@ -37,6 +38,7 @@ export function SiteHeader({ residency, signedIn, draw }: { residency: Residency
           <Link href={signedIn ? '/account' : '/login'}>{signedIn ? 'My Hunts' : 'Sign In'}</Link>
         </nav>
         <div className="header-right">
+          <SiteSearch onDone={() => setOpen(false)} />
           <button className="menu-toggle" aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen((o) => !o)}>
             <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
           </button>

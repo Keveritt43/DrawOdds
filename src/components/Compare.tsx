@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 /** Up to 4 hunts picked for side-by-side comparison, kept in this browser. */
 const KEY = 'compareHunts';
@@ -58,7 +59,8 @@ export function CompareToggle({ id, label, compact = false }: { id: string; labe
 /** Bar along the bottom of the screen while hunts are picked. */
 export function CompareTray() {
   const list = useCompare();
-  if (!list.length) return null;
+  const path = usePathname();
+  if (!list.length || path === '/compare') return null;
   return (
     <div className="cmp-tray" role="region" aria-label="Hunts to compare">
       <span className="small"><b>{list.length}</b> of {MAX} picked:</span>

@@ -13,7 +13,7 @@ export interface SeasonOverlap { label: string; href: string; open: Date; close:
  * Everything the study's report gives: summary, distances, collared animals, timing, route use and the units
  * it crosses. `unit`: the unit page it's shown on (adds that unit's acres).
  */
-export function StudyCard({ s, unit, overlaps = [] }: { s: StudyInfo; unit?: string; overlaps?: SeasonOverlap[] }) {
+export function StudyCard({ s, unit, overlaps = [], titled = true }: { s: StudyInfo; unit?: string; overlaps?: SeasonOverlap[]; titled?: boolean }) {
   const st = s.stats as unknown as MigStats;
   const t = s.timing as unknown as { spring: MigTiming; fall: MigTiming } | null;
   const classes = s.classes as unknown as MigClass[];
@@ -23,8 +23,12 @@ export function StudyCard({ s, unit, overlaps = [] }: { s: StudyInfo; unit?: str
   const notMapped = classes.filter((c) => c.notMapped);
   return (
     <section className="card mig-card" aria-label={s.name}>
-      <p className="mig-eyebrow"><span className={`pill sp-${s.species.toLowerCase()}`}>{SPECIES_NAME[s.species] ?? s.species}</span> {s.preparedBy ? <span className="muted small">Analyzed by {s.preparedBy}{s.preparedDate ? `, ${ym(s.preparedDate)}` : ''}</span> : null}</p>
-      <h2 style={{ marginTop: 0 }}>{s.name}</h2>
+      {titled && (
+        <>
+          <p className="mig-eyebrow"><span className={`pill sp-${s.species.toLowerCase()}`}>{SPECIES_NAME[s.species] ?? s.species}</span> {s.preparedBy ? <span className="muted small">Analyzed by {s.preparedBy}{s.preparedDate ? `, ${ym(s.preparedDate)}` : ''}</span> : null}</p>
+          <h2 style={{ marginTop: 0 }}>{s.name}</h2>
+        </>
+      )}
       <p>{s.summary}</p>
       {s.caveat && <p className="note small"><b>From the report:</b> {s.caveat}</p>}
       <div className="mig-grid">

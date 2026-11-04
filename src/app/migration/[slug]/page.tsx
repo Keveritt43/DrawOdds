@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getStudy, listStudies, type MigClass } from '@/lib/migrations';
+import { getStudy, listStudies, ym, type MigClass } from '@/lib/migrations';
 import { MigrationMap } from '@/components/MigrationMap';
 import { StudyCard } from '@/components/StudyCard';
 import { MigrationUnits } from '@/components/MigrationUnits';
@@ -23,8 +23,10 @@ export default async function StudyPage({ params }: { params: Promise<{ slug: st
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <p className="small" style={{ margin: '0 0 6px' }}><Link href={`/migration?species=${s.species}`}>← All {SPECIES_NAME[s.species]?.toLowerCase() ?? ''} migration studies</Link></p>
+      <p className="mig-eyebrow" style={{ marginTop: 6 }}><span className={`pill sp-${s.species.toLowerCase()}`}>{SPECIES_NAME[s.species] ?? s.species}</span> {s.preparedBy ? <span className="muted small">Analyzed by {s.preparedBy}{s.preparedDate ? `, ${ym(s.preparedDate)}` : ''}</span> : null}</p>
+      <h1 style={{ margin: '0 0 12px' }}>{s.name}</h1>
       {s.mapNote ? null : <MigrationMap studies={[{ slug: s.slug, name: s.name, species: s.species, classes: s.classes as unknown as MigClass[] }]} height="min(520px, 70vh)" />}
-      <StudyCard s={s} />
+      <StudyCard s={s} titled={false} />
       {near.length > 0 && (
         <p className="small">
           <b>Other studies in these units:</b>{' '}

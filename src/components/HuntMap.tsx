@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { inPageGestures } from '@/lib/mapGestures';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
@@ -89,6 +90,8 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS,
       fitBoundsOptions: { padding: { top: 48, bottom: 110, left: 12, right: 12 } }, minZoom: 4, maxZoom: 15, attributionControl: { compact: true },
     });
+    // below 1100px the map sits above the list in the page instead of in a side panel
+    inPageGestures(m, '(max-width: 1100px)');
     map.current = m;
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     // full screen takes the map's wrapper, so the key and panels come along

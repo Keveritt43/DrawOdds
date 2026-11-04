@@ -156,6 +156,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
       OR: [
         { name: { contains: f.q, mode: 'insensitive' } },
         { areaName: { equals: f.q.toUpperCase() } },
+        { tagCode: { equals: f.q.toUpperCase().replace(/\s+/g, '') } },
         ...(Number.isInteger(n) ? [{ huntNumber: n }] : []),
       ],
     });

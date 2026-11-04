@@ -187,6 +187,11 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           <a className="btn" href="/hunts" style={{ width: '100%', textAlign: 'center' }}>Clear All Filters</a>
         </div>
       </div>
+      {open && (
+        <div className="rail-done">
+          <button type="button" className="btn primary" onClick={() => { setOpen(false); document.querySelector('.f-list')?.scrollIntoView({ behavior: 'smooth' }); }}>Show Results</button>
+        </div>
+      )}
     </aside>
   );
 }

@@ -280,9 +280,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           </div>
         )}
         <p className="small muted" style={{ padding: '12px 16px' }}>
-          Odds are {nr ? 'nonresident' : 'resident'} first-choice odds from the latest drawing; success is from the latest harvest report.
-          Arrows compare with the year before (green is better for you) and are left off when the numbers are too small to mean much.
-          Filters and sorting use the 5-year numbers, which swing less. Tap any label with a ? for what it means.
+          {f.view === 'table'
+            ? <>Odds are {nr ? 'nonresident' : 'resident'} first-choice odds: &quot;Odds 5-yr&quot; totals the last five drawings, &quot;Latest&quot; is the most recent one. Success, crowding and trophy share are 5-year numbers. Click a column header to sort.</>
+            : <>Big numbers are 5-year {nr ? 'nonresident' : 'resident'} first-choice odds and 5-year success; the small line under each shows the latest year, with an arrow against the year before (green is better for you) when the numbers are big enough to mean much. Filters and sorting use the 5-year numbers, which swing less. Tap any label with a ? for what it means.</>}
         </p>
       </section>
 

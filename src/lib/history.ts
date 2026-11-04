@@ -55,8 +55,12 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
         });
     }
   } else if (s.nrTag) {
-    // nonresident general tag: general seasons across the tag's units, all weapons, summed per year
-    const harv = await db.generalHarvest.findMany({ where: { species: s.species, unit: { in: s.units }, takeMethod: 'All Weapons Combined' } });
+    // nonresident general tag: general seasons across the tag's units, summed per year. Elk A/B tags count only
+    // the weapons their seasons allow (the same basis as the tag's 5-yr success); deer tags, all weapons.
+    const TM: Record<string, string> = { ANY: 'Any Weapon', SHORT_RANGE: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
+    const tagMethods = s.species === 'ELK' ? [...new Set((s.weapons as string[]).map((w) => TM[w]).filter(Boolean))] : [];
+    const methods = tagMethods.length ? tagMethods : ['All Weapons Combined'];
+    const harv = await db.generalHarvest.findMany({ where: { species: s.species, unit: { in: s.units }, takeMethod: { in: methods } } });
     for (const h of harv) {
       const p = at(h.year);
       const add = (k: keyof YearPoint, v: number | null) => {

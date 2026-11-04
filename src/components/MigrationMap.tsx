@@ -5,6 +5,7 @@ import maplibregl, { type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { baseStyle } from '@/lib/basemap';
 import { IDAHO_BOUNDS } from '@/lib/mapMetrics';
+import { inPageGestures } from '@/lib/mapGestures';
 import { loadUnits } from '@/lib/unitData';
 import { MigrationControls, MigrationKey, type StudyLite } from './MigrationLayers';
 import { STANDARD_CLASSES, keyNote } from '@/lib/migrationShared';
@@ -18,6 +19,7 @@ export function MigrationMap({ studies, height = '560px' }: { studies: StudyLite
     if (!el.current) return;
     const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, maxZoom: 15, attributionControl: { compact: true } });
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    inPageGestures(m);
     // full screen takes the map's wrapper, so the key and panels come along
     m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
     m.on('load', async () => {

@@ -11,6 +11,7 @@ import { MapKey, KeySeg } from './MapKey';
 import { MigrationControls, type StudyLite } from './MigrationLayers';
 import { LandToggles } from './LandLayers';
 import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fixedScale, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
+import { inPageGestures } from '@/lib/mapGestures';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
 import { ELK_ZONES } from '@/lib/elkZones';
@@ -103,6 +104,8 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, fitBoundsOptions: { padding: { top: 96, bottom: 16, left: 16, right: 16 } }, maxZoom: 15, attributionControl: { compact: true } });
     map.current = m;
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    // unit pages: the map sits in the page; the Unit Map page is the map itself
+    if (bare) inPageGestures(m);
     // full screen takes the map's wrapper, so the key and panels come along
     m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
     m.on('load', async () => {

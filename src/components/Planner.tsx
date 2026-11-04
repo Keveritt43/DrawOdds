@@ -97,8 +97,9 @@ export function Planner({ nr, windows, costs }: {
   const save = (p: Plan) => { setPlan(p); writePlan(p); };
   const byId = (k: string, id: string) => opts[k]?.find((o) => o.id === id);
   const odds5 = (o: PlanOpt) => (nr ? o.nrOdds5 : o.resOdds5);
-  const tagLabel = (o: PlanOpt) => `${o.species === 'ELK' ? o.name.replace(/^Elk /, '') : o.name} · ${o.tagCode ?? ''} · ${pct(o.nrOdds5)} 1st-choice${o.quota !== null ? ` · ${o.quota} tags` : ''}`;
-  const ctlLabel = (o: PlanOpt) => `${o.huntNumber} · area ${o.areaName} · ${o.weapon === 'ANY' ? 'any weapon' : o.weapon.toLowerCase()} · ${o.antlerClass === 'ANTLERED' ? 'male' : o.antlerClass === 'ANTLERLESS' ? 'antlerless' : 'either sex'} · ${pct(odds5(o))} odds · ${pct(o.success5)} success`;
+  const WEAPON_LABEL: Record<string, string> = { ANY: 'any weapon', ARCHERY: 'archery', MUZZLELOADER: 'muzzleloader', SHORT_RANGE: 'short range' };
+  const tagLabel = (o: PlanOpt) => `${o.species === 'ELK' ? o.name.replace(/^Elk (?!City)/, '') : o.name} · ${o.tagCode ?? ''} · ${pct(o.nrOdds5)} 1st-choice${o.quota !== null ? ` · ${o.quota} tags` : ''}`;
+  const ctlLabel = (o: PlanOpt) => `${o.huntNumber} · area ${o.areaName} · ${WEAPON_LABEL[o.weapon] ?? o.weapon.toLowerCase()} · ${o.antlerClass === 'ANTLERED' ? (o.species === 'ELK' ? 'bull' : o.species === 'DEER' ? 'buck' : 'male') : o.antlerClass === 'ANTLERLESS' ? 'antlerless' : 'either sex'} · ${odds5(o) === null ? 'new hunt, no odds yet' : `${pct(odds5(o))} odds`}${o.success5 === null ? '' : ` · ${pct(o.success5)} success`}`;
 
   // ---- nonresident general tags
   const tagSection = (species: 'ELK' | 'DEER') => {
@@ -133,7 +134,7 @@ export function Planner({ nr, windows, costs }: {
             );
           })}
         </ol>
-        {ids.length > 0 && <p className="plan-total">Chance of drawing a {species === 'ELK' ? 'elk' : 'deer'} tag: <b>{pct(ch.any, 1)}</b></p>}
+        {ids.length > 0 && <p className="plan-total">Chance of drawing {species === 'ELK' ? 'an elk' : 'a deer'} tag: <b>{pct(ch.any, 1)}</b></p>}
         <p className="small muted">Idaho draws everyone&apos;s 1st choices, then 2nd choices for those still without a tag, and so on, so a tag that fills on 1st choices never reaches your later ones. Chances use the last drawing at each choice; there are no points.</p>
       </section>
     );
@@ -151,6 +152,7 @@ export function Planner({ nr, windows, costs }: {
     const set = (i: 0 | 1, v: string) => {
       const c: [string, string] = [a, b];
       c[i] = v;
+      if (c[0] && c[0] === c[1]) c[1] = ''; // the same hunt can't be both choices
       save({ ...plan, ctl: { ...plan.ctl, [species]: c } });
     };
     const label = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn Sheep', GOAT: 'Mountain Goat' }[species] ?? species;
@@ -165,7 +167,7 @@ export function Planner({ nr, windows, costs }: {
               <li key={i}>
                 <select value={[a, b][i]} onChange={(e) => set(i, e.target.value)}>
                   <option value="">{i === 0 ? 'Pick your 1st choice…' : 'Optional 2nd choice…'}</option>
-                  {all.map((x) => <option key={x.id} value={x.id}>{ctlLabel(x)}{i === 1 && (x.secondDrewLast ?? 0) > 0 ? ` · ${x.secondDrewLast} tags to 2nd choices` : ''}</option>)}
+                  {all.map((x) => <option key={x.id} value={x.id} disabled={x.id === [a, b][1 - i]}>{ctlLabel(x)}{i === 1 && (x.secondDrewLast ?? 0) > 0 ? ` · ${x.secondDrewLast} tags to 2nd choices` : ''}</option>)}
                 </select>
                 {i === 0 && oa && <span className="plan-p">{pct(p1, 1)} 1st-choice odds (5-yr) · draw and fill {pct(nr ? oa.nrTagAndFill : oa.resTagAndFill, 1)}</span>}
                 {i === 1 && ob && <span className="plan-p">{p2 > 0 ? `${pct(p2, 1)} of 2nd-choice applicants drew last time` : 'No tags reached 2nd choices last time: this slot likely won’t help'}</span>}

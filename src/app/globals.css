@@ -318,7 +318,7 @@ table.results tr.old td { opacity: .45; }
 .hrow-top .tags { text-align: right; }
 .ucard.single { padding: 8px 12px; }
 .ucard.single .hrow { margin: 0; background: var(--card); border: 0; padding: 4px 2px; }
-.zcard .ztags { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin-top: 6px; }
+.zcard .ztags { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 6px; }
 .ztag { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--bg); }
 .ztag a { color: var(--ink); text-decoration: none; } .ztag a:hover { color: var(--accent); }
 .ztag-seasons { font-size: .82rem; color: var(--muted); margin: 3px 0 6px; }
@@ -532,3 +532,36 @@ table.results.compare td .small { display: block; }
 .mig-legend { margin: 8px 0 14px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
 .mig-legend .mig-key { margin: 0; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); font-size: .82rem; }
 .mig-legend p { margin: 4px 0 0; }
+/* phones: a folded map key is just the shade picker and its color strip, so it doesn't cover the map */
+@media (max-width: 720px) {
+  .mappanel:not(.open) .mk-items, .mappanel:not(.open) .mk-layers { display: none; }
+}
+/* compare on phones: the row labels stay put while the hunts scroll sideways */
+@media (max-width: 720px) {
+  .cmp-table tbody th, .cmp-table thead th:first-child { position: sticky; left: 0; z-index: 1; background: var(--card); white-space: normal; min-width: 92px; max-width: 110px; font-size: .8rem; box-shadow: 1px 0 0 var(--line); }
+  .cmp-table td { min-width: 120px; font-size: .85rem; }
+}
+/* the fixed compare tray must never cover the end of a page */
+body:has(.cmp-tray) main { padding-bottom: 72px; }
+@media (max-width: 720px) {
+  .land-float { bottom: 56px; }
+  .f-rail:not(.open) .rail-reset { display: none; }
+}
+/* phones: while the filters are open, a button stays at the bottom to jump to the results */
+.rail-done { display: none; }
+@media (max-width: 720px) {
+  .rail-done { display: block; position: sticky; bottom: 0; z-index: 4; padding: 10px 16px; background: var(--card); border-top: 1px solid var(--line); }
+  .rail-done .btn { width: 100%; }
+}
+/* phones: drawing and residency switches share one header row */
+.lbl-short { display: none; }
+@media (max-width: 600px) {
+  .draw-bar { flex-wrap: nowrap; column-gap: 6px; padding: 0 10px 7px; }
+  .draw-bar .seg button { padding: 5px 6px; font-size: .72rem; }
+  .draw-bar .lbl-long { display: none; } .draw-bar .lbl-short { display: inline; }
+}
+.site-search input { width: 190px; padding: 6px 10px; border-radius: 999px; border: 1px solid #4a5048; background: #2a2f2c; color: #fff; font: inherit; font-size: .85rem; }
+.site-search input::placeholder { color: #a9b0a7; }
+.site-search input:focus { outline: 2px solid var(--blaze); outline-offset: 1px; }
+@media (max-width: 1280px) { .site-search input { width: 150px; } }
+@media (max-width: 600px) { .site-search input { width: 132px; padding: 5px 9px; font-size: .8rem; } }

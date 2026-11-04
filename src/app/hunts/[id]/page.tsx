@@ -257,6 +257,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           </table>
           <p className="small muted" style={{ margin: '6px 0 0' }}>
             {ctl ? 'Drawing = first choice. ' : ''}{ctl ? '5-yr = the last 5 drawings and the last 5 harvest years (harvest is reported a season after the draw)' : `${nHarv}-yr = the last ${nHarv} harvest years`}, totaled: {ctl ? 'drawn ÷ applied and harvest ÷ hunters' : 'harvest ÷ hunters'}, not an average of yearly percents.
+            {s.nrTag ? ` Hunters and harvest are the general seasons in units ${s.units.join(', ')}${s.species === 'ELK' ? ' for the weapons this tag can hunt with' : ', all weapons'}, the same basis as the success figure above.` : ''}
             {since ? ` Unit ${s.unit ?? s.units[0]}'s boundary changed in ${since}: earlier years (shaded) cover different ground and aren't counted.` : ''}
           </p>
         </div>
