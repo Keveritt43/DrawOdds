@@ -10,6 +10,7 @@ import { decodeCode, myOdds, poolFor, POOL_LABEL, CO_POOLS, type CoPool, type Po
 import { CHANCE_LABEL, drawsToDraw, cutFromEff, RULE_CHANGE_YEAR } from '@/lib/coOdds';
 import { fmtNeed, fmtCreep } from '../CoFinder';
 
+const SHORT: Record<CoPool, string> = { res: 'Resident', nr: 'Nonres', yres: 'Youth res', ynr: 'Youth nonres' };
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 
 /** A Colorado hunt code's page: your odds, points needed and their trend, and odds at every point level. */
@@ -82,7 +83,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <h2>Draw History</h2>
       <div className="htable-wrap">
         <table>
-          <thead><tr><th>Draw</th><th className="num">Licenses</th><th className="num">1st-choice apps</th><th>Resident drawn out at</th><th>Nonresident drawn out at</th><th>NR cap</th></tr></thead>
+          <thead><tr><th>Draw</th><th className="num">Licenses</th><th className="num">1st choice apps</th><th>Res needed</th><th>Nonres needed</th><th>NR cap</th></tr></thead>
           <tbody>
             {po.history.slice().reverse().map((h) => {
               const at = (pl: CoPool) => po.pools[pl]?.history.find((x) => x.year === h.year);
@@ -100,7 +101,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <Link className="seg-link" href={q({ odds: 'last' })} aria-pressed={mode === 'last'} scroll={false}>{po.year} actual</Link>
         </span>
         <span className="seg light" role="group" aria-label="Applicant pool">
-          {CO_POOLS.filter((x) => po.pools[x]).map((x) => <Link key={x} className="seg-link" href={q({ pool: x === myPool ? null : x })} aria-pressed={pool === x} scroll={false}>{POOL_LABEL[x]}</Link>)}
+          {CO_POOLS.filter((x) => po.pools[x]).map((x) => <Link key={x} className="seg-link" href={q({ pool: x === myPool ? null : x })} aria-pressed={pool === x} scroll={false}>{SHORT[x]}</Link>)}
         </span>
       </div>
       {P ? <Ladder P={P} po={po} mode={mode} pool={pool} me={pool === myPool ? p : null} /> : <p className="muted">Nobody in this pool applied in {po.year}.</p>}
@@ -126,9 +127,9 @@ function cutRange(qs: number[]): string {
 }
 
 function effText(eff: number, text: string | null): string {
-  if (eff === 0) return text && /choice|leftover/i.test(text) ? `Every 1st choice drew (${text})` : 'Every 1st choice drew';
+  if (eff === 0) return text && /choice|leftover/i.test(text) ? `0: all drew (${text})` : '0: all drew';
   const { pts, pct: share } = cutFromEff(eff);
-  return `${pts} pt${pts === 1 ? '' : 's'}${share < 0.995 ? ` · ${Math.round(share * 100)}% drew at ${pts}` : ''}`;
+  return `${pts} pt${pts === 1 ? '' : 's'}${share < 0.995 ? ` (${Math.round(share * 100)}%)` : ''}`;
 }
 
 function Ladder({ P, po, mode, pool, me }: { P: PoolOdds; po: PointOdds; mode: 'proj' | 'last'; pool: CoPool; me: number | null }) {

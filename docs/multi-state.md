@@ -1,6 +1,6 @@
 # Adding more states: plan
 
-Status: groundwork is in. Idaho is still the only state. This file covers what is built, what is deliberately
+Status: Colorado deer is loaded (see docs/states/co.md); Idaho is still the only listed state. This file covers what is built, what is deliberately
 not built yet, and the steps for state #2.
 
 ## What is in place now
@@ -20,7 +20,8 @@ not built yet, and the steps for state #2.
 1. **State-prefixed URLs** (`/idaho/hunts`, `/montana/units/...`). These are the right end state for sharing and
    search, but they mean moving every route under `app/[state]/` plus redirects. They're worth it only once
    there is a second state to point at. Until then the cookie is enough.
-2. **Composite unique keys.** `Unit.name` is the primary key ("39") and `HuntSummary.slug` is globally unique
+2. **Composite unique keys.** DONE for Unit (state, name) and SavedUnit via prisma/prepush.sql; CO hunt slugs are
+   prefixed ("co-dm070o3r") and CO unit URLs too ("/units/co-70"), so the rest below is no longer blocking. `Unit.name` is the primary key ("39") and `HuntSummary.slug` is globally unique
    ("deer-1016"). Both collide once a second state has a unit 39 or a deer hunt 1016. These are migrations, not
    pushes (`prisma db push` would drop and recreate keys), so they belong with state #2:
    - `Unit`: `@@id([state, name])`, and every relation that points at a unit name.
