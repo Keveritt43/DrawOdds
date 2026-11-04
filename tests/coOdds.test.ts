@@ -55,15 +55,17 @@ test('projection: last draw plus how far cutoffs at that level moved', () => {
   const p = project([NR25, NR26], DEFAULT_CALIBRATION.nr)!;
   assert.equal(p.year, 2027);
   assert.equal(p.base, 6.4);
-  // 6-10 point nonresident band: -2.33 .. +2.75
-  assert.deepEqual(p.qs, [4.07, 5.9, 6.7, 7.4, 9.15]);
-  assert.equal(p.eff, 6.7);
-  const at = (n: number) => projectedOdds(n, p);
-  assert.equal(at(6).odds, 0.46); // (1 + 1 + 0.3 + 0 + 0) / 5
+  // 6-10 point nonresident band, deciles -2.33 .. +2.75
+  assert.deepEqual(p.qs, [4.07, 4.9, 5.9, 6.38, 6.56, 6.9, 7.3, 7.61, 9.15]);
+  assert.equal(p.eff, 6.56);
+  const at = (n: number, rate = 1) => projectedOdds(n, p, 0, rate);
+  assert.equal(at(6).odds, 0.46); // (1 + 1 + 1 + .62 + .44 + .1 + 0 + 0 + 0) / 9 (2026 actual: 33 of 55)
   assert.equal(at(6).chance, 'possible');
-  assert.equal(at(10).chance, 'sure');
+  assert.equal(at(10).odds, 1);
+  assert.equal(at(10, 0.935).chance, 'sure');
+  assert.equal(at(10, 0.935).odds, 0.94);
   assert.equal(at(3).chance, 'none');
-  assert.equal(at(5).chance, 'longshot');
+  assert.equal(at(4).chance, 'longshot');
 });
 
 test('calibration from backtest pairs, banded by level', () => {
@@ -73,7 +75,7 @@ test('calibration from backtest pairs, banded by level', () => {
 });
 
 test('chance labels and draws to draw', () => {
-  assert.equal(chanceOf(1, 1, 1), 'sure');
+  assert.equal(chanceOf(0.95, 0.9, 1), 'sure');
   assert.equal(chanceOf(0.7, 0.3, 1), 'likely');
   assert.equal(chanceOf(0.4, 0, 1), 'possible');
   assert.equal(chanceOf(0.1, 0, 0.5), 'longshot');

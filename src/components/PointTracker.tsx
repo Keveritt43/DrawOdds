@@ -40,7 +40,7 @@ export function PointTracker({ value }: { value: StatePoints }) {
       </summary>
       <div className="pt-menu card" aria-busy={pending}>
         <p className="pt-title">Your {st.name} preference points</p>
-        <div className="seg" role="group" aria-label={`${st.name} residency`}>
+        <div className="seg light" role="group" aria-label={`${st.name} residency`}>
           <button type="button" aria-pressed={!nr} onClick={() => save({ res: 'RESIDENT' })}>Resident</button>
           <button type="button" aria-pressed={nr} onClick={() => save({ res: 'NONRESIDENT' })}>Nonresident</button>
         </div>

@@ -61,12 +61,17 @@ export interface Calibration {
 
 /** Used until a sync has measured its own (deer, 2023-2026 draws, all hunt codes; see the header comment). */
 export const DEFAULT_CALIBRATION: Record<'res' | 'nr', Calibration> = {
-  res: { bands: [1, 3, 6, 10], q: [[-0.34, -0.1, 0.04, 0.18, 0.53], [-0.64, -0.21, -0.02, 0.17, 0.52], [-0.8, -0.2, 0.06, 0.33, 0.88], [-2.5, -1.04, 0.1, 0.75, 2], [-3.92, -1, 0.08, 1, 2.58]], n: [1021, 656, 286, 93, 161] },
-  nr: { bands: [1, 3, 6, 10], q: [[-0.33, -0.05, 0.17, 0.41, 0.89], [-1, -0.17, 0, 0.34, 1], [-2, 0, 0.4, 0.87, 1.58], [-2.33, -0.5, 0.3, 1, 2.75], [-3.5, -0.5, 0.45, 1, 2.5]], n: [540, 603, 279, 118, 235] },
+  res: { bands: [1, 3, 6, 10], q: [[-0.15, 0, 0, 0, 0, 0, 0, 0.01, 0.2], [-0.7, -0.42, -0.23, -0.12, -0.03, 0.06, 0.16, 0.27, 0.48], [-0.84, -0.47, -0.25, -0.11, 0.01, 0.16, 0.28, 0.46, 0.8], [-2.5, -1.56, -1, -0.33, 0.1, 0.42, 0.67, 1, 1.8], [-3, -1.42, -0.66, -0.07, 0.24, 0.5, 1, 1.45, 2.58]], n: [3260, 815, 347, 117, 202] },
+  nr: { bands: [1, 3, 6, 10], q: [[-0.06, 0, 0, 0, 0, 0, 0, 0, 0.26], [-1, -0.5, -0.25, -0.04, 0, 0.14, 0.29, 0.48, 0.77], [-1, -0.26, 0, 0.2, 0.43, 0.65, 0.88, 1.1, 1.58], [-2.33, -1.5, -0.5, -0.02, 0.16, 0.5, 0.9, 1.21, 2.75], [-3, -1, -0.5, 0, 0.33, 0.63, 1, 1.58, 2.63]], n: [2254, 622, 293, 135, 287] },
 };
 export const CAL_BANDS = [1, 3, 6, 10];
-/** Quantiles kept per band: 10%, 30%, 50%, 70%, 90% (equal weight: each stands for a fifth of outcomes). */
-export const CAL_QS = [0.1, 0.3, 0.5, 0.7, 0.9];
+/** Quantiles kept per band: 10%, 20% ... 90% (equal weight: each stands for a tenth of outcomes). */
+export const CAL_QS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+/**
+ * Share of first-choice applicants above the cutoff who drew (deer 2021-2026): a few don't, and CPW doesn't say
+ * why. Projected odds are scaled by it, so "everyone at your points drew last year" reads ~95%, not 100%.
+ */
+export const ABOVE_CUTOFF_RATE = { res: 0.965, nr: 0.935 };
 
 /** Measures a Calibration from backtest pairs (last draw's effective points, this draw's). */
 export function calibrate(pairs: { last: number; next: number }[], bands = CAL_BANDS, qs = CAL_QS): Calibration {
@@ -165,20 +170,24 @@ export function project(history: PoolYear[], cal: Calibration): Projection | nul
 }
 
 export type Chance = 'sure' | 'likely' | 'possible' | 'longshot' | 'none';
-export const CHANCE_LABEL: Record<Chance, string> = { sure: 'Sure', likely: 'Likely', possible: 'Possible', longshot: 'Long shot', none: 'No chance' };
+export const CHANCE_LABEL: Record<Chance, string> = { sure: 'Near certain', likely: 'Likely', possible: 'Possible', longshot: 'Long shot', none: 'No chance' };
 
-/** Projected odds at p points: the average over the cutoff's possible values, plus the 10th-90th percentile range. */
-export function projectedOdds(p: number, pr: Pick<Projection, 'qs'>, hybrid = 0): { odds: number; lo: number; hi: number; chance: Chance } {
-  const all = pr.qs.map((e) => oddsAt(p, e, hybrid));
+/**
+ * Projected odds at p points: the average over the cutoff's possible values (scaled by `rate`, the share above the
+ * cutoff who draw), with the lowest and highest of those outcomes. Backtest, deer 2024-2026, each year predicted
+ * from the years before it: Brier score 0.08 vs 0.10 for last year's odds (nonresidents), 0.054 vs 0.062 (residents).
+ */
+export function projectedOdds(p: number, pr: Pick<Projection, 'qs'>, hybrid = 0, rate = 1): { odds: number; lo: number; hi: number; chance: Chance } {
+  const all = pr.qs.map((e) => oddsAt(p, e, hybrid) * rate);
   const odds = round2(all.reduce((a, b) => a + b, 0) / all.length);
   const lo = Math.min(...all), hi = Math.max(...all);
   return { odds, lo, hi, chance: chanceOf(odds, lo, hi) };
 }
 
-/** Label for projected odds: sure only when every outcome draws, none only when none does. */
-export function chanceOf(odds: number, lo: number, hi: number): Chance {
-  if (lo >= 0.995) return 'sure';
-  if (hi <= 0) return 'none';
+/** Label for odds (0..1); `hi` = the best case: none only when no outcome draws. */
+export function chanceOf(odds: number, _lo: number, hi: number): Chance {
+  if (hi <= 0 || odds < 0.005) return 'none';
+  if (odds >= 0.9) return 'sure';
   if (odds >= 0.6) return 'likely';
   if (odds >= 0.3) return 'possible';
   return 'longshot';

@@ -75,7 +75,11 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
           <p className="small muted" style={{ margin: '6px 0 0' }}>Or tap a unit on the map.</p>
         </Section>
       </div>
-      <div className="rail-done"><button className="btn primary" type="button" onClick={() => setOpen(false)}>Show Results</button></div>
+      {open && (
+        <div className="rail-done">
+          <button className="btn primary" type="button" onClick={() => { setOpen(false); document.querySelector('.f-list')?.scrollIntoView({ behavior: 'smooth' }); }}>Show Results</button>
+        </div>
+      )}
     </aside>
   );
 }

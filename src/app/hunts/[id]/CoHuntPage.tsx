@@ -27,8 +27,8 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   const spLabel = species === 'DEER' ? 'deer' : 'elk';
   if (!po || !d) return <main className="wrap" style={{ margin: '24px auto' }}><h1>{s.name}</h1><p className="muted">No draw data for this hunt code yet.</p></main>;
   const P = po.pools[pool];
-  const mine = myOdds(po.pools[myPool], p, 'proj', po.year);
-  const mineLast = myOdds(po.pools[myPool], p, 'last', po.year);
+  const mine = myOdds(po.pools[myPool], p, 'proj', po.year, myPool);
+  const mineLast = myOdds(po.pools[myPool], p, 'last', po.year, myPool);
   const q = (patch: Record<string, string | null>) => {
     const u = new URLSearchParams(Object.entries({ odds: sp.odds ?? '', pool: sp.pool ?? '' }).filter(([, v]) => v));
     for (const [k, v] of Object.entries(patch)) (v === null ? u.delete(k) : u.set(k, v));
@@ -53,7 +53,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="k">Your {po.projYear} odds · {p} {spLabel} point{p === 1 ? '' : 's'} · {POOL_LABEL[myPool]}</div>
           <div className="co-big">{pct(mine?.odds)} <span className={`pill ch-${mine?.chance ?? 'none'}`}>{CHANCE_LABEL[mine?.chance ?? 'none']}</span></div>
           <div className="small muted">
-            {mine && mine.lo !== mine.hi ? `Could be ${pct(mine.lo)} to ${pct(mine.hi)}, depending on where the cutoff lands. ` : ''}
+            {myPo?.proj ? `${po.projYear} cutoff, projected: ${cutRange(myPo.proj.qs)}. ` : ''}
             {mineLast?.last ? `In ${po.year}, ${mineLast.last.drawn} of ${mineLast.last.apps} first-choice applicants with ${p} points drew.` : mineLast ? `In ${po.year}: ${pct(mineLast.odds)} at ${p} points.` : ''}
             {!pts.set && ' Set your points in the header for your own odds.'}
           </div>
@@ -103,10 +103,10 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           {CO_POOLS.filter((x) => po.pools[x]).map((x) => <Link key={x} className="seg-link" href={q({ pool: x === myPool ? null : x })} aria-pressed={pool === x} scroll={false}>{POOL_LABEL[x]}</Link>)}
         </span>
       </div>
-      {P ? <Ladder P={P} po={po} mode={mode} me={pool === myPool ? p : null} /> : <p className="muted">Nobody in this pool applied in {po.year}.</p>}
+      {P ? <Ladder P={P} po={po} mode={mode} pool={pool} me={pool === myPool ? p : null} /> : <p className="muted">Nobody in this pool applied in {po.year}.</p>}
       <p className="small muted">
         {mode === 'proj'
-          ? `${po.projYear} odds: the ${po.year} cutoff plus how far cutoffs at this level moved from one draw to the next, ${po.history[0]?.year ?? ''}–${po.year}, across every Colorado ${spLabel} hunt. Odds are averaged over those outcomes. Tested on past draws: last year's cutoff beat every fancier forecast we tried.`
+          ? `${po.projYear} odds: the ${po.year} cutoff plus how far cutoffs at this level moved from one draw to the next, ${po.history[0]?.year ?? ''}–${po.year}, across every Colorado ${spLabel} hunt. Odds are averaged over those outcomes and scaled for the few above the cutoff who don't draw. Tested on the 2024-2026 draws (each predicted from the years before): about 20% more accurate than using last year's odds as-is.`
           : `What happened in the ${po.year} primary draw: first-choice applicants and how many drew, by preference points. A few applicants above the cutoff sometimes don't draw; CPW doesn't say why.`}
         {P?.hybrid ? ` Hybrid draw: ${pct(P.hybrid)} of 5+ point applicants below the cutoff drew at random.` : ''}
       </p>
@@ -115,18 +115,28 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   );
 }
 
+/** "most likely 6-7 points (1 in 10: 4 or fewer; 1 in 10: 9 or more)" from the projection's deciles. */
+function cutRange(qs: number[]): string {
+  const at = (e: number) => cutFromEff(e).pts;
+  const n = qs.length;
+  const mid = [at(qs[Math.floor(n * 0.3)]), at(qs[Math.ceil(n * 0.7) - 1])];
+  const lo = at(qs[0]), hi = at(qs[n - 1]);
+  const m = mid[0] === mid[1] ? `${mid[0]} point${mid[0] === 1 ? '' : 's'}` : `${mid[0]}–${mid[1]} points`;
+  return `most likely ${m}${lo < mid[0] || hi > mid[1] ? ` (1 in 10 chance it's ${lo} or fewer, 1 in 10 it's ${hi} or more)` : ''}`;
+}
+
 function effText(eff: number, text: string | null): string {
   if (eff === 0) return text && /choice|leftover/i.test(text) ? `Every 1st choice drew (${text})` : 'Every 1st choice drew';
   const { pts, pct: share } = cutFromEff(eff);
   return `${pts} pt${pts === 1 ? '' : 's'}${share < 0.995 ? ` · ${Math.round(share * 100)}% drew at ${pts}` : ''}`;
 }
 
-function Ladder({ P, po, mode, me }: { P: PoolOdds; po: PointOdds; mode: 'proj' | 'last'; me: number | null }) {
+function Ladder({ P, po, mode, pool, me }: { P: PoolOdds; po: PointOdds; mode: 'proj' | 'last'; pool: CoPool; me: number | null }) {
   const maxLevel = Math.max(0, ...P.levels.map((l) => l[0]), me ?? 0);
   const rows = [];
   for (let k = maxLevel; k >= 0; k--) {
     const lv = P.levels.find((l) => l[0] === k);
-    const o = myOdds(P, k, mode, po.year);
+    const o = myOdds(P, k, mode, po.year, pool);
     if (!lv && k !== me && mode === 'last') continue;
     rows.push({ k, apps: lv?.[1] ?? 0, drew: lv?.[2] ?? 0, o });
   }
@@ -143,7 +153,7 @@ function Ladder({ P, po, mode, me }: { P: PoolOdds; po: PointOdds; mode: 'proj' 
                 <td className="num">{k}{k === me ? <span className="small muted"> · you</span> : ''}</td>
                 <td className="num">{apps || '–'}</td>
                 <td className="num">{apps ? drew : '–'}</td>
-                <td><span className="co-bar"><i><s style={{ width: `${Math.round(v * 100)}%` }} /></i><em>{pct(o?.odds)}{mode === 'proj' && o && o.lo !== o.hi ? <span className="muted"> ({pct(o.lo)}–{pct(o.hi)})</span> : ''}</em></span></td>
+                <td><span className="co-bar"><i><s style={{ width: `${Math.round(v * 100)}%` }} /></i><em>{pct(o?.odds)}</em></span></td>
                 <td><span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span></td>
               </tr>
             );

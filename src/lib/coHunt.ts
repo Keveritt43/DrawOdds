@@ -2,7 +2,7 @@
  * Colorado hunt codes and the per-hunt draw data stored on HuntSummary.pointOdds. Client-safe.
  * Hunt code: D M 070 O3 R = species, sex, unit, season (type letter + number), method of take.
  */
-import { effective, exactAt, projectedOdds, oddsAt, chanceOf, type PoolYear, type Projection, type Chance } from './coOdds';
+import { effective, exactAt, projectedOdds, oddsAt, chanceOf, ABOVE_CUTOFF_RATE, type PoolYear, type Projection, type Chance } from './coOdds';
 
 export const CO_POOLS = ['res', 'nr', 'yres', 'ynr'] as const;
 export type CoPool = (typeof CO_POOLS)[number];
@@ -90,13 +90,13 @@ export interface MyOdds {
 }
 
 /** Odds at p points for one pool, next draw (projected) or the last draw (what happened). */
-export function myOdds(po: PoolOdds | undefined, p: number, mode: 'proj' | 'last', year: number): MyOdds | null {
+export function myOdds(po: PoolOdds | undefined, p: number, mode: 'proj' | 'last', year: number, pool: CoPool = 'res'): MyOdds | null {
   if (!po) return null;
   const ex = exactAt(lastDraw(po, year), p);
   const last = ex.apps ? { apps: ex.apps, drawn: ex.drawn } : null;
   if (mode === 'proj') {
     if (!po.proj) return null;
-    const r = projectedOdds(p, po.proj, po.hybrid);
+    const r = projectedOdds(p, po.proj, po.hybrid, pool === 'nr' || pool === 'ynr' ? ABOVE_CUTOFF_RATE.nr : ABOVE_CUTOFF_RATE.res);
     return { odds: r.odds, lo: r.lo, hi: r.hi, chance: r.chance, last };
   }
   // last draw: what happened at exactly p points; with nobody there, what the cutoff implies
@@ -115,12 +115,12 @@ export function oddsTable(po: PointOdds, maxPts = 30): OddsTable {
     for (const mode of ['proj', 'last'] as const) {
       const arr: number[] = [];
       for (let k = 0; k <= maxPts; k++) {
-        const o = myOdds(p, k, mode, po.year)?.odds;
+        const o = myOdds(p, k, mode, po.year, pool)?.odds;
         if (o === null || o === undefined) break;
         arr.push(Math.round(o * 1000) / 1000);
       }
-      // trim the flat tail: once it's 100% it stays 100%
-      while (arr.length > 1 && arr[arr.length - 1] === arr[arr.length - 2] && arr[arr.length - 1] >= 0.999) arr.pop();
+      // trim the flat tail: once it tops out it stays there
+      while (arr.length > 1 && arr[arr.length - 1] === arr[arr.length - 2] && arr[arr.length - 1] >= 0.9) arr.pop();
       if (arr.length) t[mode][pool] = arr;
     }
   }
