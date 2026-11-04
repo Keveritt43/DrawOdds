@@ -11,7 +11,9 @@ import { get, getBytes, getJson } from '../core/http';
 import { pdfItems } from '../core/pdf';
 import { syntheticId } from '../steps/hunts';
 import { parseRecap, type RecapHunt, type Pool } from './recap';
-import { DRAW_RECAPS, HARVEST, REGS, originalPdfUrl, resolvePdf, CO_GMU_LAYER } from './manifest';
+import { DRAW_RECAPS, HARVEST, REGS, POPULATION, originalPdfUrl, resolvePdf, CO_GMU_LAYER } from './manifest';
+import { parsePopulation, type HerdEstimate } from './population';
+import { herdSeries } from '../../lib/coHerds';
 import { parseHarvestByCode, parseHarvestByUnit, harvestYear, codeFromUnits, type CodeHarvest, type UnitTables } from './harvest';
 import { parseRegs, datesFor, type RegCode } from './regs';
 import { effective, hybridRate, project, trendNext, calibrate, DEFAULT_CALIBRATION, type PoolYear, type Calibration, type CutoffInfo } from '../../lib/coOdds';
@@ -134,6 +136,23 @@ export async function syncCoReports(opts: StepOptions): Promise<StepResult> {
       details.push(`harvest ${h.species} ${h.year}: ${(e as Error).message}`);
     }
   }
+  for (const pr of POPULATION) {
+    const id = `${STATE}|population|${pr.species}|${pr.year}`;
+    if (!opts.full && have.has(id)) continue;
+    try {
+      const p = parsePopulation(await load(pr.url));
+      if (!p.herds.length) { details.push(`population ${pr.species} ${pr.year}: no readable rows (the PDF may have no text layer)`); continue; }
+      if (p.year !== pr.year) { details.push(`population ${pr.url}: report says ${p.year}, expected ${pr.year}; skipped`); continue; }
+      const sum = p.herds.reduce((a, h) => a + h.estimate, 0);
+      // every herd read: the rows add up to CPW's statewide total
+      if (p.total !== null && sum !== p.total) details.push(`population ${pr.species} ${pr.year}: herds add to ${sum}, statewide total says ${p.total}`);
+      await db.stateReport.upsert({ where: { id }, create: { id, state: STATE, kind: 'population', species: pr.species, year: pr.year, source: pr.url, data: p as object }, update: { data: p as object, source: pr.url } });
+      details.push(`population ${pr.species} ${pr.year}: ${p.herds.length} herds, ${sum.toLocaleString('en-US')} deer`);
+      rows++;
+    } catch (e) {
+      details.push(`population ${pr.species} ${pr.year}: ${(e as Error).message}`);
+    }
+  }
   for (const r of REGS) {
     const id = `${STATE}|regs|${r.year}`;
     if (!opts.full && have.has(id)) continue;
@@ -219,6 +238,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
       if (r.kind === 'harvest-code') hCode.set(r.year, new Map((r.data as unknown as CodeHarvest[]).map((c) => [c.code, c])));
       if (r.kind === 'harvest-unit') hUnit.set(r.year, r.data as unknown as UnitTables);
     }
+    const pops = reports.filter((x) => x.species === species && x.kind === 'population').map((r) => ({ year: r.year, herds: (r.data as unknown as { herds: HerdEstimate[] }).herds }));
     details.push(`${species} calibration (pairs per band) res ${cal.res.n.join('/')} · nr ${cal.nr.n.join('/')}`);
 
     for (const [code, hist] of byCode) {
@@ -264,6 +284,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
       po.regs = reg ? { year: regs!.year, units, partial: reg.partial, unitText: reg.unitText, licenses: reg.licenses, guessed: reg.guessed } : null;
       po.dates = when;
       po.harvest = harvest;
+      po.herds = herdSeries(pops, units);
       const idfgId = syntheticId(`${STATE}|${code}`);
       const name = huntTitle(code);
       const weapon = d.method === 'A' ? 'ARCHERY' : d.method === 'M' ? 'MUZZLELOADER' : d.method === 'R' ? 'ANY' : 'OTHER';

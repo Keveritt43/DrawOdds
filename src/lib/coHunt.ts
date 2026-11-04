@@ -2,6 +2,7 @@
  * Colorado hunt codes and the per-hunt draw data stored on HuntSummary.pointOdds. Client-safe.
  * Hunt code: D M 070 O3 R = species, sex, unit, season (type letter + number), method of take.
  */
+import type { HerdSeries } from './coHerds';
 import { effective, exactAt, projectedOdds, oddsAt, chanceOf, ABOVE_CUTOFF_RATE, type PoolYear, type Projection, type Chance } from './coOdds';
 
 export const CO_POOLS = ['res', 'nr', 'yres', 'ynr'] as const;
@@ -38,6 +39,8 @@ export interface PointOdds {
   regs?: RegsInfo | null;
   dates?: { start: string; end: string; year: number } | null;
   harvest?: HarvestYear[];
+  /** CPW post-hunt population estimates for the herds (DAUs) the hunt's units are in. */
+  herds?: HerdSeries[];
 }
 
 const ORD = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];

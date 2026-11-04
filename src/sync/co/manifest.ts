@@ -32,6 +32,17 @@ export const HARVEST: ReportLink[] = [
   { species: 'DEER', year: 2019, url: 'https://cpw.widen.net/s/r2ns9grsqh/2019statewidedeerharvest' },
 ];
 
+/** Post-hunt population and sex ratio estimates by herd (DAU). 2022's PDF has no text layer (glyph codes only). */
+export const POPULATION: ReportLink[] = [
+  { species: 'DEER', year: 2025, url: 'https://cpw.widen.net/s/vxbh5s9kqg/2025-deer-population-and-sex-ratio-estimates' },
+  { species: 'DEER', year: 2024, url: 'https://cpw.widencollective.com/assets/share/asset/krkouk0wec' },
+  { species: 'DEER', year: 2023, url: 'https://cpw.widencollective.com/assets/share/asset/rmcydl6xeb' },
+  { species: 'DEER', year: 2022, url: 'https://cpw.widen.net/s/mhmbvnwdsm/2022deerpopulationestimates' },
+  { species: 'DEER', year: 2021, url: 'https://cpw.widen.net/s/rh9qftcgsc/2021deerpopulationestimates' },
+  { species: 'DEER', year: 2020, url: 'https://cpw.widen.net/s/hgxtxwr7bs/2020deerpopulationestimates' },
+  { species: 'DEER', year: 2019, url: 'https://cpw.widen.net/s/w8qf5rqdjw/2019deerpopulationestimates' },
+];
+
 /** Chapter W-2, big game regulations (units per hunt code, licenses, season dates). Newest first. */
 export const REGS = [{ year: 2026, url: 'https://cpw.widen.net/s/s97gq9wqrf/chapter-w-2---big-game-regulations' }];
 

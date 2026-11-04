@@ -669,3 +669,12 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .co-facts > div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 10px; align-items: baseline; }
 .co-facts .k { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
 @media (max-width: 600px) { .co-facts > div { grid-template-columns: 1fr; gap: 2px; } }
+.co-herds { display: grid; gap: 12px; }
+.co-herd { padding: 12px 14px; display: grid; gap: 8px; }
+.co-herd-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: flex-end; }
+.co-herd-head .k { font: 600 1.15rem/1.1 var(--font-display); }
+.co-herd-now { text-align: right; display: grid; }
+.co-herd-now b { font: 700 1.8rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.co-herd-now .up { color: var(--ok); font-weight: 600; } .co-herd-now .down { color: var(--warn); font-weight: 600; }
+.co-herd-table th, .co-herd-table td { padding: 3px 8px; font-size: .88rem; white-space: nowrap; }
+.co-herd-table tbody th { text-align: left; font-family: var(--font-body); font-weight: 600; font-size: .82rem; color: var(--muted); }

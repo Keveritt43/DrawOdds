@@ -27,3 +27,17 @@ test('harvest tables: which season, and a code from its units', () => {
   const t: UnitTables = { totals: {}, split: { rifle3: [{ unit: '69', mHarvest: 100, mHunters: 200, fHarvest: 1, fHunters: 2 }, { unit: '84', mHarvest: 20, mHunters: 30 }] } };
   assert.deepEqual(codeFromUnits('DM069O3R', ['69', '84'], t), { harvest: 120, hunters: 230, days: null, basis: 'split' });
 });
+
+import { herdSeries } from '../src/lib/coHerds';
+test('herd series: the herds covering a unit, every year by herd number', () => {
+  const reports = [
+    { year: 2019, herds: [{ dau: '24', name: null, units: ['70', '71', '711'], estimate: 14910, ratio: 23 }] },
+    { year: 2021, herds: [{ dau: '24', name: 'Groundhog', units: ['70', '71', '711'], estimate: 14949, ratio: 21 }] },
+    { year: 2025, herds: [{ dau: '24', name: null, units: ['70', '71', '711'], estimate: 21760, ratio: 32 }, { dau: '20', name: null, units: ['53', '63'], estimate: 8430, ratio: 38 }] },
+  ];
+  const s = herdSeries(reports, ['70']);
+  assert.equal(s.length, 1);
+  assert.equal(s[0].name, 'Groundhog');
+  assert.deepEqual(s[0].series.map((x) => x.year), [2019, 2021, 2025]);
+  assert.equal(herdSeries(reports, ['70', '53']).length, 2);
+});

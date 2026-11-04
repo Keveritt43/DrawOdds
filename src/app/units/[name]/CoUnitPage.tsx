@@ -4,6 +4,8 @@ import { db } from '@/lib/db';
 import { getPoints } from '@/lib/points';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
+import { CoHerds } from '@/components/CoHerds';
+import { herdSeries } from '@/lib/coHerds';
 import { int } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { poolFor, tableOdds, decodeCode, type OddsTable } from '@/lib/coHunt';
@@ -22,6 +24,9 @@ export async function CoUnitPage({ name }: { name: string }) {
     db.huntSummary.findMany({ where: { state: 'CO', units: { has: name } }, orderBy: [{ species: 'asc' }, { tagCode: 'asc' }] }),
   ]);
   const nr = pts.res === 'NONRESIDENT';
+  const pops = (await db.stateReport.findMany({ where: { state: 'CO', kind: 'population', species: 'DEER' }, select: { year: true, data: true } }))
+    .map((r) => ({ year: r.year, herds: (r.data as unknown as { herds: Parameters<typeof herdSeries>[0][number]['herds'] }).herds }));
+  const herdPop = herdSeries(pops, [name]);
   const pool = poolFor(nr, pts.youth);
   const herds = (unit.herds ?? {}) as Record<string, string | null>;
   const key = unitKey('CO', name);
@@ -30,6 +35,8 @@ export async function CoUnitPage({ name }: { name: string }) {
       <p className="small"><Link href={`/hunts?unit=${name}`}>Find hunts in this unit →</Link></p>
       <h1 className="star-head">Unit {name} <span className="muted" style={{ fontSize: '.5em' }}>Colorado</span> <Star kind="unit" id={key} saved={fav.units.has(key)} signedIn={fav.signedIn} label /></h1>
       <p className="muted">{unit.acres ? `${int(unit.acres)} acres` : ''}{herds.DEER ? ` · Deer herd ${herds.DEER}` : ''}{herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}</p>
+      <h2>Deer Population</h2>
+      <CoHerds herds={herdPop} highlight={[name]} />
       <h2>Limited Licenses</h2>
       {!hunts.length && <p className="muted">No limited deer licenses include this unit in the latest draw.</p>}
       {hunts.length > 0 && (

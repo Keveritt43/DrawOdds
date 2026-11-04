@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { auth } from '@/auth';
 import { getPoints } from '@/lib/points';
 import { Star } from '@/components/Star';
+import { CoHerds } from '@/components/CoHerds';
 import { int } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { decodeCode, myOdds, poolFor, POOL_LABEL, CO_POOLS, type CoPool, type PointOdds, type PoolOdds, type HarvestYear } from '@/lib/coHunt';
@@ -87,6 +88,9 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
 
       <h2>Hunter Success</h2>
       {po.harvest?.length ? <Harvest rows={po.harvest} /> : <p className="muted">No harvest estimates for this hunt code yet.</p>}
+
+      <h2>Deer Population</h2>
+      <CoHerds herds={po.herds ?? []} highlight={po.regs?.units ?? [d.unit]} />
 
       <h2>Point Creep</h2>
       <CreepChart po={po} />
