@@ -35,7 +35,7 @@ export function addStudy(m: MlMap, s: StudyLite, before?: string, opacity = 0.72
   const mine = loaded.get(m) ?? loaded.set(m, new Map()).get(m)!;
   const existing = mine.get(s.slug);
   if (existing) return existing;
-  const p = fetch(`/api/migrations/${encodeURIComponent(s.slug)}`)
+  const p = fetch(`/api/migrations/${encodeURIComponent(s.slug)}?v=3`) // bump v when route data changes (browsers cache a day)
     .then((r) => {
       if (!r.ok) throw new Error(`migration ${r.status}`);
       return r.json();
