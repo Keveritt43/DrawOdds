@@ -213,7 +213,7 @@ model Hunt {
 model HuntSummary {
   state       String   @default("ID") // two-letter state; see docs/multi-state.md
   id          String      @id // "c:82056" or "g:80930:49"
-  slug        String?     @unique // readable address: "deer-1016", "elk-unit-39-general-archery"
+  slug        String?     // readable address (unique: assignSlugs guarantees it): "deer-1016", "elk-unit-39-general-archery"
   huntId      Int
   hunt        Hunt        @relation(fields: [huntId], references: [idfgId], onDelete: Cascade)
   species     Species
@@ -315,6 +315,7 @@ model HuntSummary {
 
   @@index([species, type, weapon, antlerClass])
   @@index([state])
+  @@index([slug])
 }
 
 model SyncLog {

@@ -30,7 +30,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const key = decodeURIComponent((await params).id);
   const sel = { name: true, huntNumber: true, species: true, nrTag: true, type: true, unit: true, areaName: true } as const;
-  const s = (await db.huntSummary.findUnique({ where: { slug: key }, select: sel })) ?? (await db.huntSummary.findUnique({ where: { id: key }, select: sel }));
+  const s = (await db.huntSummary.findFirst({ where: { slug: key }, select: sel })) ?? (await db.huntSummary.findUnique({ where: { id: key }, select: sel }));
   if (!s) return { title: 'Hunt not found' };
   const t = s.huntNumber ? `${SPECIES_LABEL[s.species]} Hunt ${s.huntNumber} (Area ${s.areaName})` : s.nrTag ? s.name : `${s.name}${s.unit ? ` · Unit ${s.unit}` : ''}`;
   return { title: t, description: `Draw odds, hunter success, crowding and land for Idaho ${t}.` };
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function HuntPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ as?: string }> }) {
   // readable slug ("deer-1016"); old id links ("c:-91071...") still work and move to the slug
   const key = decodeURIComponent((await params).id);
-  const s = (await db.huntSummary.findUnique({ where: { slug: key }, include: { hunt: true } })) ?? (await db.huntSummary.findUnique({ where: { id: key }, include: { hunt: true } }));
+  const s = (await db.huntSummary.findFirst({ where: { slug: key }, include: { hunt: true } })) ?? (await db.huntSummary.findUnique({ where: { id: key }, include: { hunt: true } }));
   if (!s) notFound();
   if (s.slug && key !== s.slug) permanentRedirect(`/hunts/${encodeURIComponent(s.slug)}`);
   const { residency } = await getResidency((await searchParams).as);
