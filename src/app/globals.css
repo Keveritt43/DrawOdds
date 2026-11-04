@@ -565,3 +565,9 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .site-search input:focus { outline: 2px solid var(--blaze); outline-offset: 1px; }
 @media (max-width: 1280px) { .site-search input { width: 150px; } }
 @media (max-width: 600px) { .site-search input { width: 132px; padding: 5px 9px; font-size: .8rem; } }
+/* keep the main nav on one line next to the search box on laptops */
+@media (min-width: 901px) and (max-width: 1440px) {
+  .nav-main a { padding-left: 7px !important; padding-right: 7px !important; }
+  .site-search input { width: 128px; }
+}
+@media (min-width: 901px) and (max-width: 1200px) { .site-search { display: none; } }
