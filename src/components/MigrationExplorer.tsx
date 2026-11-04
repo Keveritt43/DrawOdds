@@ -50,10 +50,10 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
  * The migration index: pick any mix of species, see every matching study's routes on one map (tap a route to see
  * which study it is), and the list of studies underneath, each linking to its full write-up.
  */
-export function MigrationExplorer({ studies, initial }: { studies: StudyRow[]; initial: string[] }) {
+export function MigrationExplorer({ studies, initial, initialUnits = [], initialZones = [] }: { studies: StudyRow[]; initial: string[]; initialUnits?: string[]; initialZones?: string[] }) {
   const [species, setSpecies] = useState<string[]>(initial.length ? initial : MIG_SPECIES);
-  const [units, setUnits] = useState<string[]>([]);
-  const [zones, setZones] = useState<string[]>([]);
+  const [units, setUnits] = useState<string[]>(initialUnits);
+  const [zones, setZones] = useState<string[]>(initialZones.filter((z) => z in ELK_ZONES));
   const el = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<MlMap | null>(null);
   const [loading, setLoading] = useState(0);
@@ -76,12 +76,6 @@ export function MigrationExplorer({ studies, initial }: { studies: StudyRow[]; i
     }
     window.history.replaceState(null, '', u);
   }, [species, units, zones]);
-  useEffect(() => {
-    const q = new URL(window.location.href).searchParams;
-    const list = (k: string) => (q.get(k) ?? '').split(',').filter(Boolean);
-    if (list('unit').length) setUnits(list('unit'));
-    if (list('zone').length) setZones(list('zone').filter((z) => z in ELK_ZONES));
-  }, []);
 
   useEffect(() => {
     if (!el.current) return;

@@ -8,6 +8,7 @@ export const metadata = { title: 'Migration Studies', description: 'Idaho mule d
 export default async function MigrationPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
   const initial = String(sp.species ?? '').split(',').filter((x) => (MIG_SPECIES as string[]).includes(x));
+  const list = (k: string) => String(sp[k] ?? '').split(',').map((x) => x.trim()).filter(Boolean);
   const studies = await listStudies();
   const rows: StudyRow[] = studies.map((s) => {
     const st = s.stats as unknown as MigStats;
@@ -29,7 +30,7 @@ export default async function MigrationPage({ searchParams }: { searchParams: Pr
       {rows.length === 0 ? (
         <p>No migration studies loaded yet.</p>
       ) : (
-        <MigrationExplorer studies={rows} initial={initial} />
+        <MigrationExplorer studies={rows} initial={initial} initialUnits={list('unit').map((u) => u.toUpperCase())} initialZones={list('zone')} />
       )}
       <p className="small">
         Find hunts in units with a study:{' '}
