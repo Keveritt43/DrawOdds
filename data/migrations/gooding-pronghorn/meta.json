@@ -84,14 +84,14 @@
    "LOW": 59033,
    "MEDIUM": 42912,
    "HIGH": 48505,
-   "STOPOVER": 27650
+   "STOPOVER": 27338
   },
   "52": {
    "ONE": 34600,
    "LOW": 35014,
    "MEDIUM": 53701,
    "HIGH": 32998,
-   "STOPOVER": 18322
+   "STOPOVER": 18272
   },
   "44": {
    "ONE": 40285,

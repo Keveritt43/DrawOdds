@@ -1,5 +1,4 @@
-import { listStudies, md, type MigClass } from '@/lib/migrations';
-import type { SeasonOverlap } from '@/components/StudyCard';
+import { listStudies, type MigClass } from '@/lib/migrations';
 import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import { notFound } from 'next/navigation';
@@ -8,7 +7,7 @@ import { getResidency, getDraw } from '@/lib/residency';
 import { DRAW_SPECIES } from '@/lib/species';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
-import { pct100, int, range, WEAPON } from '@/lib/format';
+import { pct100, int } from '@/lib/format';
 import type { Metadata } from 'next';
 import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
@@ -47,22 +46,6 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const hunts = sortUnitHunts(await db.huntSummary.findMany({ where: { units: { has: name }, species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
   // migration studies whose routes cross this unit (deer / elk / pronghorn drawing page only)
   const studies = draw === 'DEP' ? await listStudies(name) : [];
-  const overlapsFor = (s: (typeof studies)[number]): SeasonOverlap[] => {
-    const fall = (s.timing as { fall?: { startAvg: string; endAvg: string } } | null)?.fall;
-    if (!fall || fall.startAvg.length < 5 || fall.endAvg.length < 5) return [];
-    return listed
-      .filter((h) => h.species === s.species && h.openDate && h.closeDate)
-      .filter((h) => {
-        const y = h.openDate!.getUTCFullYear();
-        const a = new Date(`${y}-${fall.startAvg}T00:00:00Z`);
-        const b = new Date(`${fall.endAvg < fall.startAvg ? y + 1 : y}-${fall.endAvg}T00:00:00Z`);
-        return h.openDate! <= b && h.closeDate! >= a;
-      })
-      .map((h) => ({
-        label: h.type === 'CONTROLLED' ? `hunt ${h.huntNumber} (${range(h.openDate, h.closeDate)})` : `general ${WEAPON[h.weapon]?.toLowerCase() ?? ''}${h.nrTag ? ` ${h.tagCode ?? ''} tag` : ''} (${range(h.openDate, h.closeDate)})`,
-        href: `/hunts/${encodeURIComponent(h.id)}`, open: h.openDate!, close: h.closeDate!,
-      }));
-  };
   const pick = (k: keyof typeof FILTERS) => (FILTERS[k].some(([v]) => v && v === sp[k]) ? sp[k]! : '');
   const fSpecies = pick('species');
   const fType = pick('type');
@@ -112,24 +95,6 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         <LandBar shares={unit.landOwnership as { manager: string; pct: number }[] | null} />
         <p className="small muted" style={{ marginBottom: 0 }}>Managing agency, not owner. State land is mostly open to hunting; check access on the ground.</p>
       </div>
-      {studies.length > 0 && (
-        <div className="note mig-note">
-          <b>Migration {studies.length === 1 ? 'study' : 'studies'} crossing this unit</b> (turn them on in the map below):
-          <ul className="mig-list" style={{ marginTop: 4 }}>
-            {studies.map((st) => {
-              const ov = overlapsFor(st);
-              const fall = (st.timing as { fall?: { startAvg: string; endAvg: string } } | null)?.fall;
-              return (
-                <li key={st.slug}>
-                  <Link href={`/migration/${st.slug}`}>{st.name.replace(/ Migration$/, '')}</Link>
-                  {fall ? ` · fall move averages ${md(fall.startAvg)} – ${md(fall.endAvg)}` : ''}
-                  {ov.length > 0 && <> · seasons in that window: {ov.map((o, i) => <span key={o.href}>{i ? ', ' : ''}<Link href={o.href}>{o.label}</Link></span>)}</>}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
       <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 480 }}>
         <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="480px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, species: s.species, routes: !s.mapNote, classes: s.classes as unknown as MigClass[] }))} />
       </div>

@@ -75,13 +75,13 @@
   "73A": {
    "ONE": 11110,
    "MEDIUM": 31,
-   "STOPOVER": 649
+   "STOPOVER": 355
   },
   "73": {
    "ONE": 29722,
    "MEDIUM": 23852,
    "HIGH": 19270,
-   "STOPOVER": 10690
+   "STOPOVER": 9631
   }
  },
  "units": [

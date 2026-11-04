@@ -179,11 +179,9 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   return (
     <div style={{ position: 'relative', height }}>
       <div ref={el} style={{ position: 'absolute', inset: 0 }} />
-      {bare && migrations.length > 0 && <MigrationControls map={mapObj} studies={migrations} before="units-label" />}
+      {bare && migrations.length > 0 && <MigrationControls map={mapObj} studies={migrations} before="units-label" collapsible />}
       {bare && <div className="card land-float"><LandToggles map={mapObj} before="units-line" /></div>}
-      {bare ? (
-        <Link className="card bare-link small" href={`/map`}>Shade by odds, success, land or elk objectives on the Unit Map →</Link>
-      ) : <MapKey
+      {bare ? null : <MapKey
         filters={<>
           <KeySeg label="Animal" value={sp} onChange={setSp} options={msg ? [['MOOSE', 'Moose'], ['BIGHORN', 'Sheep'], ['GOAT', 'Goat']] : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
           {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
@@ -197,6 +195,12 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>
           <h3 className="star-head" style={{ margin: '0 0 2px' }}>Unit {sel.name} <Star key={sel.name} kind="unit" id={sel.name} saved={savedUnits.includes(sel.name)} signedIn={signedIn} label /></h3>
           <div className="small muted">{sel.elkZone ? `${sel.elkZone} elk zone` : ''}{sel.acres ? ` · ${Math.round(Number(sel.acres)).toLocaleString()} acres` : ''}</div>
+          {sel.name !== focus && (
+            <div style={{ display: 'flex', gap: 8, margin: '8px 0 4px' }}>
+              <Link className="btn primary" href={`/units/${encodeURIComponent(sel.name)}`}>Unit Details</Link>
+              <Link className="btn" href={`/hunts?unit=${encodeURIComponent(sel.name)}`}>Hunts Here</Link>
+            </div>
+          )}
           <table className="small" style={{ width: '100%', marginTop: 6 }}>
             <tbody>
               <tr><td>Public land</td><td style={{ textAlign: 'right' }}>{v('publicPct') !== null ? `${Math.round(v('publicPct')!)}%` : '-'}</td></tr>

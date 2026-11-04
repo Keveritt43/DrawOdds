@@ -10,6 +10,32 @@ import { loadUnits } from '@/lib/unitData';
 import { md, MIG_SPECIES, STANDARD_CLASSES, SPECIES_NAME, keyNote, type MigClass } from '@/lib/migrationShared';
 import { addStudy, setStudyVisible, studyLayers, MigrationKey } from './MigrationLayers';
 import { LandToggles } from './LandLayers';
+import { ELK_ZONES } from '@/lib/elkZones';
+
+const unitSort = (a: string, b: string) => parseInt(a) - parseInt(b) || a.localeCompare(b);
+
+/** A dropdown of checkboxes: pick any number; the button says what's picked. */
+function MultiPick({ label, options, value, onChange, hint }: { label: string; options: { v: string; label: string; title?: string }[]; value: string[]; onChange: (v: string[]) => void; hint?: string }) {
+  const ref = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const close = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) ref.current.open = false; };
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, []);
+  const toggle = (v: string) => onChange(value.includes(v) ? value.filter((x) => x !== v) : [...value, v]);
+  return (
+    <details ref={ref} className="multipick">
+      <summary className={`chip${value.length ? ' on' : ''}`}>{label}: {value.length === 0 ? 'Any' : value.length <= 3 ? value.join(', ') : `${value.length} picked`} ▾</summary>
+      <div className="card multipick-menu">
+        {hint && <p className="small muted" style={{ margin: '0 0 6px' }}>{hint}</p>}
+        {value.length > 0 && <button type="button" className="linkish small" onClick={() => onChange([])}>Clear</button>}
+        {options.map((o) => (
+          <label key={o.v} title={o.title}><input type="checkbox" checked={value.includes(o.v)} onChange={() => toggle(o.v)} /> {o.label}</label>
+        ))}
+      </div>
+    </details>
+  );
+}
 
 /** What the index needs about a study (no geometry). */
 export interface StudyRow {
@@ -26,27 +52,35 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
  */
 export function MigrationExplorer({ studies, initial }: { studies: StudyRow[]; initial: string[] }) {
   const [species, setSpecies] = useState<string[]>(initial.length ? initial : MIG_SPECIES);
-  const [unit, setUnit] = useState('');
+  const [units, setUnits] = useState<string[]>([]);
+  const [zones, setZones] = useState<string[]>([]);
   const el = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<MlMap | null>(null);
   const [loading, setLoading] = useState(0);
   const [err, setErr] = useState('');
 
-  const shown = useMemo(() => studies.filter((s) => species.includes(s.species) && (!unit || s.units.includes(unit))), [studies, species, unit]);
-  const units = useMemo(() => [...new Set(studies.filter((s) => species.includes(s.species)).flatMap((s) => s.units))].sort((a, b) => parseInt(a) - parseInt(b) || a.localeCompare(b)), [studies, species]);
+  // a study matches when it crosses any picked unit or any unit in a picked elk zone
+  const placeUnits = useMemo(() => new Set([...units, ...zones.flatMap((z) => ELK_ZONES[z] ?? [])]), [units, zones]);
+  const shown = useMemo(() => studies.filter((s) => species.includes(s.species) && (!placeUnits.size || s.units.some((u) => placeUnits.has(u)))), [studies, species, placeUnits]);
+  const unitOptions = useMemo(() => [...new Set(studies.filter((s) => species.includes(s.species)).flatMap((s) => s.units))].sort(unitSort), [studies, species]);
+  const zoneOptions = useMemo(() => Object.keys(ELK_ZONES).filter((z) => ELK_ZONES[z].some((u) => unitOptions.includes(u))).sort(), [unitOptions]);
 
   // keep the choice in the address so it can be shared and survives Back
   useEffect(() => {
     const u = new URL(window.location.href);
     if (species.length === MIG_SPECIES.length) u.searchParams.delete('species');
     else u.searchParams.set('species', species.join(','));
-    if (unit) u.searchParams.set('unit', unit);
-    else u.searchParams.delete('unit');
+    for (const [k, v] of [['unit', units], ['zone', zones]] as const) {
+      if (v.length) u.searchParams.set(k, v.join(','));
+      else u.searchParams.delete(k);
+    }
     window.history.replaceState(null, '', u);
-  }, [species, unit]);
+  }, [species, units, zones]);
   useEffect(() => {
-    const u = new URL(window.location.href).searchParams.get('unit');
-    if (u) setUnit(u);
+    const q = new URL(window.location.href).searchParams;
+    const list = (k: string) => (q.get(k) ?? '').split(',').filter(Boolean);
+    if (list('unit').length) setUnits(list('unit'));
+    if (list('zone').length) setZones(list('zone').filter((z) => z in ELK_ZONES));
   }, []);
 
   useEffect(() => {
@@ -148,13 +182,8 @@ export function MigrationExplorer({ studies, initial }: { studies: StudyRow[]; i
             {SPECIES_NAME[sp]} <span className="muted">{count(sp)}</span>
           </button>
         ))}
-        <label className="small mig-unit-pick">
-          Unit{' '}
-          <select value={unit} onChange={(e) => setUnit(e.target.value)}>
-            <option value="">Any</option>
-            {units.map((u) => <option key={u} value={u}>{u}</option>)}
-          </select>
-        </label>
+        <MultiPick label="Elk zone" value={zones} onChange={setZones} hint="Studies crossing any unit in these zones." options={zoneOptions.map((z) => ({ v: z, label: z, title: `Units ${ELK_ZONES[z].join(', ')}` }))} />
+        <MultiPick label="Unit" value={units} onChange={(v) => setUnits(v.sort(unitSort))} options={unitOptions.map((u) => ({ v: u, label: `Unit ${u}` }))} />
         <span className="small muted">{!all && 'Tap a species to add or remove it. '}{shown.length} {shown.length === 1 ? 'study' : 'studies'}{loading > 0 ? ` · loading ${loading}…` : ''}</span>
       </div>
 

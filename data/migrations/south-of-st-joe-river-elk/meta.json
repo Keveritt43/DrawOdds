@@ -84,15 +84,11 @@
    "LOW": 18152,
    "MEDIUM": 31398,
    "HIGH": 4860,
-   "STOPOVER": 12857
-  },
-  "10A": {
-   "STOPOVER": 1461
+   "STOPOVER": 11630
   }
  },
  "units": [
-  "6",
-  "10A"
+  "6"
  ],
  "mapNote": null
 }

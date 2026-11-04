@@ -89,7 +89,8 @@ export function MigrationKey({ classes }: { classes: MigClass[] }) {
  * map (null until it loads). Studies start off unless `defaultOn`. Studies without route polygons are listed with a
  * link only.
  */
-export function MigrationControls({ map, studies, defaultOn = false, fit = false, before }: { map: MlMap | null; studies: StudyLite[]; defaultOn?: boolean; fit?: boolean; before?: string }) {
+export function MigrationControls({ map, studies, defaultOn = false, fit = false, before, collapsible = false }: { map: MlMap | null; studies: StudyLite[]; defaultOn?: boolean; fit?: boolean; before?: string; collapsible?: boolean }) {
+  const [open, setOpen] = useState(!collapsible);
   const drawable = studies.filter((s) => s.routes !== false);
   const [on, setOn] = useState<Record<string, boolean>>(() => Object.fromEntries(drawable.map((s) => [s.slug, defaultOn])));
   const [err, setErr] = useState('');
@@ -113,8 +114,13 @@ export function MigrationControls({ map, studies, defaultOn = false, fit = false
   const groups = Object.keys(SPECIES_NAME).map((sp) => [sp, studies.filter((s) => s.species === sp)] as const).filter(([, g]) => g.length);
   const shown = drawable.filter((s) => on[s.slug]);
   return (
-    <div className="card mig-panel">
-      {groups.map(([sp, g]) => (
+    <div className={`card mig-panel${open ? '' : ' closed'}`}>
+      {collapsible && (
+        <button type="button" className="mig-toggle" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+          Migration studies ({studies.length}){shown.length ? ` · ${shown.length} on` : ''} {open ? '▴' : '▾'}
+        </button>
+      )}
+      {open && groups.map(([sp, g]) => (
         <div key={sp} className="mig-row">
           <div className="mig-sp">{SPECIES_NAME[sp]}</div>
           {g.map((s) => (
@@ -130,7 +136,7 @@ export function MigrationControls({ map, studies, defaultOn = false, fit = false
           ))}
         </div>
       ))}
-      {shown.length > 0 && (
+      {open && shown.length > 0 && (
         <>
           <MigrationKey classes={STANDARD_CLASSES.filter((c) => shown.some((s) => s.classes.some((k) => k.key === c.key && !k.notMapped)))} />
           <p className="muted" style={{ margin: '4px 0 0' }}>{keyNote(shown.map((s) => s.species))}</p>

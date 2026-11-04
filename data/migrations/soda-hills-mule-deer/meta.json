@@ -98,14 +98,14 @@
    "LOW": 37438,
    "MEDIUM": 16654,
    "HIGH": 3100,
-   "STOPOVER": 11694
+   "STOPOVER": 11312
   },
   "66A": {
    "ONE": 583,
    "LOW": 732,
    "MEDIUM": 1184,
    "HIGH": 914,
-   "STOPOVER": 5014
+   "STOPOVER": 803
   },
   "75": {
    "LOW": 1272,

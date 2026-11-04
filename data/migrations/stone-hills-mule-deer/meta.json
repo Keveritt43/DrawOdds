@@ -76,12 +76,12 @@
    "ONE": 25999,
    "MEDIUM": 29972,
    "HIGH": 24774,
-   "STOPOVER": 10653
+   "STOPOVER": 10490
   },
   "73A": {
    "ONE": 12665,
    "MEDIUM": 1352,
-   "STOPOVER": 691
+   "STOPOVER": 508
   }
  },
  "units": [

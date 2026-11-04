@@ -90,7 +90,7 @@
    "ONE": 15215,
    "LOW": 18569,
    "MEDIUM": 19,
-   "STOPOVER": 6664
+   "STOPOVER": 987
   },
   "21": {
    "ONE": 19414,
@@ -104,17 +104,12 @@
    "LOW": 1929,
    "MEDIUM": 974,
    "STOPOVER": 1205
-  },
-  "29": {
-   "ONE": 397,
-   "STOPOVER": 804
   }
  },
  "units": [
   "21",
   "21A",
   "28",
-  "29",
   "30"
  ],
  "mapNote": null
