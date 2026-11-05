@@ -200,3 +200,10 @@ export const tableOdds = (t: OddsTable | null | undefined, mode: 'proj' | 'last'
 };
 
 export { effective };
+
+/** Numbered rifle filters include both limited and general/OTC rifle seasons. */
+export function matchesCoSeason(code: string, filters: string[]): boolean {
+  const d = decodeCode(code);
+  return !!d && (!filters.length || filters.some(s => /^\d$/.test(s)
+    ? ['O', 'U'].includes(d.type) && d.method === 'R' && String(d.no) === s : d.type === s));
+}

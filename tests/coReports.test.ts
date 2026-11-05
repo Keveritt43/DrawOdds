@@ -1,5 +1,12 @@
 import { test } from 'node:test';
+import { secondaryDrawn } from '../src/lib/coReportDisplay';
 import { readFileSync } from 'node:fs';
+test('secondary total includes later choices and leaves incomplete extraction unknown', () => {
+  const postTotals = [[21,12,1,0,0,0], [2,1,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]];
+  assert.equal(secondaryDrawn({ drawnTotal: null, postTotals }), 37);
+  assert.equal(secondaryDrawn({ drawnTotal: null, postTotals: postTotals.slice(0,1) }), null);
+  assert.equal(secondaryDrawn({ drawnTotal: 40, postTotals }), 40);
+});
 import assert from 'node:assert/strict';
 import { unitsIn, datesFor } from '../src/sync/co/regs';
 import { tableKind, kindForCode, codeFromUnits, type UnitTables } from '../src/sync/co/harvest';
@@ -69,4 +76,13 @@ test('historical elk population headers tolerate CPW UNITES spelling', () => {
 });
 test('harvest title can split its year between PDF text items', () => {
   assert.equal(harvestYear([[{ s: '20', x: 0, y: 0 },{ s: '20', x: 20, y: 0 },{ s: 'Colorado Elk Harvest Estimates', x: 40, y: 0 }]]), 2020);
+});
+
+import { matchesCoSeason } from '../src/lib/coHunt';
+test('numbered Colorado rifle filters include limited and OTC licenses for the same season', () => {
+  assert.equal(matchesCoSeason('DM070O2R', ['2']), true);
+  assert.equal(matchesCoSeason('EM000U2R', ['2']), true);
+  assert.equal(matchesCoSeason('EM000U3R', ['2']), false);
+  assert.equal(matchesCoSeason('EE000U1A', ['1']), false);
+  assert.equal(matchesCoSeason('EM070L1R', ['L']), true);
 });
