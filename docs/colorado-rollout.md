@@ -12,6 +12,8 @@ The owner authorized fetching CPW deer/elk reports and deployment after checks p
 - Returning-cohort 2027 scenario: failed first-choice applicants return with +1 point, successful applicants leave, pool supply stays fixed. Hybrid winners are removed from preference supply. Cutoffs never fall below the last draw or returning-cohort scenario; displayed forecast creep is nonnegative. Historical observations remain unchanged. Switching hunts, new entrants and quota changes are uncertainties, and the old calibrated-accuracy claim was removed. This conservative assumption should be retained when point-based states are added.
 - Bottom-of-page related elk seasons for specific deer/elk limited hunts in both Idaho and Colorado: same state, same unit, at least one actual overlapping date. Gaps within general seasons are respected.
 
+Historical shared drawing pools retain every constituent hunt code and the original pooled applicants/cutoffs. Issued counts per code are distinguished from the shared quota; pooled quota is never presented as an individual-code quota. Versioned parser markers ensure older primary and secondary recaps are refreshed. The 2021 elk report now retains all 1,028 codes rather than 887 pool headers.
+
 ## Harvest corrections and historical provenance
 
 Colorado hunters5 and harvest5 now store pooled totals rather than annual averages; harvestYears is the size of that same available five-season window. Density divides pooled hunters by years and acreage. This fixes the prior mismatch between field names and their values.

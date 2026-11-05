@@ -39,7 +39,7 @@ export function CoHuntCard({
           <span className="pill">{r.type === 'GENERAL' ? 'General / OTC' : 'Limited'}</span>
         </span>
         <span className="small muted tags">
-          {r.tags === null ? 'Unlimited / see CPW' : `${int(r.tags)} licenses`}
+          {r.tags === null ? (general ? 'Unlimited / see CPW' : 'Shared quota / see details') : `${int(r.tags)} licenses`}
           {r.permitsPrev !== null && r.tags !== null && r.permitsPrev !== r.tags
             ? ` (${r.tags > r.permitsPrev ? '+' : ''}${r.tags - r.permitsPrev})`
             : ''}

@@ -113,7 +113,9 @@ export async function syncCoDraw(opts: StepOptions): Promise<StepResult> {
   let rows = 0;
   for (const r of DRAW_RECAPS) {
     const have = await db.drawRecap.count({ where: { state: STATE, species: r.species, year: r.year } });
-    if (have && !opts.full) continue;
+    const markerId = `CO|draw-parser|${r.species}|${r.year}`;
+    const marker = await db.stateReport.findUnique({ where: { id: markerId } });
+    if (have && !opts.full && (marker?.data as { parserVersion?: number })?.parserVersion === 2) continue;
     const pdfUrl = originalPdfUrl(await get(r.url));
     if (!pdfUrl) {
       details.push(`${r.species} ${r.year}: no PDF link on ${r.url}`);
@@ -138,13 +140,21 @@ export async function syncCoDraw(opts: StepOptions): Promise<StepResult> {
           .join('; ')}`,
       );
     const data = parsed.hunts.filter((h) => !h.problems.length).map((h) => recapRow(h, r.species));
+    if (!data.length || bad.length) throw Error(`${r.species} ${r.year}: incomplete primary draw; summaries retained`);
     await db.$transaction(data.map((d) => db.drawRecap.upsert({ where: { id: d.id }, create: d, update: d })));
+    await db.stateReport.upsert({ where: { id: markerId },
+      create: { id: markerId, state: STATE, species: r.species, year: r.year, kind: 'draw-parser', source: r.url, data: { parserVersion: 2, codes: data.length } },
+      update: { data: { parserVersion: 2, codes: data.length } } });
     rows += data.length;
     console.log(`[co-draw] ${r.species} ${r.year}: ${data.length} hunt codes`);
   }
   return { rows, details };
 }
 
+function sharedPool(h: { cutoff: unknown }): { codes: string[]; poolQuota: number | null; codeDrawn: number | null } | undefined {
+  return (h.cutoff as { __shared?: { codes: string[]; poolQuota: number | null; codeDrawn: number | null } })?.__shared;
+}
+function individualQuota(h: { quota: number | null; cutoff: unknown }) { return sharedPool(h) ? null : h.quota; }
 function recapRow(h: RecapHunt, species: Species): Prisma.DrawRecapCreateManyInput {
   return {
     id: recapId(species, h.year, h.code),
@@ -168,7 +178,7 @@ function recapRow(h: RecapHunt, species: Species): Prisma.DrawRecapCreateManyInp
     drawnTotal: h.drawnTotal,
     balance: h.balance,
     drawn: h.drawn,
-    cutoff: h.cutoff as object,
+    cutoff: { ...h.cutoff, ...(h.sharedCodes ? { __shared: { codes: h.sharedCodes, poolQuota: h.quota, codeDrawn: h.codeDrawn ?? null } } : {}) } as object,
     pre: h.pre,
     post: h.post,
     preTotals: h.preTotals,
@@ -262,7 +272,10 @@ export async function syncCoReports(opts: StepOptions): Promise<StepResult> {
     ...OTC_SALES.map((r) => ({ ...r, kind: 'otc-sales' })),
   ]) {
     const id = `CO|${report.kind}|${report.species}|${report.year}`;
-    if (!opts.full && have.has(id)) continue;
+    if (!opts.full && have.has(id)) {
+      const previous = await db.stateReport.findUnique({ where: { id } });
+      if (report.kind !== 'secondary' || (previous?.data as { parserVersion?: number })?.parserVersion === 2) continue;
+    }
     try {
       const pages = await load(report.url);
       let data: object;
@@ -271,7 +284,7 @@ export async function syncCoReports(opts: StepOptions): Promise<StepResult> {
         if (parsed.year !== report.year || parsed.species !== report.species) throw Error('Report species/year mismatch');
         const hunts = parsed.hunts.filter((h) => !h.problems.length);
         if (!hunts.length || hunts.length < parsed.hunts.length * 0.95) throw Error('Secondary draw row-total checks failed');
-        data = { hunts };
+        data = { hunts, parserVersion: 2 };
       } else {
         const rows = report.kind === 'drawn-out' ? parseDrawnOut(pages) : parseOtcSales(pages);
         if (!rows.length) throw Error('No readable rows');
@@ -472,9 +485,11 @@ export async function buildCoSummaries(): Promise<StepResult> {
         year: latest,
         projYear: latest + 1,
         pools,
+        sharedPool: sharedPool(last),
         history: hist.map((h) => ({
           year: h.year,
-          quota: h.quota,
+          quota: individualQuota(h),
+          sharedPool: sharedPool(h),
           nrCapPct: h.nrCapPct,
           hybridCap: h.hybridCap,
           apps1: h.apps[0] ?? null,
@@ -524,7 +539,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
         weapon,
         antlerClass,
         sexText: antlerClass === 'ANTLERED' ? 'Antlered' : antlerClass === 'ANTLERLESS' ? 'Antlerless' : 'Either sex',
-        tags: last.quota,
+        tags: individualQuota(last),
         units,
         youthOnly: d.type === 'K',
         openDate: when ? new Date(`${when.start}T12:00:00Z`) : null,
@@ -554,14 +569,14 @@ export async function buildCoSummaries(): Promise<StepResult> {
         harvestLastYear: lastH?.year ?? null,
         successLast: lastH && lastH.hunters ? lastH.harvest / lastH.hunters : null,
         smallSample: !!lastH?.few || (h5.length > 0 && sum('hunters') / h5.length < 20),
-        tags: last.quota,
+        tags: individualQuota(last),
         youthOnly: d.type === 'K',
         tagCode: code,
         oddsYears: hist.length,
         oddsLastYear: latest,
-        permitsLast: last.quota,
+        permitsLast: individualQuota(last),
         appsLast: last.apps[0] ?? null,
-        permitsPrev: hist.length > 1 && hist[hist.length - 2].year === latest - 1 ? hist[hist.length - 2].quota : null,
+        permitsPrev: hist.length > 1 && hist[hist.length - 2].year === latest - 1 ? individualQuota(hist[hist.length - 2]) : null,
         ptsRes: ptsOf(res),
         ptsNr: ptsOf(nr),
         ptsResPct: pctOf(res),

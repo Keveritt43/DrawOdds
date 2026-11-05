@@ -192,6 +192,8 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </div>
 
       <h2>Hunter Success</h2>
+      {po.history.some((h) => h.sharedPool) && <p className="small muted">Some historical draws shared an applicant pool across hunt codes. Marked rows show the shared pool’s applications and cutoffs; its quota is not this code’s individual quota.</p>}
+      {po.sharedPool && <p>Current draw pool shared with {po.sharedPool.codes.join(', ')}. Applicant counts and odds describe this shared pool.</p>}
       {po.harvest?.length ? (
         <Harvest rows={po.harvest} species={spLabel} />
       ) : (
@@ -229,8 +231,8 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
                 };
                 return (
                   <tr key={h.year}>
-                    <td>{h.year}</td>
-                    <td className="num">{h.quota ?? '–'}</td>
+                    <td>{h.year}{h.sharedPool ? ' · shared pool' : ''}</td>
+                    <td className="num">{h.sharedPool ? `${h.sharedPool.codeDrawn ?? '–'} issued; pool quota ${h.sharedPool.poolQuota ?? '–'}` : h.quota ?? '–'}</td>
                     <td className="num">{h.apps1 ?? '–'}</td>
                     <td>{cell('res')}</td>
                     <td>{cell('nr')}</td>

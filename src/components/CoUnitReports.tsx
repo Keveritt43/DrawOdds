@@ -187,8 +187,8 @@ export async function CoUnitReports({ units, hunts }: { units: string[]; hunts: 
                                         const r = row as RecapHunt;
                                         return (
                                           <tr key={r.code}>
-                                            <td>{r.code}</td>
-                                            <td>{r.quota}</td>
+                                            <td>{r.code}{r.sharedCodes ? ` · shared pool: ${r.sharedCodes.join(', ')}` : ''}</td>
+                                            <td>{r.sharedCodes ? `${r.quota} shared` : r.quota}</td>
                                             <td>{r.drawnTotal}</td>
                                             <td>{r.balance}</td>
                                             {(['res', 'nr', 'yres', 'ynr'] as const).map((p) => (

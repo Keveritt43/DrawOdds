@@ -59,7 +59,7 @@ export function harvestYear(pages: Item[][]): number | null {
     const m = /(20\d\d) Colorado (Deer|Elk) Harvest Estimates/i.exec(
       texts(p)
         .map((r) => r.text)
-        .join(' '),
+        .join(' ').replace(/\b(20)\s+(\d{2})\b/g, '$1$2'),
     );
     if (m) return Number(m[1]);
   }

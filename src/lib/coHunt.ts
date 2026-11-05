@@ -49,12 +49,15 @@ export interface RegsInfo {
   guessed: boolean;
 }
 
+export interface SharedDrawPool { codes: string[]; poolQuota: number | null; codeDrawn: number | null }
+
 export interface PointOdds {
+  sharedPool?: SharedDrawPool;
   general?: { resident: boolean; nonresident: boolean; regulationsYear: number };
   year: number;
   projYear: number;
   pools: Partial<Record<CoPool, PoolOdds>>;
-  history: { year: number; quota: number | null; nrCapPct: number | null; hybridCap: number | null; apps1: number | null }[];
+  history: { year: number; quota: number | null; sharedPool?: SharedDrawPool; nrCapPct: number | null; hybridCap: number | null; apps1: number | null }[];
   nrCapPct: number | null;
   nrCap: number | null;
   hybridCap: number | null;

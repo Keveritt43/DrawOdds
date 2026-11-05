@@ -128,7 +128,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
           </div>
           <div className="f-sub">
             <span>
-              <b>{decorated.length}</b> limited {spLabel} licenses · sort by
+              <b>{decorated.length}</b> {spLabel} hunts · sort by
             </span>
             <span className="seg light" role="group" aria-label="Sort">
               {(
