@@ -14,7 +14,9 @@
     "sync:full": "tsx src/sync/index.ts all --full",
     "test": "tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "scores:compare": "tsx scripts/compare-idaho-scores.ts",
+    "scores:recalculate": "tsx scripts/recalculate-idaho-scores.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

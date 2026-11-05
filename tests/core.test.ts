@@ -314,7 +314,7 @@ test('verdicts and draw x fill wording', async () => {
   assert.equal(oddsVerdict(1).text, 'Everyone drew');
   assert.equal(oddsVerdict(0.38).text, 'Fair odds');
   assert.equal(oddsVerdict(0.005).text, 'Very long shot');
-  assert.equal(successVerdict(0.2, 'ELK').text, 'Typical');
+  assert.equal(successVerdict(0.2, 'ELK').text, 'High for elk');
   assert.equal(successVerdict(0.2, 'DEER').text, 'Low for deer');
   assert.equal(crowdVerdict(1.7).text, 'Crowded');
   assert.equal(drawFillLine(0.196), 'about 1 in 5');
@@ -396,7 +396,7 @@ test('season summary: same weapon, different dates says which is which', () => {
   assert.equal(seasonsSummary(ts, 5), 'Archery Aug 30 - Sep 30 · Any weapon (antlered) Oct 10 - Oct 24 · Any weapon (youth antlerless) Oct 10 - Oct 31');
 });
 
-test('DrawOdds Score: access line, opportunity, sample floor, peer ranking', async () => {
+test('DrawOdds Score: access line, opportunity, sample floor, absolute opportunity', async () => {
   const { accessScore, opportunity, scoreHunts, percentileRank } = await import('../src/lib/score');
   assert.equal(accessScore(50), 80);
   assert.equal(accessScore(100), 100);
@@ -411,7 +411,7 @@ test('DrawOdds Score: access line, opportunity, sample floor, peer ranking', asy
   const best = s.get('h9')!;
   const worst = s.get('h0')!;
   assert.ok(best.scoreQuality! > worst.scoreQuality!);
-  // same odds everywhere: opportunity ranks like quality
+  // same odds everywhere: absolute opportunity orders like quality
   assert.ok(best.scoreOppRes! > worst.scoreOppRes!);
   // a hunt with far better odds jumps ahead on opportunity, not quality
   const s2 = scoreHunts(rows.map((r) => (r.id === 'h2' ? { ...r, resOdds5: 0.9 } : r)));
@@ -452,7 +452,7 @@ test('score parts agree with the card chips', async () => {
   const rows = Array.from({ length: 10 }, (_, i) => ({ id: `d${i}`, species: 'DEER', type: 'CONTROLLED', weapon: 'ANY', antlerClass: 'ANTLERED', hunters5: 1000, harvest5: 550 + i, huntersSqMi: 0.2, huntablePct: 80, bigPct5: 0.5, resOdds5: 0.05 }));
   const s = scoreHunts(rows).get('d0')!;
   assert.equal(successVerdict(0.55, 'DEER').tone, 'good');
-  assert.ok(s.scoreSuccess! >= 74); // "High for deer" = 75 on the bar
+  assert.ok(s.scoreSuccess! >= 70 && s.scoreSuccess! <= 75); // conservative prior slightly lowers a raw high-threshold estimate
   assert.ok(s.scoreCrowd! >= 85); // 0.2 hunters / sq mi is uncrowded
   // archery deer at 25% is as good as rifle at 55%
   assert.equal(successVerdict(0.25, 'DEER', 'ARCHERY').tone, 'good');

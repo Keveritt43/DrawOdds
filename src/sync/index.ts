@@ -37,6 +37,11 @@ async function main() {
   const args = process.argv.slice(2);
   const full = args.includes('--full');
   const asked = args.filter((a) => !a.startsWith('--') && a !== 'all');
+  if (!asked.length && process.env.AUTO_SYNC_ENABLED !== '1') {
+    console.log('Automatic agency sync disabled. Specify explicit steps for approved manual maintenance.');
+    await db.$disconnect();
+    return;
+  }
   const order = asked.length ? asked : Object.keys(STEPS);
   const unknown = order.filter((s) => !STEPS[s]);
   if (unknown.length) throw new Error(`Unknown step(s): ${unknown.join(', ')}. Valid: ${Object.keys(STEPS).join(', ')}`);

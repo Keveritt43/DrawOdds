@@ -122,9 +122,9 @@ export function oddsVerdict(v: number | null | undefined): Verdict {
 }
 
 /**
- * Success bands by species for a rifle (any-weapon) hunt: [high, low, top]. 20% is good for elk and poor for
- * pronghorn. Other weapons scale them down by how much lower Idaho's pooled success runs for that weapon
- * (IDFG harvest, all hunts): archery deer ~0.45 of rifle, archery elk ~0.9, archery pronghorn ~0.3.
+ * Success bands [high, low, top]. Elk uses absolute general/controlled benchmarks below. For other species,
+ * weapons scale them by how much lower Idaho's pooled success runs for that weapon
+ * (IDFG harvest, all hunts): archery deer ~0.45 of rifle, archery pronghorn ~0.3.
  */
 const SUCCESS_BANDS: Record<string, [number, number, number]> = {
   ELK: [0.3, 0.15, 0.6], DEER: [0.55, 0.35, 0.75], PRONGHORN: [0.6, 0.35, 0.85],
@@ -146,6 +146,8 @@ const WEAPON_FACTOR: Record<'GENERAL' | 'CONTROLLED', Record<string, Record<stri
 };
 /** [high, low, top] success for a species, weapon and kind of hunt. */
 export function successBands(species: string, weapon = 'ANY', type: string = 'GENERAL'): [number, number, number] {
+  // Absolute elk benchmarks across weapons; controlled hunts must earn their premium.
+  if (species === 'ELK') return type === 'CONTROLLED' ? [0.5, 0.2, 0.8] : [0.2, 0.1, 0.5];
   const [hi, lo, top] = SUCCESS_BANDS[species] ?? [0.5, 0.25, 0.75];
   const f = WEAPON_FACTOR[type === 'CONTROLLED' ? 'CONTROLLED' : 'GENERAL'][species]?.[weapon] ?? 1;
   return [hi * f, lo * f, top * f];
