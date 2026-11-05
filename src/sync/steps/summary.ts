@@ -294,7 +294,7 @@ export async function buildSummaries(): Promise<StepResult> {
   out.length = 0;
   out.push(...deduped);
 
-  // DrawOdds Score: ranks need every hunt, so it runs once all rows are built
+  // DrawOdds Score: absolute grades computed after all summary inputs are built
   const scores = scoreHunts(out.map((r) => ({
     id: r.id, species: r.species, type: r.type, nrTag: r.nrTag, weapon: r.weapon, antlerClass: r.antlerClass,
     hunters5: r.hunters5, harvest5: r.harvest5, huntersSqMi: r.huntersSqMi, publicPct: r.publicPct, huntablePct: r.huntablePct,

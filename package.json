@@ -8,13 +8,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "start": "npm run db:push && next start -p ${PORT:-3000}",
+    "start": "next start -p ${PORT:-3000}",
     "db:push": "prisma db execute --file prisma/prepush.sql --schema prisma/schema.prisma && prisma db push --skip-generate",
     "sync": "tsx src/sync/index.ts",
     "sync:full": "tsx src/sync/index.ts all --full",
     "test": "tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "scores:compare": "tsx scripts/compare-idaho-scores.ts",
+    "scores:recalculate": "tsx scripts/recalculate-idaho-scores.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",

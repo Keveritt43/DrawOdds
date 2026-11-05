@@ -218,7 +218,7 @@ const hasDraw = (r: HuntSummary, nr: boolean) => r.type === 'CONTROLLED' || (nr 
 
 /** DrawOdds Score: Quality (+ Opportunity when there's a draw); tap for the four parts. */
 export function ScoreRow({ r, nr, open = false }: { r: HuntSummary; nr: boolean; open?: boolean }) {
-  if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: not enough hunters to score</div>;
+  if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data</div>;
   const opp = nr ? r.scoreOppNr : r.scoreOppRes;
   const parts: [ScorePart, number | null][] = [['success', r.scoreSuccess], ['access', r.scoreAccess], ['crowd', r.scoreCrowd], ['trophy', r.scoreTrophy]];
   return (
@@ -236,7 +236,7 @@ export function ScoreRow({ r, nr, open = false }: { r: HuntSummary; nr: boolean;
             <small>{v ?? '—'}</small>
           </div>
         ))}
-        <p className="small muted">Fixed scales for every {SPECIES_LABEL[r.species].toLowerCase()} hunt{r.weapon !== 'ANY' ? `, success adjusted for ${WEAPON[r.weapon]?.toLowerCase()}` : ''}: 75+ matches &ldquo;High&rdquo;, under 40 &ldquo;Low&rdquo;. {r.scoreTrophy === null ? 'Trophy isn’t counted here. ' : ''}{hasDraw(r, nr) ? `Opportunity = Quality × √(your 5-yr draw odds), ranked among ${SPECIES_LABEL[r.species].toLowerCase()} ${r.nrTag ? 'general tags' : r.type === 'GENERAL' ? 'general seasons' : 'controlled hunts'} like this one. ` : ''}<Link href="/score">How we score</Link></p>
+        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adjusts it by up to ±5 points when applicable. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
       </div>
     </details>
   );

@@ -1,10 +1,10 @@
 /**
  * Runs once when the Next.js server starts. If the database has no draw-odds data yet (fresh deploy),
  * start the IDFG sync in a background child process so the site fills itself in.
- * Nightly refreshes are the separate `sync` cron service's job. Set BOOTSTRAP_SYNC=0 to disable.
+ * Disabled by default. BOOTSTRAP_SYNC=1 explicitly opts into agency synchronization.
  */
 export async function register() {
-  if (process.env.NEXT_RUNTIME !== 'nodejs' || process.env.BOOTSTRAP_SYNC === '0') return;
+  if (process.env.NEXT_RUNTIME !== 'nodejs' || process.env.BOOTSTRAP_SYNC !== '1') return;
   // give the server a moment to come up and pass its healthcheck first
   setTimeout(() => void bootstrap().catch((e) => console.error('[bootstrap-sync] failed to start', e)), 15_000);
 }
