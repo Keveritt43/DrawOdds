@@ -125,3 +125,47 @@ test('2022 population transcription preserves CPW rows and reported totals witho
   assert.equal(population2022.ELK.total, 303190);
   assert.deepEqual(population2022.DEER.herds.find((h) => h.dau === '24')?.units, ['70', '71', '711']);
 });
+import { parseHarvestByUnit, codeFromUnits } from '../src/sync/co/harvest';
+import { returningCohort as cohort } from '../src/lib/coOdds';
+test('legacy harvest handles spelled-out seasons and changes of table on the same page', () => {
+  const title = (s: string, y: number) => ({ s, x: 50, y });
+  const row = (unit: string, n: number, y: number) => [
+    { s: unit, x: 93, y },
+    ...[n, 0, 0, n, 10, n * 10, 50].map((v, i) => ({ s: String(v), x: 150 + i * 50, y })),
+  ];
+  const tables = parseHarvestByUnit([
+    [
+      title('2020 Elk Harvest, Hunters and Recreation Days for First Rifle Seasons', 20),
+      ...row('1', 2, 40),
+      title('2020 Elk Harvest, Hunters and Recreation Days for Second Rifle Seasons', 60),
+      ...row('1', 4, 80),
+    ],
+  ]);
+  assert.equal(tables.totals.rifle1?.[0].harvest, 2);
+  assert.equal(tables.totals.rifle2?.[0].harvest, 4);
+  assert.equal(tables.totals.rifle1?.length, 1);
+  assert.equal(tables.totals.rifle2?.length, 1);
+});
+test('conflicting harvest observations are retained and excluded from aggregate scores', () => {
+  const row = (n: number, y: number) => [
+    { s: '1', x: 80, y },
+    ...[n, 0, 0, n, 10, n * 10, 50].map((v, i) => ({ s: String(v), x: 140 + i * 45, y })),
+  ];
+  const tables = parseHarvestByUnit([
+    [{ s: '2020 Elk Harvest, Hunters and Recreation Days for First Rifle Seasons', x: 50, y: 20 }, ...row(2, 40), ...row(4, 60)],
+  ]);
+  assert.equal(tables.ambiguous?.length, 1);
+  assert.equal(tables.ambiguous?.[0].rows.length, 2);
+  assert.equal(codeFromUnits('EM001O1R', ['1'], tables), null);
+});
+test('returning cohorts reserve hybrid licenses instead of allocating them twice', () => {
+  const result = cohort({
+    year: 2026,
+    pre: { 15: 22, 8: 75, 6: 42 },
+    post: { 15: 20, 8: 5 },
+    cut: { text: '15 Pref Points', points: 15, choice: null, leftover: false, drawnAtLevel: 20, appsAtLevel: 22 },
+  });
+  assert.equal(result.capacity, 20);
+  assert.equal(result.pre[9], 70);
+  assert.equal(result.pre[16], 2);
+});
