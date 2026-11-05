@@ -58,7 +58,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     }),
     getFavorites(),
   ]);
-  const year = rows[0]?.oddsLastYear ?? null;
+  const year = rows[0]?.oddsLastYear ?? (await db.drawRecap.aggregate({ where: { state: 'CO', species }, _max: { year: true } }))._max.year;
   const decorated = rows
     .map((r) => {
       const d = decodeCode(r.tagCode ?? '');
