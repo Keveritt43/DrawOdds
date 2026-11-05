@@ -3,7 +3,17 @@
  * Hunt code: D M 070 O3 R = species, sex, unit, season (type letter + number), method of take.
  */
 import type { HerdSeries } from './coHerds';
-import { effective, exactAt, projectedOdds, oddsAt, chanceOf, ABOVE_CUTOFF_RATE, type PoolYear, type Projection, type Chance } from './coOdds';
+import {
+  effective,
+  exactAt,
+  projectedOdds,
+  oddsAt,
+  chanceOf,
+  ABOVE_CUTOFF_RATE,
+  type PoolYear,
+  type Projection,
+  type Chance,
+} from './coOdds';
 
 export const CO_POOLS = ['res', 'nr', 'yres', 'ynr'] as const;
 export type CoPool = (typeof CO_POOLS)[number];
@@ -22,10 +32,25 @@ export interface PoolOdds {
 }
 /** One season of harvest: from the by-hunt-code report ('code'), or summed over the code's units from the season table
  *  ('units': antlered / antlerless limited licenses; 'units-all': every license of that season and weapon there). */
-export interface HarvestYear { year: number; hunters: number; harvest: number; days: number | null; basis: 'code' | 'units' | 'units-all'; few?: boolean }
-export interface RegsInfo { year: number | null; units: string[]; partial: boolean; unitText: string; licenses: number | null; guessed: boolean }
+export interface HarvestYear {
+  year: number;
+  hunters: number;
+  harvest: number;
+  days: number | null;
+  basis: 'code' | 'units' | 'units-all';
+  few?: boolean;
+}
+export interface RegsInfo {
+  year: number | null;
+  units: string[];
+  partial: boolean;
+  unitText: string;
+  licenses: number | null;
+  guessed: boolean;
+}
 
 export interface PointOdds {
+  general?: { resident: boolean; nonresident: boolean; regulationsYear: number };
   year: number;
   projYear: number;
   pools: Partial<Record<CoPool, PoolOdds>>;
@@ -59,21 +84,42 @@ export function seasonLabel(code: string): string {
   if (!d) return code;
   const meth = METHOD[d.method] ?? d.method;
   switch (d.type) {
-    case 'O': return d.method === 'R' ? `${ORD[d.no] ?? d.no} Rifle` : meth;
-    case 'E': return `Early ${meth}`;
-    case 'L': return `Late ${meth}`;
-    case 'K': return `Youth ${meth}`;
-    case 'P': return `Private Land Only ${meth}${d.no > 1 ? ` (${d.no})` : ''}`;
-    case 'W': case 'J': return `Ranching for Wildlife ${meth}`;
-    default: return `${meth} (season ${d.type}${d.no})`;
+    case 'U':
+      return d.method === 'R' && d.no <= 4 ? `${ORD[d.no]} Rifle (OTC)` : d.method === 'A' ? 'Archery (OTC)' : 'OTC Rifle';
+    case 'O':
+      return d.method === 'R' ? `${ORD[d.no] ?? d.no} Rifle` : meth;
+    case 'E':
+      return `Early ${meth}`;
+    case 'L':
+      return `Late ${meth}`;
+    case 'K':
+      return `Youth ${meth}`;
+    case 'P':
+      return `Private Land Only ${meth}${d.no > 1 ? ` (${d.no})` : ''}`;
+    case 'W':
+    case 'J':
+      return `Ranching for Wildlife ${meth}`;
+    default:
+      return `${meth} (season ${d.type}${d.no})`;
   }
 }
 
 export function huntTitle(code: string): string {
   const d = decodeCode(code);
   if (!d) return code;
-  const animal = d.species === 'DEER' ? (d.sex === 'M' ? 'Buck Deer' : d.sex === 'F' ? 'Doe Deer' : 'Either-Sex Deer') : d.sex === 'M' ? 'Bull Elk' : d.sex === 'F' ? 'Cow Elk' : 'Either-Sex Elk';
-  return `Unit ${d.unit} · ${seasonLabel(code)} · ${animal}`;
+  const animal =
+    d.species === 'DEER'
+      ? d.sex === 'M'
+        ? 'Buck Deer'
+        : d.sex === 'F'
+          ? 'Doe Deer'
+          : 'Either-Sex Deer'
+      : d.sex === 'M'
+        ? 'Bull Elk'
+        : d.sex === 'F'
+          ? 'Cow Elk'
+          : 'Either-Sex Elk';
+  return `${d.unit === '0' ? 'General' : `Unit ${d.unit}`} · ${seasonLabel(code)} · ${animal}`;
 }
 
 export const isPrivateOnly = (code: string) => ['P', 'W', 'J'].includes(decodeCode(code)?.type ?? '');
@@ -83,12 +129,18 @@ export const poolFor = (nr: boolean, youth: boolean): CoPool => (youth ? (nr ? '
 
 /** Rebuilds a PoolYear (last draw) from stored levels, for exact odds. */
 export function lastDraw(po: PoolOdds, year: number): PoolYear {
-  const pre: Record<number, number> = {}, post: Record<number, number> = {};
+  const pre: Record<number, number> = {},
+    post: Record<number, number> = {};
   for (const [p, a, d] of po.levels) {
     pre[p] = a;
     if (d) post[p] = d;
   }
-  return { year, pre, post, cut: po.cut ? { text: po.cut.text, points: po.cut.points, choice: null, leftover: false, drawnAtLevel: null, appsAtLevel: null } : null };
+  return {
+    year,
+    pre,
+    post,
+    cut: po.cut ? { text: po.cut.text, points: po.cut.points, choice: null, leftover: false, drawnAtLevel: null, appsAtLevel: null } : null,
+  };
 }
 
 export interface MyOdds {
@@ -119,7 +171,7 @@ export function myOdds(po: PoolOdds | undefined, p: number, mode: 'proj' | 'last
 
 /** Odds at 0..maxPts points per pool, projected and last draw (beyond the end: the last value). */
 export type OddsTable = Record<'proj' | 'last', Partial<Record<CoPool, number[]>>>;
-export function oddsTable(po: PointOdds, maxPts = 30): OddsTable {
+export function oddsTable(po: PointOdds, maxPts = 40): OddsTable {
   const t: OddsTable = { proj: {}, last: {} };
   for (const pool of CO_POOLS) {
     const p = po.pools[pool];

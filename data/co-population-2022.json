@@ -1,0 +1,1105 @@
+{
+  "DEER": {
+    "year": 2022,
+    "species": "DEER",
+    "total": 391921,
+    "herds": [
+      {
+        "dau": "1",
+        "name": "Little Snake",
+        "units": [
+          "1",
+          "2",
+          "201"
+        ],
+        "estimate": 1089,
+        "ratio": 18
+      },
+      {
+        "dau": "2",
+        "name": "Bears Ears",
+        "units": [
+          "3",
+          "4",
+          "5",
+          "14",
+          "214",
+          "301",
+          "441"
+        ],
+        "estimate": 27703,
+        "ratio": 20
+      },
+      {
+        "dau": "3",
+        "name": "North Park",
+        "units": [
+          "6",
+          "16",
+          "17",
+          "161",
+          "171"
+        ],
+        "estimate": 5264,
+        "ratio": 37
+      },
+      {
+        "dau": "4",
+        "name": "Red Feather",
+        "units": [
+          "7",
+          "8",
+          "9",
+          "19",
+          "191"
+        ],
+        "estimate": 15173,
+        "ratio": 37
+      },
+      {
+        "dau": "5",
+        "name": "North Tablelands",
+        "units": [
+          "87",
+          "88",
+          "89",
+          "90",
+          "95"
+        ],
+        "estimate": 2557,
+        "ratio": 34
+      },
+      {
+        "dau": "6",
+        "name": "Rangely",
+        "units": [
+          "10"
+        ],
+        "estimate": 702,
+        "ratio": 33
+      },
+      {
+        "dau": "7",
+        "name": "White River",
+        "units": [
+          "11",
+          "12",
+          "13",
+          "22",
+          "23",
+          "24",
+          "131",
+          "211",
+          "231"
+        ],
+        "estimate": 21636,
+        "ratio": 21
+      },
+      {
+        "dau": "8",
+        "name": "State Bridge",
+        "units": [
+          "15",
+          "35",
+          "36",
+          "45"
+        ],
+        "estimate": 13665,
+        "ratio": 21
+      },
+      {
+        "dau": "9",
+        "name": "Middle Park",
+        "units": [
+          "18",
+          "27",
+          "28",
+          "37",
+          "181",
+          "371"
+        ],
+        "estimate": 9928,
+        "ratio": 28
+      },
+      {
+        "dau": "10",
+        "name": "Big Thompson",
+        "units": [
+          "20"
+        ],
+        "estimate": 7472,
+        "ratio": 40
+      },
+      {
+        "dau": "11",
+        "name": "Bookcliffs",
+        "units": [
+          "21",
+          "30"
+        ],
+        "estimate": 7960,
+        "ratio": 31
+      },
+      {
+        "dau": "12",
+        "name": "North Grand Mesa",
+        "units": [
+          "41",
+          "42",
+          "421"
+        ],
+        "estimate": 17184,
+        "ratio": 25
+      },
+      {
+        "dau": "13",
+        "name": "Maroon Bells",
+        "units": [
+          "43",
+          "47",
+          "471"
+        ],
+        "estimate": 4897,
+        "ratio": 22
+      },
+      {
+        "dau": "14",
+        "name": "Brush Creek",
+        "units": [
+          "44"
+        ],
+        "estimate": 2230,
+        "ratio": 38
+      },
+      {
+        "dau": "15",
+        "name": "Cottonwood Creek",
+        "units": [
+          "48",
+          "56",
+          "481",
+          "561"
+        ],
+        "estimate": 4099,
+        "ratio": 26
+      },
+      {
+        "dau": "16",
+        "name": "Cripple Creek",
+        "units": [
+          "49",
+          "57",
+          "58",
+          "581"
+        ],
+        "estimate": 13121,
+        "ratio": 31
+      },
+      {
+        "dau": "17",
+        "name": "Bailey",
+        "units": [
+          "39",
+          "46",
+          "51",
+          "391",
+          "461"
+        ],
+        "estimate": 8307,
+        "ratio": 37
+      },
+      {
+        "dau": "18",
+        "name": "Glade Park",
+        "units": [
+          "40"
+        ],
+        "estimate": 3802,
+        "ratio": 28
+      },
+      {
+        "dau": "19",
+        "name": "Uncompahgre",
+        "units": [
+          "61",
+          "62"
+        ],
+        "estimate": 10343,
+        "ratio": 33
+      },
+      {
+        "dau": "20",
+        "name": "North Fork Gunnison River",
+        "units": [
+          "53",
+          "63"
+        ],
+        "estimate": 8745,
+        "ratio": 41
+      },
+      {
+        "dau": "21",
+        "name": "West Elk",
+        "units": [
+          "54"
+        ],
+        "estimate": 5581,
+        "ratio": 47
+      },
+      {
+        "dau": "22",
+        "name": "Taylor River",
+        "units": [
+          "55",
+          "551"
+        ],
+        "estimate": 6539,
+        "ratio": 49
+      },
+      {
+        "dau": "23",
+        "name": "La Sal",
+        "units": [
+          "60"
+        ],
+        "estimate": 1533,
+        "ratio": 32
+      },
+      {
+        "dau": "24",
+        "name": "Groundhog",
+        "units": [
+          "70",
+          "71",
+          "711"
+        ],
+        "estimate": 17649,
+        "ratio": 24
+      },
+      {
+        "dau": "25",
+        "name": "Powderhorn",
+        "units": [
+          "66",
+          "67"
+        ],
+        "estimate": 6777,
+        "ratio": 45
+      },
+      {
+        "dau": "26",
+        "name": "Saguache",
+        "units": [
+          "68",
+          "681",
+          "682"
+        ],
+        "estimate": 5455,
+        "ratio": 29
+      },
+      {
+        "dau": "27",
+        "name": "Boulder",
+        "units": [
+          "29",
+          "38"
+        ],
+        "estimate": 7694,
+        "ratio": 55
+      },
+      {
+        "dau": "28",
+        "name": "Arkansas River",
+        "units": [
+          "122",
+          "125",
+          "126",
+          "127",
+          "130",
+          "132",
+          "137",
+          "138",
+          "139",
+          "146"
+        ],
+        "estimate": 6368,
+        "ratio": 25
+      },
+      {
+        "dau": "29",
+        "name": "Mesa Verde",
+        "units": [
+          "72",
+          "73"
+        ],
+        "estimate": 8721,
+        "ratio": 30
+      },
+      {
+        "dau": "30",
+        "name": "San Juan",
+        "units": [
+          "75",
+          "77",
+          "78",
+          "751",
+          "771"
+        ],
+        "estimate": 22737,
+        "ratio": 32
+      },
+      {
+        "dau": "31",
+        "name": "Costilla",
+        "units": [
+          "83"
+        ],
+        "estimate": 1754,
+        "ratio": 42
+      },
+      {
+        "dau": "32",
+        "name": "Trinidad",
+        "units": [
+          "85",
+          "140",
+          "851"
+        ],
+        "estimate": 9815,
+        "ratio": 38
+      },
+      {
+        "dau": "33",
+        "name": "Mesa de Maya",
+        "units": [
+          "143",
+          "144",
+          "145"
+        ],
+        "estimate": 2750,
+        "ratio": 50
+      },
+      {
+        "dau": "34",
+        "name": "Wet Mountain",
+        "units": [
+          "69",
+          "84",
+          "86",
+          "691",
+          "861"
+        ],
+        "estimate": 13667,
+        "ratio": 31
+      },
+      {
+        "dau": "35",
+        "name": "Lower Rio Grande",
+        "units": [
+          "80",
+          "81"
+        ],
+        "estimate": 6817,
+        "ratio": 30
+      },
+      {
+        "dau": "36",
+        "name": "Upper Rio Grande",
+        "units": [
+          "76",
+          "79",
+          "791"
+        ],
+        "estimate": 2625,
+        "ratio": 30
+      },
+      {
+        "dau": "37",
+        "name": "Sand Dunes",
+        "units": [
+          "82"
+        ],
+        "estimate": 2441,
+        "ratio": 29
+      },
+      {
+        "dau": "38",
+        "name": "South Park",
+        "units": [
+          "50",
+          "500",
+          "501"
+        ],
+        "estimate": 3445,
+        "ratio": 27
+      },
+      {
+        "dau": "40",
+        "name": "Cimarron",
+        "units": [
+          "64",
+          "65"
+        ],
+        "estimate": 5854,
+        "ratio": 22
+      },
+      {
+        "dau": "41",
+        "name": "Logan Mountain",
+        "units": [
+          "31",
+          "32"
+        ],
+        "estimate": 4172,
+        "ratio": 20
+      },
+      {
+        "dau": "42",
+        "name": "Rifle Creek",
+        "units": [
+          "33"
+        ],
+        "estimate": 6213,
+        "ratio": 27
+      },
+      {
+        "dau": "43",
+        "name": "Sweetwater Creek",
+        "units": [
+          "25",
+          "26",
+          "34"
+        ],
+        "estimate": 5203,
+        "ratio": 23
+      },
+      {
+        "dau": "44",
+        "name": "South Platte River",
+        "units": [
+          "91",
+          "92",
+          "94",
+          "96",
+          "951"
+        ],
+        "estimate": 3689,
+        "ratio": 38
+      },
+      {
+        "dau": "45",
+        "name": "Las Animas",
+        "units": [
+          "128",
+          "129",
+          "133",
+          "134",
+          "135",
+          "136",
+          "141",
+          "142",
+          "147"
+        ],
+        "estimate": 3291,
+        "ratio": 27
+      },
+      {
+        "dau": "46",
+        "name": "Big Sandy",
+        "units": [
+          "107",
+          "112",
+          "113",
+          "114",
+          "115",
+          "120",
+          "121"
+        ],
+        "estimate": 4321,
+        "ratio": 37
+      },
+      {
+        "dau": "47",
+        "name": "South Republican",
+        "units": [
+          "103",
+          "109",
+          "116",
+          "117"
+        ],
+        "estimate": 3319,
+        "ratio": 35
+      },
+      {
+        "dau": "48",
+        "name": "Chico Basin",
+        "units": [
+          "110",
+          "111",
+          "118",
+          "119",
+          "123",
+          "124"
+        ],
+        "estimate": 3367,
+        "ratio": 11
+      },
+      {
+        "dau": "49",
+        "name": "Bijou Creek",
+        "units": [
+          "104",
+          "105",
+          "106"
+        ],
+        "estimate": 6607,
+        "ratio": 47
+      },
+      {
+        "dau": "50",
+        "name": "Rampart",
+        "units": [
+          "59",
+          "511",
+          "512",
+          "591"
+        ],
+        "estimate": 3771,
+        "ratio": 31
+      },
+      {
+        "dau": "51",
+        "name": "South Grand Mesa",
+        "units": [
+          "52",
+          "411",
+          "521"
+        ],
+        "estimate": 9151,
+        "ratio": 36
+      },
+      {
+        "dau": "52",
+        "name": "Hermosa",
+        "units": [
+          "74",
+          "741"
+        ],
+        "estimate": 4576,
+        "ratio": 24
+      },
+      {
+        "dau": "53",
+        "name": "Basalt",
+        "units": [
+          "444"
+        ],
+        "estimate": 4112,
+        "ratio": 33
+      },
+      {
+        "dau": "54",
+        "name": "South Tablelands",
+        "units": [
+          "93",
+          "97",
+          "98",
+          "99",
+          "100"
+        ],
+        "estimate": 3802,
+        "ratio": 35
+      },
+      {
+        "dau": "55",
+        "name": "Arickaree",
+        "units": [
+          "101",
+          "102"
+        ],
+        "estimate": 2228,
+        "ratio": 35
+      }
+    ],
+    "method": "Visual transcription of the original CPW 2022 PDF; corrupt Unicode text layer. Deer rows reconcile exactly; elk rows sum to 303185 while CPW prints 303190 (5-animal difference retained, never adjusted)."
+  },
+  "ELK": {
+    "year": 2022,
+    "species": "ELK",
+    "total": 303190,
+    "herds": [
+      {
+        "dau": "1",
+        "name": "Cold Springs",
+        "units": [
+          "2",
+          "201"
+        ],
+        "estimate": 1500,
+        "ratio": 46
+      },
+      {
+        "dau": "2",
+        "name": "Bears Ears",
+        "units": [
+          "3",
+          "301",
+          "4",
+          "441",
+          "5",
+          "14",
+          "214"
+        ],
+        "estimate": 15359,
+        "ratio": 23
+      },
+      {
+        "dau": "3",
+        "name": "North Park",
+        "units": [
+          "6",
+          "16",
+          "161",
+          "17",
+          "171"
+        ],
+        "estimate": 7342,
+        "ratio": 21
+      },
+      {
+        "dau": "4",
+        "name": "Poudre River",
+        "units": [
+          "7",
+          "8",
+          "9",
+          "19",
+          "191"
+        ],
+        "estimate": 5915,
+        "ratio": 22
+      },
+      {
+        "dau": "5",
+        "name": "West Elk Mountains",
+        "units": [
+          "53",
+          "54",
+          "63"
+        ],
+        "estimate": 8773,
+        "ratio": 17
+      },
+      {
+        "dau": "6",
+        "name": "White River",
+        "units": [
+          "11",
+          "12",
+          "13",
+          "23",
+          "24",
+          "25",
+          "26",
+          "33",
+          "34",
+          "131",
+          "211",
+          "231"
+        ],
+        "estimate": 38891,
+        "ratio": 22
+      },
+      {
+        "dau": "7",
+        "name": "Gore Pass",
+        "units": [
+          "15",
+          "27"
+        ],
+        "estimate": 4794,
+        "ratio": 38
+      },
+      {
+        "dau": "8",
+        "name": "Troublesome Creek",
+        "units": [
+          "18",
+          "181"
+        ],
+        "estimate": 4041,
+        "ratio": 36
+      },
+      {
+        "dau": "9",
+        "name": "St. Vrain",
+        "units": [
+          "20"
+        ],
+        "estimate": 2249,
+        "ratio": 47
+      },
+      {
+        "dau": "10",
+        "name": "Yellow Creek",
+        "units": [
+          "21",
+          "22",
+          "30",
+          "31",
+          "32"
+        ],
+        "estimate": 15574,
+        "ratio": 28
+      },
+      {
+        "dau": "11",
+        "name": "Sand Dunes",
+        "units": [
+          "82"
+        ],
+        "estimate": 5940,
+        "ratio": 31
+      },
+      {
+        "dau": "12",
+        "name": "Piney River",
+        "units": [
+          "35",
+          "36"
+        ],
+        "estimate": 3780,
+        "ratio": 24
+      },
+      {
+        "dau": "13",
+        "name": "Williams Fork River",
+        "units": [
+          "28",
+          "37",
+          "371"
+        ],
+        "estimate": 3609,
+        "ratio": 39
+      },
+      {
+        "dau": "14",
+        "name": "Grand Mesa",
+        "units": [
+          "41",
+          "411",
+          "42",
+          "421",
+          "52",
+          "521"
+        ],
+        "estimate": 15683,
+        "ratio": 25
+      },
+      {
+        "dau": "15",
+        "name": "Avalanche Creek",
+        "units": [
+          "43",
+          "471"
+        ],
+        "estimate": 4199,
+        "ratio": 23
+      },
+      {
+        "dau": "16",
+        "name": "Frying Pan River",
+        "units": [
+          "44",
+          "444",
+          "45",
+          "47"
+        ],
+        "estimate": 8511,
+        "ratio": 24
+      },
+      {
+        "dau": "17",
+        "name": "Collegiate Range",
+        "units": [
+          "48",
+          "481",
+          "56",
+          "561"
+        ],
+        "estimate": 3240,
+        "ratio": 26
+      },
+      {
+        "dau": "18",
+        "name": "Kenosha Pass",
+        "units": [
+          "50",
+          "500",
+          "501"
+        ],
+        "estimate": 2164,
+        "ratio": 53
+      },
+      {
+        "dau": "19",
+        "name": "Glade Park",
+        "units": [
+          "40"
+        ],
+        "estimate": 4835,
+        "ratio": 25
+      },
+      {
+        "dau": "20",
+        "name": "Uncompahgre",
+        "units": [
+          "61",
+          "62"
+        ],
+        "estimate": 13732,
+        "ratio": 23
+      },
+      {
+        "dau": "21",
+        "name": "Rangely / Blue Mountain",
+        "units": [
+          "10"
+        ],
+        "estimate": 1200,
+        "ratio": 59
+      },
+      {
+        "dau": "22",
+        "name": "Buffalo Peaks",
+        "units": [
+          "49",
+          "57",
+          "58"
+        ],
+        "estimate": 3666,
+        "ratio": 28
+      },
+      {
+        "dau": "23",
+        "name": "Eleven Mile",
+        "units": [
+          "511",
+          "512",
+          "581",
+          "59",
+          "591"
+        ],
+        "estimate": 4833,
+        "ratio": 27
+      },
+      {
+        "dau": "24",
+        "name": "Disappointment Creek",
+        "units": [
+          "70",
+          "71",
+          "711",
+          "72",
+          "73"
+        ],
+        "estimate": 19898,
+        "ratio": 16
+      },
+      {
+        "dau": "25",
+        "name": "Lake Fork",
+        "units": [
+          "66",
+          "67"
+        ],
+        "estimate": 6380,
+        "ratio": 19
+      },
+      {
+        "dau": "26",
+        "name": "Saguache",
+        "units": [
+          "68",
+          "681"
+        ],
+        "estimate": 4227,
+        "ratio": 16
+      },
+      {
+        "dau": "27",
+        "name": "Sangre de Cristo",
+        "units": [
+          "86",
+          "691",
+          "861"
+        ],
+        "estimate": 2789,
+        "ratio": 16
+      },
+      {
+        "dau": "28",
+        "name": "Grape Creek",
+        "units": [
+          "69",
+          "84"
+        ],
+        "estimate": 2752,
+        "ratio": 38
+      },
+      {
+        "dau": "30",
+        "name": "Hermosa",
+        "units": [
+          "74",
+          "741"
+        ],
+        "estimate": 6323,
+        "ratio": 17
+      },
+      {
+        "dau": "31",
+        "name": "San Juan",
+        "units": [
+          "75",
+          "751",
+          "77",
+          "771",
+          "78"
+        ],
+        "estimate": 24253,
+        "ratio": 11
+      },
+      {
+        "dau": "32",
+        "name": "Lower Rio Grande",
+        "units": [
+          "80",
+          "81"
+        ],
+        "estimate": 13502,
+        "ratio": 20
+      },
+      {
+        "dau": "33",
+        "name": "Trinchera",
+        "units": [
+          "83",
+          "85",
+          "851",
+          "140"
+        ],
+        "estimate": 13051,
+        "ratio": 35
+      },
+      {
+        "dau": "34",
+        "name": "Upper Rio Grande",
+        "units": [
+          "76",
+          "79"
+        ],
+        "estimate": 7418,
+        "ratio": 31
+      },
+      {
+        "dau": "35",
+        "name": "Cimarron",
+        "units": [
+          "64",
+          "65"
+        ],
+        "estimate": 5782,
+        "ratio": 29
+      },
+      {
+        "dau": "38",
+        "name": "Clear Creek",
+        "units": [
+          "29",
+          "38"
+        ],
+        "estimate": 1405,
+        "ratio": 27
+      },
+      {
+        "dau": "39",
+        "name": "Mt Evans",
+        "units": [
+          "39",
+          "46",
+          "391",
+          "461"
+        ],
+        "estimate": 2610,
+        "ratio": 38
+      },
+      {
+        "dau": "40",
+        "name": "Paradox",
+        "units": [
+          "60"
+        ],
+        "estimate": 1049,
+        "ratio": 26
+      },
+      {
+        "dau": "43",
+        "name": "East Gunnison Basin",
+        "units": [
+          "55",
+          "551"
+        ],
+        "estimate": 6937,
+        "ratio": 25
+      },
+      {
+        "dau": "47",
+        "name": "Green River",
+        "units": [
+          "1"
+        ],
+        "estimate": 202,
+        "ratio": 33
+      },
+      {
+        "dau": "51",
+        "name": "Castle Rock",
+        "units": [
+          "51",
+          "104",
+          "105",
+          "106",
+          "110",
+          "111"
+        ],
+        "estimate": 3332,
+        "ratio": 42
+      },
+      {
+        "dau": "53",
+        "name": "Apishipa",
+        "units": [
+          "133",
+          "134",
+          "135",
+          "141",
+          "142"
+        ],
+        "estimate": 1295,
+        "ratio": 23
+      },
+      {
+        "dau": "55",
+        "name": "Northern San Luis Valley Floor",
+        "units": [
+          "682",
+          "791"
+        ],
+        "estimate": 150,
+        "ratio": 14
+      }
+    ],
+    "method": "Visual transcription of the original CPW 2022 PDF; corrupt Unicode text layer. Deer rows reconcile exactly; elk rows sum to 303185 while CPW prints 303190 (5-animal difference retained, never adjusted)."
+  }
+}

@@ -107,7 +107,7 @@ export function parseCutoffText(text: string): Pick<Cutoff, 'points' | 'choice' 
 function headerInfo(pages: Item[][]) {
   for (const items of pages.slice(0, 3)) {
     const t = items.map((i) => i.s).join(' ');
-    const m = /(\d{4}) Primary (\w+) Post Draw Report/i.exec(t);
+    const m = /(\d{4}) (?:Primary|Secondary) (\w+) Post Draw Report/i.exec(t);
     if (m) return { year: Number(m[1]), species: m[2].toUpperCase() };
   }
   return null;
@@ -251,7 +251,7 @@ function check(h: RecapHunt) {
 /** Every hunt in one Draw Recap report. `pages`: text items per page, y from the top. */
 export function parseRecap(pages: Item[][]): { year: number; species: string; hunts: RecapHunt[] } {
   const info = headerInfo(pages);
-  if (!info) throw new Error('Not a CPW Draw Recap report (no "<year> Primary <SPECIES> Post Draw Report" header)');
+  if (!info) throw new Error('Not a CPW Draw Recap report (no "<year> Primary/Secondary <SPECIES> Post Draw Report" header)');
   const hunts: RecapHunt[] = [];
   let cur: RecapHunt | null = null;
   pages.forEach((items, idx) => {
