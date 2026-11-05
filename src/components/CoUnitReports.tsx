@@ -3,6 +3,7 @@ import { CoReportTabs } from './CoReportTabs';
 import { CoHerds } from './CoHerds';
 import { herdSeries } from '@/lib/coHerds';
 import { fmtNeed } from '@/lib/coDisplay';
+import { secondaryDrawn } from '@/lib/coReportDisplay';
 import { REPORT_CATALOG } from '@/sync/co/manifest';
 import type { DrawnOutRow, SalesRow } from '@/sync/co/supplemental';
 import type { RecapHunt } from '@/sync/co/recap';
@@ -189,8 +190,8 @@ export async function CoUnitReports({ units, hunts }: { units: string[]; hunts: 
                                           <tr key={r.code}>
                                             <td>{r.code}{r.sharedCodes ? ` · shared pool: ${r.sharedCodes.join(', ')}` : ''}</td>
                                             <td>{r.sharedCodes ? `${r.quota} shared` : r.quota}</td>
-                                            <td>{r.drawnTotal}</td>
-                                            <td>{r.balance}</td>
+                                            <td>{secondaryDrawn(r) ?? '—'}</td>
+                                            <td>{r.balance ?? '—'}</td>
                                             {(['res', 'nr', 'yres', 'ynr'] as const).map((p) => (
                                               <td key={p}>
                                                 {Object.values(r.pre[p]).reduce((a, b) => a + b, 0)} /{' '}

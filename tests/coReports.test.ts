@@ -1,5 +1,12 @@
 import { test } from 'node:test';
+import { secondaryDrawn } from '../src/lib/coReportDisplay';
 import { readFileSync } from 'node:fs';
+test('secondary total includes later choices and leaves incomplete extraction unknown', () => {
+  const postTotals = [[21,12,1,0,0,0], [2,1,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]];
+  assert.equal(secondaryDrawn({ drawnTotal: null, postTotals }), 37);
+  assert.equal(secondaryDrawn({ drawnTotal: null, postTotals: postTotals.slice(0,1) }), null);
+  assert.equal(secondaryDrawn({ drawnTotal: 40, postTotals }), 40);
+});
 import assert from 'node:assert/strict';
 import { unitsIn, datesFor } from '../src/sync/co/regs';
 import { tableKind, kindForCode, codeFromUnits, type UnitTables } from '../src/sync/co/harvest';
