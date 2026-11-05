@@ -25,7 +25,7 @@ import {
 } from './manifest';
 import { parsePopulation, type HerdEstimate } from './population';
 import { herdSeries } from '../../lib/coHerds';
-import { parseHarvestByCode, parseHarvestByUnit, harvestYear, codeFromUnits, type CodeHarvest, type UnitTables } from './harvest';
+import { parseHarvestByCode, parseHarvestByUnit, harvestYear, codeFromUnits, validHarvestCounts, type CodeHarvest, type UnitTables } from './harvest';
 import { parseRegs, datesFor, type RegCode } from './regs';
 import {
   effective,
@@ -208,9 +208,9 @@ export async function syncCoReports(opts: StepOptions): Promise<StepResult> {
     if (!opts.full && have.has(idCode)) continue;
     if (!opts.full && have.has(idUnit)) {
       const previous = await db.stateReport.findUnique({ where: { id: idUnit } });
-      if ((previous?.data as { parserVersion?: number })?.parserVersion === 2) continue;
+      if ((previous?.data as { parserVersion?: number })?.parserVersion === 3) continue;
       if (previous) {
-        const archive = idUnit + '|parser-v1';
+        const archive = idUnit + '|parser-v' + ((previous.data as { parserVersion?: number })?.parserVersion ?? 1);
         await db.stateReport.upsert({
           where: { id: archive },
           create: { ...previous, id: archive, kind: 'harvest-unit-archive', data: previous.data as Prisma.InputJsonValue },
@@ -243,7 +243,7 @@ export async function syncCoReports(opts: StepOptions): Promise<StepResult> {
         details.push(`harvest ${h.species} ${h.year}: ${byCode.length} hunt codes`);
         console.log(`[co-report] harvest-code ${h.species} ${h.year}: ${byCode.length}`);
       } else {
-        const t = { ...parseHarvestByUnit(pages), parserVersion: 2 };
+        const t = { ...parseHarvestByUnit(pages), parserVersion: 3 };
         const n =
           Object.values(t.totals).reduce((a, v) => a + (v?.length ?? 0), 0) +
           Object.values(t.split).reduce((a, v) => a + (v?.length ?? 0), 0);
@@ -383,6 +383,7 @@ function harvestHistory(
   for (const y of years) {
     const c = byCode.get(y)?.get(code);
     if (c) {
+      if (!validHarvestCounts(c.harvest, c.hunters)) continue;
       out.push({ year: y, hunters: c.hunters, harvest: c.harvest, days: c.days, basis: 'code', few: c.few });
       continue;
     }
@@ -730,6 +731,11 @@ export async function buildCoSummaries(): Promise<StepResult> {
   if (clash.length)
     return { rows: 0, status: 'ERROR', details: [`Hunt id collision with another state: ${clash.map((c) => c.idfgId).join(', ')}`] };
 
+  for (const row of out) {
+    for (const rate of [row.success5, row.successLast])
+      if (rate !== null && rate !== undefined && (!Number.isFinite(rate) || rate < 0 || rate > 1))
+        throw Error(`Invalid Colorado harvest rate for ${row.id}; existing summaries retained`);
+  }
   await db.$transaction(
     async (tx) => {
       for (const h of hunts) await tx.hunt.upsert({ where: { idfgId: h.idfgId }, create: h, update: h });

@@ -1,6 +1,15 @@
 import { test } from 'node:test';
 import { secondaryDrawn } from '../src/lib/coReportDisplay';
+import { parseHarvestByUnit } from '../src/sync/co/harvest';
 import { readFileSync } from 'node:fs';
+test('2023 deer fourth rifle ignores faint spreadsheet row indices outside the Unit column', () => {
+  const pages = JSON.parse(readFileSync('tests/fixtures/co-deer-harvest-2023-fourth.json', 'utf8'));
+  const t = parseHarvestByUnit(pages);
+  assert.deepEqual(t.split.rifle4?.find(r => r.unit === '3'), { unit: '3', mHarvest: 17, mHunters: 29, fHarvest: 0, fHunters: 0 });
+  assert.deepEqual(t.split.rifle4?.find(r => r.unit === '201'), { unit: '201', mHarvest: 3, mHunters: 3, fHarvest: 0, fHunters: 0 });
+  assert.deepEqual(codeFromUnits('DM003O4R', ['3','301'], t), { harvest: 21, hunters: 41, days: null, basis: 'split' });
+  assert.equal(codeFromUnits('DM003O4R', ['3'], { totals: {}, split: { rifle4: [{ unit: '3', mHarvest: 201, mHunters: 3 }] } }), null);
+});
 test('secondary total includes later choices and leaves incomplete extraction unknown', () => {
   const postTotals = [[21,12,1,0,0,0], [2,1,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]];
   assert.equal(secondaryDrawn({ drawnTotal: null, postTotals }), 37);
