@@ -1,8 +1,14 @@
-# Idaho scores-only rollout (approval required)
+# Idaho scores-only rollout
 
-This branch is a review proposal. No production writes, schema commands, agency requests, sync jobs, deployments or Railway configuration changes were performed. GitHub and Railway connections were verified read-only; the local project is linked to Keveritt43/DrawOdds. The production web service tracks main, not this feature branch. Railway OAuth withholds database variable values, so an exact database dry run was not possible in this session.
+## Completed rollout — 2026-11-05
 
-## Current production hazards
+The owner approved rollout. PR #1 was merged and deployed successfully. A reviewed plan read 1,303 Idaho summaries and updated 1,161 rows, changing only the seven score columns. The apply transaction verified every non-score field remained identical, and a stale-plan retry was rejected. Hunt 2-1-2-9 now shows Quality 48 and Opportunity 48 at its observed 97/517 harvest (18.76%). Local exact before/plan/apply artifacts are retained under ignored out/.
+
+Live automatic synchronization is disabled: the sync cron is cleared, its start command is a no-op, and web startup sync is disabled. Web starts Next.js directly with no schema push or pre-deploy schema commands. No Idaho agency synchronization or destructive schema operation was run. The application and scores require coordinated review for any future rollback.
+
+The procedure below was prepared before approval. References to the former live hazards and unavailable initial credentials describe that earlier inspection, not the current configuration.
+
+## Historical production hazards (resolved)
 
 On 2026-11-05 Railway reported the sync service cron as `0 10 * * *` (daily at 10:00 UTC), with start command `npx prisma db push --skip-generate && npm run sync`, tracking an older pinned commit. Web defines SYNC_ON_START; its value is unavailable through OAuth. Do not assume the live service is disabled because this branch is safe. No live settings were changed, per the owner's approval requirement.
 
@@ -28,4 +34,4 @@ The reviewed plan preserves all previous score fields. If rollback is approved, 
 
 ## Validation
 
-`npm test` exercises the 2129 regression, all controlled-elk rates below 20%, monotonic success/access/density, bounded trophy influence, missing/invalid data, sample floors, absolute Opportunity, and stale/tampered plan rejection. `npm run scores:compare` reproduces the snapshot comparison offline. The database command still needs transaction-level validation on a PostgreSQL copy before production approval; this session had no database credentials.
+`npm test` exercises the 2129 regression, all controlled-elk rates below 20%, monotonic success/access/density, bounded trophy influence, missing/invalid data, sample floors, absolute Opportunity, and stale/tampered plan rejection. `npm run scores:compare` reproduces the snapshot comparison offline. The initial review had no database credentials. The approved maintenance run subsequently validated exact inputs, serializable score-only updates, non-score field equality and stale-plan rejection against production.

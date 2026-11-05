@@ -1,3 +1,4 @@
+import { matchesCoSeason } from '@/lib/coHunt';
 import Link from 'next/link';
 import type { Prisma } from '@prisma/client';
 import { db } from '@/lib/db';
@@ -67,11 +68,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
       return { r, d, odds, ch };
     })
     .filter(({ d }) => !!d && (!methods.length || methods.includes(d.method)) && (!sexes.length || sexes.includes(d.sex)))
-    .filter(
-      ({ d }) =>
-        !seasons.length ||
-        seasons.some((s) => (/^\d$/.test(s) ? d!.type === 'O' && d!.method === 'R' && String(d!.no) === s : d!.type === s)),
-    )
+    .filter(({ r }) => matchesCoSeason(r.tagCode ?? '', seasons))
     .filter(({ ch }) => !chances.length || chances.includes(ch));
   // a 100% from 3 hunters shouldn't top the list: pull small samples toward the middle (30 hunters' worth at 50%)
   const succKey = (r: (typeof rows)[number]) =>

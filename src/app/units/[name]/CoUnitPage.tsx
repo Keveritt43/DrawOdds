@@ -46,8 +46,8 @@ export async function CoUnitPage({ name }: { name: string }) {
         {herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}
       </p>
       <CoUnitReports units={[name]} hunts={hunts} />
-      <h2>Limited Licenses</h2>
-      {!hunts.length && <p className="muted">No deer or elk licenses include this unit in the latest draw.</p>}
+      <h2>Hunt Licenses</h2>
+      {!hunts.length && <p className="muted">No deer or elk licenses are loaded for this unit.</p>}
       {hunts.length > 0 && (
         <div className="htable-wrap">
           <table>
@@ -77,7 +77,7 @@ export async function CoUnitPage({ name }: { name: string }) {
                       {d?.type === 'K' ? <span className="pill">Youth</span> : null}
                     </td>
                     <td>{h.tagCode}</td>
-                    <td className="num">{h.tags ?? '–'}</td>
+                    <td className="num">{h.tags ?? (h.type === 'GENERAL' ? 'General / OTC' : 'Shared / see details')}</td>
                     <td className="num">{h.success5 === null ? '–' : `${Math.round(h.success5 * 100)}%`}</td>
                     <td>{fmtNeed(h.ptsRes, h.ptsResPct)}</td>
                     <td>{fmtNeed(h.ptsNr, h.ptsNrPct)}</td>

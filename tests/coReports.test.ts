@@ -70,3 +70,12 @@ test('historical elk population headers tolerate CPW UNITES spelling', () => {
 test('harvest title can split its year between PDF text items', () => {
   assert.equal(harvestYear([[{ s: '20', x: 0, y: 0 },{ s: '20', x: 20, y: 0 },{ s: 'Colorado Elk Harvest Estimates', x: 40, y: 0 }]]), 2020);
 });
+
+import { matchesCoSeason } from '../src/lib/coHunt';
+test('numbered Colorado rifle filters include limited and OTC licenses for the same season', () => {
+  assert.equal(matchesCoSeason('DM070O2R', ['2']), true);
+  assert.equal(matchesCoSeason('EM000U2R', ['2']), true);
+  assert.equal(matchesCoSeason('EM000U3R', ['2']), false);
+  assert.equal(matchesCoSeason('EE000U1A', ['1']), false);
+  assert.equal(matchesCoSeason('EM070L1R', ['L']), true);
+});

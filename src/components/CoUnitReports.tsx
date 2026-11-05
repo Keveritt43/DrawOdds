@@ -57,7 +57,7 @@ export async function CoUnitReports({ units, hunts }: { units: string[]; hunts: 
                                   <a href={`/hunts/${h.slug}`}>{h.tagCode}</a>
                                 </td>
                                 <td>{h.oddsLastYear}</td>
-                                <td>{h.tags ?? 'Unlimited'}</td>
+                                <td>{h.tags ?? 'Shared / see details'}</td>
                                 <td>{fmtNeed(h.ptsRes, h.ptsResPct)}</td>
                                 <td>{fmtNeed(h.ptsNr, h.ptsNrPct)}</td>
                               </tr>
