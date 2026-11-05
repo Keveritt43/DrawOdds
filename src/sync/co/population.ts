@@ -18,7 +18,7 @@ export function parsePopulation(pages: Item[][]): { year: number | null; species
     if (ym) year = Number(ym[1]);
     const sm = /\b(DEER|ELK|PRONGHORN|MOOSE)\b/i.exec(all);
     if (sm && !species) species = sm[1].toUpperCase();
-    const unitsHead = items.find((i) => /GAME MANAGEMENT UNITS/i.test(i.s));
+    const unitsHead = items.find((i) => /GAME MANAGEMENT UNIT(?:S|ES)/i.test(i.s));
     const estHead = items.find((i) => /^Estimate$/i.test(i.s.trim()));
     if (!unitsHead || !estHead) continue;
     for (const r of rows) {

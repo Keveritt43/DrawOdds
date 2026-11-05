@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { getPoints } from '@/lib/points';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
+import { CoUnitReports } from '@/components/CoUnitReports';
 import { CoHerds } from '@/components/CoHerds';
 import { herdSeries } from '@/lib/coHerds';
 import { int } from '@/lib/format';
@@ -24,25 +25,43 @@ export async function CoUnitPage({ name }: { name: string }) {
     db.huntSummary.findMany({ where: { state: 'CO', units: { has: name } }, orderBy: [{ species: 'asc' }, { tagCode: 'asc' }] }),
   ]);
   const nr = pts.res === 'NONRESIDENT';
-  const pops = (await db.stateReport.findMany({ where: { state: 'CO', kind: 'population', species: 'DEER' }, select: { year: true, data: true } }))
-    .map((r) => ({ year: r.year, herds: (r.data as unknown as { herds: Parameters<typeof herdSeries>[0][number]['herds'] }).herds }));
-  const herdPop = herdSeries(pops, [name]);
   const pool = poolFor(nr, pts.youth);
   const herds = (unit.herds ?? {}) as Record<string, string | null>;
   const key = unitKey('CO', name);
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
-      <p className="small"><Link href={`/hunts?unit=${name}`}>Find hunts in this unit →</Link></p>
-      <h1 className="star-head">Unit {name} <span className="muted" style={{ fontSize: '.5em' }}>Colorado</span> <Star kind="unit" id={key} saved={fav.units.has(key)} signedIn={fav.signedIn} label /></h1>
-      <p className="muted">{unit.acres ? `${int(unit.acres)} acres` : ''}{herds.DEER ? ` · Deer herd ${herds.DEER}` : ''}{herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}</p>
-      <h2>Deer Population</h2>
-      <CoHerds herds={herdPop} highlight={[name]} />
+      <p className="small">
+        <Link href={`/hunts?unit=${name}`}>Find hunts in this unit →</Link>
+      </p>
+      <h1 className="star-head">
+        Unit {name}{' '}
+        <span className="muted" style={{ fontSize: '.5em' }}>
+          Colorado
+        </span>{' '}
+        <Star kind="unit" id={key} saved={fav.units.has(key)} signedIn={fav.signedIn} label />
+      </h1>
+      <p className="muted">
+        {unit.acres ? `${int(unit.acres)} acres` : ''}
+        {herds.DEER ? ` · Deer herd ${herds.DEER}` : ''}
+        {herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}
+      </p>
+      <CoUnitReports units={[name]} hunts={hunts} />
       <h2>Limited Licenses</h2>
-      {!hunts.length && <p className="muted">No limited deer licenses include this unit in the latest draw.</p>}
+      {!hunts.length && <p className="muted">No deer or elk licenses include this unit in the latest draw.</p>}
       {hunts.length > 0 && (
         <div className="htable-wrap">
           <table>
-            <thead><tr><th>Hunt</th><th>Code</th><th className="num">Licenses</th><th className="num">Success</th><th>Res needs</th><th>Nonres needs</th><th>Your odds ({pts[hunts[0].species === 'ELK' ? 'ELK' : 'DEER']} pts)</th></tr></thead>
+            <thead>
+              <tr>
+                <th>Hunt</th>
+                <th>Code</th>
+                <th className="num">Licenses</th>
+                <th className="num">Success</th>
+                <th>Res needs</th>
+                <th>Nonres needs</th>
+                <th>Your odds (species points)</th>
+              </tr>
+            </thead>
             <tbody>
               {hunts.map((h) => {
                 const p = pts[h.species === 'ELK' ? 'ELK' : 'DEER'];
@@ -51,13 +70,20 @@ export async function CoUnitPage({ name }: { name: string }) {
                 const d = decodeCode(h.tagCode ?? '');
                 return (
                   <tr key={h.id}>
-                    <td><Link href={`/hunts/${h.slug}`}>{h.unit === name ? h.name.replace(/^Unit \d+ · /, '') : h.name}</Link>{h.units.length > 1 ? <span className="small muted"> (units {h.units.join(', ')})</span> : null}{h.privateOnly ? <span className="pill">Private land</span> : null}{d?.type === 'K' ? <span className="pill">Youth</span> : null}</td>
+                    <td>
+                      <Link href={`/hunts/${h.slug}`}>{h.unit === name ? h.name.replace(/^Unit \d+ · /, '') : h.name}</Link>
+                      {h.units.length > 1 ? <span className="small muted"> (units {h.units.join(', ')})</span> : null}
+                      {h.privateOnly ? <span className="pill">Private land</span> : null}
+                      {d?.type === 'K' ? <span className="pill">Youth</span> : null}
+                    </td>
                     <td>{h.tagCode}</td>
                     <td className="num">{h.tags ?? '–'}</td>
                     <td className="num">{h.success5 === null ? '–' : `${Math.round(h.success5 * 100)}%`}</td>
                     <td>{fmtNeed(h.ptsRes, h.ptsResPct)}</td>
                     <td>{fmtNeed(h.ptsNr, h.ptsNrPct)}</td>
-                    <td>{pct(o)} <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span></td>
+                    <td>
+                      {pct(o)} <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span>
+                    </td>
                   </tr>
                 );
               })}
@@ -65,7 +91,11 @@ export async function CoUnitPage({ name }: { name: string }) {
           </table>
         </div>
       )}
-      <p className="small muted">Odds are projected for the next draw, first choice, {nr ? 'nonresident' : 'resident'}{pts.youth ? ' youth' : ''}. Includes every hunt code whose units (CPW Chapter W-2) take in this one. Success: up to 5 seasons of CPW harvest estimates.</p>
+      <p className="small muted">
+        Odds are projected for the next draw, first choice, {nr ? 'nonresident' : 'resident'}
+        {pts.youth ? ' youth' : ''}. Includes every hunt code whose units (CPW Chapter W-2) take in this one. Success: up to 5 seasons of
+        CPW harvest estimates.
+      </p>
     </main>
   );
 }

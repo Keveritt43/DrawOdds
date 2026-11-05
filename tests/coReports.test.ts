@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { unitsIn, datesFor } from '../src/sync/co/regs';
 import { tableKind, kindForCode, codeFromUnits, type UnitTables } from '../src/sync/co/harvest';
@@ -40,4 +41,32 @@ test('herd series: the herds covering a unit, every year by herd number', () => 
   assert.equal(s[0].name, 'Groundhog');
   assert.deepEqual(s[0].series.map((x) => x.year), [2019, 2021, 2025]);
   assert.equal(herdSeries(reports, ['70', '53']).length, 2);
+});
+
+import { parseRecap } from '../src/sync/co/recap';
+import { parsePopulation } from '../src/sync/co/population';
+import { harvestYear } from '../src/sync/co/harvest';
+test('shared elk draw pools retain every code without inventing individual applicant counts or quotas', () => {
+  const pages = JSON.parse(readFileSync('tests/fixtures/co-elk-recap-multiple-codes.json', 'utf8'));
+  const parsed = parseRecap(pages);
+  assert.deepEqual(parsed.hunts.map(h => h.code), ['EF003O2R', 'EF003O3R']);
+  for (const h of parsed.hunts) {
+    assert.deepEqual(h.sharedCodes, ['EF003O2R', 'EF003O3R']);
+    assert.equal(h.quota, 800);
+    assert.equal(h.pre.res[0], 289);
+    assert.equal(h.post.res[0], 289);
+    assert.deepEqual(h.problems, []);
+  }
+  assert.deepEqual(parsed.hunts.map(h => h.codeDrawn), [279, 521]);
+});
+test('historical elk population headers tolerate CPW UNITES spelling', () => {
+  const pages = JSON.parse(readFileSync('tests/fixtures/co-elk-population-2024.json', 'utf8'));
+  const p = parsePopulation(pages);
+  assert.equal(p.year, 2024);
+  assert.equal(p.species, 'ELK');
+  assert.equal(p.herds.length, 42);
+  assert.deepEqual(p.herds[0], { dau: '1', name: 'Cold Springs', units: ['2', '201'], estimate: 1600, ratio: 95 });
+});
+test('harvest title can split its year between PDF text items', () => {
+  assert.equal(harvestYear([[{ s: '20', x: 0, y: 0 },{ s: '20', x: 20, y: 0 },{ s: 'Colorado Elk Harvest Estimates', x: 40, y: 0 }]]), 2020);
 });

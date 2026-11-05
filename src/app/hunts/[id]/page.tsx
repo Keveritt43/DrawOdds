@@ -1,3 +1,4 @@
+import { OverlappingElk } from '@/components/OverlappingElk';
 import { AddToPlan } from '@/components/Planner';
 import { huntHref } from '@/lib/huntSlug';
 import { CompareToggle } from '@/components/Compare';
@@ -273,6 +274,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         Odds = permits / first-choice applicants. Success = harvest / hunters, from IDFG harvest reports (expanded estimates).
         Mule/whitetail and trophy counts are back-calculated from IDFG&apos;s rounded percentages: direction, not precision.
       </p>
+      <OverlappingElk hunt={s} />
     </main>
   );
 }

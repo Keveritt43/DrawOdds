@@ -32,6 +32,10 @@ export interface RecapHunt {
   year: number;
   species: string; // DEER | ELK | ...
   code: string; // DM070O3R
+  /** Multiple codes sometimes share CPW's entire applicant/point table and quota. */
+  sharedCodes?: string[];
+  drawnByCode?: Record<string, number>;
+  codeDrawn?: number | null;
   list: string | null; // A / B / C
   quota: number | null;
   generalQuota: number | null;
@@ -107,18 +111,25 @@ export function parseCutoffText(text: string): Pick<Cutoff, 'points' | 'choice' 
 function headerInfo(pages: Item[][]) {
   for (const items of pages.slice(0, 3)) {
     const t = items.map((i) => i.s).join(' ');
-    const m = /(\d{4}) Primary (\w+) Post Draw Report/i.exec(t);
+    const m = /(\d{4}) (?:Primary|Secondary) (\w+) Post Draw Report/i.exec(t);
     if (m) return { year: Number(m[1]), species: m[2].toUpperCase() };
   }
   return null;
 }
 
 /** The hunt code on a hunt's header page (the left-hand "# Drawn / Hunt Code / List" box), if this page has one. */
-function pageCode(items: Item[]): { code: string; list: string | null; y: number } | null {
-  const c = items.find((i) => i.x < 200 && CODE.test(i.s.trim()));
+function pageCode(items: Item[]) {
+  const codes = items.filter((i) => i.x < 200 && CODE.test(i.s.trim()));
+  const c = codes[0];
   if (!c) return null;
   const list = items.find((i) => Math.abs(i.y - c.y) <= 3 && i.x > c.x + 20 && i.x < c.x + 90 && /^[A-Z]$/.test(i.s.trim()));
-  return { code: c.s.trim(), list: list?.s.trim() ?? null, y: c.y };
+  const drawnByCode: Record<string, number> = {};
+  for (const code of codes) {
+    const count = items.find((i) => Math.abs(i.y - code.y) <= 3 && i.x < code.x && num(i.s) !== null);
+    if (count) drawnByCode[code.s.trim()] = num(count.s)!;
+  }
+  return { code: c.s.trim(), list: list?.s.trim() ?? null, y: c.y,
+    sharedCodes: codes.length > 1 ? codes.map((i) => i.s.trim()) : undefined, drawnByCode };
 }
 
 function parseHeader(items: Item[], h: RecapHunt) {
@@ -251,7 +262,7 @@ function check(h: RecapHunt) {
 /** Every hunt in one Draw Recap report. `pages`: text items per page, y from the top. */
 export function parseRecap(pages: Item[][]): { year: number; species: string; hunts: RecapHunt[] } {
   const info = headerInfo(pages);
-  if (!info) throw new Error('Not a CPW Draw Recap report (no "<year> Primary <SPECIES> Post Draw Report" header)');
+  if (!info) throw new Error('Not a CPW Draw Recap report (no "<year> Primary/Secondary <SPECIES> Post Draw Report" header)');
   const hunts: RecapHunt[] = [];
   let cur: RecapHunt | null = null;
   pages.forEach((items, idx) => {
@@ -260,6 +271,7 @@ export function parseRecap(pages: Item[][]): { year: number; species: string; hu
       if (cur) check(cur);
       cur = {
         year: info.year, species: info.species, code: c.code, list: c.list,
+        sharedCodes: c.sharedCodes, drawnByCode: c.sharedCodes ? c.drawnByCode : undefined,
         quota: null, generalQuota: null, lppUnres: null, lppRes: null, youthPrefPct: null, youthPref: null,
         nrCapPct: null, nrCap: null, hybridPct: null, hybridCap: null,
         apps: [[0, 0], [0, 0], [0, 0], [0, 0]], drawnTotal: null, balance: null,
@@ -276,8 +288,15 @@ export function parseRecap(pages: Item[][]): { year: number; species: string; hu
     }
   });
   if (cur) check(cur);
-  for (const h of hunts) delete h.closed;
-  return { ...info, hunts };
+  for (const h of hunts) {
+    delete h.closed;
+    if (h.sharedCodes && Object.keys(h.drawnByCode ?? {}).length === h.sharedCodes.length && h.drawnTotal !== null &&
+        Object.values(h.drawnByCode!).reduce((a, b) => a + b, 0) !== h.drawnTotal)
+      h.problems.push('shared hunt-code issued counts disagree with pool drawn total');
+  }
+  return { ...info, hunts: hunts.flatMap((h) => h.sharedCodes
+    ? h.sharedCodes.map((code) => ({ ...h, code, codeDrawn: h.drawnByCode?.[code] ?? null }))
+    : [h]) };
 }
 
 /** Decodes a CPW hunt code: DM070O3R = deer, antlered (M), unit 70, season O3, rifle. */

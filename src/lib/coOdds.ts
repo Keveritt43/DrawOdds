@@ -9,12 +9,10 @@
  * "Effective points" puts the cutoff on one scale: 6 points with 60% drawn at 6 = 6.4. Everyone at 7+ draws,
  * 6 is a 60% chance. An effective value of exactly 7.0 means the same thing as 6 points at 0%.
  *
- * Projection, from a backtest of every deer hunt code 2023-2026 (predict each year from the years before it):
- * last year's cutoff beat everything cleverer. A simulation (misses gain a point, winners leave) was worst, and a
- * 5-year trend added nothing year to year (median miss ~0, but nonresident cutoffs ran 0.2-0.3 points high).
- * So the projection is last year's cutoff plus the spread of how far cutoffs actually moved, measured per
- * residency and per level (a 0-1 point hunt moves about half a point; a 10+ point hunt, 2-4 points). Odds at
- * your points are averaged over that spread, which makes them calibrated probabilities instead of a guess.
+ * Projection is a conservative same-hunt cohort scenario: unsuccessful first-choice applicants return
+ * with one additional point, successful applicants leave, and observed first-choice supply is held fixed.
+ * Historical variation can increase the projected cutoff but cannot lower it below the last draw or the
+ * returning-cohort cutoff. Entrants, applicants switching hunts, and quota changes remain uncertain.
  */
 
 export type Levels = Record<number, number>; // points -> applicants (or successful applicants)
@@ -34,6 +32,8 @@ export interface PoolYear {
   pre: Levels;
   post: Levels;
   cut: CutoffInfo | null;
+  /** Licenses available to this pool, including later choices when known. */
+  capacity?: number;
 }
 
 export interface Projection {
@@ -48,6 +48,8 @@ export interface Projection {
   hi: number;
   /** Points per year the cutoff has been rising (5-year least squares); for point creep, not for next year. */
   slope: number | null;
+  /** Deterministic returning-applicant cutoff under unchanged supply. */
+  cohort?: number;
 }
 
 /** How far a cutoff moved from one draw to the next, as quantiles, for one residency and level band. */
@@ -61,8 +63,28 @@ export interface Calibration {
 
 /** Used until a sync has measured its own (deer, 2023-2026 draws, all hunt codes; see the header comment). */
 export const DEFAULT_CALIBRATION: Record<'res' | 'nr', Calibration> = {
-  res: { bands: [1, 3, 6, 10], q: [[-0.15, 0, 0, 0, 0, 0, 0, 0.01, 0.2], [-0.7, -0.42, -0.23, -0.12, -0.03, 0.06, 0.16, 0.27, 0.48], [-0.84, -0.47, -0.25, -0.11, 0.01, 0.16, 0.28, 0.46, 0.8], [-2.5, -1.56, -1, -0.33, 0.1, 0.42, 0.67, 1, 1.8], [-3, -1.42, -0.66, -0.07, 0.24, 0.5, 1, 1.45, 2.58]], n: [3260, 815, 347, 117, 202] },
-  nr: { bands: [1, 3, 6, 10], q: [[-0.06, 0, 0, 0, 0, 0, 0, 0, 0.26], [-1, -0.5, -0.25, -0.04, 0, 0.14, 0.29, 0.48, 0.77], [-1, -0.26, 0, 0.2, 0.43, 0.65, 0.88, 1.1, 1.58], [-2.33, -1.5, -0.5, -0.02, 0.16, 0.5, 0.9, 1.21, 2.75], [-3, -1, -0.5, 0, 0.33, 0.63, 1, 1.58, 2.63]], n: [2254, 622, 293, 135, 287] },
+  res: {
+    bands: [1, 3, 6, 10],
+    q: [
+      [-0.15, 0, 0, 0, 0, 0, 0, 0.01, 0.2],
+      [-0.7, -0.42, -0.23, -0.12, -0.03, 0.06, 0.16, 0.27, 0.48],
+      [-0.84, -0.47, -0.25, -0.11, 0.01, 0.16, 0.28, 0.46, 0.8],
+      [-2.5, -1.56, -1, -0.33, 0.1, 0.42, 0.67, 1, 1.8],
+      [-3, -1.42, -0.66, -0.07, 0.24, 0.5, 1, 1.45, 2.58],
+    ],
+    n: [3260, 815, 347, 117, 202],
+  },
+  nr: {
+    bands: [1, 3, 6, 10],
+    q: [
+      [-0.06, 0, 0, 0, 0, 0, 0, 0, 0.26],
+      [-1, -0.5, -0.25, -0.04, 0, 0.14, 0.29, 0.48, 0.77],
+      [-1, -0.26, 0, 0.2, 0.43, 0.65, 0.88, 1.1, 1.58],
+      [-2.33, -1.5, -0.5, -0.02, 0.16, 0.5, 0.9, 1.21, 2.75],
+      [-3, -1, -0.5, 0, 0.33, 0.63, 1, 1.58, 2.63],
+    ],
+    n: [2254, 622, 293, 135, 287],
+  },
 };
 export const CAL_BANDS = [1, 3, 6, 10];
 /** Quantiles kept per band: 10%, 20% ... 90% (equal weight: each stands for a tenth of outcomes). */
@@ -92,7 +114,10 @@ const bandOf = (eff: number, bands: number[]) => {
 };
 
 const sum = (l: Levels) => Object.values(l).reduce((a, b) => a + b, 0);
-const levels = (l: Levels) => Object.keys(l).map(Number).sort((a, b) => a - b);
+const levels = (l: Levels) =>
+  Object.keys(l)
+    .map(Number)
+    .sort((a, b) => a - b);
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
 /** The pool's cutoff on one scale, or null when nobody applied. */
@@ -136,7 +161,8 @@ export function exactAt(py: PoolYear, p: number): { apps: number; drawn: number;
 export function hybridRate(py: PoolYear): number {
   const c = py.cut?.points;
   if (c === null || c === undefined) return 0;
-  let apps = 0, drawn = 0;
+  let apps = 0,
+    drawn = 0;
   for (const p of levels(py.pre)) {
     if (p < 5 || p >= c) continue;
     apps += py.pre[p] ?? 0;
@@ -157,6 +183,34 @@ export function trendNext(effs: { year: number; eff: number }[]): { slope: numbe
   return { slope: round2(slope), next: round2(Math.max(0, pts[n - 1].eff + slope)) };
 }
 
+/** Returning first-choice applicants gain one point; historical successes leave this cohort. */
+export function returningCohort(py: PoolYear): { pre: Levels; capacity: number; eff: number | null } {
+  const pre: Levels = {};
+  for (const [point, count] of Object.entries(py.pre)) {
+    const p = Number(point),
+      won = Math.max(0, py.post[p] ?? 0);
+    if (!Number.isInteger(p) || p < 0 || !Number.isFinite(count) || count < 0 || won > count) continue;
+    if (count > won) pre[p + 1] = (pre[p + 1] ?? 0) + count - won;
+  }
+  const hybridWins =
+    py.cut?.points === null || py.cut?.points === undefined
+      ? 0
+      : Object.entries(py.post)
+          .filter(([p]) => Number(p) >= 5 && Number(p) < py.cut!.points!)
+          .reduce((a, [, n]) => a + n, 0);
+  const capacity = Math.max(0, (py.capacity ?? sum(py.post)) - hybridWins);
+  let left = capacity;
+  const sorted = levels(pre).reverse();
+  if (!sorted.length) return { pre, capacity, eff: 0 };
+  if (!left) return { pre, capacity, eff: sorted[0] + 1 };
+  for (const p of sorted) {
+    const apps = pre[p];
+    if (left <= apps) return { pre, capacity, eff: round2(p + 1 - left / apps) };
+    left -= apps;
+  }
+  return { pre, capacity, eff: 0 };
+}
+
 /** The next draw's cutoff from a pool's history (oldest first). */
 export function project(history: PoolYear[], cal: Calibration): Projection | null {
   if (!history.length) return null;
@@ -165,22 +219,45 @@ export function project(history: PoolYear[], cal: Calibration): Projection | nul
   if (base === null) return null;
   const effs = history.map((h) => ({ year: h.year, eff: effective(h) })).filter((e): e is { year: number; eff: number } => e.eff !== null);
   const band = cal.q[bandOf(base, cal.bands)];
-  const qs = band.map((d) => round2(Math.max(0, base + d)));
-  return { year: last.year + 1, base, qs, eff: qs[Math.floor(qs.length / 2)], lo: qs[0], hi: qs[qs.length - 1], slope: trendNext(effs)?.slope ?? null };
+  const cohort = returningCohort(last).eff ?? base;
+  const floor = Math.max(base, cohort);
+  const qs = band.map((d) => round2(Math.max(floor, base + Math.max(0, d)))).sort((a, b) => a - b);
+  return {
+    year: last.year + 1,
+    base,
+    qs,
+    eff: qs[Math.floor(qs.length / 2)],
+    lo: qs[0],
+    hi: qs[qs.length - 1],
+    slope: Math.max(0, trendNext(effs)?.slope ?? 0),
+    cohort,
+  };
 }
 
 export type Chance = 'sure' | 'likely' | 'possible' | 'longshot' | 'none';
-export const CHANCE_LABEL: Record<Chance, string> = { sure: 'Near certain', likely: 'Likely', possible: 'Possible', longshot: 'Long shot', none: 'No chance' };
+export const CHANCE_LABEL: Record<Chance, string> = {
+  sure: 'Near certain',
+  likely: 'Likely',
+  possible: 'Possible',
+  longshot: 'Long shot',
+  none: 'No chance',
+};
 
 /**
  * Projected odds at p points: the average over the cutoff's possible values (scaled by `rate`, the share above the
  * cutoff who draw), with the lowest and highest of those outcomes. Backtest, deer 2024-2026, each year predicted
  * from the years before it: Brier score 0.08 vs 0.10 for last year's odds (nonresidents), 0.054 vs 0.062 (residents).
  */
-export function projectedOdds(p: number, pr: Pick<Projection, 'qs'>, hybrid = 0, rate = 1): { odds: number; lo: number; hi: number; chance: Chance } {
+export function projectedOdds(
+  p: number,
+  pr: Pick<Projection, 'qs'>,
+  hybrid = 0,
+  rate = 1,
+): { odds: number; lo: number; hi: number; chance: Chance } {
   const all = pr.qs.map((e) => oddsAt(p, e, hybrid) * rate);
   const odds = round2(all.reduce((a, b) => a + b, 0) / all.length);
-  const lo = Math.min(...all), hi = Math.max(...all);
+  const lo = Math.min(...all),
+    hi = Math.max(...all);
   return { odds, lo, hi, chance: chanceOf(odds, lo, hi) };
 }
 

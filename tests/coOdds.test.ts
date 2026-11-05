@@ -1,10 +1,31 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { effective, cutFromEff, oddsAt, exactAt, trendNext, project, projectedOdds, drawsToDraw, chanceOf, hybridRate, calibrate, DEFAULT_CALIBRATION, type PoolYear } from '../src/lib/coOdds';
+import {
+  effective,
+  cutFromEff,
+  oddsAt,
+  exactAt,
+  trendNext,
+  project,
+  projectedOdds,
+  drawsToDraw,
+  chanceOf,
+  hybridRate,
+  calibrate,
+  DEFAULT_CALIBRATION,
+  type PoolYear,
+} from '../src/lib/coOdds';
 import { parseCutoffText, decodeHuntCode } from '../src/sync/co/recap';
 
 // CPW Draw Recap, DM070O3R (unit 70, 3rd rifle, buck deer): adult nonresidents and residents
-const cut = (points: number, drawn: number, apps: number) => ({ text: `${points} Pref Points`, points, choice: null, leftover: false, drawnAtLevel: drawn, appsAtLevel: apps });
+const cut = (points: number, drawn: number, apps: number) => ({
+  text: `${points} Pref Points`,
+  points,
+  choice: null,
+  leftover: false,
+  drawnAtLevel: drawn,
+  appsAtLevel: apps,
+});
 const NR25: PoolYear = {
   year: 2025,
   pre: { 24: 1, 23: 1, 14: 1, 13: 1, 12: 1, 11: 2, 10: 1, 9: 5, 8: 8, 7: 11, 6: 33, 5: 81, 4: 86, 3: 73, 2: 81, 1: 69, 0: 74 },
@@ -17,14 +38,25 @@ const NR26: PoolYear = {
   post: { 14: 4, 12: 4, 11: 4, 10: 3, 9: 5, 8: 11, 7: 25, 6: 33 },
   cut: cut(6, 33, 55),
 };
-const RES26: PoolYear = { year: 2026, pre: { 6: 1, 5: 1, 4: 6, 3: 11, 2: 53, 1: 181, 0: 228 }, post: { 6: 1, 5: 1, 4: 6, 3: 11, 2: 51, 1: 165 }, cut: cut(1, 165, 181) };
+const RES26: PoolYear = {
+  year: 2026,
+  pre: { 6: 1, 5: 1, 4: 6, 3: 11, 2: 53, 1: 181, 0: 228 },
+  post: { 6: 1, 5: 1, 4: 6, 3: 11, 2: 51, 1: 165 },
+  cut: cut(1, 165, 181),
+};
 const nrHist = (effs: number[]) => effs.map((e, i) => ({ year: 2021 + i, eff: e }));
 
 test('effective points put the cutoff on one scale', () => {
   assert.equal(effective(NR26), 6.4);
   assert.equal(effective(RES26), 1.09);
-  assert.equal(effective({ ...RES26, cut: { text: 'Choice 2', points: null, choice: 2, leftover: false, drawnAtLevel: 3, appsAtLevel: 10 } }), 0);
-  assert.equal(effective({ ...RES26, cut: { text: 'No Apps', points: null, choice: null, leftover: false, drawnAtLevel: null, appsAtLevel: null } }), null);
+  assert.equal(
+    effective({ ...RES26, cut: { text: 'Choice 2', points: null, choice: 2, leftover: false, drawnAtLevel: 3, appsAtLevel: 10 } }),
+    0,
+  );
+  assert.equal(
+    effective({ ...RES26, cut: { text: 'No Apps', points: null, choice: null, leftover: false, drawnAtLevel: null, appsAtLevel: null } }),
+    null,
+  );
   assert.deepEqual(cutFromEff(6.4), { pts: 6, pct: 0.6 });
   assert.deepEqual(cutFromEff(7), { pts: 7, pct: 1 });
 });
@@ -51,26 +83,38 @@ test('trend (point creep)', () => {
   assert.equal(trendNext(nrHist([3, 4])), null);
 });
 
-test('projection: last draw plus how far cutoffs at that level moved', () => {
+test('projection keeps cutoff from falling and advances unsuccessful cohorts', () => {
   const p = project([NR25, NR26], DEFAULT_CALIBRATION.nr)!;
   assert.equal(p.year, 2027);
   assert.equal(p.base, 6.4);
-  // 6-10 point nonresident band, deciles -2.33 .. +2.75
-  assert.deepEqual(p.qs, [4.07, 4.9, 5.9, 6.38, 6.56, 6.9, 7.3, 7.61, 9.15]);
-  assert.equal(p.eff, 6.56);
-  const at = (n: number, rate = 1) => projectedOdds(n, p, 0, rate);
-  assert.equal(at(6).odds, 0.46); // (1 + 1 + 1 + .62 + .44 + .1 + 0 + 0 + 0) / 9 (2026 actual: 33 of 55)
-  assert.equal(at(6).chance, 'possible');
-  assert.equal(at(10).odds, 1);
-  assert.equal(at(10, 0.935).chance, 'sure');
-  assert.equal(at(10, 0.935).odds, 0.94);
-  assert.equal(at(3).chance, 'none');
-  assert.equal(at(4).chance, 'longshot');
+  assert.ok(p.qs.every((q) => q >= p.base));
+  assert.equal(projectedOdds(4, p).odds, 0);
+  assert.equal(projectedOdds(10, p, 0, 0.935).odds, 0.94);
+  const blocked: PoolYear = { year: 2026, pre: { 8: 100, 9: 10 }, post: { 9: 10 }, cut: cut(9, 10, 10) };
+  const next = project([blocked], DEFAULT_CALIBRATION.nr)!;
+  assert.equal(next.cohort, 9.9);
+  assert.ok(next.qs.every((q) => q >= 9.9));
+  assert.equal(projectedOdds(8, next).odds, 0);
+  assert.ok(projectedOdds(9, next).odds <= 0.1);
 });
 
 test('calibration from backtest pairs, banded by level', () => {
-  const c = calibrate([{ last: 0.5, next: 1 }, { last: 0.2, next: 0.2 }, { last: 7, next: 9 }], [1, 3, 6, 10], [0, 1]);
-  assert.deepEqual(c.q, [[0, 0.5], [0, 0], [0, 0], [2, 2], [0, 0]]);
+  const c = calibrate(
+    [
+      { last: 0.5, next: 1 },
+      { last: 0.2, next: 0.2 },
+      { last: 7, next: 9 },
+    ],
+    [1, 3, 6, 10],
+    [0, 1],
+  );
+  assert.deepEqual(c.q, [
+    [0, 0.5],
+    [0, 0],
+    [0, 0],
+    [2, 2],
+    [0, 0],
+  ]);
   assert.deepEqual(c.n, [2, 0, 0, 1, 0]);
 });
 
