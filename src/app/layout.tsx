@@ -38,8 +38,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div className="foot-brand">
               <LogoMark size={40} />
               <p>
-                Public Idaho Department of Fish and Game data, refreshed nightly. Not affiliated with or endorsed by IDFG.
-                Always confirm seasons and rules in the current IDFG regulations before you apply or hunt.
+                Public {state.agency.name} data. Automatic refresh is paused. Not affiliated with or endorsed by {state.agency.short}.
+                Always confirm seasons and rules in the current {state.agency.short} regulations before you apply or hunt.
               </p>
             </div>
             <nav aria-label="Research">
@@ -48,13 +48,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Link href="/map">Unit Map</Link>
               <Link href="/hunts?species=ELK&type=CONTROLLED">Elk Draws</Link>
               <Link href="/hunts?species=DEER&type=CONTROLLED">Deer Draws</Link>
-              <Link href="/hunts?species=PRONGHORN">Pronghorn Draws</Link>
+              {state.code==='ID'&&<Link href="/hunts?species=PRONGHORN">Pronghorn Draws</Link>}
             </nav>
             <nav aria-label="About">
               <b>About</b>
               <Link href="/about">Data & Methods</Link>
               <Link href="/account">My Hunts</Link>
-              <a href="https://idfg.idaho.gov/hunt" target="_blank" rel="noreferrer">IDFG Hunting</a>
+              <a href={state.agency.url} target="_blank" rel="noreferrer">{state.agency.short} Hunting</a>
             </nav>
           </div>
         </footer>

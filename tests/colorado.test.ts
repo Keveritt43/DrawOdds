@@ -169,3 +169,13 @@ test('returning cohorts reserve hybrid licenses instead of allocating them twice
   assert.equal(result.pre[9], 70);
   assert.equal(result.pre[16], 2);
 });
+import {GET as switchState} from '../src/app/api/state/route';
+test('state switch redirects to the public Railway host, not the internal proxy address',async()=>{
+ const response=await switchState(new Request('http://localhost:8080/api/state?code=CO&next=%2Fhunts%3Fspecies%3DELK',{headers:{'x-forwarded-host':'web-production-39e54.up.railway.app','x-forwarded-proto':'https'}}));
+ assert.equal(response.headers.get('location'),'https://web-production-39e54.up.railway.app/hunts?species=ELK');
+ assert.ok(response.headers.get('set-cookie')?.includes('CO'));
+});
+test('state switch keeps external next destinations on the public site',async()=>{
+ const response=await switchState(new Request('http://localhost:8080/api/state?code=CO&next=%2F%2Fevil.example',{headers:{host:'drawodds.example'}}));
+ assert.equal(response.headers.get('location'),'https://drawodds.example/hunts');
+});
