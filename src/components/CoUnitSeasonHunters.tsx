@@ -19,6 +19,7 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
     orderBy: { tagCode: "asc" },
   });
   const latestCodes = codes.flatMap((r) => {
+    if (r.type === "GENERAL") return [];
     const hs =
       (
         r.pointOdds as {
@@ -44,8 +45,7 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
         <>
           <h2>Hunters By Hunt Code</h2>
           <p className="small muted">
-            Latest code-specific estimates. Coverage lists every unit in the
-            code; counts spanning multiple units are not assigned to one unit.
+            Latest code-specific estimates. Multi-unit codes are labeled “Multiple”; counts spanning multiple units are not assigned to one unit.
             Do not add overlapping tag counts as unique hunters.
           </p>
           <div className="htable-wrap">
@@ -58,6 +58,7 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
                   <th>Covered units</th>
                   <th>Hunters</th>
                   <th>Harvest</th>
+                  <th>Harvest %</th>
                 </tr>
               </thead>
               <tbody>
@@ -68,9 +69,10 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
                     </td>
                     <td>{r.takeMethod}</td>
                     <td>{h.year}</td>
-                    <td>{r.units.join(", ")}</td>
+                    <td>{r.units.length > 1 ? "Multiple" : r.units.join(", ")}</td>
                     <td>{h.hunters.toLocaleString()}</td>
                     <td>{h.harvest.toLocaleString()}</td>
+                    <td>{h.hunters > 0 && h.harvest <= h.hunters ? `${Math.round(h.harvest / h.hunters * 100)}%` : "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -94,6 +96,7 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
               <th>Season</th>
               <th>Hunters</th>
               <th>Harvest</th>
+              <th>Harvest %</th>
               <th>Hunters/mi²</th>
             </tr>
           </thead>
@@ -124,6 +127,7 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
                           <td>{labels[kind] ?? kind}</td>
                           <td>{x.hunters?.toLocaleString() ?? "—"}</td>
                           <td>{x.harvest?.toLocaleString() ?? "—"}</td>
+                          <td>{x.hunters && x.harvest != null && x.harvest <= x.hunters ? `${Math.round(x.harvest / x.hunters * 100)}%` : "—"}</td>
                           <td>
                             {area?.acres && x.hunters !== undefined
                               ? (x.hunters / (area.acres / 640)).toFixed(2)
