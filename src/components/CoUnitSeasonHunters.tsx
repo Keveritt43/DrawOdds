@@ -1,4 +1,5 @@
 import type { HuntSummary } from "@prisma/client";
+import { coSeasonKind } from '@/lib/coSeasonKind';
 import { overlapsElk } from "@/lib/overlappingSeasons";
 import { db } from "@/lib/db";
 import type { UnitTables } from "@/sync/co/harvest";
@@ -20,7 +21,9 @@ export async function CoUnitSeasonHunters({ units, hunt }: { units: string[]; hu
     where: { state: "CO", units: { hasSome: units } },
     orderBy: { tagCode: "asc" },
   });
-  const latestCodes = codes.flatMap((r) => {
+  const matches = (r: HuntSummary) => !hunt || r.id === hunt.id || overlapsElk(hunt, {...r, species: 'ELK'});
+  const relevant = codes.filter(matches);
+  const latestCodes = relevant.flatMap((r) => {
     if (r.type === "GENERAL" && (!hunt || r.species !== "ELK" || !overlapsElk(hunt, r))) return [];
     const hs =
       (
@@ -84,7 +87,7 @@ export async function CoUnitSeasonHunters({ units, hunt }: { units: string[]; hu
       )}
       <h2>Hunters In These Units By Season</h2>
       <p className="small muted">
-        CPW {year} unit/season estimates, all licenses in each season. These
+        CPW {year} unit/season estimates, all licenses in each season. {hunt && "Only seasons with a loaded hunt sharing a unit and overlapping an open date are shown."} These
         show hunting pressure across tags; counts are not limited to your tag
         and should not be added across overlapping hunt codes. Exact 2025 code
         counts remain in each hunt’s harvest history.
@@ -121,7 +124,7 @@ export async function CoUnitSeasonHunters({ units, hunt }: { units: string[]; hu
                     )
                       return [];
                     return (rows ?? [])
-                      .filter((x) => x.unit === unit)
+                      .filter((x) => x.unit === unit && (!hunt || relevant.some(h => h.units.includes(unit) && h.species === r.species && coSeasonKind(h.tagCode) === kind)))
                       .map((x) => (
                         <tr key={unit + r.species + kind}>
                           <td>{unit}</td>

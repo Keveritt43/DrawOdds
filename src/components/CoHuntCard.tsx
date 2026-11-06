@@ -10,6 +10,7 @@ import { dateRange, fmtNeed, fmtCreep } from '@/lib/coDisplay';
 /** Colorado uses Idaho's card structure while keeping personalized point-draw odds explicit. */
 export function CoHuntCard({
   r,
+  hasOtcElk = false,
   odds,
   chance,
   points,
@@ -19,6 +20,7 @@ export function CoHuntCard({
   signedIn,
 }: {
   r: HuntSummary;
+  hasOtcElk?: boolean;
   odds: number | null;
   chance: Chance;
   points: number;
@@ -48,6 +50,7 @@ export function CoHuntCard({
             : ''}
         </span>
       </div>
+      {hasOtcElk && <span className="pill">Overlapping OTC elk season</span>}
       <div className="dates">
         {[
           r.tagCode,

@@ -48,7 +48,7 @@ export async function CoUnitPage({ name }: { name: string }) {
         {herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}
       </p>
       <CoLand units={[name]} />
-      <CoUnitReports units={[name]} hunts={hunts} />
+      <CoUnitReports units={[name]} hunts={hunts} points={pts} />
       <CoUnitSeasonHunters units={[name]} />
       <h2>Hunt Licenses</h2>
       {!hunts.length && <p className="muted">No deer or elk licenses are loaded for this unit.</p>}
@@ -76,7 +76,7 @@ export async function CoUnitPage({ name }: { name: string }) {
                   <tr key={h.id}>
                     <td>
                       <Link href={`/hunts/${h.slug}`}>{h.unit === name ? h.name.replace(/^Unit \d+ · /, '') : h.name}</Link>
-                      {h.units.length > 1 ? <span className="small muted"> (units {h.units.join(', ')})</span> : null}
+                      {h.units.length > 1 ? <span className="small muted"> (multiple units)</span> : null}
                       {h.privateOnly ? <span className="pill">Private land</span> : null}
                       {d?.type === 'K' ? <span className="pill">Youth</span> : null}
                     </td>
