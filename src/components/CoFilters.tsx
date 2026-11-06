@@ -300,7 +300,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
   );
 }
 
-function PointRangeSlider({ min, max, onCommit }: { min: number; max: number; onCommit: (min: number, max: number) => void }) {
+export function PointRangeSlider({ min, max, onCommit }: { min: number; max: number; onCommit: (min: number, max: number) => void }) {
   const [low, setLow] = useState(min),
     [high, setHigh] = useState(max);
   useEffect(() => {

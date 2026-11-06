@@ -1,4 +1,5 @@
 'use client';
+import { CO_METHODS, CO_SEASONS, matchesCoMapFilters } from '@/lib/coMapFilters';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { huntHref } from '@/lib/huntSlug';
@@ -39,7 +40,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     try {
       const last = decodeURIComponent(document.cookie.match(/(?:^|; )lastHunts=([^;]*)/)?.[1] ?? '');
       const want = new URLSearchParams(last).get('species') as Sp | null;
-      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : ['ELK', 'DEER', 'PRONGHORN'];
+      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : st.code === 'CO' ? ['ELK', 'DEER'] : ['ELK', 'DEER', 'PRONGHORN'];
       if (want && ok.includes(want)) setSp(want);
     } catch { /* keep the default */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,6 +69,14 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       )
     .map((k) => ({ value: k, label: st.code==='CO' && k==='ctlOdds' ? 'Draw Odds At My Points (Best Antlered Hunt)' : st.code==='CO' && k==='ctlFill' ? 'Draw And Fill At My Points (Best Antlered Hunt)' : METRICS[k].label })),
   ];
+  const [methods, setMethods] = useState<string[]>([]);
+  const [seasons, setSeasons] = useState<string[]>([]);
+  const coFilters = new URLSearchParams({method: methods.join(','), season: seasons.join(',')}).toString();
+  const checks = (label: string, options: readonly (readonly [string, string])[], selected: string[], update: (v: string[]) => void) => (
+    <fieldset style={{border: 0, padding: 0, margin: '4px 0', width: '100%'}}><legend className="mk-lab">{label}</legend><div className="checks2">
+      {options.map(([v, text]) => <label key={v}><input type="checkbox" checked={selected.includes(v)} onChange={() => update(selected.includes(v) ? selected.filter(x => x !== v) : [...selected, v])} /> {text}</label>)}
+    </div></fieldset>
+  );
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
@@ -87,7 +96,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { if (msg && bounds === 'zones') setBounds('units'); /* no elk zones on that drawing */ }, [msg]); // eslint-disable-line react-hooks/exhaustive-deps
-  type UH = { id: string; slug?: string | null; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
+  type UH = { tagCode?: string | null; id: string; slug?: string | null; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
   const [uh, setUh] = useState<{ unit: string; rows: UH[] } | null>(null);
   const selName = sel ? String(sel.name) : null;
   useEffect(() => {
@@ -194,6 +203,20 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     };
   }, [focus]);
 
+  useEffect(() => {
+    if (st.code !== 'CO' || bare || !mapObj) return;
+    let live = true;
+    setErr('');
+    loadUnits('CO', coPointsKey, coFilters).then(data => {
+      if (!live) return;
+      (mapObj.getSource('units') as maplibregl.GeoJSONSource).setData(data.fc as never);
+      setClasses(data.classes);
+      setMissing(data.missing);
+      setSel(null);
+    }).catch(() => { if (live) setErr('Could not update map filters. Please try again.'); });
+    return () => { live = false; };
+  }, [mapObj, coPointsKey, coFilters, st.code, bare]);
+
   // recolor when the metric changes
   useEffect(() => {
     const m = map.current;
@@ -296,6 +319,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                 }
               />
               {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
+              {st.code === 'CO' && <>{checks('Weapon', CO_METHODS, methods, setMethods)}{checks('Season type (select any)', CO_SEASONS, seasons, setSeasons)}</>}
               {!msg && st.features.elkZones && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
             </>
           }
@@ -303,7 +327,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           options={options}
           onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
           ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
-          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${['ctlOdds','ctlFill','ctlPoints','ctlCreep'].includes(metric) ? `, ${nr ? 'nonresident' : 'resident'}` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ((metric==='ctlQuality' ? ' Fixed 0–100 scale, matching the Quality badges.' : SCALE_NOTE[fixedScale(field) ?? '']) ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
+          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${['ctlOdds','ctlFill','ctlPoints','ctlCreep'].includes(metric) ? `, ${nr ? 'nonresident' : 'resident'}` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ((st.code === 'CO' && metric === 'ctlPoints' ? ' Yellow = your saved species points; greener = fewer points needed, redder = more. Bands use whole points; 3 fewer or lower and 3 more or higher share the end colors.' : metric==='ctlQuality' ? ' Fixed 0–100 scale, matching the Quality badges.' : SCALE_NOTE[fixedScale(field) ?? '']) ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
           extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
           kind={kind}
           onKind={setKind}
@@ -399,6 +423,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                 // every hunt in the unit for this drawing: the key's animal first, then the others
                 const order = (x: string) => (x === sp ? 0 : 1);
                 const list = (uh?.rows ?? [])
+                  .filter(h => st.code !== 'CO' || (h.species === sp && (kind === htype) && matchesCoMapFilters(h.tagCode ?? null, methods, seasons)))
                   .filter((h) => (kind === 'CONTROLLED' ? h.type === 'CONTROLLED' : h.type !== 'CONTROLLED'))
                   .filter((h) => nr || h.type !== 'NRTAG' || h.species === 'ELK') // deer tags matter to nonresidents only
                   .filter((h) => !h.species || (msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : ['ELK', 'DEER', 'PRONGHORN']).includes(h.species))
