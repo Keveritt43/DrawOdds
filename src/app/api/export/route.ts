@@ -13,6 +13,8 @@ import { db } from '@/lib/db';
 import { getResidency, getDraw } from '@/lib/residency';
 import { parseFilters, buildWhere, buildOrder, residencyFields } from '@/lib/finder';
 import { antlerLabel, WEAPON, SPECIES_LABEL } from '@/lib/format';
+import { searchHunts } from '@/lib/searchData';
+import { searchCsv } from '@/lib/searchCsv';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,6 +28,15 @@ const r3 = (v: number | null) => (v === null ? null : Math.round(v * 1000) / 10)
 /** The Filtering results as a CSV (same filters and sort), for spreadsheets. */
 export async function GET(req: Request) {
   const sp = Object.fromEntries(new URL(req.url).searchParams);
+  if (sp.states !== undefined) {
+    const { results, states } = await searchHunts(sp);
+    const origin = process.env.NEXT_PUBLIC_SITE_URL || 'https://web-production-39e54.up.railway.app';
+    return new Response(searchCsv(results, origin), { headers: {
+      'Content-Type': 'text/csv; charset=utf-8',
+      'Content-Disposition': `attachment; filename="drawodds-${states.join('-').toLowerCase()}.csv"`,
+      'Cache-Control': 'private, no-store',
+    } });
+  }
   const f = parseFilters(sp);
   if((await getState()).code==='CO'){
     const pts=await getPoints('CO'),pool=poolFor(pts.res==='NONRESIDENT',pts.youth),range=pointRange(sp.minPts,sp.maxPts);

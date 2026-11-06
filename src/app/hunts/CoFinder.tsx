@@ -20,6 +20,7 @@ import { int } from '@/lib/format';
 
 import { pointRange } from '@/lib/pointRange';
 import { CoHuntCard } from '@/components/CoHuntCard';
+import { SearchStates } from '@/components/SearchStates';
 
 const PER_PAGE = 40;
 type SP = Record<string, string | string[] | undefined>;
@@ -193,6 +194,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
             </h1>
           </div>
           <div className="f-sub">
+            <SearchStates />
             <span>
               <b>{decorated.length}</b> {spLabel} hunts · sort by
             </span>

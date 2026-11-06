@@ -10,6 +10,8 @@ import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { CoFinder } from './CoFinder';
+import { MultiStateFinder } from './MultiStateFinder';
+import { SearchStates } from '@/components/SearchStates';
 import { DRAW_SPECIES, AREA_SPECIES, SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUnits, type Filters } from '@/lib/finder';
 import { FilterRail } from '@/components/FilterRail';
@@ -76,6 +78,7 @@ type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; 
 
 export default async function Filtering({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
+  if (sp.states !== undefined) return <MultiStateFinder sp={sp} />;
   const state = (await getState(sp.state)).code;
   if(state==='CO'&&sp.sex!==undefined&&sp.antler===undefined){const sexes=(Array.isArray(sp.sex)?sp.sex.join(','):sp.sex).split(',');sp.antler=sexes.includes('E')?'ALL':sexes.map(x=>x==='F'?'ANTLERLESS':'ANTLERED').join(',');}
   const ref = (await headers()).get("referer") ?? "";
@@ -227,6 +230,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           <div className="f-title">
             <h1>Find A Hunt</h1>
           </div>
+          <SearchStates />
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'unit' ? 'units' : total === 1 ? 'result' : 'results'} · sort by</span>
             <SortSelect value={f.sort} />

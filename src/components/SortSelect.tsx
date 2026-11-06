@@ -21,7 +21,7 @@ const SORTS: [string, string][] = [
   ['alpha', 'Alphabetical'],
 ];
 
-export function SortSelect({ value }: { value: string }) {
+export function SortSelect({ value, options = SORTS }: { value: string; options?: [string, string][] }) {
   const router = useRouter();
   const sp = useSearchParams();
   return (
@@ -30,12 +30,13 @@ export function SortSelect({ value }: { value: string }) {
       value={value}
       onChange={(e) => {
         const p = new URLSearchParams(sp.toString());
-        if (e.target.value === 'best') p.delete('sort');
+        if (e.target.value === 'best' && !p.has('states')) p.delete('sort');
         else p.set('sort', e.target.value);
+        p.delete('page');
         router.push(`/hunts${p.size ? `?${p}` : ''}`, { scroll: false });
       }}
     >
-      {SORTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+      {options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
     </select>
   );
 }

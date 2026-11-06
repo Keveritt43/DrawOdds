@@ -1,0 +1,132 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import type { HuntSummary } from '@prisma/client';
+import { searchStates, searchBounds, searchUnitKey } from '../src/lib/searchStates';
+import { runSearch, personalize, compareSearch, type HunterSettings } from '../src/lib/multiStateSearch';
+import { searchCsv } from '../src/lib/searchCsv';
+import { matchesHuntSeason } from '../src/lib/huntSeasonFilter';
+import { parseFilters } from '../src/lib/finder';
+
+const settings: HunterSettings = { ID: 'RESIDENT', CO: { res: 'NONRESIDENT', DEER: 2, ELK: 0, PRONGHORN: 0, youth: false, set: true } };
+const row = (patch: Partial<HuntSummary> = {}) => ({
+  id: 'id:deer39', state: 'ID', slug: 'deer39', huntId: 1, species: 'DEER', type: 'CONTROLLED',
+  name: 'Deer 39', huntNumber: 1001, tagCode: null, areaName: '39', unit: null, units: ['39'],
+  weapon: 'ANY', antlerClass: 'ANTLERED', openDate: new Date('2027-10-10'), closeDate: new Date('2027-10-20'),
+  youthOnly: false, nrTag: false, privateOnly: false, capped: false, tagSeasons: null,
+  resOdds5: .8, nrOdds5: .1, resOddsLast: .7, nrOddsLast: .05, oddsLastYear: 2026,
+  scoreQuality: 80, scoreOppRes: 1, scoreOppNr: 2, success5: .5, harvestLastYear: 2025,
+  hunters5: 100, harvest5: 50, huntersSqMi: 1, publicPct: 60, bigPct5: null,
+  accessYesPct: 2, huntablePct: 62, accessYesCount: 1, leftoverTags: 0,
+  deerType: 'MULE', tags: 50, pointOdds: null, oddsByPts: null, ptsRes: null, ptsNr: null,
+  ...patch,
+} as HuntSummary);
+const colorado = (patch: Partial<HuntSummary> = {}) => row({
+  id: 'co:deer39', state: 'CO', slug: 'co-dm039o3r', huntId: 2, tagCode: 'DM039O3R',
+  oddsByPts: { proj: { nr: [.1, .3, .6], res: [.5, .7, .9], ynr: [.7, .8, .9] }, last: { nr: [.2, .4, .8] } },
+  ptsNr: 2, ptsRes: 1, ...patch,
+});
+
+test('state selection validates, deduplicates and canonicalizes without losing header defaults', () => {
+  assert.deepEqual(searchStates(undefined, 'CO'), ['CO']);
+  assert.deepEqual(searchStates(['co,id', 'CO,XX'], 'ID'), ['CO', 'ID']);
+  assert.deepEqual(searchStates('XX', 'CO'), ['CO']);
+  assert.notEqual(searchUnitKey('ID', '39'), searchUnitKey('CO', '39'));
+  assert.deepEqual(searchBounds(['ID', 'CO']), [[-117.3, 36.99], [-102.04, 49.05]]);
+});
+
+test('combined ranking uses separate state residency and points, never stored Opportunity', () => {
+  const original = [row(), colorado()];
+  const before = JSON.stringify(original);
+  const results = runSearch(original, { states: 'ID,CO' }, 'ID', settings);
+  assert.equal(results.length, 2);
+  assert.equal(results.find(x => x.r.state === 'ID')!.odds, .8);
+  assert.equal(results.find(x => x.r.state === 'CO')!.odds, .6);
+  assert.equal(results[0].r.state, 'ID');
+  assert.equal(results[0].nr, false);
+  assert.equal(results[1].nr, true);
+  assert.equal(JSON.stringify(original), before, 'public rows must never retain personalized values');
+  const changed = runSearch(original, { states: 'ID,CO' }, 'CO', { ...settings, ID: 'NONRESIDENT' });
+  assert.equal(changed[0].r.state, 'CO');
+  assert.equal(changed.find(x => x.r.state === 'ID')!.odds, .1);
+});
+
+test('shared species, weapon and dates constrain both states', () => {
+  const data = [row(), colorado(), colorado({ id: 'archery', tagCode: 'DM039O1A', weapon: 'ARCHERY' }), row({ id: 'elk', species: 'ELK' })];
+  const results = runSearch(data, { states: 'ID,CO', species: 'DEER', weapon: 'ANY', from: '10-15', to: '10-16' }, 'ID', settings);
+  assert.deepEqual(results.map(x => x.r.id).sort(), ['co:deer39', 'id:deer39']);
+  assert.equal(runSearch(data, { states: 'ID,CO', from: '11-1', to: '11-3' }, 'ID', settings).length, 0);
+});
+
+test('qualified map clicks select only the correct state; bare unit search spans states', () => {
+  const data = [row(), colorado()];
+  assert.deepEqual(runSearch(data, { states: 'ID,CO', unit: 'CO:39' }, 'ID', settings).map(x => x.r.state), ['CO']);
+  assert.equal(runSearch(data, { states: 'ID,CO', unit: '39' }, 'ID', settings).length, 2);
+});
+
+test('each season must satisfy sex, weapon, youth and dates together', () => {
+  const tag = row({ type: 'GENERAL', antlerClass: 'EITHER', tagSeasons: { year: 2027, seasons: [
+    { weapon: 'ARCHERY', sex: 'antlered', notes: '', dates: [{ open: '2027-09-01', close: '2027-09-30' }] },
+    { weapon: 'ANY', sex: 'antlerless (youth hunt only)', notes: '', dates: [{ open: '2027-10-01', close: '2027-10-31' }] },
+  ] } });
+  assert.equal(matchesHuntSeason(tag, parseFilters({ weapon: 'ARCHERY', from: '10-1', to: '10-31', youth: 'include' }), true), false);
+  assert.equal(matchesHuntSeason(tag, parseFilters({ weapon: 'ANY', from: '10-1', to: '10-31', youth: 'include' }), true), false);
+  assert.equal(matchesHuntSeason(tag, parseFilters({ weapon: 'ANY', from: '10-1', to: '10-31', youth: 'include', antler: 'ANTLERLESS' }), true), true);
+  assert.equal(matchesHuntSeason(tag, parseFilters({ weapon: 'ANY', from: '10-1', to: '10-31', antler: 'ANTLERLESS' }), true), false);
+});
+
+test('Idaho-only restrictions explicitly exclude other states and keep migrations scoped', () => {
+  const data = [row(), colorado()];
+  assert.deepEqual(runSearch(data, { states: 'ID,CO', accessYes: '1' }, 'ID', settings).map(x => x.r.state), ['ID']);
+  assert.equal(runSearch(data, { states: 'ID,CO', migration: 'yes' }, 'ID', settings, { DEER: ['39'] }).length, 1);
+  assert.equal(runSearch(data, { states: 'ID,CO', migration: 'yes' }, 'ID', settings, { ELK: ['39'] }).length, 0);
+});
+
+test('Colorado filters retain numbered seasons, point ranges, chance and private-land visibility', () => {
+  const data = [row(), colorado(), colorado({ id: 'private', privateOnly: true })];
+  assert.equal(runSearch(data, { states: 'ID,CO', season: '3', chance: 'likely', minPts: '2', maxPts: '2' }, 'ID', settings).length, 1);
+  assert.equal(runSearch(data, { states: 'ID,CO', season: '2' }, 'ID', settings).length, 0);
+  assert.equal(runSearch(data, { states: 'ID,CO', priv: '1' }, 'ID', settings).length, 3);
+});
+
+test('overlap choices exclude unknown dates and other species and states', () => {
+  const data = [row(), colorado(), colorado({ id: 'unknown' }), colorado({ id: 'elk', species: 'ELK' })];
+  assert.deepEqual(runSearch(data, { states: 'ID,CO', otcElk: '1' }, 'ID', settings, {}, { 'co:deer39': true, unknown: null, elk: true }).map(x => x.r.id), ['co:deer39']);
+  assert.equal(runSearch(data, { states: 'ID,CO', otcElk: '0' }, 'ID', settings, {}, { 'co:deer39': true, unknown: null }).length, 0);
+});
+
+test('OTC eligibility respects Colorado residency; capped Idaho tags are not guaranteed', () => {
+  const resOnly = colorado({ type: 'GENERAL', pointOdds: { general: { resident: true, nonresident: false } } });
+  assert.equal(personalize(resOnly, settings, 'proj'), null);
+  assert.equal(personalize(resOnly, { ...settings, CO: { ...settings.CO, res: 'RESIDENT' } }, 'proj')!.odds, 1);
+  assert.equal(personalize(row({ type: 'GENERAL', capped: true }), settings, 'proj')!.odds, null);
+});
+
+test('historical, projected and youth pools remain independent and never leak between hunters', () => {
+  assert.equal(personalize(colorado(), settings, 'last')!.odds, .8);
+  assert.equal(personalize(colorado(), { ...settings, CO: { ...settings.CO, youth: true } }, 'proj')!.odds, .9);
+  assert.equal(personalize(colorado(), settings, 'proj')!.odds, .6);
+});
+
+test('unknown odds and scores remain visible but never pass minimum filters or outrank known values', () => {
+  const data = [row({ id: 'unknown', scoreQuality: null, resOdds5: null, resOddsLast: null }), row({ id: 'zero', resOdds5: 0 }), row()];
+  assert.deepEqual(runSearch(data, { states: 'ID' }, 'ID', settings).map(x => x.r.id), ['id:deer39', 'zero', 'unknown']);
+  assert.equal(runSearch(data, { states: 'ID', minOdds: '1' }, 'ID', settings).length, 1);
+  assert.equal(runSearch(data, { states: 'ID', minScore: '50' }, 'ID', settings).length, 2);
+});
+
+test('tie breaking and null ordering are deterministic in both sort directions', () => {
+  const a = personalize(row({ id: 'a', huntersSqMi: null }), settings, 'proj')!;
+  const b = personalize(row({ id: 'b', huntersSqMi: .2 }), settings, 'proj')!;
+  assert.ok(compareSearch(a, b, 'densityLow') > 0);
+  assert.ok(compareSearch(a, b, 'opp') < 0);
+});
+
+test('CSV preserves search order, personalized odds, provenance and safe spreadsheet strings', () => {
+  const results = runSearch([row({ name: '=SUM(A1)' }), colorado()], { states: 'ID,CO' }, 'ID', settings);
+  const csv = searchCsv(results, 'https://example.com');
+  const lines = csv.trim().split('\n');
+  assert.equal(lines.length, results.length + 1);
+  assert.match(lines[1], /ID,'=SUM\(A1\)/);
+  assert.match(lines[2], /Nonresident,2,60,Projected/);
+  assert.match(csv, /https:\/\/example.com\/hunts\/co-dm039o3r/);
+});

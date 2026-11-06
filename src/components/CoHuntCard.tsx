@@ -21,6 +21,7 @@ export async function CoHuntCard({
   mode,
   saved,
   signedIn,
+  preScored = false,
 }: {
   r: CoScored;
   hasOtcElk?: boolean;
@@ -31,8 +32,9 @@ export async function CoHuntCard({
   mode: 'last' | 'proj';
   saved: boolean;
   signedIn: boolean;
+  preScored?: boolean;
 }) {
-  r = withCoOpportunity(withCoScores(r,await getCoScoringContext()), odds, nr);
+  if (!preScored) r = withCoOpportunity(withCoScores(r,await getCoScoringContext()), odds, nr);
   const general = (r.pointOdds as unknown as PointOdds)?.general;
   const years = Math.min(5, r.harvestYears),
     crowd = crowdVerdict(r.huntersSqMi),

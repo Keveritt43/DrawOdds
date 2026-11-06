@@ -4,10 +4,13 @@ import { useEffect, useRef, useTransition } from 'react';
 import { enabledStates } from '@/lib/states';
 import { setStateCode } from '@/app/actions';
 import { useStateConfig } from './StateContext';
+import { useRouter, usePathname } from 'next/navigation';
 
 /** The state name beside the logo doubles as the state picker. */
 export function StateSwitch() {
   const cur = useStateConfig();
+  const router = useRouter();
+  const path = usePathname();
   const [pending, start] = useTransition();
   const ref = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
@@ -23,7 +26,7 @@ export function StateSwitch() {
       <div className="state-menu card" role="menu">
         {states.map((s) => (
           <button key={s.code} type="button" role="menuitemradio" aria-checked={s.code === cur.code} disabled={pending}
-            onClick={() => start(async () => { await setStateCode(s.code); if (ref.current) ref.current.open = false; })}>
+            onClick={() => start(async () => { await setStateCode(s.code); if (ref.current) ref.current.open = false; if (path === '/hunts') router.push(`/hunts?states=${s.code}&sort=opp&minScore=0`); })}>
             {s.name}{s.beta ? <span className="beta-tag">Beta</span> : null}{s.code === cur.code ? ' ✓' : ''}
           </button>
         ))}
