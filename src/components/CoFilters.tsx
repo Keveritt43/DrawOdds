@@ -10,6 +10,7 @@ type Opt = [value: string, label: string];
 const SPECIES: Opt[] = [
   ['DEER', 'Deer'],
   ['ELK', 'Elk'],
+  ['PRONGHORN', 'Pronghorn'],
 ];
 const METHOD: Opt[] = [
   ['R', 'Rifle'],

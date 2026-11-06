@@ -12,7 +12,7 @@ export function CoHerds({
 }: {
   herds: HerdSeries[];
   highlight?: string[];
-  species?: 'DEER' | 'ELK';
+  species?: 'DEER' | 'ELK' | 'PRONGHORN';
 }) {
   if (!herds.length) return <p className="muted">No population estimate covers these units.</p>;
   return (
@@ -21,7 +21,7 @@ export function CoHerds({
         <Herd key={h.dau} h={h} highlight={highlight} species={species} />
       ))}
       <p className="small muted" style={{ margin: 0 }}>
-        CPW post-hunt population and sex ratio estimates. One estimate covers the whole herd (data analysis unit), so it spans every unit
+        CPW population and sex ratio estimates. One estimate covers the whole herd (data analysis unit), so it spans every unit
         listed. Missing report years are left blank rather than interpolated. The 2022 reports were transcribed from the original PDFs
         because their text layers were corrupt.
       </p>
@@ -29,7 +29,7 @@ export function CoHerds({
   );
 }
 
-function Herd({ h, highlight, species }: { h: HerdSeries; highlight: string[]; species: 'DEER' | 'ELK' }) {
+function Herd({ h, highlight, species }: { h: HerdSeries; highlight: string[]; species: 'DEER' | 'ELK' | 'PRONGHORN' }) {
   const s = h.series;
   const last = s[s.length - 1],
     first = s[0];
@@ -52,7 +52,7 @@ function Herd({ h, highlight, species }: { h: HerdSeries; highlight: string[]; s
       <div className="co-herd-head">
         <div>
           <div className="k">
-            {species === 'ELK' ? 'Elk herd E-' : 'Deer herd D-'}
+            {species === 'ELK' ? 'Elk herd E-' : species === 'DEER' ? 'Deer herd D-' : 'Pronghorn herd PH-'}
             {h.dau}
             {h.name ? ` · ${h.name}` : ''}
           </div>
@@ -70,7 +70,7 @@ function Herd({ h, highlight, species }: { h: HerdSeries; highlight: string[]; s
           <div className="co-herd-now">
             <b>{int(last.estimate)}</b>
             <span className="small muted">
-              {species.toLowerCase()} after the {last.year} hunt
+              {species.toLowerCase()}, {last.year} estimate
               {change !== null ? (
                 <>
                   {' '}
@@ -89,7 +89,7 @@ function Herd({ h, highlight, species }: { h: HerdSeries; highlight: string[]; s
         viewBox={`0 0 ${W} ${H}`}
         width="100%"
         role="img"
-        aria-label={`Herd ${species === 'ELK' ? 'E' : 'D'}-${h.dau} population estimates ${y0} to ${y1}`}
+        aria-label={`Herd ${species === 'ELK' ? 'E' : species === 'DEER' ? 'D' : 'PH'}-${h.dau} population estimates ${y0} to ${y1}`}
         preserveAspectRatio="none"
         style={{ height: 90 }}
       >
@@ -113,7 +113,7 @@ function Herd({ h, highlight, species }: { h: HerdSeries; highlight: string[]; s
           </thead>
           <tbody>
             <tr>
-              <th>{species === 'ELK' ? 'Elk' : 'Deer'}</th>
+              <th>{species === 'ELK' ? 'Elk' : species === 'DEER' ? 'Deer' : 'Pronghorn'}</th>
               {s.map((x) => (
                 <td key={x.year} className="num">
                   {int(x.estimate)}

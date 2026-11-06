@@ -1,0 +1,357 @@
+{
+  "year": 2022,
+  "species": "PRONGHORN",
+  "herds": [
+    {
+      "dau": "1",
+      "name": "Escarpment",
+      "units": [
+        "87",
+        "88",
+        "89",
+        "90",
+        "94",
+        "95",
+        "951"
+      ],
+      "estimate": 5948,
+      "ratio": 21
+    },
+    {
+      "dau": "2",
+      "name": "Hardpan",
+      "units": [
+        "99",
+        "100"
+      ],
+      "estimate": 1278,
+      "ratio": 30
+    },
+    {
+      "dau": "3",
+      "name": "North Park",
+      "units": [
+        "6",
+        "16",
+        "17",
+        "161",
+        "171"
+      ],
+      "estimate": 1906,
+      "ratio": 41
+    },
+    {
+      "dau": "4",
+      "name": "Sandhills",
+      "units": [
+        "93",
+        "97",
+        "98",
+        "101",
+        "102"
+      ],
+      "estimate": 666,
+      "ratio": 17
+    },
+    {
+      "dau": "5",
+      "name": "Haswell",
+      "units": [
+        "120",
+        "121",
+        "125",
+        "126"
+      ],
+      "estimate": 2757,
+      "ratio": 30
+    },
+    {
+      "dau": "6",
+      "name": "Hugo",
+      "units": [
+        "112",
+        "113",
+        "114",
+        "115"
+      ],
+      "estimate": 1878,
+      "ratio": 23
+    },
+    {
+      "dau": "7",
+      "name": "Thatcher",
+      "units": [
+        "128",
+        "129",
+        "133",
+        "134",
+        "135",
+        "140",
+        "141",
+        "142",
+        "147"
+      ],
+      "estimate": 8043,
+      "ratio": 31
+    },
+    {
+      "dau": "8",
+      "name": "Yoder",
+      "units": [
+        "110",
+        "111",
+        "118",
+        "119",
+        "123",
+        "124"
+      ],
+      "estimate": 7491,
+      "ratio": 24
+    },
+    {
+      "dau": "9",
+      "name": "Great Divide",
+      "units": [
+        "3",
+        "4",
+        "5",
+        "13",
+        "14",
+        "214",
+        "301",
+        "441"
+      ],
+      "estimate": 17891,
+      "ratio": 34
+    },
+    {
+      "dau": "10",
+      "name": "Maybell",
+      "units": [
+        "11"
+      ],
+      "estimate": 906,
+      "ratio": 45
+    },
+    {
+      "dau": "11",
+      "name": "Sand Wash",
+      "units": [
+        "1",
+        "2",
+        "201"
+      ],
+      "estimate": 860,
+      "ratio": 27
+    },
+    {
+      "dau": "12",
+      "name": "Cheyenne",
+      "units": [
+        "116",
+        "117",
+        "122",
+        "127"
+      ],
+      "estimate": 1638,
+      "ratio": 24
+    },
+    {
+      "dau": "13",
+      "name": "Tobe",
+      "units": [
+        "130",
+        "136",
+        "137",
+        "138",
+        "143",
+        "144",
+        "146"
+      ],
+      "estimate": 2753,
+      "ratio": 22
+    },
+    {
+      "dau": "14",
+      "name": "North San Luis Valley",
+      "units": [
+        "68",
+        "79",
+        "82",
+        "681",
+        "682",
+        "791"
+      ],
+      "estimate": 1632,
+      "ratio": 17
+    },
+    {
+      "dau": "16",
+      "name": "South San Luis Valley",
+      "units": [
+        "80",
+        "81",
+        "83"
+      ],
+      "estimate": 883,
+      "ratio": 20
+    },
+    {
+      "dau": "18",
+      "name": "Two Buttes",
+      "units": [
+        "132",
+        "139",
+        "145"
+      ],
+      "estimate": 1000,
+      "ratio": 50
+    },
+    {
+      "dau": "19",
+      "name": "Last Chance",
+      "units": [
+        "103",
+        "106",
+        "107",
+        "109"
+      ],
+      "estimate": 2466,
+      "ratio": 15
+    },
+    {
+      "dau": "20",
+      "name": "Wet Mountain",
+      "units": [
+        "69",
+        "84",
+        "85",
+        "86",
+        "691",
+        "851",
+        "861"
+      ],
+      "estimate": 2497,
+      "ratio": 28
+    },
+    {
+      "dau": "21",
+      "name": "Dinosaur",
+      "units": [
+        "10",
+        "21"
+      ],
+      "estimate": 250,
+      "ratio": 88
+    },
+    {
+      "dau": "23",
+      "name": "Gunnison Basin",
+      "units": [
+        "66",
+        "67",
+        "551"
+      ],
+      "estimate": 444,
+      "ratio": 32
+    },
+    {
+      "dau": "30",
+      "name": "South Park",
+      "units": [
+        "49",
+        "50",
+        "57",
+        "58",
+        "500",
+        "501",
+        "511",
+        "581"
+      ],
+      "estimate": 1225,
+      "ratio": 32
+    },
+    {
+      "dau": "31",
+      "name": "Ft Carson",
+      "units": [
+        "59",
+        "591"
+      ],
+      "estimate": 241,
+      "ratio": 62
+    },
+    {
+      "dau": "33",
+      "name": "Cherokee",
+      "units": [
+        "9",
+        "19",
+        "191"
+      ],
+      "estimate": 1230,
+      "ratio": 44
+    },
+    {
+      "dau": "34",
+      "name": "Axial Basin",
+      "units": [
+        "12",
+        "23",
+        "211"
+      ],
+      "estimate": 149,
+      "ratio": 24
+    },
+    {
+      "dau": "35",
+      "name": "Kiowa Creek",
+      "units": [
+        "51",
+        "104",
+        "105"
+      ],
+      "estimate": 5867,
+      "ratio": 45
+    },
+    {
+      "dau": "36",
+      "name": "Laramie River",
+      "units": [
+        "7",
+        "8"
+      ],
+      "estimate": 580,
+      "ratio": 30
+    },
+    {
+      "dau": "37",
+      "name": "Middle Park",
+      "units": [
+        "15",
+        "18",
+        "26",
+        "27",
+        "28",
+        "37",
+        "181",
+        "231",
+        "371"
+      ],
+      "estimate": 728,
+      "ratio": 74
+    },
+    {
+      "dau": "39",
+      "name": "Collegiate",
+      "units": [
+        "48",
+        "56",
+        "481"
+      ],
+      "estimate": 235,
+      "ratio": 21
+    }
+  ],
+  "total": 73440
+}

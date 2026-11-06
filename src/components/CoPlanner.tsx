@@ -89,6 +89,7 @@ export function CoPlanner({
         >
           <option value="DEER">Deer</option>
           <option value="ELK">Elk</option>
+          <option value="PRONGHORN">Pronghorn</option>
         </select>
       </label>{" "}
       <label>
@@ -121,9 +122,9 @@ export function CoPlanner({
       >
         Add choice
       </button>
-      {["DEER", "ELK"].map((sp) => (
+      {["DEER", "ELK", "PRONGHORN"].map((sp) => (
         <section key={sp}>
-          <h2>{sp === "DEER" ? "Deer" : "Elk"} Choices</h2>
+          <h2>{sp === 'DEER' ? 'Deer' : sp === 'ELK' ? 'Elk' : 'Pronghorn'} Choices</h2>
           <ol>
             {codes
               .filter((id) => hunts.find((h) => h.id === id)?.species === sp)

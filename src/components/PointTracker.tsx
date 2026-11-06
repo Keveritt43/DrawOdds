@@ -8,6 +8,7 @@ import type { StatePoints } from '@/lib/points';
 const SPECIES = [
   { key: 'DEER', label: 'Deer' },
   { key: 'ELK', label: 'Elk' },
+  { key: 'PRONGHORN', label: 'Pronghorn' },
 ] as const;
 
 /**
@@ -58,7 +59,7 @@ export function PointTracker({ value }: { value: StatePoints }) {
         </div>
         <label className="pt-youth"><input type="checkbox" checked={v.youth} onChange={(e) => save({ youth: e.target.checked })} /> Youth hunter (12–17): show youth odds</label>
         <p className="small muted" style={{ margin: 0 }}>
-          Your points are on your {st.agency.short} account under preference points. Pronghorn, bear, moose, sheep and goat come later.
+          Your points are on your {st.agency.short} account under preference points. Bear, moose, sheep and goat come later.
           {!value.set && ' Until you set them, odds assume 0 points.'}
         </p>
         <button type="button" className="btn small" onClick={() => { if (!v.set) save({}); if (ref.current) ref.current.open = false; }}>Done</button>

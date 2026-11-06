@@ -40,7 +40,7 @@ export interface UnitTables {
 }
 
 const num = (s: string) => Number(s.replace(/[,%*]/g, ''));
-const CODE = /^([DE][MFEP]\d{3}[A-Z0-9]\d[A-Z])(\*?)$/;
+const CODE = /^([DEA][MFEP]\d{3}[A-Z0-9]\d[A-Z])(\*?)$/;
 export const validHarvestCounts = (harvest: number, hunters: number) =>
   Number.isFinite(harvest) && Number.isFinite(hunters) && harvest >= 0 && hunters >= 0 && harvest <= hunters;
 
@@ -58,7 +58,7 @@ function texts(items: Item[]) {
 
 export function harvestYear(pages: Item[][]): number | null {
   for (const p of pages.slice(0, 3)) {
-    const m = /(20\d\d) Colorado (Deer|Elk) Harvest Estimates/i.exec(
+    const m = /(20\d\d) Colorado (Deer|Elk|Pronghorn) Harvest Estimates/i.exec(
       texts(p)
         .map((r) => r.text)
         .join(' ').replace(/\b(20)\s+(\d{2})\b/g, '$1$2'),

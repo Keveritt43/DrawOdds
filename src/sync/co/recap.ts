@@ -65,8 +65,8 @@ export interface RecapHunt {
   closed?: boolean;
 }
 
-// D/E = deer/elk; sex M/F/E (P on the point-only code DP99999P); unit; season letter + number; method
-const CODE = /^([DE])([MFEP])(\d{3})([A-Z0-9])(\d)([A-Z])$/;
+// D/E/A = deer/elk/pronghorn; P in the sex position is a preference-point-only code.
+const CODE = /^([DEA])([MFEP])(\d{3})([A-Z0-9])(\d)([A-Z])$/;
 // column centers (x) in CPW's template; items are assigned to the nearest within TOL
 const LEFT = [180, 216, 253, 289, 330, 375];
 const RIGHT = [560, 597, 633, 670, 710, 755];
@@ -305,7 +305,7 @@ export function decodeHuntCode(code: string) {
   if (!m) return null;
   const [, sp, sex, unit, seasonType, seasonNo, method] = m;
   return {
-    species: sp === 'D' ? 'DEER' : 'ELK',
+    species: sp === 'D' ? 'DEER' : sp === 'E' ? 'ELK' : 'PRONGHORN',
     sex: sex as 'M' | 'F' | 'E' | 'P', // antlered / antlerless / either sex; P = preference point only
     unit: String(Number(unit)),
     seasonType, // O = regular season; others (E, L, P, W, J, K, U...) are special seasons: see the brochure

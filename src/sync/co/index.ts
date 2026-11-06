@@ -155,7 +155,7 @@ function sharedPool(h: { cutoff: unknown }): { codes: string[]; poolQuota: numbe
   return (h.cutoff as { __shared?: { codes: string[]; poolQuota: number | null; codeDrawn: number | null } })?.__shared;
 }
 function individualQuota(h: { quota: number | null; cutoff: unknown }) { return sharedPool(h) ? null : h.quota; }
-function recapRow(h: RecapHunt, species: Species): Prisma.DrawRecapCreateManyInput {
+export function recapRow(h: RecapHunt, species: Species): Prisma.DrawRecapCreateManyInput {
   return {
     id: recapId(species, h.year, h.code),
     state: STATE,
@@ -422,14 +422,14 @@ function measureCalibration(byCode: Map<string, RecapRow[]>, pool: 'res' | 'nr')
   return { ...c, q: c.q.map((q, i) => (c.n[i] >= 50 ? q : d.q[i])) };
 }
 
-export async function buildCoSummaries(): Promise<StepResult> {
+export async function buildCoSummaries(speciesOnly?: 'PRONGHORN'): Promise<StepResult> {
   const details: string[] = [];
   const all = await db.drawRecap.findMany({ where: { state: STATE }, orderBy: [{ code: 'asc' }, { year: 'asc' }] });
   if (!all.length) return { rows: 0, status: 'CHECK', details: ['No Colorado draw reports loaded yet (run co-draw)'] };
   const out: Prisma.HuntSummaryCreateManyInput[] = [];
   const hunts: Prisma.HuntCreateInput[] = [];
   const reports = await db.stateReport.findMany({ where: { state: STATE } });
-  const regsRow = reports.filter((r) => r.kind === 'regs').sort((a, b) => b.year - a.year)[0];
+  const regsRow = reports.filter((r) => r.kind === (speciesOnly ? 'pronghorn-regs' : 'regs')).sort((a, b) => b.year - a.year)[0];
   const regs = (regsRow?.data ?? null) as unknown as { codes: Record<string, RegCode>; year: number | null } | null;
   // unit lists keep real GMUs only (a boundary description can still slip a stray number through)
   const unitRows = await db.unit.findMany({ where: { state: STATE }, select: { name: true, acres: true, publicPct: true } });
@@ -437,7 +437,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
   const land = new Map(unitRows.map((u) => [u.name, u]));
   if (!regs) details.push('No W-2 regulations loaded: units and dates fall back to the hunt code (run co-reports)');
 
-  for (const species of ['DEER', 'ELK'] as const) {
+  for (const species of (speciesOnly ? [speciesOnly] : ['DEER', 'ELK']) as ('DEER' | 'ELK' | 'PRONGHORN')[]) {
     const rows = all.filter((r) => r.species === species);
     if (!rows.length) continue;
     const latest = Math.max(...rows.map((r) => r.year));
@@ -448,7 +448,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
     const hUnit = new Map<number, UnitTables>();
     for (const r of reports.filter((x) => x.species === species)) {
       if (r.kind === 'harvest-code') hCode.set(r.year, new Map((r.data as unknown as CodeHarvest[]).map((c) => [c.code, c])));
-      if (r.kind === 'harvest-unit') hUnit.set(r.year, r.data as unknown as UnitTables);
+      if (r.kind === 'harvest-unit' && species !== 'PRONGHORN') hUnit.set(r.year, r.data as unknown as UnitTables);
     }
     const pops = reports
       .filter((x) => x.species === species && x.kind === 'population')
@@ -598,7 +598,8 @@ export async function buildCoSummaries(): Promise<StepResult> {
   }
 
   // General/OTC elk licenses are regulations, not primary-draw hunt codes.
-  const elkReports = reports.filter((r) => r.species === 'ELK');
+  const generalSpecies = speciesOnly ?? 'ELK';
+  const elkReports = reports.filter((r) => r.species === generalSpecies);
   const codeHarvest = new Map<number, Map<string, CodeHarvest>>(),
     unitHarvest = new Map<number, UnitTables>();
   for (const r of elkReports) {
@@ -607,7 +608,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
   }
   for (const reg of Object.values(regs?.codes ?? {})) {
     const d = decodeCode(reg.code);
-    if (!d || d.species !== 'ELK' || d.type !== 'U') continue;
+    if (!d || d.species !== generalSpecies || d.type !== 'U') continue;
     const units = reg.units.filter((u) => gmus.has(u));
     if (!units.length) continue;
     const latest = Math.max(...all.map((r) => r.year));
@@ -618,8 +619,8 @@ export async function buildCoSummaries(): Promise<StepResult> {
     const hunters = h5.reduce((a, h) => a + h.hunters, 0),
       harvest = h5.reduce((a, h) => a + h.harvest, 0);
     const general = {
-      resident: !['EE087U1A', 'EF133U1A'].includes(reg.code),
-      nonresident: !['EE000U1A', 'EF000U1A'].includes(reg.code),
+      resident: generalSpecies === 'PRONGHORN' || !['EE087U1A', 'EF133U1A'].includes(reg.code),
+      nonresident: generalSpecies === 'PRONGHORN' || !['EE000U1A', 'EF000U1A'].includes(reg.code),
       regulationsYear: regs?.year ?? latest,
     };
     const po: PointOdds = {
@@ -652,7 +653,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
       idfgId,
       state: STATE,
       year: latest + 1,
-      species: 'ELK',
+      species: generalSpecies,
       type: 'GENERAL',
       code: reg.code,
       source: 'co-regs',
@@ -670,7 +671,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
       state: STATE,
       slug: `co-${reg.code.toLowerCase()}`,
       huntId: idfgId,
-      species: 'ELK',
+      species: generalSpecies,
       type: 'GENERAL',
       name: huntTitle(reg.code),
       unit: d.unit === '0' ? null : d.unit,
@@ -725,7 +726,7 @@ export async function buildCoSummaries(): Promise<StepResult> {
 
   // synthetic ids must not land on an Idaho hunt (FNV hash: unlikely, but checked)
   const clash = await db.hunt.findMany({
-    where: { idfgId: { in: hunts.map((h) => h.idfgId) }, state: { not: STATE } },
+    where: { idfgId: { in: hunts.map((h) => h.idfgId) }, ...(speciesOnly ? { OR: [{ state: { not: STATE } }, { species: { not: speciesOnly } }] } : { state: { not: STATE } }) },
     select: { idfgId: true },
   });
   if (clash.length)
@@ -738,10 +739,17 @@ export async function buildCoSummaries(): Promise<StepResult> {
   }
   await db.$transaction(
     async (tx) => {
-      for (const h of hunts) await tx.hunt.upsert({ where: { idfgId: h.idfgId }, create: h, update: h });
+      for (const h of hunts) {
+        if (speciesOnly) await tx.hunt.create({ data: h });
+        else await tx.hunt.upsert({ where: { idfgId: h.idfgId }, create: h, update: h });
+      }
       // Keep historical Hunt rows; only current filter-ready summaries are rebuilt.
-      await tx.huntSummary.deleteMany({ where: { state: STATE } });
-      await tx.huntSummary.createMany({ data: out });
+      if (speciesOnly) {
+        await tx.huntSummary.createMany({ data: out });
+      } else {
+        await tx.huntSummary.deleteMany({ where: { state: STATE } });
+        await tx.huntSummary.createMany({ data: out });
+      }
     },
     { timeout: 180_000 },
   );

@@ -75,10 +75,10 @@ const ORD = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];
 const METHOD: Record<string, string> = { R: 'Rifle', A: 'Archery', M: 'Muzzleloader', X: 'Season Choice' };
 
 export function decodeCode(code: string) {
-  const m = /^([DE])([MFEP])(\d{3})([A-Z0-9])(\d)([A-Z])$/.exec(code);
+  const m = /^([DEA])([MFEP])(\d{3})([A-Z0-9])(\d)([A-Z])$/.exec(code);
   if (!m) return null;
   const [, sp, sex, unit, type, no, method] = m;
-  return { species: sp === 'D' ? 'DEER' : 'ELK', sex, unit: String(Number(unit)), type, no: Number(no), method } as const;
+  return { species: sp === 'D' ? 'DEER' : sp === 'E' ? 'ELK' : 'PRONGHORN', sex, unit: String(Number(unit)), type, no: Number(no), method } as const;
 }
 
 /** "3rd Rifle", "Archery", "Early Rifle", "Private Land Only Rifle". From the hunt code; dates come from the brochure. */
@@ -90,7 +90,7 @@ export function seasonLabel(code: string): string {
     case 'U':
       return d.method === 'R' && d.no <= 4 ? `${ORD[d.no]} Rifle (OTC)` : d.method === 'A' ? 'Archery (OTC)' : 'OTC Rifle';
     case 'O':
-      return d.method === 'R' ? `${ORD[d.no] ?? d.no} Rifle` : meth;
+      return d.method === 'R' && d.species !== 'PRONGHORN' ? `${ORD[d.no] ?? d.no} Rifle` : meth;
     case 'E':
       return `Early ${meth}`;
     case 'L':
@@ -117,6 +117,8 @@ export function huntTitle(code: string): string {
         : d.sex === 'F'
           ? 'Doe Deer'
           : 'Either-Sex Deer'
+      : d.species === 'PRONGHORN'
+        ? d.sex === 'M' ? 'Buck Pronghorn' : d.sex === 'F' ? 'Doe Pronghorn' : 'Either-Sex Pronghorn'
       : d.sex === 'M'
         ? 'Bull Elk'
         : d.sex === 'F'

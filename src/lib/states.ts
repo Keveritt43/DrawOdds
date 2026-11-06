@@ -70,8 +70,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     agency: { short: 'CPW', name: 'Colorado Parks and Wildlife', url: 'https://cpw.state.co.us/activities/hunting/big-game' },
     accessProgram: null,
     points: 'preference',
-    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
-    species: ['DEER', 'ELK'],
+    draws: [{ key: 'DEP', label: 'Deer · Elk · Pronghorn', species: ['DEER', 'ELK', 'PRONGHORN'] }],
+    species: ['DEER', 'ELK', 'PRONGHORN'],
     bounds: [[-109.06, 36.99], [-102.04, 41.0]],
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
@@ -86,7 +86,7 @@ export const stateConfig = (code?: string | null): StateConfig => {
   return STATES[c] ?? STATES[DEFAULT_STATE];
 };
 /** Species that use preference points in a state's draw (point tracker rows). */
-export const POINT_SPECIES: Partial<Record<StateCode, ('DEER' | 'ELK')[]>> = { CO: ['DEER', 'ELK'] };
+export const POINT_SPECIES: Partial<Record<StateCode, ('DEER' | 'ELK' | 'PRONGHORN')[]>> = { CO: ['DEER', 'ELK', 'PRONGHORN'] };
 
 /**
  * A unit's address in URLs and favorites. Idaho keeps its bare names ("39", "36A") so old links work; other states

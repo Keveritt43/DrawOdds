@@ -109,6 +109,7 @@ export async function setPoints(state: string, patch: Partial<StatePoints>) {
     res: patch.res === 'RESIDENT' || patch.res === 'NONRESIDENT' ? patch.res : cur.res,
     DEER: patch.DEER !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.DEER) || 0))) : cur.DEER,
     ELK: patch.ELK !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.ELK) || 0))) : cur.ELK,
+    PRONGHORN: patch.PRONGHORN !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.PRONGHORN) || 0))) : cur.PRONGHORN,
     youth: patch.youth !== undefined ? !!patch.youth : cur.youth,
     set: true,
   };

@@ -34,7 +34,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   s = withCoLand(s);
   const po = s.pointOdds as unknown as PointOdds | null;
   const d = decodeCode(s.tagCode ?? "");
-  const species = s.species === "ELK" ? "ELK" : "DEER";
+  const species = s.species === 'PRONGHORN' ? 'PRONGHORN' : s.species === 'ELK' ? 'ELK' : 'DEER';
   const [pts, session] = await Promise.all([getPoints('CO'), auth()]);
   const saved = session?.user
     ? await db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } })
@@ -44,13 +44,13 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   const pool: CoPool = (CO_POOLS as readonly string[]).includes(sp.pool ?? '') ? (sp.pool as CoPool) : myPool;
   const mode = sp.odds === "last" ? "last" : "proj";
   const p = pts[species];
-  const spLabel = species === "DEER" ? "deer" : "elk";
+  const spLabel = species.toLowerCase();
   if (po?.general && d)
     return (
       <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
         <h1>{s.name}</h1>
         <p>
-          <b>General / over-the-counter elk license</b> · {s.tagCode}
+          <b>General / over-the-counter {spLabel} license</b> · {s.tagCode}
         </p>
         <p>
           {po.general.resident ? 'Residents eligible' : 'Not available to residents'} ·{' '}
@@ -74,11 +74,11 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <p className="small muted">{po.regs?.unitText}</p>
         <h2>Hunter Success</h2>
         {po.harvest?.length ? <div className="co-graph-grid"><HarvestCharts rows={po.harvest} /></div> : null}
-        {po.harvest?.length ? <Harvest rows={po.harvest} species="elk" /> : <p>No harvest estimate loaded for this code.</p>}
-        <h2>Elk Population</h2>
-        <CoUnitSeasonHunters units={s.units} hunt={s} />
+        {po.harvest?.length ? <Harvest rows={po.harvest} species={spLabel} /> : <p>No harvest estimate loaded for this code.</p>}
+        <h2>{species === 'PRONGHORN' ? 'Pronghorn' : 'Elk'} Population</h2>
+        {species === 'ELK' && <CoUnitSeasonHunters units={s.units} hunt={s} />}
         <CoLand units={s.units} />
-        <CoHerds species="ELK" herds={po.herds ?? []} highlight={s.units} />
+        <CoHerds species={species} herds={po.herds ?? []} highlight={s.units} />
       </main>
     );
   if (!po || !d)
@@ -103,7 +103,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   return (
     <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
       <p className="small">
-        <Link href={`/hunts?unit=${d.unit}${species === 'ELK' ? '&species=ELK' : ''}`}>← Colorado hunts in unit {d.unit}</Link>
+        <Link href={`/hunts?unit=${d.unit}&species=${species}`}>← Colorado hunts in unit {d.unit}</Link>
       </p>
       <h1 className="star-head">
         {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
@@ -218,7 +218,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <p className="muted">No harvest estimates for this hunt code yet.</p>
       )}
 
-      <h2>{species === "ELK" ? "Elk" : "Deer"} Population</h2>
+      <h2>{species === 'ELK' ? 'Elk' : species === 'DEER' ? 'Deer' : 'Pronghorn'} Population</h2>
       <CoHerds species={species} herds={po.herds ?? []} highlight={po.regs?.units ?? [d.unit]} />
 
       <h2>Draw History</h2>

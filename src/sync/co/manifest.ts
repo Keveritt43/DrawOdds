@@ -11,7 +11,9 @@ export interface ReportLink {
 }
 
 import catalog from '../../../data/co-reports.json';
+import pronghornCatalog from '../../../data/co-pronghorn-reports.json';
 export const REPORT_CATALOG = catalog as (ReportLink & { kind: string; label: string })[];
+export const PRONGHORN_REPORT_CATALOG = pronghornCatalog as (Omit<ReportLink, 'species'> & { species: 'PRONGHORN'; kind: string; label: string })[];
 const links = (kind: string) => REPORT_CATALOG.filter((r) => r.kind === kind);
 export const DRAW_RECAPS = links('draw');
 export const DRAWN_OUT = links('drawn-out');

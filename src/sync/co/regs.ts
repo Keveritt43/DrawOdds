@@ -36,7 +36,7 @@ export interface RegCode {
   page: number;
 }
 
-const CODE = /^[DE][MFE]\d{3}[A-Z0-9]\d[A-Z]$/;
+const CODE = /^[DEA][MFE]\d{3}[A-Z0-9]\d[A-Z]$/;
 const DATE = /^\d{2}\/\d{2}\/\d{4}$/;
 const CONT_END = /(,|\b(and|of|the|except|within|above|below|in|north|south|east|west|to|by|portions?|that|those|GMUs?))$/i;
 const RANGE = /(\d{2})\/(\d{2})(?:\/\s*(\d{4}))?\s*[-–]\s*(\d{2})\/(\d{2})(?:\/\s*(\d{4}))?(\s*annually)?/i;
@@ -222,8 +222,8 @@ export function parseRegs(pages: Item[][]): { codes: Record<string, RegCode>; ye
         r.filter((i) => i.x >= 60 && i.x < unitLimit && !/^(Antlered|Antlerless|Either[- ]?Sex|Either|Unlimited)$/i.test(i.s.trim())),
       )
       .filter((r) => r.length && r[0].x >= 70 && r[0].x <= 95)
-      .map((r) => ({ y: r[0].y, text: r.map((i) => i.s.trim()).join(' ') }))
-      .filter((r) => /^(\d{1,3}\s*(?:,|$)|\(|Oso\b|[a-z])/.test(r.text));
+      .map((r) => ({ y: r[0].y, text: r.map((i, n) => n && /^\d/.test(i.s.trim()) && /\d$/.test(r[n - 1].s.trim()) && i.x - r[n - 1].x < 15 ? i.s.trim() : (n ? ' ' : '') + i.s.trim()).join('') }))
+      .filter((r) => /^(\d{1,3}\b|\(|Oso\b|SWA\b|[a-z])/.test(r.text));
     const otcGroups: { ys: number[]; text: string }[] = [];
     for (const line of otcLines) {
       const previous = otcGroups.at(-1);
@@ -300,7 +300,51 @@ export function parseRegs(pages: Item[][]): { codes: Record<string, RegCode>; ye
       previous.units = unitsIn(previous.unitText);
     }
   }
+  applyPronghornDates(pages, codes);
   return { codes, year: regYear };
+}
+
+/** Pronghorn has its own archery, muzzleloader and rifle calendars, distinct from deer and elk. */
+function applyPronghornDates(pages: Item[][], codes: Record<string, RegCode>) {
+  const text = pages.map((p) => rowsOf(p).map((r) => r.map((i) => i.s.trim()).join(' ')).join(' '));
+  const arch = pages.map((p) => p.map((i) => i.s.trim()).join(' ')).find((s) => /Unlimited Buck or Either\s*-?\s*Sex Season Dates:/i.test(s) && /Limited Doe Only Season Dates:/i.test(s));
+  const archRange = (label: RegExp) => {
+    const m = arch?.match(label);
+    return m ? { start: `${m[1]}-${m[2]}`, end: `${m[3]}-${m[4]}` } : null;
+  };
+  const buck = archRange(/Limited Buck Only Season Dates:\s*(\d\d)\/(\d\d)\s*[-–]\s*(\d\d)\/(\d\d)\s+annually/i);
+  const doe = archRange(/Limited Doe Only Season Dates:\s*(\d\d)\/(\d\d)\s*[-–]\s*(\d\d)\/(\d\d)\s+annually/i);
+  const muzzlePage = text.find((s) => /09\/21\s*[-–]\s*09\/29\s+Annually/i.test(s) && /A[MF]\d{3}O1M/.test(s));
+  const muzzleMatch = muzzlePage?.match(/Season Dates:\s*(\d\d)\/(\d\d)\s*[-–]\s*(\d\d)\/(\d\d)\s+Annually/i);
+  const muzzle = muzzleMatch ? { start: `${muzzleMatch[1]}-${muzzleMatch[2]}`, end: `${muzzleMatch[3]}-${muzzleMatch[4]}` } : null;
+  const ranges = (label: RegExp) => {
+    const out: Record<number, DateRange> = {};
+    const page = pages.find((p) => p.some((i) => label.test(i.s)) && p.some((i) => /^A[MFE]\d{3}/.test(i.s.trim())));
+    const header = page?.find((i) => label.test(i.s));
+    if (!page || !header) return out;
+    for (const yr of page.filter((i) => /^20\d\d$/.test(i.s.trim()) && i.y > header.y && i.y < header.y + 100)) {
+      const dates = page.filter((i) => DATE.test(i.s.trim()) && Math.abs(i.x - yr.x) < 5 && i.y > yr.y && i.y < yr.y + 60).sort((a, b) => a.y - b.y);
+      const iso = (s: string) => `${s.slice(6, 10)}-${s.slice(0, 2)}-${s.slice(3, 5)}`;
+      if (dates.length === 2) out[Number(yr.s)] = { start: iso(dates[0].s.trim()), end: iso(dates[1].s.trim()) };
+    }
+    return out;
+  };
+  const first = ranges(/Regular Rifle Season Dates, Units/);
+  const second = ranges(/^Second$/);
+  for (const c of Object.values(codes)) {
+    if (!c.code.startsWith('A')) continue;
+    // Do not reuse the previous species' table; code-specific dates still take precedence.
+    c.dates.table = null;
+    const sex = c.code[1], type = c.code[5], n = c.code[6], method = c.code[7];
+    if (method === 'A' && (type === 'O' || type === 'U')) {
+      const a = sex === 'F' ? doe : buck;
+      if (a) c.dates.table = { annual: a };
+    } else if (method === 'M' && type === 'O' && muzzle) c.dates.table = { annual: muzzle };
+    else if (method === 'R' && type === 'O' && (n === '1' || n === '2')) {
+      const years = n === '1' ? first : second;
+      if (Object.keys(years).length) c.dates.table = { byYear: years };
+    }
+  }
 }
 
 /**

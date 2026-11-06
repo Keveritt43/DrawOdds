@@ -14,6 +14,7 @@ export interface StatePoints {
   res: Residency;
   DEER: number;
   ELK: number;
+  PRONGHORN: number;
   youth: boolean;
   set: boolean;
 }
@@ -28,6 +29,7 @@ export function readState(store: PointsStore | null | undefined, state: string):
     res: s.res === 'RESIDENT' ? 'RESIDENT' : 'NONRESIDENT',
     DEER: clampPts(s.DEER),
     ELK: clampPts(s.ELK),
+    PRONGHORN: clampPts(s.PRONGHORN),
     youth: s.youth === true,
     set: s.set === true,
   };

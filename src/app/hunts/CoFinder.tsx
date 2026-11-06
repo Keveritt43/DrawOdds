@@ -28,7 +28,7 @@ const pct = (o: number | null) => (o === null ? '–' : o >= 0.995 ? '100%' : o 
 
 /** Find A Hunt for Colorado: limited licenses with odds at the hunter's own preference points. */
 export async function CoFinder({ sp }: { sp: SP }) {
-  const species = one(sp.species) === "ELK" ? "ELK" : "DEER";
+  const species = one(sp.species) === 'PRONGHORN' ? 'PRONGHORN' : one(sp.species) === 'ELK' ? 'ELK' : 'DEER';
   const mode = one(sp.odds) === "last" ? "last" : "proj";
   const pts = await getPoints("CO");
   const nr = pts.res === "NONRESIDENT";
@@ -134,7 +134,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     ...(minSucc ? [{ label: `Success ${minSucc}%+`, href: q({ minSucc: null, page: null }) }] : []),
   ];
   const projYear = (year ?? 0) + 1;
-  const spLabel = species === "DEER" ? "deer" : "elk";
+  const spLabel = species === 'DEER' ? 'deer' : species === 'ELK' ? 'elk' : 'pronghorn';
 
   return (
     <main className="filtering">

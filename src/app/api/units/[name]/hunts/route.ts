@@ -36,7 +36,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
             h.oddsByPts as unknown as OddsTable,
             "proj",
             poolFor(false, pts.youth),
-            pts[h.species === "ELK" ? "ELK" : "DEER"],
+            pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'],
           )
         : h.resOdds5,
       nrOdds5: pts
@@ -44,7 +44,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
             h.oddsByPts as unknown as OddsTable,
             "proj",
             poolFor(true, pts.youth),
-            pts[h.species === "ELK" ? "ELK" : "DEER"],
+            pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'],
           )
         : h.nrOdds5,
       success5: h.success5,
