@@ -2,6 +2,12 @@ import { test } from 'node:test';
 import { secondaryDrawn } from '../src/lib/coReportDisplay';
 import { parseHarvestByUnit } from '../src/sync/co/harvest';
 import { readFileSync } from 'node:fs';
+test('2024 elk unit cells remain readable when slightly left of the Unit header', () => {
+  const p = JSON.parse(readFileSync('tests/fixtures/co-elk-harvest-2024-unit-column.json', 'utf8'));
+  const t = parseHarvestByUnit(p);
+  assert.equal(t.totals.rifle1?.length, 36);
+  assert.deepEqual(t.totals.rifle1?.find(r => r.unit === '3'), { unit: '3', male: 3, female: 5, young: 0, harvest: 8, hunters: 62, successPct: 13, days: 211 });
+});
 test('2023 deer fourth rifle ignores faint spreadsheet row indices outside the Unit column', () => {
   const pages = JSON.parse(readFileSync('tests/fixtures/co-deer-harvest-2023-fourth.json', 'utf8'));
   const t = parseHarvestByUnit(pages);

@@ -136,7 +136,7 @@ export function parseHarvestByUnit(pages: Item[][]): UnitTables {
       const unitHeader = items.find((i) => /^Unit$/i.test(i.s.trim()));
       if (unitHeader) { unitX = unitHeader.x; continue; }
       // Some CPW exports include faint spreadsheet row numbers left of the real Unit column.
-      const unitItem = unitX === null ? items[0] : items.find((i) => /^\d{1,3}$/.test(i.s.trim()) && i.x >= unitX! - 6 && i.x <= unitX! + 30);
+      const unitItem = unitX === null ? items[0] : items.find((i) => /^\d{1,3}$/.test(i.s.trim()) && i.x >= unitX! - 10 && i.x <= unitX! + 30);
       const u = unitItem?.s.trim() ?? '';
       if (!unitItem || !/^\d{1,3}$/.test(u) || (unitX === null && unitItem.x > 115)) continue;
       const v = items
