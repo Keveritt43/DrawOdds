@@ -122,6 +122,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
   const q = (patch: Record<string, string | null>) => {
     const p = new URLSearchParams();
     for (const [k, v] of Object.entries(sp)) if (typeof v === 'string' && v) p.set(k, v);
+    p.delete('reset');
     for (const [k, v] of Object.entries(patch)) v === null ? p.delete(k) : p.set(k, v);
     return `/hunts${p.size ? `?${p}` : ''}`;
   };

@@ -44,6 +44,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
   const [open, setOpen] = useState(false);
   const push = (patch: Record<string, string | string[] | null>) => {
     const p = new URLSearchParams(sp.toString());
+    p.delete('reset');
     for (const [k, v] of Object.entries(patch)) {
       const val = Array.isArray(v) ? v.join(',') : v;
       if (val === null || val === '') p.delete(k);
