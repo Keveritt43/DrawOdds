@@ -42,7 +42,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
   const rows: Row[] = [
     { label: 'Quality', v: (r) => r.scoreQuality, show: (r) => (r.scoreQuality === null ? '-' : <ScoreBadge v={r.scoreQuality} label="" />), better: 'high' },
     { label: 'Opportunity', v: (r) => (nrFor(r) ? r.scoreOppNr : r.scoreOppRes), show: (r) => { const o = nrFor(r) ? r.scoreOppNr : r.scoreOppRes; return o === null ? '-' : <ScoreBadge v={o} label="" />; }, better: 'high' },
-    { label: hunts.some(r=>r.state==='CO')?'Your draw odds (CO: projected at saved points)':`${nr ? 'Nonresident' : 'Resident'} odds, 5-yr`, v: odds, show: (r) => (odds(r) === 1 && r.type !== 'CONTROLLED' ? 'Over the counter' : pctOdds(odds(r))), better: 'high' },
+    { label: hunts.some(r=>r.state==='CO')?'Your draw odds (CO: projected at saved points)':`${nr ? 'Nonresident' : 'Resident'} odds, 5-yr`, v: odds, show: (r) => (odds(r) === 1 && r.type === 'GENERAL' && (r.state === 'CO' || (!nrFor(r) && !r.capped)) ? 'Over the counter' : pctOdds(odds(r))), better: 'high' },
     { label: 'Latest drawing', v: latest, show: (r) => { const v = latest(r); return v === null ? '-' : `${pctOdds(v)}${r.oddsLastYear ? ` (${r.oddsLastYear})` : ''}`; }, better: 'high' },
     { label: 'Draw and fill, per year', v: drawFill, show: (r) => pct(drawFill(r), 1), better: 'high' },
     { label: 'Hunter success, 5-yr', v: (r) => (r.smallSample ? null : r.success5), show: (r) => `${pct(r.success5)}${r.smallSample ? ' (small sample)' : ''}`, better: 'high' },
@@ -83,7 +83,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
             </thead>
             <tbody>
               <tr><th>What</th>{hunts.map((h) => <td key={h.id}>{SPECIES_LABEL[h.species]} · {h.nrTag ? 'general tag' : h.type === 'CONTROLLED' ? 'controlled' : 'general season'} · {h.nrTag ? 'tag seasons' : WEAPON[h.weapon]} · {antlerLabel(h.species, h.antlerClass)}</td>)}</tr>
-              <tr><th>Where</th>{hunts.map((h) => <td key={h.id}>{h.type === 'CONTROLLED' ? `Area ${h.areaName} · ` : ''}Units {h.units.join(', ')}</td>)}</tr>
+              <tr><th>Where</th>{hunts.map((h) => <td key={h.id}>{h.type === 'CONTROLLED' && h.areaName ? `Area ${h.areaName} · ` : ''}Units {h.units.join(', ')}</td>)}</tr>
               <tr><th>Seasons</th>{hunts.map((h) => <td key={h.id}>{seasonsSummary(h.tagSeasons, 4) || range(h.openDate, h.closeDate)}</td>)}</tr>
               <tr><th>Rules</th>{hunts.map((h) => <td key={h.id}>{seasonRules(h.tagSeasons, h.species).join(' · ') || '-'}</td>)}</tr>
               {rows.map((row) => {
