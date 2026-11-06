@@ -151,8 +151,9 @@ export async function GET(req: Request) {
     for (const species of ['DEER','ELK','PRONGHORN']) for (const u of units) {
       const hs = rows.filter(r => r.species === species && r.units.includes(u.name));
       const m = by.get(u.name)!;
-      const hunters = hs.reduce((n, r) => n + (r.hunters5 ?? 0), 0);
-      const harvest = hs.reduce((n, r) => n + (r.hunters5 ? r.harvest5 ?? 0 : 0), 0);
+      const measured = hs.filter(r => r.hunters5 !== null && r.harvest5 !== null);
+      const hunters = measured.reduce((n, r) => n + r.hunters5!, 0);
+      const harvest = measured.reduce((n, r) => n + r.harvest5!, 0);
       m['ctlCount' + SP_KEY[species]] = hs.length;
       m.controlled = Number(m.controlled ?? 0) + hs.length;
       m['ctlSuccess' + SP_KEY[species]] = hunters >= MIN_HUNTERS ? harvest / hunters * 100 : null;
