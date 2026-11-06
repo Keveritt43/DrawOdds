@@ -58,3 +58,9 @@ test('only five latest survey years are used; unknown dates never create an over
  assert.equal(withCoScores(hunt(),c).coPressure?.elkHuntersPerYear,500);
  const p=coDeerPressure(withCoLand(hunt({openDate:null})),c);assert.equal(p.status,'unknown');
 });
+test('missing land cannot mutate the input object during pressure calculation',()=>{
+ const r=hunt({units:['70','unmapped'],acres:10000,huntersSqMi:.2});
+ const before=structuredClone(r);
+ assert.equal(withCoScores(r,context()).scoreQuality,null);
+ assert.deepEqual(r,before);
+});

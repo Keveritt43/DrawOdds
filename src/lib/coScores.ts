@@ -6,7 +6,7 @@ import { opportunity, scoreHunts } from './score';
 export type CoScored = HuntSummary & { coPressure?: CoPressure };
 export function withCoScores<T extends HuntSummary>(row: T, context?: CoPressureContext): T & {coPressure?:CoPressure} {
   if (row.state !== 'CO') return row;
-  const r = withCoLand(row);
+  const r = {...withCoLand(row)};
   const pressure = context ? coDeerPressure(r,context) : undefined;
   if (pressure) r.huntersSqMi = pressure.density;
   const landValid = r.units.length > 0 && r.units.every(u => {

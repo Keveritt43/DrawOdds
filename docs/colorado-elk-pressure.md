@@ -34,4 +34,4 @@ Zero audited complete-overlap rows exceeded 75% of their original Quality. Exist
 
 ## Validation
 
-119 tests pass; one existing database test is skipped locally. New cases cover actual date/unit/state/type overlap, code/report deduplication, multi-unit coverage, invalid/conflicting/ambiguous/missing counts, five-year windows, unchanged deer success, idempotence and unchanged Idaho scores. Typecheck and optimized build are required before release. No production schema commands, score writes or agency sync are needed.
+120 tests pass; one existing database test is skipped locally. New cases cover actual date/unit/state/type overlap, code/report deduplication, multi-unit coverage, invalid/conflicting/ambiguous/missing counts, five-year windows, unchanged deer success, idempotence and unchanged Idaho scores. Typecheck and optimized build are required before release. No production schema commands, score writes or agency sync are needed.
