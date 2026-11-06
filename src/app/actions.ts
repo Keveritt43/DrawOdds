@@ -9,9 +9,9 @@ import { db } from '@/lib/db';
 import { RESIDENCY_COOKIE, DRAW_COOKIE, getState } from '@/lib/residency';
 import { getPointsStore, readState, POINTS_COOKIE, type StatePoints } from '@/lib/points';
 
-export async function setResidency(residency: Residency) {
+export async function setResidency(residency: Residency, stateCode?: string) {
   if (residency !== 'RESIDENT' && residency !== 'NONRESIDENT') return;
-  const st = (await getState()).code;
+  const st = stateCode === 'ID' ? 'ID' : (await getState()).code;
   if (st !== 'ID') return setPoints(st, { res: residency }); // residency is per state; Idaho's stays on the profile
   const session = await auth();
   if (session?.user) await db.user.update({ where: { id: session.user.id }, data: { residency } });

@@ -7,6 +7,7 @@ import { useStateConfig } from './StateContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Residency } from '@prisma/client';
 import type { Draw } from '@/lib/species';
+import { STATES, type StateCode } from '@/lib/states';
 
 type Opt = [value: string, label: string];
 
@@ -28,16 +29,20 @@ const DENSITY = [0, 8, 5, 3, 2, 1.5, 1, 0.5, 0.25]; // 0 = any; dragging right =
 const DEER: Opt[] = [['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED', 'Mixed']];
 
 /** goHunt-style rail: each section shows its current value and opens to edit. Every change updates the URL. */
-export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; draw?: Draw }) {
+export function FilterRail({ residency, draw = 'DEP', states, children }: { residency: Residency; draw?: Draw; states?: StateCode[]; children?: React.ReactNode }) {
   const msg = draw === 'MSG';
   // filters that only exist in some states (elk zones, objectives, migration studies...)
-  const config = useStateConfig();
+  const header = useStateConfig();
+  const config = states ? STATES[states.includes('ID') ? 'ID' : states[0]] : header;
   const feat = config.features;
   const accessProgram = config.accessProgram;
   const router = useRouter();
   const sp = useSearchParams();
   const [open, setOpen] = useState(false);
   const nr = residency === 'NONRESIDENT';
+  const resetHref = states ? `/hunts?states=${states.join(',')}&sort=opp&minScore=0&antler=ANTLERED` : '/hunts?reset=1';
+  const speciesOptions: Opt[] = states ? [['', 'All species'], ...[...new Set(states.flatMap(s => STATES[s].species))].map(s => [s, ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn sheep', GOAT: 'Mountain goat' })[s]] as Opt)] : msg ? SPECIES_MSG : SPECIES;
+  const idNote = states ? <p className="small muted">Idaho only. Using this restriction returns Idaho hunts only.</p> : null;
 
   const push = (patch: Record<string, string | string[] | null>) => {
     const p = new URLSearchParams(sp.toString());
@@ -88,11 +93,12 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
         </button>
       </div>
       {[...sp.keys()].some((k) => !['sort', 'view', 'page'].includes(k)) && (
-        <div className="rail-reset"><a href="/hunts?reset=1">Reset all filters</a></div>
+        <div className="rail-reset"><a href={resetHref}>Reset all filters</a></div>
       )}
       <div className="rsec-wrap">
-        <Section title="Species" value={labelOf(msg ? SPECIES_MSG : SPECIES, sp_)} set={!!sp_} defaultOpen={!sp_}>
-          {radio('species', msg ? SPECIES_MSG : SPECIES)}
+        <Section title="Species" value={labelOf(speciesOptions, sp_)} set={!!sp_} defaultOpen={!sp_}>
+          {radio('species', speciesOptions)}
+          {states && <p className="small muted">Available species vary by state. Idaho drawing restrictions still apply to Idaho applications.</p>}
           {msg && <p className="small muted" style={{ margin: '6px 0 0' }}>You can apply for only one of moose, bighorn sheep or mountain goat a year, and doing so keeps you out of the deer, elk and pronghorn controlled drawings that year (leftover tags aside).</p>}
         </Section>
         {!msg && (
@@ -102,7 +108,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
             set={!!get("type")}
           >
             {radio('type', nr && feat.nrGeneralTagDraw ? TYPES_NR : TYPES)}
-            {nr && <p className="small muted" style={{ margin: '6px 0 0' }}>Since 2026, nonresident general deer and elk tags are drawn: elk by zone (an A or a B tag), deer by unit. General seasons show the odds of the tag you&rsquo;d need.</p>}
+            {nr && <p className="small muted" style={{ margin: '6px 0 0' }}>Idaho: since 2026, nonresident general deer and elk tags are drawn: elk by zone (an A or a B tag), deer by unit. General seasons show the odds of the tag you&rsquo;d need.</p>}
             {sp_ === 'PRONGHORN' && <p className="small muted" style={{ margin: '6px 0 0' }}>Pronghorn are controlled hunts only.</p>}
           </Section>
         )}
@@ -133,8 +139,8 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
 
         <Section title="DrawOdds Score" value={[get('minScore') && get('minScore') !== '0' && `Quality ${get('minScore')}+`, get('minOpp') && `Opportunity ${get('minOpp')}+`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minScore') || get('minOpp'))}>
           <label>Quality (how good the hunt is)</label>
-          {radio('minScore', QUALITY_STOPS(get('sort') === 'opp'))}
-          <label style={{ marginTop: 8, display: 'block' }}>Opportunity (quality × your draw odds)</label>
+          {radio('minScore', states ? [['0', 'Any'], ['50', '50+'], ['70', '70+'], ['85', '85+']] : QUALITY_STOPS(get('sort') === 'opp'))}
+          <label style={{ marginTop: 8, display: 'block' }}>Opportunity (quality × √draw odds)</label>
           {radio('minOpp', SCORE_STOPS)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>0-100 on fixed scales, so general and controlled hunts compare directly. <a href="/score">How we score</a></p>
         </Section>
@@ -147,9 +153,9 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           {checks("antler", msg ? SEX_MSG : ANTLER)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take an antlered or an antlerless animal on them.</p>
         </Section>
-        <Section title={`Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
+        <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
           <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
-          <p className="small muted" style={{ margin: '6px 0 0' }}>First choice, 5-year total. Hunts with no draw (resident general seasons) always show.</p>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>
         </Section>
         <Section title="Harvest Success" value={get('minSuccess') ? `${get('minSuccess')}%+` : 'Any'} set={!!get('minSuccess')}>
           <Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
@@ -161,7 +167,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
         <Section title="Land Access" value={[get('minPublic') && `${get('minPublic')}%+ public`, get('minAccessYes') && `${get('minAccessYes')}%+ Access Yes!`, get('minHuntable') && `${get('minHuntable')}%+ huntable`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minPublic') || get('minAccessYes') || get('minHuntable') || get('accessYes'))}>
           <label>Public Land</label>
           <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
-          <label>{accessProgram} (Private Land Open To Hunting)</label>
+          {(!states || states.includes('ID')) && <>{idNote}<label>{accessProgram} (Private Land Open To Hunting)</label>
           <Slider value={Number(get('minAccessYes') || 0)} max={25} step={1} suffix="%" onCommit={(v) => push({ minAccessYes: v ? String(v) : null })} />
           <label>Huntable (Public + {accessProgram})</label>
           <Slider value={Number(get('minHuntable') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minHuntable: v ? String(v) : null })} />
@@ -170,8 +176,9 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
               <input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} />{" "}
               Has {accessProgram} land
             </label>
-          </div>
+          </div></>}
         </Section>
+        {children}
         <details className="rmore" open={moreSet}>
           <summary>More Filters{moreSet ? " (in use)" : ""}</summary>
           {!msg && sp_ !== 'PRONGHORN' && (
@@ -182,6 +189,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           )}
           {feat.elkObjectives && !msg && (sp_ === '' || sp_ === 'ELK') && (
             <Section title="Elk Population Vs Objective" value={[list('bullObj').length && `Bulls: ${list('bullObj').map((x) => x.toLowerCase()).join('/')}`, list('cowObj').length && `Cows: ${list('cowObj').map((x) => x.toLowerCase()).join('/')}`].filter(Boolean).join(', ') || 'Any'} set={list('bullObj').length + list('cowObj').length > 0}>
+              {idNote}
               <label>Bulls</label>
               {checks('bullObj', OBJ)}
               <label style={{ marginTop: 8, display: 'block' }}>Cows</label>
@@ -191,11 +199,13 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           )}
           {feat.migration && !msg && (
             <Section title="Migration Study" value={{ yes: 'Has a study', no: 'No study' }[get('migration') as 'yes'] ?? 'Any'} set={!!get('migration')}>
+              {idNote}
               {radio('migration', [['', 'Any unit'], ['yes', 'Units with a migration study'], ['no', 'Units without one']])}
               <p className="small muted" style={{ margin: '6px 0 0' }}>Hunts in units crossed by a mapped big game migration route. <a href="/migration">See the studies</a></p>
             </Section>
           )}
           {feat.leftovers && <Section title="Leftover Tags" value={get('leftover') === '1' ? 'Had leftovers' : 'Any'} set={get('leftover') === '1'}>
+            {idNote}
             <div className="checks2"><label><input type="checkbox" checked={get('leftover') === '1'} onChange={() => push({ leftover: get('leftover') === '1' ? null : '1' })} /> Had tags in the second drawing (Aug 5-15)</label></div>
             <p className="small muted" style={{ margin: '6px 0 0' }}>Controlled hunts with tags left after the main drawing. Nonresident limits don&apos;t apply to leftovers. <a href="/changes#leftovers">All leftovers</a></p>
           </Section>}
@@ -208,6 +218,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           </Section>
           {feat.elkZones && !msg && (sp_ === '' || sp_ === 'ELK' || sp_ === 'DEER') && (
             <Section title="Elk Zones" value={list('zone').length ? list('zone').join(', ') : 'Any'} set={list('zone').length > 0}>
+              {idNote}
               <div className="checks2 zone-checks">
                 {ELK_ZONE_NAMES.slice().sort().map((z) => (
                   <label key={z} title={`Units ${ELK_ZONES[z].join(', ')}`}>
@@ -224,7 +235,7 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
           </Section>
         </details>
         <div style={{ padding: 16 }}>
-          <a className="btn" href="/hunts" style={{ width: '100%', textAlign: 'center' }}>Clear All Filters</a>
+          <a className="btn" href={resetHref} style={{ width: '100%', textAlign: 'center' }}>Clear All Filters</a>
         </div>
       </div>
       {open && (

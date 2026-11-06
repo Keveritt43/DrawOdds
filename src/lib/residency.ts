@@ -10,12 +10,12 @@ export const RESIDENCY_COOKIE = 'residency';
  * Signed-in users: their profile. Visitors: a cookie, so the filters work before signing up.
  * `as` ("nr" / "res", from a ?as= link) shows a page as the other residency without changing anything saved.
  */
-export async function getResidency(as?: string | string[]): Promise<{ residency: Residency; signedIn: boolean; email?: string | null }> {
+export async function getResidency(as?: string | string[], stateCode?: string): Promise<{ residency: Residency; signedIn: boolean; email?: string | null }> {
   const asv = (Array.isArray(as) ? as[0] : as)?.toLowerCase();
   const session = await auth();
   if (asv === 'nr' || asv === 'res') return { residency: asv === 'nr' ? 'NONRESIDENT' : 'RESIDENT', signedIn: !!session?.user, email: session?.user?.email };
   // residency is per state: an Idaho resident applies in Colorado as a nonresident (stored with their points)
-  const st = await getState();
+  const st = stateCode ? stateConfig(stateCode) : await getState();
   if (st.code !== 'ID') {
     const { getPoints } = await import('./points');
     return { residency: (await getPoints(st.code)).res, signedIn: !!session?.user, email: session?.user?.email };

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 import { setPoints } from '@/app/actions';
 import { useStateConfig } from './StateContext';
 import type { StatePoints } from '@/lib/points';
+import { STATES, type StateCode } from '@/lib/states';
 
 const SPECIES = [
   { key: 'DEER', label: 'Deer' },
@@ -15,18 +16,19 @@ const SPECIES = [
  * "Points: Deer 3 · Elk 0" in the header (states with preference points). Every odds number on the site reads
  * these, so it opens on its own the first time someone looks at Colorado.
  */
-export function PointTracker({ value }: { value: StatePoints }) {
-  const st = useStateConfig();
+export function PointTracker({ value, state }: { value: StatePoints; state?: StateCode }) {
+  const header = useStateConfig();
+  const st = state ? STATES[state] : header;
   const [v, setV] = useState(value);
   const [pending, start] = useTransition();
   const ref = useRef<HTMLDetailsElement>(null);
   useEffect(() => setV(value), [value]);
   useEffect(() => {
-    if (!value.set && ref.current) ref.current.open = true;
+    if (!state && !value.set && ref.current) ref.current.open = true;
     const close = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) ref.current.open = false; };
     document.addEventListener('click', close);
     return () => document.removeEventListener('click', close);
-  }, [value.set]);
+  }, [value.set, state]);
   const save = (patch: Partial<StatePoints>) => {
     setV((o) => ({ ...o, ...patch, set: true }));
     start(() => setPoints(st.code, patch));

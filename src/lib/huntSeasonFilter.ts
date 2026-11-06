@@ -1,4 +1,4 @@
-import { sortedSeasons } from "./tagSeasons";
+import { sortedSeasons, seasonsClass } from "./tagSeasons";
 import { seasonDays, dayIndex } from "./seasonDays";
 export interface SeasonFilters {
   youth: "exclude" | "include" | "only";
@@ -19,15 +19,13 @@ export function matchesHuntSeason(
     weapon: string;
   },
   f: SeasonFilters,
+  strictSeason = false,
 ): boolean {
-  if (
-    f.antler.length &&
-    r.antlerClass !== "EITHER" &&
-    !f.antler.includes(r.antlerClass)
-  )
-    return false;
+  if (!strictSeason && f.antler.length && r.antlerClass !== 'EITHER' && !f.antler.includes(r.antlerClass)) return false;
   const seasons = sortedSeasons(r.tagSeasons);
   if (!seasons.length) {
+    if (f.antler.length && r.antlerClass !== 'EITHER' && !f.antler.includes(r.antlerClass)) return false;
+    if (strictSeason && f.weapon.length && !f.weapon.includes(r.weapon)) return false;
     if (
       (f.youth === "exclude" && r.youthOnly) ||
       (f.youth === "only" && !r.youthOnly)
@@ -41,10 +39,12 @@ export function matchesHuntSeason(
     );
   }
   const eligible = seasons.filter((s) => {
-    const youth = /youth/i.test(s.sex + " " + s.notes);
+    const youth = (strictSeason && r.youthOnly) || /youth/i.test(s.sex + " " + s.notes);
     if ((f.youth === "exclude" && youth) || (f.youth === "only" && !youth))
       return false;
     if (f.weapon.length && !f.weapon.includes(s.weapon)) return false;
+    const antler = seasonsClass([s]);
+    if (strictSeason && f.antler.length && antler !== 'EITHER' && !f.antler.includes(antler)) return false;
     return true;
   });
   return eligible.some((s) =>

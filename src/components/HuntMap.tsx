@@ -29,14 +29,16 @@ const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode:
   objBull: { label: 'Elk: Bulls vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Bull elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more bulls than the target.`, scaleNote: '' },
   objCow: { label: 'Elk: Cows vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Cow elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more cows than the target; often more antlerless tags.`, scaleNote: '' },
 };
-import { loadUnits } from "@/lib/unitData";
+import { loadUnits, loadSearchUnits } from "@/lib/unitData";
+import { searchBounds } from '@/lib/searchStates';
+import type { StateCode } from '@/lib/states';
 
 /**
  * Filtering map. By default units with a matching hunt are filled blaze orange and the rest are outlines;
  * "Shade" switches the fill to any unit metric (public land, success, crowding, odds) while matching units keep
  * a heavy orange outline. Click a unit to narrow the results to it (click again to clear).
  */
-export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats = { units: {}, areas: {} } }: {
+export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats = { units: {}, areas: {} }, states }: {
   matched: string[]; selected: string; chips: { label: string; href: string }[]; nr?: boolean; showZones?: boolean; zones?: string[];
   /** species hunted by their own hunt areas (pronghorn, moose, sheep, goat; comma list): draw those instead of filling units.
    *  matchedAreas / selectedArea / stats.areas are keyed "<SPECIES>:<area>" */
@@ -44,12 +46,14 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   species?: string;
   /** the matching hunts' numbers per unit and per hunt area (Filtering computes them from its results) */
   stats?: { units: Record<string, MatchStat>; areas: Record<string, MatchStat> };
+  /** Combined Find Hunts uses namespaced units and fits all selected states. */
+  states?: StateCode[];
 }) {
   const el = useRef<HTMLDivElement>(null);
   const keyEl = useRef<HTMLDivElement>(null);
   const st = useStateConfig();
   const stCode = st.code;
-  const stBounds = st.code === 'ID' ? IDAHO_BOUNDS : st.bounds;
+  const stBounds = states ? searchBounds(states) : st.code === 'ID' ? IDAHO_BOUNDS : st.bounds;
   const map = useRef<MlMap | null>(null);
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const loaded = useRef(false);
@@ -77,7 +81,10 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   const colors = useMemo(() => (S && cls ? colorsFor(cls, S.better) : []), [S, cls]);
   const missingN = flat ? 0 : shownStats.length - vals.length + ((areaMode ? matchedAreas.length : matched.length) - shownStats.length);
 
+  const latestPaint = useRef({ matched, selected, stats });
+  latestPaint.current = { matched, selected, stats };
   const paint = () => {
+    const { matched, selected, stats } = latestPaint.current;
     const m = map.current;
     if (!m || !loaded.current) return;
     for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null });
@@ -90,12 +97,13 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
 
   useEffect(() => {
     if (!el.current || map.current) return;
+    let cancelled = false;
     const m = new maplibregl.Map({
       container: el.current,
       style: baseStyle("satellite", st.agency.short),
       bounds: stBounds,
       fitBoundsOptions: { padding: { top: 48, bottom: 110, left: 12, right: 12 } },
-      minZoom: 4,
+      minZoom: states ? 2 : 4,
       maxZoom: 15,
       attributionControl: { compact: true },
     });
@@ -109,7 +117,12 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       let fc;
       let labels;
       try {
-        ({ fc, labels } = await loadUnits(stCode));
+        if (states) {
+          const data = await Promise.all(states.map(loadSearchUnits));
+          fc = { type: 'FeatureCollection', features: data.flatMap(d => d.fc.features) };
+          labels = { type: 'FeatureCollection', features: data.flatMap(d => d.labels.features) };
+        } else ({ fc, labels } = await loadUnits(stCode));
+        if (cancelled) return;
       } catch (e) {
         setErr('Could not load unit boundaries.');
         console.error(e);
@@ -161,6 +174,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       setMapObj(m);
     });
     return () => {
+      cancelled = true;
       m.remove();
       map.current = null;
       loaded.current = false;
@@ -169,7 +183,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(paint, [matched.join(','), selected, JSON.stringify(stats.units).length]);
+  useEffect(paint, [matched.join(','), selected, JSON.stringify(stats.units)]);
 
   // shading: always the matching units only. "match" = flat orange; any other choice colors them by the matching
   // hunts' own numbers (feature-state set in paint), and units without a match stay unfilled outlines
@@ -313,7 +327,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       .filter(
         (k) =>
           !(areaMode && k.startsWith("obj")) &&
-          (stCode === "ID" ||
+          (!states && stCode === "ID" ||
             !["objBull", "objCow", "huntable"].includes(k)),
       )
       .map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
@@ -332,7 +346,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
         <MapKey value={metric} options={options} onChange={(v) => setMetric(v as ShadeKey)}
           ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where, labels: S.labels } : undefined}
           items={matchItems} extraItems={extraItems}
-          note={S ? `${S.note} ${msgSuccess ? 'Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : S.scaleNote}` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
+          note={states && (metric === 'odds' || metric === 'fill') ? `Uses each matching hunt's personal odds: historical Idaho odds and Colorado odds at your points in the selected mode. Unknown values stay unshaded. ${S?.scaleNote ?? ''}` : S ? `${S.note} ${msgSuccess ? 'Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : S.scaleNote}` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
           kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} folded />
       </div>
     </div>

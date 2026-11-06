@@ -1,5 +1,7 @@
 # Adding more states: plan
 
+For the current combined Find Hunts implementation and expansion requirements, see [multi-state-search.md](multi-state-search.md). The original planning notes below predate the live Colorado implementation; current state availability is defined in `src/lib/states.ts`.
+
 Status: Colorado deer is loaded (see docs/states/co.md); Idaho is still the only listed state. This file covers what is built, what is deliberately
 not built yet, and the steps for state #2.
 
