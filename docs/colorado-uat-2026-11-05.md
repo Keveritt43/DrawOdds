@@ -2,7 +2,9 @@
 
 ## Release status
 
-Implementation is in PR #10: https://github.com/Keveritt43/DrawOdds/pull/10 . Production deployment was attempted after successful checks, but Railway accept-deploy was rejected by automatic approval review: “the user did not approve this action.” Production therefore remains unchanged. The final checked commit is staged for approval. The PR remains open; it has not been merged. Deployment and post-deployment UAT remain outstanding.
+Released to production on 2026-11-06. Live application commit: c4fd7fef92ebd13387ac46bdd8b284141fe01ff6, deployment ebb365ad-85ed-42b2-92a1-8bb2dba28563 (SUCCESS). Health endpoint returns 200 with ok:true. PR #10 remains open and unmerged: https://github.com/Keveritt43/DrawOdds/pull/10 . Railway web now follows the checked codex/co-hunt-graphs source with an explicit commit pin. Sync remains disabled; web startup runs Next.js directly with no pre-deploy schema command.
+
+The initial staged-deploy connector action was cancelled twice despite chat approval. The owner clicked Deploy in Railway. That deployment used the previous main commit (941d467), despite source configuration displaying the requested eb4383a pin. Deployment metadata and the old live UI exposed the mismatch. Reconnecting the web source directly to the checked feature branch deployed eb4383a correctly. Live UAT then found a reset-query issue; c4fd7fe fixes it and is now live. This history explains why a green deployment status alone was insufficient proof of release.
 
 ## Test method and results
 
@@ -36,7 +38,7 @@ Observed and exercised:
 
 ## Ten remaining issues or missing areas
 
-1. **Release approval:** deployment and live production UAT are blocked by the rejected approval action.
+1. **Map explanatory copy:** the Quality legend still appends generic residency/odds wording and a relative-scale sentence, even though Quality uses fixed benchmarks. The displayed score values and fixed class breaks are correct; the explanatory copy needs refinement.
 2. **Trophy evidence:** no verified hunt-level antler-size series is loaded; Colorado cannot reproduce Idaho's trophy chart truthfully.
 3. **Incomplete score coverage:** 460 of 2,038 rows in the saved snapshot fail evidence gates. Missing scores remain explicit.
 4. **2028 modeling:** the future split preference/bonus draw requires a separate model; the current scenario must not be extended past its stated rules.
@@ -77,6 +79,20 @@ GOHUNT already offers filtering, draw odds, unit research and point tracking; th
 
 **Recommended positioning:** “Know why a hunt fits your points—and see the evidence.” Focus on explainable alternatives, honest uncertainty, actual season overlap and a familiar cross-state research experience. These are product directions to validate with hunters, not a promise of superiority over competitors.
 
-## Production acceptance checklist after approval
+## Production walkthrough — 2026-11-06
 
-Deploy the final pinned PR commit; confirm Railway web health and release SHA; verify sync remains disabled and startup has no schema operations. Repeat desktop and mobile finder-to-detail, points/pool changes, overlap choices, Quality/Opportunity, alternatives, map shading/unit numbers, and signed-in save/compare. Inspect browser/runtime errors and fix regressions before declaring production UAT complete. No Idaho agency synchronization or data mutation is authorized.
+Verified on the live site after the correct release:
+
+- Colorado DM025O2R displays Quality 39 and the shared breakdown. Actual/projection controls change selected draw and Opportunity; resident/youth pool controls update the graph caption. All four Recharts plots render, including 14 hunter/harvest bars across seven survey years.
+- At 900px there are two chart columns; at 390px one column, with search/menu inside the viewport. Unit links share a single facts cell. Draw History and point-level odds precede population.
+- Hunt cards have white bodies and the existing Idaho sage stat panels. Quality sorting produces descending scores while retaining the overlap filter.
+- Default antlered-deer finder: 522 results. Has OTC elk: 179; No OTC elk: 211. Other hunts have insufficient date evidence and are excluded from explicit overlap choices. The first change after reset now retains the correct URL, selected radio and results.
+- Colorado map exposes Quality, points, creep, success, density, personalized odds and draw-and-fill; unit numbers are visible. Quality legend distinguishes scored units from missing evidence. Its remaining generic explanatory wording is listed above.
+- DM006O3R at the existing eight nonresident deer points presents three linked alternatives with better projected odds and at least 80% of baseline harvest success. No-alternative and insufficient-evidence states also have explicit explanations.
+- Idaho deer hunt 1042 retains Quality 80, Opportunity 22 and its existing charts/navigation. State was restored to Colorado; eight deer/eight elk points were preserved, and test filters were reset afterward.
+- No new browser errors were logged after the correct rollout. Earlier React hydration errors occurred during the old-release/deployment transition and were not reproduced on the final release. Browser screenshot capture repeatedly timed out during this live walkthrough; the local screenshot artifacts remain labeled local.
+- Final code CI run 42233347382 passed typecheck, tests, build and state/filter smoke tests. Locally, 113 tests passed with one existing database test skipped. Final Railway deployment is healthy, with no pending staged changes. The sync service still has no cron and a no-op start command.
+
+Additional finding fixed in production: Colorado filter and sort links now discard the transient reset flag before changing the query. This fixes the first-filter-after-reset state mismatch without changing Idaho's filter implementation.
+
+Authenticated saving, cross-device persistence, user-specific plans and real account mutations were not tested; the signed-out save gate was present. No production database writes, schema operations or agency synchronization were performed by this release workflow.
