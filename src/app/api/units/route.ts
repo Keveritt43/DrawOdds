@@ -1,3 +1,4 @@
+import { matchesCoMapFilters } from '@/lib/coMapFilters';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import { getPoints } from '@/lib/points';
 import { tableOdds, poolFor, type OddsTable } from '@/lib/coHunt';
@@ -5,7 +6,7 @@ import { coLandUnit } from "@/lib/coLand";
 import { withCoScores } from '@/lib/coScores';
 import { db } from '@/lib/db';
 import { stateConfig } from '@/lib/states';
-import { classesFor } from '@/lib/mapMetrics';
+import { classesFor, pointsClasses } from '@/lib/mapMetrics';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
@@ -33,14 +34,18 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const statsOnly = url.searchParams.has("stats");
   const state = stateConfig(url.searchParams.get('state')).code;
-  const [units, sums, general] = await Promise.all([
+  const methods = (url.searchParams.get('method') ?? '').split(',').filter(Boolean);
+  const seasons = (url.searchParams.get('season') ?? '').split(',').filter(Boolean);
+  const [units, allSums, general] = await Promise.all([
     db.unit.findMany({ where: { state, geometry: { not: undefined } } }),
     db.huntSummary.findMany({
       where: { state },
-      select: { species: true, type: true, unit: true, units: true, weapon: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
+      select: { species: true, type: true, unit: true, units: true, weapon: true, tagCode: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
+  const sums = state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums;
+  let coPoints: Awaited<ReturnType<typeof getPoints>> | null = null;
   const by = new Map<string, Record<string, number | string | null>>();
   const bump = (u: string, k: string, v: number | null, mode: 'max' | 'count' = 'max') => {
     const m = by.get(u) ?? by.set(u, {}).get(u)!;
@@ -118,12 +123,14 @@ export async function GET(req: Request) {
 
   if (state === 'CO') {
     const [points,context]=await Promise.all([getPoints('CO'),getCoScoringContext()]);
+    coPoints = points;
+    by.clear(); // Colorado metrics below use only selected weapons and seasons.
     for(const u of units) for(const sp of ['Deer','Elk']) for(const pool of ['Res','Nr']) {
       const m=by.get(u.name) ?? by.set(u.name,{}).get(u.name)!;
       m[`ctlOdds${pool}${sp}`]=null; m[`ctlFill${pool}${sp}`]=null;
     }
 
-    const rows=(await db.huntSummary.findMany({where:{state:'CO',type:'CONTROLLED',antlerClass:'ANTLERED',youthOnly:false,privateOnly:false}})).map(r=>withCoScores(r,context));
+    const rows=(await db.huntSummary.findMany({where:{state:'CO',type:'CONTROLLED',antlerClass:'ANTLERED',youthOnly:false,privateOnly:false}})).filter(r=>matchesCoMapFilters(r.tagCode,methods,seasons)).map(r=>withCoScores(r,context));
     for (const r of rows) for(const u of r.units) {
       const m=by.get(u) ?? by.set(u,{}).get(u)!, sp=SP_KEY[r.species];
       const put=(key:string,v:number|null,low=false)=>{ if(v!==null&&Number.isFinite(v)) m[key]=m[key]==null?v:low?Math.min(Number(m[key]),v):Math.max(Number(m[key]),v); };
@@ -141,6 +148,15 @@ export async function GET(req: Request) {
       }
     }
 
+    for (const species of ['DEER','ELK']) for (const u of units) {
+      const hs = rows.filter(r => r.species === species && r.units.includes(u.name));
+      const m = by.get(u.name)!;
+      const hunters = hs.reduce((n, r) => n + (r.hunters5 ?? 0), 0);
+      const harvest = hs.reduce((n, r) => n + (r.hunters5 ? r.harvest5 ?? 0 : 0), 0);
+      m['ctlCount' + SP_KEY[species]] = hs.length;
+      m.controlled = Number(m.controlled ?? 0) + hs.length;
+      m['ctlSuccess' + SP_KEY[species]] = hunters >= MIN_HUNTERS ? harvest / hunters * 100 : null;
+    }
     for (const species of ['DEER','ELK']) for (const u of units) {
       const hs = sums.filter(s => s.species===species && s.type==='GENERAL' && s.units.includes(u.name) && s.hunters5!==null && s.harvest5!==null);
       const hunters = hs.reduce((n,s)=>n+s.hunters5!,0), harvest=hs.reduce((n,s)=>n+s.harvest5!,0);
@@ -199,7 +215,10 @@ export async function GET(req: Request) {
     });
 
   const classes = Object.fromEntries(
-    SHADED.map((f) => [f, classesFor(f, features.map((x) => x.properties[f]).filter((v): v is number => typeof v === 'number'))]),
+    SHADED.map((f) => {
+      const values = features.map(x => x.properties[f]).filter((v): v is number => typeof v === 'number');
+      return [f, coPoints && /^ctlPoints/.test(f) ? pointsClasses(values, coPoints[f.endsWith('Elk') ? 'ELK' : 'DEER']) : classesFor(f, values)];
+    }),
   );
   if (statsOnly) {
     const missing = Object.fromEntries(SHADED.map((f) => [f, features.filter((x) => typeof x.properties[f] !== 'number').length]));

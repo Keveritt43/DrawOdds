@@ -36,6 +36,7 @@ function steps(span: number): number[] {
 const fix = (x: number) => Number(x.toPrecision(10));
 
 export interface Classes {
+  labels?: string[];
   breaks: number[]; // ascending; class i covers [breaks[i-1], breaks[i]), first class is "< breaks[0]"
   counts: number[]; // units in each class (breaks.length + 1)
   /** diverging scales: each class's step on the 7-step red -> yellow -> green scale (0 = worst ... 6 = best) */

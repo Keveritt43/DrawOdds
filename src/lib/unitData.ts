@@ -37,9 +37,9 @@ const cached: Record<string, Promise<UnitData> | null> = {};
  * Unit boundaries + the per-unit numbers every map shades by, fetched once per page.
  * (Versioned URL: an hour-cached response from before a deploy must not be reused.)
  */
-export function loadUnits(state = 'ID', pointsKey = ''): Promise<UnitData> {
-  const cacheKey = state + pointsKey;
-  cached[cacheKey] ??= fetch(state === 'ID' ? '/api/units?v=11' : `/api/units?v=12&state=${state}&pointsKey=${encodeURIComponent(pointsKey)}`)
+export function loadUnits(state = 'ID', pointsKey = '', filters = ''): Promise<UnitData> {
+  const cacheKey = state + pointsKey + filters;
+  cached[cacheKey] ??= fetch(state === 'ID' ? '/api/units?v=11' : `/api/units?v=12&state=${state}&pointsKey=${encodeURIComponent(pointsKey)}&${filters}`)
     .then((r) => {
       if (!r.ok) throw new Error(`units ${r.status}`);
       return r.json();

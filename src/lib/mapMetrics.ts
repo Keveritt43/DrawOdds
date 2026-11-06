@@ -161,3 +161,11 @@ export const fixedScale = (field: string): FixedScale | null =>
   /^obj/i.test(field) ? 'objective' : /Odds/.test(field) ? 'odds' : /^ctlFill/.test(field) ? 'fill' : /^(publicPct|huntablePct)$/.test(field) ? 'land' : null;
 export const fixedClasses = (values: number[], scale: FixedScale) => benchmarkClasses(values, [...FIXED_SCALES[scale]], FIXED_IDX[scale], scale === 'odds' ? RYG8 : undefined);
 export const OBJECTIVE_LABELS = OBJECTIVE_LABELS_C;
+
+/** Integer point bands, retaining the hunter's points as yellow even near zero. */
+export function pointsClasses(values: number[], points: number): Classes {
+  const levels = Array.from({ length: 6 }, (_, i) => points - 2 + i).filter(v => v > 0);
+  const cls = benchmarkClasses(values, levels, Array.from({ length: levels.length + 1 }, (_, i) => 6 - levels.length + i));
+  cls.labels = [levels[0] === 1 ? '0' : String(levels[0] - 1) + " or lower", ...levels.map((v, i) => i === levels.length - 1 ? String(v) + "+" : String(v))];
+  return cls;
+}

@@ -693,3 +693,7 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
   .site-header[data-state="CO"] .site-search { flex:1; width:auto; }
   .site-header[data-state="CO"] .site-search input { width:100%; }
 }
+
+.co-quick-points { display: flex; flex-wrap: wrap; gap: 16px; }
+.co-quick-points label { margin-top: 4px; }
+.co-quick-points input { display: block; margin-top: 6px; }
