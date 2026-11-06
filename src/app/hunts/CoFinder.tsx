@@ -84,7 +84,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
       const d = decodeCode(r.tagCode ?? '');
       const t = r.oddsByPts as unknown as OddsTable | null;
       const odds = tableOdds(t, mode, pool, myPts);
-      const ch: Chance = odds === null ? 'none' : chanceOf(odds, odds >= 0.995 ? 1 : 0, odds > 0 ? 1 : 0);
+      const ch: Chance = chanceOf(odds, odds !== null && odds >= 0.995 ? 1 : 0, odds !== null && odds > 0 ? 1 : 0);
       const otcOverlap = species === 'DEER' ? otcElkOverlap(r,context.generalElk) : null;
       return { r: withCoOpportunity(r, odds, nr), d, odds, ch, otcOverlap, hasOtcElk: otcOverlap === true };
     })

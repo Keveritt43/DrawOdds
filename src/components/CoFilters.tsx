@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { pointRange } from '@/lib/pointRange';
+import { CHANCE_LABEL, type Chance } from '@/lib/coOdds';
 import { DAY_MIN, DAY_MAX, parseMonthDay, toMonthDay } from "@/lib/seasonDays";
 import { DateRange as DateSlider, Section } from './FilterRail';
 
@@ -29,13 +30,7 @@ const SEASON: Opt[] = [
   ['L', 'Late'],
   ['K', 'Youth only'],
 ];
-export const CHANCES: Opt[] = [
-  ['sure', 'Sure'],
-  ['likely', 'Likely (60%+)'],
-  ['possible', 'Possible (30-60%)'],
-  ['longshot', 'Long shot'],
-  ['none', 'No chance'],
-];
+export const CHANCES: Opt[] = (Object.entries(CHANCE_LABEL) as [Chance, string][]).map(([value, label]) => [value, label]);
 
 /** Colorado's filter rail: the draw at your points first, then the hunt itself. Every change updates the URL. */
 export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: number; speciesLabel: string }) {
