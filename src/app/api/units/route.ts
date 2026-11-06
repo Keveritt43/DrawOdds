@@ -25,7 +25,7 @@ const SHADED = [
   'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat',
   ...['Deer', 'Elk', 'Pronghorn', 'Moose', 'Bighorn', 'Goat'].flatMap((sp) => [`ctlFillRes${sp}`, `ctlFillNr${sp}`]),
   'objBull', 'objCow',
-  ...['Deer','Elk'].flatMap(sp=>[`ctlQuality${sp}`,`ctlPressure${sp}`,...['Res','Nr'].flatMap(pool=>[`ctlPoints${pool}${sp}`,`ctlCreep${pool}${sp}`])]),
+  ...['Deer','Elk','Pronghorn'].flatMap(sp=>[`ctlQuality${sp}`,`ctlPressure${sp}`,...['Res','Nr'].flatMap(pool=>[`ctlPoints${pool}${sp}`,`ctlCreep${pool}${sp}`])]),
 ];
 const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' };
 
@@ -125,7 +125,7 @@ export async function GET(req: Request) {
     const [points,context]=await Promise.all([getPoints('CO'),getCoScoringContext()]);
     coPoints = points;
     by.clear(); // Colorado metrics below use only selected weapons and seasons.
-    for(const u of units) for(const sp of ['Deer','Elk']) for(const pool of ['Res','Nr']) {
+    for(const u of units) for(const sp of ['Deer','Elk','Pronghorn']) for(const pool of ['Res','Nr']) {
       const m=by.get(u.name) ?? by.set(u.name,{}).get(u.name)!;
       m[`ctlOdds${pool}${sp}`]=null; m[`ctlFill${pool}${sp}`]=null;
     }
@@ -134,7 +134,7 @@ export async function GET(req: Request) {
     for (const r of rows) for(const u of r.units) {
       const m=by.get(u) ?? by.set(u,{}).get(u)!, sp=SP_KEY[r.species];
       const put=(key:string,v:number|null,low=false)=>{ if(v!==null&&Number.isFinite(v)) m[key]=m[key]==null?v:low?Math.min(Number(m[key]),v):Math.max(Number(m[key]),v); };
-      const level=points[r.species==='ELK'?'ELK':'DEER'];
+      const level=points[r.species==='PRONGHORN'?'PRONGHORN':r.species==='ELK'?'ELK':'DEER'];
       for(const nr of [false,true]) {
         const pool=nr?'Nr':'Res';
         const odds=tableOdds(r.oddsByPts as unknown as OddsTable,'proj',poolFor(nr,points.youth),level);
@@ -148,7 +148,7 @@ export async function GET(req: Request) {
       }
     }
 
-    for (const species of ['DEER','ELK']) for (const u of units) {
+    for (const species of ['DEER','ELK','PRONGHORN']) for (const u of units) {
       const hs = rows.filter(r => r.species === species && r.units.includes(u.name));
       const m = by.get(u.name)!;
       const hunters = hs.reduce((n, r) => n + (r.hunters5 ?? 0), 0);
@@ -217,7 +217,7 @@ export async function GET(req: Request) {
   const classes = Object.fromEntries(
     SHADED.map((f) => {
       const values = features.map(x => x.properties[f]).filter((v): v is number => typeof v === 'number');
-      return [f, coPoints && /^ctlPoints/.test(f) ? pointsClasses(values, coPoints[f.endsWith('Elk') ? 'ELK' : 'DEER']) : classesFor(f, values)];
+      return [f, coPoints && /^ctlPoints/.test(f) ? pointsClasses(values, coPoints[f.endsWith('Pronghorn') ? 'PRONGHORN' : f.endsWith('Elk') ? 'ELK' : 'DEER']) : classesFor(f, values)];
     }),
   );
   if (statsOnly) {

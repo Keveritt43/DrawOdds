@@ -57,6 +57,7 @@ test('pronghorn regulations use their own unit lists and season dates', () => {
   assert.deepEqual(datesFor(codes.AF006O1A, 2027), { start: '2027-09-01', end: '2027-09-20', year: 2027 });
   assert.deepEqual(datesFor(codes.AM003O1M, 2027), { start: '2027-09-21', end: '2027-09-29', year: 2027 });
   assert.deepEqual(datesFor(codes.AF006O2R, 2027), { start: '2027-10-16', end: '2027-10-24', year: 2027 });
+  assert.deepEqual(datesFor(codes.AM201O1R, 2027), { start: '2026-10-10', end: '2026-10-18', year: 2026 });
   for (const unit of ['1', '102', '851', '861', '951']) assert.ok(codes.AE000U1A.units.includes(unit));
   assert.ok(codes.AE000U1A.partial);
 });

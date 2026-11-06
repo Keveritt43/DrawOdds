@@ -25,7 +25,7 @@ export function CoQuickStart({ points }: { points: StatePoints }) {
     setError('');
     start(async () => {
       try {
-        await setPoints('CO', {res: data.get('res') === 'RESIDENT' ? 'RESIDENT' : 'NONRESIDENT', DEER: Number(data.get('DEER')), ELK: Number(data.get('ELK')), youth: data.has('youth')});
+        await setPoints('CO', {res: data.get('res') === 'RESIDENT' ? 'RESIDENT' : 'NONRESIDENT', DEER: Number(data.get('DEER')), ELK: Number(data.get('ELK')), PRONGHORN: Number(data.get('PRONGHORN')), youth: data.has('youth')});
         router.push('/hunts?' + query);
       } catch { setError('Could not save your points. Please try again.'); }
     });
@@ -35,9 +35,9 @@ export function CoQuickStart({ points }: { points: StatePoints }) {
     <label htmlFor="quick-res">I&apos;m Applying As</label>
     <select id="quick-res" name="res" defaultValue={points.res}><option value="RESIDENT">Resident</option><option value="NONRESIDENT">Nonresident</option></select>
     <label>My Preference Points</label>
-    <div className="co-quick-points">{(['DEER', 'ELK'] as const).map(sp => <label key={sp}>{sp === 'DEER' ? 'Deer' : 'Elk'} <input aria-label={sp === 'DEER' ? 'My deer points' : 'My elk points'} type="number" name={sp} min="0" max="40" step="1" required defaultValue={points[sp]} style={{width: 70}} /></label>)}</div>
+    <div className="co-quick-points">{(['DEER', 'ELK', 'PRONGHORN'] as const).map(sp => <label key={sp}>{sp === 'DEER' ? 'Deer' : sp === 'ELK' ? 'Elk' : 'Pronghorn'} <input aria-label={`My ${sp.toLowerCase()} points`} type="number" name={sp} min="0" max="40" step="1" required defaultValue={points[sp]} style={{width: 70}} /></label>)}</div>
     <label><input type="checkbox" name="youth" defaultChecked={points.youth} /> Youth hunter (12–17)</label>
-    <label>Species</label>{opts('species', [['ELK', 'Elk'], ['DEER', 'Deer']])}
+    <label>Species</label>{opts('species', [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']])}
     <label>Hunt Type</label>{opts('type', [['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General / OTC'], ['', 'Either']])}
     <label>What Are You After?</label>{opts('antler', [['ANTLERED', 'A Buck Or Bull (Incl. Either-Sex Hunts)'], ['ALL', 'Any Animal (Incl. Does / Cows)']])}
     <label>Weapon (Select Any)</label>{opts('method', CO_METHODS, true)}

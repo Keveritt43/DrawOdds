@@ -118,6 +118,16 @@ function rowDatesOf(items: Item[], ci: Item): CodeDates['row'] {
     const iso = (t: string) => `${t.slice(6, 10)}-${t.slice(0, 2)}-${t.slice(3, 5)}`;
     if (iso(above.s.trim()) <= iso(below.s.trim())) return { start: iso(above.s.trim()), end: iso(below.s.trim()), annual: false };
   }
+  if (ci.s.trim().startsWith('A')) {
+    // Some pronghorn exceptions print both dates below the hunt code in its own column.
+    const next = Math.min(...items.filter((i) => CODE.test(i.s.trim()) && i.y > ci.y + 3).map((i) => i.y));
+    const dates = items.filter((i) => DATE.test(i.s.trim()) && i.y > ci.y && i.y < Math.min(next, ci.y + 45) && Math.abs(i.x - ci.x) < 10).sort((a, b) => a.y - b.y);
+    if (dates.length === 2) {
+      const iso = (s: string) => `${s.slice(6, 10)}-${s.slice(0, 2)}-${s.slice(3, 5)}`;
+      const start = iso(dates[0].s.trim()), end = iso(dates[1].s.trim());
+      if (start <= end) return { start, end, annual: false };
+    }
+  }
   return null;
 }
 
@@ -344,6 +354,8 @@ function applyPronghornDates(pages: Item[][], codes: Record<string, RegCode>) {
       const years = n === '1' ? first : second;
       if (Object.keys(years).length) c.dates.table = { byYear: years };
     }
+    // A dated exception is not evidence that the general calendar applies next year.
+    if (c.dates.row && !c.dates.row.annual) c.dates.table = null;
   }
 }
 

@@ -40,7 +40,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     try {
       const last = decodeURIComponent(document.cookie.match(/(?:^|; )lastHunts=([^;]*)/)?.[1] ?? '');
       const want = new URLSearchParams(last).get('species') as Sp | null;
-      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : st.code === 'CO' ? ['ELK', 'DEER'] : ['ELK', 'DEER', 'PRONGHORN'];
+      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : ['ELK', 'DEER', 'PRONGHORN'];
       if (want && ok.includes(want)) setSp(want);
     } catch { /* keep the default */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -314,6 +314,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                       ? [
                           ["ELK", "Elk"],
                           ["DEER", "Deer"],
+                          ["PRONGHORN", "Pronghorn"],
                         ]
                       : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]
                 }

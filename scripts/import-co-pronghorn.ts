@@ -6,7 +6,7 @@ import { recapRow, buildCoSummaries } from '../src/sync/co';
 import type { RecapHunt } from '../src/sync/co/recap';
 import type { Prisma } from '@prisma/client';
 
-const EXPECTED = 'ab8b377aabba82c91661c5122cc9947edbf80ad8c2642bc9552a830df54c86d5';
+const EXPECTED = '2b2a46f4cc39c379f85cc0fba221aea4be5a650c5aa9cface62f1f49204dccbb';
 type Entry = { species: string; year: number; kind: string; url: string; count: number; data: any };
 async function main() {
   const bytes = await readFile('data/co-pronghorn-import.json');
@@ -41,15 +41,28 @@ async function main() {
     } else if (e.kind === 'regs') add(e, 'pronghorn-regs', e.data);
     else throw Error(`Unexpected kind ${e.kind}`);
   }
+  reports.push({id:'CO|pronghorn-import|snapshot',state:'CO',species:'PRONGHORN',kind:'pronghorn-import',year:2026,source:'reviewed local CPW snapshot',data:{sha256:hash}});
   console.log(JSON.stringify({hash, reports:reports.length, drawRows:draws.length, writeScope:'new CO PRONGHORN rows only', apply:process.argv.includes('--apply')}));
   if (!process.argv.includes('--apply')) return;
   const foreignDigest = async () => JSON.stringify(await db.$queryRaw`SELECT md5(COALESCE(jsonb_agg(to_jsonb(s) ORDER BY id)::text,'[]')) AS digest FROM "HuntSummary" s WHERE state <> 'CO' OR species <> 'PRONGHORN'`);
   const before = await foreignDigest();
-  if (await db.drawRecap.count({where:{state:'CO',species:'PRONGHORN'}}) || await db.stateReport.count({where:{state:'CO',species:'PRONGHORN'}}) || await db.huntSummary.count({where:{state:'CO',species:'PRONGHORN'}})) throw Error('Existing Colorado pronghorn rows found; refusing to overwrite');
-  await db.$transaction(async tx => {
-    await tx.drawRecap.createMany({data:draws});
-    await tx.stateReport.createMany({data:reports});
-  }, {timeout:180000});
+  const [existingDraws,existingReports,existingSummaries] = await Promise.all([
+    db.drawRecap.count({where:{state:'CO',species:'PRONGHORN'}}),
+    db.stateReport.count({where:{state:'CO',species:'PRONGHORN'}}),
+    db.huntSummary.count({where:{state:'CO',species:'PRONGHORN'}}),
+  ]);
+  if (existingSummaries) throw Error('Colorado pronghorn summaries already exist; refusing to overwrite');
+  if (existingDraws || existingReports) {
+    const marker = await db.stateReport.findUnique({where:{id:'CO|pronghorn-import|snapshot'}});
+    if (existingDraws !== draws.length || existingReports !== reports.length || (marker?.data as {sha256?:string})?.sha256 !== hash)
+      throw Error('Existing Colorado pronghorn rows do not match this reviewed import; refusing to overwrite');
+    console.log('Resuming summary creation for the previously imported snapshot.');
+  } else {
+    await db.$transaction(async tx => {
+      await tx.drawRecap.createMany({data:draws});
+      await tx.stateReport.createMany({data:reports});
+    }, {timeout:180000});
+  }
   const result = await buildCoSummaries('PRONGHORN');
   if (result.status === 'ERROR' || result.rows < 250) throw Error(`Summary generation failed: ${JSON.stringify(result)}`);
   if (before !== await foreignDigest()) throw Error('Non-pronghorn summaries changed during import; investigate');
