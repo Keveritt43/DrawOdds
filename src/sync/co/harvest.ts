@@ -41,6 +41,8 @@ export interface UnitTables {
 
 const num = (s: string) => Number(s.replace(/[,%*]/g, ''));
 const CODE = /^([DE][MFEP]\d{3}[A-Z0-9]\d[A-Z])(\*?)$/;
+export const validHarvestCounts = (harvest: number, hunters: number) =>
+  Number.isFinite(harvest) && Number.isFinite(hunters) && harvest >= 0 && hunters >= 0 && harvest <= hunters;
 
 function texts(items: Item[]) {
   return rowsOf(items).map((r) => ({
@@ -118,6 +120,7 @@ export function parseHarvestByUnit(pages: Item[][]): UnitTables {
   const out: UnitTables = { totals: {}, split: {} };
   for (const [pageIndex, p] of pages.entries()) {
     let current: ReturnType<typeof tableKind> = null;
+    let unitX: number | null = null;
     for (const { items, text: rawText } of texts(p)) {
       // CPW's 2019 elk page 32 is mislabeled Second; its contents and continuation pages identify Third.
       const text =
@@ -126,13 +129,18 @@ export function parseHarvestByUnit(pages: Item[][]): UnitTables {
           : rawText;
       if (/Harvest, Hunters and (Recreation Days|Percent Success) for/i.test(text)) {
         current = tableKind(text);
+        unitX = null;
         continue;
       }
       if (!current) continue;
-      const u = items[0]?.s.trim() ?? '';
-      if (!/^\d{1,3}$/.test(u) || items[0].x > 115) continue;
+      const unitHeader = items.find((i) => /^Unit$/i.test(i.s.trim()));
+      if (unitHeader) { unitX = unitHeader.x; continue; }
+      // Some CPW exports include faint spreadsheet row numbers left of the real Unit column.
+      const unitItem = unitX === null ? items[0] : items.find((i) => /^\d{1,3}$/.test(i.s.trim()) && i.x >= unitX! - 10 && i.x <= unitX! + 30);
+      const u = unitItem?.s.trim() ?? '';
+      if (!unitItem || !/^\d{1,3}$/.test(u) || (unitX === null && unitItem.x > 115)) continue;
       const v = items
-        .slice(1)
+        .filter((i) => i.x > unitItem.x)
         .map((i) => i.s.trim())
         .filter((s) => /^[\d,.]+%?$/.test(s))
         .map(num);
@@ -198,6 +206,7 @@ export function codeFromUnits(
   if (split?.length) {
     const rows = split.filter((r) => units.includes(r.unit));
     if (!rows.length) return null;
+    if (rows.some((r) => !validHarvestCounts((sex === 'M' ? r.mHarvest : r.fHarvest) ?? 0, (sex === 'M' ? r.mHunters : r.fHunters) ?? 0))) return null;
     const h = rows.reduce((a, r) => a + ((sex === 'M' ? r.mHarvest : r.fHarvest) ?? 0), 0);
     const n = rows.reduce((a, r) => a + ((sex === 'M' ? r.mHunters : r.fHunters) ?? 0), 0);
     return n ? { harvest: h, hunters: n, days: null, basis: 'split' } : null;
@@ -205,6 +214,7 @@ export function codeFromUnits(
   const tot = t.totals[kind];
   const rows = tot?.filter((r) => units.includes(r.unit)) ?? [];
   if (!rows.length) return null;
+  if (rows.some((r) => !validHarvestCounts(r.harvest ?? 0, r.hunters ?? 0))) return null;
   const h = rows.reduce((a, r) => a + (sex === 'M' ? (r.male ?? 0) : sex === 'F' ? (r.female ?? 0) + (r.young ?? 0) : (r.harvest ?? 0)), 0);
   const n = rows.reduce((a, r) => a + (r.hunters ?? 0), 0);
   const d = rows.reduce((a, r) => a + (r.days ?? 0), 0);
