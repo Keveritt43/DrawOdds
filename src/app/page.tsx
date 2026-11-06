@@ -125,7 +125,7 @@ export default async function Home() {
             )}
             <label>What Are You After?</label>
             <div className="opts">
-              {opt('antler', 'ANTLERED', msg ? 'A Bull Or Ram (Male)' : 'A Buck Or Bull (Incl. Either-Sex Hunts)', true)}
+              {opt('antler', 'ANTLERED', msg ? 'Antlered (Bull Or Ram)' : 'A Buck Or Bull (Incl. Either-Sex Hunts)', true)}
               {opt('antler', '', msg ? 'Any (Incl. Cows / Ewes)' : 'Any Animal (Incl. Does / Cows)')}
             </div>
             <label>Weapon</label>

@@ -46,10 +46,10 @@ export const fmtNum = num;
 
 export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow' | 'ctlQuality' | 'ctlPressure' | 'ctlPoints' | 'ctlCreep';
 export const METRICS: Record<Metric, MetricDef> = {
- ctlQuality: {label:'Quality (Best Male Hunt)',kind:'controlled',bySpecies:true,ramp:GREEN,fmt:num,none:'Insufficient validated inputs',field:sp=>`ctlQuality${SPK(sp)}`,note:'Highest Quality of an adult buck/bull hunt touching the unit. Same fixed scoring model as Idaho.'},
- ctlPressure: {label:'Hunters / Sq Mi (Least Crowded Male Hunt)',kind:'controlled',bySpecies:true,ramp:PLUM,better:'low',fmt:num,none:'No density data',field:sp=>`ctlPressure${SPK(sp)}`,note:'Lowest annual hunter density among adult buck/bull hunts touching the unit. Multi-unit hunt averages are not local crowd counts.'},
- ctlPoints: {label:'Points Needed (Easiest Male Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No observed cutoff',field:(sp,nr)=>`ctlPoints${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest latest-actual preference-point cutoff for your residency among adult buck/bull hunts touching the unit.'},
- ctlCreep: {label:'Point Creep (Lowest Male Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No point trend',field:(sp,nr)=>`ctlCreep${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest annual cutoff trend for your residency among adult buck/bull hunts touching the unit; points per year, not a future guarantee.'},
+ ctlQuality: {label:'Quality (Best Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:GREEN,fmt:num,none:'Insufficient validated inputs',field:sp=>`ctlQuality${SPK(sp)}`,note:'Highest Quality of an adult buck/bull hunt touching the unit. Same fixed scoring model as Idaho.'},
+ ctlPressure: {label:'Hunters / Sq Mi (Least Crowded Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:PLUM,better:'low',fmt:num,none:'No density data',field:sp=>`ctlPressure${SPK(sp)}`,note:'Lowest annual hunter density among adult buck/bull hunts touching the unit. Colorado deer density includes overlapping general/OTC elk unit-season participation (all-license proxy). Multi-unit hunt averages are not local crowd counts.'},
+ ctlPoints: {label:'Points Needed (Easiest Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No observed cutoff',field:(sp,nr)=>`ctlPoints${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest latest-actual preference-point cutoff for your residency among adult buck/bull hunts touching the unit.'},
+ ctlCreep: {label:'Point Creep (Lowest Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No point trend',field:(sp,nr)=>`ctlCreep${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest annual cutoff trend for your residency among adult buck/bull hunts touching the unit; points per year, not a future guarantee.'},
   public: {
     label: 'Public Land %', kind: 'land', field: () => 'publicPct', ramp: GREEN, fmt: pctOf, none: 'No data',
     note: 'Federal + state land, from IDFG unit pages. Does not include Access Yes!.',
@@ -69,12 +69,12 @@ export const METRICS: Record<Metric, MetricDef> = {
     note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Green = fewer hunters.',
   },
   ctlOdds: {
-    label: 'Controlled Draw Odds (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
+    label: 'Controlled Draw Odds (Best Antlered Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
     field: (sp, nr) => `ctlOdds${nr ? 'Nr' : 'Res'}${SPK(sp)}`,
     note: 'Best 5-year first-choice odds, for your residency, of any adult buck / bull / ram controlled hunt touching the unit (antlerless and youth hunts left out; mountain goat hunts are either sex).',
   },
   ctlFill: {
-    label: 'Controlled Draw And Fill (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull hunt, or too few hunters',
+    label: 'Controlled Draw And Fill (Best Antlered Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull hunt, or too few hunters',
     field: (sp, nr) => `ctlFill${nr ? 'Nr' : 'Res'}${SPK(sp)}`,
     note: 'Draw odds × hunter success (5-year): the chance one application ends with an animal, for your residency. Best adult buck / bull / ram hunt touching the unit.',
   },

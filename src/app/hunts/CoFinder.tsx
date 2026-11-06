@@ -1,3 +1,4 @@
+import { getCoScoringContext } from '@/lib/coScoringContext';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
 import { otcElkOverlap } from '@/lib/overlappingSeasons';
 import { CoRecommendations } from "@/components/CoRecommendations";
@@ -64,16 +65,16 @@ export async function CoFinder({ sp }: { sp: SP }) {
         : { youthOnly: false }),
     ...(minSucc ? { success5: { gte: minSucc / 100 } } : {}),
   };
-  const [rows, fav, otc] = await Promise.all([
+  const [rows, fav, context] = await Promise.all([
     db.huntSummary.findMany({
       where,
     }),
     getFavorites(),
-    species === 'DEER' ? db.huntSummary.findMany({where:{state:'CO',species:'ELK',type:'GENERAL'}}) : Promise.resolve([]),
+    getCoScoringContext(),
   ]);
   const year = rows[0]?.oddsLastYear ?? (await db.drawRecap.aggregate({ where: { state: 'CO', species }, _max: { year: true } }))._max.year;
   const decorated = rows
-    .map(withCoScores)
+    .map(r=>withCoScores(r,context))
     .filter(
       (r) =>
         !Number(one(sp.minPublic)) ||
@@ -84,7 +85,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
       const t = r.oddsByPts as unknown as OddsTable | null;
       const odds = tableOdds(t, mode, pool, myPts);
       const ch: Chance = odds === null ? 'none' : chanceOf(odds, odds >= 0.995 ? 1 : 0, odds > 0 ? 1 : 0);
-      const otcOverlap = species === 'DEER' ? otcElkOverlap(r,otc) : null;
+      const otcOverlap = species === 'DEER' ? otcElkOverlap(r,context.generalElk) : null;
       return { r: withCoOpportunity(r, odds, nr), d, odds, ch, otcOverlap, hasOtcElk: otcOverlap === true };
     })
     .filter(

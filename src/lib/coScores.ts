@@ -1,10 +1,14 @@
+import { coDeerPressure, GENERAL_ELK_QUALITY_FACTOR, type CoPressureContext, type CoPressure } from './coPressure';
 import type { HuntSummary } from '@prisma/client';
 import { withCoLand, coLandUnit } from './coLand';
 import { opportunity, scoreHunts } from './score';
 /** Read-time CO scoring leaves historical summaries and all Idaho rows untouched. */
-export function withCoScores<T extends HuntSummary>(row: T): T {
+export type CoScored = HuntSummary & { coPressure?: CoPressure };
+export function withCoScores<T extends HuntSummary>(row: T, context?: CoPressureContext): T & {coPressure?:CoPressure} {
   if (row.state !== 'CO') return row;
   const r = withCoLand(row);
+  const pressure = context ? coDeerPressure(r,context) : undefined;
+  if (pressure) r.huntersSqMi = pressure.density;
   const landValid = r.units.length > 0 && r.units.every(u => {
     const l = coLandUnit(u);
     return l && Number.isFinite(l.acres) && l.acres > 0 && l.coverage >= .95 &&
@@ -20,7 +24,10 @@ export function withCoScores<T extends HuntSummary>(row: T): T {
     huntablePct: null, bigPct5: null, nrTag: false,
     huntersSqMi: landValid ? r.huntersSqMi : null,
     resOdds5: null, nrOdds5: null}]).get(r.id)!;
-  return {...r,...scores};
+  if (pressure && ['complete','missing'].includes(pressure.status) && scores.scoreQuality!==null) {
+    scores.scoreQuality = Math.floor(scores.scoreQuality * GENERAL_ELK_QUALITY_FACTOR);
+  }
+  return {...r,...scores,...(pressure ? {coPressure:pressure} : {})};
 }
 /** Opportunity follows the user's points, pool and actual/projected selection. */
 export function withCoOpportunity<T extends HuntSummary>(r: T, odds: number | null, nr: boolean): T {

@@ -180,6 +180,7 @@ export function CoScore() {
   return (
     <main className="wrap" style={{ maxWidth: 820, margin: "24px auto" }}>
       <h1>Colorado DrawOdds Score</h1>
+      <p>Deer hunts with a confirmed overlapping general/OTC elk season receive a 25% Quality reduction after the base calculation. Elbow room includes deer hunters plus estimated elk hunter-seasons in shared units and overlapping seasons. CPW unit-season elk counts include all license types: they are a pressure proxy, not an exact OTC-only count. Missing/ambiguous elk counts leave combined density and Quality unavailable. Units, seasons and report years are deduplicated, with up to five latest survey years averaged per unit/season.</p>
       <p>
         Colorado uses the same fixed Quality benchmarks as Idaho: sample-adjusted harvest success (65%), public ownership (20%) and elbow room (15%). Quality is capped at the lower of observed and adjusted Success plus 20; below the low success benchmark it cannot exceed 49. Trophy receives no adjustment because verified antler-size measurements are unavailable.
       </p>
