@@ -33,7 +33,7 @@ export async function CoUnitPage({ name }: { name: string }) {
   return (
     <main className="wrap" style={{ margin: "20px auto 40px" }}>
       <p className="small">
-        <Link href={`/hunts?unit=${name}`}>Find hunts in this unit →</Link>
+        <Link href={`/hunts?states=CO&unit=CO:${name}`}>Find hunts in this unit →</Link>
       </p>
       <h1 className="star-head">
         Unit {name}{' '}

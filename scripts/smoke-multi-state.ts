@@ -65,6 +65,10 @@ async function main() {
   }
   const invalid = await fetch(origin + '/api/search/units?state=XX');
   assert.equal(invalid.status, 400);
+  const idHeader = await get('/api/units/39/hunts', { cookie: 'state=ID; residency=RESIDENT' });
+  const coHeader = await get('/api/units/39/hunts', { cookie: 'state=CO; residency=RESIDENT' });
+  assert.deepEqual(JSON.parse(coHeader.body), JSON.parse(idHeader.body), 'Idaho unit hunts must use Idaho residency under either header state');
+  assert.equal(coHeader.response.headers.get('cache-control'), 'private, no-store');
   console.log(JSON.stringify({ ok: true, matches: records.length, firstRequestMs: cold.ms, warmTableMs: warm.ms, csvMs: exported.ms, legacy: baseline }));
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import type { HuntSummary } from '@prisma/client';
 import { searchStates, searchBounds, searchUnitKey } from '../src/lib/searchStates';
-import { runSearch, personalize, compareSearch, type HunterSettings } from '../src/lib/multiStateSearch';
+import { runSearch, personalize, evaluateHunt, compareSearch, type HunterSettings } from '../src/lib/multiStateSearch';
 import { searchCsv } from '../src/lib/searchCsv';
 import { matchesHuntSeason } from '../src/lib/huntSeasonFilter';
 import { parseFilters } from '../src/lib/finder';
@@ -105,6 +105,18 @@ test('historical, projected and youth pools remain independent and never leak be
   assert.equal(personalize(colorado(), settings, 'last')!.odds, .8);
   assert.equal(personalize(colorado(), { ...settings, CO: { ...settings.CO, youth: true } }, 'proj')!.odds, .9);
   assert.equal(personalize(colorado(), settings, 'proj')!.odds, .6);
+});
+
+test('explicit comparisons share personal metrics and use pronghorn points rather than deer points', () => {
+  const hunter = { ...settings, CO: { ...settings.CO, PRONGHORN: 1 } };
+  const hunt = colorado({ species: 'PRONGHORN', tagCode: 'AM039O1R' });
+  const compared = evaluateHunt(hunt, hunter, 'proj');
+  assert.equal(compared.points, 1);
+  assert.equal(compared.odds, .3);
+  assert.deepEqual(compared, personalize(hunt, hunter, 'proj'));
+  const general = row({ species: 'ELK', type: 'GENERAL' });
+  assert.equal(personalize(general, settings, 'proj'), null, 'finder hides duplicate general elk options');
+  assert.equal(evaluateHunt(general, settings, 'proj').odds, 1, 'explicit comparisons retain selected hunts');
 });
 
 test('unknown odds and scores remain visible but never pass minimum filters or outrank known values', () => {

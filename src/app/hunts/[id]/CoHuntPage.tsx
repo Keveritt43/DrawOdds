@@ -8,6 +8,7 @@ import { CoLand } from "@/components/CoLand";
 import { CoUnitSeasonHunters } from "@/components/CoUnitSeasonHunters";
 import { OverlappingElk } from '@/components/OverlappingElk';
 import Link from 'next/link';
+import { BackLink } from '@/components/BackLink';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { auth } from '@/auth';
@@ -109,7 +110,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   return (
     <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
       <p className="small">
-        <Link href={`/hunts?unit=${d.unit}&species=${species}`}>← Colorado hunts in unit {d.unit}</Link>
+        <BackLink state="CO" /> · <Link href={`/hunts?states=CO&unit=CO:${d.unit}&species=${species}`}>Colorado hunts in unit {d.unit}</Link>
       </p>
       <h1 className="star-head">
         {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />

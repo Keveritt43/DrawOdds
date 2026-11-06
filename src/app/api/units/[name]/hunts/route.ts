@@ -13,7 +13,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
   const ref = parseUnitKey(decodeURIComponent((await params).name));
   const state = ref.state;
   const name = ref.name.toUpperCase().slice(0, 8);
-  const nr = (await getResidency()).residency === 'NONRESIDENT';
+  const nr = (await getResidency(undefined, state)).residency === 'NONRESIDENT';
   const all = sortUnitHunts(await db.huntSummary.findMany({ where: { state, units: { has: name }, youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
   // same listing rules as Filtering: elk = zone A/B tags, deer = general seasons (+ White-tailed tag)
   const pts = state === "CO" ? await getPoints("CO") : null;
@@ -50,6 +50,6 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
         : h.nrOdds5,
       success5: h.success5,
     })),
-    { headers: { 'Cache-Control': 'private, max-age=600' } }, // depends on the residency cookie
+    { headers: { 'Cache-Control': 'private, no-store' } }, // eligibility depends on current per-state settings
   );
 }

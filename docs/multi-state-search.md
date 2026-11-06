@@ -22,6 +22,8 @@ Opportunity uses the existing `Quality * sqrt(odds)` formula and is derived on c
 
 Report years and odds basis remain visible. The release does not create a new projection model, harmonize agency reporting granularity, or recalculate Idaho scores. The source data's current season years can differ; calendar-date filtering uses the existing season-day convention rather than inventing future dates. Related Colorado seasons still require the same state, a shared unit and an actual overlapping open date; unknown dates do not establish absence of overlap.
 
+Side-by-side comparisons use the same per-state personal metrics, including Colorado pronghorn points. Hunt and unit detail pages resolve residency from their own state rather than the header; their search links qualify the state and unit. Idaho unit-detail maps have a local Idaho context without changing the separate Unit Map page. Personalized unit-hunt responses are uncached so eligibility changes do not leave stale rows behind. Personal controls and ranking explanations are expandable to preserve room for results.
+
 ## Current performance design and next scale boundary
 
 `searchData.ts` maintains a process-local public index, one entry per requested enabled state, rebuilt at most once per five minutes. Concurrent requests share the rebuild promise. Failed rebuilds are evicted for retry. Rebuilds only read the database; they never fetch agencies or write summaries. Public CO land/pressure/Quality work happens during rebuild instead of on every filter change. Personal settings, odds and Opportunity are not cached across users.

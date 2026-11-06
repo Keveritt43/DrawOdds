@@ -8,8 +8,9 @@ import { useSearchParams } from "next/navigation";
  * "Back To Filtering" that returns to the list as you left it (filters, sort, scroll). Coming from Filtering it
  * goes back in history; otherwise it links to the remembered filter query, or plain /hunts.
  */
-export function BackLink() {
-  const state = useStateConfig().code;
+export function BackLink({ state: stateCode }: { state?: string } = {}) {
+  const header = useStateConfig().code;
+  const state = stateCode ?? header;
   const [href, setHref] = useState('/hunts');
   const [fromList, setFromList] = useState(false);
   useEffect(() => {
