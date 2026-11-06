@@ -69,6 +69,20 @@ async function main() {
   const coHeader = await get('/api/units/39/hunts', { cookie: 'state=CO; residency=RESIDENT' });
   assert.deepEqual(JSON.parse(coHeader.body), JSON.parse(idHeader.body), 'Idaho unit hunts must use Idaho residency under either header state');
   assert.equal(coHeader.response.headers.get('cache-control'), 'private, no-store');
+  const deerQuery = 'states=ID,CO&species=DEER&antler=ANTLERED&minScore=0&sort=opp';
+  const deer = csv((await get(`/api/export?${deerQuery}`)).body).slice(1);
+  const mule = csv((await get(`/api/export?${deerQuery}&deerType=MULE`)).body).slice(1);
+  const second = csv((await get(`/api/export?${deerQuery}&season=2`)).body).slice(1);
+  const both = csv((await get(`/api/export?${deerQuery}&deerType=MULE&season=2`)).body).slice(1);
+  const keys = (rows: string[][], state: string) => rows.filter(r => r[0] === state).map(r => r[col('Link')]).sort();
+  assert.ok(keys(deer, 'ID').length > 0 && keys(deer, 'CO').length > 0);
+  assert.deepEqual(keys(mule, 'CO'), keys(deer, 'CO'), 'Idaho deer type must not remove Colorado hunts');
+  assert.deepEqual(keys(second, 'ID'), keys(deer, 'ID'), 'Colorado season must not remove Idaho hunts');
+  assert.deepEqual(keys(both, 'ID'), keys(mule, 'ID'));
+  assert.deepEqual(keys(both, 'CO'), keys(second, 'CO'));
+  const shared = csv((await get(`/api/export?${deerQuery}&deerType=MULE&season=2&minPublic=50&minSuccess=25`)).body).slice(1);
+  assert.ok(shared.length > 0);
+  assert.ok(shared.every(r => Number(r[col('Public land %')]) >= 50 && Number(r[col('Harvest success %')]) >= 25));
   console.log(JSON.stringify({ ok: true, matches: records.length, firstRequestMs: cold.ms, warmTableMs: warm.ms, csvMs: exported.ms, legacy: baseline }));
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

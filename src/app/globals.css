@@ -716,3 +716,24 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .search-result-context { margin: 0; padding: 8px 12px; background: #f1eee7; border-radius: 6px 6px 0 0; }
 .search-result .ucard { margin-top: 0; }
 .search-pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 20px 0; }
+
+/* Keep configuration out of the pinned results toolbar. */
+.multi-state-finder .search-intro { padding: 10px 16px 6px; background: var(--card); }
+.multi-state-finder .search-intro h1 { margin: 0 0 4px; font-size: 1.65rem; }
+.search-setup > summary { cursor: pointer; font-size: .85rem; color: var(--muted); padding: 4px 0; }
+.search-setup[open] { padding-bottom: 10px; }
+.multi-state-finder .search-toolbar { padding: 6px 16px 9px; }
+.multi-state-finder .search-toolbar .f-sub { margin-top: 4px; }
+.multi-state-finder .search-result { margin: 6px 0; }
+.search-result-context > summary { cursor: pointer; }
+.search-result-context > p { margin: 4px 0 0; }
+.multi-state-finder .f-list { scroll-padding-top: 120px; }
+.pt-values { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; min-width: 224px; }
+.pt-tracker .pt-values .pt-v { display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 2px 5px; border: 1px solid #626b70; border-radius: 5px; background: #ffffff0d; }
+.pt-name { font-size: .68rem; font-weight: 500; }
+.search-settings .pt-values .pt-v { border-color: var(--line); background: var(--bg); }
+@media (max-width: 600px) {
+  .pt-values { min-width: 208px; gap: 4px; }
+  .pt-name { font-size: .62rem; }
+  .pt-tracker .pt-values .pt-v { padding: 2px 4px; }
+}

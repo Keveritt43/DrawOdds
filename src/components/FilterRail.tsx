@@ -42,7 +42,8 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
   const nr = residency === 'NONRESIDENT';
   const resetHref = states ? `/hunts?states=${states.join(',')}&sort=opp&minScore=0&antler=ANTLERED` : '/hunts?reset=1';
   const speciesOptions: Opt[] = states ? [['', 'All species'], ...[...new Set(states.flatMap(s => STATES[s].species))].map(s => [s, ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn sheep', GOAT: 'Mountain goat' })[s]] as Opt)] : msg ? SPECIES_MSG : SPECIES;
-  const idNote = states ? <p className="small muted">Idaho only. Using this restriction returns Idaho hunts only.</p> : null;
+  const idNote = states ? <p className="small muted">Applies to Idaho only. Other selected states are unchanged.</p> : null;
+  const sharedNote = states ? <p className="small muted">Applies to all selected states.</p> : null;
 
   const push = (patch: Record<string, string | string[] | null>) => {
     const p = new URLSearchParams(sp.toString());
@@ -118,8 +119,10 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
           set={list("weapon").length > 0}
         >
           {checks("weapon", WEAPONS)}
+          {sharedNote}
         </Section>
         <Section title="Season Dates" value={[many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time'} set={list('month').length > 0 || !!get('from')}>
+            {sharedNote}
             {checks('month', MONTHS)}
             <p className="small muted" style={{ margin: '6px 0 10px' }}>Hunts open at some point in the months you pick.</p>
             <label>Or Pick Exact Dates</label>
@@ -130,9 +133,10 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
               onCommit={(a, b, mode) => push(a === DAY_MIN && b === DAY_MAX ? { from: null, to: null, dmode: null } : { from: toMonthDay(a), to: toMonthDay(b), dmode: mode === 'end' ? 'end' : null })}
             />
           </Section>
-        {!msg && (sp_ === '' || sp_ === 'DEER') && (
+        {!msg && (!states || states.includes('ID')) && (sp_ === '' || sp_ === 'DEER') && (
             <Section title="Deer: Mule Or Whitetail" value={many(DEER, 'deerType', 'Any')} set={list('deerType').length > 0}>
               {checks('deerType', DEER)}
+              {idNote}
               <p className="small muted" style={{ margin: '6px 0 0' }}>From 5 years of harvest: 60%+ whitetail = Whitetail, 40% or less = Mule Deer.</p>
             </Section>
           )}
@@ -158,6 +162,7 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
           <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>
         </Section>
         <Section title="Harvest Success" value={get('minSuccess') ? `${get('minSuccess')}%+` : 'Any'} set={!!get('minSuccess')}>
+          {sharedNote}
           <Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
         </Section>
         <Section title="Crowding (Hunters Per Sq Mi)" value={get('maxDensity') ? `${get('maxDensity')} or fewer` : 'Any'} set={!!get('maxDensity')}>
@@ -166,6 +171,7 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
         </Section>
         <Section title="Land Access" value={[get('minPublic') && `${get('minPublic')}%+ public`, get('minAccessYes') && `${get('minAccessYes')}%+ Access Yes!`, get('minHuntable') && `${get('minHuntable')}%+ huntable`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minPublic') || get('minAccessYes') || get('minHuntable') || get('accessYes'))}>
           <label>Public Land</label>
+          {sharedNote}
           <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
           {(!states || states.includes('ID')) && <>{idNote}<label>{accessProgram} (Private Land Open To Hunting)</label>
           <Slider value={Number(get('minAccessYes') || 0)} max={25} step={1} suffix="%" onCommit={(v) => push({ minAccessYes: v ? String(v) : null })} />
@@ -181,8 +187,9 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
         {children}
         <details className="rmore" open={moreSet}>
           <summary>More Filters{moreSet ? " (in use)" : ""}</summary>
-          {!msg && sp_ !== 'PRONGHORN' && (
+          {!msg && (!states || states.includes('ID')) && sp_ !== 'PRONGHORN' && (
             <Section title="Trophy Potential" value={get('minBig') ? `${get('minBig')}%+` : 'Any'} set={!!get('minBig')}>
+              {idNote}
               <Slider value={Number(get('minBig') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minBig: v ? String(v) : null })} />
               <p className="small muted" style={{ margin: '6px 0 0' }}>Share of the antlered harvest that was 4+ point mule deer (deer) or 6+ point bulls (elk).</p>
             </Section>

@@ -19,7 +19,7 @@ export function CoSearchFilters() {
     return <label key={v}><input type="checkbox" checked={values.includes(v)} onChange={() => { const next = values.includes(v) ? values.filter(x => x !== v) : [...values, v]; push({ [key]: next.length ? next.join(',') : null }); }} /> {label}</label>;
   })}</div>;
   const range = pointRange(get('minPts'), get('maxPts'));
-  const note = <p className="small muted">Colorado only. Using a Colorado restriction returns Colorado hunts only.</p>;
+  const note = <p className="small muted">Applies to Colorado only. Other selected states are unchanged.</p>;
   return <>
     <Section title="Colorado: Draw At My Points" value={get('chance') || 'Any'} set={!!get('chance')}>
       {note}{checks('chance', CHANCES)}

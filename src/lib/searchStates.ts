@@ -1,6 +1,6 @@
 import { enabledStates, STATES, type StateCode } from './states';
 
-export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable'];
+export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable', 'deerType', 'minBig'];
 export const CO_RESTRICTIONS = ['season', 'chance', 'minPts', 'maxPts', 'second', 'hybrid', 'otcElk'];
 
 /** Explicit URL selection wins; the header state supplies the initial selection. */

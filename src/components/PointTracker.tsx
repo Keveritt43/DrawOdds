@@ -38,7 +38,7 @@ export function PointTracker({ value, state }: { value: StatePoints; state?: Sta
     <details ref={ref} className="pt-tracker">
       <summary aria-label={`Your ${st.name} preference points. Change`}>
         <span className="pt-k">{st.code} points</span>
-        {SPECIES.map((s) => <span key={s.key} className="pt-v">{s.label} <b>{v[s.key]}</b></span>)}
+        <span className="pt-values">{SPECIES.map((s) => <span key={s.key} className="pt-v"><span className="pt-name">{s.label}</span><b>{v[s.key]}</b></span>)}</span>
         <span aria-hidden="true">▾</span>
       </summary>
       <div className="pt-menu card" aria-busy={pending}>
