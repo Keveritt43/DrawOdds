@@ -31,7 +31,7 @@ const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode:
 };
 import { loadUnits, loadSearchUnits } from "@/lib/unitData";
 import { searchBounds } from '@/lib/searchStates';
-import type { StateCode } from '@/lib/states';
+import { STATES, type StateCode } from '@/lib/states';
 
 /**
  * Filtering map. By default units with a matching hunt are filled blaze orange and the rest are outlines;
@@ -100,7 +100,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     let cancelled = false;
     const m = new maplibregl.Map({
       container: el.current,
-      style: baseStyle("satellite", st.agency.short),
+      style: baseStyle("satellite", states ? states.map(s => STATES[s].agency.short).join(' / ') : st.agency.short),
       bounds: stBounds,
       fitBoundsOptions: { padding: { top: 48, bottom: 110, left: 12, right: 12 } },
       minZoom: states ? 2 : 4,

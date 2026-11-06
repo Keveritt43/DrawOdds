@@ -45,7 +45,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   if (!s) notFound();
   if (s.slug && key !== s.slug) permanentRedirect(`/hunts/${encodeURIComponent(s.slug)}`);
   if (s.state === 'CO') return <CoHuntPage s={s} sp={await searchParams} />;
-  const { residency } = await getResidency((await searchParams).as);
+  const { residency } = await getResidency((await searchParams).as, s.state);
   const session = await auth();
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';
@@ -116,7 +116,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
-      <p className="small"><BackLink /></p>
+      <p className="small"><BackLink state={s.state} /></p>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
           <h1>{title}</h1>

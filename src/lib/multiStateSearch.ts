@@ -1,7 +1,7 @@
-import type { HuntSummary, Residency } from '@prisma/client';
+import type { Residency } from '@prisma/client';
 import { parseFilters, type Filters } from './finder';
 import { matchesHuntSeason } from './huntSeasonFilter';
-import { matchesCoSeason, tableOdds, poolFor, decodeCode, type OddsTable, type PointOdds } from './coHunt';
+import { matchesCoSeason, tableOdds, poolFor, type OddsTable, type PointOdds } from './coHunt';
 import { opportunity } from './score';
 import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
@@ -39,14 +39,21 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
   if (r.state === 'ID' && r.nrTag && !nr && r.species !== 'ELK') return null;
   // Match the Idaho listing: zone tags replace duplicated per-weapon general elk rows.
   if (r.state === 'ID' && r.type === 'GENERAL' && !r.nrTag && r.species === 'ELK') return null;
-  const points = r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
   const general = (r.pointOdds as unknown as PointOdds | null)?.general;
   if (r.state === 'CO' && general && !(nr ? general.nonresident : general.resident)) return null;
+  return evaluateHunt(r, settings, mode);
+}
+
+/** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
+export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
+  const nr = (r.state === 'ID' ? settings.ID : settings.CO.res) === 'NONRESIDENT';
+  const points = r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
+  const general = (r.pointOdds as unknown as PointOdds | null)?.general;
   let odds: number | null;
   let basis: string;
   if (r.state === 'CO') {
     odds = tableOdds(r.oddsByPts as unknown as OddsTable, mode, poolFor(nr, settings.CO.youth), points ?? 0);
-    if (general) odds = 1;
+    if (general) odds = (nr ? general.nonresident : general.resident) ? 1 : null;
     basis = general ? 'OTC eligibility; availability may be limited' : `${mode === 'proj' ? 'Projected' : 'Historical'} first-choice odds · ${points} points`;
   } else if (!nr && r.type === 'GENERAL') {
     odds = r.capped ? null : 1;

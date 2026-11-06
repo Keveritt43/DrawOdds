@@ -703,9 +703,15 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .search-states legend { font-weight: 700; }
 .search-states .checks2 { display: flex; gap: 16px; flex-wrap: wrap; }
 .search-states input { accent-color: #b8460b; }
+.search-states p { margin: 4px 0; }
+.search-personal { margin: 4px 0 8px; font-size: .85rem; }
+.search-personal > summary, .search-ranking > summary { cursor: pointer; }
+.search-ranking { margin-top: 8px; }
 .search-settings { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-start; margin: 8px 0 16px; }
 .search-settings .pt-tracker { position: relative; }
-.search-settings .pt-menu { left: 0; right: auto; z-index: 30; max-width: calc(100vw - 48px); }
+.search-settings .pt-tracker summary { color: var(--ink); border-color: var(--line); flex-wrap: wrap; white-space: normal; }
+.search-settings .pt-tracker .pt-k { color: var(--muted); }
+.search-settings .pt-menu { position: absolute; top: calc(100% + 6px); left: 0; right: auto; z-index: 30; max-width: calc(100vw - 48px); }
 .search-result { margin: 12px 0; }
 .search-result-context { margin: 0; padding: 8px 12px; background: #f1eee7; border-radius: 6px 6px 0 0; }
 .search-result .ucard { margin-top: 0; }

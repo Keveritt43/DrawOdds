@@ -12,6 +12,7 @@ import { historyFor } from '@/lib/history';
 import { pct100, int } from '@/lib/format';
 import type { Metadata } from 'next';
 import { UnitMap } from '@/components/UnitMap';
+import { StateProvider } from '@/components/StateContext';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
 import { HuntCard, ObjectivePills } from '@/components/HuntCards';
@@ -43,7 +44,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const name = ref.name.toUpperCase();
   const unit = await db.unit.findUnique({ where: { state_name: { state: 'ID', name } } });
   if (!unit) notFound();
-  const { residency } = await getResidency(sp.as);
+  const { residency } = await getResidency(sp.as, ref.state);
   const draw = await getDraw();
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';
@@ -82,7 +83,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
-      <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?unit=${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
+      <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?states=ID&unit=ID:${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
       {draw === 'DEP' && <ObjectivePills units={[unit.name]} species="ELK" />}
@@ -103,7 +104,9 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         <p className="small muted" style={{ marginBottom: 0 }}>Managing agency, not owner. State land is mostly open to hunting; check access on the ground.</p>
       </div>
       <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 480 }}>
+        <StateProvider code="ID">
         <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="480px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, species: s.species, routes: !s.mapNote, classes: s.classes as unknown as MigClass[] }))} />
+        </StateProvider>
       </div>
 
       <h2 id="hunts">Hunts In Unit {unit.name}</h2>
