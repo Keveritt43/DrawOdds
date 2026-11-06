@@ -1,9 +1,10 @@
 /** "Nov 6 – Nov 14, 2027" */
 export function dateRange(a: Date | null, b: Date | null): string {
   if (!a || !b) return '';
+  if (!Number.isFinite(+a) || !Number.isFinite(+b) || b < a) return 'Dates need CPW verification';
   const f = (d: Date, y = false) =>
     d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', ...(y ? { year: 'numeric' } : {}), timeZone: 'UTC' });
-  return `${f(a)} – ${f(b, true)}`;
+  return `${f(a, a.getUTCFullYear() !== b.getUTCFullYear())} – ${f(b, true)}`;
 }
 
 /** "6 (60%)": the level licenses ran out at and the share drawn there. */

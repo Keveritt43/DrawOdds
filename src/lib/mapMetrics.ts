@@ -44,8 +44,12 @@ const num = (v: number) => (v >= 10 ? String(Math.round(v)) : v >= 1 ? String(Nu
 const pctOf = (v: number) => `${num(v)}%`;
 export const fmtNum = num;
 
-export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow';
+export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow' | 'ctlQuality' | 'ctlPressure' | 'ctlPoints' | 'ctlCreep';
 export const METRICS: Record<Metric, MetricDef> = {
+ ctlQuality: {label:'Quality (Best Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:GREEN,fmt:num,none:'Insufficient validated inputs',field:sp=>`ctlQuality${SPK(sp)}`,note:'Highest Quality of an adult buck/bull hunt touching the unit. Same fixed scoring model as Idaho.'},
+ ctlPressure: {label:'Hunters / Sq Mi (Least Crowded Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:PLUM,better:'low',fmt:num,none:'No density data',field:sp=>`ctlPressure${SPK(sp)}`,note:'Lowest annual hunter density among adult buck/bull hunts touching the unit. Colorado deer density includes overlapping general/OTC elk unit-season participation (all-license proxy). Multi-unit hunt averages are not local crowd counts.'},
+ ctlPoints: {label:'Points Needed (Easiest Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No observed cutoff',field:(sp,nr)=>`ctlPoints${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest latest-actual preference-point cutoff for your residency among adult buck/bull hunts touching the unit.'},
+ ctlCreep: {label:'Point Creep (Lowest Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No point trend',field:(sp,nr)=>`ctlCreep${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest annual cutoff trend for your residency among adult buck/bull hunts touching the unit; points per year, not a future guarantee.'},
   public: {
     label: 'Public Land %', kind: 'land', field: () => 'publicPct', ramp: GREEN, fmt: pctOf, none: 'No data',
     note: 'Federal + state land, from IDFG unit pages. Does not include Access Yes!.',
@@ -65,12 +69,12 @@ export const METRICS: Record<Metric, MetricDef> = {
     note: 'Average general-season hunters per year (all weapons) ÷ unit square miles. Green = fewer hunters.',
   },
   ctlOdds: {
-    label: 'Controlled Draw Odds (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
+    label: 'Controlled Draw Odds (Best Antlered Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull controlled hunt',
     field: (sp, nr) => `ctlOdds${nr ? 'Nr' : 'Res'}${SPK(sp)}`,
     note: 'Best 5-year first-choice odds, for your residency, of any adult buck / bull / ram controlled hunt touching the unit (antlerless and youth hunts left out; mountain goat hunts are either sex).',
   },
   ctlFill: {
-    label: 'Controlled Draw And Fill (Best Male Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull hunt, or too few hunters',
+    label: 'Controlled Draw And Fill (Best Antlered Hunt)', kind: 'controlled', bySpecies: true, ramp: ORANGE, fmt: (v: number) => pctOf(v * 100), none: 'No buck / bull hunt, or too few hunters',
     field: (sp, nr) => `ctlFill${nr ? 'Nr' : 'Res'}${SPK(sp)}`,
     note: 'Draw odds × hunter success (5-year): the chance one application ends with an animal, for your residency. Best adult buck / bull / ram hunt touching the unit.',
   },
@@ -127,6 +131,7 @@ export const msgSuccessClasses = (values: number[], scale = 1) =>
   benchmarkClasses(values, MSG_SUCCESS_BREAKS.map((b) => b * scale), MSG_SUCCESS_IDX);
 /** The classes a unit-map field shades by. */
 export const classesFor = (field: string, values: number[]): Classes => {
+  if (/^ctlQuality/.test(field)) return scoreClasses(values);
   if (isMsgSuccess(field)) return msgSuccessClasses(values);
   const fixed = fixedScale(field);
   if (fixed) return fixedClasses(values, fixed);
@@ -156,3 +161,11 @@ export const fixedScale = (field: string): FixedScale | null =>
   /^obj/i.test(field) ? 'objective' : /Odds/.test(field) ? 'odds' : /^ctlFill/.test(field) ? 'fill' : /^(publicPct|huntablePct)$/.test(field) ? 'land' : null;
 export const fixedClasses = (values: number[], scale: FixedScale) => benchmarkClasses(values, [...FIXED_SCALES[scale]], FIXED_IDX[scale], scale === 'odds' ? RYG8 : undefined);
 export const OBJECTIVE_LABELS = OBJECTIVE_LABELS_C;
+
+/** Integer point bands, retaining the hunter's points as yellow even near zero. */
+export function pointsClasses(values: number[], points: number): Classes {
+  const levels = Array.from({ length: 6 }, (_, i) => points - 2 + i).filter(v => v > 0);
+  const cls = benchmarkClasses(values, levels, Array.from({ length: levels.length + 1 }, (_, i) => 6 - levels.length + i));
+  cls.labels = [levels[0] === 1 ? '0' : String(levels[0] - 1) + " or lower", ...levels.map((v, i) => i === levels.length - 1 ? String(v) + "+" : String(v))];
+  return cls;
+}

@@ -53,7 +53,7 @@ export function CoRecommendations({
       </ol>
       <p className="small muted">
         Top trophy hunt: not ranked for Colorado. Verified antler-size
-        measurements are not available; applicant demand and male/female counts
+        measurements are not available; applicant demand and antlered/antlerless harvest totals
         alone do not establish trophy quality.
       </p>
     </details>

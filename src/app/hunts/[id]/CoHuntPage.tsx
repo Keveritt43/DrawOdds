@@ -1,5 +1,10 @@
+import { CoPressureEvidence } from '@/components/CoPressureNote';
+import { getCoScoringContext } from '@/lib/coScoringContext';
+import { CoCreepChart as CreepChart, CoOddsPointsChart as OddsPointsChart, CoHarvestCharts as HarvestCharts } from '@/components/CoCharts';
+import { ScoreRow } from '@/components/HuntCards';
+import { withCoScores, withCoOpportunity } from '@/lib/coScores';
+import { CoAlternatives } from '@/components/CoAlternatives';
 import { CoLand } from "@/components/CoLand";
-import { withCoLand } from "@/lib/coLand";
 import { CoUnitSeasonHunters } from "@/components/CoUnitSeasonHunters";
 import { OverlappingElk } from '@/components/OverlappingElk';
 import Link from 'next/link';
@@ -31,7 +36,7 @@ const pct = (o: number | null | undefined) =>
 
 /** A Colorado hunt code's page: your odds, points needed and their trend, and odds at every point level. */
 export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: string; pool?: string } }) {
-  s = withCoLand(s);
+  s = withCoScores(s,await getCoScoringContext());
   const po = s.pointOdds as unknown as PointOdds | null;
   const d = decodeCode(s.tagCode ?? "");
   const species = s.species === 'PRONGHORN' ? 'PRONGHORN' : s.species === 'ELK' ? 'ELK' : 'DEER';
@@ -61,6 +66,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           Eligibility and hunt boundaries are from the published regulations, not an assurance of current sales availability. Confirm rules
           for your license year with CPW.
         </p>
+        <ScoreRow r={withCoOpportunity(s, (nr ? po.general.nonresident : po.general.resident) ? 1 : null, nr)} nr={nr} open />
         <h2>Dates And Units</h2>
         <p>{po.dates ? fmtDates(po.dates.start, po.dates.end) : 'See CPW regulations for dates'}</p>
         <p>
@@ -73,7 +79,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         </p>
         <p className="small muted">{po.regs?.unitText}</p>
         <h2>Hunter Success</h2>
-        {po.harvest?.length ? <div className="co-graph-grid"><HarvestCharts rows={po.harvest} /></div> : null}
+        {po.harvest?.length ? <div className="grid2 co-graph-grid"><HarvestCharts rows={po.harvest} /></div> : null}
         {po.harvest?.length ? <Harvest rows={po.harvest} species={spLabel} /> : <p>No harvest estimate loaded for this code.</p>}
         <h2>{species === 'PRONGHORN' ? 'Pronghorn' : 'Elk'} Population</h2>
         {species === 'ELK' && <CoUnitSeasonHunters units={s.units} hunt={s} />}
@@ -116,6 +122,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <Link href={`/units/${encodeURIComponent(unitKey('CO', d.unit))}`}>Unit {d.unit}</Link>
       </p>
 
+      <ScoreRow r={withCoOpportunity(s, myOdds(po.pools[myPool], p, mode, po.year, myPool)?.odds ?? null, nr)} nr={nr} open />
       <div className="co-top">
         <div className="card co-mine">
           <div className="k">
@@ -177,12 +184,12 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         </div>
         <div>
           <span className="k">Units</span>
-          {(po.regs?.units ?? [d.unit]).map((u, i) => (
+          <span>{(po.regs?.units ?? [d.unit]).map((u, i) => (
             <span key={u}>
               {i ? ', ' : ''}
               <Link href={`/units/${encodeURIComponent(unitKey('CO', u))}`}>{u}</Link>
             </span>
-          ))}
+          ))}</span>
           {po.regs?.guessed ? <span className="small muted"> (from the hunt code; not found in the regulations)</span> : null}
         </div>
         {po.regs?.partial && (
@@ -204,9 +211,9 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <Link className="seg-link" href={q({odds:'last'}).replace('#odds','#trends')} aria-pressed={mode==='last'} scroll={false}>{po.year} actual</Link>
       </span><span className="seg light" role="group" aria-label="Graph applicant pool">{CO_POOLS.filter(x=>po.pools[x]).map(x=><Link key={x} className="seg-link" href={q({pool:x===myPool?null:x}).replace('#odds','#trends')} aria-pressed={pool===x} scroll={false}>{SHORT[x]}</Link>)}</span></div>
       <p className="small muted">Draw odds use the selected applicant pool and draw. Harvest report coverage may change by year; the table explains each source.</p>
-      <div className="co-graph-grid">
-        <section className="co-graph-card"><h3>Point creep</h3><CreepChart po={po} /></section>
-        <section className="co-graph-card"><h3>Draw odds at each point level</h3><OddsPointsChart P={P} po={po} pool={pool} mode={mode} myPoints={pool === myPool ? p : null}/></section>
+      <div className="grid2 co-graph-grid">
+        <CreepChart po={po} />
+        <OddsPointsChart P={P} po={po} pool={pool} mode={mode} myPoints={pool === myPool ? p : null}/>
         {po.harvest?.length ? <HarvestCharts rows={po.harvest} /> : null}
       </div>
       <h2>Hunter Success</h2>
@@ -217,9 +224,6 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       ) : (
         <p className="muted">No harvest estimates for this hunt code yet.</p>
       )}
-
-      <h2>{species === 'ELK' ? 'Elk' : species === 'DEER' ? 'Deer' : 'Pronghorn'} Population</h2>
-      <CoHerds species={species} herds={po.herds ?? []} highlight={po.regs?.units ?? [d.unit]} />
 
       <h2>Draw History</h2>
       <div className="htable-wrap">
@@ -292,6 +296,11 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         Sources: Colorado Parks and Wildlife Draw Recap reports, harvest estimates and Chapter W-2 big game regulations. Not affiliated with
         CPW; confirm hunt codes, dates and rules in the current big game brochure.
       </p>
+      <h2>{species === 'ELK' ? 'Elk' : species === 'DEER' ? 'Deer' : 'Pronghorn'} Population</h2>
+      <CoHerds species={species} herds={po.herds ?? []} highlight={po.regs?.units ?? [d.unit]} />
+
+      <CoPressureEvidence r={s} />
+      <CoAlternatives hunt={s} pool={myPool} points={p} mode={mode} />
       <OverlappingElk hunt={s} />
       <CoUnitSeasonHunters units={s.units} hunt={s} />
       <CoLand units={s.units} />
@@ -315,6 +324,7 @@ function cutRange(qs: number[]): string {
 }
 
 function fmtDates(a: string, b: string): string {
+  if (!Number.isFinite(Date.parse(a)) || !Number.isFinite(Date.parse(b)) || Date.parse(b) < Date.parse(a)) return 'Dates need CPW verification';
   const f = (iso: string, y = false) =>
     new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', {
       month: 'short',
@@ -434,113 +444,4 @@ function Ladder({ P, po, mode, pool, me }: { P: PoolOdds; po: PointOdds; mode: '
       </table>
     </div>
   );
-}
-
-/** Effective points needed per draw, resident and nonresident, with the next draw's projected range. */
-function CreepChart({ po }: { po: PointOdds }) {
-  const W = 640,
-    H = 230,
-    L = 36,
-    R = 16,
-    T = 12,
-    B = 28;
-  const years = [...po.history.map((h) => h.year), po.projYear];
-  const series = (['res', 'nr'] as const).map((k) => ({ k, P: po.pools[k] })).filter((x) => x.P);
-  const vals = series.flatMap(({ P }) => [...P!.history.map((h) => h.eff ?? 0), P!.proj?.hi ?? 0]);
-  const ymax = Math.max(2, Math.ceil(Math.max(...vals) + 0.5));
-  const x = (y: number) => L + ((y - years[0]) / Math.max(1, years[years.length - 1] - years[0])) * (W - L - R);
-  const y = (v: number) => T + (H - T - B) * (1 - v / ymax);
-  const step = ymax > 12 ? 4 : ymax > 6 ? 2 : 1;
-  const ticks = Array.from({ length: Math.floor(ymax / step) + 1 }, (_, i) => i * step);
-  const color = { res: 'var(--res)', nr: 'var(--nr)' };
-  return (
-    <figure className="co-creep" style={{ margin: 0 }}>
-      <div className="legend small">
-        <span>
-          <i style={{ background: 'var(--res)' }} />
-          Resident
-        </span>
-        <span>
-          <i style={{ background: 'var(--nr)' }} />
-          Nonresident
-        </span>
-        <span className="muted">Bars: {po.projYear} conservative scenario range</span>
-      </div>
-      <div className="htable-wrap">
-        <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label={`Points needed by draw year, ${years[0]} to ${po.projYear}`}>
-          {ticks.map((t) => (
-            <g key={t}>
-              <line x1={L} x2={W - R} y1={y(t)} y2={y(t)} stroke="var(--line)" />
-              <text x={L - 6} y={y(t) + 4} textAnchor="end" fontSize="11" fill="var(--muted)">
-                {t}
-              </text>
-            </g>
-          ))}
-          {years.map((yr) => (
-            <text key={yr} x={x(yr)} y={H - 8} textAnchor="middle" fontSize="11" fill="var(--muted)">
-              {yr}
-              {yr === po.projYear ? '*' : ''}
-            </text>
-          ))}
-          {series.map(({ k, P }) => {
-            const pts = P!.history.filter((h) => h.eff !== null) as { year: number; eff: number }[];
-            const pr = P!.proj;
-            return (
-              <g key={k}>
-                <polyline fill="none" stroke={color[k]} strokeWidth="2.5" points={pts.map((h) => `${x(h.year)},${y(h.eff)}`).join(' ')} />
-                {pts.map((h) => (
-                  <circle key={h.year} cx={x(h.year)} cy={y(h.eff)} r="3.5" fill={color[k]} />
-                ))}
-                {pr && (
-                  <>
-                    <line
-                      x1={x(po.projYear) + (k === 'nr' ? 5 : -5)}
-                      x2={x(po.projYear) + (k === 'nr' ? 5 : -5)}
-                      y1={y(pr.lo)}
-                      y2={y(pr.hi)}
-                      stroke={color[k]}
-                      strokeWidth="6"
-                      strokeOpacity=".35"
-                      strokeLinecap="round"
-                    />
-                    <circle
-                      cx={x(po.projYear) + (k === 'nr' ? 5 : -5)}
-                      cy={y(pr.eff)}
-                      r="4"
-                      fill="var(--card)"
-                      stroke={color[k]}
-                      strokeWidth="2"
-                    />
-                  </>
-                )}
-              </g>
-            );
-          })}
-        </svg>
-      </div>
-      <figcaption className="small muted">
-        Points needed with the share drawn at the cutoff as a fraction: 6 points with 60% drawing plots as 6.4. *Projected.
-      </figcaption>
-    </figure>
-  );
-}
-
-/** Uses exactly the same point-level estimates as the odds table. */
-function OddsPointsChart({P,po,pool,mode,myPoints}:{P:PoolOdds|undefined;po:PointOdds;pool:CoPool;mode:'proj'|'last';myPoints:number|null}) {
-  if(!P) return <p className="muted">No applicant data for this pool.</p>;
-  const max=Math.min(40,Math.max(3,...P.levels.map(x=>x[0]),myPoints ?? 0)+(mode==='proj'?2:0));
-  const points=Array.from({length:max+1},(_,i)=>i).map(k=>({x:k,value:(mode==='last' && !P.levels.some(l=>l[0]===k)) ? null : myOdds(P,k,mode,po.year,pool)?.odds ?? null}));
-  return <><TrendPlot points={points} maxY={1} percent label="Draw odds by preference points" marker={myPoints}/><p className="small muted">{mode==='proj'?po.projYear+' projected':po.year+' actual'} · {POOL_LABEL[pool]} · first choice. Blank levels have no reported applicants.</p></>;
-}
-function HarvestCharts({rows}:{rows:HarvestYear[]}) {
- const sorted=rows.slice().sort((a,b)=>a.year-b.year);
- return <><section className="co-graph-card"><h3>Hunter success</h3><TrendPlot points={sorted.map(r=>({x:r.year,value:r.hunters>0&&r.harvest<=r.hunters?r.harvest/r.hunters:null}))} maxY={1} percent label="Hunter success by year"/><p className="small muted">Harvest divided by hunters. Coverage varies; see the table below.</p></section><section className="co-graph-card"><h3>Hunters and harvest</h3><TrendPlot points={sorted.map(r=>({x:r.year,value:r.hunters}))} second={sorted.map(r=>({x:r.year,value:r.harvest}))} maxY={Math.max(1,...sorted.map(r=>r.hunters))} label="Hunters and harvest by year"/><p className="small muted"><span style={{color:'var(--res)'}}>Hunters</span> · <span style={{color:'var(--nr)'}}>Harvest</span>. Unit or code coverage varies by year.</p></section></>;
-}
-function TrendPlot({points,second,maxY,percent,label,marker}:{points:{x:number;value:number|null}[];second?:{x:number;value:number|null}[];maxY:number;percent?:boolean;label:string;marker?:number|null}) {
- if(!points.length || points.every(p=>p.value===null)) return <p className="muted">No data available.</p>;
- const W=480,H=230,L=48,R=14,T=12,B=32,minX=points[0].x,maxX=points[points.length-1].x;
- const x=(v:number)=>L+(v-minX)/Math.max(1,maxX-minX)*(W-L-R), y=(v:number)=>T+(1-v/maxY)*(H-T-B);
- const step=Math.max(1,Math.ceil((maxX-minX)/6));
- const draw=(items:typeof points,color:string)=> <g>{items.slice(1).map((p,i)=>p.value!==null&&items[i].value!==null?<line key={i} x1={x(items[i].x)} y1={y(items[i].value!)} x2={x(p.x)} y2={y(p.value)} stroke={color} strokeWidth="2.5"/>:null)}{items.map(p=>p.value===null?null:<circle key={p.x} cx={x(p.x)} cy={y(p.value)} r="3" fill={color}><title>{p.x}: {percent?Math.round(p.value*100)+'%':Math.round(p.value).toLocaleString()}</title></circle>)}</g>;
- return <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label={label}>{[0,.25,.5,.75,1].map(t=><g key={t}><line x1={L} x2={W-R} y1={y(maxY*t)} y2={y(maxY*t)} stroke="var(--line)"/><text x={L-5} y={y(maxY*t)+4} textAnchor="end" fontSize="11" fill="var(--muted)">{percent?Math.round(t*100)+'%':Math.round(maxY*t).toLocaleString()}</text></g>)}{points.filter((p,i)=>i%step===0||i===points.length-1).map(p=><text key={p.x} x={x(p.x)} y={H-8} textAnchor="middle" fontSize="11" fill="var(--muted)">{p.x}</text>)}{marker!==null&&marker!==undefined&&marker>=minX&&marker<=maxX?<line x1={x(marker)} x2={x(marker)} y1={T} y2={H-B} stroke="var(--muted)" strokeDasharray="4 4"><title>Your points: {marker}</title></line>:null}{draw(points,'var(--res)')}{second&&draw(second,'var(--nr)')}</svg>;
 }

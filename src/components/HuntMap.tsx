@@ -314,7 +314,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
         (k) =>
           !(areaMode && k.startsWith("obj")) &&
           (stCode === "ID" ||
-            !["objBull", "objCow", "huntable", "score"].includes(k)),
+            !["objBull", "objCow", "huntable"].includes(k)),
       )
       .map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
   ];

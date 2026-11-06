@@ -16,7 +16,15 @@ function spans(h: SeasonContext): [number, number][] {
   // Compare complete UTC calendar days so noon vs midnight storage does not change overlap.
   const day = (n: number) => Math.floor(n / 86400000);
   if (ranges.length) return ranges.map(([a, b]) => [day(a), day(b)]);
-  return h.openDate && h.closeDate ? [[day(+h.openDate), day(+h.closeDate)]] : [];
+  return h.openDate && h.closeDate && Number.isFinite(+h.openDate) && Number.isFinite(+h.closeDate) && +h.closeDate >= +h.openDate
+    ? [[day(+h.openDate), day(+h.closeDate)]] : [];
+}
+/** Unknown dates must not be treated as evidence that no OTC season overlaps. */
+export function otcElkOverlap(target: SeasonContext, candidates: SeasonContext[]): boolean | null {
+  if (!spans(target).length) return null;
+  const relevant = candidates.filter(c => c.state === target.state && c.species === 'ELK' && c.units.some(u => target.units.includes(u)));
+  if (relevant.some(c => overlapsElk(target,c))) return true;
+  return relevant.some(c => !spans(c).length) ? null : false;
 }
 export function overlapsElk(target: SeasonContext, candidate: SeasonContext): boolean {
   if (
