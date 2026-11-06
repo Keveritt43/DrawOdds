@@ -1,3 +1,5 @@
+import { CoChanges } from "@/components/CoPages";
+import { getState } from "@/lib/residency";
 import Link from 'next/link';
 import { huntHref } from '@/lib/huntSlug';
 import { db } from '@/lib/db';
@@ -9,6 +11,7 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'What Changed', description: 'Idaho controlled hunts with more or fewer tags than last year, new and dropped hunts, and leftover tags from the second drawing.' };
 
 export default async function ChangesPage() {
+  if ((await getState()).code === "CO") return <CoChanges />;
   const draw = await getDraw();
   const species = DRAW_SPECIES[draw];
   const rows = await db.huntSummary.findMany({ where: { state: 'ID', type: 'CONTROLLED', species: { in: species } } });

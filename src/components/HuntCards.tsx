@@ -317,8 +317,8 @@ export interface Pick { label: string; r: HuntSummary; why: string }
 export function TopPicks({ picks, c }: { picks: Pick[]; c: CardCtx }) {
   if (!picks.length) return null;
   return (
-    <section className="picks" aria-label="Top picks">
-      <h2>Start Here</h2>
+    <details className="picks" aria-label="Recommended Tags">
+      <summary>Recommended Tags</summary>
       <p className="small muted" style={{ margin: '0 0 6px' }}>The standouts in these results for {c.nr ? 'nonresidents' : 'residents'}, using 5-year numbers (small samples and antlerless hunts left out unless you asked for them).</p>
       <ol>
         {picks.map((p) => (
@@ -331,12 +331,16 @@ export function TopPicks({ picks, c }: { picks: Pick[]; c: CardCtx }) {
           </li>
         ))}
       </ol>
-    </section>
+    </details>
   );
 }
 
 /** Picks one hunt per reason from the candidates (no hunt twice). */
-export function choosePicks(cands: HuntSummary[], c: CardCtx, otc: HuntSummary[] = []): Pick[] {
+export function choosePicks(
+  cands: HuntSummary[],
+  c: CardCtx,
+  otc: HuntSummary[] = [],
+): Pick[] {
   const odds = (r: HuntSummary) => (r.type === 'CONTROLLED' ? r[c.rf.odds5] : r.nrOdds5) ?? null;
   const lo = (r: HuntSummary) => ({ ELK: 0.15, DEER: 0.35, PRONGHORN: 0.35, MOOSE: 0.55, BIGHORN: 0.6, GOAT: 0.55 } as Record<string, number>)[r.species] ?? 0.25;
   const used = new Set<string>();
@@ -351,6 +355,25 @@ export function choosePicks(cands: HuntSummary[], c: CardCtx, otc: HuntSummary[]
   const by = (f: (r: HuntSummary) => number | null, dir: 1 | -1) => (a: HuntSummary, b: HuntSummary) => ((f(b) ?? -Infinity) - (f(a) ?? -Infinity)) * dir;
   const ok = cands.filter((r) => odds(r) !== null && r.success5 !== null);
   return [
+    take(
+      "Top trophy hunt",
+      cands
+        .filter(
+          (r) =>
+            r.type === "CONTROLLED" &&
+            r.antlerClass !== "ANTLERLESS" &&
+            r.scoreTrophy !== null,
+        )
+        .sort(
+          (a, b) =>
+            (b.scoreTrophy ?? 0) - (a.scoreTrophy ?? 0) ||
+            (b.resAppsLast ?? 0) +
+              (b.nrAppsLast ?? 0) -
+              ((a.resAppsLast ?? 0) + (a.nrAppsLast ?? 0)),
+        ),
+      (r) =>
+        `Trophy score ${r.scoreTrophy}/100 · ${int((r.resAppsLast ?? 0) + (r.nrAppsLast ?? 0))} applicants in the latest draw`,
+    ),
     take('Best chance to fill', ok.slice().sort(by((r) => r[c.rf.tagAndFill], 1)), (r) => `${nums(r)} → draw and fill ${drawFillLine(r[c.rf.tagAndFill]) ?? '-'} a year`),
     take('Easiest draw that still fills', ok.filter((r) => (r.success5 ?? 0) >= lo(r)).sort(by(odds, 1)), (r) => `${nums(r)}`),
     take('Highest success you can draw', ok.filter((r) => (odds(r) ?? 0) >= 0.1).sort(by((r) => r.success5, 1)), (r) => `${nums(r)}`),

@@ -1,9 +1,14 @@
+import { CoGuide } from "@/components/CoPages";
+import { getState } from "@/lib/residency";
 import Link from 'next/link';
 import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, NR_COSTS, md, money } from '@/lib/applyInfo';
 
-export const metadata = { title: 'How The Idaho Draw Works', description: 'Idaho deer, elk, pronghorn, moose, sheep and goat draws for residents and nonresidents: no points, choice order, nonresident limits, leftovers and strategy.' };
+export const metadata = { title: "How The Draw Works",
+  description: 'Idaho deer, elk, pronghorn, moose, sheep and goat draws for residents and nonresidents: no points, choice order, nonresident limits, leftovers and strategy.',
+};
 
-export default function GuidePage() {
+export default async function GuidePage() {
+  if ((await getState()).code === "CO") return <CoGuide />;
   const g = NR_GENERAL_DRAW.windows;
   const c = CONTROLLED_DRAW.windows;
   return (

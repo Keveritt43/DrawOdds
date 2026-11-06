@@ -1,4 +1,5 @@
-'use client';
+"use client";
+import { useStateConfig } from "./StateContext";
 
 import { useEffect, useState } from 'react';
 import maplibregl, { type Map as MlMap } from 'maplibre-gl';
@@ -59,9 +60,10 @@ function useSmaLegend(on: boolean) {
 
 /** The two switches + legends. `before`: layer id to draw under (unit outlines / labels). */
 export function LandToggles({ map, before, className = '' }: { map: MlMap | null; before?: string; className?: string }) {
+  const program = useStateConfig().accessProgram;
   const [own, setOwn] = useState(false);
   const [ay, setAy] = useState(false);
-  const [err, setErr] = useState('');
+  const [err, setErr] = useState("");
   const legend = useSmaLegend(own);
   useEffect(() => {
     if (!map) return;
@@ -76,12 +78,17 @@ export function LandToggles({ map, before, className = '' }: { map: MlMap | null
   return (
     <div className={`land-toggles ${className}`}>
       <label><input type="checkbox" checked={own} onChange={() => setOwn((x) => !x)} /> Public / private land</label>
-      <label><input type="checkbox" checked={ay} onChange={() => setAy((x) => !x)} /> <i className="sw" style={{ background: ACCESS_YES }} /> Access Yes!</label>
+      {program && (
+        <label>
+          <input type="checkbox" checked={ay} onChange={() => setAy((x) => !x)} />{" "}
+          <i className="sw" style={{ background: ACCESS_YES }} /> {program}
+        </label>
+      )}
       {own && legend && legend.length > 0 && (
         <div className="sma-key">{legend.map((l) => <span key={l.label}><img src={l.img} alt="" width={14} height={10} />{l.label.replace(/\s*\(.*?\)\s*/g, '')}</span>)}</div>
       )}
       {own && <p className="muted">Land managers from BLM. Private land isn&apos;t open without permission{ay ? '; Access Yes! (purple) is private land open by agreement' : ''}.</p>}
-      {err && <p style={{ color: 'var(--warn)' }}>{err}</p>}
+      {err && <p style={{ color: "var(--warn)" }}>{err}</p>}
     </div>
   );
 }

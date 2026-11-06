@@ -1,0 +1,2836 @@
+[
+  {
+    "id": "CO:DM070O2R",
+    "huntId": -2002805341,
+    "species": "DEER",
+    "type": "CONTROLLED",
+    "name": "Unit 70 · 2nd Rifle · Buck Deer",
+    "unit": "70",
+    "units": [
+      "70"
+    ],
+    "weapon": "ANY",
+    "takeMethod": "2nd Rifle",
+    "antlerClass": "ANTLERED",
+    "openDate": "2027-10-23T12:00:00",
+    "closeDate": "2027-10-31T12:00:00",
+    "tags": 450,
+    "youthOnly": false,
+    "oddsYears": 6,
+    "success5": 0.7442977190876351,
+    "hunters5": 1666,
+    "harvest5": 1240,
+    "harvestYears": 5,
+    "smallSample": false,
+    "boundaryChanged": false,
+    "acres": 967247,
+    "months": [],
+    "harvestLastYear": 2025,
+    "oddsLastYear": 2026,
+    "successLast": 0.820580474934037,
+    "appsLast": 778,
+    "capped": false,
+    "nrTag": false,
+    "tagCode": "DM070O2R",
+    "huntersSqMi": 0.2204690218734201,
+    "permitsLast": 450,
+    "permitsPrev": 430,
+    "slug": "co-dm070o2r",
+    "state": "CO",
+    "seasonDays": [],
+    "creepNr": 0.57,
+    "creepRes": 0,
+    "effNr": 4.23,
+    "effRes": 0.27,
+    "hybrid": false,
+    "oddsByPts": {
+      "last": {
+        "nr": [
+          0,
+          0,
+          0,
+          0,
+          0.768,
+          0.833,
+          1
+        ],
+        "res": [
+          0.731,
+          1
+        ],
+        "ynr": [
+          0,
+          0,
+          0,
+          0.167,
+          1
+        ],
+        "yres": [
+          0.714,
+          1
+        ]
+      },
+      "proj": {
+        "nr": [
+          0,
+          0,
+          0,
+          0,
+          0.38,
+          0.82,
+          0.94
+        ],
+        "res": [
+          0.68,
+          0.97
+        ],
+        "ynr": [
+          0,
+          0,
+          0,
+          0,
+          0.42,
+          0.89,
+          0.94
+        ],
+        "yres": [
+          0.66,
+          0.97
+        ]
+      }
+    },
+    "pointOdds": {
+      "apps": [
+        778,
+        320,
+        117,
+        52
+      ],
+      "list": "A",
+      "regs": {
+        "year": 2026,
+        "units": [
+          "70"
+        ],
+        "guessed": false,
+        "partial": false,
+        "licenses": 450,
+        "unitText": "70"
+      },
+      "year": 2026,
+      "dates": {
+        "end": "2027-10-31",
+        "year": 2027,
+        "start": "2027-10-23"
+      },
+      "herds": [
+        {
+          "dau": "24",
+          "name": "Groundhog",
+          "units": [
+            "70",
+            "71",
+            "711"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 23,
+              "estimate": 14910
+            },
+            {
+              "year": 2020,
+              "ratio": 24,
+              "estimate": 14890
+            },
+            {
+              "year": 2021,
+              "ratio": 21,
+              "estimate": 14949
+            },
+            {
+              "year": 2022,
+              "ratio": 24,
+              "estimate": 17649
+            },
+            {
+              "year": 2023,
+              "ratio": 29,
+              "estimate": 20980
+            },
+            {
+              "year": 2024,
+              "ratio": 33,
+              "estimate": 22570
+            },
+            {
+              "year": 2025,
+              "ratio": 32,
+              "estimate": 21760
+            }
+          ]
+        }
+      ],
+      "nrCap": 90,
+      "pools": {
+        "nr": {
+          "cut": {
+            "pct": 0.7681159420289855,
+            "text": "4 Pref Points",
+            "points": 4
+          },
+          "eff": 4.23,
+          "proj": {
+            "hi": 5.8,
+            "lo": 4.23,
+            "qs": [
+              4.23,
+              4.23,
+              4.23,
+              4.25,
+              4.56,
+              4.83,
+              5.06,
+              5.28,
+              5.8
+            ],
+            "eff": 4.56,
+            "base": 4.23,
+            "year": 2027,
+            "slope": 0.57,
+            "cohort": 4.19
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              85,
+              0
+            ],
+            [
+              1,
+              59,
+              0
+            ],
+            [
+              2,
+              68,
+              0
+            ],
+            [
+              3,
+              83,
+              0
+            ],
+            [
+              4,
+              69,
+              53
+            ],
+            [
+              5,
+              24,
+              20
+            ],
+            [
+              6,
+              7,
+              7
+            ],
+            [
+              7,
+              4,
+              4
+            ],
+            [
+              8,
+              1,
+              1
+            ],
+            [
+              9,
+              1,
+              1
+            ],
+            [
+              10,
+              1,
+              1
+            ]
+          ],
+          "history": [
+            {
+              "eff": 1.56,
+              "text": "1 Pref Points",
+              "year": 2021
+            },
+            {
+              "eff": 1.92,
+              "text": "1 Pref Points",
+              "year": 2022
+            },
+            {
+              "eff": 2.68,
+              "text": "2 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 3.47,
+              "text": "3 Pref Points",
+              "year": 2024
+            },
+            {
+              "eff": 3.72,
+              "text": "3 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 4.23,
+              "text": "4 Pref Points",
+              "year": 2026
+            }
+          ]
+        },
+        "res": {
+          "cut": {
+            "pct": 0.7312775330396476,
+            "text": "0 Pref Points",
+            "points": 0
+          },
+          "eff": 0.27,
+          "proj": {
+            "hi": 0.5,
+            "lo": 0.27,
+            "qs": [
+              0.27,
+              0.27,
+              0.27,
+              0.27,
+              0.27,
+              0.27,
+              0.27,
+              0.31,
+              0.5
+            ],
+            "eff": 0.27,
+            "base": 0.27,
+            "year": 2027,
+            "slope": 0,
+            "cohort": 0
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              227,
+              166
+            ],
+            [
+              1,
+              50,
+              50
+            ],
+            [
+              2,
+              16,
+              16
+            ],
+            [
+              3,
+              5,
+              5
+            ],
+            [
+              6,
+              1,
+              1
+            ]
+          ],
+          "history": [
+            {
+              "eff": 0.44,
+              "text": "0 Pref Points",
+              "year": 2021
+            },
+            {
+              "eff": 0.62,
+              "text": "0 Pref Points",
+              "year": 2022
+            },
+            {
+              "eff": 0.69,
+              "text": "0 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 0.62,
+              "text": "0 Pref Points",
+              "year": 2024
+            },
+            {
+              "eff": 0.14,
+              "text": "0 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 0.27,
+              "text": "0 Pref Points",
+              "year": 2026
+            }
+          ]
+        },
+        "ynr": {
+          "cut": {
+            "pct": 0.1666666666666667,
+            "text": "3 Pref Points",
+            "points": 3
+          },
+          "eff": 3.83,
+          "proj": {
+            "hi": 5.4,
+            "lo": 4.4,
+            "qs": [
+              4.4,
+              4.4,
+              4.4,
+              4.4,
+              4.4,
+              4.43,
+              4.66,
+              4.88,
+              5.4
+            ],
+            "eff": 4.4,
+            "base": 3.83,
+            "year": 2027,
+            "slope": 0.52,
+            "cohort": 4.4
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              12,
+              0
+            ],
+            [
+              1,
+              5,
+              0
+            ],
+            [
+              2,
+              7,
+              0
+            ],
+            [
+              3,
+              6,
+              1
+            ],
+            [
+              4,
+              2,
+              2
+            ]
+          ],
+          "history": [
+            {
+              "eff": 1.75,
+              "text": "1 Pref Points",
+              "year": 2021
+            },
+            {
+              "eff": 1.89,
+              "text": "1 Pref Points",
+              "year": 2022
+            },
+            {
+              "eff": 2.5,
+              "text": "2 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 3.29,
+              "text": "3 Pref Points",
+              "year": 2024
+            },
+            {
+              "eff": 3.83,
+              "text": "3 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 3.83,
+              "text": "3 Pref Points",
+              "year": 2026
+            }
+          ]
+        },
+        "yres": {
+          "cut": {
+            "pct": 0.7142857142857143,
+            "text": "0 Pref Points",
+            "points": 0
+          },
+          "eff": 0.29,
+          "proj": {
+            "hi": 0.52,
+            "lo": 0.29,
+            "qs": [
+              0.29,
+              0.29,
+              0.29,
+              0.29,
+              0.29,
+              0.29,
+              0.29,
+              0.33,
+              0.52
+            ],
+            "eff": 0.29,
+            "base": 0.29,
+            "year": 2027,
+            "slope": 0,
+            "cohort": 0
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              35,
+              25
+            ],
+            [
+              1,
+              8,
+              8
+            ],
+            [
+              2,
+              2,
+              2
+            ]
+          ],
+          "history": [
+            {
+              "eff": 0.42,
+              "text": "0 Pref Points",
+              "year": 2021
+            },
+            {
+              "eff": 0.68,
+              "text": "0 Pref Points",
+              "year": 2022
+            },
+            {
+              "eff": 0.74,
+              "text": "0 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 0.63,
+              "text": "0 Pref Points",
+              "year": 2024
+            },
+            {
+              "eff": 0.17,
+              "text": "0 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 0.29,
+              "text": "0 Pref Points",
+              "year": 2026
+            }
+          ]
+        }
+      },
+      "harvest": [
+        {
+          "days": null,
+          "year": 2019,
+          "basis": "units",
+          "harvest": 138,
+          "hunters": 400
+        },
+        {
+          "days": null,
+          "year": 2020,
+          "basis": "units",
+          "harvest": 197,
+          "hunters": 395
+        },
+        {
+          "days": null,
+          "year": 2021,
+          "basis": "units",
+          "harvest": 202,
+          "hunters": 319
+        },
+        {
+          "days": null,
+          "year": 2022,
+          "basis": "units",
+          "harvest": 230,
+          "hunters": 313
+        },
+        {
+          "days": null,
+          "year": 2023,
+          "basis": "units",
+          "harvest": 234,
+          "hunters": 310
+        },
+        {
+          "days": null,
+          "year": 2024,
+          "basis": "units",
+          "harvest": 263,
+          "hunters": 345
+        },
+        {
+          "few": false,
+          "days": 1710,
+          "year": 2025,
+          "basis": "code",
+          "harvest": 311,
+          "hunters": 379
+        }
+      ],
+      "history": [
+        {
+          "year": 2021,
+          "apps1": 809,
+          "quota": 405,
+          "nrCapPct": 35,
+          "hybridCap": null
+        },
+        {
+          "year": 2022,
+          "apps1": 695,
+          "quota": 345,
+          "nrCapPct": 35,
+          "hybridCap": null
+        },
+        {
+          "year": 2023,
+          "apps1": 784,
+          "quota": 345,
+          "nrCapPct": 35,
+          "hybridCap": null
+        },
+        {
+          "year": 2024,
+          "apps1": 799,
+          "quota": 380,
+          "nrCapPct": 25,
+          "hybridCap": null
+        },
+        {
+          "year": 2025,
+          "apps1": 698,
+          "quota": 430,
+          "nrCapPct": 25,
+          "hybridCap": null
+        },
+        {
+          "year": 2026,
+          "apps1": 778,
+          "quota": 450,
+          "nrCapPct": 25,
+          "hybridCap": null
+        }
+      ],
+      "nrCapPct": 25,
+      "projYear": 2027,
+      "hybridCap": null
+    },
+    "privateOnly": false,
+    "projNr": 4.56,
+    "projRes": 0.27,
+    "ptsNr": 4,
+    "ptsNrPct": 0.77,
+    "ptsRes": 0,
+    "ptsResPct": 0.73,
+    "secondChoice": false
+  },
+  {
+    "id": "CO:EF070O3R",
+    "huntId": -60982407,
+    "species": "ELK",
+    "type": "CONTROLLED",
+    "name": "Unit 70 · 3rd Rifle · Cow Elk",
+    "unit": "70",
+    "units": [
+      "70"
+    ],
+    "weapon": "ANY",
+    "takeMethod": "3rd Rifle",
+    "antlerClass": "ANTLERLESS",
+    "openDate": "2027-11-06T12:00:00",
+    "closeDate": "2027-11-14T12:00:00",
+    "tags": 140,
+    "youthOnly": false,
+    "oddsYears": 6,
+    "success5": 0.3427419354838709,
+    "hunters5": 496,
+    "harvest5": 170,
+    "harvestYears": 5,
+    "smallSample": false,
+    "boundaryChanged": false,
+    "acres": 967247,
+    "months": [],
+    "harvestLastYear": 2025,
+    "oddsLastYear": 2026,
+    "successLast": 0.3,
+    "appsLast": 204,
+    "capped": false,
+    "nrTag": false,
+    "tagCode": "EF070O3R",
+    "huntersSqMi": 0.06563783604394742,
+    "permitsLast": 140,
+    "permitsPrev": 125,
+    "slug": "co-ef070o3r",
+    "state": "CO",
+    "seasonDays": [],
+    "creepNr": 0.21,
+    "creepRes": 0,
+    "effNr": 1.44,
+    "effRes": 0.38,
+    "hybrid": false,
+    "oddsByPts": {
+      "last": {
+        "nr": [
+          0,
+          0.556,
+          1
+        ],
+        "res": [
+          0.623,
+          0.973,
+          1
+        ],
+        "ynr": [
+          1
+        ],
+        "yres": [
+          1
+        ]
+      },
+      "proj": {
+        "nr": [
+          0,
+          0.34,
+          0.88,
+          0.94
+        ],
+        "res": [
+          0.57,
+          0.97
+        ],
+        "ynr": [
+          0.89,
+          0.94
+        ],
+        "yres": [
+          0.94,
+          0.97
+        ]
+      }
+    },
+    "pointOdds": {
+      "apps": [
+        204,
+        148,
+        86,
+        47
+      ],
+      "list": "A",
+      "regs": {
+        "year": 2026,
+        "units": [
+          "70"
+        ],
+        "guessed": false,
+        "partial": false,
+        "licenses": 140,
+        "unitText": "70"
+      },
+      "year": 2026,
+      "dates": {
+        "end": "2027-11-14",
+        "year": 2027,
+        "start": "2027-11-06"
+      },
+      "herds": [
+        {
+          "dau": "24",
+          "name": "Disappointment Creek",
+          "units": [
+            "70",
+            "71",
+            "711",
+            "72",
+            "73"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 16,
+              "estimate": 16890
+            },
+            {
+              "year": 2020,
+              "ratio": 17,
+              "estimate": 19980
+            },
+            {
+              "year": 2021,
+              "ratio": 17,
+              "estimate": 19551
+            },
+            {
+              "year": 2022,
+              "ratio": 16,
+              "estimate": 19898
+            },
+            {
+              "year": 2023,
+              "ratio": 14,
+              "estimate": 26130
+            },
+            {
+              "year": 2024,
+              "ratio": 12,
+              "estimate": 24350
+            },
+            {
+              "year": 2025,
+              "ratio": 14,
+              "estimate": 30320
+            }
+          ]
+        }
+      ],
+      "nrCap": 35,
+      "pools": {
+        "nr": {
+          "cut": {
+            "pct": 0.5555555555555556,
+            "text": "1 Pref Points",
+            "points": 1
+          },
+          "eff": 1.44,
+          "proj": {
+            "hi": 2.44,
+            "lo": 1.44,
+            "qs": [
+              1.44,
+              1.44,
+              1.44,
+              1.44,
+              1.45,
+              1.64,
+              1.84,
+              2.11,
+              2.44
+            ],
+            "eff": 1.45,
+            "base": 1.44,
+            "year": 2027,
+            "slope": 0.21,
+            "cohort": 1.32
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              31,
+              0
+            ],
+            [
+              1,
+              18,
+              10
+            ],
+            [
+              2,
+              14,
+              14
+            ],
+            [
+              3,
+              4,
+              4
+            ],
+            [
+              6,
+              1,
+              1
+            ]
+          ],
+          "history": [
+            {
+              "eff": 0.76,
+              "text": "0 Pref Points",
+              "year": 2021
+            },
+            {
+              "eff": 0.96,
+              "text": "0 Pref Points",
+              "year": 2022
+            },
+            {
+              "eff": 1.21,
+              "text": "1 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 1.58,
+              "text": "1 Pref Points",
+              "year": 2024
+            },
+            {
+              "eff": 2.32,
+              "text": "2 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 1.44,
+              "text": "1 Pref Points",
+              "year": 2026
+            }
+          ]
+        },
+        "res": {
+          "cut": {
+            "pct": 0.6231884057971014,
+            "text": "0 Pref Points",
+            "points": 0
+          },
+          "eff": 0.38,
+          "proj": {
+            "hi": 0.59,
+            "lo": 0.38,
+            "qs": [
+              0.38,
+              0.38,
+              0.38,
+              0.38,
+              0.38,
+              0.38,
+              0.38,
+              0.4,
+              0.59
+            ],
+            "eff": 0.38,
+            "base": 0.38,
+            "year": 2027,
+            "slope": 0,
+            "cohort": 0
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              69,
+              43
+            ],
+            [
+              1,
+              37,
+              36
+            ],
+            [
+              2,
+              9,
+              9
+            ],
+            [
+              3,
+              2,
+              2
+            ],
+            [
+              5,
+              1,
+              1
+            ],
+            [
+              15,
+              1,
+              1
+            ]
+          ],
+          "history": [
+            {
+              "eff": 0.65,
+              "text": "0 Pref Points",
+              "year": 2021
+            },
+            {
+              "eff": 0.7,
+              "text": "0 Pref Points",
+              "year": 2022
+            },
+            {
+              "eff": 0.9,
+              "text": "0 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 0.61,
+              "text": "0 Pref Points",
+              "year": 2024
+            },
+            {
+              "eff": 0.7,
+              "text": "0 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 0.38,
+              "text": "0 Pref Points",
+              "year": 2026
+            }
+          ]
+        },
+        "ynr": {
+          "cut": {
+            "pct": null,
+            "text": "Choice 2",
+            "points": null
+          },
+          "eff": 0,
+          "proj": {
+            "hi": 0.36,
+            "lo": 0,
+            "qs": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.08,
+              0.36
+            ],
+            "eff": 0,
+            "base": 0,
+            "year": 2027,
+            "slope": 0,
+            "cohort": 0
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              5,
+              5
+            ]
+          ],
+          "history": [
+            {
+              "eff": 0.5,
+              "text": "0 Pref Points",
+              "year": 2021
+            },
+            {
+              "eff": 0,
+              "text": "Choice 2",
+              "year": 2022
+            },
+            {
+              "eff": 1,
+              "text": "1 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 0,
+              "text": "Choice 2",
+              "year": 2024
+            },
+            {
+              "eff": 0,
+              "text": "0 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 0,
+              "text": "Choice 2",
+              "year": 2026
+            }
+          ]
+        },
+        "yres": {
+          "cut": {
+            "pct": null,
+            "text": "Choice 2",
+            "points": null
+          },
+          "eff": 0,
+          "proj": {
+            "hi": 0.21,
+            "lo": 0,
+            "qs": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0.02,
+              0.21
+            ],
+            "eff": 0,
+            "base": 0,
+            "year": 2027,
+            "slope": 0.02,
+            "cohort": 0
+          },
+          "hybrid": 0,
+          "levels": [
+            [
+              0,
+              10,
+              10
+            ],
+            [
+              1,
+              2,
+              2
+            ]
+          ],
+          "history": [
+            {
+              "eff": 0,
+              "text": "Choice 2",
+              "year": 2021
+            },
+            {
+              "eff": 0,
+              "text": "Choice 3",
+              "year": 2022
+            },
+            {
+              "eff": 0.29,
+              "text": "0 Pref Points",
+              "year": 2023
+            },
+            {
+              "eff": 0,
+              "text": "Choice 2",
+              "year": 2024
+            },
+            {
+              "eff": 0.45,
+              "text": "0 Pref Points",
+              "year": 2025
+            },
+            {
+              "eff": 0,
+              "text": "Choice 2",
+              "year": 2026
+            }
+          ]
+        }
+      },
+      "harvest": [
+        {
+          "days": null,
+          "year": 2019,
+          "basis": "units",
+          "harvest": 35,
+          "hunters": 186
+        },
+        {
+          "days": null,
+          "year": 2020,
+          "basis": "units",
+          "harvest": 32,
+          "hunters": 84
+        },
+        {
+          "days": null,
+          "year": 2021,
+          "basis": "units",
+          "harvest": 24,
+          "hunters": 87
+        },
+        {
+          "days": null,
+          "year": 2022,
+          "basis": "units",
+          "harvest": 39,
+          "hunters": 94
+        },
+        {
+          "days": null,
+          "year": 2023,
+          "basis": "units",
+          "harvest": 13,
+          "hunters": 101
+        },
+        {
+          "days": null,
+          "year": 2024,
+          "basis": "units",
+          "harvest": 58,
+          "hunters": 94
+        },
+        {
+          "few": false,
+          "days": 655,
+          "year": 2025,
+          "basis": "code",
+          "harvest": 36,
+          "hunters": 120
+        }
+      ],
+      "history": [
+        {
+          "year": 2021,
+          "apps1": 185,
+          "quota": 100,
+          "nrCapPct": 35,
+          "hybridCap": null
+        },
+        {
+          "year": 2022,
+          "apps1": 156,
+          "quota": 100,
+          "nrCapPct": 35,
+          "hybridCap": null
+        },
+        {
+          "year": 2023,
+          "apps1": 201,
+          "quota": 100,
+          "nrCapPct": 35,
+          "hybridCap": null
+        },
+        {
+          "year": 2024,
+          "apps1": 172,
+          "quota": 100,
+          "nrCapPct": 25,
+          "hybridCap": null
+        },
+        {
+          "year": 2025,
+          "apps1": 270,
+          "quota": 125,
+          "nrCapPct": 25,
+          "hybridCap": null
+        },
+        {
+          "year": 2026,
+          "apps1": 204,
+          "quota": 140,
+          "nrCapPct": 25,
+          "hybridCap": null
+        }
+      ],
+      "nrCapPct": 25,
+      "projYear": 2027,
+      "hybridCap": null
+    },
+    "privateOnly": false,
+    "projNr": 1.45,
+    "projRes": 0.38,
+    "ptsNr": 1,
+    "ptsNrPct": 0.56,
+    "ptsRes": 0,
+    "ptsResPct": 0.62,
+    "secondChoice": false
+  },
+  {
+    "id": "CO:EM000U3R",
+    "huntId": -248565070,
+    "species": "ELK",
+    "type": "GENERAL",
+    "name": "General · 3rd Rifle (OTC) · Bull Elk",
+    "units": [
+      "3",
+      "4",
+      "5",
+      "6",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "47",
+      "52",
+      "53",
+      "59",
+      "60",
+      "62",
+      "63",
+      "64",
+      "65",
+      "68",
+      "70",
+      "71",
+      "72",
+      "73",
+      "74",
+      "75",
+      "77",
+      "78",
+      "80",
+      "81",
+      "82",
+      "85",
+      "86",
+      "131",
+      "133",
+      "134",
+      "140",
+      "141",
+      "142",
+      "161",
+      "171",
+      "181",
+      "211",
+      "214",
+      "231",
+      "301",
+      "361",
+      "371",
+      "411",
+      "421",
+      "431",
+      "441",
+      "444",
+      "471",
+      "511",
+      "521",
+      "581",
+      "591",
+      "681",
+      "691",
+      "711",
+      "741",
+      "751",
+      "771",
+      "851",
+      "861"
+    ],
+    "weapon": "ANY",
+    "takeMethod": "3rd Rifle (OTC)",
+    "antlerClass": "ANTLERED",
+    "openDate": "2027-11-06T12:00:00",
+    "closeDate": "2027-11-14T12:00:00",
+    "youthOnly": false,
+    "oddsYears": 0,
+    "success5": 0.1270681798049193,
+    "hunters5": 101599,
+    "harvest5": 12910,
+    "harvestYears": 5,
+    "smallSample": false,
+    "boundaryChanged": false,
+    "acres": 27991137,
+    "months": [],
+    "harvestLastYear": 2025,
+    "oddsLastYear": 2026,
+    "successLast": 0.1206608715675551,
+    "capped": false,
+    "nrTag": false,
+    "tagCode": "EM000U3R",
+    "huntersSqMi": 0.4645996338055149,
+    "slug": "co-em000u3r",
+    "state": "CO",
+    "seasonDays": [],
+    "hybrid": false,
+    "oddsByPts": {
+      "last": {
+        "nr": [
+          1
+        ],
+        "res": [
+          1
+        ],
+        "ynr": [
+          1
+        ],
+        "yres": [
+          1
+        ]
+      },
+      "proj": {
+        "nr": [
+          1
+        ],
+        "res": [
+          1
+        ],
+        "ynr": [
+          1
+        ],
+        "yres": [
+          1
+        ]
+      }
+    },
+    "pointOdds": {
+      "apps": [],
+      "list": null,
+      "regs": {
+        "year": 2026,
+        "units": [
+          "3",
+          "4",
+          "5",
+          "6",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "38",
+          "41",
+          "42",
+          "43",
+          "44",
+          "45",
+          "47",
+          "52",
+          "53",
+          "59",
+          "60",
+          "62",
+          "63",
+          "64",
+          "65",
+          "68",
+          "70",
+          "71",
+          "72",
+          "73",
+          "74",
+          "75",
+          "77",
+          "78",
+          "80",
+          "81",
+          "82",
+          "85",
+          "86",
+          "131",
+          "133",
+          "134",
+          "140",
+          "141",
+          "142",
+          "161",
+          "171",
+          "181",
+          "211",
+          "214",
+          "231",
+          "301",
+          "361",
+          "371",
+          "411",
+          "421",
+          "431",
+          "441",
+          "444",
+          "471",
+          "511",
+          "521",
+          "581",
+          "591",
+          "681",
+          "691",
+          "711",
+          "741",
+          "751",
+          "771",
+          "851",
+          "861"
+        ],
+        "guessed": false,
+        "partial": true,
+        "licenses": null,
+        "unitText": "3, 4, 5, 6, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 47, 52, 53,, 59, 60, 62, 63, 64, 65, 68, 70, 71, 72, 73, 74, 75, 77, 78, 80, 81, 82 (public land only), 85, 86, 131, 133, 134, 140, 141, 142, 161, 171, 181, 211, 214, 231, 301, 361, 371, 411, 421, 431, 441 , 444, 471, 511, 521, 581, 591, 681, 691, 711, 741, 751, 771, 851 except Bosque del Oso SWA, 861"
+      },
+      "year": 2026,
+      "dates": {
+        "end": "2027-11-14",
+        "year": 2027,
+        "start": "2027-11-06"
+      },
+      "herds": [
+        {
+          "dau": "2",
+          "name": "Bears Ears",
+          "units": [
+            "3",
+            "301",
+            "4",
+            "441",
+            "5",
+            "14",
+            "214"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 19,
+              "estimate": 22280
+            },
+            {
+              "year": 2020,
+              "ratio": 24,
+              "estimate": 18300
+            },
+            {
+              "year": 2021,
+              "ratio": 25,
+              "estimate": 24060
+            },
+            {
+              "year": 2022,
+              "ratio": 23,
+              "estimate": 15359
+            },
+            {
+              "year": 2023,
+              "ratio": 14,
+              "estimate": 10570
+            },
+            {
+              "year": 2024,
+              "ratio": 22,
+              "estimate": 15840
+            },
+            {
+              "year": 2025,
+              "ratio": 22,
+              "estimate": 17070
+            }
+          ]
+        },
+        {
+          "dau": "3",
+          "name": "North Park",
+          "units": [
+            "6",
+            "16",
+            "161",
+            "17",
+            "171"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 33,
+              "estimate": 6950
+            },
+            {
+              "year": 2020,
+              "ratio": 26,
+              "estimate": 6020
+            },
+            {
+              "year": 2021,
+              "ratio": 21,
+              "estimate": 4715
+            },
+            {
+              "year": 2022,
+              "ratio": 21,
+              "estimate": 7342
+            },
+            {
+              "year": 2023,
+              "ratio": 20,
+              "estimate": 5790
+            },
+            {
+              "year": 2024,
+              "ratio": 24,
+              "estimate": 5160
+            },
+            {
+              "year": 2025,
+              "ratio": 26,
+              "estimate": 6510
+            }
+          ]
+        },
+        {
+          "dau": "5",
+          "name": "West Elk Mountains",
+          "units": [
+            "53",
+            "54",
+            "63"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 21,
+              "estimate": 7690
+            },
+            {
+              "year": 2020,
+              "ratio": 18,
+              "estimate": 8530
+            },
+            {
+              "year": 2021,
+              "ratio": 20,
+              "estimate": 8476
+            },
+            {
+              "year": 2022,
+              "ratio": 17,
+              "estimate": 8773
+            },
+            {
+              "year": 2023,
+              "ratio": 17,
+              "estimate": 9160
+            },
+            {
+              "year": 2024,
+              "ratio": 18,
+              "estimate": 8360
+            },
+            {
+              "year": 2025,
+              "ratio": 28,
+              "estimate": 10230
+            }
+          ]
+        },
+        {
+          "dau": "6",
+          "name": "White River",
+          "units": [
+            "11",
+            "12",
+            "13",
+            "23",
+            "24",
+            "25",
+            "26",
+            "33",
+            "34",
+            "131",
+            "211",
+            "231"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 26,
+              "estimate": 45000
+            },
+            {
+              "year": 2020,
+              "ratio": 26,
+              "estimate": 40880
+            },
+            {
+              "year": 2021,
+              "ratio": 13,
+              "estimate": 40581
+            },
+            {
+              "year": 2022,
+              "ratio": 22,
+              "estimate": 38891
+            },
+            {
+              "year": 2023,
+              "ratio": 19,
+              "estimate": 30380
+            },
+            {
+              "year": 2024,
+              "ratio": 17,
+              "estimate": 36480
+            },
+            {
+              "year": 2025,
+              "ratio": 19,
+              "estimate": 42470
+            }
+          ]
+        },
+        {
+          "dau": "7",
+          "name": "Gore Pass",
+          "units": [
+            "15",
+            "27"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 19,
+              "estimate": 4700
+            },
+            {
+              "year": 2020,
+              "ratio": 29,
+              "estimate": 5080
+            },
+            {
+              "year": 2021,
+              "ratio": 35,
+              "estimate": 4868
+            },
+            {
+              "year": 2022,
+              "ratio": 38,
+              "estimate": 4794
+            },
+            {
+              "year": 2023,
+              "ratio": 46,
+              "estimate": 3760
+            },
+            {
+              "year": 2024,
+              "ratio": 42,
+              "estimate": 3020
+            },
+            {
+              "year": 2025,
+              "ratio": 22,
+              "estimate": 3650
+            }
+          ]
+        },
+        {
+          "dau": "8",
+          "name": "Troublesome Creek",
+          "units": [
+            "18",
+            "181"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 40,
+              "estimate": 5670
+            },
+            {
+              "year": 2020,
+              "ratio": 47,
+              "estimate": 4560
+            },
+            {
+              "year": 2021,
+              "ratio": 42,
+              "estimate": 4145
+            },
+            {
+              "year": 2022,
+              "ratio": 36,
+              "estimate": 4041
+            },
+            {
+              "year": 2023,
+              "ratio": 32,
+              "estimate": 3610
+            },
+            {
+              "year": 2024,
+              "ratio": 29,
+              "estimate": 3300
+            },
+            {
+              "year": 2025,
+              "ratio": 29,
+              "estimate": 3220
+            }
+          ]
+        },
+        {
+          "dau": "10",
+          "name": "Yellow Creek",
+          "units": [
+            "21",
+            "22",
+            "30",
+            "31",
+            "32"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 24,
+              "estimate": 12420
+            },
+            {
+              "year": 2020,
+              "ratio": 24,
+              "estimate": 12070
+            },
+            {
+              "year": 2021,
+              "ratio": 22,
+              "estimate": 14930
+            },
+            {
+              "year": 2022,
+              "ratio": 28,
+              "estimate": 15574
+            },
+            {
+              "year": 2023,
+              "ratio": 24,
+              "estimate": 16110
+            },
+            {
+              "year": 2024,
+              "ratio": 20,
+              "estimate": 16110
+            },
+            {
+              "year": 2025,
+              "ratio": 34,
+              "estimate": 17890
+            }
+          ]
+        },
+        {
+          "dau": "11",
+          "name": "Sand Dunes",
+          "units": [
+            "82"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 51,
+              "estimate": 5970
+            },
+            {
+              "year": 2020,
+              "ratio": 35,
+              "estimate": 5280
+            },
+            {
+              "year": 2021,
+              "ratio": 35,
+              "estimate": 5783
+            },
+            {
+              "year": 2022,
+              "ratio": 31,
+              "estimate": 5940
+            },
+            {
+              "year": 2023,
+              "ratio": 34,
+              "estimate": 4800
+            },
+            {
+              "year": 2024,
+              "ratio": 42,
+              "estimate": 5140
+            },
+            {
+              "year": 2025,
+              "ratio": 47,
+              "estimate": 6080
+            }
+          ]
+        },
+        {
+          "dau": "12",
+          "name": "Piney River",
+          "units": [
+            "35",
+            "36"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 28,
+              "estimate": 3910
+            },
+            {
+              "year": 2020,
+              "ratio": 21,
+              "estimate": 3710
+            },
+            {
+              "year": 2021,
+              "ratio": 21,
+              "estimate": 4092
+            },
+            {
+              "year": 2022,
+              "ratio": 24,
+              "estimate": 3780
+            },
+            {
+              "year": 2023,
+              "ratio": 26,
+              "estimate": 3850
+            },
+            {
+              "year": 2024,
+              "ratio": 31,
+              "estimate": 4450
+            },
+            {
+              "year": 2025,
+              "ratio": 26,
+              "estimate": 4370
+            }
+          ]
+        },
+        {
+          "dau": "13",
+          "name": "Williams Fork River",
+          "units": [
+            "28",
+            "37",
+            "371"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 41,
+              "estimate": 4550
+            },
+            {
+              "year": 2020,
+              "ratio": 47,
+              "estimate": 4740
+            },
+            {
+              "year": 2021,
+              "ratio": 40,
+              "estimate": 4121
+            },
+            {
+              "year": 2022,
+              "ratio": 39,
+              "estimate": 3609
+            },
+            {
+              "year": 2023,
+              "ratio": 35,
+              "estimate": 2890
+            },
+            {
+              "year": 2024,
+              "ratio": 40,
+              "estimate": 3560
+            },
+            {
+              "year": 2025,
+              "ratio": 26,
+              "estimate": 2660
+            }
+          ]
+        },
+        {
+          "dau": "14",
+          "name": "Grand Mesa",
+          "units": [
+            "41",
+            "411",
+            "42",
+            "421",
+            "52",
+            "521"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 28,
+              "estimate": 15390
+            },
+            {
+              "year": 2020,
+              "ratio": 27,
+              "estimate": 15400
+            },
+            {
+              "year": 2021,
+              "ratio": 28,
+              "estimate": 14337
+            },
+            {
+              "year": 2022,
+              "ratio": 25,
+              "estimate": 15683
+            },
+            {
+              "year": 2023,
+              "ratio": 31,
+              "estimate": 15410
+            },
+            {
+              "year": 2024,
+              "ratio": 30,
+              "estimate": 17370
+            },
+            {
+              "year": 2025,
+              "ratio": 20,
+              "estimate": 14840
+            }
+          ]
+        },
+        {
+          "dau": "15",
+          "name": "Avalanche Creek",
+          "units": [
+            "43",
+            "431",
+            "471"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 30,
+              "estimate": 4990
+            },
+            {
+              "year": 2020,
+              "ratio": 28,
+              "estimate": 4960
+            },
+            {
+              "year": 2021,
+              "ratio": 23,
+              "estimate": 4436
+            },
+            {
+              "year": 2022,
+              "ratio": 23,
+              "estimate": 4199
+            },
+            {
+              "year": 2023,
+              "ratio": 23,
+              "estimate": 4240
+            },
+            {
+              "year": 2024,
+              "ratio": 24,
+              "estimate": 3960
+            },
+            {
+              "year": 2025,
+              "ratio": 23,
+              "estimate": 3770
+            }
+          ]
+        },
+        {
+          "dau": "16",
+          "name": "Frying Pan River",
+          "units": [
+            "44",
+            "444",
+            "45",
+            "47"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 20,
+              "estimate": 6180
+            },
+            {
+              "year": 2020,
+              "ratio": 18,
+              "estimate": 6970
+            },
+            {
+              "year": 2021,
+              "ratio": 20,
+              "estimate": 7597
+            },
+            {
+              "year": 2022,
+              "ratio": 24,
+              "estimate": 8511
+            },
+            {
+              "year": 2023,
+              "ratio": 24,
+              "estimate": 9820
+            },
+            {
+              "year": 2024,
+              "ratio": 28,
+              "estimate": 10380
+            },
+            {
+              "year": 2025,
+              "ratio": 28,
+              "estimate": 11930
+            }
+          ]
+        },
+        {
+          "dau": "20",
+          "name": "Uncompahgre",
+          "units": [
+            "61",
+            "62"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 19,
+              "estimate": 10380
+            },
+            {
+              "year": 2020,
+              "ratio": 21,
+              "estimate": 11720
+            },
+            {
+              "year": 2021,
+              "ratio": 22,
+              "estimate": 12540
+            },
+            {
+              "year": 2022,
+              "ratio": 23,
+              "estimate": 13732
+            },
+            {
+              "year": 2023,
+              "ratio": 22,
+              "estimate": 12720
+            },
+            {
+              "year": 2024,
+              "ratio": 23,
+              "estimate": 14390
+            },
+            {
+              "year": 2025,
+              "ratio": 29,
+              "estimate": 16680
+            }
+          ]
+        },
+        {
+          "dau": "23",
+          "name": "Eleven Mile",
+          "units": [
+            "511",
+            "512",
+            "581",
+            "59",
+            "591"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 25,
+              "estimate": 4070
+            },
+            {
+              "year": 2020,
+              "ratio": 20,
+              "estimate": 3500
+            },
+            {
+              "year": 2021,
+              "ratio": 23,
+              "estimate": 4512
+            },
+            {
+              "year": 2022,
+              "ratio": 27,
+              "estimate": 4833
+            },
+            {
+              "year": 2023,
+              "ratio": 31,
+              "estimate": 3530
+            },
+            {
+              "year": 2024,
+              "ratio": 33,
+              "estimate": 3860
+            },
+            {
+              "year": 2025,
+              "ratio": 34,
+              "estimate": 4300
+            }
+          ]
+        },
+        {
+          "dau": "24",
+          "name": "Disappointment Creek",
+          "units": [
+            "70",
+            "71",
+            "711",
+            "72",
+            "73"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 16,
+              "estimate": 16890
+            },
+            {
+              "year": 2020,
+              "ratio": 17,
+              "estimate": 19980
+            },
+            {
+              "year": 2021,
+              "ratio": 17,
+              "estimate": 19551
+            },
+            {
+              "year": 2022,
+              "ratio": 16,
+              "estimate": 19898
+            },
+            {
+              "year": 2023,
+              "ratio": 14,
+              "estimate": 26130
+            },
+            {
+              "year": 2024,
+              "ratio": 12,
+              "estimate": 24350
+            },
+            {
+              "year": 2025,
+              "ratio": 14,
+              "estimate": 30320
+            }
+          ]
+        },
+        {
+          "dau": "26",
+          "name": "Saguache",
+          "units": [
+            "68",
+            "681"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 18,
+              "estimate": 4260
+            },
+            {
+              "year": 2020,
+              "ratio": 21,
+              "estimate": 4650
+            },
+            {
+              "year": 2021,
+              "ratio": 21,
+              "estimate": 4814
+            },
+            {
+              "year": 2022,
+              "ratio": 16,
+              "estimate": 4227
+            },
+            {
+              "year": 2023,
+              "ratio": 21,
+              "estimate": 5800
+            },
+            {
+              "year": 2024,
+              "ratio": 21,
+              "estimate": 5510
+            },
+            {
+              "year": 2025,
+              "ratio": 21,
+              "estimate": 5580
+            }
+          ]
+        },
+        {
+          "dau": "27",
+          "name": "Sangre de Cristo",
+          "units": [
+            "86",
+            "691",
+            "861"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 12,
+              "estimate": 2190
+            },
+            {
+              "year": 2020,
+              "ratio": 20,
+              "estimate": 2640
+            },
+            {
+              "year": 2021,
+              "ratio": 19,
+              "estimate": 2337
+            },
+            {
+              "year": 2022,
+              "ratio": 16,
+              "estimate": 2789
+            },
+            {
+              "year": 2023,
+              "ratio": 16,
+              "estimate": 1950
+            },
+            {
+              "year": 2024,
+              "ratio": 18,
+              "estimate": 2890
+            },
+            {
+              "year": 2025,
+              "ratio": 22,
+              "estimate": 3150
+            }
+          ]
+        },
+        {
+          "dau": "30",
+          "name": "Hermosa",
+          "units": [
+            "74",
+            "741"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 16,
+              "estimate": 4780
+            },
+            {
+              "year": 2020,
+              "ratio": 13,
+              "estimate": 5120
+            },
+            {
+              "year": 2021,
+              "ratio": 15,
+              "estimate": 6135
+            },
+            {
+              "year": 2022,
+              "ratio": 17,
+              "estimate": 6323
+            },
+            {
+              "year": 2023,
+              "ratio": 15,
+              "estimate": 6620
+            },
+            {
+              "year": 2024,
+              "ratio": 18,
+              "estimate": 7270
+            },
+            {
+              "year": 2025,
+              "ratio": 14,
+              "estimate": 6710
+            }
+          ]
+        },
+        {
+          "dau": "31",
+          "name": "San Juan",
+          "units": [
+            "75",
+            "751",
+            "77",
+            "771",
+            "78"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 14,
+              "estimate": 18940
+            },
+            {
+              "year": 2020,
+              "ratio": 13,
+              "estimate": 22050
+            },
+            {
+              "year": 2021,
+              "ratio": 14,
+              "estimate": 23670
+            },
+            {
+              "year": 2022,
+              "ratio": 11,
+              "estimate": 24253
+            },
+            {
+              "year": 2023,
+              "ratio": 14,
+              "estimate": 29370
+            },
+            {
+              "year": 2024,
+              "ratio": 2,
+              "estimate": 21170
+            },
+            {
+              "year": 2025,
+              "ratio": 13,
+              "estimate": 32320
+            }
+          ]
+        },
+        {
+          "dau": "32",
+          "name": "Loqwer Rio Grande",
+          "units": [
+            "80",
+            "81"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 18,
+              "estimate": 11210
+            },
+            {
+              "year": 2020,
+              "ratio": 17,
+              "estimate": 11870
+            },
+            {
+              "year": 2021,
+              "ratio": 17,
+              "estimate": 12858
+            },
+            {
+              "year": 2022,
+              "ratio": 20,
+              "estimate": 13502
+            },
+            {
+              "year": 2023,
+              "ratio": 27,
+              "estimate": 17170
+            },
+            {
+              "year": 2024,
+              "ratio": 19,
+              "estimate": 14480
+            },
+            {
+              "year": 2025,
+              "ratio": 20,
+              "estimate": 14860
+            }
+          ]
+        },
+        {
+          "dau": "33",
+          "name": "Trinchera",
+          "units": [
+            "83",
+            "85",
+            "851",
+            "140"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 21,
+              "estimate": 16480
+            },
+            {
+              "year": 2020,
+              "ratio": 23,
+              "estimate": 14080
+            },
+            {
+              "year": 2021,
+              "ratio": 33,
+              "estimate": 14892
+            },
+            {
+              "year": 2022,
+              "ratio": 35,
+              "estimate": 13051
+            },
+            {
+              "year": 2023,
+              "ratio": 31,
+              "estimate": 14760
+            },
+            {
+              "year": 2024,
+              "ratio": 32,
+              "estimate": 15530
+            },
+            {
+              "year": 2025,
+              "ratio": 26,
+              "estimate": 14470
+            }
+          ]
+        },
+        {
+          "dau": "35",
+          "name": "Cimarron",
+          "units": [
+            "64",
+            "65"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 19,
+              "estimate": 6570
+            },
+            {
+              "year": 2020,
+              "ratio": 22,
+              "estimate": 7340
+            },
+            {
+              "year": 2021,
+              "ratio": 23,
+              "estimate": 7398
+            },
+            {
+              "year": 2022,
+              "ratio": 29,
+              "estimate": 5782
+            },
+            {
+              "year": 2023,
+              "ratio": 28,
+              "estimate": 6120
+            },
+            {
+              "year": 2024,
+              "ratio": 28,
+              "estimate": 6430
+            },
+            {
+              "year": 2025,
+              "ratio": 30,
+              "estimate": 7220
+            }
+          ]
+        },
+        {
+          "dau": "38",
+          "name": "Clear Creek",
+          "units": [
+            "29",
+            "38"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 20,
+              "estimate": 1250
+            },
+            {
+              "year": 2020,
+              "ratio": 31,
+              "estimate": 1410
+            },
+            {
+              "year": 2021,
+              "ratio": 29,
+              "estimate": 1554
+            },
+            {
+              "year": 2022,
+              "ratio": 27,
+              "estimate": 1405
+            },
+            {
+              "year": 2023,
+              "ratio": 35,
+              "estimate": 1590
+            },
+            {
+              "year": 2024,
+              "ratio": 36,
+              "estimate": 1600
+            },
+            {
+              "year": 2025,
+              "ratio": 40,
+              "estimate": 1560
+            }
+          ]
+        },
+        {
+          "dau": "40",
+          "name": "Paradox",
+          "units": [
+            "60"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 45,
+              "estimate": 3360
+            },
+            {
+              "year": 2020,
+              "ratio": 49,
+              "estimate": 3990
+            },
+            {
+              "year": 2021,
+              "ratio": 31,
+              "estimate": 2582
+            },
+            {
+              "year": 2022,
+              "ratio": 26,
+              "estimate": 1049
+            },
+            {
+              "year": 2023,
+              "ratio": 31,
+              "estimate": 1280
+            },
+            {
+              "year": 2024,
+              "ratio": 34,
+              "estimate": 1320
+            },
+            {
+              "year": 2025,
+              "ratio": 40,
+              "estimate": 1420
+            }
+          ]
+        },
+        {
+          "dau": "47",
+          "name": "Green River",
+          "units": [
+            "64",
+            "65"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 33,
+              "estimate": 200
+            },
+            {
+              "year": 2020,
+              "ratio": 33,
+              "estimate": 200
+            },
+            {
+              "year": 2021,
+              "ratio": 33,
+              "estimate": 202
+            },
+            {
+              "year": 2022,
+              "ratio": 33,
+              "estimate": 202
+            },
+            {
+              "year": 2023,
+              "ratio": 33,
+              "estimate": 200
+            },
+            {
+              "year": 2024,
+              "ratio": 33,
+              "estimate": 200
+            },
+            {
+              "year": 2025,
+              "ratio": 88,
+              "estimate": 200
+            }
+          ]
+        },
+        {
+          "dau": "53",
+          "name": "Apishipa",
+          "units": [
+            "133",
+            "134",
+            "135",
+            "141",
+            "142"
+          ],
+          "series": [
+            {
+              "year": 2019,
+              "ratio": 18,
+              "estimate": 1110
+            },
+            {
+              "year": 2020,
+              "ratio": 21,
+              "estimate": 1200
+            },
+            {
+              "year": 2021,
+              "ratio": 27,
+              "estimate": 1270
+            },
+            {
+              "year": 2022,
+              "ratio": 23,
+              "estimate": 1295
+            },
+            {
+              "year": 2023,
+              "ratio": 31,
+              "estimate": 1390
+            },
+            {
+              "year": 2024,
+              "ratio": 33,
+              "estimate": 1480
+            },
+            {
+              "year": 2025,
+              "ratio": 32,
+              "estimate": 1510
+            }
+          ]
+        }
+      ],
+      "nrCap": null,
+      "pools": {},
+      "general": {
+        "resident": true,
+        "nonresident": true,
+        "regulationsYear": 2026
+      },
+      "harvest": [
+        {
+          "days": null,
+          "year": 2020,
+          "basis": "units",
+          "harvest": 3219,
+          "hunters": 25060
+        },
+        {
+          "days": null,
+          "year": 2021,
+          "basis": "units",
+          "harvest": 2496,
+          "hunters": 22767
+        },
+        {
+          "days": null,
+          "year": 2022,
+          "basis": "units",
+          "harvest": 3157,
+          "hunters": 21962
+        },
+        {
+          "days": null,
+          "year": 2023,
+          "basis": "units",
+          "harvest": 1914,
+          "hunters": 20672
+        },
+        {
+          "days": null,
+          "year": 2024,
+          "basis": "units",
+          "harvest": 3247,
+          "hunters": 18827
+        },
+        {
+          "few": false,
+          "days": 94785,
+          "year": 2025,
+          "basis": "code",
+          "harvest": 2096,
+          "hunters": 17371
+        }
+      ],
+      "history": [],
+      "nrCapPct": null,
+      "projYear": 2027,
+      "hybridCap": null
+    },
+    "privateOnly": false,
+    "ptsNr": 0,
+    "ptsNrPct": 1,
+    "ptsRes": 0,
+    "ptsResPct": 1,
+    "secondChoice": false
+  }
+]

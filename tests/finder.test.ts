@@ -1,3 +1,4 @@
+import { matchesHuntSeason } from "../src/lib/huntSeasonFilter";
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parseFilters, buildWhere, buildOrder, toQuery } from '../src/lib/finder';
@@ -25,9 +26,16 @@ test('residency decides which odds column filters and sorts use', () => {
   assert.deepEqual(buildOrder(parseFilters({ sort: 'success' }), 'RESIDENT').map((o) => Object.keys(o)[0]).slice(0, 2), ['smallSample', 'success5']);
 });
 
-test('season months mean "open during that month"', () => {
-  const w = JSON.stringify(buildWhere(parseFilters({ month: '10' }), 'RESIDENT'));
-  assert.match(w, /"months":\{"hasSome":\[10\]\}/);
+test("season months mean open during that month", () => {
+  const r = {
+    openDate: new Date("2027-09-30"),
+    closeDate: new Date("2027-10-02"),
+    youthOnly: false,
+    antlerClass: "ANTLERED",
+    weapon: "ANY",
+  };
+  assert.equal(matchesHuntSeason(r, parseFilters({ month: '10' })), true);
+  assert.equal(matchesHuntSeason(r, parseFilters({ month: "11" })), false);
 });
 
 test('toQuery round-trips', () => {
@@ -86,10 +94,17 @@ test('season date window: open-during and ends-during, round trip through the ad
   assert.equal(f.dayFrom, 116);
   assert.equal(f.dayTo, 122);
   const w = JSON.stringify(buildWhere(f, 'RESIDENT'));
-  assert.ok(w.includes('"seasonDays":{"hasSome":[116,117,118,119,120,121,122]}'));
+  const r = {
+    openDate: new Date("2027-10-20"),
+    closeDate: new Date("2027-10-27"),
+    youthOnly: false,
+    antlerClass: "ANTLERED",
+    weapon: "ANY",
+  };
+  assert.equal(matchesHuntSeason(r, f), true);
   const e = parseFilters({ from: '10-31', to: '10-10', dmode: 'end' });
   assert.equal(e.dayFrom, 101); // backwards window is swapped
-  assert.ok(JSON.stringify(buildWhere(e, 'RESIDENT')).includes('"closeDay":{"gte":101,"lte":122}'));
-  assert.equal(toQuery(e), '?from=10-10&to=10-31&dmode=end');
-  assert.equal(toQuery(f, { dayFrom: null, dayTo: null }), '');
+  assert.equal(matchesHuntSeason(r, e), true);
+  assert.equal(toQuery(e), "?antler=ANTLERED&from=10-10&to=10-31&dmode=end");
+  assert.equal(toQuery(f, { dayFrom: null, dayTo: null }), "?antler=ANTLERED");
 });

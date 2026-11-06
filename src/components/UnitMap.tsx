@@ -16,6 +16,7 @@ import { inPageGestures } from '@/lib/mapGestures';
 import { loadUnits } from '@/lib/unitData';
 import { antlerLabel } from '@/lib/format';
 import { ELK_ZONES } from '@/lib/elkZones';
+import { unitKey } from "@/lib/states";
 import { useStateConfig } from './StateContext';
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
@@ -25,8 +26,8 @@ const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5,
 /** `bare`: just the unit on the map (unit pages), no shading or key. */
 export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [] }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
-  const msg = draw === 'MSG';
   const st = useStateConfig();
+  const msg = draw === "MSG" && st.code === "ID";
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const [metric, setMetric] = useState<Metric>('public');
@@ -61,8 +62,12 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   };
   // "No Shading": just the unit outlines over the basemap
   const [noShade, setNoShade] = useState(false);
-  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'))
-    .map((k) => ({ value: k, label: METRICS[k].label }))];
+  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" || k === "public")
+      .filter(
+        (k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'),
+      )
+    .map((k) => ({ value: k, label: METRICS[k].label })),
+  ];
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
@@ -88,11 +93,16 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   useEffect(() => {
     if (!selName || selName === focus) return;
     let live = true;
-    fetch(`/api/units/${encodeURIComponent(selName)}/hunts`).then((r) => r.json()).then((rows: UH[]) => live && setUh({ unit: selName, rows })).catch(() => live && setUh({ unit: selName, rows: [] }));
-    return () => { live = false; };
+    fetch(`/api/units/${encodeURIComponent(unitKey(st.code, selName))}/hunts`)
+      .then((r) => r.json())
+      .then((rows: UH[]) => live && setUh({ unit: selName, rows }))
+      .catch(() => live && setUh({ unit: selName, rows: [] }));
+    return () => {
+      live = false;
+    };
   }, [selName, focus]);
-  const [err, setErr] = useState('');
-  const [kind, setKind] = useState<Basemap>('satellite');
+  const [err, setErr] = useState("");
+  const [kind, setKind] = useState<Basemap>("satellite");
   useEffect(() => {
     if (map.current?.isStyleLoaded()) setBasemap(map.current, kind);
   }, [kind]);
@@ -104,16 +114,28 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
 
   useEffect(() => {
     if (!el.current || map.current) return;
-    const m = new maplibregl.Map({ container: el.current, style: baseStyle('satellite'), bounds: IDAHO_BOUNDS, fitBoundsOptions: { padding: { top: 96, bottom: 16, left: 16, right: 16 } }, maxZoom: 15, attributionControl: { compact: true } });
+    const m = new maplibregl.Map({
+      container: el.current,
+      style: baseStyle("satellite", st.agency.short),
+      bounds: st.bounds,
+      fitBoundsOptions: { padding: { top: 96, bottom: 16, left: 16, right: 16 } },
+      maxZoom: 15,
+      attributionControl: { compact: true },
+    });
     map.current = m;
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
     // unit pages: the map sits in the page; the Unit Map page is the map itself
     if (bare) inPageGestures(m);
     // full screen takes the map's wrapper, so the key and panels come along
     m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
-    m.on('load', async () => {
+    m.on("load", async () => {
       try {
-        const { fc, classes: cl, missing: miss, labels } = await loadUnits();
+        const {
+          fc,
+          classes: cl,
+          missing: miss,
+          labels,
+        } = await loadUnits(st.code);
         setClasses(cl);
         setMissing(miss);
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
@@ -157,9 +179,9 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         if (!focus) {
           // frame Idaho below the key in the top-left corner
           const kh = (el.current?.parentElement?.querySelector('.mappanel') as HTMLElement | null)?.offsetHeight ?? 80;
-          m.fitBounds(IDAHO_BOUNDS, { padding: { top: Math.min(kh + 14, m.getContainer().clientHeight * 0.4), bottom: 16, left: 16, right: 16 }, duration: 0 });
+          m.fitBounds(st.bounds, { padding: { top: Math.min(kh + 14, m.getContainer().clientHeight * 0.4), bottom: 16, left: 16, right: 16 }, duration: 0 });
         }
-        m.fire('metric');
+        m.fire("metric");
         setMapObj(m);
       } catch (e) {
         setErr('Could not load unit boundaries.');
@@ -246,20 +268,50 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const v = (k: string) => (sel && sel[k] !== null && sel[k] !== undefined ? Number(sel[k]) : null);
 
   return (
-    <div style={{ position: 'relative', height }}>
-      <div ref={el} style={{ position: 'absolute', inset: 0 }} />
+    <div style={{ position: "relative", height }}>
+      <div ref={el} style={{ position: "absolute", inset: 0 }} />
       {bare && migrations.length > 0 && <MigrationControls map={mapObj} studies={migrations} before="units-label" collapsible />}
       {bare && <div className="card land-float"><LandToggles map={mapObj} before="units-line" /></div>}
-      {bare ? null : <MapKey
-        filters={<>
-          <KeySeg label="Animal" value={sp} onChange={setSp} options={msg ? [['MOOSE', 'Moose'], ['BIGHORN', 'Sheep'], ['GOAT', 'Goat']] : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]} />
-          {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
-          {!msg && st.features.elkZones && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
-        </>}
-        value={noShade ? 'none' : metric} options={options} onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
-        ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
-        note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : SCALE_NOTE[fixedScale(field) ?? ''] ?? ' Yellow = normal for Idaho; red and green = well below or above it.'}`}
-        extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []} kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} folded={!!sel && sel.name !== focus} />}
+      {bare ? null : (
+        <MapKey
+          filters={
+            <>
+              <KeySeg
+                label="Animal"
+                value={sp}
+                onChange={setSp}
+                options={
+                  msg
+                    ? [
+                        ["MOOSE", "Moose"],
+                        ["BIGHORN", "Sheep"],
+                        ["GOAT", "Goat"],
+                      ]
+                    : st.code === "CO"
+                      ? [
+                          ["ELK", "Elk"],
+                          ["DEER", "Deer"],
+                        ]
+                      : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]
+                }
+              />
+              {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
+              {!msg && st.features.elkZones && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
+            </>
+          }
+          value={noShade ? "none" : metric}
+          options={options}
+          onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
+          ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
+          note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : (SCALE_NOTE[fixedScale(field) ?? ''] ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
+          extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
+          kind={kind}
+          onKind={setKind}
+          err={err}
+          layers={<LandToggles map={mapObj} before="units-line" />}
+          folded={!!sel && sel.name !== focus}
+        />
+      )}
       {zoneSel && bounds === 'zones' && (
         <div className="card mapinfo">
           <button type="button" className="mapinfo-x" aria-label="Close zone details" onClick={() => setZoneSel(null)}>×</button>
@@ -275,19 +327,49 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       {sel && (
         <div className="card mapinfo">
           <button type="button" className="mapinfo-x" aria-label="Close unit details" onClick={() => setSel(null)}>×</button>
-          <h3 className="star-head" style={{ margin: '0 0 2px' }}>Unit {sel.name} <Star key={sel.name} kind="unit" id={sel.name} saved={savedUnits.includes(sel.name)} signedIn={signedIn} label /></h3>
+          <h3 className="star-head" style={{ margin: '0 0 2px' }}>Unit {sel.name} <Star key={sel.name} kind="unit" id={unitKey(st.code,sel.name)} saved={savedUnits.includes(unitKey(st.code,sel.name))} signedIn={signedIn} label /></h3>
           <div className="small muted">{sel.elkZone ? `${sel.elkZone} elk zone` : ''}{sel.acres ? ` · ${Math.round(Number(sel.acres)).toLocaleString()} acres` : ''}</div>
           {sel.name !== focus && (
             <div style={{ display: 'flex', gap: 8, margin: '8px 0 4px' }}>
-              <Link className="btn primary" href={`/units/${encodeURIComponent(sel.name)}`}>Unit Details</Link>
-              <Link className="btn" href={`/hunts?unit=${encodeURIComponent(sel.name)}`}>Hunts Here</Link>
+              <Link
+                className="btn primary"
+                href={`/units/${encodeURIComponent(unitKey(st.code, sel.name))}`}
+              >
+                Unit Details
+              </Link>
+              <Link
+                className="btn"
+                href={`/hunts?unit=${encodeURIComponent(sel.name)}&species=${sp}`}
+              >
+                Hunts Here
+              </Link>
             </div>
           )}
           <table className="small" style={{ width: '100%', marginTop: 6 }}>
             <tbody>
+              {st.code === "CO" && (
+                <tr>
+                  <td>Private land</td>
+                  <td style={{ textAlign: "right" }}>
+                    {v("privatePct") === null
+                      ? "—"
+                      : Math.round(v("privatePct")!) + "%"}
+                  </td>
+                </tr>
+              )}
               <tr><td>Public land</td><td style={{ textAlign: 'right' }}>{v('publicPct') !== null ? `${Math.round(v('publicPct')!)}%` : '-'}</td></tr>
-              <tr><td>Access Yes!</td><td style={{ textAlign: 'right' }}>{v('accessYesAcres') ? `${Math.round(v('accessYesAcres')!).toLocaleString()} ac (${v('accessYesPct')! < 1 ? '<1' : Math.round(v('accessYesPct')!)}%)` : 'none'}</td></tr>
-              <tr><td>Public + Access Yes!</td><td style={{ textAlign: 'right' }}>{v('huntablePct') !== null ? `${Math.round(v('huntablePct')!)}%` : '-'}</td></tr>
+              {st.accessProgram && (
+                <tr>
+                  <td>{st.accessProgram}</td>
+                  <td style={{ textAlign: 'right' }}>{v('accessYesAcres') ? `${Math.round(v('accessYesAcres')!).toLocaleString()} ac (${v('accessYesPct')! < 1 ? '<1' : Math.round(v('accessYesPct')!)}%)` : 'none'}</td>
+                </tr>
+              )}
+              {st.accessProgram && (
+                <tr>
+                  <td>Public + {st.accessProgram}</td>
+                  <td style={{ textAlign: 'right' }}>{v('huntablePct') !== null ? `${Math.round(v('huntablePct')!)}%` : '-'}</td>
+                </tr>
+              )}
               {((msg ? [] : ['Elk', 'Deer']) as ('Elk' | 'Deer')[]).map((s) => (
                 <tr key={s}>
                   <td>General {s.toLowerCase()}</td>
@@ -350,7 +432,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           )}
           {sel.name !== focus && (
             <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-              <Link className="btn primary" href={`/units/${encodeURIComponent(sel.name)}`}>Unit Details</Link>
+              <Link className="btn primary" href={`/units/${encodeURIComponent(unitKey(st.code,sel.name))}`}>Unit Details</Link>
               <Link className="btn" href={`/hunts?unit=${encodeURIComponent(sel.name)}`}>Hunts Here</Link>
             </div>
           )}

@@ -1,3 +1,4 @@
+import { CompareToggle } from './Compare';
 import Link from 'next/link';
 import type { PointOdds } from '@/lib/coHunt';
 import type { HuntSummary } from '@prisma/client';
@@ -36,9 +37,11 @@ export function CoHuntCard({
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <Link href={`/hunts/${r.slug}`}>{r.name}</Link>
-          <span className="pill">{r.type === 'GENERAL' ? 'General / OTC' : 'Limited'}</span>
+          <span className="pill">
+            {r.type === "GENERAL" ? "General / OTC" : "Controlled Draw"}
+          </span>
         </span>
-        <span className="small muted tags">
+        <CompareToggle id={r.id} label={r.name}/><span className="small muted tags">
           {r.tags === null ? (general ? 'Unlimited / see CPW' : 'Shared quota / see details') : `${int(r.tags)} licenses`}
           {r.permitsPrev !== null && r.tags !== null && r.permitsPrev !== r.tags
             ? ` (${r.tags > r.permitsPrev ? '+' : ''}${r.tags - r.permitsPrev})`
@@ -57,13 +60,11 @@ export function CoHuntCard({
           .filter(Boolean)
           .join(' · ')}
       </div>
-      {r.scoreQuality !== null ? (
-        <div className="srow">
+      {r.scoreQuality !== null ? <div className="srow">
           <ScoreBadge v={r.scoreQuality} label="Quality" />
-        </div>
-      ) : (
-        <p className="small muted" style={{ margin: '6px 0' }}>
-          Quality: access data needed
+        </div> : (
+        <p className="small muted" style={{ margin: "6px 0" }}>
+          Quality: Colorado rating not yet validated
         </p>
       )}
       <div className="small" style={{ margin: '8px 0' }}>
@@ -107,10 +108,15 @@ export function CoHuntCard({
         </div>
       </div>
       <div className="small muted" style={{ marginTop: 8 }}>
-        Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land:{' '}
+        Draw and fill:{" "}
+        {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'}{" "}
+        · Public land:{" "}
         {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
-        {r.secondChoice ? ' · Reached 2nd choice' : ''}
-        {r.hybrid ? ' · Hybrid draw' : ''}
+        {r.privatePct !== null
+          ? ` · Private land: ${Math.round(r.privatePct)}%`
+          : ""}
+        {r.secondChoice ? " · Reached 2nd choice" : ""}
+        {r.hybrid ? " · Hybrid draw" : ""}
       </div>
     </article>
   );

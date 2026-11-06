@@ -1,10 +1,13 @@
+import { CoScore } from "@/components/CoPages";
+import { getState } from "@/lib/residency";
 import Link from 'next/link';
 import { SCORE_WEIGHTS } from '@/lib/score';
 import { ScoreBadge } from '@/components/HuntCards';
 
 export const metadata = { title: 'How The DrawOdds Score Works', description: 'How DrawOdds Idaho scores every hunt 0-100 on success, land access, crowding and trophy potential.' };
 
-export default function ScorePage() {
+export default async function ScorePage() {
+  if ((await getState()).code === "CO") return <CoScore />;
   return (
     <main className="wrap" style={{ maxWidth: 820, margin: '24px auto 48px' }}>
       <div className="card">

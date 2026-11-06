@@ -1,3 +1,4 @@
+import { coLandUnit, withCoLand } from "@/lib/coLand";
 import { db } from '@/lib/db';
 import { stateConfig } from '@/lib/states';
 import { classesFor } from '@/lib/mapMetrics';
@@ -25,7 +26,7 @@ const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'P
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection (plus class breaks). */
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const statsOnly = url.searchParams.has('stats');
+  const statsOnly = url.searchParams.has("stats");
   const state = stateConfig(url.searchParams.get('state')).code;
   const [units, sums, general] = await Promise.all([
     db.unit.findMany({ where: { state, geometry: { not: undefined } } }),
@@ -110,12 +111,21 @@ export async function GET(req: Request) {
     m[`huntersSqMi${sp}`] = acres ? perYear / (acres / 640) : null;
   }
 
+  if (state === "CO")
+    for (const u of units) {
+      const land = coLandUnit(u.name);
+      if (land) {
+        u.publicPct = land.publicPct;
+        u.privatePct = land.privatePct;
+        u.acres = land.acres;
+      }
+    }
   const features = units
     .filter((u) => u.geometry)
     .map((u) => {
       const ayPct = u.acres ? Math.min(100, ((u.accessYesAcres ?? 0) / u.acres) * 100) : null;
       return {
-        type: 'Feature' as const,
+        type: "Feature" as const,
         id: u.name,
         geometry: u.geometry,
         properties: {
@@ -123,15 +133,22 @@ export async function GET(req: Request) {
           elkZone: u.elkZone,
           acres: u.acres,
           publicPct: u.publicPct,
+          privatePct: u.privatePct,
           accessYesAcres: u.accessYesAcres ?? 0,
-          accessYesPct: ayPct,
+          accessYesPct: state === "CO" ? null : ayPct,
           huntablePct: u.publicPct !== null ? Math.min(100, u.publicPct + (ayPct ?? 0)) : null,
           wildernessPct: u.wildernessPct,
           boundaryChanged2022: u.boundaryChanged2022,
           ...(by.get(u.name) ?? {}),
           // elk population vs IDFG objective, by elk zone: 0 below, 1 within, 2 above
-          objBull: (() => { const s = unitObjective(u.name).bull; return s ? OBJ_NUM[s] : null; })(),
-          objCow: (() => { const s = unitObjective(u.name).cow; return s ? OBJ_NUM[s] : null; })(),
+          objBull:
+            state === "CO"
+              ? null
+              : (() => { const s = unitObjective(u.name).bull; return s ? OBJ_NUM[s] : null; })(),
+          objCow:
+            state === "CO"
+              ? null
+              : (() => { const s = unitObjective(u.name).cow; return s ? OBJ_NUM[s] : null; })(),
         } as Record<string, unknown>,
       };
     });

@@ -7,7 +7,9 @@ export const BASEMAPS = {
 } as const;
 export type Basemap = keyof typeof BASEMAPS;
 
-export function baseStyle(kind: Basemap = 'topo'): StyleSpecification {
+export function baseStyle(kind: Basemap = 'topo',
+  agency = "IDFG",
+): StyleSpecification {
   return {
     version: 8,
     // glyphs for unit labels (free, no key)
@@ -18,7 +20,9 @@ export function baseStyle(kind: Basemap = 'topo'): StyleSpecification {
         tiles: [BASEMAPS[kind]],
         tileSize: 256,
         maxzoom: 16,
-        attribution: 'Basemap: <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank">USGS The National Map</a> · Boundaries: IDFG',
+        attribution:
+          'Basemap: <a href="https://www.usgs.gov/programs/national-geospatial-program/national-map" target="_blank">USGS The National Map</a> · Boundaries: ' +
+          agency,
       },
     },
     layers: [{ id: 'base', type: 'raster', source: 'base' }],

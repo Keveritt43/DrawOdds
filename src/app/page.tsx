@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { db } from '@/lib/db';
-import { getResidency, getDraw } from '@/lib/residency';
+import { getResidency, getDraw, getState } from '@/lib/residency';
 import { DrawSwitch } from '@/components/DrawSwitch';
 import { Suspense } from 'react';
 import { ResidencySwitch } from '@/components/ResidencySwitch';
@@ -9,6 +9,38 @@ import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, nextWindow, md } from '@/li
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
+  if ((await getState()).code === "CO")
+    return (
+      <main className="wrap" style={{ margin: "32px auto" }}>
+        <h1>Find Your Colorado Hunt. Know Your Odds.</h1>
+        <p>
+          Research deer and elk licenses with preference-point scenarios,
+          harvest estimates, hunter density and public/private ownership.
+        </p>
+        <p>
+          <Link className="btn primary" href="/hunts">
+            Find Colorado Hunts
+          </Link>{" "}
+          <Link className="btn" href="/map">
+            Colorado Unit Map
+          </Link>{" "}
+          <Link className="btn" href="/planner">
+            Plan Choices
+          </Link>
+        </p>
+        <h2>Research A Unit</h2>
+        <p>
+          Unit pages combine deer and elk draw recaps, drawn-out thresholds,
+          secondary draws, harvest, population and OTC sales. Individual hunt
+          pages show overlapping elk seasons and unit-season hunter counts.
+        </p>
+        <p>
+          <Link href="/guide">How the Colorado Draw Works</Link> ·{" "}
+          <Link href="/about">Data &amp; Methods</Link> ·{" "}
+          <Link href="/changes">What Changed</Link>
+        </p>
+      </main>
+    );
   const [{ residency }, draw] = await Promise.all([getResidency(), getDraw()]);
   const msg = draw === 'MSG';
   const [hunts, controlled, units, oddsYears, accessYes] = await Promise.all([
