@@ -1,3 +1,4 @@
+import { getCoScoringContext } from '@/lib/coScoringContext';
 import { getPoints } from '@/lib/points';
 import { tableOdds, poolFor, type OddsTable } from '@/lib/coHunt';
 import { coLandUnit } from "@/lib/coLand";
@@ -116,13 +117,13 @@ export async function GET(req: Request) {
   }
 
   if (state === 'CO') {
-    const points=await getPoints('CO');
+    const [points,context]=await Promise.all([getPoints('CO'),getCoScoringContext()]);
     for(const u of units) for(const sp of ['Deer','Elk']) for(const pool of ['Res','Nr']) {
       const m=by.get(u.name) ?? by.set(u.name,{}).get(u.name)!;
       m[`ctlOdds${pool}${sp}`]=null; m[`ctlFill${pool}${sp}`]=null;
     }
 
-    const rows=(await db.huntSummary.findMany({where:{state:'CO',type:'CONTROLLED',antlerClass:'ANTLERED',youthOnly:false,privateOnly:false}})).map(withCoScores);
+    const rows=(await db.huntSummary.findMany({where:{state:'CO',type:'CONTROLLED',antlerClass:'ANTLERED',youthOnly:false,privateOnly:false}})).map(r=>withCoScores(r,context));
     for (const r of rows) for(const u of r.units) {
       const m=by.get(u) ?? by.set(u,{}).get(u)!, sp=SP_KEY[r.species];
       const put=(key:string,v:number|null,low=false)=>{ if(v!==null&&Number.isFinite(v)) m[key]=m[key]==null?v:low?Math.min(Number(m[key]),v):Math.max(Number(m[key]),v); };

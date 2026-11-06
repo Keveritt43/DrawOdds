@@ -12,7 +12,7 @@ type Opt = [value: string, label: string];
 
 const SPECIES: Opt[] = [['', 'All Species'], ['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn (controlled only)']];
 const SPECIES_MSG: Opt[] = [['', 'All Three'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn Sheep'], ['GOAT', 'Mountain Goat']];
-const SEX_MSG: Opt[] = [['ANTLERED', 'Bulls & rams (male)'], ['ANTLERLESS', 'Cows & ewes (female)'], ['EITHER', 'Either sex']];
+const SEX_MSG: Opt[] = [['ANTLERED', 'Antlered (bulls & rams)'], ['ANTLERLESS', 'Cows & ewes (female)'], ['EITHER', 'Either sex']];
 const OBJ: Opt[] = [['BELOW', 'Below objective'], ['WITHIN', 'Within objective'], ['ABOVE', 'Above objective']];
 const SCORE_STOPS: Opt[] = [['', 'Any'], ['50', '50+'], ['70', '70+'], ['85', '85+']];
 /** Opportunity sorting defaults Quality to 50+: its "Any" has to say so explicitly */
@@ -140,12 +140,12 @@ export function FilterRail({ residency, draw = 'DEP' }: { residency: Residency; 
         </Section>
 
         <Section
-          title={msg ? "Male Or Female" : "Antler Class"}
+          title={msg ? "Antler Class" : "Antler Class"}
           value={many(msg ? SEX_MSG : ANTLER, "antler", "Any")}
           set={list("antler").length > 0}
         >
           {checks("antler", msg ? SEX_MSG : ANTLER)}
-          <p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take a male or a female on them.</p>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take an antlered or an antlerless animal on them.</p>
         </Section>
         <Section title={`Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
           <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />

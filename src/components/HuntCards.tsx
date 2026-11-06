@@ -1,3 +1,5 @@
+import { CoPressureNote } from './CoPressureNote';
+import type { CoScored } from '@/lib/coScores';
 import Link from 'next/link';
 import { huntHref } from '@/lib/huntSlug';
 import type { HuntSummary } from '@prisma/client';
@@ -217,8 +219,8 @@ export function ScoreBadge({ v, label }: { v: number; label: string }) {
 const hasDraw = (r: HuntSummary, nr: boolean) => r.type === 'CONTROLLED' || (nr && (r.nrTag || r.type === 'GENERAL')) || (!nr && r.nrTag && r.capped);
 
 /** DrawOdds Score: Quality (+ Opportunity when there's a draw); tap for the four parts. */
-export function ScoreRow({ r, nr, open = false }: { r: HuntSummary; nr: boolean; open?: boolean }) {
-  if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data</div>;
+export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
+  if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data<CoPressureNote r={r}/></div>;
   const opp = nr ? r.scoreOppNr : r.scoreOppRes;
   const parts: [ScorePart, number | null][] = [['success', r.scoreSuccess], ['access', r.scoreAccess], ['crowd', r.scoreCrowd], ['trophy', r.scoreTrophy]];
   return (
@@ -229,6 +231,7 @@ export function ScoreRow({ r, nr, open = false }: { r: HuntSummary; nr: boolean;
         <span className="small muted s-why">why?</span>
       </summary>
       <div className="sbars">
+        <CoPressureNote r={r}/>
         {parts.map(([k, v]) => (
           <div key={k} className="sbar">
             <span>{SCORE_PART_LABEL[k]}</span>

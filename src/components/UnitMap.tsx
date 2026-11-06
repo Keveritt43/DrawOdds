@@ -66,7 +66,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       .filter(
         (k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'),
       )
-    .map((k) => ({ value: k, label: st.code==='CO' && k==='ctlOdds' ? 'Draw Odds At My Points (Best Male Hunt)' : st.code==='CO' && k==='ctlFill' ? 'Draw And Fill At My Points (Best Male Hunt)' : METRICS[k].label })),
+    .map((k) => ({ value: k, label: st.code==='CO' && k==='ctlOdds' ? 'Draw Odds At My Points (Best Antlered Hunt)' : st.code==='CO' && k==='ctlFill' ? 'Draw And Fill At My Points (Best Antlered Hunt)' : METRICS[k].label })),
   ];
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
@@ -303,7 +303,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           options={options}
           onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
           ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
-          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : (SCALE_NOTE[fixedScale(field) ?? ''] ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
+          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${['ctlOdds','ctlFill','ctlPoints','ctlCreep'].includes(metric) ? `, ${nr ? 'nonresident' : 'resident'}` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ((metric==='ctlQuality' ? ' Fixed 0–100 scale, matching the Quality badges.' : SCALE_NOTE[fixedScale(field) ?? '']) ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
           extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
           kind={kind}
           onKind={setKind}

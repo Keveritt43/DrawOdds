@@ -1,3 +1,5 @@
+import { CoPressureEvidence } from '@/components/CoPressureNote';
+import { getCoScoringContext } from '@/lib/coScoringContext';
 import { CoCreepChart as CreepChart, CoOddsPointsChart as OddsPointsChart, CoHarvestCharts as HarvestCharts } from '@/components/CoCharts';
 import { ScoreRow } from '@/components/HuntCards';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
@@ -34,7 +36,7 @@ const pct = (o: number | null | undefined) =>
 
 /** A Colorado hunt code's page: your odds, points needed and their trend, and odds at every point level. */
 export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: string; pool?: string } }) {
-  s = withCoScores(s);
+  s = withCoScores(s,await getCoScoringContext());
   const po = s.pointOdds as unknown as PointOdds | null;
   const d = decodeCode(s.tagCode ?? "");
   const species = s.species === "ELK" ? "ELK" : "DEER";
@@ -297,6 +299,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <h2>{species === "ELK" ? "Elk" : "Deer"} Population</h2>
       <CoHerds species={species} herds={po.herds ?? []} highlight={po.regs?.units ?? [d.unit]} />
 
+      <CoPressureEvidence r={s} />
       <CoAlternatives hunt={s} pool={myPool} points={p} mode={mode} />
       <OverlappingElk hunt={s} />
       <CoUnitSeasonHunters units={s.units} hunt={s} />

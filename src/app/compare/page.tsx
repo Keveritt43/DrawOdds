@@ -1,3 +1,5 @@
+import { getCoScoringContext } from '@/lib/coScoringContext';
+import type { CoScored } from '@/lib/coScores';
 import { getPoints } from '@/lib/points';
 import { poolFor,tableOdds,type OddsTable } from '@/lib/coHunt';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
@@ -24,7 +26,9 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
   const { residency } = await getResidency(sp.as);
   const nr = residency === 'NONRESIDENT';
   const rf = residencyFields(residency);
-  const found = (await db.huntSummary.findMany({ where: { id: { in: ids } } })).map(r=>r.state==='CO'?withCoScores(r):r);
+  const raw=await db.huntSummary.findMany({ where: { id: { in: ids } } });
+  const context=raw.some(r=>r.state==='CO') ? await getCoScoringContext() : undefined;
+  const found=raw.map(r=>r.state==='CO'?withCoScores(r,context):r);
   const coPoints=await getPoints('CO');
   const coOdds=(r:HuntSummary,mode:'proj'|'last')=>tableOdds(r.oddsByPts as unknown as OddsTable,mode,poolFor(coPoints.res==='NONRESIDENT',coPoints.youth),coPoints[r.species==='ELK'?'ELK':'DEER']);
   const hunts = ids.map((id) => found.find((h) => h.id === id)).filter((h): h is HuntSummary => !!h).map(r=>r.state==='CO'?withCoOpportunity(r,coOdds(r,'proj'),nr):r);
@@ -40,7 +44,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     { label: 'Latest season success', v: (r) => r.successLast, show: (r) => (r.successLast === null ? '-' : `${pct(r.successLast)}${r.harvestLastYear ? ` (${r.harvestLastYear})` : ''}`) },
     { label: 'Days hunted per animal', v: (r) => (r.smallSample ? null : r.daysPerHarvest5), show: (r) => (r.daysPerHarvest5 === null ? '-' : `${Math.round(r.daysPerHarvest5)} days`), better: 'low' },
     { label: 'Hunters per sq mi', v: (r) => r.huntersSqMi, show: (r) => density(r.huntersSqMi), better: 'low' },
-    { label: 'Hunters per year', v: (r) => (r.hunters5 && r.harvestYears ? r.hunters5 / r.harvestYears : null), show: (r) => (r.hunters5 && r.harvestYears ? int(r.hunters5 / r.harvestYears) : '-') },
+    { label: 'Hunters per year', v: (r) => ((r as CoScored).coPressure?.status==='missing' ? null : (r as CoScored).coPressure?.totalHuntersPerYear ?? (r.hunters5 && r.harvestYears ? r.hunters5 / r.harvestYears : null)), show: (r) => ((r as CoScored).coPressure?.status==='missing' ? 'Unknown elk pressure' : (r as CoScored).coPressure?.status==='complete' ? `${int((r as CoScored).coPressure!.totalHuntersPerYear)} deer + elk` : r.hunters5 && r.harvestYears ? int(r.hunters5 / r.harvestYears) : '-') },
     { label: 'Tags', v: (r) => r.tags ?? r.quota, show: (r) => (r.type === 'CONTROLLED' ? `${int(r.tags)}${nr && r.nrPermitsLast !== null ? ` (${int(r.nrPermitsLast)} NR drew)` : ''}` : r.nrTag && r.quota !== null ? `${int(r.quota)} NR quota` : 'Unlimited') },
     { label: `${nr ? 'NR' : 'Resident'} 1st-choice applicants`, v: (r) => r[rf.appsLast], show: (r) => int(r[rf.appsLast]) },
     { label: 'Tags to 2nd choices', v: (r) => r.secondDrewLast, show: (r) => (r.secondDrewLast ? int(r.secondDrewLast) : '-') },
