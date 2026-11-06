@@ -53,7 +53,7 @@ export async function CoUnitReports({ units, hunts, points }: { units: string[];
                           {relevant
                             .filter((h) => h.type === 'CONTROLLED')
                             .map((h) => (
-                              <tr key={h.id} style={(points.res === 'NONRESIDENT' ? h.ptsNr : h.ptsRes) !== null && (points.res === 'NONRESIDENT' ? h.ptsNr! : h.ptsRes!) <= points[species] ? {backgroundColor:'#e4efd7'} : undefined}>
+                              <tr key={h.id} style={(points.res === 'NONRESIDENT' ? h.ptsNr : h.ptsRes) !== null && (points.res === 'NONRESIDENT' ? h.ptsNr! : h.ptsRes!) > 0 && (points.res === 'NONRESIDENT' ? h.ptsNr! : h.ptsRes!) <= points[species] ? {backgroundColor:'#e4efd7'} : undefined}>
                                 <td>
                                   <a href={`/hunts/${h.slug}`}>{h.tagCode}</a>
                                 </td>
@@ -66,7 +66,7 @@ export async function CoUnitReports({ units, hunts, points }: { units: string[];
                         </tbody>
                       </table>
                       <p className="small muted">
-                        Highlighted rows reached your selected points in the last draw; this is not a guarantee of drawing. Open a hunt for applicant counts and primary results at every point level, with historical draw results.
+                        Highlighted rows had a nonzero point threshold at or below your selected points in the last draw; this is not a guarantee of drawing. Open a hunt for applicant counts and primary results at every point level, with historical draw results.
                       </p>
                     </div>
                   ) : null}
