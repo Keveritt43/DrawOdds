@@ -20,7 +20,7 @@ On the saved post-repair production snapshot (2,038 Colorado summaries), 720/991
 ## Verification
 
 - New regression tests check equivalence to Idaho for identical inputs, invalid/missing/small samples, no mutation, no Idaho changes, private access and personalized Opportunity.
-- 112 tests pass, 1 existing test skipped; typecheck passes. Optimized production build passes before deployment.
+- 113 tests pass, 1 existing test skipped; typecheck passes. Optimized production build passes before deployment.
 - No agency synchronization, database/schema operations or sync-service enablement is part of this release.
 
 Post-deployment UAT evidence and the requested outstanding issues, improvements and growth ideas are recorded in `docs/colorado-uat-2026-11-05.md`.

@@ -1,3 +1,5 @@
+import { getPoints } from '@/lib/points';
+import { tableOdds, poolFor, type OddsTable } from '@/lib/coHunt';
 import { coLandUnit } from "@/lib/coLand";
 import { withCoScores } from '@/lib/coScores';
 import { db } from '@/lib/db';
@@ -114,10 +116,23 @@ export async function GET(req: Request) {
   }
 
   if (state === 'CO') {
+    const points=await getPoints('CO');
+    for(const u of units) for(const sp of ['Deer','Elk']) for(const pool of ['Res','Nr']) {
+      const m=by.get(u.name) ?? by.set(u.name,{}).get(u.name)!;
+      m[`ctlOdds${pool}${sp}`]=null; m[`ctlFill${pool}${sp}`]=null;
+    }
+
     const rows=(await db.huntSummary.findMany({where:{state:'CO',type:'CONTROLLED',antlerClass:'ANTLERED',youthOnly:false,privateOnly:false}})).map(withCoScores);
     for (const r of rows) for(const u of r.units) {
       const m=by.get(u) ?? by.set(u,{}).get(u)!, sp=SP_KEY[r.species];
       const put=(key:string,v:number|null,low=false)=>{ if(v!==null&&Number.isFinite(v)) m[key]=m[key]==null?v:low?Math.min(Number(m[key]),v):Math.max(Number(m[key]),v); };
+      const level=points[r.species==='ELK'?'ELK':'DEER'];
+      for(const nr of [false,true]) {
+        const pool=nr?'Nr':'Res';
+        const odds=tableOdds(r.oddsByPts as unknown as OddsTable,'proj',poolFor(nr,points.youth),level);
+        put(`ctlOdds${pool}${sp}`,odds);
+        put(`ctlFill${pool}${sp}`,!r.smallSample && odds!==null && r.success5!==null ? odds*r.success5 : null);
+      }
       put(`ctlQuality${sp}`,r.scoreQuality);
       put(`ctlPressure${sp}`,r.huntersSqMi,true);
       for(const [pool,pts,creep] of [['Res',r.ptsRes,r.creepRes],['Nr',r.ptsNr,r.creepNr]] as const) {
@@ -191,6 +206,6 @@ export async function GET(req: Request) {
   }
   return Response.json(
     { type: 'FeatureCollection', features, classes, years: lastYear },
-    { headers: { 'Cache-Control': 'public, max-age=600' } },
+    { headers: { 'Cache-Control': state === 'CO' ? 'private, no-store' : 'public, max-age=600' } },
   );
 }

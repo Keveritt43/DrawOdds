@@ -22,3 +22,16 @@ test('Colorado rejects impossible, mismatched, missing and small-sample inputs',
  assert.equal(withCoScores(row({privateOnly:true})).scoreAccess,0);
  const id=row({state:'ID'});assert.equal(withCoScores(id),id,'Idaho is untouched');
 });
+import { otcElkOverlap } from '../src/lib/overlappingSeasons';
+import { dateRange } from '../src/lib/coDisplay';
+test('OTC exclusion preserves unknown dates and rejects reversed spans',()=>{
+ const target={id:'d',state:'CO',species:'DEER',units:['70'],openDate:new Date('2027-10-23'),closeDate:new Date('2027-10-31')};
+ const elk={...target,id:'e',species:'ELK'};
+ assert.equal(otcElkOverlap(target,[elk]),true);
+ assert.equal(otcElkOverlap({...target,openDate:null},[elk]),null);
+ assert.equal(otcElkOverlap(target,[{...elk,openDate:null}]),null);
+ assert.equal(otcElkOverlap(target,[{...elk,openDate:new Date('2027-11-01'),closeDate:new Date('2027-11-15')}]),false);
+ assert.equal(otcElkOverlap({...target,closeDate:new Date('2027-01-01')},[elk]),null);
+ assert.equal(dateRange(new Date('2027-12-01'),new Date('2027-01-31')),'Dates need CPW verification');
+ assert.match(dateRange(new Date('2026-12-01'),new Date('2027-01-31')),/2026.*2027/);
+});

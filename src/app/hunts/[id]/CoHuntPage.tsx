@@ -182,12 +182,12 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         </div>
         <div>
           <span className="k">Units</span>
-          {(po.regs?.units ?? [d.unit]).map((u, i) => (
+          <span>{(po.regs?.units ?? [d.unit]).map((u, i) => (
             <span key={u}>
               {i ? ', ' : ''}
               <Link href={`/units/${encodeURIComponent(unitKey('CO', u))}`}>{u}</Link>
             </span>
-          ))}
+          ))}</span>
           {po.regs?.guessed ? <span className="small muted"> (from the hunt code; not found in the regulations)</span> : null}
         </div>
         {po.regs?.partial && (
@@ -321,6 +321,7 @@ function cutRange(qs: number[]): string {
 }
 
 function fmtDates(a: string, b: string): string {
+  if (!Number.isFinite(Date.parse(a)) || !Number.isFinite(Date.parse(b)) || Date.parse(b) < Date.parse(a)) return 'Dates need CPW verification';
   const f = (iso: string, y = false) =>
     new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', {
       month: 'short',

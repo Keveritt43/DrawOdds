@@ -24,7 +24,7 @@ type Props = Record<string, string | number | boolean | null | undefined> & { na
 const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
 
 /** `bare`: just the unit on the map (unit pages), no shading or key. */
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [] }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '' }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const st = useStateConfig();
   const msg = draw === "MSG" && st.code === "ID";
@@ -62,11 +62,11 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   };
   // "No Shading": just the unit outlines over the basemap
   const [noShade, setNoShade] = useState(false);
-  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow", "ctlOdds", "ctlFill"].includes(k))
+  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow"].includes(k))
       .filter(
         (k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'),
       )
-    .map((k) => ({ value: k, label: METRICS[k].label })),
+    .map((k) => ({ value: k, label: st.code==='CO' && k==='ctlOdds' ? 'Draw Odds At My Points (Best Male Hunt)' : st.code==='CO' && k==='ctlFill' ? 'Draw And Fill At My Points (Best Male Hunt)' : METRICS[k].label })),
   ];
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
@@ -135,7 +135,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           classes: cl,
           missing: miss,
           labels,
-        } = await loadUnits(st.code);
+        } = await loadUnits(st.code,coPointsKey);
         setClasses(cl);
         setMissing(miss);
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
@@ -303,7 +303,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           options={options}
           onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
           ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
-          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : (SCALE_NOTE[fixedScale(field) ?? ''] ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
+          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : (SCALE_NOTE[fixedScale(field) ?? ''] ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
           extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
           kind={kind}
           onKind={setKind}

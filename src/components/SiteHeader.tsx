@@ -33,7 +33,7 @@ export function SiteHeader({ residency, signedIn, draw, points }: { residency: R
   // links to pages a state doesn't have (no migration studies loaded) stay out of its menu
   const links = LINKS.filter((l) => l.href !== '/migration' || st.features.migration);
   return (
-    <header className="site-header">
+    <header className="site-header" data-state={st.code}>
       <div className="header-bar">
         <span className="brand-wrap">
           <Link href="/" className="brand" aria-label="DrawOdds home">

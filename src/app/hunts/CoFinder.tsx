@@ -1,5 +1,5 @@
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
-import { overlapsElk } from '@/lib/overlappingSeasons';
+import { otcElkOverlap } from '@/lib/overlappingSeasons';
 import { CoRecommendations } from "@/components/CoRecommendations";
 import { RememberQuery } from "@/components/BackLink";
 import { parseFilters } from "@/lib/finder";
@@ -84,7 +84,8 @@ export async function CoFinder({ sp }: { sp: SP }) {
       const t = r.oddsByPts as unknown as OddsTable | null;
       const odds = tableOdds(t, mode, pool, myPts);
       const ch: Chance = odds === null ? 'none' : chanceOf(odds, odds >= 0.995 ? 1 : 0, odds > 0 ? 1 : 0);
-      return { r: withCoOpportunity(r, odds, nr), d, odds, ch, hasOtcElk: species === 'DEER' && otc.some(e => overlapsElk(r,e)) };
+      const otcOverlap = species === 'DEER' ? otcElkOverlap(r,otc) : null;
+      return { r: withCoOpportunity(r, odds, nr), d, odds, ch, otcOverlap, hasOtcElk: otcOverlap === true };
     })
     .filter(
       ({ d }) =>
@@ -97,7 +98,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     .filter(({ r }) => matchesCoSeason(r.tagCode ?? "", seasons))
     .filter(({ r }) => matchesHuntSeason(r, { ...common, weapon: [] }))
     .filter(({ ch }) => !chances.length || chances.includes(ch))
-    .filter(({hasOtcElk}) => species !== 'DEER' || (one(sp.otcElk) === '1' ? hasOtcElk : one(sp.otcElk) === '0' ? !hasOtcElk : true));
+    .filter(({otcOverlap}) => species !== 'DEER' || (one(sp.otcElk) === '1' ? otcOverlap === true : one(sp.otcElk) === '0' ? otcOverlap === false : true));
   // a 100% from 3 hunters shouldn't top the list: pull small samples toward the middle (30 hunters' worth at 50%)
   const succKey = (r: (typeof rows)[number]) =>
     r.success5 === null ? -1 : (r.success5 * (r.hunters5 ?? 0) + 15) / ((r.hunters5 ?? 0) + 30);
