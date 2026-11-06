@@ -18,7 +18,7 @@ const labels = [
   ['otc-sales', 'Over the Counter Sales'],
 ] as const;
 /** All CPW report categories, linked to the same deer/elk unit context. */
-export async function CoUnitReports({ units, hunts }: { units: string[]; hunts: HuntSummary[] }) {
+export async function CoUnitReports({ units, hunts, points }: { units: string[]; hunts: HuntSummary[]; points: {res: string; DEER: number; ELK: number} }) {
   const reports = await db.stateReport.findMany({ where: { state: 'CO' }, orderBy: { year: 'desc' } });
   const codes = new Set(hunts.map((h) => h.tagCode));
   return (
@@ -53,7 +53,7 @@ export async function CoUnitReports({ units, hunts }: { units: string[]; hunts: 
                           {relevant
                             .filter((h) => h.type === 'CONTROLLED')
                             .map((h) => (
-                              <tr key={h.id}>
+                              <tr key={h.id} style={(points.res === 'NONRESIDENT' ? h.ptsNr : h.ptsRes) !== null && (points.res === 'NONRESIDENT' ? h.ptsNr! : h.ptsRes!) <= points[species] ? {backgroundColor:'#e4efd7'} : undefined}>
                                 <td>
                                   <a href={`/hunts/${h.slug}`}>{h.tagCode}</a>
                                 </td>
@@ -66,7 +66,7 @@ export async function CoUnitReports({ units, hunts }: { units: string[]; hunts: 
                         </tbody>
                       </table>
                       <p className="small muted">
-                        Open a hunt for applicant counts and primary results at every point level, with historical draw results.
+                        Highlighted rows reached your selected points in the last draw; this is not a guarantee of drawing. Open a hunt for applicant counts and primary results at every point level, with historical draw results.
                       </p>
                     </div>
                   ) : null}

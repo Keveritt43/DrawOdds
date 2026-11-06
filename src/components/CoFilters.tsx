@@ -117,6 +117,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
             ))}
           </div>
         </Section>
+        {sp_ === 'DEER' && <Section title="Overlapping Elk" value={get('otcElk') === '1' ? 'OTC elk' : 'Any'} set={get('otcElk') === '1'}>{flag('otcElk', 'Only deer hunts overlapping OTC elk in the same unit')}</Section>}
         <Section title="Method" value={many(METHOD, 'method', 'All')} set={list('method').length > 0}>
           {checks('method', METHOD)}
         </Section>

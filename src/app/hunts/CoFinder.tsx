@@ -1,3 +1,4 @@
+import { overlapsElk } from '@/lib/overlappingSeasons';
 import { CoRecommendations } from "@/components/CoRecommendations";
 import { withCoLand } from "@/lib/coLand";
 import { RememberQuery } from "@/components/BackLink";
@@ -63,11 +64,12 @@ export async function CoFinder({ sp }: { sp: SP }) {
         : { youthOnly: false }),
     ...(minSucc ? { success5: { gte: minSucc / 100 } } : {}),
   };
-  const [rows, fav] = await Promise.all([
+  const [rows, fav, otc] = await Promise.all([
     db.huntSummary.findMany({
       where,
     }),
     getFavorites(),
+    species === 'DEER' ? db.huntSummary.findMany({where:{state:'CO',species:'ELK',type:'GENERAL'}}) : Promise.resolve([]),
   ]);
   const year = rows[0]?.oddsLastYear ?? (await db.drawRecap.aggregate({ where: { state: 'CO', species }, _max: { year: true } }))._max.year;
   const decorated = rows
@@ -82,7 +84,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
       const t = r.oddsByPts as unknown as OddsTable | null;
       const odds = tableOdds(t, mode, pool, myPts);
       const ch: Chance = odds === null ? 'none' : chanceOf(odds, odds >= 0.995 ? 1 : 0, odds > 0 ? 1 : 0);
-      return { r, d, odds, ch };
+      return { r, d, odds, ch, hasOtcElk: species === 'DEER' && otc.some(e => overlapsElk(r,e)) };
     })
     .filter(
       ({ d }) =>
@@ -94,7 +96,8 @@ export async function CoFinder({ sp }: { sp: SP }) {
     )
     .filter(({ r }) => matchesCoSeason(r.tagCode ?? "", seasons))
     .filter(({ r }) => matchesHuntSeason(r, { ...common, weapon: [] }))
-    .filter(({ ch }) => !chances.length || chances.includes(ch));
+    .filter(({ ch }) => !chances.length || chances.includes(ch))
+    .filter(({hasOtcElk}) => one(sp.otcElk) !== '1' || species !== 'DEER' || hasOtcElk);
   // a 100% from 3 hunters shouldn't top the list: pull small samples toward the middle (30 hunters' worth at 50%)
   const succKey = (r: (typeof rows)[number]) =>
     r.success5 === null ? -1 : (r.success5 * (r.hunters5 ?? 0) + 15) / ((r.hunters5 ?? 0) + 30);
@@ -249,10 +252,11 @@ export async function CoFinder({ sp }: { sp: SP }) {
         )}
         {!rows.length && <p className="muted">No hunts match these filters.</p>}
         <CoRecommendations rows={decorated} />
-        {shown.map(({ r, odds, ch }) => (
+        {shown.map(({ r, odds, ch, hasOtcElk }) => (
           <CoHuntCard
             key={r.id}
             r={r}
+            hasOtcElk={hasOtcElk}
             odds={odds}
             chance={ch}
             points={myPts}

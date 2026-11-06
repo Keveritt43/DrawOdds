@@ -3,6 +3,8 @@ import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { overlapsElk } from '@/lib/overlappingSeasons';
 import { dateRange } from '@/lib/coDisplay';
+import type { UnitTables } from '@/sync/co/harvest';
+import { coSeasonKind } from '@/lib/coSeasonKind';
 import { coLandUnit } from '@/lib/coLand';
 /** Shared by Idaho and Colorado; dates must really overlap, not merely touch an enclosing season envelope. */
 export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
@@ -11,6 +13,7 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
     where: { state: hunt.state, species: 'ELK', units: { hasSome: hunt.units }, id: { not: hunt.id } },
     orderBy: [{ type: 'asc' }, { openDate: 'asc' }],
   });
+  const unitReports = hunt.state === 'CO' ? await db.stateReport.findMany({where:{state:'CO',species:'ELK',kind:'harvest-unit'},orderBy:{year:'desc'}}) : [];
   const rows = candidates.filter((h) => overlapsElk(hunt, h));
   return (
     <section style={{ marginTop: 28 }}>
@@ -72,6 +75,14 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
           </table>
         </div>
       ) : <p className="muted">No elk seasons with confirmed overlapping dates are loaded for these units.</p>}
+      {hunt.state === 'CO' && rows.filter(r=>r.type==='GENERAL').flatMap(r=>{
+        const shared=r.units.filter(u=>hunt.units.includes(u)), kind=coSeasonKind(r.tagCode);
+        return shared.map(unit=>{
+          const report=unitReports.find(rep=>{const data=rep.data as unknown as UnitTables; return kind && !data.ambiguous?.some(a=>!a.split && a.kind===kind && a.unit===unit) && data.totals[kind]?.some(x=>x.unit===unit)});
+          const row=report && kind ? (report.data as unknown as UnitTables).totals[kind]?.find(x=>x.unit===unit) : null;
+          return row && report ? <p key={r.id+unit} className="small">Unit {unit} · {r.name}: {report.year} unit-season total, all elk licenses: {row.hunters?.toLocaleString() ?? '—'} hunters · {row.harvest?.toLocaleString() ?? '—'} harvested. This is not an OTC-only count. <a href={report.source}>CPW report</a></p> : null;
+        });
+      })}
     </section>
   );
 }
