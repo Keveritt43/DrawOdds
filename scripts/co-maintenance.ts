@@ -15,15 +15,18 @@ async function main() {
     const result = await runStep(name, fn);
     if (result.status === 'ERROR') throw Error(`${name} failed; existing Colorado summaries were retained`);
   }
-  const reports = new Set((await db.stateReport.findMany({ where: { state: 'CO' }, select: { id: true } })).map((r) => r.id));
+  const reports = new Map((await db.stateReport.findMany({ where: { state: 'CO' }, select: { id: true, data: true } })).map((r) => [r.id, r.data]));
+  const parserVersion = (id: string) => (reports.get(id) as { parserVersion?: number } | undefined)?.parserVersion;
   const missing: string[] = [];
   for (const r of REPORT_CATALOG) {
     if (r.kind === 'draw') {
-      if (!(await db.drawRecap.count({ where: { state: 'CO', species: r.species, year: r.year } })))
+      if (parserVersion(`CO|draw-parser|${r.species}|${r.year}`) !== 2 || !(await db.drawRecap.count({ where: { state: 'CO', species: r.species, year: r.year } })))
         missing.push(`${r.species} ${r.year} primary`);
     } else if (r.kind === 'harvest') {
-      if (!reports.has(`CO|harvest-code|${r.species}|${r.year}`) && !reports.has(`CO|harvest-unit|${r.species}|${r.year}`))
+      if (!reports.has(`CO|harvest-code|${r.species}|${r.year}`) && parserVersion(`CO|harvest-unit|${r.species}|${r.year}`) !== 3)
         missing.push(`${r.species} ${r.year} harvest`);
+    } else if (r.kind === 'secondary' && parserVersion(`CO|secondary|${r.species}|${r.year}`) !== 2) {
+      missing.push(`${r.species} ${r.year} secondary`);
     } else if (!reports.has(`CO|${r.kind}|${r.species}|${r.year}`)) missing.push(`${r.species} ${r.year} ${r.kind}`);
   }
   if (missing.length) throw Error(`Missing CPW reports; summaries retained: ${missing.join(', ')}`);
