@@ -6,7 +6,7 @@ import { opportunity } from './score';
 import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
-import { searchStates, searchUnitKey, ID_RESTRICTIONS, CO_RESTRICTIONS } from './searchStates';
+import { searchStates, searchUnitKey } from './searchStates';
 export { ID_RESTRICTIONS, CO_RESTRICTIONS } from './searchStates';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
@@ -28,9 +28,11 @@ const atLeast = (value: number | null, min: number | null, scale = 1) => min ===
 
 export function searchFilters(sp: SearchParams): Filters {
   // No implicit Quality cutoff: incomplete but usable hunts remain visible after ranked hunts.
-  return parseFilters({ ...sp, sort: param(sp, 'sort') || 'opp', minScore: param(sp, 'minScore') || '0',
+  const filters = parseFilters({ ...sp, sort: param(sp, 'sort') || 'opp', minScore: param(sp, 'minScore') || '0',
     minSuccess: sp.minSuccess ?? sp.minSucc,
     weapon: sp.weapon ?? (param(sp, 'method') ? list(sp, 'method').map(m => ({ R: 'ANY', A: 'ARCHERY', M: 'MUZZLELOADER' })[m] ?? m).join(',') : undefined) });
+  if (filters.species && filters.species !== 'DEER') filters.deerType = [];
+  return filters;
 }
 
 /** All personal values are derived on copies; the public cached rows are never modified. */
@@ -69,17 +71,14 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
 
 export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, migrations: Partial<Record<string, string[]>> = {}): boolean {
   const { r, odds } = x;
-  if (r.state !== 'ID' && ID_RESTRICTIONS.some(k => !!param(sp, k))) return false;
-  if (r.state !== 'CO' && CO_RESTRICTIONS.some(k => !!param(sp, k))) return false;
   if (f.species && r.species !== f.species) return false;
   if (f.type && r.type !== f.type) return false;
   if (!matchesHuntSeason(r, f, true)) return false;
   if (!atLeast(odds, f.minOdds, 100) || !atLeast(r.success5, f.minSuccess, 100)
-    || !atLeast(r.publicPct, f.minPublic) || !atLeast(r.bigPct5, f.minBig, 100)
+    || !atLeast(r.publicPct, f.minPublic)
     || !atLeast(r.scoreQuality, f.minScore || null) || !atLeast(x.opportunity, f.minOpp)) return false;
   if (f.maxDensity !== null && (r.huntersSqMi === null || r.huntersSqMi > f.maxDensity)) return false;
   if (f.minTags !== null && r.type !== 'GENERAL' && (r.tags === null || r.tags < f.minTags)) return false;
-  if (f.deerType.length && !f.deerType.includes(r.tagCode?.startsWith('WD') ? 'WHITETAIL' : r.deerType as 'MULE')) return false;
   const selected = param(sp, 'unit');
   if (selected) {
     const [state, unit] = selected.includes(':') ? selected.split(':') : ['', selected.toUpperCase()];
@@ -87,6 +86,8 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   }
   if (f.q && ![r.name, r.areaName, r.tagCode, String(r.huntNumber ?? '')].some(s => s?.toLowerCase().includes(f.q.toLowerCase()))) return false;
   if (r.state === 'ID') {
+    if (f.deerType.length && !f.deerType.includes(r.tagCode?.startsWith('WD') ? 'WHITETAIL' : r.deerType as 'MULE')) return false;
+    if (!atLeast(r.bigPct5, f.minBig, 100)) return false;
     if (!atLeast(r.accessYesPct, f.minAccessYes) || !atLeast(r.huntablePct, f.minHuntable)) return false;
     if (f.accessYes && !(r.accessYesCount && r.accessYesCount > 0)) return false;
     if (f.leftover && !(r.leftoverTags && r.leftoverTags > 0)) return false;
@@ -153,6 +154,6 @@ export function runSearch(rows: CoScored[], sp: SearchParams, fallback: StateCod
   const mode = param(sp, 'odds') === 'last' ? 'last' : 'proj';
   const results = rows.filter(r => states.includes(r.state as StateCode)).map(r => personalize(r, settings, mode))
     .filter((x): x is SearchResult => x !== null && matchesSearch(x, filters, sp, migrations)
-      && (!['0', '1'].includes(param(sp, 'otcElk')) || (x.r.state === 'CO' && x.r.species === 'DEER' && overlaps[x.r.id] === (param(sp, 'otcElk') === '1'))));
+      && (x.r.state !== 'CO' || !['0', '1'].includes(param(sp, 'otcElk')) || (x.r.species === 'DEER' && overlaps[x.r.id] === (param(sp, 'otcElk') === '1'))));
   return results.sort((a, b) => compareSearch(a, b, param(sp, 'sort') || 'opp'));
 }

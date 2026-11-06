@@ -74,24 +74,24 @@ test('each season must satisfy sex, weapon, youth and dates together', () => {
   assert.equal(matchesHuntSeason(tag, parseFilters({ weapon: 'ANY', from: '10-1', to: '10-31', antler: 'ANTLERLESS' }), true), false);
 });
 
-test('Idaho-only restrictions explicitly exclude other states and keep migrations scoped', () => {
+test('Idaho-only restrictions leave Colorado unchanged and keep migrations scoped', () => {
   const data = [row(), colorado()];
-  assert.deepEqual(runSearch(data, { states: 'ID,CO', accessYes: '1' }, 'ID', settings).map(x => x.r.state), ['ID']);
-  assert.equal(runSearch(data, { states: 'ID,CO', migration: 'yes' }, 'ID', settings, { DEER: ['39'] }).length, 1);
-  assert.equal(runSearch(data, { states: 'ID,CO', migration: 'yes' }, 'ID', settings, { ELK: ['39'] }).length, 0);
+  assert.deepEqual(runSearch(data, { states: 'ID,CO', accessYes: '1' }, 'ID', settings).map(x => x.r.state).sort(), ['CO', 'ID']);
+  assert.equal(runSearch(data, { states: 'ID,CO', migration: 'yes' }, 'ID', settings, { DEER: ['39'] }).length, 2);
+  assert.equal(runSearch(data, { states: 'ID,CO', migration: 'yes' }, 'ID', settings, { ELK: ['39'] }).length, 1);
 });
 
 test('Colorado filters retain numbered seasons, point ranges, chance and private-land visibility', () => {
   const data = [row(), colorado(), colorado({ id: 'private', privateOnly: true })];
-  assert.equal(runSearch(data, { states: 'ID,CO', season: '3', chance: 'likely', minPts: '2', maxPts: '2' }, 'ID', settings).length, 1);
-  assert.equal(runSearch(data, { states: 'ID,CO', season: '2' }, 'ID', settings).length, 0);
+  assert.equal(runSearch(data, { states: 'ID,CO', season: '3', chance: 'likely', minPts: '2', maxPts: '2' }, 'ID', settings).length, 2);
+  assert.equal(runSearch(data, { states: 'ID,CO', season: '2' }, 'ID', settings).length, 1);
   assert.equal(runSearch(data, { states: 'ID,CO', priv: '1' }, 'ID', settings).length, 3);
 });
 
-test('overlap choices exclude unknown dates and other species and states', () => {
+test('Colorado overlap choices exclude unknown dates and other CO species, leaving Idaho unchanged', () => {
   const data = [row(), colorado(), colorado({ id: 'unknown' }), colorado({ id: 'elk', species: 'ELK' })];
-  assert.deepEqual(runSearch(data, { states: 'ID,CO', otcElk: '1' }, 'ID', settings, {}, { 'co:deer39': true, unknown: null, elk: true }).map(x => x.r.id), ['co:deer39']);
-  assert.equal(runSearch(data, { states: 'ID,CO', otcElk: '0' }, 'ID', settings, {}, { 'co:deer39': true, unknown: null }).length, 0);
+  assert.deepEqual(runSearch(data, { states: 'ID,CO', otcElk: '1' }, 'ID', settings, {}, { 'co:deer39': true, unknown: null, elk: true }).map(x => x.r.id).sort(), ['co:deer39', 'id:deer39']);
+  assert.equal(runSearch(data, { states: 'ID,CO', otcElk: '0' }, 'ID', settings, {}, { 'co:deer39': true, unknown: null }).length, 1);
 });
 
 test('OTC eligibility respects Colorado residency; capped Idaho tags are not guaranteed', () => {
@@ -99,6 +99,24 @@ test('OTC eligibility respects Colorado residency; capped Idaho tags are not gua
   assert.equal(personalize(resOnly, settings, 'proj'), null);
   assert.equal(personalize(resOnly, { ...settings, CO: { ...settings.CO, res: 'RESIDENT' } }, 'proj')!.odds, 1);
   assert.equal(personalize(row({ type: 'GENERAL', capped: true }), settings, 'proj')!.odds, null);
+});
+
+test('deer type affects Idaho only; Colorado season affects Colorado only, including together', () => {
+  const data = [row({ id: 'id-mule', deerType: 'MULE' }), row({ id: 'id-white', deerType: 'WHITETAIL' }),
+    colorado({ id: 'co-second', tagCode: 'DM039O2R', deerType: null }), colorado({ id: 'co-third', deerType: null })];
+  const ids = (sp: Record<string, string>) => runSearch(data, { states: 'ID,CO', species: 'DEER', ...sp }, 'ID', settings).map(x => x.r.id).sort();
+  assert.deepEqual(ids({ deerType: 'MULE' }), ['co-second', 'co-third', 'id-mule']);
+  assert.deepEqual(ids({ season: '2' }), ['co-second', 'id-mule', 'id-white']);
+  assert.deepEqual(ids({ deerType: 'MULE', season: '2' }), ['co-second', 'id-mule']);
+  assert.equal(runSearch([row({ species: 'ELK', deerType: null })], { states: 'ID,CO', species: 'ELK', deerType: 'MULE' }, 'ID', settings).length, 1, 'a hidden stale deer filter must not remove elk');
+});
+
+test('public land and harvest minimums still filter every selected state alongside local filters', () => {
+  const data = [row(), colorado({ tagCode: 'DM039O2R' }), row({ id: 'id-low-land', publicPct: 10 }),
+    colorado({ id: 'co-low-success', tagCode: 'DM039O2R', success5: .1 })];
+  const results = runSearch(data, { states: 'ID,CO', species: 'DEER', deerType: 'MULE', season: '2', minPublic: '50', minSuccess: '40' }, 'ID', settings);
+  assert.deepEqual(results.map(x => x.r.id).sort(), ['co:deer39', 'id:deer39']);
+  assert.deepEqual(runSearch(data, { states: 'ID,CO', minBig: '25' }, 'ID', settings).map(x => x.r.state), ['CO', 'CO']);
 });
 
 test('historical, projected and youth pools remain independent and never leak between hunters', () => {
