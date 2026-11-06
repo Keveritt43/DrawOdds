@@ -1,11 +1,15 @@
+import { CoAbout } from "@/components/CoPages";
+import { getState } from "@/lib/residency";
 export const metadata = { title: 'Data & Methods' };
 
-export default function About() {
+export default async function About() {
+  if ((await getState()).code === "CO") return <CoAbout />;
   return (
     <main className="wrap" style={{ maxWidth: 820, margin: '24px auto 48px' }}>
       <div className="card">
       <h1>Where The Numbers Come From</h1>
-      <p>Everything here is public Idaho Department of Fish and Game data, refreshed nightly. This site is not affiliated with or endorsed by IDFG. Seasons and rules change; always confirm in the current IDFG regulations before you apply or hunt.</p>
+      <p>Everything here is public Idaho Department of Fish and Game data.
+          Automatic refresh is paused. This site is not affiliated with or endorsed by IDFG. Seasons and rules change; always confirm in the current IDFG regulations before you apply or hunt.</p>
       <h2>Sources</h2>
       <ul>
         <li><b>Draw odds:</b> IDFG Hunt Planner drawing-odds data, 1998 to present, first and second drawings.</li>

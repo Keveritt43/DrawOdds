@@ -1,3 +1,5 @@
+import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
+import { savedFilters } from "@/lib/savedFilters";
 import { migrationUnits } from '@/lib/migrations';
 import { dayLabel } from '@/lib/seasonDays';
 import { huntHref } from '@/lib/huntSlug';
@@ -74,33 +76,45 @@ type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; 
 
 export default async function Filtering({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
-  // Colorado: preference-point odds at your own points (its own page; Idaho's filters below don't apply)
-  if ((await getState(sp.state)).code === 'CO') return <CoFinder sp={sp} />;
-  // coming back with no filters in the link: bring back the last ones (until "Reset all")
-  // (only when arriving from another page: clearing the last filter on this page must stay cleared)
-  const ref = (await headers()).get('referer') ?? '';
+  const state = (await getState(sp.state)).code;
+  if(state==='CO'&&sp.sex!==undefined&&sp.antler===undefined){const sexes=(Array.isArray(sp.sex)?sp.sex.join(','):sp.sex).split(',');sp.antler=sexes.includes('E')?'ALL':sexes.map(x=>x==='F'?'ANTLERLESS':'ANTLERED').join(',');}
+  const ref = (await headers()).get("referer") ?? "";
   const fromHere = /\/hunts(\?|$)/.test(ref.replace(/^https?:\/\/[^/]+/, ''));
-  if (!Object.keys(sp).length && !fromHere) {
-    const last = (await cookies()).get(LAST_HUNTS_COOKIE)?.value;
-    if (last) redirect(`/hunts?${decodeURIComponent(last)}`);
+  if (!sp.reset && (!fromHere || !Object.keys(sp).length)) {
+    const saved = await savedFilters(state);
+    const p = new URLSearchParams(saved);
+    for (const [k, v] of Object.entries(sp))
+      if (v !== undefined) p.set(k, Array.isArray(v) ? v.join(",") : v);
+    if (!p.has("antler")) p.set("antler", "ANTLERED");
+    const current = new URLSearchParams(
+      Object.entries(sp).flatMap(([k, v]) =>
+        v === undefined ? [] : [[k, Array.isArray(v) ? v.join(",") : v]],
+      ),
+    ).toString();
+    if (p.toString() !== current) redirect("/hunts?" + p);
   }
+  if (state === "CO") return <CoFinder sp={sp} />;
   const f = parseFilters(sp);
   const { residency } = await getResidency(sp.as);
   // one drawing at a time: a species from the other drawing (an old link) is dropped
   const draw = await getDraw(sp.draw);
   if (f.species && !DRAW_SPECIES[draw].includes(f.species)) f.species = '';
   // deer type only means something for deer (a stale Quick Start pick would empty an elk search)
-  if (f.species && f.species !== 'DEER') f.deerType = [];
-  const msg = draw === 'MSG';
+  if (f.species && f.species !== "DEER") f.deerType = [];
+  const msg = draw === "MSG";
   // species shown by their own hunt areas on the map (pronghorn; moose, sheep and goat)
   const areaSp = (msg ? (f.species ? [f.species] : DRAW_SPECIES.MSG) : f.species === 'PRONGHORN' ? ['PRONGHORN'] : []) as SpeciesKey[];
   const areaKey = (r: HuntSummary) => `${r.species}:${r.areaName}`;
-  const nr = residency === 'NONRESIDENT';
+  const nr = residency === "NONRESIDENT";
   const rf = residencyFields(residency);
-  const [rows, fav] = await Promise.all([
-    db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : {}), orderBy: buildOrder(f, residency), take: MAX_ROWS }),
+  const [candidateRows, fav] = await Promise.all([
+    db.huntSummary.findMany({
+      where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : {}),
+      orderBy: buildOrder(f, residency),
+    }),
     getFavorites(),
   ]);
+  const rows = candidateRows.filter((r) => matchesHuntSeason(r, f));
   // alphabetical: unit / area names in human order (4 before 10, 20A right after 20)
   if (f.sort === 'alpha') rows.sort((a, b) => unitOrder(a.areaName ?? a.unit, b.areaName ?? b.unit) || (a.huntNumber ?? 0) - (b.huntNumber ?? 0) || (a.tagCode ?? '').localeCompare(b.tagCode ?? ''));
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };
@@ -164,7 +178,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   }
   const glist = [...groups.values()];
   // table: every hunt and tag on its own row (elk zone tags one row each)
-  const tableRows = f.view === 'table' ? visible : [];
+  const tableRows = f.view === "table" ? visible : [];
   const total = f.view === 'hunt' ? listings.length : f.view === 'table' ? tableRows.length : glist.length;
   const shown = Math.min(total, PER_PAGE * f.page);
 
@@ -200,7 +214,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
   return (
     <main className={`filtering${f.view === 'table' ? ' tablemode' : ''}`}>
-      <RememberQuery />
+      <RememberQuery owner={fav.userId}/>
       <section className="f-map" aria-label="Map of matching units">
         <HuntMap matched={areaSp.length ? [] : matched} selected={f.unit} chips={chips(f)} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
           areaSpecies={areaSp.join(',')}

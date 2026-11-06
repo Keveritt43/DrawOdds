@@ -113,7 +113,7 @@ export async function setPoints(state: string, patch: Partial<StatePoints>) {
     set: true,
   };
   const all = { ...store, [state]: next };
-  if (userId) await db.user.update({ where: { id: userId }, data: { points: all as object } });
+  if (userId) await db.$executeRaw`UPDATE "User" SET points=jsonb_set(COALESCE(points,'{}'::jsonb),ARRAY[${state}]::text[],${JSON.stringify(next)}::jsonb,true) WHERE id=${userId}`;
   (await cookies()).set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), { maxAge: 60 * 60 * 24 * 365 * 2, sameSite: 'lax', path: '/' });
-  revalidatePath('/', 'layout');
+  revalidatePath("/", "layout");
 }

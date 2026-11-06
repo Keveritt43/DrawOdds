@@ -32,4 +32,9 @@ jobs:
           npm run db:push
       - run: npm run typecheck
       - run: npm test
+        env: { RUN_DB_TESTS: "1" }
       - run: npm run build
+
+      - name: State pages and filter persistence smoke test
+        run: npx tsx scripts/smoke-state-pages.ts
+        env: { DRAWODDS_SMOKE: "1" }

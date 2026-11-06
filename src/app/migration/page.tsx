@@ -1,3 +1,4 @@
+import { getState } from '@/lib/residency';
 import Link from 'next/link';
 import { listStudies, MIG_SPECIES, type MigClass, type MigStats, type MigTiming } from '@/lib/migrations';
 import { MigrationExplorer, type StudyRow } from '@/components/MigrationExplorer';
@@ -6,6 +7,7 @@ export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Migration Studies', description: 'Idaho mule deer, elk and pronghorn migration routes and stopovers: timing, distances and the hunting units they cross.' };
 
 export default async function MigrationPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  if((await getState()).code==='CO')return <main className="wrap" style={{margin:'24px auto'}}><h1>Colorado Migration Information</h1><p>Idaho migration studies are not applied to Colorado units. Consult the CPW Hunting Atlas species and habitat layers for Colorado movement information; movement corridors do not establish legal access or season eligibility.</p><a href="https://cpw.state.co.us/maps-and-gis">CPW maps, GIS and Hunting Atlas</a></main>;
   const sp = await searchParams;
   const initial = String(sp.species ?? '').split(',').filter((x) => (MIG_SPECIES as string[]).includes(x));
   const list = (k: string) => String(sp[k] ?? '').split(',').map((x) => x.trim()).filter(Boolean);

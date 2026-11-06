@@ -1,3 +1,8 @@
+import { CoRecommendations } from "@/components/CoRecommendations";
+import { withCoLand } from "@/lib/coLand";
+import { RememberQuery } from "@/components/BackLink";
+import { parseFilters } from "@/lib/finder";
+import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
 import { matchesCoSeason } from '@/lib/coHunt';
 import Link from 'next/link';
 import type { Prisma } from '@prisma/client';
@@ -22,34 +27,40 @@ const pct = (o: number | null) => (o === null ? '–' : o >= 0.995 ? '100%' : o 
 
 /** Find A Hunt for Colorado: limited licenses with odds at the hunter's own preference points. */
 export async function CoFinder({ sp }: { sp: SP }) {
-  const species = one(sp.species) === 'ELK' ? 'ELK' : 'DEER';
-  const mode = one(sp.odds) === 'last' ? 'last' : 'proj';
-  const pts = await getPoints('CO');
-  const nr = pts.res === 'NONRESIDENT';
+  const species = one(sp.species) === "ELK" ? "ELK" : "DEER";
+  const mode = one(sp.odds) === "last" ? "last" : "proj";
+  const pts = await getPoints("CO");
+  const nr = pts.res === "NONRESIDENT";
   const pool = poolFor(nr, pts.youth);
   const myPts = pts[species];
   const methods = many(sp.method).filter((m) => ['R', 'A', 'M'].includes(m));
-  const sexes = many(sp.sex).filter((m) => ['M', 'F', 'E'].includes(m));
+  const common = parseFilters(sp);
+  const sexes = common.antler;
   const seasons = many(sp.season);
   const chances = many(sp.chance) as Chance[];
   const range = pointRange(one(sp.minPts), one(sp.maxPts));
-  const unit = one(sp.unit).replace(/\D/g, '');
+  const unit = one(sp.unit).replace(/\D/g, "");
   const sort = ['pts', 'tags', 'unit', 'creep', 'success'].includes(one(sp.sort)) ? one(sp.sort) : 'odds';
   const minSucc = Number(one(sp.minSucc)) || 0;
   const page = Math.max(1, Number(one(sp.page)) || 1);
 
-  const ptsField = nr ? 'ptsNr' : 'ptsRes';
+  const ptsField = nr ? "ptsNr" : "ptsRes";
   const where: Prisma.HuntSummaryWhereInput = {
-    state: 'CO',
+    state: "CO",
     species,
     ...(['GENERAL', 'CONTROLLED'].includes(one(sp.type)) ? { type: one(sp.type) as 'GENERAL' | 'CONTROLLED' } : {}),
-    ...(one(sp.priv) === '1' ? {} : { privateOnly: false }),
-    ...(one(sp.second) === '1' ? { secondChoice: true } : {}),
-    ...(one(sp.hybrid) === '1' ? { hybrid: true } : {}),
+    ...(one(sp.priv) === "1" ? {} : { privateOnly: false }),
+    ...(one(sp.second) === "1" ? { secondChoice: true } : {}),
+    ...(one(sp.hybrid) === "1" ? { hybrid: true } : {}),
     ...(unit ? { units: { has: unit } } : {}),
     ...(range.min !== null || range.max !== null
       ? { [ptsField]: { ...(range.min !== null ? { gte: range.min } : {}), ...(range.max !== null ? { lte: range.max } : {}) } }
       : {}),
+    ...(one(sp.youth) === "only"
+      ? { youthOnly: true }
+      : one(sp.youth) === "include"
+        ? {}
+        : { youthOnly: false }),
     ...(minSucc ? { success5: { gte: minSucc / 100 } } : {}),
   };
   const [rows, fav] = await Promise.all([
@@ -60,6 +71,12 @@ export async function CoFinder({ sp }: { sp: SP }) {
   ]);
   const year = rows[0]?.oddsLastYear ?? (await db.drawRecap.aggregate({ where: { state: 'CO', species }, _max: { year: true } }))._max.year;
   const decorated = rows
+    .map(withCoLand)
+    .filter(
+      (r) =>
+        !Number(one(sp.minPublic)) ||
+        (r.publicPct !== null && r.publicPct >= Number(one(sp.minPublic))),
+    )
     .map((r) => {
       const d = decodeCode(r.tagCode ?? '');
       const t = r.oddsByPts as unknown as OddsTable | null;
@@ -67,8 +84,16 @@ export async function CoFinder({ sp }: { sp: SP }) {
       const ch: Chance = odds === null ? 'none' : chanceOf(odds, odds >= 0.995 ? 1 : 0, odds > 0 ? 1 : 0);
       return { r, d, odds, ch };
     })
-    .filter(({ d }) => !!d && (!methods.length || methods.includes(d.method)) && (!sexes.length || sexes.includes(d.sex)))
-    .filter(({ r }) => matchesCoSeason(r.tagCode ?? '', seasons))
+    .filter(
+      ({ d }) =>
+        !!d &&
+        (!methods.length || methods.includes(d.method)) &&
+        (!sexes.length ||
+          d.sex === "E" ||
+          sexes.includes(d.sex === "M" ? "ANTLERED" : "ANTLERLESS")),
+    )
+    .filter(({ r }) => matchesCoSeason(r.tagCode ?? "", seasons))
+    .filter(({ r }) => matchesHuntSeason(r, { ...common, weapon: [] }))
     .filter(({ ch }) => !chances.length || chances.includes(ch));
   // a 100% from 3 hunters shouldn't top the list: pull small samples toward the middle (30 hunters' worth at 50%)
   const succKey = (r: (typeof rows)[number]) =>
@@ -106,12 +131,49 @@ export async function CoFinder({ sp }: { sp: SP }) {
     ...(minSucc ? [{ label: `Success ${minSucc}%+`, href: q({ minSucc: null, page: null }) }] : []),
   ];
   const projYear = (year ?? 0) + 1;
-  const spLabel = species === 'DEER' ? 'deer' : 'elk';
+  const spLabel = species === "DEER" ? "deer" : "elk";
 
   return (
     <main className="filtering">
+      <RememberQuery state="CO" owner={fav.userId}/>
       <section className="f-map" aria-label="Map of matching units">
-        <HuntMap matched={matched} selected={unit} chips={chips} species={species} />
+        <HuntMap
+          stats={{
+            units: Object.fromEntries(
+              matched.map((unit) => {
+                const hs = decorated.filter((x) => x.r.units.includes(unit));
+                const land = hs[0]?.r;
+                return [
+                  unit,
+                  {
+                    score: null,
+                    odds: Math.max(...hs.map((x) => (x.odds ?? 0) * 100)),
+                    fill: Math.max(
+                      ...hs.map(
+                        (x) => (x.odds ?? 0) * (x.r.success5 ?? 0) * 100,
+                      ),
+                    ),
+                    success: Math.max(
+                      ...hs.map((x) => (x.r.success5 ?? 0) * 100),
+                    ),
+                    crowd: Math.min(
+                      ...hs.map((x) => x.r.huntersSqMi ?? Infinity),
+                    ),
+                    public: land?.publicPct ?? null,
+                    huntable: null,
+                    objBull: null,
+                    objCow: null,
+                  },
+                ];
+              }),
+            ),
+            areas: {},
+          }}
+          matched={matched}
+          selected={unit}
+          chips={chips}
+          species={species}
+        />
       </section>
       <section className="f-list" aria-label="Results">
         <div className="f-head">
@@ -186,6 +248,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
           </div>
         )}
         {!rows.length && <p className="muted">No hunts match these filters.</p>}
+        <CoRecommendations rows={decorated} />
         {shown.map(({ r, odds, ch }) => (
           <CoHuntCard
             key={r.id}

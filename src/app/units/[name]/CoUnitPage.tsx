@@ -1,3 +1,5 @@
+import { CoLand } from "@/components/CoLand";
+import { CoUnitSeasonHunters } from "@/components/CoUnitSeasonHunters";
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -24,12 +26,12 @@ export async function CoUnitPage({ name }: { name: string }) {
     getFavorites(),
     db.huntSummary.findMany({ where: { state: 'CO', units: { has: name } }, orderBy: [{ species: 'asc' }, { tagCode: 'asc' }] }),
   ]);
-  const nr = pts.res === 'NONRESIDENT';
+  const nr = pts.res === "NONRESIDENT";
   const pool = poolFor(nr, pts.youth);
   const herds = (unit.herds ?? {}) as Record<string, string | null>;
-  const key = unitKey('CO', name);
+  const key = unitKey("CO", name);
   return (
-    <main className="wrap" style={{ margin: '20px auto 40px' }}>
+    <main className="wrap" style={{ margin: "20px auto 40px" }}>
       <p className="small">
         <Link href={`/hunts?unit=${name}`}>Find hunts in this unit →</Link>
       </p>
@@ -45,7 +47,9 @@ export async function CoUnitPage({ name }: { name: string }) {
         {herds.DEER ? ` · Deer herd ${herds.DEER}` : ''}
         {herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}
       </p>
+      <CoLand units={[name]} />
       <CoUnitReports units={[name]} hunts={hunts} />
+      <CoUnitSeasonHunters units={[name]} />
       <h2>Hunt Licenses</h2>
       {!hunts.length && <p className="muted">No deer or elk licenses are loaded for this unit.</p>}
       {hunts.length > 0 && (

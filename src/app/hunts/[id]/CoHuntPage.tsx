@@ -1,3 +1,6 @@
+import { CoLand } from "@/components/CoLand";
+import { withCoLand } from "@/lib/coLand";
+import { CoUnitSeasonHunters } from "@/components/CoUnitSeasonHunters";
 import { OverlappingElk } from '@/components/OverlappingElk';
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
@@ -28,19 +31,20 @@ const pct = (o: number | null | undefined) =>
 
 /** A Colorado hunt code's page: your odds, points needed and their trend, and odds at every point level. */
 export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: string; pool?: string } }) {
+  s = withCoLand(s);
   const po = s.pointOdds as unknown as PointOdds | null;
-  const d = decodeCode(s.tagCode ?? '');
-  const species = s.species === 'ELK' ? 'ELK' : 'DEER';
+  const d = decodeCode(s.tagCode ?? "");
+  const species = s.species === "ELK" ? "ELK" : "DEER";
   const [pts, session] = await Promise.all([getPoints('CO'), auth()]);
   const saved = session?.user
     ? await db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } })
     : null;
-  const nr = pts.res === 'NONRESIDENT';
+  const nr = pts.res === "NONRESIDENT";
   const myPool = poolFor(nr, pts.youth);
   const pool: CoPool = (CO_POOLS as readonly string[]).includes(sp.pool ?? '') ? (sp.pool as CoPool) : myPool;
-  const mode = sp.odds === 'last' ? 'last' : 'proj';
+  const mode = sp.odds === "last" ? "last" : "proj";
   const p = pts[species];
-  const spLabel = species === 'DEER' ? 'deer' : 'elk';
+  const spLabel = species === "DEER" ? "deer" : "elk";
   if (po?.general && d)
     return (
       <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
@@ -71,6 +75,8 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <h2>Hunter Success</h2>
         {po.harvest?.length ? <Harvest rows={po.harvest} species="elk" /> : <p>No harvest estimate loaded for this code.</p>}
         <h2>Elk Population</h2>
+        <CoLand units={s.units} />
+        <CoUnitSeasonHunters units={s.units} />
         <CoHerds species="ELK" herds={po.herds ?? []} highlight={s.units} />
       </main>
     );
@@ -200,7 +206,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <p className="muted">No harvest estimates for this hunt code yet.</p>
       )}
 
-      <h2>{species === 'ELK' ? 'Elk' : 'Deer'} Population</h2>
+      <h2>{species === "ELK" ? "Elk" : "Deer"} Population</h2>
       <CoHerds species={species} herds={po.herds ?? []} highlight={po.regs?.units ?? [d.unit]} />
 
       <h2>Point Creep</h2>
@@ -277,6 +283,8 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         Sources: Colorado Parks and Wildlife Draw Recap reports, harvest estimates and Chapter W-2 big game regulations. Not affiliated with
         CPW; confirm hunt codes, dates and rules in the current big game brochure.
       </p>
+      <CoLand units={s.units} />
+      <CoUnitSeasonHunters units={s.units} />
       <OverlappingElk hunt={s} />
     </main>
   );

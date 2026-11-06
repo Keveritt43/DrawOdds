@@ -16,7 +16,7 @@ import { colorsFor, msgSuccessClasses, scoreClasses, fixedClasses, FIXED_SCALES,
 export type MatchStat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null };
 type ShadeKey = 'match' | 'none' | keyof MatchStat;
 const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
-type Mode = BreakMode | 'score' | FixedScale;
+type Mode = BreakMode | "score" | FixedScale;
 /** What the Filtering map can shade by: always the matching hunts' own numbers, never units without a match. */
 const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode: Mode; snap?: number; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string; labels?: string[]; scaleNote: string }> = {
   score: { label: 'DrawOdds Score (Best Matching Hunt)', mode: 'score', better: 'high', fmt: (v) => String(Math.round(v)), none: 'Not enough hunters to score', note: 'Highest DrawOdds Score (quality: success, access, elbow room, trophy) among the matching hunts in each unit.', scaleNote: 'Same colors as the score badges.' },
@@ -29,7 +29,7 @@ const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode:
   objBull: { label: 'Elk: Bulls vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Bull elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more bulls than the target.`, scaleNote: '' },
   objCow: { label: 'Elk: Cows vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Cow elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more cows than the target; often more antlerless tags.`, scaleNote: '' },
 };
-import { loadUnits } from '@/lib/unitData';
+import { loadUnits } from "@/lib/unitData";
 
 /**
  * Filtering map. By default units with a matching hunt are filled blaze orange and the rest are outlines;
@@ -54,17 +54,17 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const loaded = useRef(false);
   const prevMatched = useRef<string[]>([]);
-  const prevSel = useRef('');
-  const [kind, setKind] = useState<Basemap>('satellite');
-  const [metric, setMetric] = useState<ShadeKey>('match');
-  const [err, setErr] = useState('');
+  const prevSel = useRef("");
+  const [kind, setKind] = useState<Basemap>("satellite");
+  const [metric, setMetric] = useState<ShadeKey>("match");
+  const [err, setErr] = useState("");
   const router = useRouter();
   const sp_ = useSearchParams();
   const spRef = useRef(sp_);
   spRef.current = sp_;
 
   const areaMode = !!areaSpecies;
-  const flat = metric === 'match' || metric === 'none';
+  const flat = metric === "match" || metric === "none";
   const S = flat ? null : SHADES[metric as keyof typeof SHADES];
   // classes come from the matching units (or areas) only: the shades spread across these results
   const shownStats = areaMode ? matchedAreas.map((a) => stats.areas[a]).filter(Boolean) : matched.map((u) => stats.units[u]).filter(Boolean);
@@ -91,11 +91,16 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   useEffect(() => {
     if (!el.current || map.current) return;
     const m = new maplibregl.Map({
-      container: el.current, style: baseStyle('satellite'), bounds: stBounds,
-      fitBoundsOptions: { padding: { top: 48, bottom: 110, left: 12, right: 12 } }, minZoom: 4, maxZoom: 15, attributionControl: { compact: true },
+      container: el.current,
+      style: baseStyle("satellite", st.agency.short),
+      bounds: stBounds,
+      fitBoundsOptions: { padding: { top: 48, bottom: 110, left: 12, right: 12 } },
+      minZoom: 4,
+      maxZoom: 15,
+      attributionControl: { compact: true },
     });
     // below 1100px the map sits above the list in the page instead of in a side panel
-    inPageGestures(m, '(max-width: 1100px)');
+    inPageGestures(m, "(max-width: 1100px)");
     map.current = m;
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     // full screen takes the map's wrapper, so the key and panels come along
@@ -300,11 +305,18 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     ...(showZones && !areaMode ? [{ color: ZONE, label: zones.length ? `${zones.join(', ')} zone${zones.length > 1 ? 's' : ''}` : 'Elk zones', line: true }] : []),
     ...(selected ? [{ color: '#ffd400', label: `Unit ${selected} (selected)`, line: true }] : []),
   ];
-  const where = areaMode ? 'hunt areas' : 'units';
+  const where = areaMode ? "hunt areas" : "units";
   const options = [
-    { value: 'none', label: 'No Shading (outline matches)' },
+    { value: "none", label: "No Shading (outline matches)" },
     { value: 'match', label: areaMode ? 'Matching Hunt Areas' : 'Matching Hunts' },
-    ...(Object.keys(SHADES) as (keyof typeof SHADES)[]).filter((k) => !(areaMode && k.startsWith('obj'))).map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
+    ...(Object.keys(SHADES) as (keyof typeof SHADES)[])
+      .filter(
+        (k) =>
+          !(areaMode && k.startsWith("obj")) &&
+          (stCode === "ID" ||
+            !["objBull", "objCow", "huntable", "score"].includes(k)),
+      )
+      .map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
   ];
 
   return (

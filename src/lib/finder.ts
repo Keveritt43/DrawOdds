@@ -72,7 +72,8 @@ export function parseFilters(sp: SP): Filters {
     // NRTAG (the old "General Tag Draw" option) now lives under General: old links keep working
     type: one(sp.type) === 'NRTAG' ? 'GENERAL' : (pick([one(sp.type)], ['CONTROLLED', 'GENERAL'] as const)[0] ?? ''),
     weapon: pick(list(sp.weapon), ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE'] as const),
-    antler: pick(list(sp.antler), ['ANTLERED', 'ANTLERLESS', 'EITHER'] as const),
+    antler: pick(list(sp.antler === undefined ? "ANTLERED" : sp.antler), ['ANTLERED', 'ANTLERLESS', 'EITHER',
+    ] as const),
     months: list(sp.month).map(Number).filter((m) => m >= 1 && m <= 12),
     ...dayWindow(one(sp.from), one(sp.to)),
     dayMode: one(sp.dmode) === 'end' ? 'end' : 'open',
@@ -111,7 +112,8 @@ export function residencyFields(r: Residency) {
 }
 
 /** `migrationUnits`: per species, the units crossed by a migration study of that species (from the database). */
-export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrationUnits: Partial<Record<string, string[]>> = {}, state: string = DEFAULT_STATE): Prisma.HuntSummaryWhereInput {
+export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrationUnits: Partial<Record<string, string[]>> = {}, state: string = DEFAULT_STATE,
+): Prisma.HuntSummaryWhereInput {
   const rf = residencyFields(r);
   const and: Prisma.HuntSummaryWhereInput[] = [{ state }];
   // one drawing at a time: deer / elk / pronghorn, or moose / sheep / goat
@@ -138,12 +140,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
       ],
     });
   }
-  // hunt is open at some point during any chosen month (works for Dec-Jan seasons too)
-  if (f.months.length) and.push({ months: { hasSome: f.months } });
-  if (f.dayFrom !== null && f.dayTo !== null) {
-    if (f.dayMode === 'end') and.push({ closeDay: { gte: f.dayFrom, lte: f.dayTo } });
-    else and.push({ seasonDays: { hasSome: Array.from({ length: f.dayTo - f.dayFrom + 1 }, (_, i) => f.dayFrom! + i) } });
-  }
+  // Date/month matching runs against eligible regulation seasons after the database query.
   if (f.minOdds !== null) and.push({ [rf.odds5]: { gte: f.minOdds / 100 } });
   if (f.minSuccess !== null) and.push({ success5: { gte: f.minSuccess / 100 } });
   if (f.minPublic !== null) and.push({ publicPct: { gte: f.minPublic } });
@@ -167,7 +164,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   if (f.maxDensity !== null) and.push({ huntersSqMi: { lte: f.maxDensity } });
   if (f.accessYes) and.push({ accessYesCount: { gt: 0 } });
   if (f.youth === 'exclude') and.push({ youthOnly: false });
-  if (f.youth === 'only') and.push({ youthOnly: true });
+  if (f.youth === 'only') and.push({OR:[{youthOnly:true},{type:'GENERAL'}]});
   if (f.unit) and.push({ units: { has: f.unit } });
   if (f.zones.length) and.push({ units: { hasSome: zoneUnits(f.zones) } });
   if (f.q) {
@@ -277,4 +274,3 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
 export function zoneUnits(zones: string[]): string[] {
   return [...new Set(zones.flatMap((z) => ELK_ZONES[z] ?? []))];
 }
-

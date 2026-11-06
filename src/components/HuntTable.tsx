@@ -8,6 +8,7 @@ import { CompareToggle } from './Compare';
 
 /** Name for a row: "Elk 2034", "Unit 40 general deer", "Selway A tag". */
 export function huntName(r: HuntSummary): string {
+  if(r.state==='CO')return r.name;
   if (r.nrTag) return r.species === 'ELK' ? tagLabel(r) : `Unit ${r.unit ?? r.units[0]} ${tagLabel(r)}`;
   if (r.type === 'CONTROLLED') return `${SPECIES_LABEL[r.species]} ${r.huntNumber ?? ''}`;
   return `Unit ${r.unit ?? r.units[0]} general ${SPECIES_LABEL[r.species].toLowerCase()}`;

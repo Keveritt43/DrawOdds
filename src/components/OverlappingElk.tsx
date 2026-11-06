@@ -27,6 +27,8 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
                 <th>Type</th>
                 <th>Shared units</th>
                 <th>Dates</th>
+                <th>Hunters/yr · hunt coverage</th>
+                <th>Hunters/mi²</th>
               </tr>
             </thead>
             <tbody>
@@ -42,14 +44,25 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
                   </td>
                   <td>{r.units.filter((u) => hunt.units.includes(u)).join(', ')}</td>
                   <td>{dateRange(r.openDate, r.closeDate) || 'See season rules'}</td>
+                  <td>
+                    {r.hunters5 !== null && r.harvestYears
+                      ? Math.round(
+                          r.hunters5 / Math.min(5, r.harvestYears),
+                        ).toLocaleString()
+                      : "—"}
+                    {r.units.length > 1
+                      ? " · all " + r.units.length + " units"
+                      : ""}
+                  </td>
+                  <td>
+                    {r.huntersSqMi === null ? "—" : r.huntersSqMi.toFixed(2)}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      ) : (
-        <p className="muted">No elk seasons with confirmed overlapping dates are loaded for these units.</p>
-      )}
+      ) : <p className="muted">No elk seasons with confirmed overlapping dates are loaded for these units.</p>}
     </section>
   );
 }
