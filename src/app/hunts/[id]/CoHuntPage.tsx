@@ -73,6 +73,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         </p>
         <p className="small muted">{po.regs?.unitText}</p>
         <h2>Hunter Success</h2>
+        {po.harvest?.length ? <div className="co-graph-grid"><HarvestCharts rows={po.harvest} /></div> : null}
         {po.harvest?.length ? <Harvest rows={po.harvest} species="elk" /> : <p>No harvest estimate loaded for this code.</p>}
         <h2>Elk Population</h2>
         <CoUnitSeasonHunters units={s.units} hunt={s} />
@@ -197,6 +198,17 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         )}
       </div>
 
+      <h2 id="trends">Hunt Trends</h2>
+      <div className="co-oddsbar"><span className="seg light" role="group" aria-label="Graph draw">
+        <Link className="seg-link" href={q({odds:null}).replace('#odds','#trends')} aria-pressed={mode==='proj'} scroll={false}>{po.projYear} projected</Link>
+        <Link className="seg-link" href={q({odds:'last'}).replace('#odds','#trends')} aria-pressed={mode==='last'} scroll={false}>{po.year} actual</Link>
+      </span><span className="seg light" role="group" aria-label="Graph applicant pool">{CO_POOLS.filter(x=>po.pools[x]).map(x=><Link key={x} className="seg-link" href={q({pool:x===myPool?null:x}).replace('#odds','#trends')} aria-pressed={pool===x} scroll={false}>{SHORT[x]}</Link>)}</span></div>
+      <p className="small muted">Draw odds use the selected applicant pool and draw. Harvest report coverage may change by year; the table explains each source.</p>
+      <div className="co-graph-grid">
+        <section className="co-graph-card"><h3>Point creep</h3><CreepChart po={po} /></section>
+        <section className="co-graph-card"><h3>Draw odds at each point level</h3><OddsPointsChart P={P} po={po} pool={pool} mode={mode} myPoints={pool === myPool ? p : null}/></section>
+        {po.harvest?.length ? <HarvestCharts rows={po.harvest} /> : null}
+      </div>
       <h2>Hunter Success</h2>
       {po.history.some((h) => h.sharedPool) && <p className="small muted">Some historical draws shared an applicant pool across hunt codes. Marked rows show the shared pool’s applications and cutoffs; its quota is not this code’s individual quota.</p>}
       {po.sharedPool && <p>Current draw pool shared with {po.sharedPool.codes.join(', ')}. Applicant counts and odds describe this shared pool.</p>}
@@ -208,9 +220,6 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
 
       <h2>{species === "ELK" ? "Elk" : "Deer"} Population</h2>
       <CoHerds species={species} herds={po.herds ?? []} highlight={po.regs?.units ?? [d.unit]} />
-
-      <h2>Point Creep</h2>
-      <CreepChart po={po} />
 
       <h2>Draw History</h2>
       <div className="htable-wrap">
@@ -514,4 +523,24 @@ function CreepChart({ po }: { po: PointOdds }) {
       </figcaption>
     </figure>
   );
+}
+
+/** Uses exactly the same point-level estimates as the odds table. */
+function OddsPointsChart({P,po,pool,mode,myPoints}:{P:PoolOdds|undefined;po:PointOdds;pool:CoPool;mode:'proj'|'last';myPoints:number|null}) {
+  if(!P) return <p className="muted">No applicant data for this pool.</p>;
+  const max=Math.min(40,Math.max(3,...P.levels.map(x=>x[0]),myPoints ?? 0)+(mode==='proj'?2:0));
+  const points=Array.from({length:max+1},(_,i)=>i).map(k=>({x:k,value:(mode==='last' && !P.levels.some(l=>l[0]===k)) ? null : myOdds(P,k,mode,po.year,pool)?.odds ?? null}));
+  return <><TrendPlot points={points} maxY={1} percent label="Draw odds by preference points" marker={myPoints}/><p className="small muted">{mode==='proj'?po.projYear+' projected':po.year+' actual'} · {POOL_LABEL[pool]} · first choice. Blank levels have no reported applicants.</p></>;
+}
+function HarvestCharts({rows}:{rows:HarvestYear[]}) {
+ const sorted=rows.slice().sort((a,b)=>a.year-b.year);
+ return <><section className="co-graph-card"><h3>Hunter success</h3><TrendPlot points={sorted.map(r=>({x:r.year,value:r.hunters>0&&r.harvest<=r.hunters?r.harvest/r.hunters:null}))} maxY={1} percent label="Hunter success by year"/><p className="small muted">Harvest divided by hunters. Coverage varies; see the table below.</p></section><section className="co-graph-card"><h3>Hunters and harvest</h3><TrendPlot points={sorted.map(r=>({x:r.year,value:r.hunters}))} second={sorted.map(r=>({x:r.year,value:r.harvest}))} maxY={Math.max(1,...sorted.map(r=>r.hunters))} label="Hunters and harvest by year"/><p className="small muted"><span style={{color:'var(--res)'}}>Hunters</span> · <span style={{color:'var(--nr)'}}>Harvest</span>. Unit or code coverage varies by year.</p></section></>;
+}
+function TrendPlot({points,second,maxY,percent,label,marker}:{points:{x:number;value:number|null}[];second?:{x:number;value:number|null}[];maxY:number;percent?:boolean;label:string;marker?:number|null}) {
+ if(!points.length || points.every(p=>p.value===null)) return <p className="muted">No data available.</p>;
+ const W=480,H=230,L=48,R=14,T=12,B=32,minX=points[0].x,maxX=points[points.length-1].x;
+ const x=(v:number)=>L+(v-minX)/Math.max(1,maxX-minX)*(W-L-R), y=(v:number)=>T+(1-v/maxY)*(H-T-B);
+ const step=Math.max(1,Math.ceil((maxX-minX)/6));
+ const draw=(items:typeof points,color:string)=> <g>{items.slice(1).map((p,i)=>p.value!==null&&items[i].value!==null?<line key={i} x1={x(items[i].x)} y1={y(items[i].value!)} x2={x(p.x)} y2={y(p.value)} stroke={color} strokeWidth="2.5"/>:null)}{items.map(p=>p.value===null?null:<circle key={p.x} cx={x(p.x)} cy={y(p.value)} r="3" fill={color}><title>{p.x}: {percent?Math.round(p.value*100)+'%':Math.round(p.value).toLocaleString()}</title></circle>)}</g>;
+ return <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label={label}>{[0,.25,.5,.75,1].map(t=><g key={t}><line x1={L} x2={W-R} y1={y(maxY*t)} y2={y(maxY*t)} stroke="var(--line)"/><text x={L-5} y={y(maxY*t)+4} textAnchor="end" fontSize="11" fill="var(--muted)">{percent?Math.round(t*100)+'%':Math.round(maxY*t).toLocaleString()}</text></g>)}{points.filter((p,i)=>i%step===0||i===points.length-1).map(p=><text key={p.x} x={x(p.x)} y={H-8} textAnchor="middle" fontSize="11" fill="var(--muted)">{p.x}</text>)}{marker!==null&&marker!==undefined&&marker>=minX&&marker<=maxX?<line x1={x(marker)} x2={x(marker)} y1={T} y2={H-B} stroke="var(--muted)" strokeDasharray="4 4"><title>Your points: {marker}</title></line>:null}{draw(points,'var(--res)')}{second&&draw(second,'var(--nr)')}</svg>;
 }
