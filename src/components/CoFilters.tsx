@@ -117,7 +117,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
             ))}
           </div>
         </Section>
-        {sp_ === 'DEER' && <Section title="Overlapping Elk" value={get('otcElk') === '1' ? 'OTC elk' : 'Any'} set={get('otcElk') === '1'}>{flag('otcElk', 'Only deer hunts overlapping OTC elk in the same unit')}</Section>}
+        {sp_ === 'DEER' && <Section title="Overlapping Elk" value={get('otcElk') === '1' ? 'Has OTC elk' : get('otcElk') === '0' ? 'No OTC elk' : 'Any'} set={['0','1'].includes(get('otcElk'))}><div className="checks2">{[['','Any'],['1','Has OTC elk'],['0','No OTC elk']].map(([v,l])=><label key={v}><input type="radio" name="co-otc-elk" checked={get('otcElk')===v} onChange={()=>push({otcElk:v||null})}/>{l}</label>)}</div><p className="small muted">Same unit and at least one shared open date. Eligibility follows the published CPW regulations.</p></Section>}
         <Section title="Method" value={many(METHOD, 'method', 'All')} set={list('method').length > 0}>
           {checks('method', METHOD)}
         </Section>

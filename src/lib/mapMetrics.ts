@@ -44,8 +44,12 @@ const num = (v: number) => (v >= 10 ? String(Math.round(v)) : v >= 1 ? String(Nu
 const pctOf = (v: number) => `${num(v)}%`;
 export const fmtNum = num;
 
-export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow';
+export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow' | 'ctlQuality' | 'ctlPressure' | 'ctlPoints' | 'ctlCreep';
 export const METRICS: Record<Metric, MetricDef> = {
+ ctlQuality: {label:'Quality (Best Male Hunt)',kind:'controlled',bySpecies:true,ramp:GREEN,fmt:num,none:'Insufficient validated inputs',field:sp=>`ctlQuality${SPK(sp)}`,note:'Highest Quality of an adult buck/bull hunt touching the unit. Same fixed scoring model as Idaho.'},
+ ctlPressure: {label:'Hunters / Sq Mi (Least Crowded Male Hunt)',kind:'controlled',bySpecies:true,ramp:PLUM,better:'low',fmt:num,none:'No density data',field:sp=>`ctlPressure${SPK(sp)}`,note:'Lowest annual hunter density among adult buck/bull hunts touching the unit. Multi-unit hunt averages are not local crowd counts.'},
+ ctlPoints: {label:'Points Needed (Easiest Male Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No observed cutoff',field:(sp,nr)=>`ctlPoints${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest latest-actual preference-point cutoff for your residency among adult buck/bull hunts touching the unit.'},
+ ctlCreep: {label:'Point Creep (Lowest Male Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No point trend',field:(sp,nr)=>`ctlCreep${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest annual cutoff trend for your residency among adult buck/bull hunts touching the unit; points per year, not a future guarantee.'},
   public: {
     label: 'Public Land %', kind: 'land', field: () => 'publicPct', ramp: GREEN, fmt: pctOf, none: 'No data',
     note: 'Federal + state land, from IDFG unit pages. Does not include Access Yes!.',
@@ -127,6 +131,7 @@ export const msgSuccessClasses = (values: number[], scale = 1) =>
   benchmarkClasses(values, MSG_SUCCESS_BREAKS.map((b) => b * scale), MSG_SUCCESS_IDX);
 /** The classes a unit-map field shades by. */
 export const classesFor = (field: string, values: number[]): Classes => {
+  if (/^ctlQuality/.test(field)) return scoreClasses(values);
   if (isMsgSuccess(field)) return msgSuccessClasses(values);
   const fixed = fixedScale(field);
   if (fixed) return fixedClasses(values, fixed);

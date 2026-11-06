@@ -1,6 +1,6 @@
 import { getPoints } from '@/lib/points';
 import { poolFor,tableOdds,type OddsTable } from '@/lib/coHunt';
-import { withCoLand } from '@/lib/coLand';
+import { withCoScores, withCoOpportunity } from '@/lib/coScores';
 import Link from 'next/link';
 import { huntHref } from '@/lib/huntSlug';
 import type { HuntSummary } from '@prisma/client';
@@ -24,10 +24,10 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
   const { residency } = await getResidency(sp.as);
   const nr = residency === 'NONRESIDENT';
   const rf = residencyFields(residency);
-  const found = (await db.huntSummary.findMany({ where: { id: { in: ids } } })).map(r=>r.state==='CO'?withCoLand(r):r);
+  const found = (await db.huntSummary.findMany({ where: { id: { in: ids } } })).map(r=>r.state==='CO'?withCoScores(r):r);
   const coPoints=await getPoints('CO');
   const coOdds=(r:HuntSummary,mode:'proj'|'last')=>tableOdds(r.oddsByPts as unknown as OddsTable,mode,poolFor(coPoints.res==='NONRESIDENT',coPoints.youth),coPoints[r.species==='ELK'?'ELK':'DEER']);
-  const hunts = ids.map((id) => found.find((h) => h.id === id)).filter((h): h is HuntSummary => !!h);
+  const hunts = ids.map((id) => found.find((h) => h.id === id)).filter((h): h is HuntSummary => !!h).map(r=>r.state==='CO'?withCoOpportunity(r,coOdds(r,'proj'),nr):r);
 
   const odds = (r: HuntSummary) => r.state==='CO'?coOdds(r,'proj'):(r.type === 'CONTROLLED' ? r[rf.odds5] : nr ? r.nrOdds5 : r.nrTag && r.capped ? null : 1);
   const rows: Row[] = [
@@ -35,7 +35,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     { label: 'Opportunity', v: (r) => (nr ? r.scoreOppNr : r.scoreOppRes), show: (r) => { const o = nr ? r.scoreOppNr : r.scoreOppRes; return o === null ? '-' : <ScoreBadge v={o} label="" />; }, better: 'high' },
     { label: hunts.some(r=>r.state==='CO')?'Your draw odds (CO: projected at saved points)':`${nr ? 'Nonresident' : 'Resident'} odds, 5-yr`, v: odds, show: (r) => (odds(r) === 1 && r.type !== 'CONTROLLED' ? 'Over the counter' : pctOdds(odds(r))), better: 'high' },
     { label: 'Latest drawing', v: (r) => (r.type === 'CONTROLLED' ? r[rf.oddsLast] : nr ? r.nrOddsLast : null), show: (r) => { const v = r.state==='CO'?coOdds(r,'last'):r.type === 'CONTROLLED' ? r[rf.oddsLast] : nr ? r.nrOddsLast : null; return v === null ? '-' : `${pctOdds(v)}${r.oddsLastYear ? ` (${r.oddsLastYear})` : ''}`; }, better: 'high' },
-    { label: 'Draw and fill, per year', v: (r) => r[rf.tagAndFill], show: (r) => pct(r[rf.tagAndFill], 1), better: 'high' },
+    { label: 'Draw and fill, per year', v: (r) => r.state==='CO' ? coOdds(r,'proj')===null||r.success5===null?null:coOdds(r,'proj')!*r.success5 : r[rf.tagAndFill], show: (r) => pct(r.state==='CO' ? coOdds(r,'proj')===null||r.success5===null?null:coOdds(r,'proj')!*r.success5 : r[rf.tagAndFill], 1), better: 'high' },
     { label: 'Hunter success, 5-yr', v: (r) => (r.smallSample ? null : r.success5), show: (r) => `${pct(r.success5)}${r.smallSample ? ' (small sample)' : ''}`, better: 'high' },
     { label: 'Latest season success', v: (r) => r.successLast, show: (r) => (r.successLast === null ? '-' : `${pct(r.successLast)}${r.harvestLastYear ? ` (${r.harvestLastYear})` : ''}`) },
     { label: 'Days hunted per animal', v: (r) => (r.smallSample ? null : r.daysPerHarvest5), show: (r) => (r.daysPerHarvest5 === null ? '-' : `${Math.round(r.daysPerHarvest5)} days`), better: 'low' },

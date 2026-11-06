@@ -33,7 +33,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [metric, setMetric] = useState<Metric>('public');
   // basic filters: which animal and which kind of hunt the shading (and the unit's hunt list) is about
   const [sp, setSpRaw] = useState<Sp>(msg ? 'MOOSE' : 'ELK');
-  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg ? 'CONTROLLED' : 'GENERAL');
+  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
   // first visit: start on the animal last used in Find A Hunt (its remembered filters)
   useEffect(() => {
     try {
@@ -47,7 +47,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   // the header's drawing switch: start over on that drawing's species
   useEffect(() => {
     setSpRaw(msg ? 'MOOSE' : 'ELK');
-    setHtypeRaw(msg ? 'CONTROLLED' : 'GENERAL');
+    setHtypeRaw(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
     setMetric((m) => (METRICS[m].kind === 'land' ? m : msg ? 'ctlOdds' : 'success'));
   }, [msg]);
   const setSp = (x: Sp) => {
@@ -58,11 +58,11 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const setHtype = (t: 'GENERAL' | 'CONTROLLED') => {
     setHtypeRaw(t);
     // keep a land shading; otherwise switch to the same kind of number for the new hunt type
-    setMetric((m) => (METRICS[m].kind === 'land' ? m : t === 'CONTROLLED' ? (m === 'pressure' ? 'ctlSuccess' : 'ctlOdds') : 'success'));
+    setMetric((m) => (METRICS[m].kind === 'land' ? m : t === 'CONTROLLED' ? (m === 'pressure' ? 'ctlSuccess' : st.code==='CO' ? 'ctlQuality' : 'ctlOdds') : 'success'));
   };
   // "No Shading": just the unit outlines over the basemap
   const [noShade, setNoShade] = useState(false);
-  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" || k === "public")
+  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow", "ctlOdds", "ctlFill"].includes(k))
       .filter(
         (k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'),
       )
@@ -83,7 +83,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     try { localStorage.setItem('unitMapBounds', b); } catch { /* not remembered */ }
   };
   useEffect(() => {
-    try { if (!bare && !msg && localStorage.getItem('unitMapBounds') === 'zones') { setBoundsRaw('zones'); boundsRef.current = 'zones'; } } catch { /* default */ }
+    try { if (!bare && !msg && st.features.elkZones && localStorage.getItem('unitMapBounds') === 'zones') { setBoundsRaw('zones'); boundsRef.current = 'zones'; } } catch { /* default */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { if (msg && bounds === 'zones') setBounds('units'); /* no elk zones on that drawing */ }, [msg]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -303,7 +303,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           options={options}
           onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
           ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
-          note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : (SCALE_NOTE[fixedScale(field) ?? ''] ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
+          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : (SCALE_NOTE[fixedScale(field) ?? ''] ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
           extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
           kind={kind}
           onKind={setKind}

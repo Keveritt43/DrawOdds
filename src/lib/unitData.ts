@@ -38,7 +38,7 @@ const cached: Record<string, Promise<UnitData> | null> = {};
  * (Versioned URL: an hour-cached response from before a deploy must not be reused.)
  */
 export function loadUnits(state = 'ID'): Promise<UnitData> {
-  cached[state] ??= fetch(state === 'ID' ? '/api/units?v=10' : `/api/units?v=10&state=${state}`)
+  cached[state] ??= fetch(state === 'ID' ? '/api/units?v=11' : `/api/units?v=11&state=${state}`)
     .then((r) => {
       if (!r.ok) throw new Error(`units ${r.status}`);
       return r.json();

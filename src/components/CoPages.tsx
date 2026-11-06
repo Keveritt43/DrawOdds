@@ -92,7 +92,7 @@ export function CoAbout() {
       </p>
       <h2>Quality And Trophy</h2>
       <p>
-        Colorado Quality is not published as a validated state rating. Deer/elk
+        Colorado Quality uses the same fixed benchmarks as Idaho, with validated input gates. Deer/elk
         harvest sex counts and herd bull/cow ratios are not trophy-size
         measurements. No trophy ranking is fabricated from them.
       </p>
@@ -179,19 +179,16 @@ export async function CoChanges() {
 export function CoScore() {
   return (
     <main className="wrap" style={{ maxWidth: 820, margin: "24px auto" }}>
-      <h1>Colorado Hunt Metrics</h1>
+      <h1>Colorado DrawOdds Score</h1>
       <p>
-        Colorado cards show your point-based draw scenario, harvest success,
-        hunter density, public ownership and draw-and-fill. Quality and trophy
-        ratings are not published until the state model and trophy measurements
-        have been validated.
+        Colorado uses the same fixed Quality benchmarks as Idaho: sample-adjusted harvest success (65%), public ownership (20%) and elbow room (15%). Quality is capped at the lower of observed and adjusted Success plus 20; below the low success benchmark it cannot exceed 49. Trophy receives no adjustment because verified antler-size measurements are unavailable.
       </p>
       <p>
-        Draw-and-fill multiplies your selected draw probability by observed
+        Opportunity = Quality × √(your selected point-based draw odds), rounded to a whole number. It changes with your points, residency, youth pool and actual/projected draw selection. Draw-and-fill multiplies your selected draw probability by observed
         harvest success. It is a planning estimate, not a promise. Land
         percentages describe ownership, not permission.
       </p>
-      <Link href="/about">Colorado sources and methods</Link>
+      <p>At least 30 hunter-seasons, valid pooled harvest counts and success, known density and at least 95% mapped ownership coverage across every unit are required. Unknown inputs stay unscored; weights are never redistributed. Private-only hunts receive zero public-access credit. The available five-season window is used; pre-2025 harvest often describes units and seasons rather than an exact hunt code.</p><p>Access uses the same public-ownership definition as the Idaho model, without Access Yes! acreage. Public ownership is not guaranteed hunting access. State trust, parks, military and other restrictions still apply. Density averages conceal local crowding. These are transparent decision indices, not validated predictions of hunt satisfaction.</p><Link href="/about">Colorado sources and methods</Link>
     </main>
   );
 }
