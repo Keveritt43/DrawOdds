@@ -1,3 +1,5 @@
+import type { HuntSummary } from "@prisma/client";
+import { overlapsElk } from "@/lib/overlappingSeasons";
 import { db } from "@/lib/db";
 import type { UnitTables } from "@/sync/co/harvest";
 const labels: Record<string, string> = {
@@ -9,7 +11,7 @@ const labels: Record<string, string> = {
   muzzle: "Muzzleloader",
 };
 /** Unit/season survey estimates, never a statewide OTC code total assigned to one unit. */
-export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
+export async function CoUnitSeasonHunters({ units, hunt }: { units: string[]; hunt?: HuntSummary }) {
   const reports = await db.stateReport.findMany({
     where: { state: "CO", kind: "harvest-unit" },
     orderBy: { year: "desc" },
@@ -19,7 +21,7 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
     orderBy: { tagCode: "asc" },
   });
   const latestCodes = codes.flatMap((r) => {
-    if (r.type === "GENERAL") return [];
+    if (r.type === "GENERAL" && (!hunt || r.species !== "ELK" || !overlapsElk(hunt, r))) return [];
     const hs =
       (
         r.pointOdds as {
@@ -46,7 +48,7 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
           <h2>Hunters By Hunt Code</h2>
           <p className="small muted">
             Latest code-specific estimates. Multi-unit codes are labeled “Multiple”; counts spanning multiple units are not assigned to one unit.
-            Do not add overlapping tag counts as unique hunters.
+            OTC counts are unavailable by unit; other code counts cover all listed units. Do not add overlapping tag counts as unique hunters.
           </p>
           <div className="htable-wrap">
             <table>
@@ -70,9 +72,9 @@ export async function CoUnitSeasonHunters({ units }: { units: string[] }) {
                     <td>{r.takeMethod}</td>
                     <td>{h.year}</td>
                     <td>{r.units.length > 1 ? "Multiple" : r.units.join(", ")}</td>
-                    <td>{h.hunters.toLocaleString()}</td>
-                    <td>{h.harvest.toLocaleString()}</td>
-                    <td>{h.hunters > 0 && h.harvest <= h.hunters ? `${Math.round(h.harvest / h.hunters * 100)}%` : "—"}</td>
+                    <td>{r.type === "GENERAL" ? "—" : h.hunters.toLocaleString()}</td>
+                    <td>{r.type === "GENERAL" ? "—" : h.harvest.toLocaleString()}</td>
+                    <td>{r.type !== "GENERAL" && h.hunters > 0 && h.harvest <= h.hunters ? `${Math.round(h.harvest / h.hunters * 100)}%` : "—"}</td>
                   </tr>
                 ))}
               </tbody>

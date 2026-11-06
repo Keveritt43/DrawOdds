@@ -75,7 +75,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <h2>Hunter Success</h2>
         {po.harvest?.length ? <Harvest rows={po.harvest} species="elk" /> : <p>No harvest estimate loaded for this code.</p>}
         <h2>Elk Population</h2>
-        <CoUnitSeasonHunters units={s.units} />
+        <CoUnitSeasonHunters units={s.units} hunt={s} />
         <CoLand units={s.units} />
         <CoHerds species="ELK" herds={po.herds ?? []} highlight={s.units} />
       </main>
@@ -284,7 +284,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         CPW; confirm hunt codes, dates and rules in the current big game brochure.
       </p>
       <OverlappingElk hunt={s} />
-      <CoUnitSeasonHunters units={s.units} />
+      <CoUnitSeasonHunters units={s.units} hunt={s} />
       <CoLand units={s.units} />
     </main>
   );
