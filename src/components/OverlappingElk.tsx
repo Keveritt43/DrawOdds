@@ -21,7 +21,7 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
       <p className="small muted">
         Same unit and at least one overlapping date. Each season requires its own valid license and eligibility; listing it does not
         establish that tags are currently available.
-        {hunt.state === 'CO' && ' OTC and multi-unit hunt-code totals cannot be attributed to an individual unit, so their counts and success are unavailable here. Single-unit values are averages for the years reported.'}
+        {hunt.state === 'CO' && ' Limited-hunt counts and success cover the full hunt code, including units outside this overlap. Counts are annual averages for up to five reported years; success is weighted by hunters. Density is shown only for single-unit codes. OTC code totals cannot be attributed to these units.'}
       </p>
       {rows.length ? (
         <div className="htable-wrap">
@@ -32,7 +32,7 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
                 <th>Type</th>
                 <th>Shared units</th>
                 <th>Dates</th>
-                <th>{hunt.state === 'CO' ? 'Hunters · shared unit' : 'Hunters/yr · hunt coverage'}</th>
+                <th>Hunters/yr · hunt coverage</th>
                 <th>Hunters/mi²</th>
                 {hunt.state === 'CO' && <th>Harvest success</th>}
               </tr>
@@ -40,9 +40,9 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
             <tbody>
               {rows.map((r) => {
                 const h = ((r.pointOdds as {harvest?: {year:number; basis:string; hunters:number; harvest:number}[]} | null)?.harvest ?? []).filter(x => x.basis === 'code' && x.hunters > 0 && x.harvest >= 0 && x.harvest <= x.hunters).sort((a,b) => b.year-a.year).slice(0,5);
-                const valid = hunt.state === 'CO' && r.type !== 'GENERAL' && r.units.length === 1 && hunt.units.length === 1 && h.length > 0;
+                const valid = hunt.state === 'CO' && r.type !== 'GENERAL' && h.length > 0;
                 const hunters = h.reduce((n,x) => n+x.hunters,0), harvested = h.reduce((n,x) => n+x.harvest,0);
-                const acres = coLandUnit(r.units[0])?.acres;
+                const acres = r.units.length === 1 ? coLandUnit(r.units[0])?.acres : null;
                 return (
                 <tr key={r.id}>
                   <td>
@@ -61,8 +61,8 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
                           r.hunters5 / Math.min(5, r.harvestYears),
                         ).toLocaleString()
                       : "—"}
-                    {hunt.state !== 'CO' && r.units.length > 1
-                      ? " · all " + r.units.length + " units"
+                    {r.units.length > 1 && (hunt.state !== 'CO' || valid)
+                      ? hunt.state === 'CO' ? " · all units: " + r.units.join(', ') : " · all " + r.units.length + " units"
                       : ""}
                   </td>
                   <td>
