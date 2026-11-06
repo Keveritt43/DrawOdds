@@ -14,7 +14,7 @@ export function parsePopulation(pages: Item[][]): { year: number | null; species
   for (const items of pages) {
     const rows = rowsOf(items);
     const all = rows.map((r) => r.map((i) => i.s.trim()).join(' ')).join(' ');
-    const ym = /(20\d\d)\s+POST\s+HUNT\s+POPULATION/i.exec(all);
+    const ym = /(20\d\d)\s+(?:POST|PRE)\s+HUNT\s+POPULATION/i.exec(all);
     if (ym) year = Number(ym[1]);
     const sm = /\b(DEER|ELK|PRONGHORN|MOOSE)\b/i.exec(all);
     if (sm && !species) species = sm[1].toUpperCase();

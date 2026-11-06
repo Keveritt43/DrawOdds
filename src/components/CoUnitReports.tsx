@@ -4,7 +4,7 @@ import { CoHerds } from './CoHerds';
 import { herdSeries } from '@/lib/coHerds';
 import { fmtNeed } from '@/lib/coDisplay';
 import { secondaryDrawn } from '@/lib/coReportDisplay';
-import { REPORT_CATALOG } from '@/sync/co/manifest';
+import { REPORT_CATALOG, PRONGHORN_REPORT_CATALOG } from '@/sync/co/manifest';
 import type { DrawnOutRow, SalesRow } from '@/sync/co/supplemental';
 import type { RecapHunt } from '@/sync/co/recap';
 import type { HerdEstimate } from '@/sync/co/population';
@@ -18,7 +18,7 @@ const labels = [
   ['otc-sales', 'Over the Counter Sales'],
 ] as const;
 /** All CPW report categories, linked to the same deer/elk unit context. */
-export async function CoUnitReports({ units, hunts, points }: { units: string[]; hunts: HuntSummary[]; points: {res: string; DEER: number; ELK: number} }) {
+export async function CoUnitReports({ units, hunts, points }: { units: string[]; hunts: HuntSummary[]; points: {res: string; DEER: number; ELK: number; PRONGHORN: number} }) {
   const reports = await db.stateReport.findMany({ where: { state: 'CO' }, orderBy: { year: 'desc' } });
   const codes = new Set(hunts.map((h) => h.tagCode));
   return (
@@ -28,14 +28,14 @@ export async function CoUnitReports({ units, hunts, points }: { units: string[];
         label,
         content: (
           <div>
-            {(['DEER', 'ELK'] as const).map((species) => {
+            {(['DEER', 'ELK', 'PRONGHORN'] as const).map((species) => {
               const relevant = hunts.filter((h) => h.species === species);
               const speciesReports = reports.filter((r) => r.species === species);
-              const links = REPORT_CATALOG.filter((r) => r.species === species && r.kind === kind);
+              const links = [...REPORT_CATALOG, ...PRONGHORN_REPORT_CATALOG].filter((r) => r.species === species && r.kind === kind);
               return (
                 <section key={species} style={{ margin: '16px 0' }}>
                   <h3>
-                    {species === 'DEER' ? 'Deer' : 'Elk'} · {label}
+                    {species === 'DEER' ? 'Deer' : species === 'ELK' ? 'Elk' : 'Pronghorn'} · {label}
                   </h3>
                   {kind === 'draw' ? (
                     <div className="htable-wrap">

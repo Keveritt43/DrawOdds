@@ -1,6 +1,7 @@
-import { overlapsElk } from '@/lib/overlappingSeasons';
+import { getCoScoringContext } from '@/lib/coScoringContext';
+import { withCoScores, withCoOpportunity } from '@/lib/coScores';
+import { otcElkOverlap } from '@/lib/overlappingSeasons';
 import { CoRecommendations } from "@/components/CoRecommendations";
-import { withCoLand } from "@/lib/coLand";
 import { RememberQuery } from "@/components/BackLink";
 import { parseFilters } from "@/lib/finder";
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
@@ -28,7 +29,7 @@ const pct = (o: number | null) => (o === null ? '–' : o >= 0.995 ? '100%' : o 
 
 /** Find A Hunt for Colorado: limited licenses with odds at the hunter's own preference points. */
 export async function CoFinder({ sp }: { sp: SP }) {
-  const species = one(sp.species) === "ELK" ? "ELK" : "DEER";
+  const species = one(sp.species) === 'PRONGHORN' ? 'PRONGHORN' : one(sp.species) === 'ELK' ? 'ELK' : 'DEER';
   const mode = one(sp.odds) === "last" ? "last" : "proj";
   const pts = await getPoints("CO");
   const nr = pts.res === "NONRESIDENT";
@@ -41,7 +42,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
   const chances = many(sp.chance) as Chance[];
   const range = pointRange(one(sp.minPts), one(sp.maxPts));
   const unit = one(sp.unit).replace(/\D/g, "");
-  const sort = ['pts', 'tags', 'unit', 'creep', 'success'].includes(one(sp.sort)) ? one(sp.sort) : 'odds';
+  const sort = ['pts', 'tags', 'unit', 'creep', 'success', 'score', 'opp'].includes(one(sp.sort)) ? one(sp.sort) : 'odds';
   const minSucc = Number(one(sp.minSucc)) || 0;
   const page = Math.max(1, Number(one(sp.page)) || 1);
 
@@ -64,16 +65,16 @@ export async function CoFinder({ sp }: { sp: SP }) {
         : { youthOnly: false }),
     ...(minSucc ? { success5: { gte: minSucc / 100 } } : {}),
   };
-  const [rows, fav, otc] = await Promise.all([
+  const [rows, fav, context] = await Promise.all([
     db.huntSummary.findMany({
       where,
     }),
     getFavorites(),
-    species === 'DEER' ? db.huntSummary.findMany({where:{state:'CO',species:'ELK',type:'GENERAL'}}) : Promise.resolve([]),
+    getCoScoringContext(),
   ]);
   const year = rows[0]?.oddsLastYear ?? (await db.drawRecap.aggregate({ where: { state: 'CO', species }, _max: { year: true } }))._max.year;
   const decorated = rows
-    .map(withCoLand)
+    .map(r=>withCoScores(r,context))
     .filter(
       (r) =>
         !Number(one(sp.minPublic)) ||
@@ -83,8 +84,9 @@ export async function CoFinder({ sp }: { sp: SP }) {
       const d = decodeCode(r.tagCode ?? '');
       const t = r.oddsByPts as unknown as OddsTable | null;
       const odds = tableOdds(t, mode, pool, myPts);
-      const ch: Chance = odds === null ? 'none' : chanceOf(odds, odds >= 0.995 ? 1 : 0, odds > 0 ? 1 : 0);
-      return { r, d, odds, ch, hasOtcElk: species === 'DEER' && otc.some(e => overlapsElk(r,e)) };
+      const ch: Chance = chanceOf(odds, odds !== null && odds >= 0.995 ? 1 : 0, odds !== null && odds > 0 ? 1 : 0);
+      const otcOverlap = species === 'DEER' ? otcElkOverlap(r,context.generalElk) : null;
+      return { r: withCoOpportunity(r, odds, nr), d, odds, ch, otcOverlap, hasOtcElk: otcOverlap === true };
     })
     .filter(
       ({ d }) =>
@@ -97,14 +99,14 @@ export async function CoFinder({ sp }: { sp: SP }) {
     .filter(({ r }) => matchesCoSeason(r.tagCode ?? "", seasons))
     .filter(({ r }) => matchesHuntSeason(r, { ...common, weapon: [] }))
     .filter(({ ch }) => !chances.length || chances.includes(ch))
-    .filter(({hasOtcElk}) => one(sp.otcElk) !== '1' || species !== 'DEER' || hasOtcElk);
+    .filter(({otcOverlap}) => species !== 'DEER' || (one(sp.otcElk) === '1' ? otcOverlap === true : one(sp.otcElk) === '0' ? otcOverlap === false : true));
   // a 100% from 3 hunters shouldn't top the list: pull small samples toward the middle (30 hunters' worth at 50%)
   const succKey = (r: (typeof rows)[number]) =>
     r.success5 === null ? -1 : (r.success5 * (r.hunters5 ?? 0) + 15) / ((r.hunters5 ?? 0) + 30);
   const need = (r: (typeof rows)[number]) => (nr ? r.ptsNr : r.ptsRes) ?? 99;
   const creep = (r: (typeof rows)[number]) => (nr ? r.creepNr : r.creepRes) ?? 0;
   decorated.sort((a, b) =>
-    sort === 'pts'
+    sort === 'score' ? (b.r.scoreQuality ?? -1) - (a.r.scoreQuality ?? -1) : sort === 'opp' ? ((nr ? b.r.scoreOppNr : b.r.scoreOppRes) ?? -1) - ((nr ? a.r.scoreOppNr : a.r.scoreOppRes) ?? -1) : sort === 'pts'
       ? need(a.r) - need(b.r) || (b.odds ?? 0) - (a.odds ?? 0)
       : sort === 'tags'
         ? (b.r.tags ?? 0) - (a.r.tags ?? 0)
@@ -121,10 +123,12 @@ export async function CoFinder({ sp }: { sp: SP }) {
   const q = (patch: Record<string, string | null>) => {
     const p = new URLSearchParams();
     for (const [k, v] of Object.entries(sp)) if (typeof v === 'string' && v) p.set(k, v);
+    p.delete('reset');
     for (const [k, v] of Object.entries(patch)) v === null ? p.delete(k) : p.set(k, v);
     return `/hunts${p.size ? `?${p}` : ''}`;
   };
   const chips = [
+    ...(['0','1'].includes(one(sp.otcElk)) ? [{label:one(sp.otcElk)==='1'?'Has OTC elk':'No OTC elk',href:q({otcElk:null,page:null})}] : []),
     ...chances.map((c) => ({ label: CHANCE_LABEL[c], href: q({ chance: chances.filter((x) => x !== c).join(',') || null, page: null }) })),
     ...(range.min !== null || range.max !== null
       ? [{ label: `${range.min ?? 0}–${range.max ?? 40} pts needed`, href: q({ minPts: null, maxPts: null, page: null }) }]
@@ -134,7 +138,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     ...(minSucc ? [{ label: `Success ${minSucc}%+`, href: q({ minSucc: null, page: null }) }] : []),
   ];
   const projYear = (year ?? 0) + 1;
-  const spLabel = species === "DEER" ? "deer" : "elk";
+  const spLabel = species === 'DEER' ? 'deer' : species === 'ELK' ? 'elk' : 'pronghorn';
 
   return (
     <main className="filtering">
@@ -149,7 +153,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
                 return [
                   unit,
                   {
-                    score: null,
+                    score: hs.reduce<number | null>((best,x) => x.r.scoreQuality === null ? best : Math.max(best ?? 0,x.r.scoreQuality),null),
                     odds: Math.max(...hs.map((x) => (x.odds ?? 0) * 100)),
                     fill: Math.max(
                       ...hs.map(
@@ -197,6 +201,8 @@ export async function CoFinder({ sp }: { sp: SP }) {
                 [
                   ['odds', 'My odds'],
                   ['success', 'Success'],
+                  ['score', 'Quality'],
+                  ['opp', 'Opportunity'],
                   ['pts', 'Points needed'],
                   ['tags', 'Licenses'],
                   ['creep', 'Point creep'],

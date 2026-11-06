@@ -16,7 +16,7 @@ export interface SalesRow {
 export function parseDrawnOut(pages: Item[][]): DrawnOutRow[] {
   const result: DrawnOutRow[] = [];
   for (const items of pages) {
-    const codes = items.filter((i) => /^[DE][MFEP]\d{3}[A-Z0-9]\d[A-Z]$/.test(i.s.trim()) && i.x < 130);
+    const codes = items.filter((i) => /^[DEA][MFEP]\d{3}[A-Z0-9]\d[A-Z]$/.test(i.s.trim()) && i.x < 130);
     const centers = [340, 374, 408, 442, 480, 527];
     for (const code of codes) {
       const label = items
@@ -62,7 +62,7 @@ export function parseOtcSales(pages: Item[][]): SalesRow[] {
   const result: SalesRow[] = [];
   for (const page of pages)
     for (const row of rowsOf(page)) {
-      const code = row.find((i) => /^[DE][MFEP]\d{3}[A-Z0-9]\d[A-Z]$/.test(i.s.trim()));
+      const code = row.find((i) => /^[DEA][MFEP]\d{3}[A-Z0-9]\d[A-Z]$/.test(i.s.trim()));
       if (!code) continue;
       const n = row.filter((i) => i.x > code.x && /^[\d,]+$/.test(i.s.trim())).map((i) => Number(i.s.replace(/,/g, '')));
       if (n.length !== 5 || n.slice(0, 4).reduce((a, b) => a + b, 0) !== n[4]) continue;

@@ -43,7 +43,7 @@ export function MapKey({
   }, [folded]);
   const b = ramp?.classes?.breaks ?? [];
   const fmt = ramp?.fmt ?? String;
-  const cat = ramp?.labels && ramp.classes?.idx ? ramp.labels : null;
+  const cat = ramp?.classes?.labels ?? (ramp?.labels && ramp.classes?.idx ? ramp.labels : null);
   const label = (i: number) => cat ? cat[i] ?? '' : (!b.length ? `All ${ramp?.unit ?? 'units'}` : i === 0 ? `Under ${fmt(b[0])}` : i === b.length ? `${fmt(b[i - 1])}+` : `${fmt(b[i - 1])} to ${fmt(b[i])}`);
   const tick = (i: number) => cat ? (cat[i] ?? '').split(' ')[0] : (!b.length ? 'All' : i === 0 ? `<${fmt(b[0])}` : fmt(b[i - 1]));
   const swatches = (xs: KeyItem[]) => (
@@ -74,7 +74,7 @@ export function MapKey({
         ramp.classes ? (
           <div className="mp-strip" role="list" aria-label="Map key">
             {ramp.colors.map((c, i) => (
-              <div key={i} className="mp-cell" role="listitem" title={`${label(i)}: ${ramp.classes!.counts[i]} ${ramp.unit}`}>
+              <div key={i} className="mp-cell" role="listitem" title={`${label(i)}${ramp.classes!.labels && ramp.classes!.idx?.[i] === 3 ? " (your points)" : ""}: ${ramp.classes!.counts[i]} ${ramp.unit}`}>
                 <i style={{ background: c }} />
                 <span>{tick(i)}</span>
               </div>
@@ -91,7 +91,7 @@ export function MapKey({
           {ramp?.classes && (
             <table className="legend-t small">
               <tbody>
-                {ramp.colors.map((c, i) => <tr key={i}><td><i style={{ background: c }} /></td><td>{label(i)}</td><td className="n">{ramp.classes!.counts[i]} {ramp.unit}</td></tr>).reverse()}
+                {ramp.colors.map((c, i) => <tr key={i}><td><i style={{ background: c }} /></td><td>{label(i)}{ramp.classes!.labels && ramp.classes!.idx?.[i] === 3 ? " (your points)" : ""}</td><td className="n">{ramp.classes!.counts[i]} {ramp.unit}</td></tr>).reverse()}
                 {ramp.missing ? <tr><td><i style={{ background: NODATA }} /></td><td>{ramp.none}</td><td className="n">{ramp.missing}</td></tr> : null}
               </tbody>
             </table>

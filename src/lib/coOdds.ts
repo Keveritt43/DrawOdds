@@ -234,13 +234,14 @@ export function project(history: PoolYear[], cal: Calibration): Projection | nul
   };
 }
 
-export type Chance = 'sure' | 'likely' | 'possible' | 'longshot' | 'none';
+export type Chance = 'sure' | 'likely' | 'possible' | 'longshot' | 'none' | 'unavailable';
 export const CHANCE_LABEL: Record<Chance, string> = {
-  sure: 'Near certain',
+  sure: 'Near Certain',
   likely: 'Likely',
   possible: 'Possible',
   longshot: 'Long shot',
   none: 'No chance',
+  unavailable: 'Unavailable',
 };
 
 /**
@@ -262,7 +263,8 @@ export function projectedOdds(
 }
 
 /** Label for odds (0..1); `hi` = the best case: none only when no outcome draws. */
-export function chanceOf(odds: number, _lo: number, hi: number): Chance {
+export function chanceOf(odds: number | null, _lo: number, hi: number): Chance {
+  if (odds === null || !Number.isFinite(odds)) return 'unavailable';
   if (hi <= 0 || odds < 0.005) return 'none';
   if (odds >= 0.9) return 'sure';
   if (odds >= 0.6) return 'likely';

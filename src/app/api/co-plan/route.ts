@@ -26,10 +26,10 @@ export async function PUT(req: Request) {
   const b = await req.json().catch(() => null);
   if (
     !Array.isArray(b?.codes) ||
-    b.codes.length > 8 ||
+    b.codes.length > 12 ||
     b.codes.some(
       (c: unknown) =>
-        typeof c !== "string" || !/^CO:[DE][MFEP]\d{3}[A-Z0-9]\d[A-Z]$/.test(c),
+        typeof c !== "string" || !/^CO:[DEA][MFEP]\d{3}[A-Z0-9]\d[A-Z]$/.test(c),
     )
   )
     return new Response("Invalid plan", { status: 400 });

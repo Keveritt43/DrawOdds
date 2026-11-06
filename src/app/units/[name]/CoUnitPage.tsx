@@ -68,7 +68,7 @@ export async function CoUnitPage({ name }: { name: string }) {
             </thead>
             <tbody>
               {hunts.map((h) => {
-                const p = pts[h.species === 'ELK' ? 'ELK' : 'DEER'];
+                const p = pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'];
                 const o = tableOdds(h.oddsByPts as unknown as OddsTable, 'proj', pool, p);
                 const ch = o === null ? 'none' : chanceOf(o, o >= 0.995 ? 1 : 0, o > 0 ? 1 : 0);
                 const d = decodeCode(h.tagCode ?? '');

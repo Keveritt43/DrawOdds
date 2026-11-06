@@ -1,4 +1,5 @@
 'use client';
+import { CO_METHODS, CO_SEASONS, matchesCoMapFilters } from '@/lib/coMapFilters';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { huntHref } from '@/lib/huntSlug';
@@ -24,7 +25,7 @@ type Props = Record<string, string | number | boolean | null | undefined> & { na
 const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
 
 /** `bare`: just the unit on the map (unit pages), no shading or key. */
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [] }: { nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '' }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const st = useStateConfig();
   const msg = draw === "MSG" && st.code === "ID";
@@ -33,7 +34,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [metric, setMetric] = useState<Metric>('public');
   // basic filters: which animal and which kind of hunt the shading (and the unit's hunt list) is about
   const [sp, setSpRaw] = useState<Sp>(msg ? 'MOOSE' : 'ELK');
-  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg ? 'CONTROLLED' : 'GENERAL');
+  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
   // first visit: start on the animal last used in Find A Hunt (its remembered filters)
   useEffect(() => {
     try {
@@ -47,7 +48,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   // the header's drawing switch: start over on that drawing's species
   useEffect(() => {
     setSpRaw(msg ? 'MOOSE' : 'ELK');
-    setHtypeRaw(msg ? 'CONTROLLED' : 'GENERAL');
+    setHtypeRaw(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
     setMetric((m) => (METRICS[m].kind === 'land' ? m : msg ? 'ctlOdds' : 'success'));
   }, [msg]);
   const setSp = (x: Sp) => {
@@ -58,16 +59,24 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const setHtype = (t: 'GENERAL' | 'CONTROLLED') => {
     setHtypeRaw(t);
     // keep a land shading; otherwise switch to the same kind of number for the new hunt type
-    setMetric((m) => (METRICS[m].kind === 'land' ? m : t === 'CONTROLLED' ? (m === 'pressure' ? 'ctlSuccess' : 'ctlOdds') : 'success'));
+    setMetric((m) => (METRICS[m].kind === 'land' ? m : t === 'CONTROLLED' ? (m === 'pressure' ? 'ctlSuccess' : st.code==='CO' ? 'ctlQuality' : 'ctlOdds') : 'success'));
   };
   // "No Shading": just the unit outlines over the basemap
   const [noShade, setNoShade] = useState(false);
-  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" || k === "public")
+  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow"].includes(k))
       .filter(
         (k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'),
       )
-    .map((k) => ({ value: k, label: METRICS[k].label })),
+    .map((k) => ({ value: k, label: st.code==='CO' && k==='ctlOdds' ? 'Draw Odds At My Points (Best Antlered Hunt)' : st.code==='CO' && k==='ctlFill' ? 'Draw And Fill At My Points (Best Antlered Hunt)' : METRICS[k].label })),
   ];
+  const [methods, setMethods] = useState<string[]>([]);
+  const [seasons, setSeasons] = useState<string[]>([]);
+  const coFilters = new URLSearchParams({method: methods.join(','), season: seasons.join(',')}).toString();
+  const checks = (label: string, options: readonly (readonly [string, string])[], selected: string[], update: (v: string[]) => void) => (
+    <fieldset style={{border: 0, padding: 0, margin: '4px 0', width: '100%'}}><legend className="mk-lab">{label}</legend><div className="checks2">
+      {options.map(([v, text]) => <label key={v}><input type="checkbox" checked={selected.includes(v)} onChange={() => update(selected.includes(v) ? selected.filter(x => x !== v) : [...selected, v])} /> {text}</label>)}
+    </div></fieldset>
+  );
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
   const [sel, setSel] = useState<Props | null>(null);
@@ -83,11 +92,11 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     try { localStorage.setItem('unitMapBounds', b); } catch { /* not remembered */ }
   };
   useEffect(() => {
-    try { if (!bare && !msg && localStorage.getItem('unitMapBounds') === 'zones') { setBoundsRaw('zones'); boundsRef.current = 'zones'; } } catch { /* default */ }
+    try { if (!bare && !msg && st.features.elkZones && localStorage.getItem('unitMapBounds') === 'zones') { setBoundsRaw('zones'); boundsRef.current = 'zones'; } } catch { /* default */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { if (msg && bounds === 'zones') setBounds('units'); /* no elk zones on that drawing */ }, [msg]); // eslint-disable-line react-hooks/exhaustive-deps
-  type UH = { id: string; slug?: string | null; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
+  type UH = { tagCode?: string | null; id: string; slug?: string | null; type: 'GENERAL' | 'CONTROLLED' | 'NRTAG'; label: string; species: string; antler: string; resOdds5: number | null; nrOdds5: number | null; success5: number | null };
   const [uh, setUh] = useState<{ unit: string; rows: UH[] } | null>(null);
   const selName = sel ? String(sel.name) : null;
   useEffect(() => {
@@ -135,7 +144,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           classes: cl,
           missing: miss,
           labels,
-        } = await loadUnits(st.code);
+        } = await loadUnits(st.code,coPointsKey);
         setClasses(cl);
         setMissing(miss);
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
@@ -193,6 +202,20 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       map.current = null;
     };
   }, [focus]);
+
+  useEffect(() => {
+    if (st.code !== 'CO' || bare || !mapObj) return;
+    let live = true;
+    setErr('');
+    loadUnits('CO', coPointsKey, coFilters).then(data => {
+      if (!live) return;
+      (mapObj.getSource('units') as maplibregl.GeoJSONSource).setData(data.fc as never);
+      setClasses(data.classes);
+      setMissing(data.missing);
+      setSel(null);
+    }).catch(() => { if (live) setErr('Could not update map filters. Please try again.'); });
+    return () => { live = false; };
+  }, [mapObj, coPointsKey, coFilters, st.code, bare]);
 
   // recolor when the metric changes
   useEffect(() => {
@@ -291,11 +314,13 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                       ? [
                           ["ELK", "Elk"],
                           ["DEER", "Deer"],
+                          ["PRONGHORN", "Pronghorn"],
                         ]
                       : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]
                 }
               />
               {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN'], ['CONTROLLED', 'Controlled']]} />}
+              {st.code === 'CO' && <>{checks('Weapon', CO_METHODS, methods, setMethods)}{checks('Season type (select any)', CO_SEASONS, seasons, setSeasons)}</>}
               {!msg && st.features.elkZones && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
             </>
           }
@@ -303,7 +328,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           options={options}
           onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
           ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
-          note={`${M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${M.kind === 'controlled' ? `, ${nr ? 'nonresident' : 'resident'} odds` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : (SCALE_NOTE[fixedScale(field) ?? ''] ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
+          note={`${st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${['ctlOdds','ctlFill','ctlPoints','ctlCreep'].includes(metric) ? `, ${nr ? 'nonresident' : 'resident'}` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ((st.code === 'CO' && metric === 'ctlPoints' ? ' Yellow = your saved species points; greener = fewer points needed, redder = more. Bands use whole points; 3 fewer or lower and 3 more or higher share the end colors.' : metric==='ctlQuality' ? ' Fixed 0–100 scale, matching the Quality badges.' : SCALE_NOTE[fixedScale(field) ?? '']) ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
           extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
           kind={kind}
           onKind={setKind}
@@ -399,6 +424,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                 // every hunt in the unit for this drawing: the key's animal first, then the others
                 const order = (x: string) => (x === sp ? 0 : 1);
                 const list = (uh?.rows ?? [])
+                  .filter(h => st.code !== 'CO' || (h.species === sp && (kind === htype) && matchesCoMapFilters(h.tagCode ?? null, methods, seasons)))
                   .filter((h) => (kind === 'CONTROLLED' ? h.type === 'CONTROLLED' : h.type !== 'CONTROLLED'))
                   .filter((h) => nr || h.type !== 'NRTAG' || h.species === 'ELK') // deer tags matter to nonresidents only
                   .filter((h) => !h.species || (msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : ['ELK', 'DEER', 'PRONGHORN']).includes(h.species))

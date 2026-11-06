@@ -12,7 +12,7 @@ const pctFmt = (v: number) => `${Math.round(v * 100)}%`;
 const tip = (v: unknown, name: string) =>
   typeof v === 'number' ? [name.includes('odds') || name.includes('success') || name.includes('share') ? `${(v * 100).toFixed(1)}%` : v.toLocaleString(), name] : [String(v), name];
 
-function Frame({ title, children, height = 220 }: { title: string; children: React.ReactElement; height?: number }) {
+export function Frame({ title, children, height = 220 }: { title: string; children: React.ReactElement; height?: number }) {
   return (
     <div className="card">
       <h3 style={{ marginTop: 0 }}>{title}</h3>

@@ -1,3 +1,5 @@
+import { CoQuickStart } from '@/components/CoQuickStart';
+import { getPoints } from '@/lib/points';
 import Link from 'next/link';
 import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
@@ -9,9 +11,10 @@ import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, nextWindow, md } from '@/li
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  if ((await getState()).code === "CO")
+  if ((await getState()).code === "CO") {
+    const points = await getPoints("CO");
     return (
-      <main className="wrap" style={{ margin: "32px auto" }}>
+      <main><section className="home-hero"><div className="inner"><div>
         <h1>Find Your Colorado Hunt. Know Your Odds.</h1>
         <p>
           Research deer and elk licenses with preference-point scenarios,
@@ -39,8 +42,9 @@ export default async function Home() {
           <Link href="/about">Data &amp; Methods</Link> ·{" "}
           <Link href="/changes">What Changed</Link>
         </p>
-      </main>
+      </div><CoQuickStart points={points} /></div></section></main>
     );
+  }
   const [{ residency }, draw] = await Promise.all([getResidency(), getDraw()]);
   const msg = draw === 'MSG';
   const [hunts, controlled, units, oddsYears, accessYes] = await Promise.all([
@@ -125,7 +129,7 @@ export default async function Home() {
             )}
             <label>What Are You After?</label>
             <div className="opts">
-              {opt('antler', 'ANTLERED', msg ? 'A Bull Or Ram (Male)' : 'A Buck Or Bull (Incl. Either-Sex Hunts)', true)}
+              {opt('antler', 'ANTLERED', msg ? 'Antlered (Bull Or Ram)' : 'A Buck Or Bull (Incl. Either-Sex Hunts)', true)}
               {opt('antler', '', msg ? 'Any (Incl. Cows / Ewes)' : 'Any Animal (Incl. Does / Cows)')}
             </div>
             <label>Weapon</label>

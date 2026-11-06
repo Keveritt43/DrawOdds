@@ -1,14 +1,73 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { parseRecap } from '../src/sync/co/recap';
+import { decodeHuntCode, parseRecap } from '../src/sync/co/recap';
 import { parseDrawnOut, parseOtcSales } from '../src/sync/co/supplemental';
-import { parseHarvestByCode } from '../src/sync/co/harvest';
+import { harvestYear, parseHarvestByCode } from '../src/sync/co/harvest';
 import { parseRegs, datesFor } from '../src/sync/co/regs';
 import { returningCohort, project, DEFAULT_CALIBRATION } from '../src/lib/coOdds';
 import { pointRange } from '../src/lib/pointRange';
+import { decodeCode, huntTitle } from '../src/lib/coHunt';
 import { overlapsElk, type SeasonContext } from '../src/lib/overlappingSeasons';
 const fixture = (name: string) => JSON.parse(readFileSync(`tests/fixtures/${name}.json`, 'utf8'));
+test('real pronghorn primary draw parses its hunt code and balances point pools', () => {
+  const p = parseRecap(fixture('co-pronghorn-primary'));
+  assert.equal(p.year, 2026);
+  assert.equal(p.species, 'PRONGHORN');
+  assert.equal(p.hunts.length, 1);
+  const h = p.hunts[0];
+  assert.equal(h.code, 'AE006W1R');
+  assert.equal(h.quota, 2);
+  assert.equal(h.pre.res[0], 5);
+  assert.equal(h.post.res[30], 1);
+  assert.deepEqual(h.problems, []);
+  assert.deepEqual(decodeHuntCode(h.code), {
+    species: 'PRONGHORN', sex: 'E', unit: '6', seasonType: 'W', seasonNo: 1, method: 'R',
+  });
+  assert.equal(decodeCode(h.code)?.species, 'PRONGHORN');
+  assert.match(huntTitle('AM003O1R'), /Rifle · Buck Pronghorn$/);
+});
+test('pronghorn supplemental reports retain source counts and separate draw pools', () => {
+  const secondary = parseRecap(fixture('co-pronghorn-secondary'));
+  assert.equal(secondary.species, 'PRONGHORN');
+  assert.equal(secondary.hunts[0].code, 'AF006O1A');
+  assert.equal(secondary.hunts[0].pre.res[0], 33);
+  assert.equal(secondary.hunts[0].post.yres[0], 1);
+  assert.deepEqual(secondary.hunts[0].problems, []);
+  const drawn = parseDrawnOut(fixture('co-pronghorn-drawn'));
+  assert.equal(drawn[0].code, 'AE006W1R');
+  assert.equal(drawn[0].cutoff.res?.points, 30);
+  const pages = fixture('co-pronghorn-harvest');
+  assert.equal(harvestYear(pages), 2025);
+  const harvest = parseHarvestByCode(pages)[0];
+  assert.equal(harvest.code, 'AE000U1A');
+  assert.equal(harvest.harvest, 273);
+  assert.equal(harvest.hunters, 1187);
+  assert.deepEqual(parseOtcSales(fixture('co-pronghorn-otc'))[0], {
+    code: 'AE000U1A', res: 1083, nr: 263, yres: 39, ynr: 5, total: 1390,
+  });
+});
+test('pronghorn regulations use their own unit lists and season dates', () => {
+  const codes = parseRegs(fixture('co-pronghorn-regs')).codes;
+  const code = codes.AM003O1A;
+  assert.deepEqual(code.units, ['3', '301']);
+  assert.equal(code.licenses, 30);
+  assert.equal(code.dates.row, null);
+  assert.deepEqual(datesFor(code, 2027), { start: '2027-08-15', end: '2027-09-20', year: 2027 });
+  assert.deepEqual(datesFor(codes.AF006O1A, 2027), { start: '2027-09-01', end: '2027-09-20', year: 2027 });
+  assert.deepEqual(datesFor(codes.AM003O1M, 2027), { start: '2027-09-21', end: '2027-09-29', year: 2027 });
+  assert.deepEqual(datesFor(codes.AF006O2R, 2027), { start: '2027-10-16', end: '2027-10-24', year: 2027 });
+  assert.deepEqual(datesFor(codes.AM201O1R, 2027), { start: '2026-10-10', end: '2026-10-18', year: 2026 });
+  for (const unit of ['1', '102', '851', '861', '951']) assert.ok(codes.AE000U1A.units.includes(unit));
+  assert.ok(codes.AE000U1A.partial);
+});
+test('2022 point-only report retains its printed mismatch for review', () => {
+  const h = parseRecap(fixture('co-pronghorn-2022-point')).hunts[0];
+  assert.equal(h.code, 'AP99999P');
+  assert.equal(h.preTotals[0][1], 23199);
+  assert.equal(Object.values(h.pre.nr).reduce((sum, n) => sum + n, 0), 23198);
+  assert.ok(h.problems.some((p) => p.includes('pre nr: point rows add to 23198')));
+});
 test('real elk secondary draw stays separate and balances all first-choice pools', () => {
   const p = parseRecap(fixture('co-elk-secondary'));
   assert.equal(p.year, 2026);

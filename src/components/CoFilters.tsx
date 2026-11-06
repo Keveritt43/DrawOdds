@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { pointRange } from '@/lib/pointRange';
+import { CHANCE_LABEL, type Chance } from '@/lib/coOdds';
 import { DAY_MIN, DAY_MAX, parseMonthDay, toMonthDay } from "@/lib/seasonDays";
 import { DateRange as DateSlider, Section } from './FilterRail';
 
@@ -10,6 +11,7 @@ type Opt = [value: string, label: string];
 const SPECIES: Opt[] = [
   ['DEER', 'Deer'],
   ['ELK', 'Elk'],
+  ['PRONGHORN', 'Pronghorn'],
 ];
 const METHOD: Opt[] = [
   ['R', 'Rifle'],
@@ -29,13 +31,7 @@ const SEASON: Opt[] = [
   ['L', 'Late'],
   ['K', 'Youth only'],
 ];
-export const CHANCES: Opt[] = [
-  ['sure', 'Sure'],
-  ['likely', 'Likely (60%+)'],
-  ['possible', 'Possible (30-60%)'],
-  ['longshot', 'Long shot'],
-  ['none', 'No chance'],
-];
+export const CHANCES: Opt[] = (Object.entries(CHANCE_LABEL) as [Chance, string][]).map(([value, label]) => [value, label]);
 
 /** Colorado's filter rail: the draw at your points first, then the hunt itself. Every change updates the URL. */
 export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: number; speciesLabel: string }) {
@@ -44,6 +40,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
   const [open, setOpen] = useState(false);
   const push = (patch: Record<string, string | string[] | null>) => {
     const p = new URLSearchParams(sp.toString());
+    p.delete('reset');
     for (const [k, v] of Object.entries(patch)) {
       const val = Array.isArray(v) ? v.join(',') : v;
       if (val === null || val === '') p.delete(k);
@@ -117,7 +114,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
             ))}
           </div>
         </Section>
-        {sp_ === 'DEER' && <Section title="Overlapping Elk" value={get('otcElk') === '1' ? 'OTC elk' : 'Any'} set={get('otcElk') === '1'}>{flag('otcElk', 'Only deer hunts overlapping OTC elk in the same unit')}</Section>}
+        {sp_ === 'DEER' && <Section title="Overlapping Elk" value={get('otcElk') === '1' ? 'Has OTC elk' : get('otcElk') === '0' ? 'No OTC elk' : 'Any'} set={['0','1'].includes(get('otcElk'))}><div className="checks2">{[['','Any'],['1','Has OTC elk'],['0','No OTC elk']].map(([v,l])=><label key={v}><input type="radio" name="co-otc-elk" checked={get('otcElk')===v} onChange={()=>push({otcElk:v||null})}/>{l}</label>)}</div><p className="small muted">Same unit and at least one shared open date. Eligibility follows the published CPW regulations. Hunts without verified dates are excluded from both overlap choices.</p></Section>}
         <Section title="Method" value={many(METHOD, 'method', 'All')} set={list('method').length > 0}>
           {checks('method', METHOD)}
         </Section>
@@ -299,7 +296,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
   );
 }
 
-function PointRangeSlider({ min, max, onCommit }: { min: number; max: number; onCommit: (min: number, max: number) => void }) {
+export function PointRangeSlider({ min, max, onCommit }: { min: number; max: number; onCommit: (min: number, max: number) => void }) {
   const [low, setLow] = useState(min),
     [high, setHigh] = useState(max);
   useEffect(() => {

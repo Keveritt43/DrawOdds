@@ -1,14 +1,17 @@
+import { getCoScoringContext } from '@/lib/coScoringContext';
+import type { CoScored } from '@/lib/coScores';
+import { withCoScores, withCoOpportunity } from '@/lib/coScores';
 import { CompareToggle } from './Compare';
 import Link from 'next/link';
 import type { PointOdds } from '@/lib/coHunt';
 import type { HuntSummary } from '@prisma/client';
 import { Star } from './Star';
-import { ScoreBadge } from './HuntCards';
+import { ScoreRow } from './HuntCards';
 import { CHANCE_LABEL, type Chance } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/format';
 import { dateRange, fmtNeed, fmtCreep } from '@/lib/coDisplay';
 /** Colorado uses Idaho's card structure while keeping personalized point-draw odds explicit. */
-export function CoHuntCard({
+export async function CoHuntCard({
   r,
   hasOtcElk = false,
   odds,
@@ -19,7 +22,7 @@ export function CoHuntCard({
   saved,
   signedIn,
 }: {
-  r: HuntSummary;
+  r: CoScored;
   hasOtcElk?: boolean;
   odds: number | null;
   chance: Chance;
@@ -29,6 +32,7 @@ export function CoHuntCard({
   saved: boolean;
   signedIn: boolean;
 }) {
+  r = withCoOpportunity(withCoScores(r,await getCoScoringContext()), odds, nr);
   const general = (r.pointOdds as unknown as PointOdds)?.general;
   const years = Math.min(5, r.harvestYears),
     crowd = crowdVerdict(r.huntersSqMi),
@@ -63,13 +67,7 @@ export function CoHuntCard({
           .filter(Boolean)
           .join(' · ')}
       </div>
-      {r.scoreQuality !== null ? <div className="srow">
-          <ScoreBadge v={r.scoreQuality} label="Quality" />
-        </div> : (
-        <p className="small muted" style={{ margin: "6px 0" }}>
-          Quality: Colorado rating not yet validated
-        </p>
-      )}
+      <ScoreRow r={r} nr={nr} />
       <div className="small" style={{ margin: '8px 0' }}>
         <span className="k">Points needed ({r.oddsLastYear ?? 'latest draw'})</span>{' '}
         <span className="res">Res {fmtNeed(r.ptsRes, r.ptsResPct)}</span> ·{' '}
@@ -107,7 +105,7 @@ export function CoHuntCard({
           <span className="k">Hunters/mi²</span>
           <b>{density(r.huntersSqMi)}</b>
           <span className={`verdict ${crowd.tone}`}>{crowd.text}</span>
-          <span className="sub">{r.hunters5 !== null && years ? `${int(r.hunters5 / years)} hunters/yr` : 'No density data'}</span>
+          <span className="sub">{r.coPressure?.status==='complete' ? `${int(r.coPressure.totalHuntersPerYear)} deer + elk/yr` : r.coPressure?.status==='missing' ? 'Elk pressure unknown' : r.hunters5 !== null && years ? `${int(r.hunters5 / years)} hunters/yr` : 'No density data'}</span>
         </div>
       </div>
       <div className="small muted" style={{ marginTop: 8 }}>
