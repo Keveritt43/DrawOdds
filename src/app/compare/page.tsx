@@ -13,7 +13,6 @@ import { seasonsSummary, seasonRules } from '@/lib/tagSeasons';
 import { objectiveSummary, OBJ_LABEL } from '@/lib/elkObjectives';
 import { huntName } from '@/components/HuntTable';
 import { ScoreBadge } from '@/components/HuntCards';
-import { coSpecial } from '@/lib/coSpecial';
 import { evaluateHunt } from '@/lib/multiStateSearch';
 import { STATES } from '@/lib/states';
 
@@ -74,13 +73,13 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
         <p>Pick at least two hunts with the <b>Compare</b> box on any hunt card or table row, then come back here.</p>
       ) : (
         <>
-        <p className="small muted">Odds use your residency and points for each state. Colorado uses historical rates for moose, sheep and goat, and projections at saved points for the other species. Green = best of these {hunts.length}.</p>
+        <p className="small muted">Odds use your residency and points for each state. Colorado uses historical outcomes at saved regular and weighted points for moose, sheep and goat, and projections at saved points for the other species. Green = best of these {hunts.length}.</p>
         <div className="cmp-wrap">
           <table className="cmp-table">
             <thead>
               <tr>
                 <th />
-                {hunts.map((h) => <th key={h.id}><HuntLink href={huntHref(h)}>{huntName(h)}</HuntLink><p className="small">{STATES[h.state as keyof typeof STATES]?.name ?? h.state} · {nrFor(h) ? 'Nonresident' : 'Resident'}{coSpecial(h) ? ' · Historical draw' : h.state === 'CO' ? ` · ${coPoints[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER']} points` : ''}</p></th>)}
+                {hunts.map((h) => <th key={h.id}><HuntLink href={huntHref(h)}>{huntName(h)}</HuntLink><p className="small">{STATES[h.state as keyof typeof STATES]?.name ?? h.state} · {nrFor(h) ? 'Nonresident' : 'Resident'}{h.state === 'CO' ? ' · ' + evaluateHunt(h,settings,'proj').basis : ''}</p></th>)}
               </tr>
             </thead>
             <tbody>

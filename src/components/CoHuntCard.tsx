@@ -82,7 +82,7 @@ export async function CoHuntCard({
       </div>}
       <div className="hrow-stats three">
         <div>
-          <span className="k">{special ? 'Historical draw rate' : `Draw odds · ${points} points`}</span>
+          <span className="k">{special ? points === null ? 'Historical draw rate' : `Actual odds · ${points} weighted points` : `Draw odds · ${points} points`}</span>
           <b>{pctOdds(odds)}</b>
           <span
             className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}

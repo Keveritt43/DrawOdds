@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import type { Residency } from '@prisma/client';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
+import type { SpecialPointSpecies } from './states';
 
 /**
  * Preference points and residency per state (Idaho has no points; residency there stays on User.residency).
@@ -17,6 +18,11 @@ export interface StatePoints {
   PRONGHORN: number;
   youth: boolean;
   set: boolean;
+  MOOSE?: number;
+  BIGHORN?: number;
+  GOAT?: number;
+  weighted?: Partial<Record<SpecialPointSpecies, number>>;
+  specialSet?: boolean;
 }
 export type PointsStore = Record<string, Partial<StatePoints>>;
 
@@ -32,6 +38,15 @@ export function readState(store: PointsStore | null | undefined, state: string):
     PRONGHORN: clampPts(s.PRONGHORN),
     youth: s.youth === true,
     set: s.set === true,
+    MOOSE: Math.min(3, clampPts(s.MOOSE)),
+    BIGHORN: Math.min(3, clampPts(s.BIGHORN)),
+    GOAT: Math.min(3, clampPts(s.GOAT)),
+    weighted: {
+      MOOSE: clampPts(s.weighted?.MOOSE),
+      BIGHORN: clampPts(s.weighted?.BIGHORN),
+      GOAT: clampPts(s.weighted?.GOAT),
+    },
+    specialSet: s.specialSet === true,
   };
 }
 

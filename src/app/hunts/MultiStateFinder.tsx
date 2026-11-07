@@ -91,7 +91,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
           <p className="small muted search-state-counts">{stateCounts.map(({ state, count }) => `${STATES[state].name}: ${count}`).join(' · ')}</p>
           <SearchStates />
           <Link className="small" href="/account#hunting-preferences">Edit hunting preferences in Account</Link>
-          <details className="small muted search-ranking"><summary>How these rankings compare</summary><p>Opportunity = Quality × √your tag odds. Idaho uses historical draw odds; {msg ? 'Colorado uses published first-choice draw rates for your residency and age group.' : `Colorado uses your points and ${mode === 'proj' ? 'projected' : 'historical'} odds.`} Unknown scores sort after ranked hunts. Report years and season dates vary; details show the underlying evidence.</p></details>
+          <details className="small muted search-ranking"><summary>How these rankings compare</summary><p>Opportunity = Quality × √your tag odds. Idaho uses historical draw odds; {msg ? 'Colorado uses published first-choice results at your saved regular and weighted points, residency and age group. Before points are saved, rates are pooled previews.' : `Colorado uses your points and ${mode === 'proj' ? 'projected' : 'historical'} odds.`} Unknown scores sort after ranked hunts. Report years and season dates vary; details show the underlying evidence.</p></details>
         </details>
       </div>
       <div className="f-head search-toolbar">

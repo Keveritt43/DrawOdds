@@ -1,13 +1,14 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { STATES, STATE_COOKIE, parseUnitKey } from '@/lib/states';
+import { STATES, STATE_COOKIE, parseUnitKey, SPECIAL_POINT_SPECIES } from '@/lib/states';
 import { revalidatePath } from 'next/cache';
 import { auth, signIn, signOut } from '@/auth';
 import { db } from '@/lib/db';
 import { RESIDENCY_COOKIE, DRAW_COOKIE } from '@/lib/residency';
 import { getPointsStore, POINTS_COOKIE, type StatePoints } from '@/lib/points';
 import { setAccountPreference } from '@/lib/accountPreferences';
+import { GUEST_FAVORITES_COOKIE, GUEST_FAVORITES_LIMIT, parseGuestFavorites } from '@/lib/guestFavorites';
 
 export async function saveHuntingPreferences(_previous: { message: string; saved: boolean }, form: FormData) {
   const idaho = form.get('idahoResidency');
@@ -20,7 +21,13 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
   };
   const DEER = readPoints('DEER'), ELK = readPoints('ELK'), PRONGHORN = readPoints('PRONGHORN');
   if (DEER === null || ELK === null || PRONGHORN === null) return { message: 'Enter whole points from 0 to 40 for each species.', saved: false };
-  const CO: StatePoints = { res: colorado, DEER, ELK, PRONGHORN, youth: form.get('youth') === 'on', set: true };
+  const special: Partial<StatePoints> = {}, weighted: NonNullable<StatePoints['weighted']> = {};
+  for (const species of SPECIAL_POINT_SPECIES) {
+    const pref = readPoints(species), weight = readPoints(species + '_weighted');
+    if (pref === null || pref > 3 || weight === null || (pref < 3 && weight > 0)) return { message: 'Moose, sheep and goat use 0–3 preference points. Weighted points require 3 preference points.', saved: false };
+    special[species] = pref; weighted[species] = weight;
+  }
+  const CO: StatePoints = { res: colorado, DEER, ELK, PRONGHORN, ...special, weighted, specialSet: true, youth: form.get('youth') === 'on', set: true };
   const { store, userId } = await getPointsStore();
   if (userId) {
     await db.$transaction(async tx => {
@@ -46,7 +53,8 @@ export async function setDraw(draw: 'DEP' | 'MSG') {
 
 export async function toggleSaved(huntId: number) {
   const session = await auth();
-  if (!session?.user) return { error: 'Sign in to save hunts' };
+  if (!Number.isSafeInteger(huntId) || !(await db.hunt.findUnique({where:{idfgId:huntId},select:{idfgId:true}}))) return {error:'Unknown hunt'};
+  if (!session?.user) return toggleGuestFavorite('hunts', huntId);
   const key = { userId_huntId: { userId: session.user.id, huntId } };
   const existing = await db.savedHunt.findUnique({ where: key });
   if (existing) await db.savedHunt.delete({ where: key });
@@ -58,16 +66,28 @@ export async function toggleSaved(huntId: number) {
 /** `unit`: the unit's key ("39" in Idaho, "co-70" elsewhere; see unitKey). */
 export async function toggleSavedUnit(unit: string) {
   const session = await auth();
-  if (!session?.user) return { error: 'Sign in to save units' };
   const { state, name: raw } = parseUnitKey(unit.trim());
   const name = raw.toUpperCase().slice(0, 8);
   if (!(await db.unit.findUnique({ where: { state_name: { state, name } }, select: { name: true } }))) return { error: 'Unknown unit' };
+  if (!session?.user) return toggleGuestFavorite('units', state === 'ID' ? name : `co-${name}`);
   const key = { userId_state_unit: { userId: session.user.id, state, unit: name } };
   const existing = await db.savedUnit.findUnique({ where: key });
   if (existing) await db.savedUnit.delete({ where: key });
   else await db.savedUnit.create({ data: { userId: session.user.id, state, unit: name } });
   revalidatePath('/', 'layout');
   return { saved: !existing };
+}
+
+async function toggleGuestFavorite(kind: 'hunts' | 'units', id: number | string) {
+  const jar = await cookies();
+  const saved = parseGuestFavorites(jar.get(GUEST_FAVORITES_COOKIE)?.value);
+  const list: (string|number)[] = saved[kind];
+  const exists = list.includes(id);
+  if (!exists && list.length >= GUEST_FAVORITES_LIMIT) return {error:'This browser can save up to 80 hunts and 80 units. Remove one to add another.'};
+  const next = {...saved,[kind]:exists?list.filter(value=>value!==id):[...list,id]};
+  jar.set(GUEST_FAVORITES_COOKIE, JSON.stringify(next), {maxAge:60*60*24*365,sameSite:'lax',path:'/',httpOnly:true});
+  revalidatePath('/', 'layout');
+  return {saved:!exists};
 }
 
 export async function emailSignIn(formData: FormData) {

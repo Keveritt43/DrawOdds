@@ -1,4 +1,5 @@
-import { coSpecial, specialOdds } from '@/lib/coSpecial';
+import { coSpecial } from '@/lib/coSpecial';
+import { specialPersonalOdds } from '@/lib/coSpecialPoints';
 import { getPoints } from "@/lib/points";
 import { poolFor, tableOdds, type OddsTable } from "@/lib/coHunt";
 import { db } from '@/lib/db';
@@ -35,7 +36,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
       antler: h.antlerClass,
       open: h.openDate,
       close: h.closeDate,
-      resOdds5: special ? specialOdds(special, false, pts?.youth ?? false) : pts
+      resOdds5: special && pts ? specialPersonalOdds(special, false, pts) : pts
         ? tableOdds(
             h.oddsByPts as unknown as OddsTable,
             "proj",
@@ -43,7 +44,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
             pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'],
           )
         : h.resOdds5,
-      nrOdds5: special ? specialOdds(special, true, pts?.youth ?? false) : pts
+      nrOdds5: special && pts ? specialPersonalOdds(special, true, pts) : pts
         ? tableOdds(
             h.oddsByPts as unknown as OddsTable,
             "proj",

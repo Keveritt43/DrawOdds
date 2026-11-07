@@ -564,7 +564,12 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .site-search input::placeholder { color: #a9b0a7; }
 .site-search input:focus { outline: 2px solid var(--blaze); outline-offset: 1px; }
 @media (max-width: 1280px) { .site-search input { width: 150px; } }
-@media (max-width: 600px) { .site-search input { width: 132px; padding: 5px 9px; font-size: .8rem; } }
+@media (max-width: 600px) {
+  .header-right { min-width: 0; flex: 1; }
+  .site-search { min-width: 0; flex: 1; }
+  .site-search input { width: 100%; min-width: 0; padding: 5px 9px; font-size: .8rem; }
+  .menu-toggle { flex: none; }
+}
 /* keep the main nav on one line next to the search box on laptops */
 @media (min-width: 901px) and (max-width: 1640px) {
   .nav-main a { padding-left: 7px !important; padding-right: 7px !important; }
@@ -678,6 +683,15 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .account-points, .account-save { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
 .account-points, .account-preferences .account-youth { margin-top: 12px; }
 .account-preferences .account-youth { display: flex; align-items: center; }
+.account-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 12px 0 20px; }
+.account-special-points { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 16px; }
+.account-special-points .account-points { align-items: flex-start; }
+.account-special-points label { font-size: .85rem; max-width: 145px; }
+.account-state { margin-top: 18px; }
+.account-state h2 { margin-top: 0; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.account-unit-list { display: flex; gap: 10px; flex-wrap: wrap; }
+.account-unit { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; }
+.account-page section[id], #hunting-preferences { scroll-margin-top: 130px; }
 
 /* Combined Find Hunts keeps the existing map / list / rail layout. */
 .search-states { border: 0; padding: 8px 0; margin: 0; min-width: 0; }

@@ -90,6 +90,8 @@ export const stateConfig = (code?: string | null): StateConfig => {
 };
 /** Species that use preference points in a state's draw (point tracker rows). */
 export const POINT_SPECIES: Partial<Record<StateCode, ('DEER' | 'ELK' | 'PRONGHORN')[]>> = { CO: ['DEER', 'ELK', 'PRONGHORN'] };
+export const SPECIAL_POINT_SPECIES = ['MOOSE', 'BIGHORN', 'GOAT'] as const;
+export type SpecialPointSpecies = typeof SPECIAL_POINT_SPECIES[number];
 
 /**
  * A unit's address in URLs and favorites. Idaho keeps its bare names ("39", "36A") so old links work; other states

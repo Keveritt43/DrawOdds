@@ -33,6 +33,14 @@ async function main(){
  assert.ok(sheep.includes('random draw for desert bighorn sheep'));
  const goat=await page('/units/co-G01');
  assert.ok(goat.includes('co-geg01o1a')&&goat.includes('Population Estimates'));
+ const pts='pts='+encodeURIComponent(JSON.stringify({CO:{res:'RESIDENT',DEER:8,ELK:7,PRONGHORN:5,MOOSE:3,BIGHORN:3,GOAT:3,weighted:{MOOSE:4,BIGHORN:6,GOAT:0},specialSet:true,set:true,youth:false}}));
+ const personal=await page('/hunts/co-geg01o1a','CO',pts);
+ for(const title of ['Your Draw Odds','Draw odds at each weighted point level','Applicants and drawn by weighted points','Historical draw odds at your points','Hunters and harvest'])assert.ok(personal.includes(title),'missing special-species graph '+title);
+ assert.ok(personal.includes('3 preference + 0 weighted points'));
+ const savedGoat=await db.huntSummary.findUniqueOrThrow({where:{id:'co:GEG01O1A'}});
+ const favorites='saved_items='+encodeURIComponent(JSON.stringify({hunts:[savedGoat.huntId],units:['co-G01']}));
+ const account=await page('/account','CO',pts+'; '+favorites);
+ for(const value of ['saved-id','saved-co','Saved Filters','Favorite Units','/units/co-G01','/hunts/co-geg01o1a','GOAT_weighted'])assert.ok(account.includes(value),'account saved items '+value);
  const features=JSON.parse(await page('/api/search/units?state=CO&draw=msg&species=GOAT')).features;
  assert.equal(features.length,16);assert.ok(features.every((f:{properties:{name:string}})=>f.properties.name.startsWith('CO:G')));
  const weekend=await page('/api/export?states=CO&draw=msg&species=GOAT&q=GEG07O1R&from=9-5&to=9-6');

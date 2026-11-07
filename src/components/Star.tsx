@@ -1,26 +1,19 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { usePathname } from 'next/navigation';
 import { toggleSaved, toggleSavedUnit } from '@/app/actions';
 
 type Props = { saved: boolean; signedIn: boolean; label?: boolean } & ({ kind: 'hunt'; id: number } | { kind: 'unit'; id: string });
 
-/** Favorite star for a hunt or a unit. Signed out, it links to sign-in. */
+/** Signed-in favorites belong to the account; guests save in their own browser. */
 export function Star(p: Props) {
   const [on, setOn] = useState(p.saved);
   const [pending, start] = useTransition();
-  const path = usePathname();
+  const [error, setError] = useState('');
   useEffect(() => setOn(p.saved), [p.saved]);
   const what = p.kind === 'hunt' ? 'hunt' : `unit ${p.id}`;
-  if (!p.signedIn) {
-    return (
-      <a className="star" href={`/login?next=${encodeURIComponent(path)}`} title={`Sign in to save this ${what}`} aria-label={`Sign in to save this ${what}`}>
-        ☆{p.label && <span className="star-l">Save</span>}
-      </a>
-    );
-  }
   return (
+    <>
     <button
       type="button"
       className={`star ${on ? 'on' : ''}`}
@@ -32,15 +25,20 @@ export function Star(p: Props) {
         e.preventDefault();
         e.stopPropagation();
         const next = !on;
+        setError('');
         setOn(next); // optimistic
         start(async () => {
-          const r = p.kind === 'hunt' ? await toggleSaved(p.id) : await toggleSavedUnit(p.id);
-          if ('error' in r && r.error) setOn(!next);
-          else setOn(!!r.saved);
+          try {
+            const r = p.kind === 'hunt' ? await toggleSaved(p.id) : await toggleSavedUnit(p.id);
+            if ('saved' in r) setOn(!!r.saved);
+            else { setOn(!next); setError(r.error); }
+          } catch { setOn(!next); setError('Could not save this favorite. Please try again.'); }
         });
       }}
     >
       {on ? '★' : '☆'}{p.label && <span className="star-l">{on ? 'Saved' : 'Save'}</span>}
     </button>
+    {error && <span className="small" role="alert">{error}</span>}
+    </>
   );
 }
