@@ -8,5 +8,6 @@ test('score plans retain rollback values and reject stale or altered updates',()
  const stale=structuredClone(rows);stale[0].input.harvest5=100;assert.throws(()=>validateScorePlan(saved,stale));
  const scoresChanged=structuredClone(rows);scoresChanged[0].before.scoreQuality=86;assert.throws(()=>validateScorePlan(saved,scoresChanged));
  const tampered=structuredClone(saved);tampered.rows[0].after.scoreQuality=99;assert.throws(()=>validateScorePlan(tampered,rows));
+ const oldModel=structuredClone(saved);oldModel.version='idaho-v2';assert.throws(()=>validateScorePlan(oldModel,rows));
  assert.throws(()=>validateScorePlan(saved,[]));
 });

@@ -22,6 +22,16 @@ test('Colorado rejects impossible, mismatched, missing and small-sample inputs',
  assert.equal(withCoScores(row({privateOnly:true})).scoreAccess,0);
  const id=row({state:'ID'});assert.equal(withCoScores(id),id,'Idaho is untouched');
 });
+
+test('Colorado archery deer and pronghorn cannot inflate 38% harvest into elite Quality',()=>{
+ for (const species of ['DEER','PRONGHORN'] as const) {
+  const actual=withCoScores(row({species,weapon:'ARCHERY',harvest5:380,success5:.38}));
+  const rifle=withCoScores(row({species,weapon:'ANY',harvest5:380,success5:.38}));
+  assert.ok(actual.scoreQuality!==null && actual.scoreQuality<60);
+  assert.ok(actual.scoreSuccess!==null && actual.scoreSuccess<40);
+  assert.equal(actual.scoreQuality,rifle.scoreQuality);
+ }
+});
 import { otcElkOverlap } from '../src/lib/overlappingSeasons';
 import { dateRange } from '../src/lib/coDisplay';
 test('OTC exclusion preserves unknown dates and rejects reversed spans',()=>{

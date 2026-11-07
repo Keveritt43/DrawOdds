@@ -4,6 +4,47 @@ import { scoreHunts, opportunity, accessScore, type ScoreInput } from '../src/li
 import { successBands, successVerdict } from '../src/lib/format';
 const hunt = (extra: Partial<ScoreInput> = {}): ScoreInput => ({ id: 'h', species: 'ELK', type: 'CONTROLLED', weapon: 'MUZZLELOADER', antlerClass: 'ANTLERLESS', hunters5: 1000, harvest5: 190, huntablePct: 100, huntersSqMi: 0, resOdds5: 1, nrOdds5: 1, ...extra });
 const score = (extra: Partial<ScoreInput> = {}) => scoreHunts([hunt(extra)]).get('h')!;
+
+test('all species use the same success benchmarks across weapons, labels and scores', () => {
+  const bands: Record<string, [number, number, number]> = {
+    DEER: [.55,.35,.75], PRONGHORN: [.6,.35,.85],
+    MOOSE: [.7,.5,.9], BIGHORN: [.7,.5,.9], GOAT: [.7,.5,.9],
+  };
+  for (const species of ['DEER','ELK','PRONGHORN','MOOSE','BIGHORN','GOAT']) {
+    for (const type of ['GENERAL','CONTROLLED']) {
+      const expected = species === 'ELK' ? type === 'CONTROLLED' ? [.5,.2,.8] : [.2,.1,.5] : bands[species];
+      const [hi,lo] = expected;
+      for (const weapon of ['ANY','ARCHERY','MUZZLELOADER','SHORT_RANGE','OTHER']) {
+        assert.deepEqual(successBands(species,weapon,type),expected);
+        assert.equal(successVerdict(lo-.001,species,weapon,type).tone,'bad');
+        assert.equal(successVerdict(lo,species,weapon,type).tone,'ok');
+        assert.equal(successVerdict(hi,species,weapon,type).tone,'good');
+        let previous = -1;
+        for (let harvest5=0;harvest5<=1000;harvest5+=10) {
+          const s=score({species,type,weapon,harvest5});
+          assert.deepEqual(s,score({species,type,weapon:'ANY',harvest5}));
+          assert.ok(s.scoreQuality!>=previous); previous=s.scoreQuality!;
+          assert.ok(s.scoreQuality!<=s.scoreSuccess!+20);
+          if (harvest5/1000<lo) assert.ok(s.scoreQuality!<50);
+        }
+      }
+    }
+  }
+});
+
+test('4038 pronghorn regression: 36% harvest cannot earn Success 100 or elite Quality', () => {
+  const actual=score({species:'PRONGHORN',weapon:'ARCHERY',antlerClass:'EITHER',
+    hunters5:110,harvest5:40,huntablePct:59.84249320021723,huntersSqMi:.01613158238449535});
+  assert.equal(actual.scoreSuccess,32);
+  assert.equal(actual.scoreQuality,52);
+  assert.equal(successVerdict(40/110,'PRONGHORN','ARCHERY','CONTROLLED').text,'Typical');
+  for (const species of ['PRONGHORN','DEER']) {
+    const s=score({species,weapon:'ARCHERY',harvest5:380});
+    assert.ok(s.scoreSuccess!<40);
+    assert.ok(s.scoreQuality!<60);
+    assert.equal(successVerdict(.38,species,'ARCHERY','CONTROLLED').tone,'ok');
+  }
+});
 test('controlled elk thresholds are absolute across weapons and match labels', () => {
   for (const weapon of ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE']) {
     assert.deepEqual(successBands('ELK', weapon, 'CONTROLLED'), [.5, .2, .8]);

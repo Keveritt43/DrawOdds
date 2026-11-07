@@ -454,8 +454,9 @@ test('score parts agree with the card chips', async () => {
   assert.equal(successVerdict(0.55, 'DEER').tone, 'good');
   assert.ok(s.scoreSuccess! >= 70 && s.scoreSuccess! <= 75); // conservative prior slightly lowers a raw high-threshold estimate
   assert.ok(s.scoreCrowd! >= 85); // 0.2 hunters / sq mi is uncrowded
-  // archery deer at 25% is as good as rifle at 55%
-  assert.equal(successVerdict(0.25, 'DEER', 'ARCHERY').tone, 'good');
+  // Archery does not turn weak harvest into high species-level success.
+  assert.equal(successVerdict(0.25, 'DEER', 'ARCHERY').tone, 'bad');
+  assert.equal(successVerdict(0.55, 'DEER', 'ARCHERY').tone, 'good');
 });
 
 test('planner: later choices only count when the tag reached them', async () => {

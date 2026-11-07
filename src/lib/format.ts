@@ -122,35 +122,18 @@ export function oddsVerdict(v: number | null | undefined): Verdict {
 }
 
 /**
- * Success bands [high, low, top]. Elk uses absolute general/controlled benchmarks below. For other species,
- * weapons scale them by how much lower Idaho's pooled success runs for that weapon
- * (IDFG harvest, all hunts): archery deer ~0.45 of rifle, archery pronghorn ~0.3.
+ * Fixed species benchmarks [high, low, top], shared by labels and scores.
+ * These are product judgments, not weapon-relative performance percentiles.
  */
 const SUCCESS_BANDS: Record<string, [number, number, number]> = {
-  ELK: [0.3, 0.15, 0.6], DEER: [0.55, 0.35, 0.75], PRONGHORN: [0.6, 0.35, 0.85],
+  DEER: [0.55, 0.35, 0.75], PRONGHORN: [0.6, 0.35, 0.85],
   MOOSE: [0.7, 0.5, 0.9], BIGHORN: [0.7, 0.5, 0.9], GOAT: [0.7, 0.5, 0.9],
 };
-/** Weapon vs rifle success, pooled IDFG harvest 2021-25, separately for general seasons and controlled hunts:
- *  controlled muzzleloader deer run close to rifle (0.9), general muzzleloader deer well below it (0.7). */
-const WEAPON_FACTOR: Record<'GENERAL' | 'CONTROLLED', Record<string, Record<string, number>>> = {
-  GENERAL: {
-    DEER: { ARCHERY: 0.4, MUZZLELOADER: 0.7 },
-    ELK: { ARCHERY: 0.9, MUZZLELOADER: 0.8 },
-    PRONGHORN: { ARCHERY: 0.3, MUZZLELOADER: 0.65 },
-  },
-  CONTROLLED: {
-    DEER: { ARCHERY: 0.45, MUZZLELOADER: 0.9 },
-    ELK: { ARCHERY: 0.8, MUZZLELOADER: 0.55 },
-    PRONGHORN: { ARCHERY: 0.3, MUZZLELOADER: 0.65 },
-  },
-};
-/** [high, low, top] success for a species, weapon and kind of hunt. */
-export function successBands(species: string, weapon = 'ANY', type: string = 'GENERAL'): [number, number, number] {
+/** Weapon stays in the signature for existing callers; it does not lower the bar. */
+export function successBands(species: string, _weapon = 'ANY', type: string = 'GENERAL'): [number, number, number] {
   // Absolute elk benchmarks across weapons; controlled hunts must earn their premium.
   if (species === 'ELK') return type === 'CONTROLLED' ? [0.5, 0.2, 0.8] : [0.2, 0.1, 0.5];
-  const [hi, lo, top] = SUCCESS_BANDS[species] ?? [0.5, 0.25, 0.75];
-  const f = WEAPON_FACTOR[type === 'CONTROLLED' ? 'CONTROLLED' : 'GENERAL'][species]?.[weapon] ?? 1;
-  return [hi * f, lo * f, top * f];
+  return [...(SUCCESS_BANDS[species] ?? [0.5, 0.25, 0.75])];
 }
 export function successVerdict(v: number | null | undefined, species: string, weapon = 'ANY', type = 'GENERAL'): Verdict {
   if (v === null || v === undefined) return { text: 'No harvest data', tone: 'none' };
