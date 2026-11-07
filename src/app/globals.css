@@ -574,11 +574,6 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 @media (max-width: 900px) { .nav-main { flex-wrap: wrap; } }
 @media (min-width: 901px) and (max-width: 1200px) { .site-search { display: none; } }
 /* first visit: resident or nonresident? */
-.res-prompt { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 16px; padding: 10px 16px; background: #fff4e8; color: #3b2a1a; border-bottom: 1px solid #f0c9a6; font-size: .92rem; }
-.res-prompt-btns { display: inline-flex; gap: 8px; align-items: center; }
-.res-prompt .btn { padding: 6px 14px; }
-.res-prompt-x { border: 0; background: none; font-size: 1.3rem; line-height: 1; cursor: pointer; color: inherit; opacity: .6; padding: 2px 6px; }
-@media (prefers-color-scheme: dark) { .res-prompt { background: #33261a; color: #f3e3d1; border-color: #5b4027; } }
 /* big monitors: the hunt cards get room (two tag columns side by side) instead of a narrow strip */
 @media (min-width: 1600px) { .filtering:not(.tablemode) { grid-template-columns: minmax(0, 1fr) minmax(520px, 780px) 300px; } }
 /* state picker: the state name beside the brand ("IDAHO ▾") */
@@ -611,25 +606,6 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .map-topleft .mappanel { position: static; pointer-events: auto; width: min(380px, 100%); max-height: none; }
 .map-topleft .mappanel:not(.open) .mk-items, .map-topleft .mappanel:not(.open) .mk-layers { display: none; }
 .map-topleft .mappanel.open { max-height: 60vh; overflow: auto; }
-
-/* ---------- Colorado: point tracker (header) ---------- */
-.pt-tracker { position: relative; }
-.pt-tracker summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; white-space: nowrap; border: 1px solid #4a5157; border-radius: 999px; padding: 5px 12px; font-size: .85rem; color: #f4f5f0; }
-.pt-tracker summary::-webkit-details-marker { display: none; }
-.pt-tracker summary:hover, .pt-tracker[open] summary { border-color: var(--blaze); }
-.pt-tracker .pt-k { font-size: .72rem; color: #a9b0a7; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-.pt-tracker .pt-v b { color: var(--blaze); font-variant-numeric: tabular-nums; }
-.pt-menu { position: absolute; top: calc(100% + 6px); left: 0; z-index: 35; width: min(320px, calc(100vw - 28px)); padding: 14px; display: grid; gap: 12px; color: var(--ink); }
-.pt-menu[aria-busy='true'] { opacity: .85; }
-.pt-title { font: 600 1.15rem/1.1 var(--font-display); margin: 0; }
-.pt-rows { display: grid; gap: 8px; }
-.pt-row { display: flex; align-items: center; justify-content: space-between; font-weight: 600; }
-.pt-step { display: inline-flex; align-items: center; gap: 10px; }
-.pt-step button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font-size: 1.15rem; cursor: pointer; }
-.pt-step button:disabled { opacity: .35; cursor: default; }
-.pt-step output { font: 700 1.6rem/1 var(--font-display); min-width: 30px; text-align: center; font-variant-numeric: tabular-nums; }
-.pt-youth { display: flex; gap: 8px; align-items: center; font-size: .9rem; }
-@media (max-width: 600px) { .pt-tracker summary { gap: 7px; padding: 5px 10px; font-size: .8rem; } .pt-tracker .pt-k { display: none; } .pt-menu { left: auto; right: 0; position: fixed; top: 108px; right: 14px; } }
 
 /* ---------- Colorado: odds at your points ---------- */
 .co-res, .co-row .res { color: var(--res); font-weight: 600; }
@@ -694,9 +670,14 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
   .site-header[data-state="CO"] .site-search input { width:100%; }
 }
 
-.co-quick-points { display: flex; flex-wrap: wrap; gap: 16px; }
-.co-quick-points label { margin-top: 4px; }
-.co-quick-points input { display: block; margin-top: 6px; }
+.account-preferences h2 { margin: 0; }
+.account-preferences fieldset { min-width: 0; border: 1px solid var(--line); border-radius: 8px; margin: 0 0 14px; padding: 12px; }
+.account-preferences legend { font-weight: 700; padding: 0 5px; }
+.account-preferences label { display: grid; gap: 4px; width: fit-content; }
+.account-preferences input[type="number"] { width: 88px; }
+.account-points, .account-save { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.account-points, .account-preferences .account-youth { margin-top: 12px; }
+.account-preferences .account-youth { display: flex; align-items: center; }
 
 /* Combined Find Hunts keeps the existing map / list / rail layout. */
 .search-states { border: 0; padding: 8px 0; margin: 0; min-width: 0; }
@@ -707,21 +688,18 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .search-personal { margin: 4px 0 8px; font-size: .85rem; }
 .search-personal > summary, .search-ranking > summary { cursor: pointer; }
 .search-ranking { margin-top: 8px; }
-.search-settings { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-start; margin: 8px 0 16px; }
-.search-settings .pt-tracker { position: relative; }
-.search-settings .pt-tracker summary { color: var(--ink); border-color: var(--line); flex-wrap: wrap; white-space: normal; }
-.search-settings .pt-tracker .pt-k { color: var(--muted); }
-.search-settings .pt-menu { position: absolute; top: calc(100% + 6px); left: 0; right: auto; z-index: 30; max-width: calc(100vw - 48px); }
 .search-result { margin: 12px 0; }
 .search-result-context { margin: 0; padding: 8px 12px; background: #f1eee7; border-radius: 6px 6px 0 0; }
 .search-result .ucard { margin-top: 0; }
 .search-pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 20px 0; }
 
 /* Keep configuration out of the pinned results toolbar. */
-.multi-state-finder .search-intro { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 12px; padding: 5px 12px 2px; background: var(--card); }
+.multi-state-finder .search-intro { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 12px; padding: 5px 12px 2px; background: var(--card); }
 .multi-state-finder .search-intro h1 { margin: 0; font-size: 1.65rem; }
-.search-setup > summary { cursor: pointer; font-size: .85rem; color: var(--muted); padding: 2px 0; }
-.search-state-counts { display: block; margin-left: 13px; font-size: .78rem; }
+.search-setup > summary { display: list-item; width: fit-content; cursor: pointer; font-size: .88rem; font-weight: 700; color: #fff; background: #b8460b; border-radius: 7px; padding: 7px 12px; }
+.search-setup > summary:hover { background: #9e3b08; }
+.search-setup > summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.search-state-counts { margin: 8px 0 0; }
 .multi-state-finder .search-setup[open] { flex-basis: 100%; padding-bottom: 10px; }
 .multi-state-finder .search-toolbar { padding: 3px 12px 5px; }
 .multi-state-finder .search-toolbar .f-sub { margin-top: 3px; }
@@ -736,15 +714,6 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .search-result-context > summary { cursor: pointer; }
 .search-result-context > p { margin: 4px 0 0; }
 .multi-state-finder .f-list { scroll-padding-top: 86px; }
-.pt-values { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; min-width: 224px; }
-.pt-tracker .pt-values .pt-v { display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 2px 5px; border: 1px solid #626b70; border-radius: 5px; background: #ffffff0d; }
-.pt-name { font-size: .68rem; font-weight: 500; }
-.search-settings .pt-values .pt-v { border-color: var(--line); background: var(--bg); }
-@media (max-width: 600px) {
-  .pt-values { min-width: 208px; gap: 4px; }
-  .pt-name { font-size: .62rem; }
-  .pt-tracker .pt-values .pt-v { padding: 2px 4px; }
-}
 
 .filter-group { border-bottom: 1px solid var(--line); }
 .filter-group > summary { border-bottom: 0; }

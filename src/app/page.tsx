@@ -1,18 +1,15 @@
 import { CoQuickStart } from '@/components/CoQuickStart';
-import { getPoints } from '@/lib/points';
 import Link from 'next/link';
 import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { DrawSwitch } from '@/components/DrawSwitch';
 import { Suspense } from 'react';
-import { ResidencySwitch } from '@/components/ResidencySwitch';
 import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, nextWindow, md } from '@/lib/applyInfo';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   if ((await getState()).code === "CO") {
-    const points = await getPoints("CO");
     return (
       <main><section className="home-hero"><div className="inner"><div>
         <h1>Find Your Colorado Hunt. Know Your Odds.</h1>
@@ -43,7 +40,7 @@ export default async function Home() {
           <Link href="/about">Data &amp; Methods</Link> ·{" "}
           <Link href="/changes">What Changed</Link>
         </p>
-      </div><CoQuickStart points={points} /></div></section></main>
+      </div><CoQuickStart /></div></section></main>
     );
   }
   const [{ residency }, draw] = await Promise.all([getResidency(), getDraw()]);
@@ -99,8 +96,7 @@ export default async function Home() {
           <form className="quick" action="/hunts" method="get">
             <h2>Quick Start</h2>
             <p className="small" style={{ color: '#a9b0a7', margin: 0 }}>Pick a few things. Refine everything else on the next page.</p>
-            <label>I&apos;m Applying As</label>
-            <ResidencySwitch value={residency} />
+            <p className="hint"><Link href="/account#hunting-preferences">Edit your residency in Account</Link></p>
             <label>Which Drawing</label>
             <Suspense fallback={null}><DrawSwitch value={draw} /></Suspense>
             <p className="hint">Idaho applicants pick one each year: deer, elk and pronghorn (May 1 – June 5), or one of moose, bighorn sheep or mountain goat (April 1 – 30).</p>
@@ -183,7 +179,7 @@ export default async function Home() {
           <div>
             <h2>How To Find A Hunt</h2>
             <ol className="steps">
-              <li>Set resident or nonresident. Every odds number on the site follows it.</li>
+              <li>Set your residency in <Link href="/account#hunting-preferences">Account</Link> to personalize your draw odds.</li>
               <li>Answer Quick Start. You get a short list with the best mix of draw odds and hunter success on top.</li>
               <li>Each hunt says in plain words how its odds, success and crowding compare. Tap any label for what it means.</li>
               <li>Open a hunt for the application code, dates and 10-year trends, then save it to your list.</li>

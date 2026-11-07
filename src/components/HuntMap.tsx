@@ -149,8 +149,15 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       if (!m.getSource('unit-labels')) m.addSource('unit-labels', { type: 'geojson', data: labels as never });
       m.addLayer({
         id: 'units-label', type: 'symbol', source: 'unit-labels',
-        layout: { 'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'], 'text-size': 12 },
-        paint: { 'text-color': '#1d2023', 'text-halo-color': '#ffffff', 'text-halo-width': 1.6 },
+        minzoom: 3,
+        layout: {
+          'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 3, 7, 6, 10, 9, 12, 12, 14],
+        },
+        paint: {
+          'text-color': '#1d2023', 'text-halo-color': '#ffffff',
+          'text-halo-width': ['interpolate', ['linear'], ['zoom'], 4, 1, 9, 1.6],
+        },
       });
       m.on('click', 'units-fill', (e) => {
         if (m.getLayer('areas-fill') && m.getLayoutProperty('areas-fill', 'visibility') === 'visible') return; // areas take the click

@@ -146,7 +146,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
               : mineLast
                 ? `In ${po.year}: ${pct(mineLast.odds)} at ${p} points.`
                 : ''}
-            {!pts.set && ' Set your points in the header for your own odds.'}
+            {!pts.set && <> <Link href="/account#hunting-preferences">Set your points in Account</Link> for your own odds.</>}
           </div>
           {drawYear !== null && wait! > 0 && (
             <p className="small" style={{ marginBottom: 0 }}>
