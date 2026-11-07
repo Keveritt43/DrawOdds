@@ -718,16 +718,24 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .search-pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 20px 0; }
 
 /* Keep configuration out of the pinned results toolbar. */
-.multi-state-finder .search-intro { padding: 10px 16px 6px; background: var(--card); }
-.multi-state-finder .search-intro h1 { margin: 0 0 4px; font-size: 1.65rem; }
-.search-setup > summary { cursor: pointer; font-size: .85rem; color: var(--muted); padding: 4px 0; }
-.search-setup[open] { padding-bottom: 10px; }
-.multi-state-finder .search-toolbar { padding: 6px 16px 9px; }
-.multi-state-finder .search-toolbar .f-sub { margin-top: 4px; }
-.multi-state-finder .search-result { margin: 6px 0; }
+.multi-state-finder .search-intro { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 12px; padding: 5px 12px 2px; background: var(--card); }
+.multi-state-finder .search-intro h1 { margin: 0; font-size: 1.65rem; }
+.search-setup > summary { cursor: pointer; font-size: .85rem; color: var(--muted); padding: 2px 0; }
+.search-state-counts { display: block; margin-left: 13px; font-size: .78rem; }
+.multi-state-finder .search-setup[open] { flex-basis: 100%; padding-bottom: 10px; }
+.multi-state-finder .search-toolbar { padding: 3px 12px 5px; }
+.multi-state-finder .search-toolbar .f-sub { margin-top: 3px; }
+.search-sort { justify-content: space-between; }
+.search-sort-control { display: inline-flex; align-items: center; gap: 6px; min-width: 0; }
+.search-sort-control > span { white-space: nowrap; }
+.search-sort-control select { min-width: 0; max-width: 198px; }
+.multi-state-finder .search-result { margin: 5px 0; }
+.multi-state-finder .search-result-context { padding: 4px 10px; }
+.multi-state-finder .search-result > .ucard.single { padding: 8px 12px; }
+.multi-state-finder .search-result > .co-row { margin-top: 0; }
 .search-result-context > summary { cursor: pointer; }
 .search-result-context > p { margin: 4px 0 0; }
-.multi-state-finder .f-list { scroll-padding-top: 120px; }
+.multi-state-finder .f-list { scroll-padding-top: 86px; }
 .pt-values { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; min-width: 224px; }
 .pt-tracker .pt-values .pt-v { display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 2px 5px; border: 1px solid #626b70; border-radius: 5px; background: #ffffff0d; }
 .pt-name { font-size: .68rem; font-weight: 500; }
@@ -751,3 +759,5 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .preset-body .btn { padding: 5px 9px; font-size: .82rem; }
 .preset-list { list-style: none; margin: 8px 0 0; padding: 0; }
 .preset-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding: 6px 0; overflow-wrap: anywhere; }
+
+.multi-state-finder .search-intro { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 12px; padding: 7px 12px 3px; }
