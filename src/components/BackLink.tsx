@@ -1,33 +1,11 @@
 'use client';
 
+import { FindHuntsLink, RememberFinderNavigation } from '@/components/HuntNavigation';
 import { useEffect, useState } from 'react';
-import { useStateConfig } from "./StateContext";
 import { useSearchParams } from "next/navigation";
 
-/**
- * "Back To Filtering" that returns to the list as you left it (filters, sort, scroll). Coming from Filtering it
- * goes back in history; otherwise it links to the remembered filter query, or plain /hunts.
- */
-export function BackLink({ state: stateCode }: { state?: string } = {}) {
-  const header = useStateConfig().code;
-  const state = stateCode ?? header;
-  const [href, setHref] = useState('/hunts');
-  const [fromList, setFromList] = useState(false);
-  useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem("lastHuntsQuery_" + state);
-      if (saved !== null) setHref(`/hunts${saved}`);
-    } catch {
-      /* storage blocked: plain link */
-    }
-    try {
-      const r = document.referrer ? new URL(document.referrer) : null;
-      setFromList(!!r && r.origin === location.origin && r.pathname === '/hunts' && history.length > 1);
-    } catch { /* ignore */ }
-  }, [state]);
-  return (
-    <a href={href} onClick={(e) => { if (fromList) { e.preventDefault(); history.back(); } }}>← Back To Filtering</a>
-  );
+export function BackLink({ state }: { state?: string } = {}) {
+  return <FindHuntsLink state={state}>← Back To Filtering</FindHuntsLink>;
 }
 
 export const LAST_HUNTS_COOKIE = "lastHunts";
@@ -60,11 +38,6 @@ export function RememberQuery({ state = "ID", owner = null }: { state?: string; 
     if (p.has("reset")) {
       persist("antler=ANTLERED");
       document.cookie = `${LAST_HUNTS_COOKIE}=; path=/; max-age=0; samesite=lax`;
-      try {
-        sessionStorage.removeItem("lastHuntsQuery_" + state);
-      } catch {
-        /* ignore */
-      }
       history.replaceState(null, "", "/hunts");
       return;
     }
@@ -72,12 +45,7 @@ export function RememberQuery({ state = "ID", owner = null }: { state?: string; 
     if (!p.has("antler")) p.set("antler", "ANTLERED");
     const q = p.toString();
     persist(q);
-    try {
-      sessionStorage.setItem("lastHuntsQuery_" + state, location.search);
-    } catch {
-      /* ignore */
-    }
     document.cookie = `${LAST_HUNTS_COOKIE}=${encodeURIComponent(q)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`;
   }, [params, state, owner]);
-  return saveError ? <p role="status" className="small muted">Filters could not be saved. Check your connection and change a filter to retry.</p> : null;
+  return <><RememberFinderNavigation />{saveError ? <p role="status" className="small muted">Filters could not be saved. Check your connection and change a filter to retry.</p> : null}</>;
 }

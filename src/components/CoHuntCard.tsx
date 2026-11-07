@@ -1,8 +1,8 @@
+import { HuntLink } from '@/components/HuntNavigation';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import type { CoScored } from '@/lib/coScores';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
 import { CompareToggle } from './Compare';
-import Link from 'next/link';
 import type { PointOdds } from '@/lib/coHunt';
 import type { HuntSummary } from '@prisma/client';
 import { Star } from './Star';
@@ -44,7 +44,7 @@ export async function CoHuntCard({
       <div className="hrow-top">
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
-          <Link href={`/hunts/${r.slug}`}>{r.name}</Link>
+          <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
           <span className="pill">
             {r.type === "GENERAL" ? "General / OTC" : "Controlled Draw"}
           </span>

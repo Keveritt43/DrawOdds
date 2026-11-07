@@ -1,9 +1,10 @@
+import { HuntLink } from '@/components/HuntNavigation';
 import { OverlappingElk } from '@/components/OverlappingElk';
 import { AddToPlan } from '@/components/Planner';
+import { withFinderReturn } from '@/lib/huntNavigation';
 import { huntHref } from '@/lib/huntSlug';
 import { CompareToggle } from '@/components/Compare';
 import { huntName } from '@/components/HuntTable';
-import Link from 'next/link';
 import { SPECIES_LABEL } from '@/lib/format';
 import { boundarySince } from '@/lib/boundaries';
 import { sortedSeasons, seasonTitle, seasonDates, seasonsSummary } from '@/lib/tagSeasons';
@@ -38,14 +39,19 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return { title: t, description: `Draw odds, hunter success, crowding and land for ${s.state === 'CO' ? 'Colorado' : 'Idaho'} ${t}.` };
 }
 
-export default async function HuntPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ as?: string; odds?: string; pool?: string }> }) {
+export default async function HuntPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ as?: string; odds?: string; pool?: string; returnTo?: string }> }) {
   // readable slug ("deer-1016"); old id links ("c:-91071...") still work and move to the slug
   const key = decodeURIComponent((await params).id);
   const s = (await db.huntSummary.findFirst({ where: { slug: key }, include: { hunt: true } })) ?? (await db.huntSummary.findUnique({ where: { id: key }, include: { hunt: true } }));
   if (!s) notFound();
-  if (s.slug && key !== s.slug) permanentRedirect(`/hunts/${encodeURIComponent(s.slug)}`);
-  if (s.state === 'CO') return <CoHuntPage s={s} sp={await searchParams} />;
-  const { residency } = await getResidency((await searchParams).as, s.state);
+  const sp = await searchParams;
+  if (s.slug && key !== s.slug) {
+    const q = new URLSearchParams();
+    for (const k of ['as', 'odds', 'pool'] as const) if (typeof sp[k] === 'string') q.set(k, sp[k]!);
+    permanentRedirect(withFinderReturn(huntHref(s) + (q.size ? '?' + q : ''), sp.returnTo));
+  }
+  if (s.state === 'CO') return <CoHuntPage s={s} sp={sp} />;
+  const { residency } = await getResidency(sp.as, s.state);
   const session = await auth();
   const rf = residencyFields(residency);
   const nr = residency === 'NONRESIDENT';
@@ -202,9 +208,9 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           <h3>Units</h3>
           <div>
             {(((area?.units as { unit: string; pct: number }[] | null) ?? s.units.map((u) => ({ unit: u, pct: 0 })))).map((u) => (
-              <Link key={u.unit} href={`/units/${encodeURIComponent(u.unit)}`} className="pill" style={{ textDecoration: 'none' }}>
+              <HuntLink key={u.unit} href={`/units/${encodeURIComponent(u.unit)}`} className="pill" style={{ textDecoration: 'none' }}>
                 Unit {u.unit}{u.pct ? ` · ${u.pct}%` : ''}
-              </Link>
+              </HuntLink>
             ))}
           </div>
           {area?.description && <p className="small muted">{area.description.slice(0, 600)}</p>}
@@ -223,7 +229,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           <ul>
             {alts.map((a) => (
               <li key={a.id}>
-                <Link href={huntHref(a)}>{a.nrTag ? a.name : `Hunt ${a.huntNumber} · Area ${a.areaName}`}</Link>
+                <HuntLink href={huntHref(a)}>{a.nrTag ? a.name : `Hunt ${a.huntNumber} · Area ${a.areaName}`}</HuntLink>
                 <span className="small"> {pctOdds(a.type === 'CONTROLLED' ? a[rf.odds5] : a.nrOdds5)} odds (vs {pctOdds(myOdds)}) · {pct(a.success5)} success (vs {pct(s.success5)}){a.openDate ? ` · ${range(a.openDate, a.closeDate)}` : ''}</span>
               </li>
             ))}
@@ -329,7 +335,7 @@ function NrTagCard({ s }: { s: { nrDraw: unknown; tagSeasons: unknown; quota: nu
       )}
       <p className="small">
         Units:{' '}
-        {s.units.map((u) => <Link key={u} href={`/units/${encodeURIComponent(u)}`} className="pill" style={{ textDecoration: 'none' }}>Unit {u}</Link>)}
+        {s.units.map((u) => <HuntLink key={u} href={`/units/${encodeURIComponent(u)}`} className="pill" style={{ textDecoration: 'none' }}>Unit {u}</HuntLink>)}
       </p>
       <p className="small muted" style={{ marginBottom: 0 }}>
         Since 2026 Idaho draws nonresident general deer and elk tags. You list up to five hunt codes; a tag that fills from

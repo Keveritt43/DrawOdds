@@ -1,3 +1,4 @@
+import { HuntLink } from '@/components/HuntNavigation';
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
 import { savedFilters } from "@/lib/savedFilters";
 import { migrationUnits } from '@/lib/migrations';
@@ -83,7 +84,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   if(state==='CO'&&sp.sex!==undefined&&sp.antler===undefined){const sexes=(Array.isArray(sp.sex)?sp.sex.join(','):sp.sex).split(',');sp.antler=sexes.includes('E')?'ALL':sexes.map(x=>x==='F'?'ANTLERLESS':'ANTLERED').join(',');}
   const ref = (await headers()).get("referer") ?? "";
   const fromHere = /\/hunts(\?|$)/.test(ref.replace(/^https?:\/\/[^/]+/, ''));
-  if (!sp.reset && (!fromHere || !Object.keys(sp).length)) {
+  if (sp.restore !== "1" && !sp.reset && (!fromHere || !Object.keys(sp).length)) {
     const saved = await savedFilters(state);
     const p = new URLSearchParams(saved);
     for (const [k, v] of Object.entries(sp))
@@ -98,7 +99,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   }
   if (state === "CO") return <CoFinder sp={sp} />;
   const f = parseFilters(sp);
-  const { residency } = await getResidency(sp.as);
+  const { residency } = await getResidency(sp.as, state);
   // one drawing at a time: a species from the other drawing (an old link) is dropped
   const draw = await getDraw(sp.draw);
   if (f.species && !DRAW_SPECIES[draw].includes(f.species)) f.species = '';
@@ -282,7 +283,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
             <article key={g.key} className={`ucard ${f.unit === g.name ? 'sel' : ''}`}>
               <h2 className="star-head">
                 {g.kind === 'unit' && <Star kind="unit" id={g.name} saved={fav.units.has(g.name)} signedIn={fav.signedIn} />}
-                <Link href={g.kind === 'unit' ? unitHref : huntHref(first)}>{g.title}</Link>
+                <HuntLink href={g.kind === 'unit' ? unitHref : huntHref(first)}>{g.title}</HuntLink>
               </h2>
               <p className="desc">{desc}</p>
               <div className="ustats">

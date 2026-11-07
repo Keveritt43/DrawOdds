@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { HuntLink } from '@/components/HuntNavigation';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { overlapsElk } from '@/lib/overlappingSeasons';
@@ -46,7 +46,7 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
                 return (
                 <tr key={r.id}>
                   <td>
-                    <Link href={`/hunts/${r.slug ?? encodeURIComponent(r.id)}`}>{r.name}</Link>
+                    <HuntLink href={`/hunts/${r.slug ?? encodeURIComponent(r.id)}`}>{r.name}</HuntLink>
                   </td>
                   <td>
                     {r.type === 'GENERAL' ? 'General / OTC' : 'Limited / controlled'}

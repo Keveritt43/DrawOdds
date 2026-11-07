@@ -1,3 +1,4 @@
+import { FindHuntsLink } from '@/components/HuntNavigation';
 import { CompareTray } from '@/components/Compare';
 import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
@@ -44,7 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </div>
             <nav aria-label="Research">
               <b>Research</b>
-              <Link href="/hunts">Find Hunts</Link>
+              <FindHuntsLink>Find Hunts</FindHuntsLink>
               <Link href="/map">Unit Map</Link>
               <Link href="/hunts?species=ELK&type=CONTROLLED">Elk Draws</Link>
               <Link href="/hunts?species=DEER&type=CONTROLLED">Deer Draws</Link>

@@ -1,3 +1,4 @@
+import { HuntLink } from '@/components/HuntNavigation';
 import { CoPressureNote } from './CoPressureNote';
 import type { CoScored } from '@/lib/coScores';
 import Link from 'next/link';
@@ -170,7 +171,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
       <div className="hrow-top">
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={c.favHunts.has(r.huntId)} signedIn={c.signedIn} />
-          <Link href={huntHref(r)}>{title}</Link>
+          <HuntLink href={huntHref(r)}>{title}</HuntLink>
           <span className={`pill ${r.type === 'GENERAL' && !r.nrTag ? '' : 'ctl'}`}>{r.nrTag ? (c.nr ? 'NR Tag Draw' : 'Zone Tag') : r.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
           <CompareToggle id={r.id} label={title} />
         </span>
@@ -274,7 +275,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
             <div key={r.id} className="ztag">
               <div className="star-head">
                 <Star kind="hunt" id={r.huntId} saved={c.favHunts.has(r.huntId)} signedIn={c.signedIn} />
-                <Link href={huntHref(r)}><b>{tag} Tag</b></Link>
+                <HuntLink href={huntHref(r)}><b>{tag} Tag</b></HuntLink>
                 {c.nr && r.tagCode && <span className="small muted">{r.tagCode}</span>}
                 <CompareToggle id={r.id} label={`${zone} ${tag} tag`} />
               </div>
@@ -327,9 +328,9 @@ export function TopPicks({ picks, c }: { picks: Pick[]; c: CardCtx }) {
         {picks.map((p) => (
           <li key={p.label}>
             <span className="pick-label">{p.label}</span>
-            <Link href={huntHref(p.r)}>
+            <HuntLink href={huntHref(p.r)}>
               {p.r.nrTag ? p.r.name : p.r.type === 'GENERAL' ? `Unit ${p.r.unit ?? p.r.units[0]} general ${SPECIES_LABEL[p.r.species].toLowerCase()} · ${WEAPON[p.r.weapon]}` : `${SPECIES_LABEL[p.r.species]} hunt ${p.r.huntNumber} · ${antlerLabel(p.r.species, p.r.antlerClass)} · ${WEAPON[p.r.weapon]}`}
-            </Link>
+            </HuntLink>
             <span className="small"> {p.why}</span>
           </li>
         ))}
