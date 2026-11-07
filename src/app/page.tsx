@@ -1,3 +1,6 @@
+import { HomeStatePicker } from '@/components/HomeStatePicker';
+import { MultiQuickStart } from '@/components/MultiQuickStart';
+import { searchStates } from '@/lib/searchStates';
 import { CoQuickStart } from '@/components/CoQuickStart';
 import Link from 'next/link';
 import { db } from '@/lib/db';
@@ -8,11 +11,15 @@ import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, nextWindow, md } from '@/li
 
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams;
+  const current = (await getState()).code;
+  const states = searchStates(params.states, current);
+  if (states.length > 1) return <MultiQuickStart states={states} />;
   if ((await getState()).code === "CO") {
     return (
       <main><section className="home-hero"><div className="inner"><div>
-        <h1>Find Your Colorado Hunt. Know Your Odds.</h1>
+        <h1>Find Your <HomeStatePicker selected={["CO"]} /> Hunt. Know Your Odds.</h1><p className="small">Choose states above to search one or multiple states.</p>
         <p>
           Research deer and elk licenses with preference-point scenarios,
           harvest estimates, hunter density and public/private ownership.
@@ -76,9 +83,9 @@ export default async function Home() {
         <div className="inner">
           <div>
             <h1>
-              Find Your Idaho Hunt. <em>Know Your Odds.</em>
+              Find Your <HomeStatePicker selected={["ID"]} /> Hunt. <em>Know Your Odds.</em>
             </h1>
-            <p className="lead">
+            <p className="small">Choose states above to search one or multiple states.</p><p className="lead">
               Every Idaho deer, elk, pronghorn, moose, bighorn sheep and mountain goat hunt in one place: draw odds for your residency, hunter success, how
               crowded it gets, public land and Access Yes! acres, on a map. Answer a few questions and we&apos;ll show you
               where to start.

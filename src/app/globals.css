@@ -743,3 +743,11 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .preset-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding: 6px 0; overflow-wrap: anywhere; }
 
 .multi-state-finder .search-intro { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 12px; padding: 7px 12px 3px; }
+.home-state-picker { display: inline-block; position: relative; font: inherit; }
+.home-state-picker summary { cursor: pointer; color: inherit; text-decoration: underline; text-decoration-color: #f46a1c; text-underline-offset: .12em; list-style: none; }
+.home-state-picker summary::-webkit-details-marker { display: none; }
+.home-state-picker summary span { font-size: .45em; vertical-align: middle; }
+.home-state-menu { position: absolute; z-index: 20; right: 0; top: 100%; width: min(260px, 78vw); padding: 18px; border: 1px solid #60676a; border-radius: 10px; background: #202427; color: #fff; font: 16px/1.4 sans-serif; box-shadow: 0 8px 25px #0008; }
+.home-state-menu p { font-size: 14px; margin: 8px 0; }
+.home-state-menu label { display: block; margin: 12px 0; }
+.home-state-menu button { font-size: 16px; }
