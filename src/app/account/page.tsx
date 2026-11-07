@@ -49,7 +49,7 @@ export default async function Account() {
         const compareIds=stateHunts.flatMap(h=>h.summaries[0]?[h.summaries[0].id]:[]).slice(0,4);
         return <section className="card account-state" id={'saved-'+state.code.toLowerCase()} key={state.code}>
           <h2>{state.name}</h2>
-          <p className="small"><Link href={'/hunts?states='+state.code}>Find {state.name} Hunts</Link> · <Link href={'/api/state?code='+state.code+'&next=%2Fmap'}>{state.name} Unit Map</Link></p>
+          <p className="small"><Link href={'/hunts?states='+state.code}>Find {state.name} Hunts</Link> · <a href={'/api/state?code='+state.code+'&next=%2Fmap'}>{state.name} Unit Map</a></p>
           <h3>Saved Filters</h3>
           <AccountPresets state={state.code} owner={fav.userId} initial={presets}/>
           <h3>Favorite Units</h3>
