@@ -22,12 +22,12 @@ export function StateSwitch() {
   const states = enabledStates().some((s) => s.code === cur.code) ? enabledStates() : [...enabledStates(), cur];
   return (
     <details ref={ref} className="state-switch">
-      <summary aria-label={`State: ${cur.name}${cur.beta ? ' (beta)' : ''}. Change state`}>{cur.name}{cur.beta ? <span className="beta-tag">Beta</span> : null} <span aria-hidden="true">▾</span></summary>
+      <summary aria-label={`State: ${cur.name}. Change state`}>{cur.name} <span aria-hidden="true">▾</span></summary>
       <div className="state-menu card" role="menu">
         {states.map((s) => (
           <button key={s.code} type="button" role="menuitemradio" aria-checked={s.code === cur.code} disabled={pending}
             onClick={() => start(async () => { await setStateCode(s.code); if (ref.current) ref.current.open = false; if (path === '/hunts') router.push(`/hunts?states=${s.code}&sort=opp&minScore=0`); })}>
-            {s.name}{s.beta ? <span className="beta-tag">Beta</span> : null}{s.code === cur.code ? ' ✓' : ''}
+            {s.name}{s.code === cur.code ? ' ✓' : ''}
           </button>
         ))}
         <p className="small muted">More states are on the way.</p>
