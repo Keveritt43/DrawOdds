@@ -37,7 +37,7 @@ export async function GET(req: Request) {
   const methods = (url.searchParams.get('method') ?? '').split(',').filter(Boolean);
   const seasons = (url.searchParams.get('season') ?? '').split(',').filter(Boolean);
   const [units, allSums, general] = await Promise.all([
-    db.unit.findMany({ where: { state, geometry: { not: undefined } } }),
+    db.unit.findMany({ where: { state, geometry: { not: undefined }, ...(state === 'CO' ? { NOT: [{ name: { startsWith: 'S' } }, { name: { startsWith: 'G' } }] } : {}) } }),
     db.huntSummary.findMany({
       where: { state },
       select: { species: true, type: true, unit: true, units: true, weapon: true, tagCode: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
@@ -130,7 +130,7 @@ export async function GET(req: Request) {
       m[`ctlOdds${pool}${sp}`]=null; m[`ctlFill${pool}${sp}`]=null;
     }
 
-    const rows=(await db.huntSummary.findMany({where:{state:'CO',type:'CONTROLLED',antlerClass:'ANTLERED',youthOnly:false,privateOnly:false}})).filter(r=>matchesCoMapFilters(r.tagCode,methods,seasons)).map(r=>withCoScores(r,context));
+    const rows=(await db.huntSummary.findMany({where:{state:'CO',species:{in:['DEER','ELK','PRONGHORN']},type:'CONTROLLED',antlerClass:'ANTLERED',youthOnly:false,privateOnly:false}})).filter(r=>matchesCoMapFilters(r.tagCode,methods,seasons)).map(r=>withCoScores(r,context));
     for (const r of rows) for(const u of r.units) {
       const m=by.get(u) ?? by.set(u,{}).get(u)!, sp=SP_KEY[r.species];
       const put=(key:string,v:number|null,low=false)=>{ if(v!==null&&Number.isFinite(v)) m[key]=m[key]==null?v:low?Math.min(Number(m[key]),v):Math.max(Number(m[key]),v); };

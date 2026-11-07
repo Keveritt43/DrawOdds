@@ -2,10 +2,10 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { enabledStates, STATES, stateConfig, type StateCode } from '@/lib/states';
-import { searchStates, ID_RESTRICTIONS, CO_RESTRICTIONS } from '@/lib/searchStates';
+import { searchStates, searchDraw, ID_RESTRICTIONS, CO_RESTRICTIONS } from '@/lib/searchStates';
 import { useStateConfig } from './StateContext';
 
-export function SearchStates() {
+export function SearchStates({ draw }: { draw?: 'DEP' | 'MSG' } = {}) {
   const header = useStateConfig();
   const sp = useSearchParams();
   const router = useRouter();
@@ -16,6 +16,8 @@ export function SearchStates() {
     if (!next.length) return;
     const p = new URLSearchParams(sp.toString());
     p.set('states', next.sort().join(','));
+    if ((draw ?? searchDraw(p.get('draw'), p.get('species'))) === 'MSG') p.set('draw', 'msg');
+    if (p.get('unit')?.includes(':') && !next.some(s => p.get('unit')!.startsWith(s + ':'))) p.delete('unit');
     p.delete('page'); p.delete('reset'); p.delete('state'); p.delete('restore');
     if (!next.includes('ID')) for (const key of ID_RESTRICTIONS) p.delete(key);
     if (!next.includes('CO')) for (const key of [...CO_RESTRICTIONS, 'priv', 'odds']) p.delete(key);

@@ -6,10 +6,12 @@ import { opportunity } from './score';
 import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
-import { searchStates, searchUnitKey } from './searchStates';
+import { searchDraw, searchStates, searchUnitKey } from './searchStates';
 export { ID_RESTRICTIONS, CO_RESTRICTIONS } from './searchStates';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
+import { DRAW_SPECIES } from './species';
+import { coSpecial, specialCounts, specialOdds } from './coSpecial';
 import { chanceOf } from './coOdds';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
@@ -21,6 +23,7 @@ export interface SearchResult {
   nr: boolean;
   points: number | null;
   basis: string;
+  applicants?: number;
 }
 export const param = (sp: SearchParams, k: string) => (Array.isArray(sp[k]) ? sp[k]!.join(',') : sp[k] ?? '') as string;
 const list = (sp: SearchParams, k: string) => param(sp, k).split(',').filter(Boolean);
@@ -28,7 +31,7 @@ const atLeast = (value: number | null, min: number | null, scale = 1) => min ===
 
 export function searchFilters(sp: SearchParams): Filters {
   // No implicit Quality cutoff: incomplete but usable hunts remain visible after ranked hunts.
-  const filters = parseFilters({ ...sp, sort: param(sp, 'sort') || 'opp', minScore: param(sp, 'minScore') || '0',
+  const filters = parseFilters({ ...sp, antler: sp.antler ?? (searchDraw(param(sp, 'draw'), param(sp, 'species').toUpperCase()) === 'MSG' ? 'ALL' : undefined), sort: param(sp, 'sort') || 'opp', minScore: param(sp, 'minScore') || '0',
     minSuccess: sp.minSuccess ?? sp.minSucc,
     weapon: sp.weapon ?? (param(sp, 'method') ? list(sp, 'method').map(m => ({ R: 'ANY', A: 'ARCHERY', M: 'MUZZLELOADER' })[m] ?? m).join(',') : undefined) });
   if (filters.species && filters.species !== 'DEER') filters.deerType = [];
@@ -49,11 +52,15 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
 export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
   const nr = (r.state === 'ID' ? settings.ID : settings.CO.res) === 'NONRESIDENT';
-  const points = r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
+  const special = coSpecial(r);
+  const points = r.state === 'CO' && !special ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
   const general = (r.pointOdds as unknown as PointOdds | null)?.general;
   let odds: number | null;
   let basis: string;
-  if (r.state === 'CO') {
+  if (special) {
+    odds = specialOdds(special, nr, settings.CO.youth);
+    basis = special.code[5] === 'G' ? 'Reserved license' : `${special.draws[0].year} first-choice draw rate · ${special.draws[0].shared ? 'shared pool' : 'historical'}`;
+  } else if (r.state === 'CO') {
     odds = tableOdds(r.oddsByPts as unknown as OddsTable, mode, poolFor(nr, settings.CO.youth), points ?? 0);
     if (general) odds = (nr ? general.nonresident : general.resident) ? 1 : null;
     basis = general ? 'OTC eligibility; availability may be limited' : `${mode === 'proj' ? 'Projected' : 'Historical'} first-choice odds · ${points} points`;
@@ -66,7 +73,8 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     basis = `${r.nrTag || r.type === 'GENERAL' ? 'Latest' : 'Historical pooled'} first-choice odds · ${r.oddsLastYear ?? 'year unavailable'}`;
   }
   const opp = opportunity(r.scoreQuality, odds);
-  return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis };
+  const applicants = special ? specialCounts(special.draws[0], nr, settings.CO.youth).apps : undefined;
+  return { applicants, r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis };
 }
 
 export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, migrations: Partial<Record<string, string[]>> = {}): boolean {
@@ -133,7 +141,7 @@ export function compareSearch(a: SearchResult, b: SearchResult, sort: string): n
       case 'harvest': return r.harvest5;
       case 'hunters': case 'huntersLow': return r.hunters5;
       case 'densityLow': return r.huntersSqMi;
-      case 'apps': case 'appsLow': return x.nr ? r.nrAppsLast : r.resAppsLast;
+      case 'apps': case 'appsLow': return x.applicants ?? (x.nr ? r.nrAppsLast : r.resAppsLast);
       case 'open': return r.openDate ? +r.openDate : null;
       case 'pts': return x.nr ? r.ptsNr : r.ptsRes;
       case 'tags': return r.tags;
@@ -152,7 +160,8 @@ export function runSearch(rows: CoScored[], sp: SearchParams, fallback: StateCod
   const states = searchStates(sp.states, fallback);
   const filters = searchFilters(sp);
   const mode = param(sp, 'odds') === 'last' ? 'last' : 'proj';
-  const results = rows.filter(r => states.includes(r.state as StateCode)).map(r => personalize(r, settings, mode))
+  const species = DRAW_SPECIES[searchDraw(param(sp, 'draw'), filters.species)];
+  const results = rows.filter(r => states.includes(r.state as StateCode) && species.includes(r.species)).map(r => personalize(r, settings, mode))
     .filter((x): x is SearchResult => x !== null && matchesSearch(x, filters, sp, migrations)
       && (x.r.state !== 'CO' || !['0', '1'].includes(param(sp, 'otcElk')) || (x.r.species === 'DEER' && overlaps[x.r.id] === (param(sp, 'otcElk') === '1'))));
   return results.sort((a, b) => compareSearch(a, b, param(sp, 'sort') || 'opp'));

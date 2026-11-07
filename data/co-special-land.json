@@ -1,0 +1,1347 @@
+{
+  "G01": {
+    "acres": 210291.74,
+    "publicPct": 80.443,
+    "privatePct": 19.557,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 19.557,
+      "USFS": 66.868,
+      "BLM": 10.839,
+      "STA": 2.723,
+      "LOCAL": 0.014
+    }
+  },
+  "G02": {
+    "acres": 99302.52,
+    "publicPct": 82.448,
+    "privatePct": 17.552,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 17.552,
+      "USFS": 76.224,
+      "LOCAL": 0.151,
+      "STA": 5.916,
+      "BLM": 0.157
+    }
+  },
+  "G03": {
+    "acres": 298539.09,
+    "publicPct": 91.218,
+    "privatePct": 8.782,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 1.541,
+      "LOCAL": 0.448,
+      "USFS": 89.194,
+      "PRI": 8.782,
+      "STA": 0.036
+    }
+  },
+  "G04": {
+    "acres": 264059.09,
+    "publicPct": 59.912,
+    "privatePct": 40.088,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 40.088,
+      "STA": 1.319,
+      "LOCAL": 2.561,
+      "BLM": 0.052,
+      "USFS": 55.98
+    }
+  },
+  "G05": {
+    "acres": 520561.49,
+    "publicPct": 77.66,
+    "privatePct": 22.339,
+    "tribalPct": 0,
+    "unknownPct": 0.002,
+    "coverage": 0.999984,
+    "ownership": {
+      "BOR": 0.399,
+      "PRI": 22.339,
+      "USFS": 66.323,
+      "BLM": 10.287,
+      "STA": 0.346,
+      "LOCAL": 0.282,
+      "OTHER": 0.022
+    }
+  },
+  "G06": {
+    "acres": 401673.15,
+    "publicPct": 75.987,
+    "privatePct": 24.013,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 24.013,
+      "LOCAL": 0.851,
+      "STA": 0.087,
+      "USFS": 68.265,
+      "BLM": 6.785
+    }
+  },
+  "G07": {
+    "acres": 42038.94,
+    "publicPct": 91.734,
+    "privatePct": 8.266,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 8.266,
+      "USFS": 91.728,
+      "STA": 0.006
+    }
+  },
+  "G08": {
+    "acres": 204066.79,
+    "publicPct": 87.078,
+    "privatePct": 12.922,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 12.922,
+      "USFS": 67.784,
+      "LOCAL": 0.116,
+      "STA": 0.666,
+      "BLM": 18.513
+    }
+  },
+  "G10": {
+    "acres": 67516.65,
+    "publicPct": 77.336,
+    "privatePct": 22.664,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "LOCAL": 0.044,
+      "PRI": 22.664,
+      "USFS": 77.292
+    }
+  },
+  "G11": {
+    "acres": 158712.48,
+    "publicPct": 82.656,
+    "privatePct": 17.344,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 80.583,
+      "PRI": 17.344,
+      "BLM": 1.737,
+      "BOR": 0.297,
+      "LOCAL": 0.04
+    }
+  },
+  "G12": {
+    "acres": 367522.58,
+    "publicPct": 76.835,
+    "privatePct": 23.165,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 71.815,
+      "PRI": 23.165,
+      "LOCAL": 0.0,
+      "BLM": 4.888,
+      "STA": 0.131
+    }
+  },
+  "G14": {
+    "acres": 67704.96,
+    "publicPct": 80.638,
+    "privatePct": 19.362,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 19.362,
+      "USFS": 79.668,
+      "BLM": 0.97
+    }
+  },
+  "G15": {
+    "acres": 239081.97,
+    "publicPct": 89.88,
+    "privatePct": 10.12,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 10.12,
+      "USFS": 89.048,
+      "LOCAL": 0.305,
+      "STA": 0.406,
+      "BLM": 0.121
+    }
+  },
+  "G16": {
+    "acres": 172081.23,
+    "publicPct": 79.476,
+    "privatePct": 20.524,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 0.066,
+      "STA": 0.006,
+      "LOCAL": 1.592,
+      "PRI": 20.524,
+      "USFS": 77.813
+    }
+  },
+  "G17": {
+    "acres": 268443.71,
+    "publicPct": 90.422,
+    "privatePct": 9.578,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 2.172,
+      "PRI": 9.578,
+      "USFS": 86.177,
+      "STA": 0.419,
+      "LOCAL": 0.5,
+      "USFW": 1.155
+    }
+  },
+  "G18": {
+    "acres": 94565.2,
+    "publicPct": 99.662,
+    "privatePct": 0.338,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 0.338,
+      "USFS": 99.662
+    }
+  },
+  "S01": {
+    "acres": 111410.68,
+    "publicPct": 88.649,
+    "privatePct": 11.351,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 11.351,
+      "USFS": 87.855,
+      "LOCAL": 0.36,
+      "STA": 0.435
+    }
+  },
+  "S02": {
+    "acres": 298397.36,
+    "publicPct": 82.957,
+    "privatePct": 17.043,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 17.043,
+      "LOCAL": 0.023,
+      "STA": 0.117,
+      "USFS": 80.472,
+      "BLM": 2.346
+    }
+  },
+  "S03": {
+    "acres": 148024.98,
+    "publicPct": 67.696,
+    "privatePct": 32.304,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 32.304,
+      "LOCAL": 1.199,
+      "USFS": 65.07,
+      "STA": 1.428
+    }
+  },
+  "S04": {
+    "acres": 181784.77,
+    "publicPct": 65.993,
+    "privatePct": 34.007,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 34.007,
+      "STA": 0.754,
+      "LOCAL": 2.744,
+      "BLM": 0.075,
+      "USFS": 62.419
+    }
+  },
+  "S05": {
+    "acres": 142014.9,
+    "publicPct": 52.629,
+    "privatePct": 47.371,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "LOCAL": 2.199,
+      "STA": 13.458,
+      "PRI": 47.371,
+      "BLM": 27.822,
+      "DOD": 0.037,
+      "USFS": 9.112
+    }
+  },
+  "S06": {
+    "acres": 145071.79,
+    "publicPct": 53.889,
+    "privatePct": 46.111,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 46.111,
+      "BLM": 1.539,
+      "DOD": 0.0,
+      "LOCAL": 3.506,
+      "STA": 0.196,
+      "USFS": 48.647
+    }
+  },
+  "S07": {
+    "acres": 156509.28,
+    "publicPct": 57.759,
+    "privatePct": 42.241,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "STA": 7.543,
+      "PRI": 42.241,
+      "LOCAL": 0.025,
+      "BLM": 50.19
+    }
+  },
+  "S08": {
+    "acres": 234417.64,
+    "publicPct": 41.764,
+    "privatePct": 58.236,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 19.463,
+      "LOCAL": 0.243,
+      "STA": 3.057,
+      "PRI": 58.236,
+      "USFS": 16.801,
+      "NPS": 2.2
+    }
+  },
+  "S09": {
+    "acres": 730132.38,
+    "publicPct": 60.264,
+    "privatePct": 39.736,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 3.532,
+      "STA": 2.459,
+      "NPS": 18.022,
+      "PRI": 39.736,
+      "LOCAL": 0.048,
+      "USFW": 11.702,
+      "USFS": 24.5
+    }
+  },
+  "S10": {
+    "acres": 421509.98,
+    "publicPct": 89.109,
+    "privatePct": 10.891,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 27.291,
+      "PRI": 10.891,
+      "STA": 0.554,
+      "USFS": 61.263
+    }
+  },
+  "S11": {
+    "acres": 298556.16,
+    "publicPct": 91.214,
+    "privatePct": 8.786,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 1.54,
+      "LOCAL": 0.448,
+      "USFS": 89.189,
+      "PRI": 8.786,
+      "STA": 0.036
+    }
+  },
+  "S12": {
+    "acres": 373111.79,
+    "publicPct": 72.793,
+    "privatePct": 27.207,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 7.453,
+      "PRI": 27.207,
+      "USFS": 62.202,
+      "BOR": 0.004,
+      "LOCAL": 0.171,
+      "STA": 2.962
+    }
+  },
+  "S13": {
+    "acres": 212808.78,
+    "publicPct": 77.852,
+    "privatePct": 22.148,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 76.752,
+      "PRI": 22.148,
+      "BLM": 0.873,
+      "STA": 0.227
+    }
+  },
+  "S15": {
+    "acres": 357813.43,
+    "publicPct": 94.339,
+    "privatePct": 5.661,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 5.661,
+      "USFS": 94.235,
+      "LOCAL": 0.104
+    }
+  },
+  "S16": {
+    "acres": 128778.86,
+    "publicPct": 95.558,
+    "privatePct": 4.442,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 4.442,
+      "LOCAL": 0.395,
+      "USFS": 95.163
+    }
+  },
+  "S17": {
+    "acres": 235724.55,
+    "publicPct": 79.49,
+    "privatePct": 20.51,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 20.51,
+      "USFS": 72.752,
+      "BLM": 2.676,
+      "STA": 3.999,
+      "LOCAL": 0.064
+    }
+  },
+  "S18": {
+    "acres": 356621.11,
+    "publicPct": 76.206,
+    "privatePct": 23.792,
+    "tribalPct": 0,
+    "unknownPct": 0.001,
+    "coverage": 0.999987,
+    "ownership": {
+      "PRI": 23.792,
+      "BLM": 13.35,
+      "LOCAL": 0.021,
+      "STA": 24.524,
+      "USFS": 37.723,
+      "USFW": 0.588
+    }
+  },
+  "S19": {
+    "acres": 258148.53,
+    "publicPct": 89.64,
+    "privatePct": 10.36,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 10.36,
+      "NPS": 0.02,
+      "LOCAL": 0.389,
+      "STA": 4.008,
+      "BLM": 0.947,
+      "USFS": 84.276
+    }
+  },
+  "S20": {
+    "acres": 88971.22,
+    "publicPct": 89.088,
+    "privatePct": 10.912,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 10.912,
+      "USFS": 82.567,
+      "STA": 1.005,
+      "BLM": 5.515
+    }
+  },
+  "S21": {
+    "acres": 407031.35,
+    "publicPct": 65.806,
+    "privatePct": 34.194,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 4.016,
+      "PRI": 34.194,
+      "USFS": 60.335,
+      "STA": 0.214,
+      "BOR": 0.115,
+      "LOCAL": 1.126
+    }
+  },
+  "S22": {
+    "acres": 279246.76,
+    "publicPct": 95.328,
+    "privatePct": 4.672,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 4.672,
+      "USFS": 89.924,
+      "BLM": 5.158,
+      "LOCAL": 0.134,
+      "STA": 0.112
+    }
+  },
+  "S23": {
+    "acres": 102720.93,
+    "publicPct": 93.052,
+    "privatePct": 6.948,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 6.948,
+      "STA": 0.455,
+      "USFS": 92.596
+    }
+  },
+  "S24": {
+    "acres": 309986.17,
+    "publicPct": 53.482,
+    "privatePct": 46.518,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 28.244,
+      "BLM": 24.383,
+      "PRI": 46.518,
+      "LOCAL": 0.715,
+      "BOR": 0.14
+    }
+  },
+  "S25": {
+    "acres": 187170.83,
+    "publicPct": 77.514,
+    "privatePct": 22.486,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 68.874,
+      "PRI": 22.486,
+      "LOCAL": 0.034,
+      "BLM": 8.606
+    }
+  },
+  "S26": {
+    "acres": 257118.78,
+    "publicPct": 89.949,
+    "privatePct": 10.051,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 87.475,
+      "STA": 0.483,
+      "LOCAL": 0.077,
+      "PRI": 10.051,
+      "BLM": 1.915
+    }
+  },
+  "S27": {
+    "acres": 238473.89,
+    "publicPct": 82.559,
+    "privatePct": 17.441,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 17.441,
+      "STA": 2.281,
+      "BLM": 0.244,
+      "LOCAL": 0.172,
+      "USFS": 79.862
+    }
+  },
+  "S28": {
+    "acres": 149452.19,
+    "publicPct": 96.958,
+    "privatePct": 3.042,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 3.042,
+      "USFS": 96.85,
+      "BOR": 0.108
+    }
+  },
+  "S29": {
+    "acres": 460376.47,
+    "publicPct": 81.754,
+    "privatePct": 18.246,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 18.246,
+      "STA": 2.743,
+      "LOCAL": 0.724,
+      "BLM": 16.106,
+      "USFS": 61.865,
+      "USFW": 0.317
+    }
+  },
+  "S30": {
+    "acres": 486186.31,
+    "publicPct": 83.251,
+    "privatePct": 16.745,
+    "tribalPct": 0,
+    "unknownPct": 0.004,
+    "coverage": 0.999963,
+    "ownership": {
+      "PRI": 16.745,
+      "BLM": 17.117,
+      "STA": 9.853,
+      "USFS": 55.495,
+      "LOCAL": 0.785
+    }
+  },
+  "S31": {
+    "acres": 274801.56,
+    "publicPct": 63.565,
+    "privatePct": 36.435,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 0.999998,
+    "ownership": {
+      "PRI": 36.435,
+      "BLM": 0.132,
+      "USFS": 63.234,
+      "STA": 0.198
+    }
+  },
+  "S32": {
+    "acres": 271827.48,
+    "publicPct": 42.805,
+    "privatePct": 57.195,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 57.195,
+      "OTHER": 0.25,
+      "BLM": 0.44,
+      "LOCAL": 5.476,
+      "STA": 0.448,
+      "USFS": 36.191
+    }
+  },
+  "S33": {
+    "acres": 286017.12,
+    "publicPct": 90.887,
+    "privatePct": 9.113,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 51.112,
+      "PRI": 9.113,
+      "BLM": 39.658,
+      "LOCAL": 0.116
+    }
+  },
+  "S34": {
+    "acres": 93179.52,
+    "publicPct": 64.711,
+    "privatePct": 35.289,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 35.289,
+      "LOCAL": 1.15,
+      "USFS": 44.614,
+      "DOD": 18.94,
+      "STA": 0.005
+    }
+  },
+  "S36": {
+    "acres": 110656.38,
+    "publicPct": 87.542,
+    "privatePct": 12.458,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "STA": 0.295,
+      "LOCAL": 0.403,
+      "PRI": 12.458,
+      "USFS": 85.846,
+      "BLM": 0.999
+    }
+  },
+  "S37": {
+    "acres": 194746.92,
+    "publicPct": 64.267,
+    "privatePct": 35.733,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 35.733,
+      "LOCAL": 1.093,
+      "STA": 0.83,
+      "BLM": 0.263,
+      "USFS": 61.598,
+      "NPS": 0.484
+    }
+  },
+  "S38": {
+    "acres": 854898.32,
+    "publicPct": 17.153,
+    "privatePct": 82.847,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "STA": 8.671,
+      "BLM": 0.277,
+      "DOD": 0.001,
+      "USFS_NG": 0.083,
+      "PRI": 82.847,
+      "LOCAL": 0.855,
+      "USFS_LU": 7.267
+    }
+  },
+  "S39": {
+    "acres": 394341.97,
+    "publicPct": 46.386,
+    "privatePct": 53.614,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "STA": 3.829,
+      "PRI": 53.614,
+      "USFS": 28.122,
+      "LOCAL": 5.871,
+      "BLM": 8.564
+    }
+  },
+  "S40": {
+    "acres": 273099.39,
+    "publicPct": 50.126,
+    "privatePct": 49.873,
+    "tribalPct": 0,
+    "unknownPct": 0.001,
+    "coverage": 0.999988,
+    "ownership": {
+      "PRI": 49.873,
+      "USFS": 37.964,
+      "BLM": 0.064,
+      "LOCAL": 9.653,
+      "STA": 2.445
+    }
+  },
+  "S41": {
+    "acres": 83868.68,
+    "publicPct": 84.993,
+    "privatePct": 15.007,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 84.993,
+      "PRI": 15.007
+    }
+  },
+  "S42": {
+    "acres": 269017.81,
+    "publicPct": 48.17,
+    "privatePct": 51.83,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 51.83,
+      "STA": 0.733,
+      "USFS": 43.904,
+      "LOCAL": 1.335,
+      "OTHER": 2.169,
+      "BLM": 0.029
+    }
+  },
+  "S44": {
+    "acres": 100073.46,
+    "publicPct": 72.409,
+    "privatePct": 27.591,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 66.059,
+      "BLM": 1.997,
+      "PRI": 27.591,
+      "LOCAL": 4.354
+    }
+  },
+  "S46": {
+    "acres": 46938.02,
+    "publicPct": 38.501,
+    "privatePct": 61.499,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 5.944,
+      "USFS": 0.039,
+      "PRI": 61.499,
+      "NPS": 6.056,
+      "LOCAL": 25.454,
+      "STA": 1.009
+    }
+  },
+  "S47": {
+    "acres": 265249.32,
+    "publicPct": 70.597,
+    "privatePct": 29.403,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 29.403,
+      "BLM": 27.758,
+      "LOCAL": 0.158,
+      "STA": 4.426,
+      "USFS": 38.254
+    }
+  },
+  "S48": {
+    "acres": 615410.18,
+    "publicPct": 14.551,
+    "privatePct": 85.438,
+    "tribalPct": 0,
+    "unknownPct": 0.011,
+    "coverage": 0.999889,
+    "ownership": {
+      "PRI": 85.438,
+      "USFS_LU": 9.463,
+      "STA": 5.024,
+      "BLM": 0.064
+    }
+  },
+  "S49": {
+    "acres": 404424.26,
+    "publicPct": 45.342,
+    "privatePct": 54.658,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 54.658,
+      "STA": 2.78,
+      "OTHER": 0.001,
+      "LOCAL": 1.455,
+      "BLM": 24.335,
+      "USFS": 16.771
+    }
+  },
+  "S50": {
+    "acres": 189971.23,
+    "publicPct": 15.584,
+    "privatePct": 84.416,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "LOCAL": 0.742,
+      "BLM": 9.658,
+      "STA": 5.185,
+      "PRI": 84.416
+    }
+  },
+  "S51": {
+    "acres": 857207.69,
+    "publicPct": 16.394,
+    "privatePct": 83.271,
+    "tribalPct": 0,
+    "unknownPct": 0.335,
+    "coverage": 0.996646,
+    "ownership": {
+      "PRI": 83.271,
+      "LOCAL": 4.789,
+      "STA": 2.201,
+      "BLM": 1.268,
+      "USFS": 8.135
+    }
+  },
+  "S53": {
+    "acres": 128353.73,
+    "publicPct": 92.836,
+    "privatePct": 7.164,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 7.164,
+      "USFS": 92.426,
+      "LOCAL": 0.411
+    }
+  },
+  "S54": {
+    "acres": 447492.1,
+    "publicPct": 80.45,
+    "privatePct": 19.55,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 10.6,
+      "PRI": 19.55,
+      "BOR": 1.003,
+      "LOCAL": 3.143,
+      "USFS": 65.506,
+      "NPS": 0.0,
+      "STA": 0.199,
+      "OTHER": 0.0
+    }
+  },
+  "S55": {
+    "acres": 543546.67,
+    "publicPct": 78.39,
+    "privatePct": 21.61,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 14.074,
+      "LOCAL": 0.014,
+      "STA": 6.181,
+      "PRI": 21.61,
+      "USFS": 58.121,
+      "BOR": 0.0
+    }
+  },
+  "S56": {
+    "acres": 475153.78,
+    "publicPct": 62.257,
+    "privatePct": 37.74,
+    "tribalPct": 0,
+    "unknownPct": 0.003,
+    "coverage": 0.999974,
+    "ownership": {
+      "BLM": 55.98,
+      "USFS": 1.564,
+      "PRI": 37.74,
+      "LOCAL": 0.299,
+      "NPS": 4.299,
+      "BOR": 0.11,
+      "OTHER": 0.005
+    }
+  },
+  "S57": {
+    "acres": 348751.32,
+    "publicPct": 30.095,
+    "privatePct": 69.905,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 69.905,
+      "STA": 0.973,
+      "LOCAL": 1.71,
+      "BLM": 0.011,
+      "USFS": 27.398,
+      "OTHER": 0.0,
+      "NPS": 0.002
+    }
+  },
+  "S58": {
+    "acres": 123011.09,
+    "publicPct": 54.608,
+    "privatePct": 45.392,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 45.392,
+      "LOCAL": 0.498,
+      "BLM": 0.152,
+      "USFS": 46.946,
+      "STA": 7.012
+    }
+  },
+  "S59": {
+    "acres": 560324.52,
+    "publicPct": 68.242,
+    "privatePct": 31.758,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "LOCAL": 0.019,
+      "PRI": 31.758,
+      "BLM": 33.42,
+      "STA": 0.654,
+      "USFS": 34.148
+    }
+  },
+  "S60": {
+    "acres": 241673.85,
+    "publicPct": 43.237,
+    "privatePct": 56.763,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 56.763,
+      "STA": 3.745,
+      "BLM": 39.247,
+      "LOCAL": 0.246
+    }
+  },
+  "S61": {
+    "acres": 1203686.63,
+    "publicPct": 37.597,
+    "privatePct": 62.403,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "STA": 8.126,
+      "USFS_LU": 7.863,
+      "PRI": 62.403,
+      "BLM": 0.042,
+      "DOD": 19.557,
+      "USFS": 0.0,
+      "USFS_NG": 2.009
+    }
+  },
+  "S62": {
+    "acres": 680049.96,
+    "publicPct": 80.707,
+    "privatePct": 19.293,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 19.293,
+      "BLM": 45.937,
+      "USFS": 33.662,
+      "LOCAL": 1.108
+    }
+  },
+  "S63": {
+    "acres": 185229.78,
+    "publicPct": 92.594,
+    "privatePct": 7.402,
+    "tribalPct": 0,
+    "unknownPct": 0.004,
+    "coverage": 0.999961,
+    "ownership": {
+      "PRI": 7.402,
+      "LOCAL": 0.003,
+      "BLM": 92.397,
+      "BOR": 0.193
+    }
+  },
+  "S64": {
+    "acres": 589706.29,
+    "publicPct": 64.734,
+    "privatePct": 35.265,
+    "tribalPct": 0,
+    "unknownPct": 0.002,
+    "coverage": 0.999981,
+    "ownership": {
+      "USFS": 30.487,
+      "LOCAL": 1.665,
+      "BOR": 1.577,
+      "BLM": 29.308,
+      "STA": 1.542,
+      "PRI": 35.265,
+      "OTHER": 0.153
+    }
+  },
+  "S65": {
+    "acres": 475193.33,
+    "publicPct": 0.14,
+    "privatePct": 99.669,
+    "tribalPct": 0,
+    "unknownPct": 0.191,
+    "coverage": 0.998088,
+    "ownership": {
+      "PRI": 99.669,
+      "USFS": 0.121,
+      "STA": 0.004,
+      "BLM": 0.015
+    }
+  },
+  "S66": {
+    "acres": 177523.75,
+    "publicPct": 86.372,
+    "privatePct": 13.628,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 3.284,
+      "PRI": 13.628,
+      "USFS": 79.953,
+      "STA": 0.633,
+      "LOCAL": 0.755,
+      "USFW": 1.746
+    }
+  },
+  "S67": {
+    "acres": 251873.0,
+    "publicPct": 93.083,
+    "privatePct": 6.917,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 92.223,
+      "PRI": 6.917,
+      "BLM": 0.859,
+      "LOCAL": 0.0
+    }
+  },
+  "S68": {
+    "acres": 130046.29,
+    "publicPct": 74.386,
+    "privatePct": 25.614,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 25.614,
+      "BLM": 26.146,
+      "STA": 2.208,
+      "USFS": 46.024,
+      "LOCAL": 0.007
+    }
+  },
+  "S69": {
+    "acres": 235522.99,
+    "publicPct": 80.338,
+    "privatePct": 19.662,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 50.754,
+      "LOCAL": 0.697,
+      "PRI": 19.662,
+      "STA": 0.069,
+      "USFS": 28.688,
+      "BOR": 0.129,
+      "NPS": 0.0
+    }
+  },
+  "S70": {
+    "acres": 104097.68,
+    "publicPct": 83.963,
+    "privatePct": 16.037,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 16.037,
+      "STA": 0.106,
+      "BLM": 17.074,
+      "USFS": 66.72,
+      "LOCAL": 0.063
+    }
+  },
+  "S71": {
+    "acres": 643468.5,
+    "publicPct": 80.441,
+    "privatePct": 19.557,
+    "tribalPct": 0,
+    "unknownPct": 0.001,
+    "coverage": 0.999987,
+    "ownership": {
+      "BOR": 0.315,
+      "PRI": 19.557,
+      "USFS": 73.81,
+      "BLM": 4.258,
+      "STA": 0.569,
+      "LOCAL": 1.47,
+      "OTHER": 0.02
+    }
+  },
+  "S72": {
+    "acres": 124955.54,
+    "publicPct": 1.872,
+    "privatePct": 98.128,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 98.128,
+      "STA": 0.974,
+      "LOCAL": 0.897
+    }
+  },
+  "S73": {
+    "acres": 284988.8,
+    "publicPct": 76.869,
+    "privatePct": 23.131,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 23.131,
+      "USFS": 68.924,
+      "BLM": 5.149,
+      "STA": 1.663,
+      "LOCAL": 1.133
+    }
+  },
+  "S74": {
+    "acres": 123483.03,
+    "publicPct": 91.949,
+    "privatePct": 8.051,
+    "tribalPct": 0,
+    "unknownPct": 0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 8.051,
+      "BLM": 18.574,
+      "LOCAL": 0.002,
+      "USFS": 73.373
+    }
+  },
+  "S75": {
+    "acres": 449001.56,
+    "publicPct": 57.854,
+    "privatePct": 42.146,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "PRI": 42.146,
+      "BLM": 57.258,
+      "LOCAL": 0.593,
+      "BOR": 0.003
+    }
+  },
+  "S77": {
+    "acres": 235314.9,
+    "publicPct": 58.939,
+    "privatePct": 41.061,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "USFS": 30.622,
+      "BLM": 22.737,
+      "PRI": 41.061,
+      "LOCAL": 4.763,
+      "STA": 0.817
+    }
+  },
+  "S78": {
+    "acres": 66878.5,
+    "publicPct": 78.448,
+    "privatePct": 21.552,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 2.945,
+      "BOR": 0.105,
+      "PRI": 21.552,
+      "STA": 0.437,
+      "USFS": 74.961
+    }
+  },
+  "S79": {
+    "acres": 127039.78,
+    "publicPct": 23.255,
+    "privatePct": 76.745,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "OTHER": 0.47,
+      "LOCAL": 7.116,
+      "STA": 1.638,
+      "BLM": 0.212,
+      "PRI": 76.745,
+      "BOR": 13.819
+    }
+  },
+  "S80": {
+    "acres": 111601.13,
+    "publicPct": 97.412,
+    "privatePct": 2.588,
+    "tribalPct": 0,
+    "unknownPct": 0.0,
+    "coverage": 1.0,
+    "ownership": {
+      "BLM": 69.319,
+      "PRI": 2.588,
+      "BOR": 0.106,
+      "USFS": 0.321,
+      "NPS": 27.666
+    }
+  }
+}

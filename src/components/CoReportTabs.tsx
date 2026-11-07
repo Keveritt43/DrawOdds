@@ -5,7 +5,7 @@ export function CoReportTabs({ panels }: { panels: { id: string; label: string; 
   const prefix = useId();
   return (
     <section>
-      <h2>Reports · Deer and Elk</h2>
+      <h2>Colorado Parks and Wildlife Reports</h2>
       <div className="co-report-tabs" role="tablist" aria-label="CPW report categories">
         {panels.map((p, i) => (
           <button

@@ -25,7 +25,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const ref = parseUnitKey(decodeURIComponent((await params).name));
   const name = ref.name.toUpperCase();
-  if (ref.state === 'CO') return { title: `Colorado Unit ${name}`, description: `Colorado game management unit ${name}: limited deer and elk licenses and draw odds at your preference points.` };
+  if (ref.state === 'CO') return { title: `Colorado Unit ${name}`, description: `Colorado game management unit ${name}: hunt licenses, draw results, hunter success and public land.` };
   return { title: `Unit ${name}`, description: `Idaho hunting unit ${name}: deer, elk and pronghorn hunts, draw odds, success and public land.` };
 }
 

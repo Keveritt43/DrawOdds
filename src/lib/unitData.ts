@@ -33,9 +33,9 @@ export function labelPoints(fc: UnitData['fc']): UnitData['labels'] {
 
 const cached: Record<string, Promise<UnitData> | null> = {};
 
-export function loadSearchUnits(state: string): Promise<UnitData> {
-  const key = 'search:' + state;
-  cached[key] ??= fetch(`/api/search/units?state=${encodeURIComponent(state)}&v=1`).then(async r => {
+export function loadSearchUnits(state: string, draw = 'DEP', species = ''): Promise<UnitData> {
+  const key = ['search', state, draw, species].join(':');
+  cached[key] ??= fetch(`/api/search/units?state=${encodeURIComponent(state)}&draw=${draw.toLowerCase()}&species=${encodeURIComponent(species)}&v=2`).then(async r => {
     if (!r.ok) throw new Error(`boundaries ${r.status}`);
     const fc = await r.json() as UnitData['fc'];
     return { fc, labels: labelPoints(fc), classes: {}, missing: {} };

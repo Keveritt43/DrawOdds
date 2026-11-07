@@ -13,6 +13,7 @@ import { seasonsSummary, seasonRules } from '@/lib/tagSeasons';
 import { objectiveSummary, OBJ_LABEL } from '@/lib/elkObjectives';
 import { huntName } from '@/components/HuntTable';
 import { ScoreBadge } from '@/components/HuntCards';
+import { coSpecial } from '@/lib/coSpecial';
 import { evaluateHunt } from '@/lib/multiStateSearch';
 import { STATES } from '@/lib/states';
 
@@ -38,11 +39,12 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
 
   const odds = (r: HuntSummary) => evaluateHunt(r,settings,'proj').odds;
   const latest = (r: HuntSummary) => r.state === 'CO' ? coOdds(r,'last') : r.type === 'CONTROLLED' ? r[rfFor(r).oddsLast] : nrFor(r) ? r.nrOddsLast : null;
+  const apps = (r: HuntSummary) => evaluateHunt(r,settings,'last').applicants ?? r[rfFor(r).appsLast];
   const drawFill = (r: HuntSummary) => odds(r) === null || r.success5 === null ? null : odds(r)! * r.success5;
   const rows: Row[] = [
     { label: 'Quality', v: (r) => r.scoreQuality, show: (r) => (r.scoreQuality === null ? '-' : <ScoreBadge v={r.scoreQuality} label="" />), better: 'high' },
     { label: 'Opportunity', v: (r) => (nrFor(r) ? r.scoreOppNr : r.scoreOppRes), show: (r) => { const o = nrFor(r) ? r.scoreOppNr : r.scoreOppRes; return o === null ? '-' : <ScoreBadge v={o} label="" />; }, better: 'high' },
-    { label: hunts.some(r=>r.state==='CO')?'Your draw odds (CO: projected at saved points)':`${nr ? 'Nonresident' : 'Resident'} odds, 5-yr`, v: odds, show: (r) => (odds(r) === 1 && r.type === 'GENERAL' && (r.state === 'CO' || (!nrFor(r) && !r.capped)) ? 'Over the counter' : pctOdds(odds(r))), better: 'high' },
+    { label: hunts.some(r=>r.state==='CO')?'Draw odds for your residency':`${nr ? 'Nonresident' : 'Resident'} odds, 5-yr`, v: odds, show: (r) => (odds(r) === 1 && r.type === 'GENERAL' && (r.state === 'CO' || (!nrFor(r) && !r.capped)) ? 'Over the counter' : pctOdds(odds(r))), better: 'high' },
     { label: 'Latest drawing', v: latest, show: (r) => { const v = latest(r); return v === null ? '-' : `${pctOdds(v)}${r.oddsLastYear ? ` (${r.oddsLastYear})` : ''}`; }, better: 'high' },
     { label: 'Draw and fill, per year', v: drawFill, show: (r) => pct(drawFill(r), 1), better: 'high' },
     { label: 'Hunter success, 5-yr', v: (r) => (r.smallSample ? null : r.success5), show: (r) => `${pct(r.success5)}${r.smallSample ? ' (small sample)' : ''}`, better: 'high' },
@@ -51,7 +53,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     { label: 'Hunters per sq mi', v: (r) => r.huntersSqMi, show: (r) => density(r.huntersSqMi), better: 'low' },
     { label: 'Hunters per year', v: (r) => ((r as CoScored).coPressure?.status==='missing' ? null : (r as CoScored).coPressure?.totalHuntersPerYear ?? (r.hunters5 && r.harvestYears ? r.hunters5 / r.harvestYears : null)), show: (r) => ((r as CoScored).coPressure?.status==='missing' ? 'Unknown elk pressure' : (r as CoScored).coPressure?.status==='complete' ? `${int((r as CoScored).coPressure!.totalHuntersPerYear)} deer + elk` : r.hunters5 && r.harvestYears ? int(r.hunters5 / r.harvestYears) : '-') },
     { label: 'Tags', v: (r) => r.tags ?? r.quota, show: (r) => (r.type === 'CONTROLLED' ? `${int(r.tags)}${nrFor(r) && r.nrPermitsLast !== null ? ` (${int(r.nrPermitsLast)} NR drew)` : ''}` : r.nrTag && r.quota !== null ? `${int(r.quota)} NR quota` : 'Unlimited') },
-    { label: 'Your pool: 1st-choice applicants', v: (r) => r[rfFor(r).appsLast], show: (r) => int(r[rfFor(r).appsLast]) },
+    { label: 'Your pool: 1st-choice applicants', v: apps, show: (r) => int(apps(r)) },
     { label: 'Tags to 2nd choices', v: (r) => r.secondDrewLast, show: (r) => (r.secondDrewLast ? int(r.secondDrewLast) : '-') },
     { label: 'Public land', v: (r) => r.publicPct, show: (r) => (r.publicPct === null ? '-' : `${Math.round(r.publicPct)}%`), better: 'high' },
     { label: 'Public + Access Yes!', v: (r) => r.huntablePct, show: (r) => (r.huntablePct === null ? '-' : `${Math.round(r.huntablePct)}%`), better: 'high' },
@@ -72,13 +74,13 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
         <p>Pick at least two hunts with the <b>Compare</b> box on any hunt card or table row, then come back here.</p>
       ) : (
         <>
-        <p className="small muted">Odds use your residency and points for each state. Colorado uses projected odds. Green = best of these {hunts.length}.</p>
+        <p className="small muted">Odds use your residency and points for each state. Colorado uses historical rates for moose, sheep and goat, and projections at saved points for the other species. Green = best of these {hunts.length}.</p>
         <div className="cmp-wrap">
           <table className="cmp-table">
             <thead>
               <tr>
                 <th />
-                {hunts.map((h) => <th key={h.id}><HuntLink href={huntHref(h)}>{huntName(h)}</HuntLink><p className="small">{STATES[h.state as keyof typeof STATES]?.name ?? h.state} · {nrFor(h) ? 'Nonresident' : 'Resident'}{h.state === 'CO' ? ` · ${coPoints[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER']} points` : ''}</p></th>)}
+                {hunts.map((h) => <th key={h.id}><HuntLink href={huntHref(h)}>{huntName(h)}</HuntLink><p className="small">{STATES[h.state as keyof typeof STATES]?.name ?? h.state} · {nrFor(h) ? 'Nonresident' : 'Resident'}{coSpecial(h) ? ' · Historical draw' : h.state === 'CO' ? ` · ${coPoints[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER']} points` : ''}</p></th>)}
               </tr>
             </thead>
             <tbody>

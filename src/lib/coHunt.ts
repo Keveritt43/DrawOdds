@@ -75,10 +75,11 @@ const ORD = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];
 const METHOD: Record<string, string> = { R: 'Rifle', A: 'Archery', M: 'Muzzleloader', X: 'Season Choice' };
 
 export function decodeCode(code: string) {
-  const m = /^([DEA])([MFEP])(\d{3})([A-Z0-9])(\d)([A-Z])$/.exec(code);
+  const m = /^([DEAMSGC])([MFEP])(\d{3}|[SG]\d{2})([A-Z0-9])(\d)([A-Z])$/.exec(code);
   if (!m) return null;
   const [, sp, sex, unit, type, no, method] = m;
-  return { species: sp === 'D' ? 'DEER' : sp === 'E' ? 'ELK' : 'PRONGHORN', sex, unit: String(Number(unit)), type, no: Number(no), method } as const;
+  const species = ({ D: 'DEER', E: 'ELK', A: 'PRONGHORN', M: 'MOOSE', S: 'BIGHORN', G: 'GOAT', C: 'BIGHORN' } as const)[sp as 'D' | 'E' | 'A' | 'M' | 'S' | 'G' | 'C'];
+  return { species, sex, unit: /^[SG]/.test(unit) ? unit : String(Number(unit)), type, no: Number(no), method } as const;
 }
 
 /** "3rd Rifle", "Archery", "Early Rifle", "Private Land Only Rifle". From the hunt code; dates come from the brochure. */

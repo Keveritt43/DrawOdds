@@ -24,6 +24,7 @@ export default async function Home() {
           <Link className="btn primary" href="/hunts">
             Find Colorado Hunts
           </Link>{" "}
+          <Link className="btn" href="/hunts?states=CO&draw=msg">Moose, Sheep &amp; Goat</Link>{' '}
           <Link className="btn" href="/map">
             Colorado Unit Map
           </Link>{" "}

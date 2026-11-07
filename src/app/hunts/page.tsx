@@ -13,6 +13,7 @@ import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { CoFinder } from './CoFinder';
 import { MultiStateFinder } from './MultiStateFinder';
+import { searchDraw } from '@/lib/searchStates';
 import { SearchStates } from '@/components/SearchStates';
 import { DRAW_SPECIES, AREA_SPECIES, SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUnits, type Filters } from '@/lib/finder';
@@ -82,6 +83,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const sp = await searchParams;
   if (sp.states !== undefined) return <MultiStateFinder sp={sp} />;
   const state = (await getState(sp.state)).code;
+  if (state === 'CO' && searchDraw(Array.isArray(sp.draw) ? sp.draw[0] : sp.draw, Array.isArray(sp.species) ? sp.species[0] : sp.species) === 'MSG') {
+    redirect(`/hunts?${new URLSearchParams(Object.entries({ ...sp, states: 'CO', draw: 'msg' }).flatMap(([k,v]) => v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]]))}`);
+  }
   if(state==='CO'&&sp.sex!==undefined&&sp.antler===undefined){const sexes=(Array.isArray(sp.sex)?sp.sex.join(','):sp.sex).split(',');sp.antler=sexes.includes('E')?'ALL':sexes.map(x=>x==='F'?'ANTLERLESS':'ANTLERED').join(',');}
   const ref = (await headers()).get("referer") ?? "";
   const fromHere = /\/hunts(\?|$)/.test(ref.replace(/^https?:\/\/[^/]+/, ''));
@@ -244,7 +248,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           <div className="f-title">
             <h1>Find A Hunt</h1>
           </div>
-          <SearchStates />
+          <SearchStates draw={draw} />
+          {draw === 'MSG' && <Link className="small" href={`/hunts?states=CO,ID&draw=msg${f.species ? `&species=${f.species}` : ''}`}>Search Idaho and Colorado</Link>}
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'unit' ? 'units' : total === 1 ? 'result' : 'results'} · sort by</span>
             <SortSelect value={f.sort} />

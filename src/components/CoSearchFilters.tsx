@@ -5,7 +5,7 @@ import { PointRangeSlider, CHANCES } from './CoFilters';
 import { pointRange } from '@/lib/pointRange';
 
 /** State controls retain their URL names; common species, weapon and dates live in FilterRail. */
-export function CoSearchFilters({ part }: { part: 'points' | 'state' }) {
+export function CoSearchFilters({ part, historical }: { part: 'points' | 'state'; historical?: boolean }) {
   const sp = useSearchParams(), router = useRouter();
   const get = (k: string) => sp.get(k) ?? '';
   const push = (patch: Record<string, string | null>) => {
@@ -20,6 +20,9 @@ export function CoSearchFilters({ part }: { part: 'points' | 'state' }) {
   })}</div>;
   const range = pointRange(get('minPts'), get('maxPts'));
   const note = <p className="small muted">Applies to Colorado only. Other selected states are unchanged.</p>;
+  if (historical) return <Section title="Colorado: Private Land" value={get('priv') === '1' ? 'Included' : 'Excluded'} set={get('priv') === '1'}>
+    {note}<label><input type="checkbox" checked={get('priv') === '1'} onChange={() => push({ priv: get('priv') === '1' ? null : '1' })} /> Include Ranching for Wildlife and private land hunts</label>
+  </Section>;
   return part === 'points' ? <>
     <Section title="Colorado: Points Needed" value={get('minPts') || get('maxPts') ? `${range.min ?? 0}–${range.max ?? 40}` : 'Any'} set={!!(get('minPts') || get('maxPts'))}>
       {note}<p className="small muted">Last draw, for your Colorado residency.</p><PointRangeSlider min={range.min ?? 0} max={range.max ?? 40} onCommit={(min, max) => push({ minPts: min === 0 ? null : String(min), maxPts: max === 40 ? null : String(max) })} />

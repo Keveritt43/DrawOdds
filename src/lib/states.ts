@@ -70,8 +70,11 @@ export const STATES: Record<StateCode, StateConfig> = {
     agency: { short: 'CPW', name: 'Colorado Parks and Wildlife', url: 'https://cpw.state.co.us/activities/hunting/big-game' },
     accessProgram: null,
     points: 'preference',
-    draws: [{ key: 'DEP', label: 'Deer · Elk · Pronghorn', species: ['DEER', 'ELK', 'PRONGHORN'] }],
-    species: ['DEER', 'ELK', 'PRONGHORN'],
+    draws: [
+      { key: 'DEP', label: 'Deer · Elk · Pronghorn', species: ['DEER', 'ELK', 'PRONGHORN'] },
+      { key: 'MSG', label: 'Moose · Sheep · Goat', species: ['MOOSE', 'BIGHORN', 'GOAT'] },
+    ],
+    species: ['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'],
     bounds: [[-109.06, 36.99], [-102.04, 41.0]],
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },

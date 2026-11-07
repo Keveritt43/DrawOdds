@@ -1,3 +1,5 @@
+import { CoSpecialHuntPage } from './CoSpecialHuntPage';
+import { coSpecial } from '@/lib/coSpecial';
 import { HuntLink } from '@/components/HuntNavigation';
 import { CoPressureEvidence } from '@/components/CoPressureNote';
 import { getCoScoringContext } from '@/lib/coScoringContext';
@@ -39,6 +41,8 @@ const pct = (o: number | null | undefined) =>
 /** A Colorado hunt code's page: your odds, points needed and their trend, and odds at every point level. */
 export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: string; pool?: string } }) {
   s = withCoScores(s,await getCoScoringContext());
+  const special = coSpecial(s);
+  if (special) return <CoSpecialHuntPage s={s} hunt={special} />;
   const po = s.pointOdds as unknown as PointOdds | null;
   const d = decodeCode(s.tagCode ?? "");
   const species = s.species === 'PRONGHORN' ? 'PRONGHORN' : s.species === 'ELK' ? 'ELK' : 'DEER';

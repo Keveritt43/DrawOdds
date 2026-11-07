@@ -38,7 +38,7 @@ import { STATES, type StateCode } from '@/lib/states';
  * "Shade" switches the fill to any unit metric (public land, success, crowding, odds) while matching units keep
  * a heavy orange outline. Click a unit to narrow the results to it (click again to clear).
  */
-export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats = { units: {}, areas: {} }, states }: {
+export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats = { units: {}, areas: {} }, states, searchGroup, species }: {
   matched: string[]; selected: string; chips: { label: string; href: string }[]; nr?: boolean; showZones?: boolean; zones?: string[];
   /** species hunted by their own hunt areas (pronghorn, moose, sheep, goat; comma list): draw those instead of filling units.
    *  matchedAreas / selectedArea / stats.areas are keyed "<SPECIES>:<area>" */
@@ -48,6 +48,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   stats?: { units: Record<string, MatchStat>; areas: Record<string, MatchStat> };
   /** Combined Find Hunts uses namespaced units and fits all selected states. */
   states?: StateCode[];
+  searchGroup?: 'DEP' | 'MSG';
 }) {
   const el = useRef<HTMLDivElement>(null);
   const keyEl = useRef<HTMLDivElement>(null);
@@ -118,7 +119,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       let labels;
       try {
         if (states) {
-          const data = await Promise.all(states.map(loadSearchUnits));
+          const data = await Promise.all(states.map(s => loadSearchUnits(s, searchGroup, species)));
           fc = { type: 'FeatureCollection', features: data.flatMap(d => d.fc.features) };
           labels = { type: 'FeatureCollection', features: data.flatMap(d => d.labels.features) };
         } else ({ fc, labels } = await loadUnits(stCode));
@@ -153,7 +154,8 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       });
       m.on('click', 'units-fill', (e) => {
         if (m.getLayer('areas-fill') && m.getLayoutProperty('areas-fill', 'visibility') === 'visible') return; // areas take the click
-        const name = String(e.features?.[0]?.properties?.name ?? '');
+        const target = e.features?.find(f => latestPaint.current.matched.includes(String(f.properties?.name))) ?? e.features?.[0];
+        const name = String(target?.properties?.name ?? '');
         if (!name) return;
         const p = new URLSearchParams(spRef.current.toString());
         if (p.get('unit') === name) p.delete('unit');
