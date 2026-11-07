@@ -149,10 +149,10 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       if (!m.getSource('unit-labels')) m.addSource('unit-labels', { type: 'geojson', data: labels as never });
       m.addLayer({
         id: 'units-label', type: 'symbol', source: 'unit-labels',
-        minzoom: 4,
+        minzoom: 3,
         layout: {
           'text-field': ['get', 'name'], 'text-font': ['Noto Sans Bold'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 4, 8, 6, 10, 9, 12, 12, 14],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 3, 7, 6, 10, 9, 12, 12, 14],
         },
         paint: {
           'text-color': '#1d2023', 'text-halo-color': '#ffffff',

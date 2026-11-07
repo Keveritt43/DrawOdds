@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useState } from 'react';
+import { startTransition, useActionState, useState } from 'react';
 import { saveHuntingPreferences } from '@/app/actions';
 import type { Residency } from '@prisma/client';
 import type { StatePoints } from '@/lib/points';
@@ -14,7 +14,12 @@ export function HuntingPreferences({ idaho, colorado }: { idaho: Residency; colo
   const [points, setPoints] = useState({ DEER: String(colorado.DEER), ELK: String(colorado.ELK), PRONGHORN: String(colorado.PRONGHORN) });
   const [youth, setYouth] = useState(colorado.youth);
   return (
-    <form className="card account-preferences" action={save} id="hunting-preferences">
+    <form className="card account-preferences" action={save} id="hunting-preferences" onSubmit={event => {
+      event.preventDefault();
+      const values = new FormData(event.currentTarget);
+      // Dispatch directly so React does not reset the residency menus after saving.
+      startTransition(() => save(values));
+    }}>
       <h2>Hunting Preferences</h2>
       <p className="small muted">Draw odds and rankings use the residency and points you save here.</p>
       <fieldset>
