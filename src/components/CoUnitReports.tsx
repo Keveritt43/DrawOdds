@@ -1,3 +1,5 @@
+import { CoSpecialReports } from './CoSpecialReports';
+import { coSpecial } from '@/lib/coSpecial';
 import { db } from '@/lib/db';
 import { CoReportTabs } from './CoReportTabs';
 import { CoHerds } from './CoHerds';
@@ -20,15 +22,18 @@ const labels = [
 /** All CPW report categories, linked to the same deer/elk unit context. */
 export async function CoUnitReports({ units, hunts, points }: { units: string[]; hunts: HuntSummary[]; points: {res: string; DEER: number; ELK: number; PRONGHORN: number} }) {
   const reports = await db.stateReport.findMany({ where: { state: 'CO' }, orderBy: { year: 'desc' } });
+  const specialSpecies = [...new Set(hunts.flatMap(h => { const special = coSpecial(h); return special ? [special.species] : []; }))];
+  const specialUnit = units.every(u => /^[SG]/.test(u));
   const codes = new Set(hunts.map((h) => h.tagCode));
   return (
     <CoReportTabs
-      panels={labels.map(([kind, label]) => ({
+      panels={labels.filter(([kind]) => !specialUnit || ['draw','drawn-out','harvest','population'].includes(kind)).map(([kind, label]) => ({
         id: kind,
         label,
         content: (
           <div>
-            {(['DEER', 'ELK', 'PRONGHORN'] as const).map((species) => {
+            {specialSpecies.map(species => <CoSpecialReports key={species} species={species} kind={kind} />)}
+            {!specialUnit && (['DEER', 'ELK', 'PRONGHORN'] as const).map((species) => {
               const relevant = hunts.filter((h) => h.species === species);
               const speciesReports = reports.filter((r) => r.species === species);
               const links = [...REPORT_CATALOG, ...PRONGHORN_REPORT_CATALOG].filter((r) => r.species === species && r.kind === kind);

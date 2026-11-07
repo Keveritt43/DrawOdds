@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { REPORT_CATALOG } from "@/sync/co/manifest";
+import { SPECIAL_REPORTS, SPECIAL_REPORT_LABELS, SPECIAL_LABEL } from '@/lib/coSpecial';
+import { REPORT_CATALOG, PRONGHORN_REPORT_CATALOG } from "@/sync/co/manifest";
 import { CO_LAND_SOURCE, CO_LAND_DATE } from "@/lib/coLand";
 export function CoGuide() {
   return (
@@ -28,6 +29,9 @@ export function CoGuide() {
         guarantee: applicants can switch hunts, new people apply, and quotas
         change.
       </p>
+      <h2>Moose, Sheep And Goat</h2>
+      <p>CPW uses weighted preference for moose, mountain goat and Rocky Mountain bighorn sheep. Desert bighorn sheep is drawn at random without points. These hunt pages show published historical results by residency and age group.</p>
+      <p><Link href="/hunts?states=CO&draw=msg">Find Colorado moose, sheep and goat hunts</Link></p>
       <h2>Secondary Draw And General Licenses</h2>
       <p>
         Secondary draw reports describe a separate pool with youth priority and
@@ -96,22 +100,26 @@ export function CoAbout() {
         harvest sex counts and herd bull/cow ratios are not trophy-size
         measurements. No trophy ranking is fabricated from them.
       </p>
+      <h2>Moose, Sheep And Goat</h2>
+      <p>CPW reports historical first-choice results by residency and age group. Moose, Rocky Mountain bighorn sheep and mountain goat use weighted preference; desert bighorn sheep has a random draw. These results describe past applicants and do not predict personal odds at a given point level.</p>
+      <p><Link href="/hunts?states=CO,ID&draw=msg">Search moose, sheep and goat in both states</Link></p>
       <h2>Source Reports</h2>
       <ul>
-        {REPORT_CATALOG.map((r) => (
+        {[...REPORT_CATALOG, ...PRONGHORN_REPORT_CATALOG].map((r) => (
           <li key={r.species + r.kind + r.year}>
             <a href={r.url}>
               {r.species} · {r.label}
             </a>
           </li>
         ))}
+        {SPECIAL_REPORTS.map(r => <li key={`${r.species}-${r.kind}-${r.year}`}><a href={r.url}>{SPECIAL_LABEL[r.species]} · {r.year} {SPECIAL_REPORT_LABELS[r.kind]}{r.kind === 'regs' && r.species === 'BIGHORN' ? ' (sheep and goat)' : ''}</a></li>)}
       </ul>
     </main>
   );
 }
 export async function CoChanges() {
   const rows = await db.huntSummary.findMany({
-    where: { state: "CO", type: "CONTROLLED" },
+    where: { state: "CO", type: "CONTROLLED", species: { in: ['DEER','ELK','PRONGHORN'] } },
     orderBy: { tagCode: "asc" },
   });
   const changed = rows

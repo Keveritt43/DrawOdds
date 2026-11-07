@@ -1,10 +1,12 @@
+import special from '../../data/co-special-land.json';
 import data from "../../data/co-land.json";
 import type { HuntSummary } from "@prisma/client";
 export const CO_LAND_SOURCE = data.source;
 export const CO_LAND_DATE = data.retrievedAt.slice(0, 10);
+const units = { ...data.units, ...special };
 export const coLandUnit = (unit: string) =>
   (
-    data.units as Record<
+    units as Record<
       string,
       {
         acres: number;

@@ -1,3 +1,4 @@
+import { drawOf, type Draw } from './species';
 import { enabledStates, STATES, type StateCode } from './states';
 
 export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable', 'deerType', 'minBig'];
@@ -17,4 +18,10 @@ export function searchBounds(states: StateCode[]): [[number, number], [number, n
   const boxes = states.map(s => STATES[s].bounds);
   return [[Math.min(...boxes.map(b => b[0][0])), Math.min(...boxes.map(b => b[0][1]))],
     [Math.max(...boxes.map(b => b[1][0])), Math.max(...boxes.map(b => b[1][1]))]];
+}
+
+/** A linked species takes precedence over a stale group in a saved search. */
+export function searchDraw(draw: string | null | undefined, species?: string | null): Draw {
+  if (species && ['DEER','ELK','PRONGHORN','MOOSE','BIGHORN','GOAT'].includes(species.toUpperCase())) return drawOf(species.toUpperCase());
+  return draw?.toUpperCase() === 'MSG' ? 'MSG' : 'DEP';
 }

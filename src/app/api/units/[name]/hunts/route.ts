@@ -1,3 +1,4 @@
+import { coSpecial, specialOdds } from '@/lib/coSpecial';
 import { getPoints } from "@/lib/points";
 import { poolFor, tableOdds, type OddsTable } from "@/lib/coHunt";
 import { db } from '@/lib/db';
@@ -22,7 +23,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
       ? all
       : all.filter((h) => (h.nrTag ? h.species === 'ELK' || !!h.tagCode?.startsWith('WD') : !(h.type === 'GENERAL' && h.species === 'ELK')));
   return Response.json(
-    rows.map((h) => ({
+    rows.map((h) => {
+      const special = coSpecial(h);
+      return {
       id: h.id,
       tagCode: h.tagCode,
       slug: h.slug,
@@ -32,7 +35,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
       antler: h.antlerClass,
       open: h.openDate,
       close: h.closeDate,
-      resOdds5: pts
+      resOdds5: special ? specialOdds(special, false, pts?.youth ?? false) : pts
         ? tableOdds(
             h.oddsByPts as unknown as OddsTable,
             "proj",
@@ -40,7 +43,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
             pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'],
           )
         : h.resOdds5,
-      nrOdds5: pts
+      nrOdds5: special ? specialOdds(special, true, pts?.youth ?? false) : pts
         ? tableOdds(
             h.oddsByPts as unknown as OddsTable,
             "proj",
@@ -49,7 +52,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
           )
         : h.nrOdds5,
       success5: h.success5,
-    })),
+      };
+    }),
     { headers: { 'Cache-Control': 'private, no-store' } }, // eligibility depends on current per-state settings
   );
 }

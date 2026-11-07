@@ -1,3 +1,4 @@
+import { coSpecial, specialOdds } from '@/lib/coSpecial';
 import { CoLand } from "@/components/CoLand";
 import { CoUnitSeasonHunters } from "@/components/CoUnitSeasonHunters";
 import Link from 'next/link';
@@ -33,7 +34,8 @@ export async function CoUnitPage({ name }: { name: string }) {
   return (
     <main className="wrap" style={{ margin: "20px auto 40px" }}>
       <p className="small">
-        <Link href={`/hunts?states=CO&unit=CO:${name}`}>Find hunts in this unit →</Link>
+        <Link href={`/hunts?states=CO&unit=CO:${name}${/^[SG]/.test(name) ? '&draw=msg' : ''}`}>Find hunts in this unit →</Link>
+        {!/^[SG]/.test(name) && hunts.some(h => h.species === 'MOOSE') && <> · <Link href={`/hunts?states=CO&draw=msg&species=MOOSE&unit=CO:${name}`}>Moose hunts in this unit</Link></>}
       </p>
       <h1 className="star-head">
         Unit {name}{' '}
@@ -49,9 +51,9 @@ export async function CoUnitPage({ name }: { name: string }) {
       </p>
       <CoLand units={[name]} />
       <CoUnitReports units={[name]} hunts={hunts} points={pts} />
-      <CoUnitSeasonHunters units={[name]} />
+      {!/^[SG]/.test(name) && <CoUnitSeasonHunters units={[name]} />}
       <h2>Hunt Licenses</h2>
-      {!hunts.length && <p className="muted">No deer or elk licenses are loaded for this unit.</p>}
+      {!hunts.length && <p className="muted">No hunt licenses are loaded for this unit.</p>}
       {hunts.length > 0 && (
         <div className="htable-wrap">
           <table>
@@ -63,13 +65,14 @@ export async function CoUnitPage({ name }: { name: string }) {
                 <th className="num">Success</th>
                 <th>Res needs</th>
                 <th>Nonres needs</th>
-                <th>Your odds (species points)</th>
+                <th>Draw odds</th>
               </tr>
             </thead>
             <tbody>
               {hunts.map((h) => {
                 const p = pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'];
-                const o = tableOdds(h.oddsByPts as unknown as OddsTable, 'proj', pool, p);
+                const special = coSpecial(h);
+                const o = special ? specialOdds(special, nr, pts.youth) : tableOdds(h.oddsByPts as unknown as OddsTable, 'proj', pool, p);
                 const ch = o === null ? 'none' : chanceOf(o, o >= 0.995 ? 1 : 0, o > 0 ? 1 : 0);
                 const d = decodeCode(h.tagCode ?? '');
                 return (
@@ -86,7 +89,7 @@ export async function CoUnitPage({ name }: { name: string }) {
                     <td>{fmtNeed(h.ptsRes, h.ptsResPct)}</td>
                     <td>{fmtNeed(h.ptsNr, h.ptsNrPct)}</td>
                     <td>
-                      {pct(o)} <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span>
+                      {pct(o)} {special ? <span className="small muted">{special.draws[0].year} actual{special.draws[0].shared ? ' (shared pool)' : ''}</span> : <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span>}
                     </td>
                   </tr>
                 );
@@ -96,8 +99,8 @@ export async function CoUnitPage({ name }: { name: string }) {
         </div>
       )}
       <p className="small muted">
-        Odds are projected for the next draw, first choice, {nr ? 'nonresident' : 'resident'}
-        {pts.youth ? ' youth' : ''}. Includes every hunt code whose units (CPW Chapter W-2) take in this one. Success: up to 5 seasons of
+        Odds are historical for moose, sheep and goat and projected for the other species; first choice, {nr ? 'nonresident' : 'resident'}
+        {pts.youth ? ' youth' : ''}. Shows hunt codes that include this unit under the CPW regulations. Success: up to 5 seasons of
         CPW harvest estimates.
       </p>
     </main>

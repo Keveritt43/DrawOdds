@@ -3,6 +3,8 @@ import { getCoScoringContext } from '@/lib/coScoringContext';
 import type { CoScored } from '@/lib/coScores';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
 import { CompareToggle } from './Compare';
+import { coSpecial } from '@/lib/coSpecial';
+import { seasonsSummary } from '@/lib/tagSeasons';
 import type { PointOdds } from '@/lib/coHunt';
 import type { HuntSummary } from '@prisma/client';
 import { Star } from './Star';
@@ -27,7 +29,7 @@ export async function CoHuntCard({
   hasOtcElk?: boolean;
   odds: number | null;
   chance: Chance;
-  points: number;
+  points: number | null;
   nr: boolean;
   mode: 'last' | 'proj';
   saved: boolean;
@@ -35,6 +37,7 @@ export async function CoHuntCard({
   preScored?: boolean;
 }) {
   if (!preScored) r = withCoOpportunity(withCoScores(r,await getCoScoringContext()), odds, nr);
+  const special = coSpecial(r);
   const general = (r.pointOdds as unknown as PointOdds)?.general;
   const years = Math.min(5, r.harvestYears),
     crowd = crowdVerdict(r.huntersSqMi),
@@ -61,7 +64,7 @@ export async function CoHuntCard({
         {[
           r.tagCode,
           r.units.length > 1 ? `Units ${r.units.join(', ')}` : '',
-          dateRange(r.openDate, r.closeDate),
+          special ? seasonsSummary(r.tagSeasons) : dateRange(r.openDate, r.closeDate),
           r.privateOnly ? 'Private land only' : '',
           general && !general.nonresident ? 'Residents only' : general && !general.resident ? 'Nonresidents only' : '',
           r.youthOnly ? 'Youth only' : '',
@@ -70,14 +73,16 @@ export async function CoHuntCard({
           .join(' · ')}
       </div>
       <ScoreRow r={r} nr={nr} />
-      <div className="small" style={{ margin: '8px 0' }}>
+      {special?.code[5] === 'G' && <span className="pill">Reserved license</span>}
+      {special?.draws[0].shared && <span className="small muted">Shared draw pool</span>}
+      {!special && <div className="small" style={{ margin: '8px 0' }}>
         <span className="k">Points needed ({r.oddsLastYear ?? 'latest draw'})</span>{' '}
         <span className="res">Res {fmtNeed(r.ptsRes, r.ptsResPct)}</span> ·{' '}
         <span className="nr">Nonres {fmtNeed(r.ptsNr, r.ptsNrPct)}</span> · Creep {fmtCreep(nr ? r.creepNr : r.creepRes)}
-      </div>
+      </div>}
       <div className="hrow-stats three">
         <div>
-          <span className="k">Draw odds · {points} points</span>
+          <span className="k">{special ? 'Historical draw rate' : `Draw odds · ${points} points`}</span>
           <b>{pctOdds(odds)}</b>
           <span
             className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}
@@ -87,11 +92,11 @@ export async function CoHuntCard({
                 ? 'Not eligible'
                 : 'OTC eligible'
               : odds === null
-                ? 'No draw data'
-                : CHANCE_LABEL[chance]}
+                ? special?.code[5] === 'G' ? 'Reserved license' : special ? 'No applicants in this pool' : 'No draw data'
+                : special ? 'First-choice applicants' : CHANCE_LABEL[chance]}
           </span>
           <span className="sub">
-            {mode === 'proj' ? (r.oddsLastYear ?? 2026) + 1 : r.oddsLastYear} · {mode === 'proj' ? 'projected' : 'actual'} ·{' '}
+            {mode === 'proj' && !special ? (r.oddsLastYear ?? 2026) + 1 : r.oddsLastYear} · {mode === 'proj' && !special ? 'projected' : 'actual'} ·{' '}
             {nr ? 'NR' : 'resident'}
           </span>
         </div>

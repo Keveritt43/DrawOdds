@@ -6,7 +6,7 @@ import { ELK_ZONES, ELK_ZONE_NAMES } from '@/lib/elkZones';
 import { useStateConfig } from './StateContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Residency } from '@prisma/client';
-import type { Draw } from '@/lib/species';
+import { DRAW_SPECIES, type Draw } from '@/lib/species';
 import { STATES, type StateCode } from '@/lib/states';
 import { ID_RESTRICTIONS } from '@/lib/searchStates';
 
@@ -41,8 +41,8 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
   const sp = useSearchParams();
   const [open, setOpen] = useState(false);
   const nr = residency === 'NONRESIDENT';
-  const resetHref = states ? `/hunts?states=${states.join(',')}&sort=opp&minScore=0&antler=ANTLERED` : '/hunts?reset=1';
-  const speciesOptions: Opt[] = states ? [['', 'All species'], ...[...new Set(states.flatMap(s => STATES[s].species))].map(s => [s, ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn sheep', GOAT: 'Mountain goat' })[s]] as Opt)] : msg ? SPECIES_MSG : SPECIES;
+  const resetHref = states ? `/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0` : '/hunts?reset=1';
+  const speciesOptions: Opt[] = states ? [['', 'All species'], ...DRAW_SPECIES[draw].map(s => [s, ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn sheep', GOAT: 'Mountain goat' })[s]] as Opt)] : msg ? SPECIES_MSG : SPECIES;
   const idNote = states ? <p className="small muted">Applies to Idaho only. Other selected states are unchanged.</p> : null;
   const sharedNote = states ? <p className="small muted">Applies to all selected states.</p> : null;
 
@@ -54,10 +54,11 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
       else p.set(k, val);
     }
     p.delete('page');
+    if (states && msg) p.set('draw', 'msg');
     router.push(`/hunts${p.size ? `?${p}` : ''}`, { scroll: false });
   };
   const get = (k: string) => sp.get(k) ?? '';
-  const list = (k: string) => (sp.get(k) ?? (k === "antler" ? "ANTLERED" : "")).split(',').filter((x) => !!x && x !== "ALL");
+  const list = (k: string) => (sp.get(k) ?? (k === "antler" && (!states || !msg) ? "ANTLERED" : "")).split(',').filter((x) => !!x && x !== "ALL");
   const toggle = (k: string, v: string) => {
     const cur = list(k);
     const next = cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v];
@@ -94,7 +95,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           {open ? 'Hide Filters' : 'Show Filters'}
         </button>
       </div>
-      {[...sp.keys()].some((k) => !['sort', 'view', 'page', 'state', 'restore', 'states'].includes(k)) && (
+      {[...sp.keys()].some((k) => !['sort', 'view', 'page', 'state', 'restore', 'states', 'draw'].includes(k)) && (
         <div className="rail-reset"><a href={resetHref}>Reset all filters</a></div>
       )}
       <div className="rsec-wrap">
@@ -102,7 +103,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
         <Section title="Species" value={labelOf(speciesOptions, sp_)} set={!!sp_} defaultOpen={!sp_}>
           {radio('species', speciesOptions)}
           {states && <p className="small muted">Available species vary by state. Idaho drawing restrictions still apply to Idaho applications.</p>}
-          {msg && <p className="small muted" style={{ margin: '6px 0 0' }}>You can apply for only one of moose, bighorn sheep or mountain goat a year, and doing so keeps you out of the deer, elk and pronghorn controlled drawings that year (leftover tags aside).</p>}
+          {msg && (!states || states.includes('ID')) && <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'In Idaho, you' : 'You'} can apply for only one of moose, bighorn sheep or mountain goat a year, and doing so keeps you out of the deer, elk and pronghorn controlled drawings that year (leftover tags aside).</p>}
         </Section>
         {!msg && (
           <Section
