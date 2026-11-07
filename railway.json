@@ -4,7 +4,6 @@
     "builder": "RAILPACK"
   },
   "deploy": {
-    "preDeployCommand": ["node scripts/import-co-special.cjs --apply"],
     "startCommand": "npm run start",
     "healthcheckPath": "/api/health",
     "restartPolicyType": "ON_FAILURE"
