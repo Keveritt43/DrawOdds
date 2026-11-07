@@ -1,3 +1,4 @@
+import { FilterPresets } from '@/components/FilterPresets';
 import { HuntLink, RememberFinderNavigation } from '@/components/HuntNavigation';
 import Link from 'next/link';
 import { searchHunts } from '@/lib/searchData';
@@ -25,7 +26,7 @@ const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'],
 const max = (values: (number | null)[]) => { const finite = values.filter((v): v is number => v !== null && Number.isFinite(v)); return finite.length ? Math.max(...finite) : null; };
 
 export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
-  const [{ states, settings, results, overlaps }, fav] = await Promise.all([searchHunts(sp), getFavorites()]);
+  const [{ header, states, settings, results, overlaps }, fav] = await Promise.all([searchHunts(sp), getFavorites()]);
   const sort = param(sp, 'sort') || 'opp';
   const view = param(sp, 'view');
   const q = (patch: Record<string, string | null>) => {
@@ -98,6 +99,10 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
           : [...cards.entries()].slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(([key, { x, also }]) => renderCard(x, key, also))}
       {pages > 1 && <nav className="search-pagination" aria-label="Results pages">{page > 1 && <Link className="btn" href={`/hunts${q({ page: String(page - 1) })}`} scroll={false}>Previous</Link>}<span>Page {page} of {pages}</span>{page < pages && <Link className="btn" href={`/hunts${q({ page: String(page + 1) })}`} scroll={false}>Next</Link>}</nav>}
     </section>
-    <FilterRail residency={settings.ID} states={states}>{states.includes('CO') && <CoSearchFilters />}</FilterRail>
+    <FilterRail residency={settings.ID} states={states}
+      presets={<FilterPresets key={fav.userId} owner={fav.userId} state={header.code} states={states} />}
+      drawFilters={states.includes('CO') && <CoSearchFilters part="points" />}>
+      {states.includes('CO') && <CoSearchFilters part="state" />}
+    </FilterRail>
   </main>;
 }

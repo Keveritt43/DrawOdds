@@ -737,3 +737,17 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
   .pt-name { font-size: .62rem; }
   .pt-tracker .pt-values .pt-v { padding: 2px 4px; }
 }
+
+.filter-group { border-bottom: 1px solid var(--line); }
+.filter-group > summary { border-bottom: 0; }
+.filter-group[open] > summary { border-bottom: 1px solid var(--line); }
+.filter-group > .rsec:last-child { border-bottom: 0; }
+.filter-active { float: right; color: var(--muted); font-size: .76rem; font-weight: 600; }
+.filter-group-note, .preset-body { padding: 8px 16px; }
+.filter-group-note p, .preset-body p { margin: 4px 0; }
+.preset-body label { display: block; margin-bottom: 4px; font-size: .85rem; }
+.preset-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.preset-actions input { flex: 1 1 130px; min-width: 0; }
+.preset-body .btn { padding: 5px 9px; font-size: .82rem; }
+.preset-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.preset-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding: 6px 0; overflow-wrap: anywhere; }

@@ -45,7 +45,7 @@ export async function CoHuntCard({
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
-          <span className="pill">
+          <span className={r.type === "CONTROLLED" ? "pill ctl" : "pill"}>
             {r.type === "GENERAL" ? "General / OTC" : "Controlled Draw"}
           </span>
         </span>

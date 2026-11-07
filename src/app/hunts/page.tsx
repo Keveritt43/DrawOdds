@@ -1,3 +1,4 @@
+import { FilterPresets } from '@/components/FilterPresets';
 import { HuntLink } from '@/components/HuntNavigation';
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
 import { savedFilters } from "@/lib/savedFilters";
@@ -35,9 +36,9 @@ const MAX_ROWS = 800;
 const PER_PAGE = 30;
 
 /** Active filters as removable chips over the map (residency isn't a filter: it's the switch above the list). */
-function chips(f: Filters): { label: string; href: string }[] {
+function chips(f: Filters, query: (patch: Partial<Filters>) => string): { label: string; href: string }[] {
   const out: { label: string; href: string }[] = [];
-  const add = (label: string, patch: Partial<Filters>) => out.push({ label, href: `/hunts${toQuery(f, { ...patch, page: 1 })}` });
+  const add = (label: string, patch: Partial<Filters>) => out.push({ label, href: `/hunts${query({ ...patch, page: 1 })}` });
   const sex = (a: string) => (f.species ? antlerLabel(f.species, a) : ({ ANTLERED: 'Bucks & bulls', ANTLERLESS: 'Does & cows', EITHER: 'Either sex' } as Record<string, string>)[a] ?? a);
   if (f.species) add(SPECIES_LABEL[f.species], { species: '' });
   if (f.type) add(f.type === 'CONTROLLED' ? 'Controlled' : f.type === 'NRTAG' ? 'NR general tag draw' : 'General', { type: '' });
@@ -212,15 +213,27 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
       )
     : [];
 
-  const more = `/hunts${toQuery(f, { page: f.page + 1 })}`;
-  const sortHref = (s: string) => `/hunts${toQuery(f, { sort: s as Filters['sort'], page: 1 })}`;
-  const viewHref = (v: 'hunt' | 'unit' | 'table') => `/hunts${toQuery(f, { view: v, page: 1 })}`;
+  const query = (patch: Partial<Filters>) => {
+    const value = toQuery(f, patch);
+    if (!sp.state && !sp.draw && sp.restore !== "1" && !sp.as) return value;
+    const p = new URLSearchParams(value);
+    if (sp.state || sp.restore === "1") p.set("state", state);
+    if (sp.draw) p.set("draw", draw.toLowerCase());
+    if (sp.as === "nr" || sp.as === "res") p.set("as", sp.as);
+    if (sp.restore === "1") p.set("restore", "1");
+    if ((patch.antler ?? f.antler).length === 0) p.set("antler", "ALL");
+    return "?" + p;
+  };
+  const activeChips = chips(f, query);
+  const more = `/hunts${query({ page: f.page + 1 })}`;
+  const sortHref = (s: string) => `/hunts${query({ sort: s as Filters['sort'], page: 1 })}`;
+  const viewHref = (v: 'hunt' | 'unit' | 'table') => `/hunts${query({ view: v, page: 1 })}`;
 
   return (
     <main className={`filtering${f.view === 'table' ? ' tablemode' : ''}`}>
       <RememberQuery owner={fav.userId}/>
       <section className="f-map" aria-label="Map of matching units">
-        <HuntMap matched={areaSp.length ? [] : matched} selected={f.unit} chips={chips(f)} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
+        <HuntMap matched={areaSp.length ? [] : matched} selected={f.unit} chips={activeChips} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
           areaSpecies={areaSp.join(',')}
           matchedAreas={[...new Set(rows.filter((r) => areaSp.includes(r.species as SpeciesKey) && r.areaName).map(areaKey))]}
           selectedArea={areaSp.length && f.q ? `${f.species || areaSp[0]}:${f.q.toUpperCase()}` : ''} stats={stats} />
@@ -235,8 +248,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'unit' ? 'units' : total === 1 ? 'result' : 'results'} · sort by</span>
             <SortSelect value={f.sort} />
-            {chips(f).length > 0 && <a className="small reset-all" href="/hunts?reset=1">Reset all filters</a>}
-            <a className="small csv" href={`/api/export${toQuery(f, { page: 1 })}`} title="Every result with odds, success, crowding and tags, for a spreadsheet">Download CSV</a>
+            {activeChips.length > 0 && <a className="small reset-all" href="/hunts?reset=1">Reset all filters</a>}
+            <a className="small csv" href={`/api/export${query({ page: 1 })}`} title="Every result with odds, success, crowding and tags, for a spreadsheet">Download CSV</a>
             <span className="seg light view-seg" role="group" aria-label="List by">
               <Link className="seg-link" href={viewHref('hunt')} aria-pressed={f.view === 'hunt'} scroll={false}>By hunt</Link>
               <Link className="seg-link" href={viewHref('unit')} aria-pressed={f.view === 'unit'} scroll={false}>By unit</Link>
@@ -311,7 +324,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         </p>
       </section>
 
-      <FilterRail residency={residency} draw={draw} />
+      <FilterRail residency={residency} draw={draw} presets={<FilterPresets key={fav.userId} owner={fav.userId} state="ID" draw={draw} />} />
     </main>
   );
 }
