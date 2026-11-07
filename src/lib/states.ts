@@ -29,8 +29,6 @@ export interface StateConfig {
   slug: string;
   /** Listed in the state picker. An unlisted state still works by link (/api/state?code=co) for previews. */
   enabled: boolean;
-  /** Listed, but marked "beta" in the picker (not every page has this state's data yet). */
-  beta?: boolean;
   agency: { short: string; name: string; url: string };
   /** Hunting-on-private-land access program, if any ("Access Yes!"). */
   accessProgram: string | null;
@@ -66,7 +64,6 @@ export const STATES: Record<StateCode, StateConfig> = {
     name: 'Colorado',
     slug: 'colorado',
     enabled: true,
-    beta: true,
     agency: { short: 'CPW', name: 'Colorado Parks and Wildlife', url: 'https://cpw.state.co.us/activities/hunting/big-game' },
     accessProgram: null,
     points: 'preference',

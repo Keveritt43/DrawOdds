@@ -31,6 +31,6 @@ export function SearchStates({ draw }: { draw?: 'DEP' | 'MSG' } = {}) {
     router.push(`/hunts?${p}`, { scroll: false });
   };
   return <fieldset className="search-states"><legend>Search states</legend><div className="checks2">
-    {enabledStates().map(s => <label key={s.code}><input type="checkbox" checked={selected.includes(s.code)} disabled={selected.length === 1 && selected[0] === s.code} onChange={() => toggle(s.code)} /> {s.name}{s.beta ? ' (Beta)' : ''}</label>)}
+    {enabledStates().map(s => <label key={s.code}><input type="checkbox" checked={selected.includes(s.code)} disabled={selected.length === 1 && selected[0] === s.code} onChange={() => toggle(s.code)} /> {s.name}</label>)}
   </div><p className="small muted">Header changes reset this search.</p></fieldset>;
 }
