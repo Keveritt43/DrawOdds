@@ -30,7 +30,7 @@ const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode:
   objCow: { label: 'Elk: Cows vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Cow elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more cows than the target; often more antlerless tags.`, scaleNote: '' },
 };
 import { loadUnits, loadSearchUnits } from "@/lib/unitData";
-import { searchBounds } from '@/lib/searchStates';
+import { searchBounds, searchUnitLabel } from '@/lib/searchStates';
 import { STATES, type StateCode } from '@/lib/states';
 
 /**
@@ -326,7 +326,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   const extraItems: KeyItem[] = [
     ...(metric !== 'match' ? [{ color: kind === 'satellite' ? '#9aa0a6' : '#1d2023', label: `No match (${areaMode ? 'outline' : 'unfilled'})`, line: true }] : []),
     ...(showZones && !areaMode ? [{ color: ZONE, label: zones.length ? `${zones.join(', ')} zone${zones.length > 1 ? 's' : ''}` : 'Elk zones', line: true }] : []),
-    ...(selected ? [{ color: '#ffd400', label: `Unit ${selected} (selected)`, line: true }] : []),
+    ...(selected ? [{ color: '#ffd400', label: `Unit ${searchUnitLabel(selected)} (selected)`, line: true }] : []),
   ];
   const where = areaMode ? "hunt areas" : "units";
   const options = [

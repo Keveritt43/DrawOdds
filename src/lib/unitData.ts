@@ -1,6 +1,7 @@
 'use client';
 
 import { METRIC_FIELDS, classesFor, type Classes } from './mapMetrics';
+import { searchUnitLabel } from './searchStates';
 
 type Feature = { type: 'Feature'; geometry: { type: string; coordinates: unknown }; properties: Record<string, unknown> & { name: string } };
 export interface UnitData {
@@ -40,7 +41,7 @@ export function loadSearchUnits(state: string, draw = 'DEP', species = ''): Prom
     const fc = await r.json() as UnitData['fc'];
     const labels = labelPoints(fc);
     // Only the visible labels lose the state prefix. Polygons keep their unique selection keys.
-    for (const label of labels.features) label.properties.name = label.properties.name.replace(/^[A-Z]{2}:/, '');
+    for (const label of labels.features) label.properties.name = searchUnitLabel(label.properties.name);
     return { fc, labels, classes: {}, missing: {} };
   }).catch(e => { cached[key] = null; throw e; });
   return cached[key]!;
