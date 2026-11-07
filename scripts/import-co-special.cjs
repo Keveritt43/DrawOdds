@@ -104,7 +104,7 @@ async function importSpecial(db, payload) {
   const unitNames=units.map(u=>u.name);
   const baseNames=[...new Set(summaries.flatMap(h=>h.units).filter(u=>!unitNames.includes(u)))];
   return db.$transaction(async tx=>{
-    const before=await tx.$queryRaw`SELECT md5(COALESCE(jsonb_agg(to_jsonb(s) ORDER BY id)::text, '[]')) AS digest
+    const before=await tx.$queryRaw`SELECT md5(COALESCE(string_agg(md5(to_jsonb(s)::text), '' ORDER BY id), '')) AS digest
       FROM "HuntSummary" s WHERE state <> 'CO' OR species NOT IN ('MOOSE','BIGHORN','GOAT')`;
     const [existing, huntCount, summaryCount, unitCount, reportCount, baseCount] = await Promise.all([
       tx.stateReport.findUnique({where:{id:marker}}),tx.hunt.count({where}),tx.huntSummary.count({where}),
@@ -126,7 +126,7 @@ async function importSpecial(db, payload) {
     for(let i=0;i<summaries.length;i+=75) await tx.huntSummary.createMany({data:summaries.slice(i,i+75)});
     await tx.stateReport.createMany({data:reports});
     await tx.stateReport.create({data:{id:marker,state,kind:'reviewed-import',year,source:'reviewed CPW snapshot',data:{signature}}});
-    const after=await tx.$queryRaw`SELECT md5(COALESCE(jsonb_agg(to_jsonb(s) ORDER BY id)::text, '[]')) AS digest
+    const after=await tx.$queryRaw`SELECT md5(COALESCE(string_agg(md5(to_jsonb(s)::text), '' ORDER BY id), '')) AS digest
       FROM "HuntSummary" s WHERE state <> 'CO' OR species NOT IN ('MOOSE','BIGHORN','GOAT')`;
     if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Existing hunt summaries changed');
     return 'inserted';

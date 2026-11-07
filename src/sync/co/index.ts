@@ -424,7 +424,8 @@ function measureCalibration(byCode: Map<string, RecapRow[]>, pool: 'res' | 'nr')
 
 export async function buildCoSummaries(speciesOnly?: 'PRONGHORN'): Promise<StepResult> {
   const details: string[] = [];
-  const all = await db.drawRecap.findMany({ where: { state: STATE }, orderBy: [{ code: 'asc' }, { year: 'asc' }] });
+  const speciesToBuild: Species[] = speciesOnly ? [speciesOnly] : ['DEER', 'ELK'];
+  const all = await db.drawRecap.findMany({ where: { state: STATE, species: { in: speciesToBuild } }, orderBy: [{ code: 'asc' }, { year: 'asc' }] });
   if (!all.length) return { rows: 0, status: 'CHECK', details: ['No Colorado draw reports loaded yet (run co-draw)'] };
   const out: Prisma.HuntSummaryCreateManyInput[] = [];
   const hunts: Prisma.HuntCreateInput[] = [];
@@ -437,7 +438,7 @@ export async function buildCoSummaries(speciesOnly?: 'PRONGHORN'): Promise<StepR
   const land = new Map(unitRows.map((u) => [u.name, u]));
   if (!regs) details.push('No W-2 regulations loaded: units and dates fall back to the hunt code (run co-reports)');
 
-  for (const species of (speciesOnly ? [speciesOnly] : ['DEER', 'ELK']) as ('DEER' | 'ELK' | 'PRONGHORN')[]) {
+  for (const species of speciesToBuild) {
     const rows = all.filter((r) => r.species === species);
     if (!rows.length) continue;
     const latest = Math.max(...rows.map((r) => r.year));
@@ -726,7 +727,7 @@ export async function buildCoSummaries(speciesOnly?: 'PRONGHORN'): Promise<StepR
 
   // synthetic ids must not land on an Idaho hunt (FNV hash: unlikely, but checked)
   const clash = await db.hunt.findMany({
-    where: { idfgId: { in: hunts.map((h) => h.idfgId) }, ...(speciesOnly ? { OR: [{ state: { not: STATE } }, { species: { not: speciesOnly } }] } : { state: { not: STATE } }) },
+    where: { idfgId: { in: hunts.map((h) => h.idfgId) }, OR: [{ state: { not: STATE } }, { species: { notIn: speciesToBuild } }] },
     select: { idfgId: true },
   });
   if (clash.length)
@@ -747,7 +748,8 @@ export async function buildCoSummaries(speciesOnly?: 'PRONGHORN'): Promise<StepR
       if (speciesOnly) {
         await tx.huntSummary.createMany({ data: out });
       } else {
-        await tx.huntSummary.deleteMany({ where: { state: STATE } });
+        // Other Colorado species have their own reviewed releases.
+        await tx.huntSummary.deleteMany({ where: { state: STATE, species: { in: [...new Set(out.map(row => row.species))] } } });
         await tx.huntSummary.createMany({ data: out });
       }
     },
