@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import type { Residency } from '@prisma/client';
 import { DRAW_SPECIES, type Draw } from '@/lib/species';
 import { STATES, type StateCode } from '@/lib/states';
-import { ID_RESTRICTIONS } from '@/lib/searchStates';
+import { ID_RESTRICTIONS, searchUnitLabel } from '@/lib/searchStates';
 
 type Opt = [value: string, label: string];
 
@@ -182,7 +182,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             {sharedNote}
             {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
           </Section>
-          <Section title="Unit / Search" value={[get('unit') && `Unit ${get('unit')}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>
+          <Section title="Unit / Search" value={[get('unit') && `Unit ${searchUnitLabel(get('unit'))}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>
             <TextField label="Unit" value={get('unit')} placeholder="e.g. 49 or 36A" onCommit={(v) => push({ unit: v.toUpperCase() || null })} />
             <TextField label="Hunt # Or Name" value={get('q')} placeholder="e.g. 2029" onCommit={(v) => push({ q: v || null })} />
           </Section>

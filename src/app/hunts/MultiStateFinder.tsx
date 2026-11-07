@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { searchHunts } from '@/lib/searchData';
 import { param, type SearchParams, type SearchResult } from '@/lib/multiStateSearch';
 import { STATES, unitKey } from '@/lib/states';
-import { searchDraw, searchUnitKey } from '@/lib/searchStates';
+import { searchDraw, searchUnitKey, searchUnitLabel } from '@/lib/searchStates';
 import { SearchStates } from '@/components/SearchStates';
 import { FilterRail } from '@/components/FilterRail';
 import { CoSearchFilters } from '@/components/CoSearchFilters';
@@ -77,7 +77,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       : <article className="ucard single"><HuntCard r={x.r} also={also} c={{ nr: x.nr, rf: residencyFields(x.nr ? 'NONRESIDENT' : 'RESIDENT'), favHunts: fav.hunts, signedIn: fav.signedIn, sort }} /></article>}
   </div>;
   return <main className={`filtering multi-state-finder${view === 'table' ? ' tablemode' : ''}`}>
-    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={msg ? param(sp, 'species').toUpperCase() : ''} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${selectedUnit.replace(/^(ID|CO):/, '')}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
+    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={msg ? param(sp, 'species').toUpperCase() : ''} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
     <section className="f-list" aria-label="Results">
       <RememberFinderNavigation />
       <div className="search-intro">
