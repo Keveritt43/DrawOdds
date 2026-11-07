@@ -3,20 +3,39 @@
 import { cookies } from 'next/headers';
 import { STATES, STATE_COOKIE, parseUnitKey } from '@/lib/states';
 import { revalidatePath } from 'next/cache';
-import type { Residency } from '@prisma/client';
 import { auth, signIn, signOut } from '@/auth';
 import { db } from '@/lib/db';
-import { RESIDENCY_COOKIE, DRAW_COOKIE, getState } from '@/lib/residency';
-import { getPointsStore, readState, POINTS_COOKIE, type StatePoints } from '@/lib/points';
+import { RESIDENCY_COOKIE, DRAW_COOKIE } from '@/lib/residency';
+import { getPointsStore, POINTS_COOKIE, type StatePoints } from '@/lib/points';
+import { setAccountPreference } from '@/lib/accountPreferences';
 
-export async function setResidency(residency: Residency, stateCode?: string) {
-  if (residency !== 'RESIDENT' && residency !== 'NONRESIDENT') return;
-  const st = stateCode === 'ID' ? 'ID' : (await getState()).code;
-  if (st !== 'ID') return setPoints(st, { res: residency }); // residency is per state; Idaho's stays on the profile
-  const session = await auth();
-  if (session?.user) await db.user.update({ where: { id: session.user.id }, data: { residency } });
-  (await cookies()).set(RESIDENCY_COOKIE, residency, { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', path: '/' });
+export async function saveHuntingPreferences(_previous: { message: string; saved: boolean }, form: FormData) {
+  const idaho = form.get('idahoResidency');
+  const colorado = form.get('coloradoResidency');
+  const validResidency = (value: FormDataEntryValue | null) => value === 'RESIDENT' || value === 'NONRESIDENT';
+  if (!validResidency(idaho) || !validResidency(colorado)) return { message: 'Select a residency for each state.', saved: false };
+  const readPoints = (name: string) => {
+    const value = form.get(name);
+    return typeof value === 'string' && /^\d{1,2}$/.test(value) && Number(value) <= 40 ? Number(value) : null;
+  };
+  const DEER = readPoints('DEER'), ELK = readPoints('ELK'), PRONGHORN = readPoints('PRONGHORN');
+  if (DEER === null || ELK === null || PRONGHORN === null) return { message: 'Enter whole points from 0 to 40 for each species.', saved: false };
+  const CO: StatePoints = { res: colorado, DEER, ELK, PRONGHORN, youth: form.get('youth') === 'on', set: true };
+  const { store, userId } = await getPointsStore();
+  if (userId) {
+    await db.$transaction(async tx => {
+      await tx.user.update({ where: { id: userId }, data: { residency: idaho } });
+      await setAccountPreference(userId, 'CO', CO, tx);
+    });
+  }
+  const jar = await cookies();
+  const options = { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax' as const, path: '/', httpOnly: true };
+  jar.set(RESIDENCY_COOKIE, idaho, options);
+  // Keep account-only preferences out of the browser cookie.
+  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO };
+  jar.set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), options);
   revalidatePath('/', 'layout');
+  return { message: 'Hunting preferences saved.', saved: true };
 }
 
 export async function setDraw(draw: 'DEP' | 'MSG') {
@@ -98,24 +117,4 @@ export async function setStateCode(code: string) {
   if (!s) return;
   (await cookies()).set(STATE_COOKIE, s.code, { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax', path: '/' });
   revalidatePath('/', 'layout');
-}
-
-/** Save preference points / residency for a state (signed in: the profile too). */
-export async function setPoints(state: string, patch: Partial<StatePoints>) {
-  if (!(state in STATES) || state === 'ID') return;
-  const { store, userId } = await getPointsStore();
-  const cur = readState(store, state);
-  const next: StatePoints = {
-    res: patch.res === 'RESIDENT' || patch.res === 'NONRESIDENT' ? patch.res : cur.res,
-    DEER: patch.DEER !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.DEER) || 0))) : cur.DEER,
-    ELK: patch.ELK !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.ELK) || 0))) : cur.ELK,
-    PRONGHORN: patch.PRONGHORN !== undefined ? Math.max(0, Math.min(40, Math.round(Number(patch.PRONGHORN) || 0))) : cur.PRONGHORN,
-    youth: patch.youth !== undefined ? !!patch.youth : cur.youth,
-    set: true,
-  };
-  // Only state points belong in this cookie; account preferences stay in the account.
-  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), [state]: next };
-  if (userId) await db.$executeRaw`UPDATE "User" SET points=jsonb_set(COALESCE(points,'{}'::jsonb),ARRAY[${state}]::text[],${JSON.stringify(next)}::jsonb,true) WHERE id=${userId}`;
-  (await cookies()).set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), { maxAge: 60 * 60 * 24 * 365 * 2, sameSite: 'lax', path: '/' });
-  revalidatePath("/", "layout");
 }

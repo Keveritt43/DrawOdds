@@ -231,7 +231,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
                 {myPts} {spLabel} point{myPts === 1 ? '' : 's'}
               </b>{' '}
               · {POOL_LABEL[pool]}
-              {pts.set ? '' : ' (set your points in the header)'}
+              {!pts.set && <> (<Link href="/account#hunting-preferences">set your points in Account</Link>)</>}
             </span>
             <span className="seg light" role="group" aria-label="Which draw">
               <Link className="seg-link" href={q({ odds: null, page: null })} aria-pressed={mode === 'proj'} scroll={false}>

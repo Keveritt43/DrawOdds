@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { huntHref } from '@/lib/huntSlug';
 import { SPECIES_LABEL } from '@/lib/format';
-import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { unitKey, STATES, type StateCode } from '@/lib/states';
 import { doSignOut } from '@/app/actions';
-import { ResidencySwitch } from '@/components/ResidencySwitch';
+import { HuntingPreferences } from '@/components/HuntingPreferences';
+import { getResidency } from '@/lib/residency';
+import { getPoints } from '@/lib/points';
 import { residencyFields } from '@/lib/finder';
 import { pct, pctOdds, pct100, range, int, density, drawFillLine, antlerLabel, WEAPON } from '@/lib/format';
 import { seasonsSummary } from '@/lib/tagSeasons';
@@ -15,13 +16,21 @@ import { MyApplications } from '@/components/MyApplications';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata = { title: 'My Hunts' };
+export const metadata = { title: 'Account' };
 
 export default async function Account() {
-  const session = await auth();
-  if (!session?.user) redirect('/login');
-  const rf = residencyFields(session.user.residency);
-  const nr = session.user.residency === 'NONRESIDENT';
+  const [session, { residency }, colorado] = await Promise.all([auth(), getResidency(undefined, 'ID'), getPoints('CO')]);
+  const preferences = <HuntingPreferences idaho={residency} colorado={colorado} />;
+  if (!session?.user) return (
+    <main className="wrap" style={{ margin: '24px auto 48px', maxWidth: 820 }}>
+      <h1>Your account</h1>
+      <p className="muted">You can test these settings without signing in. Preferences are saved in this browser.</p>
+      {preferences}
+      <p className="small muted">Favorites and application history require sign-in.{process.env.AUTH_RESEND_KEY && <> <Link href="/login">Sign in</Link></>}</p>
+    </main>
+  );
+  const rf = residencyFields(residency);
+  const nr = residency === 'NONRESIDENT';
   const [saved, savedUnits] = await Promise.all([
     db.savedHunt.findMany({
       where: { userId: session.user.id },
@@ -38,11 +47,7 @@ export default async function Account() {
     <main className="wrap" style={{ margin: '24px auto 48px', maxWidth: 820 }}>
       <h1>Your account</h1>
       <p className="muted">{session.user.email}</p>
-      <div className="card">
-        <h3 style={{ marginTop: 0 }}>Residency</h3>
-        <p className="small muted">Sets which draw odds you see everywhere: filters, sorting, charts and the map.</p>
-        <ResidencySwitch value={session.user.residency} />
-      </div>
+      {preferences}
       <MyApplications apps={apps} />
       <p className="small"><a href="/planner">Plan this year&apos;s applications →</a> · <a href="/api/calendar">Deadlines to your calendar</a></p>
       <h2>Favorite Units</h2>

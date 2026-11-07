@@ -38,7 +38,10 @@ export function loadSearchUnits(state: string, draw = 'DEP', species = ''): Prom
   cached[key] ??= fetch(`/api/search/units?state=${encodeURIComponent(state)}&draw=${draw.toLowerCase()}&species=${encodeURIComponent(species)}&v=2`).then(async r => {
     if (!r.ok) throw new Error(`boundaries ${r.status}`);
     const fc = await r.json() as UnitData['fc'];
-    return { fc, labels: labelPoints(fc), classes: {}, missing: {} };
+    const labels = labelPoints(fc);
+    // Only the visible labels lose the state prefix. Polygons keep their unique selection keys.
+    for (const label of labels.features) label.properties.name = label.properties.name.replace(/^[A-Z]{2}:/, '');
+    return { fc, labels, classes: {}, missing: {} };
   }).catch(e => { cached[key] = null; throw e; });
   return cached[key]!;
 }

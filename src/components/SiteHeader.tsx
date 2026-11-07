@@ -4,15 +4,11 @@ import { FindHuntsLink } from '@/components/HuntNavigation';
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import type { Residency } from '@prisma/client';
 import { Wordmark } from './Logo';
-import { ResidencySwitch } from './ResidencySwitch';
 import { DrawSwitch } from './DrawSwitch';
 import { SiteSearch } from './SiteSearch';
 import { StateSwitch } from './StateSwitch';
 import { useStateConfig } from './StateContext';
-import { PointTracker } from './PointTracker';
-import type { StatePoints } from '@/lib/points';
 import type { Draw } from '@/lib/species';
 
 const LINKS = [
@@ -25,7 +21,7 @@ const LINKS = [
   { href: '/about', label: 'Data & Methods' },
 ];
 
-export function SiteHeader({ residency, signedIn, draw, points }: { residency: Residency; signedIn: boolean; draw: Draw; points?: StatePoints | null }) {
+export function SiteHeader({ draw }: { draw: Draw }) {
   const path = usePathname() ?? '/';
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(false), [path]);
@@ -47,7 +43,7 @@ export function SiteHeader({ residency, signedIn, draw, points }: { residency: R
             l.href === '/hunts' ? <FindHuntsLink key={l.href} aria-current={here(l.href) ? 'page' : undefined}>{l.label}</FindHuntsLink> :
             <Link key={l.href} href={l.href} aria-current={here(l.href) ? 'page' : undefined}>{l.label}</Link>
           ))}
-          <Link href={signedIn ? '/account' : '/login'}>{signedIn ? 'My Hunts' : 'Sign In'}</Link>
+          <Link href="/account" aria-current={here('/account') ? 'page' : undefined}>Account</Link>
         </nav>
         <div className="header-right">
           <SiteSearch onDone={() => setOpen(false)} />
@@ -56,20 +52,14 @@ export function SiteHeader({ residency, signedIn, draw, points }: { residency: R
           </button>
         </div>
       </div>
-      {/* the two choices every number depends on, always visible (phones too): which drawing, and residency */}
-      <div className="draw-bar">
-        {st.draws.length > 1 && <div className="db-item">
+      {st.draws.length > 1 && <div className="draw-bar">
+        <div className="db-item">
           <span>Drawing</span>
           <Suspense fallback={<div className="seg draw-seg" />}>
             <DrawSwitch value={draw} />
           </Suspense>
-        </div>}
-        <div className="db-item">
-          <span>Odds For</span>
-          <ResidencySwitch value={residency} />
         </div>
-        {st.points !== 'none' && points && <div className="db-item"><PointTracker value={points} /></div>}
-      </div>
+      </div>}
     </header>
   );
 }

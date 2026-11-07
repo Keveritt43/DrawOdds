@@ -6,7 +6,6 @@ import { param, type SearchParams, type SearchResult } from '@/lib/multiStateSea
 import { STATES, unitKey } from '@/lib/states';
 import { searchDraw, searchUnitKey } from '@/lib/searchStates';
 import { SearchStates } from '@/components/SearchStates';
-import { SearchSettings } from '@/components/SearchSettings';
 import { FilterRail } from '@/components/FilterRail';
 import { CoSearchFilters } from '@/components/CoSearchFilters';
 import { HuntMap, type MatchStat } from '@/components/HuntMap';
@@ -71,15 +70,14 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   const page = Math.min(pages, Math.max(1, Math.floor(Number(param(sp, 'page')) || 1)));
   const shown = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const mode = param(sp, 'odds') === 'last' ? 'last' : 'proj';
-  const pointSpecies = ['DEER', 'ELK', 'PRONGHORN'].includes(param(sp, 'species')) ? param(sp, 'species') as 'DEER' | 'ELK' | 'PRONGHORN' : null;
-  const settingsSummary = states.map(state => state === 'ID' ? `Idaho: ${settings.ID === 'NONRESIDENT' ? 'nonresident' : 'resident'}` : `Colorado: ${settings.CO.res === 'NONRESIDENT' ? 'nonresident' : 'resident'}${pointSpecies ? `, ${settings.CO[pointSpecies]} ${pointSpecies.toLowerCase()} pts` : ''}${settings.CO.youth ? ', youth' : ''}${!settings.CO.set ? ', preview' : ''}`).join(' · ');
+  const selectedUnit = param(sp, 'unit');
   const renderCard = (x: SearchResult, key: string, also: SearchResult['r'][] = []) => <div key={key} className="search-result">
     <details className="small search-result-context"><summary><b>{STATES[x.r.state as keyof typeof STATES].name}</b> · {x.nr ? 'Nonresident' : 'Resident'} · Opportunity {x.opportunity ?? '—'}</summary><p>{x.basis}{x.r.state === 'CO' && settings.CO.youth ? ' · Youth pool' : ''}{x.r.scoreQuality === null ? ' · Incomplete scoring data' : ''}</p></details>
     {x.r.state === 'CO' ? <CoHuntCard r={x.r} preScored hasOtcElk={overlaps[x.r.id] === true} odds={x.odds} chance={chanceOf(x.odds, 0, x.odds ?? 0)} points={x.points} nr={x.nr} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : <article className="ucard single"><HuntCard r={x.r} also={also} c={{ nr: x.nr, rf: residencyFields(x.nr ? 'NONRESIDENT' : 'RESIDENT'), favHunts: fav.hunts, signedIn: fav.signedIn, sort }} /></article>}
   </div>;
   return <main className={`filtering multi-state-finder${view === 'table' ? ' tablemode' : ''}`}>
-    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={msg ? param(sp, 'species').toUpperCase() : ''} matched={[...groups.keys()]} selected={param(sp, 'unit')} stats={{ units: stats, areas: {} }} chips={param(sp, 'unit') ? [{ label: `Unit ${param(sp, 'unit')}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
+    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={msg ? param(sp, 'species').toUpperCase() : ''} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${selectedUnit.replace(/^(ID|CO):/, '')}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
     <section className="f-list" aria-label="Results">
       <RememberFinderNavigation />
       <div className="search-intro">
@@ -89,10 +87,10 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
           {msg && states.length === 1 && <Link className="seg-link" href={q({ states: 'CO,ID', draw: 'msg', unit: null, page: null })}>Search both states</Link>}
         </div>
         <details className="search-setup">
-          <summary>States &amp; settings <span className="search-state-counts">{stateCounts.map(({ state, count }) => `${STATES[state].name}: ${count}`).join(' · ')}</span></summary>
+          <summary>States &amp; Settings</summary>
+          <p className="small muted search-state-counts">{stateCounts.map(({ state, count }) => `${STATES[state].name}: ${count}`).join(' · ')}</p>
           <SearchStates />
-          <p className="small muted">{settingsSummary}</p>
-          <SearchSettings states={states} settings={settings} historical={msg} />
+          <Link className="small" href="/account#hunting-preferences">Edit hunting preferences in Account</Link>
           <details className="small muted search-ranking"><summary>How these rankings compare</summary><p>Opportunity = Quality × √your tag odds. Idaho uses historical draw odds; {msg ? 'Colorado uses published first-choice draw rates for your residency and age group.' : `Colorado uses your points and ${mode === 'proj' ? 'projected' : 'historical'} odds.`} Unknown scores sort after ranked hunts. Report years and season dates vary; details show the underlying evidence.</p></details>
         </details>
       </div>
