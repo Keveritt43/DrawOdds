@@ -11,7 +11,8 @@ export { ID_RESTRICTIONS, CO_RESTRICTIONS } from './searchStates';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
 import { DRAW_SPECIES } from './species';
-import { coSpecial, specialCounts, specialOdds } from './coSpecial';
+import { coSpecial, specialCounts } from './coSpecial';
+import { specialPersonalOdds, specialOddsBasis, specialPointSetting } from './coSpecialPoints';
 import { chanceOf } from './coOdds';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
@@ -53,13 +54,13 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
   const nr = (r.state === 'ID' ? settings.ID : settings.CO.res) === 'NONRESIDENT';
   const special = coSpecial(r);
-  const points = r.state === 'CO' && !special ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
+  const points = special ? settings.CO.specialSet ? specialPointSetting(special, settings.CO)?.weighted ?? null : null : r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
   const general = (r.pointOdds as unknown as PointOdds | null)?.general;
   let odds: number | null;
   let basis: string;
   if (special) {
-    odds = specialOdds(special, nr, settings.CO.youth);
-    basis = special.code[5] === 'G' ? 'Reserved license' : `${special.draws[0].year} first-choice draw rate · ${special.draws[0].shared ? 'shared pool' : 'historical'}`;
+    odds = specialPersonalOdds(special, nr, settings.CO);
+    basis = specialOddsBasis(special, settings.CO) + (special.draws[0].shared ? ' · shared pool' : '');
   } else if (r.state === 'CO') {
     odds = tableOdds(r.oddsByPts as unknown as OddsTable, mode, poolFor(nr, settings.CO.youth), points ?? 0);
     if (general) odds = (nr ? general.nonresident : general.resident) ? 1 : null;

@@ -1,11 +1,16 @@
 import { validFinderReturn } from './huntNavigation';
 import { CO_RESTRICTIONS, ID_RESTRICTIONS, searchStates } from './searchStates';
-import { DEFAULT_STATE, enabledStates } from './states';
+import { DEFAULT_STATE, enabledStates, type StateCode } from './states';
 
 export const PRESET_KEY = '_hunt_presets';
 export const PRESET_LIMIT = 20;
 export const PRESET_NAME_LIMIT = 60;
 export type FilterPreset = { name: string; href: string };
+export function presetStates(preset: FilterPreset): StateCode[] {
+  const p = new URL(preset.href,'https://drawodds.local').searchParams;
+  return p.has('states') ? searchStates(p.get('states') ?? undefined, DEFAULT_STATE) :
+    enabledStates().filter(s => s.code === p.get('state')).map(s => s.code);
+}
 
 const filterKeys = new Set([
   'species', 'type', 'weapon', 'method', 'antler', 'sex', 'draw', 'sort', 'view',

@@ -1,4 +1,5 @@
-import { coSpecial, specialOdds } from '@/lib/coSpecial';
+import { coSpecial } from '@/lib/coSpecial';
+import { specialPersonalOdds, specialOddsBasis } from '@/lib/coSpecialPoints';
 import { CoLand } from "@/components/CoLand";
 import { CoUnitSeasonHunters } from "@/components/CoUnitSeasonHunters";
 import Link from 'next/link';
@@ -72,7 +73,7 @@ export async function CoUnitPage({ name }: { name: string }) {
               {hunts.map((h) => {
                 const p = pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'];
                 const special = coSpecial(h);
-                const o = special ? specialOdds(special, nr, pts.youth) : tableOdds(h.oddsByPts as unknown as OddsTable, 'proj', pool, p);
+                const o = special ? specialPersonalOdds(special, nr, pts) : tableOdds(h.oddsByPts as unknown as OddsTable, 'proj', pool, p);
                 const ch = o === null ? 'none' : chanceOf(o, o >= 0.995 ? 1 : 0, o > 0 ? 1 : 0);
                 const d = decodeCode(h.tagCode ?? '');
                 return (
@@ -89,7 +90,7 @@ export async function CoUnitPage({ name }: { name: string }) {
                     <td>{fmtNeed(h.ptsRes, h.ptsResPct)}</td>
                     <td>{fmtNeed(h.ptsNr, h.ptsNrPct)}</td>
                     <td>
-                      {pct(o)} {special ? <span className="small muted">{special.draws[0].year} actual{special.draws[0].shared ? ' (shared pool)' : ''}</span> : <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span>}
+                      {pct(o)} {special ? <span className="small muted">{specialOddsBasis(special,pts)}{special.draws[0].shared ? ' (shared pool)' : ''}</span> : <span className={`pill ch-${ch}`}>{CHANCE_LABEL[ch]}</span>}
                     </td>
                   </tr>
                 );

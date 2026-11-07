@@ -7,6 +7,7 @@ import { PRESET_NAME_LIMIT, presetName, presetNameKey, type FilterPreset } from 
 import { finderHref } from '@/lib/huntNavigation';
 import type { StateCode } from '@/lib/states';
 import type { Draw } from '@/lib/species';
+import { browserPresets, changeBrowserPreset } from '@/lib/browserPresets';
 
 export function FilterPresets({ owner, state, states, draw }: { owner: string | null; state: StateCode; states?: StateCode[]; draw?: Draw }) {
   const query = new URLSearchParams(useSearchParams().toString());
@@ -22,10 +23,11 @@ export function FilterPresets({ owner, state, states, draw }: { owner: string | 
   const replace = !!clean && !!presets?.some(p => presetNameKey(p.name) === presetNameKey(clean));
 
   async function load() {
-    if (!owner || busy || presets) return;
+    if (busy || presets) return;
     setBusy(true);
     setMessage('');
     try {
+      if (!owner) { setPresets(browserPresets()); return; }
       const response = await fetch('/api/filter-presets', { cache: 'no-store' });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
@@ -41,6 +43,14 @@ export function FilterPresets({ owner, state, states, draw }: { owner: string | 
     setBusy(true);
     setMessage('');
     try {
+      if (!owner) {
+        const result = changeBrowserPreset({name:preset,href:remove?null:href,replace});
+        if (result.error) { setMessage(result.error); return; }
+        setPresets(result.presets ?? []); setRemoving(null);
+        if (!remove) setName('');
+        setMessage(remove?'Preset deleted.':replace?'Preset updated.':'Preset saved in this browser.');
+        return;
+      }
       const response = await fetch('/api/filter-presets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -68,8 +78,8 @@ export function FilterPresets({ owner, state, states, draw }: { owner: string | 
   return <details className="rmore filter-group filter-presets" onToggle={event => { if (event.currentTarget.open) void load(); }}>
     <summary>Saved Filter Presets{presets?.length ? <span className="filter-active">{presets.length} saved</span> : null}</summary>
     <div className="preset-body">
-      {!owner ? <p className="small"><Link href={'/login?next=' + encodeURIComponent(href)}>Sign in</Link> to save named searches to your account.</p>
-        : presets ? <>
+      {!owner && <p className="small muted">Saved in this browser. Find these searches on <Link href="/account#saved-items">Account</Link>.</p>}
+      {presets ? <>
           <form onSubmit={save}>
             <label htmlFor="hunt-preset-name">Preset name</label>
             <div className="preset-actions">
