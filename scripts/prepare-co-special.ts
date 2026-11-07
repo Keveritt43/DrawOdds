@@ -71,6 +71,8 @@ const unitOverrides: Record<string,string> = {
 };
 const fixedDates: Record<string,string> = {
   ME005W1R:'Dec. 1–20; Jan. 2–11', MF066S1M:'Sept. 12–20',
+  MF015L1R:'Oct. 14–18; Oct. 24–Nov. 1; Nov. 7–15; Nov. 18–22',
+  MF038L1R:'Oct. 14–18; Oct. 24–Nov. 1; Nov. 7–15; Nov. 18–22',
   SFS04O2R:'Sept. 1–Oct. 1', SFS32O1R:'Sept. 12–Oct. 4', SFS42O1R:'Nov. 30–Dec. 4',
   SMS61O1R:'Sept. 1–20; Dec. 1–31', SMS61S1R:'Sept. 1–20; Dec. 1–31',
   GFG12O2R:'Sept. 22–Oct. 8',

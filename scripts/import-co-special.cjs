@@ -5,7 +5,7 @@ const { readFileSync } = require('node:fs');
 const { PrismaClient } = require('@prisma/client');
 
 const approved = {
-  'co-special-import': 'ef1d376753e633ed107e13932e8ab6e6a28bd0a6922ee58b5c4b88d7d7649988',
+  'co-special-import': '2e4e4aa4cf17a62fb0e84f5879f2303b18d3fd4f0f3abf5b46b5872b7b4adf3d',
   'co-special-gmu': 'b4d68fbd1d9d58ad39d734bba12c025f8c79fca3d999589bc745871c2f1382b2',
   'co-special-land': '6c4ccf0e5948d0e8c3a9756995e81059168954025abd2a87a22e44c18bdf858e',
   'co-special-reports': '4d745179ab116e88e70a21475990395dd6743c16a4d7f8ef9539af4d59db6fc4',
