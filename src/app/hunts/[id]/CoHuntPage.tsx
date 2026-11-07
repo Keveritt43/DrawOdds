@@ -1,3 +1,4 @@
+import { HuntLink } from '@/components/HuntNavigation';
 import { CoPressureEvidence } from '@/components/CoPressureNote';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import { CoCreepChart as CreepChart, CoOddsPointsChart as OddsPointsChart, CoHarvestCharts as HarvestCharts } from '@/components/CoCharts';
@@ -54,6 +55,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   if (po?.general && d)
     return (
       <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
+        <p className="small"><BackLink state="CO" /></p>
         <h1>{s.name}</h1>
         <p>
           <b>General / over-the-counter {spLabel} license</b> · {s.tagCode}
@@ -74,7 +76,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           {s.units.map((u, i) => (
             <span key={u}>
               {i ? ', ' : ''}
-              <Link href={`/units/${encodeURIComponent(unitKey('CO', u))}`}>{u}</Link>
+              <HuntLink href={`/units/${encodeURIComponent(unitKey('CO', u))}`}>{u}</HuntLink>
             </span>
           ))}
         </p>
@@ -91,6 +93,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   if (!po || !d)
     return (
       <main className="wrap" style={{ margin: '24px auto' }}>
+        <p className="small"><BackLink state="CO" /></p>
         <h1>{s.name}</h1>
         <p className="muted">No draw data for this hunt code yet.</p>
       </main>
@@ -120,7 +123,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         {po.nrCapPct !== null ? ` · Nonresident cap ${po.nrCapPct}% (${po.nrCap})` : ''}
         {po.hybridCap ? ` · Hybrid draw up to ${po.hybridCap}` : ''}
         {s.privateOnly ? ' · Private land only' : ''} ·{' '}
-        <Link href={`/units/${encodeURIComponent(unitKey('CO', d.unit))}`}>Unit {d.unit}</Link>
+        <HuntLink href={`/units/${encodeURIComponent(unitKey('CO', d.unit))}`}>Unit {d.unit}</HuntLink>
       </p>
 
       <ScoreRow r={withCoOpportunity(s, myOdds(po.pools[myPool], p, mode, po.year, myPool)?.odds ?? null, nr)} nr={nr} open />
@@ -188,7 +191,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <span>{(po.regs?.units ?? [d.unit]).map((u, i) => (
             <span key={u}>
               {i ? ', ' : ''}
-              <Link href={`/units/${encodeURIComponent(unitKey('CO', u))}`}>{u}</Link>
+              <HuntLink href={`/units/${encodeURIComponent(unitKey('CO', u))}`}>{u}</HuntLink>
             </span>
           ))}</span>
           {po.regs?.guessed ? <span className="small muted"> (from the hunt code; not found in the regulations)</span> : null}
@@ -208,9 +211,9 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
 
       <h2 id="trends">Hunt Trends</h2>
       <div className="co-oddsbar"><span className="seg light" role="group" aria-label="Graph draw">
-        <Link className="seg-link" href={q({odds:null}).replace('#odds','#trends')} aria-pressed={mode==='proj'} scroll={false}>{po.projYear} projected</Link>
-        <Link className="seg-link" href={q({odds:'last'}).replace('#odds','#trends')} aria-pressed={mode==='last'} scroll={false}>{po.year} actual</Link>
-      </span><span className="seg light" role="group" aria-label="Graph applicant pool">{CO_POOLS.filter(x=>po.pools[x]).map(x=><Link key={x} className="seg-link" href={q({pool:x===myPool?null:x}).replace('#odds','#trends')} aria-pressed={pool===x} scroll={false}>{SHORT[x]}</Link>)}</span></div>
+        <HuntLink className="seg-link" href={q({odds:null}).replace('#odds','#trends')} aria-pressed={mode==='proj'} scroll={false}>{po.projYear} projected</HuntLink>
+        <HuntLink className="seg-link" href={q({odds:'last'}).replace('#odds','#trends')} aria-pressed={mode==='last'} scroll={false}>{po.year} actual</HuntLink>
+      </span><span className="seg light" role="group" aria-label="Graph applicant pool">{CO_POOLS.filter(x=>po.pools[x]).map(x=><HuntLink key={x} className="seg-link" href={q({pool:x===myPool?null:x}).replace('#odds','#trends')} aria-pressed={pool===x} scroll={false}>{SHORT[x]}</HuntLink>)}</span></div>
       <p className="small muted">Draw odds use the selected applicant pool and draw. Harvest report coverage may change by year; the table explains each source.</p>
       <div className="grid2 co-graph-grid">
         <CreepChart po={po} />
@@ -267,18 +270,18 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <h2 id="odds">Odds At Every Point Level</h2>
       <div className="co-oddsbar">
         <span className="seg light" role="group" aria-label="Which draw">
-          <Link className="seg-link" href={q({ odds: null })} aria-pressed={mode === 'proj'} scroll={false}>
+          <HuntLink className="seg-link" href={q({ odds: null })} aria-pressed={mode === 'proj'} scroll={false}>
             {po.projYear} projected
-          </Link>
-          <Link className="seg-link" href={q({ odds: 'last' })} aria-pressed={mode === 'last'} scroll={false}>
+          </HuntLink>
+          <HuntLink className="seg-link" href={q({ odds: 'last' })} aria-pressed={mode === 'last'} scroll={false}>
             {po.year} actual
-          </Link>
+          </HuntLink>
         </span>
         <span className="seg light" role="group" aria-label="Applicant pool">
           {CO_POOLS.filter((x) => po.pools[x]).map((x) => (
-            <Link key={x} className="seg-link" href={q({ pool: x === myPool ? null : x })} aria-pressed={pool === x} scroll={false}>
+            <HuntLink key={x} className="seg-link" href={q({ pool: x === myPool ? null : x })} aria-pressed={pool === x} scroll={false}>
               {SHORT[x]}
-            </Link>
+            </HuntLink>
           ))}
         </span>
       </div>

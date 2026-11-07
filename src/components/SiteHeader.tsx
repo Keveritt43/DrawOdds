@@ -1,5 +1,6 @@
 'use client';
 
+import { FindHuntsLink } from '@/components/HuntNavigation';
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -43,6 +44,7 @@ export function SiteHeader({ residency, signedIn, draw, points }: { residency: R
         </span>
         <nav className={`nav-main ${open ? 'open' : ''}`} aria-label="Main">
           {links.map((l) => (
+            l.href === '/hunts' ? <FindHuntsLink key={l.href} aria-current={here(l.href) ? 'page' : undefined}>{l.label}</FindHuntsLink> :
             <Link key={l.href} href={l.href} aria-current={here(l.href) ? 'page' : undefined}>{l.label}</Link>
           ))}
           <Link href={signedIn ? '/account' : '/login'}>{signedIn ? 'My Hunts' : 'Sign In'}</Link>

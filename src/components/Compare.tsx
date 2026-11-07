@@ -1,7 +1,7 @@
 'use client';
 
+import { HuntLink } from '@/components/HuntNavigation';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 /** Up to 4 hunts picked for side-by-side comparison, kept in this browser. */
@@ -72,9 +72,9 @@ export function CompareTray() {
           </span>
         ))}
       </span>
-      <Link className={`btn primary${list.length < 2 ? ' disabled' : ''}`} href={`/compare?ids=${list.map((x) => encodeURIComponent(x.id)).join(',')}`} aria-disabled={list.length < 2}>
+      <HuntLink className={`btn primary${list.length < 2 ? ' disabled' : ''}`} href={`/compare?ids=${list.map((x) => encodeURIComponent(x.id)).join(',')}`} aria-disabled={list.length < 2}>
         Compare{list.length < 2 ? ' (pick 2+)' : ''}
-      </Link>
+      </HuntLink>
       <button type="button" className="btn" onClick={() => write([])}>Clear</button>
     </div>
   );

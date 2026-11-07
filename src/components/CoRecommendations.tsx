@@ -1,3 +1,4 @@
+import { HuntLink } from '@/components/HuntNavigation';
 import type { HuntSummary } from "@prisma/client";
 export function CoRecommendations({
   rows,
@@ -15,7 +16,7 @@ export function CoRecommendations({
     return (
       <li key={label}>
         <span className="pick-label">{label}</span>
-        <a href={"/hunts/" + x.r.slug}>{x.r.name}</a> ·{" "}
+        <HuntLink href={"/hunts/" + x.r.slug}>{x.r.name}</HuntLink> ·{" "}
         {Math.round((x.odds ?? 0) * 100)}% odds ·{" "}
         {Math.round((x.r.success5 ?? 0) * 100)}% success
       </li>

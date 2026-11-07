@@ -1,8 +1,8 @@
+import { HuntLink, FindHuntsLink } from '@/components/HuntNavigation';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import type { CoScored } from '@/lib/coScores';
 import { getPoints } from '@/lib/points';
 import { withCoScores } from '@/lib/coScores';
-import Link from 'next/link';
 import { huntHref } from '@/lib/huntSlug';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
@@ -66,7 +66,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
 
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
-      <p className="small"><Link href="/hunts">← Find A Hunt</Link></p>
+      <p className="small"><FindHuntsLink>← Find A Hunt</FindHuntsLink></p>
       <h1>Compare Hunts</h1>
       {hunts.length < 2 ? (
         <p>Pick at least two hunts with the <b>Compare</b> box on any hunt card or table row, then come back here.</p>
@@ -78,7 +78,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
             <thead>
               <tr>
                 <th />
-                {hunts.map((h) => <th key={h.id}><Link href={huntHref(h)}>{huntName(h)}</Link><p className="small">{STATES[h.state as keyof typeof STATES]?.name ?? h.state} · {nrFor(h) ? 'Nonresident' : 'Resident'}{h.state === 'CO' ? ` · ${coPoints[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER']} points` : ''}</p></th>)}
+                {hunts.map((h) => <th key={h.id}><HuntLink href={huntHref(h)}>{huntName(h)}</HuntLink><p className="small">{STATES[h.state as keyof typeof STATES]?.name ?? h.state} · {nrFor(h) ? 'Nonresident' : 'Resident'}{h.state === 'CO' ? ` · ${coPoints[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER']} points` : ''}</p></th>)}
               </tr>
             </thead>
             <tbody>
