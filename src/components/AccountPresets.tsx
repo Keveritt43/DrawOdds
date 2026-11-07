@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { browserPresets, BROWSER_PRESET_KEY, changeBrowserPreset } from '@/lib/browserPresets';
-import { presetStates, type FilterPreset } from '@/lib/filterPresets';
+import { presetLabel, presetStates, type FilterPreset } from '@/lib/filterPresets';
 import type { StateCode } from '@/lib/states';
 import { useRouter } from 'next/navigation';
 
@@ -37,7 +37,7 @@ export function AccountPresets({state,owner,initial=[]}:{state:StateCode;owner:s
   }
   return <div>
     {!shown.length?<p className="small muted">No saved filters for this state yet. Name and save a search from Find Hunts.</p>:
-      <ul className="preset-list">{shown.map(p=><li key={p.name}><Link href={p.href} prefetch={false}>{p.name}</Link><button type="button" className="btn small" disabled={removing!==null} onClick={()=>void remove(p.name)} aria-label={'Delete saved filter '+p.name}>Delete</button></li>)}</ul>}
+      <ul className="preset-list">{shown.map(p=><li key={p.name}><Link href={p.href} prefetch={false}>{presetLabel(p)}</Link><button type="button" className="btn small" disabled={removing!==null} onClick={()=>void remove(p.name)} aria-label={'Delete saved filter '+p.name}>Delete</button></li>)}</ul>}
     {message&&<p className="small" role="alert">{message}</p>}
   </div>;
 }

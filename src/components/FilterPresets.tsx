@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useState, type FormEvent } from 'react';
-import { PRESET_NAME_LIMIT, presetName, presetNameKey, type FilterPreset } from '@/lib/filterPresets';
+import { PRESET_NAME_LIMIT, presetLabel, presetName, presetNameKey, type FilterPreset } from '@/lib/filterPresets';
 import { finderHref } from '@/lib/huntNavigation';
 import type { StateCode } from '@/lib/states';
 import type { Draw } from '@/lib/species';
@@ -89,7 +89,7 @@ export function FilterPresets({ owner, state, states, draw }: { owner: string | 
             <p className="small muted">{replace ? 'Replace this preset with the current search.' : 'Saves your states, filters, sort, and view.'}</p>
           </form>
           {presets.length > 0 && <ul className="preset-list">{presets.map(p => <li key={p.name}>
-            <Link href={p.href} scroll={false} prefetch={false}>{p.name}</Link>
+            <Link href={p.href} scroll={false} prefetch={false}>{presetLabel(p)}</Link>
             {removing === p.name
               ? <span className="preset-actions"><button className="btn" type="button" disabled={busy} onClick={() => void change(p.name, true)}>Delete</button><button className="btn" type="button" onClick={() => setRemoving(null)}>Cancel</button></span>
               : <button className="btn" type="button" disabled={busy} aria-label={'Delete preset ' + p.name} onClick={() => setRemoving(p.name)}>Delete</button>}
