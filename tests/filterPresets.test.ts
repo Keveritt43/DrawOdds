@@ -1,6 +1,23 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { changePresets, presetHref, presetName, PRESET_LIMIT, readPresets } from '../src/lib/filterPresets';
+import { changePresets, presetEditHref, presetHref, presetName, PRESET_LIMIT, readPresets, withPresetEdit } from '../src/lib/filterPresets';
+import { filterQuery } from '../src/lib/filterPreferences';
+
+test('modifying a preset keeps its identity and strips editing context from saved filters', () => {
+  const preset = {name:'Fall & winter deer', href:'/hunts?states=CO%2CID&minSuccess=70'};
+  const edit = presetEditHref(preset);
+  assert.equal(new URL(edit, 'https://example.test').searchParams.get('editPreset'), preset.name);
+  assert.equal(presetHref(edit), preset.href);
+  assert.equal(filterQuery('minSuccess=50&editPreset=Fall'), 'minSuccess=50');
+  assert.match(withPresetEdit('/hunts?states=CO&antler=ANTLERED', preset.name), /editPreset=Fall/);
+  const href = '/hunts?states=CO%2CID&minSuccess=50&view=table';
+  const other = {name:'Other', href:'/hunts?states=ID'};
+  const result = changePresets([preset,other], {name:preset.name,href,replace:true,updateOnly:true});
+  assert.equal(result.presets?.length, 2);
+  assert.deepEqual(result.presets?.find(p=>p.name===preset.name), {name:preset.name,href});
+  assert.deepEqual(result.presets?.find(p=>p.name===other.name), other);
+  assert.ok(changePresets([other], {name:preset.name,href,replace:true,updateOnly:true}).error);
+});
 
 test('a saved search reloads the states, scoped filters, sort, and view from page one', () => {
   assert.equal(presetHref('/hunts?states=ID,CO&deerType=MULE&season=2&minPublic=35&sort=opp&view=table&page=7&reset=1&as=nr'),

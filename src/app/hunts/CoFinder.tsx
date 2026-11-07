@@ -1,4 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
+import { withPresetEdit } from '@/lib/filterPresets';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
 import { otcElkOverlap } from '@/lib/overlappingSeasons';
@@ -255,7 +256,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
           <div className="ucard">
             <h2>No Hunts Match</h2>
             <p className="muted">
-              Loosen a filter or remove a chip on the map. <Link href="/hunts?reset=1">Clear all filters</Link>.
+              Loosen a filter or remove a chip on the map. <Link href={withPresetEdit(sp.editPreset ? '/hunts?state=CO&restore=1&antler=ANTLERED' : '/hunts?reset=1', sp.editPreset)}>Clear all filters</Link>.
             </p>
           </div>
         )}

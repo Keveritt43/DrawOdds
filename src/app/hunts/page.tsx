@@ -1,4 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
+import { withPresetEdit } from '@/lib/filterPresets';
 import { HuntLink } from '@/components/HuntNavigation';
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
 import { savedFilters } from "@/lib/savedFilters";
@@ -221,6 +222,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     const value = toQuery(f, patch);
     if (!sp.state && !sp.draw && sp.restore !== "1" && !sp.as) return value;
     const p = new URLSearchParams(value);
+    if (typeof sp.editPreset === 'string') p.set('editPreset', sp.editPreset);
     if (sp.state || sp.restore === "1") p.set("state", state);
     if (sp.draw) p.set("draw", draw.toLowerCase());
     if (sp.as === "nr" || sp.as === "res") p.set("as", sp.as);
@@ -253,7 +255,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'unit' ? 'units' : total === 1 ? 'result' : 'results'} · sort by</span>
             <SortSelect value={f.sort} />
-            {activeChips.length > 0 && <a className="small reset-all" href="/hunts?reset=1">Reset all filters</a>}
+            {activeChips.length > 0 && <a className="small reset-all" href={withPresetEdit(sp.editPreset ? '/hunts?state=ID&restore=1&antler=ANTLERED&draw='+draw.toLowerCase() : '/hunts?reset=1', sp.editPreset)}>Reset all filters</a>}
             <a className="small csv" href={`/api/export${query({ page: 1 })}`} title="Every result with odds, success, crowding and tags, for a spreadsheet">Download CSV</a>
             <span className="seg light view-seg" role="group" aria-label="List by">
               <Link className="seg-link" href={viewHref('hunt')} aria-pressed={f.view === 'hunt'} scroll={false}>By hunt</Link>

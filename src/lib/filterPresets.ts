@@ -6,6 +6,17 @@ export const PRESET_KEY = '_hunt_presets';
 export const PRESET_LIMIT = 20;
 export const PRESET_NAME_LIMIT = 60;
 export type FilterPreset = { name: string; href: string };
+export const PRESET_EDIT = 'editPreset';
+export function withPresetEdit(href: string, name: unknown): string {
+  const editing = presetName(name);
+  if (!editing) return href;
+  const url = new URL(href, 'https://drawodds.local');
+  url.searchParams.set(PRESET_EDIT, editing);
+  return url.pathname + url.search;
+}
+export function presetEditHref(preset: FilterPreset): string {
+  return withPresetEdit(preset.href, preset.name);
+}
 export function presetStates(preset: FilterPreset): StateCode[] {
   const p = new URL(preset.href,'https://drawodds.local').searchParams;
   return p.has('states') ? searchStates(p.get('states') ?? undefined, DEFAULT_STATE) :
@@ -59,9 +70,10 @@ export function readPresets(points: unknown): FilterPreset[] {
   });
 }
 
-export function changePresets(current: FilterPreset[], change: { name: string; href: string | null; replace?: boolean }) {
+export function changePresets(current: FilterPreset[], change: { name: string; href: string | null; replace?: boolean; updateOnly?: boolean }) {
   const key = presetNameKey(change.name);
   const exists = current.some(p => presetNameKey(p.name) === key);
+  if (change.href && change.updateOnly && !exists) return { error: 'This preset no longer exists. Save a new preset instead.' } as const;
   if (change.href && exists && !change.replace) return { error: 'A preset already has that name.' } as const;
   if (change.href && !exists && current.length >= PRESET_LIMIT) {
     return { error: 'You can save up to ' + PRESET_LIMIT + ' presets. Delete one to add another.' } as const;
