@@ -4,7 +4,7 @@ export function browserPresets(): FilterPreset[] {
   try { return readPresets({[PRESET_KEY]:JSON.parse(localStorage.getItem(BROWSER_PRESET_KEY) ?? '[]')}); }
   catch { return []; }
 }
-export function changeBrowserPreset(change: {name:string;href:string|null;replace?:boolean}) {
+export function changeBrowserPreset(change: {name:string;href:string|null;replace?:boolean;updateOnly?:boolean}) {
   const name = presetName(change.name);
   const href = change.href === null ? null : presetHref(change.href);
   if (!name || (change.href !== null && !href)) return {error:'Enter a valid preset name and search.'};

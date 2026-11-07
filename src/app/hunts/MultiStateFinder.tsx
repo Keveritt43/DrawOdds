@@ -1,4 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
+import { withPresetEdit } from '@/lib/filterPresets';
 import { HuntLink, RememberFinderNavigation } from '@/components/HuntNavigation';
 import Link from 'next/link';
 import { searchHunts } from '@/lib/searchData';
@@ -83,7 +84,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       <div className="search-intro">
         <h1>Find A Hunt</h1>
         <div className="seg light" role="group" aria-label="Hunt species group">
-          {(['DEP', 'MSG'] as const).map(group => <Link key={group} className="seg-link" aria-pressed={group === draw} href={group === draw ? q({}) : `/hunts?states=${states.join(',')}&draw=${group.toLowerCase()}`}>{DRAW_LABEL[group]}</Link>)}
+          {(['DEP', 'MSG'] as const).map(group => <Link key={group} className="seg-link" aria-pressed={group === draw} href={group === draw ? q({}) : withPresetEdit(`/hunts?states=${states.join(',')}&draw=${group.toLowerCase()}`, sp.editPreset)}>{DRAW_LABEL[group]}</Link>)}
           {msg && states.length === 1 && <Link className="seg-link" href={q({ states: 'CO,ID', draw: 'msg', unit: null, page: null })}>Search both states</Link>}
         </div>
         <details className="search-setup">
@@ -96,7 +97,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       </div>
       <div className="f-head search-toolbar">
         <div className="f-sub search-sort"><span><b>{results.length}</b> hunt options</span><span className="search-sort-control"><span>Sort by</span><SortSelect value={sort} options={SORTS} /></span></div>
-        <div className="f-sub"><div className="seg light" role="group" aria-label="List by">{[['hunt', 'By hunt'], ['unit', 'By unit'], ['table', 'Table']].map(([value, label]) => <Link key={value} className="seg-link" aria-pressed={(view || 'hunt') === value} href={`/hunts${q({ view: value, page: null })}`} scroll={false}>{label}</Link>)}</div><a className="small" href={`/api/export${q({ page: null })}`}>Download CSV</a><Link className="small" href={`/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0`}>Reset filters</Link></div>
+        <div className="f-sub"><div className="seg light" role="group" aria-label="List by">{[['hunt', 'By hunt'], ['unit', 'By unit'], ['table', 'Table']].map(([value, label]) => <Link key={value} className="seg-link" aria-pressed={(view || 'hunt') === value} href={`/hunts${q({ view: value, page: null })}`} scroll={false}>{label}</Link>)}</div><a className="small" href={`/api/export${q({ page: null })}`}>Download CSV</a><Link className="small" href={withPresetEdit(`/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0`, sp.editPreset)}>Reset filters</Link></div>
       </div>
       {!results.length && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p></div>}
       {view === 'table' ? <div className="htable-wrap"><table className="htable"><thead><tr><th aria-label="Compare" />{['State', 'Hunt', 'Species', 'Units', 'Weapon', 'Season dates', 'Your odds', 'Odds basis', 'Success', 'Public land', 'Quality', 'Opportunity'].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{shown.map(x => <tr key={x.r.id}><td><CompareToggle id={x.r.id} label={x.r.name} compact /></td><td>{x.r.state}</td><td><HuntLink href={huntHref(x.r)}>{x.r.name}</HuntLink></td><td>{SPECIES_LABEL[x.r.species]}</td><td>{x.r.units.join(', ')}</td><td>{WEAPON[x.r.weapon]}</td><td>{seasonsSummary(x.r.tagSeasons) || range(x.r.openDate, x.r.closeDate)}</td><td>{pct(x.odds)}</td><td>{x.basis}</td><td>{pct(x.r.success5)}</td><td>{x.r.publicPct === null ? '—' : `${Math.round(x.r.publicPct)}%`}</td><td>{x.r.scoreQuality ?? '—'}</td><td>{x.opportunity ?? '—'}</td></tr>)}</tbody></table></div>

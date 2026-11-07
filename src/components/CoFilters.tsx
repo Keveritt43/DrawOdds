@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { pointRange } from '@/lib/pointRange';
+import { withPresetEdit } from '@/lib/filterPresets';
 import { CHANCE_LABEL, type Chance } from '@/lib/coOdds';
 import { DAY_MIN, DAY_MAX, parseMonthDay, toMonthDay } from "@/lib/seasonDays";
 import { DateRange as DateSlider, FilterGroup, Section } from './FilterRail';
@@ -87,7 +88,7 @@ export function CoFilters({ nr, points, speciesLabel, presets }: { nr: boolean; 
       </div>
       {[...sp.keys()].some((k) => !['sort', 'page', 'odds'].includes(k)) && (
         <div className="rail-reset">
-          <a href="/hunts?reset=1">Reset all filters</a>
+          <a href={withPresetEdit(sp.has('editPreset') ? '/hunts?state=CO&restore=1&antler=ANTLERED' : '/hunts?reset=1', sp.get('editPreset'))}>Reset all filters</a>
         </div>
       )}
       <div className="rsec-wrap">

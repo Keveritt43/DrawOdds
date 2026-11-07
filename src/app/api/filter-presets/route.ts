@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     try {
       const result = await db.$transaction(async tx => {
         const user = await tx.user.findUniqueOrThrow({ where: { id }, select: { points: true } });
-        const result = changePresets(readPresets(user.points), { name, href, replace: body.replace === true });
+        const result = changePresets(readPresets(user.points), { name, href, replace: body.replace === true, updateOnly: body.updateOnly === true });
         if (result.presets) await setAccountPreference(id, PRESET_KEY, result.presets, tx);
         return result;
       }, { isolationLevel: 'Serializable' });
