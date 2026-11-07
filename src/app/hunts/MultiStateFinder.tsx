@@ -27,6 +27,7 @@ const max = (values: (number | null)[]) => { const finite = values.filter((v): v
 
 export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   const [{ header, states, settings, results, overlaps }, fav] = await Promise.all([searchHunts(sp), getFavorites()]);
+  const stateCounts = states.map(state => ({ state, count: results.filter(x => x.r.state === state).length }));
   const sort = param(sp, 'sort') || 'opp';
   const view = param(sp, 'view');
   const q = (patch: Record<string, string | null>) => {
@@ -81,7 +82,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       <div className="search-intro">
         <h1>Find A Hunt</h1>
         <details className="search-setup">
-          <summary>States &amp; settings · {states.map(s => STATES[s].name).join(' + ')}</summary>
+          <summary>States &amp; settings <span className="search-state-counts">{stateCounts.map(({ state, count }) => `${STATES[state].name}: ${count}`).join(' · ')}</span></summary>
           <SearchStates />
           <p className="small muted">{settingsSummary}</p>
           <SearchSettings states={states} settings={settings} />
@@ -89,8 +90,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
         </details>
       </div>
       <div className="f-head search-toolbar">
-        <div className="f-sub"><span><b>{results.length}</b> hunt options · {states.map(s => `${STATES[s].name}: ${results.filter(x => x.r.state === s).length}`).join(' · ')}</span></div>
-        <div className="f-sub"><span>Sort by</span><SortSelect value={sort} options={SORTS} /></div>
+        <div className="f-sub search-sort"><span><b>{results.length}</b> hunt options</span><span className="search-sort-control"><span>Sort by</span><SortSelect value={sort} options={SORTS} /></span></div>
         <div className="f-sub"><div className="seg light" role="group" aria-label="List by">{[['hunt', 'By hunt'], ['unit', 'By unit'], ['table', 'Table']].map(([value, label]) => <Link key={value} className="seg-link" aria-pressed={(view || 'hunt') === value} href={`/hunts${q({ view: value, page: null })}`} scroll={false}>{label}</Link>)}</div><a className="small" href={`/api/export${q({ page: null })}`}>Download CSV</a><Link className="small" href={`/hunts?states=${states.join(',')}&sort=opp&minScore=0&antler=ANTLERED`}>Reset filters</Link></div>
       </div>
       {!results.length && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p></div>}
