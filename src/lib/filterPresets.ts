@@ -12,6 +12,11 @@ export function presetStates(preset: FilterPreset): StateCode[] {
     enabledStates().filter(s => s.code === p.get('state')).map(s => s.code);
 }
 
+export function presetLabel(preset: FilterPreset): string {
+  const states = presetStates(preset);
+  return states.length > 1 ? `${preset.name} (${states.join(', ')})` : preset.name;
+}
+
 const filterKeys = new Set([
   'species', 'type', 'weapon', 'method', 'antler', 'sex', 'draw', 'sort', 'view',
   'month', 'from', 'to', 'dmode', 'minScore', 'minOpp', 'minOdds', 'minPublic',
