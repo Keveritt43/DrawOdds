@@ -26,7 +26,7 @@ export function StateSwitch() {
       <div className="state-menu card" role="menu">
         {states.map((s) => (
           <button key={s.code} type="button" role="menuitemradio" aria-checked={s.code === cur.code} disabled={pending}
-            onClick={() => start(async () => { await setStateCode(s.code); if (ref.current) ref.current.open = false; if (path === '/hunts') router.push(`/hunts?states=${s.code}&sort=opp&minScore=0`); })}>
+            onClick={() => start(async () => { await setStateCode(s.code); if (ref.current) ref.current.open = false; if (path === '/hunts') router.push(`/hunts?states=${s.code}&sort=opp&minScore=0`); else if (path === '/') router.push('/'); })}>
             {s.name}{s.code === cur.code ? ' ✓' : ''}
           </button>
         ))}
