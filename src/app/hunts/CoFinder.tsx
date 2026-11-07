@@ -1,3 +1,4 @@
+import { FilterPresets } from '@/components/FilterPresets';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
 import { otcElkOverlap } from '@/lib/overlappingSeasons';
@@ -287,7 +288,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
           the current big game brochure.
         </p>
       </section>
-      <CoFilters nr={nr} points={myPts} speciesLabel={spLabel} />
+      <CoFilters nr={nr} points={myPts} speciesLabel={spLabel} presets={<FilterPresets key={fav.userId} owner={fav.userId} state="CO" />} />
     </main>
   );
 }

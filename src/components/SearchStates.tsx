@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { enabledStates, STATES, type StateCode } from '@/lib/states';
+import { enabledStates, STATES, stateConfig, type StateCode } from '@/lib/states';
 import { searchStates, ID_RESTRICTIONS, CO_RESTRICTIONS } from '@/lib/searchStates';
 import { useStateConfig } from './StateContext';
 
@@ -9,13 +9,14 @@ export function SearchStates() {
   const header = useStateConfig();
   const sp = useSearchParams();
   const router = useRouter();
-  const selected = searchStates(sp.get('states') ?? undefined, header.code);
+  const state = sp.get('state');
+  const selected = searchStates(sp.get('states') ?? undefined, state ? stateConfig(state).code : header.code);
   const toggle = (code: StateCode) => {
     const next = selected.includes(code) ? selected.filter(s => s !== code) : [...selected, code];
     if (!next.length) return;
     const p = new URLSearchParams(sp.toString());
     p.set('states', next.sort().join(','));
-    p.delete('page'); p.delete('reset'); p.delete('state');
+    p.delete('page'); p.delete('reset'); p.delete('state'); p.delete('restore');
     if (!next.includes('ID')) for (const key of ID_RESTRICTIONS) p.delete(key);
     if (!next.includes('CO')) for (const key of [...CO_RESTRICTIONS, 'priv', 'odds']) p.delete(key);
     // Translate the existing Colorado-only controls into their shared equivalents.

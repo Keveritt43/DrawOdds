@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import type { Residency } from '@prisma/client';
 import type { Draw } from '@/lib/species';
 import { STATES, type StateCode } from '@/lib/states';
+import { ID_RESTRICTIONS } from '@/lib/searchStates';
 
 type Opt = [value: string, label: string];
 
@@ -29,7 +30,7 @@ const DENSITY = [0, 8, 5, 3, 2, 1.5, 1, 0.5, 0.25]; // 0 = any; dragging right =
 const DEER: Opt[] = [['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED', 'Mixed']];
 
 /** goHunt-style rail: each section shows its current value and opens to edit. Every change updates the URL. */
-export function FilterRail({ residency, draw = 'DEP', states, children }: { residency: Residency; draw?: Draw; states?: StateCode[]; children?: React.ReactNode }) {
+export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilters, children }: { residency: Residency; draw?: Draw; states?: StateCode[]; presets?: React.ReactNode; drawFilters?: React.ReactNode; children?: React.ReactNode }) {
   const msg = draw === 'MSG';
   // filters that only exist in some states (elk zones, objectives, migration studies...)
   const header = useStateConfig();
@@ -64,7 +65,7 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
   };
   const labelOf = (opts: Opt[], v: string) => opts.find((o) => o[0] === v)?.[1] ?? v;
   const sp_ = get('species');
-  const moreSet = ['from', 'leftover', 'migration', 'bullObj', 'cowObj', 'minBig', 'month', 'deerType', 'minTags', 'youth', 'zone', 'unit', 'q'].some((k) => !!get(k));
+  const active = (...keys: string[]) => keys.some(k => !!get(k));
   const many = (opts: Opt[], k: string, none: string) => (list(k).length ? list(k).map((v) => labelOf(opts, v)).join(', ') : none);
 
   const radio = (k: string, opts: Opt[]) => (
@@ -93,10 +94,11 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
           {open ? 'Hide Filters' : 'Show Filters'}
         </button>
       </div>
-      {[...sp.keys()].some((k) => !['sort', 'view', 'page'].includes(k)) && (
+      {[...sp.keys()].some((k) => !['sort', 'view', 'page', 'state', 'restore', 'states'].includes(k)) && (
         <div className="rail-reset"><a href={resetHref}>Reset all filters</a></div>
       )}
       <div className="rsec-wrap">
+        {presets}
         <Section title="Species" value={labelOf(speciesOptions, sp_)} set={!!sp_} defaultOpen={!sp_}>
           {radio('species', speciesOptions)}
           {states && <p className="small muted">Available species vary by state. Idaho drawing restrictions still apply to Idaho applications.</p>}
@@ -121,26 +123,6 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
           {checks("weapon", WEAPONS)}
           {sharedNote}
         </Section>
-        <Section title="Season Dates" value={[many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time'} set={list('month').length > 0 || !!get('from')}>
-            {sharedNote}
-            {checks('month', MONTHS)}
-            <p className="small muted" style={{ margin: '6px 0 10px' }}>Hunts open at some point in the months you pick.</p>
-            <label>Or Pick Exact Dates</label>
-            <DateRange
-              from={parseMonthDay(get('from')) ?? DAY_MIN}
-              to={parseMonthDay(get('to')) ?? DAY_MAX}
-              mode={get('dmode') === 'end' ? 'end' : 'open'}
-              onCommit={(a, b, mode) => push(a === DAY_MIN && b === DAY_MAX ? { from: null, to: null, dmode: null } : { from: toMonthDay(a), to: toMonthDay(b), dmode: mode === 'end' ? 'end' : null })}
-            />
-          </Section>
-        {!msg && (!states || states.includes('ID')) && (sp_ === '' || sp_ === 'DEER') && (
-            <Section title="Deer: Mule Or Whitetail" value={many(DEER, 'deerType', 'Any')} set={list('deerType').length > 0}>
-              {checks('deerType', DEER)}
-              {idNote}
-              <p className="small muted" style={{ margin: '6px 0 0' }}>From 5 years of harvest: 60%+ whitetail = Whitetail, 40% or less = Mule Deer.</p>
-            </Section>
-          )}
-
         <Section title="DrawOdds Score" value={[get('minScore') && get('minScore') !== '0' && `Quality ${get('minScore')}+`, get('minOpp') && `Opportunity ${get('minOpp')}+`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minScore') || get('minOpp'))}>
           <label>Quality (how good the hunt is)</label>
           {radio('minScore', states ? [['0', 'Any'], ['50', '50+'], ['70', '70+'], ['85', '85+']] : QUALITY_STOPS(get('sort') === 'opp'))}
@@ -148,46 +130,84 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
           {radio('minOpp', SCORE_STOPS)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>0-100 on fixed scales, so general and controlled hunts compare directly. <a href="/score">How we score</a></p>
         </Section>
-
         <Section
-          title={msg ? "Antler Class" : "Antler Class"}
+          title="Antler Class"
           value={many(msg ? SEX_MSG : ANTLER, "antler", "Any")}
           set={list("antler").length > 0}
         >
           {checks("antler", msg ? SEX_MSG : ANTLER)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take an antlered or an antlerless animal on them.</p>
         </Section>
-        <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
-          <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
-          <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>
+        <Section title="Land Access" value={get('minPublic') ? `${get('minPublic')}%+ public` : 'Any'} set={!!get('minPublic')}>
+          <label>Public Land</label>
+          {sharedNote}
+          <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
         </Section>
         <Section title="Harvest Success" value={get('minSuccess') ? `${get('minSuccess')}%+` : 'Any'} set={!!get('minSuccess')}>
           {sharedNote}
           <Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
         </Section>
-        <Section title="Crowding (Hunters Per Sq Mi)" value={get('maxDensity') ? `${get('maxDensity')} or fewer` : 'Any'} set={!!get('maxDensity')}>
-          <StopSlider stops={DENSITY} value={Number(get('maxDensity') || 0)} onCommit={(v) => push({ maxDensity: v ? String(v) : null })} />
-          <p className="small muted" style={{ margin: '6px 0 0' }}>Average hunters per year for the hunt or season, per square mile. Under 0.5 is uncrowded. Controlled hunts count only their own hunters.</p>
-        </Section>
-        <Section title="Land Access" value={[get('minPublic') && `${get('minPublic')}%+ public`, get('minAccessYes') && `${get('minAccessYes')}%+ Access Yes!`, get('minHuntable') && `${get('minHuntable')}%+ huntable`].filter(Boolean).join(', ') || 'Any'} set={!!(get('minPublic') || get('minAccessYes') || get('minHuntable') || get('accessYes'))}>
-          <label>Public Land</label>
+        <FilterGroup title="Draw Odds & Points" active={active('minOdds', ...(states?.includes('CO') ? ['chance', 'minPts', 'maxPts', 'odds'] : []))}>
+          <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
+            <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
+            <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>
+          </Section>
+          {drawFilters}
+        </FilterGroup>
+        <Section title="Season Dates" value={[many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time'} set={list('month').length > 0 || !!get('from')}>
           {sharedNote}
-          <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
-          {(!states || states.includes('ID')) && <>{idNote}<label>{accessProgram} (Private Land Open To Hunting)</label>
-          <Slider value={Number(get('minAccessYes') || 0)} max={25} step={1} suffix="%" onCommit={(v) => push({ minAccessYes: v ? String(v) : null })} />
-          <label>Huntable (Public + {accessProgram})</label>
-          <Slider value={Number(get('minHuntable') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minHuntable: v ? String(v) : null })} />
-          <div className="checks2" style={{ marginTop: 10 }}>
-            <label>
-              <input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} />{" "}
-              Has {accessProgram} land
-            </label>
-          </div></>}
+          {checks('month', MONTHS)}
+          <p className="small muted" style={{ margin: '6px 0 10px' }}>Hunts open at some point in the months you pick.</p>
+          <label>Or Pick Exact Dates</label>
+          <DateRange
+            from={parseMonthDay(get('from')) ?? DAY_MIN}
+            to={parseMonthDay(get('to')) ?? DAY_MAX}
+            mode={get('dmode') === 'end' ? 'end' : 'open'}
+            onCommit={(a, b, mode) => push(a === DAY_MIN && b === DAY_MAX ? { from: null, to: null, dmode: null } : { from: toMonthDay(a), to: toMonthDay(b), dmode: mode === 'end' ? 'end' : null })}
+          />
         </Section>
-        {children}
-        <details className="rmore" open={moreSet}>
-          <summary>More Filters{moreSet ? " (in use)" : ""}</summary>
-          {!msg && (!states || states.includes('ID')) && sp_ !== 'PRONGHORN' && (
+        <FilterGroup title="Other Hunt Filters" active={active('maxDensity', 'minTags', 'youth', 'unit', 'q')}>
+          <Section title="Crowding (Hunters Per Sq Mi)" value={get('maxDensity') ? `${get('maxDensity')} or fewer` : 'Any'} set={!!get('maxDensity')}>
+            {sharedNote}
+            <StopSlider stops={DENSITY} value={Number(get('maxDensity') || 0)} onCommit={(v) => push({ maxDensity: v ? String(v) : null })} />
+            <p className="small muted" style={{ margin: '6px 0 0' }}>Average hunters per year for the hunt or season, per square mile. Under 0.5 is uncrowded. Controlled hunts count only their own hunters.</p>
+          </Section>
+          <Section title="Tags" value={get('minTags') ? `${get('minTags')}+ tags` : 'Any'} set={!!get('minTags')}>
+            {sharedNote}
+            <Slider value={Number(get('minTags') || 0)} max={100} step={5} suffix="" onCommit={(v) => push({ minTags: v ? String(v) : null })} />
+            <p className="small muted" style={{ margin: '6px 0 0' }}>Hide tiny hunts: 2-3 tag hunts swing hard on one applicant.</p>
+          </Section>
+          <Section title="Youth Hunts" value={{ exclude: 'Hidden', include: 'Included', only: 'Youth Only' }[(get('youth') || 'exclude') as 'exclude']} set={!!get('youth')}>
+            {sharedNote}
+            {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
+          </Section>
+          <Section title="Unit / Search" value={[get('unit') && `Unit ${get('unit')}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>
+            <TextField label="Unit" value={get('unit')} placeholder="e.g. 49 or 36A" onCommit={(v) => push({ unit: v.toUpperCase() || null })} />
+            <TextField label="Hunt # Or Name" value={get('q')} placeholder="e.g. 2029" onCommit={(v) => push({ q: v || null })} />
+          </Section>
+        </FilterGroup>
+        {(!states || states.includes('ID')) && <FilterGroup title="Idaho Filters" active={active(...ID_RESTRICTIONS)}>
+          {idNote && <div className="filter-group-note">{idNote}</div>}
+          {!msg && (sp_ === '' || sp_ === 'DEER') && (
+            <Section title="Deer: Mule Or Whitetail" value={many(DEER, 'deerType', 'Any')} set={list('deerType').length > 0}>
+              {checks('deerType', DEER)}
+              {idNote}
+              <p className="small muted" style={{ margin: '6px 0 0' }}>From 5 years of harvest: 60%+ whitetail = Whitetail, 40% or less = Mule Deer.</p>
+            </Section>
+          )}
+          <Section title="Idaho Land Access" value={[get('minAccessYes') && `${get('minAccessYes')}%+ Access Yes!`, get('minHuntable') && `${get('minHuntable')}%+ huntable`, get('accessYes') === '1' && 'Has Access Yes!'].filter(Boolean).join(' · ') || 'Any'} set={!!(get('minAccessYes') || get('minHuntable') || get('accessYes'))}>
+            <label>{accessProgram} (Private Land Open To Hunting)</label>
+            <Slider value={Number(get('minAccessYes') || 0)} max={25} step={1} suffix="%" onCommit={(v) => push({ minAccessYes: v ? String(v) : null })} />
+            <label>Huntable (Public + {accessProgram})</label>
+            <Slider value={Number(get('minHuntable') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minHuntable: v ? String(v) : null })} />
+            <div className="checks2" style={{ marginTop: 10 }}>
+              <label>
+                <input type="checkbox" checked={get('accessYes') === '1'} onChange={() => push({ accessYes: get('accessYes') === '1' ? null : '1' })} />{" "}
+                Has {accessProgram} land
+              </label>
+            </div>
+          </Section>
+          {!msg && sp_ !== 'PRONGHORN' && (
             <Section title="Trophy Potential" value={get('minBig') ? `${get('minBig')}%+` : 'Any'} set={!!get('minBig')}>
               {idNote}
               <Slider value={Number(get('minBig') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minBig: v ? String(v) : null })} />
@@ -216,13 +236,6 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
             <div className="checks2"><label><input type="checkbox" checked={get('leftover') === '1'} onChange={() => push({ leftover: get('leftover') === '1' ? null : '1' })} /> Had tags in the second drawing (Aug 5-15)</label></div>
             <p className="small muted" style={{ margin: '6px 0 0' }}>Controlled hunts with tags left after the main drawing. Nonresident limits don&apos;t apply to leftovers. <a href="/changes#leftovers">All leftovers</a></p>
           </Section>}
-          <Section title="Tags" value={get('minTags') ? `${get('minTags')}+ tags` : 'Any'} set={!!get('minTags')}>
-            <Slider value={Number(get('minTags') || 0)} max={100} step={5} suffix="" onCommit={(v) => push({ minTags: v ? String(v) : null })} />
-            <p className="small muted" style={{ margin: '6px 0 0' }}>Hide tiny hunts: 2-3 tag hunts swing hard on one applicant.</p>
-          </Section>
-          <Section title="Youth Hunts" value={{ exclude: 'Hidden', include: 'Included', only: 'Youth Only' }[(get('youth') || 'exclude') as 'exclude']} set={!!get('youth')}>
-            {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
-          </Section>
           {feat.elkZones && !msg && (sp_ === '' || sp_ === 'ELK' || sp_ === 'DEER') && (
             <Section title="Elk Zones" value={list('zone').length ? list('zone').join(', ') : 'Any'} set={list('zone').length > 0}>
               {idNote}
@@ -236,11 +249,11 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
               <p className="small muted" style={{ margin: '6px 0 0' }}>Shows the zones&apos; units with every hunt in them: pick the elk zone you&apos;re applying for and see the deer units that overlap.</p>
             </Section>
           )}
-          <Section title="Unit / Search" value={[get('unit') && `Unit ${get('unit')}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>
-            <TextField label="Unit" value={get('unit')} placeholder="e.g. 49 or 36A" onCommit={(v) => push({ unit: v.toUpperCase() || null })} />
-            <TextField label="Hunt # Or Name" value={get('q')} placeholder="e.g. 2029" onCommit={(v) => push({ q: v || null })} />
-          </Section>
-        </details>
+        </FilterGroup>}
+        {children && <FilterGroup title="Colorado Filters" active={active('season', 'second', 'hybrid', 'priv', 'otcElk')}>
+          <div className="filter-group-note"><p className="small muted">Applies to Colorado only. Other selected states are unchanged.</p></div>
+          {children}
+        </FilterGroup>}
         <div style={{ padding: 16 }}>
           <a className="btn" href={resetHref} style={{ width: '100%', textAlign: 'center' }}>Clear All Filters</a>
         </div>
@@ -252,6 +265,13 @@ export function FilterRail({ residency, draw = 'DEP', states, children }: { resi
       )}
     </aside>
   );
+}
+
+export function FilterGroup({ title, active, children }: { title: string; active?: boolean; children: React.ReactNode }) {
+  return <details className="rmore filter-group">
+    <summary>{title}{active && <span className="filter-active">In use</span>}</summary>
+    {children}
+  </details>;
 }
 
 export function Section({ title, value, set, defaultOpen, children }: { title: string; value: string; set?: boolean; defaultOpen?: boolean; children: React.ReactNode }) {

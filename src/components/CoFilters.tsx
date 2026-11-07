@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { pointRange } from '@/lib/pointRange';
 import { CHANCE_LABEL, type Chance } from '@/lib/coOdds';
 import { DAY_MIN, DAY_MAX, parseMonthDay, toMonthDay } from "@/lib/seasonDays";
-import { DateRange as DateSlider, Section } from './FilterRail';
+import { DateRange as DateSlider, FilterGroup, Section } from './FilterRail';
 
 type Opt = [value: string, label: string];
 const SPECIES: Opt[] = [
@@ -33,8 +33,8 @@ const SEASON: Opt[] = [
 ];
 export const CHANCES: Opt[] = (Object.entries(CHANCE_LABEL) as [Chance, string][]).map(([value, label]) => [value, label]);
 
-/** Colorado's filter rail: the draw at your points first, then the hunt itself. Every change updates the URL. */
-export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: number; speciesLabel: string }) {
+/** Colorado's original single-state filters. Every change updates the URL. */
+export function CoFilters({ nr, points, speciesLabel, presets }: { nr: boolean; points: number; speciesLabel: string; presets?: React.ReactNode }) {
   const router = useRouter();
   const sp = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -91,6 +91,7 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
         </div>
       )}
       <div className="rsec-wrap">
+        {presets}
         <Section title="Species" value={SPECIES.find((s) => s[0] === sp_)?.[1] ?? 'Deer'} set={!!get('species')} defaultOpen>
           <div className="checks2">
             {SPECIES.map(([v, l]) => (
@@ -114,58 +115,16 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
             ))}
           </div>
         </Section>
-        {sp_ === 'DEER' && <Section title="Overlapping Elk" value={get('otcElk') === '1' ? 'Has OTC elk' : get('otcElk') === '0' ? 'No OTC elk' : 'Any'} set={['0','1'].includes(get('otcElk'))}><div className="checks2">{[['','Any'],['1','Has OTC elk'],['0','No OTC elk']].map(([v,l])=><label key={v}><input type="radio" name="co-otc-elk" checked={get('otcElk')===v} onChange={()=>push({otcElk:v||null})}/>{l}</label>)}</div><p className="small muted">Same unit and at least one shared open date. Eligibility follows the published CPW regulations. Hunts without verified dates are excluded from both overlap choices.</p></Section>}
         <Section title="Method" value={many(METHOD, 'method', 'All')} set={list('method').length > 0}>
           {checks('method', METHOD)}
         </Section>
         <Section
-          title={`Draw At My Points (${points} ${speciesLabel})`}
-          value={many(CHANCES, 'chance', 'Any')}
-          set={list('chance').length > 0}
-          defaultOpen
+          title="Antler Class"
+          value={many(SEX, "antler", "Any")}
+          set={list("antler").length > 0}
         >
-          {checks('chance', CHANCES)}
-          <p className="small muted" style={{ margin: '6px 0 0' }}>
-            {nr ? 'Nonresident' : 'Resident'}, first choice, {get('odds') === 'last' ? 'last draw' : 'next draw (projected)'}. Change your
-            points in the header.
-          </p>
-        </Section>
-        <Section
-          title={`Points Needed (${nr ? 'Nonres' : 'Res'}, last draw)`}
-          value={get('minPts') || get('maxPts') ? `${get('minPts') || 0}–${get('maxPts') || 40}` : 'Any'}
-          set={!!(get('minPts') || get('maxPts'))}
-        >
-          <PointRangeSlider
-            min={range.min ?? 0}
-            max={range.max ?? 40}
-            onCommit={(min, max) => push({ minPts: min === 0 ? null : String(min), maxPts: max === 40 ? null : String(max) })}
-          />
-        </Section>
-        <Section
-          title="Season Dates"
-          value={
-            get("from") && get("to")
-              ? get("from") + " – " + get("to")
-              : "Any Time"
-          }
-          set={!!get("from")}
-        >
-          <DateSlider
-            from={parseMonthDay(get("from")) ?? DAY_MIN}
-            to={parseMonthDay(get("to")) ?? DAY_MAX}
-            mode={get("dmode") === "end" ? "end" : "open"}
-            onCommit={(a, b, mode) =>
-              push(
-                a === DAY_MIN && b === DAY_MAX
-                  ? { from: null, to: null, dmode: null }
-                  : {
-                      from: toMonthDay(a),
-                      to: toMonthDay(b),
-                      dmode: mode === "end" ? "end" : null,
-                    },
-              )
-            }
-          />
+          {checks("antler", SEX)}
+          <p className="small muted">Either-sex hunts match both selections.</p>
         </Section>
         <Section
           title="Land Access"
@@ -206,29 +165,6 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
           </p>
         </Section>
         <Section
-          title="Youth Hunts"
-          value={get("youth") || "Hidden"}
-          set={!!get("youth")}
-        >
-          <div className="checks2">
-            {[
-              ["", "Hide"],
-              ["include", "Include"],
-              ["only", "Youth Only"],
-            ].map(([v, l]) => (
-              <label key={v}>
-                <input
-                  type="radio"
-                  name="co-youth"
-                  checked={get("youth") === v}
-                  onChange={() => push({ youth: v || null })}
-                />
-                {l}
-              </label>
-            ))}
-          </div>
-        </Section>
-        <Section
           title="Harvest Success"
           value={get("minSucc") ? `${get('minSucc')}%+` : "Any"}
           set={!!get("minSucc")}
@@ -245,38 +181,107 @@ export function CoFilters({ nr, points, speciesLabel }: { nr: boolean; points: n
             Up to 5 seasons of CPW harvest estimates for the hunt code (or its units and season before 2025).
           </p>
         </Section>
+        <FilterGroup title="Draw Odds & Points" active={!!(get('chance') || get('minPts') || get('maxPts') || get('odds'))}>
+          <Section
+            title={`Points Needed (${nr ? 'Nonres' : 'Res'}, last draw)`}
+            value={get('minPts') || get('maxPts') ? `${get('minPts') || 0}–${get('maxPts') || 40}` : 'Any'}
+            set={!!(get('minPts') || get('maxPts'))}
+          >
+            <PointRangeSlider
+              min={range.min ?? 0}
+              max={range.max ?? 40}
+              onCommit={(min, max) => push({ minPts: min === 0 ? null : String(min), maxPts: max === 40 ? null : String(max) })}
+            />
+          </Section>
+          <Section
+            title={`Draw At My Points (${points} ${speciesLabel})`}
+            value={many(CHANCES, 'chance', 'Any')}
+            set={list('chance').length > 0}
+          >
+            {checks('chance', CHANCES)}
+            <p className="small muted" style={{ margin: '6px 0 0' }}>
+              {nr ? 'Nonresident' : 'Resident'}, first choice, {get('odds') === 'last' ? 'last draw' : 'next draw (projected)'}. Change your
+              points in the header.
+            </p>
+          </Section>
+        </FilterGroup>
         <Section
-          title="Choice & Draw"
+          title="Season Dates"
           value={
-            [get('second') && '2nd choice', get('hybrid') && 'Hybrid', get('priv') && 'Private land shown'].filter(Boolean).join(', ') ||
-            'Any'
+            get("from") && get("to")
+              ? get("from") + " – " + get("to")
+              : "Any Time"
           }
-          set={!!(get('second') || get('hybrid') || get('priv'))}
+          set={!!get("from")}
         >
-          <div className="checks2">
-            {flag('second', 'Drew as a 2nd choice (keeps your points)')}
-            {flag('hybrid', 'Has a hybrid draw (random draw for 5+ points)')}
-            {flag('priv', 'Include private-land-only and Ranching for Wildlife')}
-          </div>
+          <DateSlider
+            from={parseMonthDay(get("from")) ?? DAY_MIN}
+            to={parseMonthDay(get("to")) ?? DAY_MAX}
+            mode={get("dmode") === "end" ? "end" : "open"}
+            onCommit={(a, b, mode) =>
+              push(
+                a === DAY_MIN && b === DAY_MAX
+                  ? { from: null, to: null, dmode: null }
+                  : {
+                      from: toMonthDay(a),
+                      to: toMonthDay(b),
+                      dmode: mode === "end" ? "end" : null,
+                    },
+              )
+            }
+          />
         </Section>
-
-        <Section
-          title="Antler Class"
-          value={many(SEX, "antler", "Any")}
-          set={list("antler").length > 0}
-        >
-          {checks("antler", SEX)}
-          <p className="small muted">Either-sex hunts match both selections.</p>
-        </Section>
-        <Section title="Season" value={many(SEASON, 'season', 'Any')} set={list('season').length > 0}>
-          {checks('season', SEASON)}
-        </Section>
-        <Section title="Unit" value={get('unit') ? `Unit ${get('unit')}` : 'Any'} set={!!get('unit')}>
-          <UnitField value={get('unit')} onCommit={(v) => push({ unit: v })} />
-          <p className="small muted" style={{ margin: '6px 0 0' }}>
-            Or tap a unit on the map.
-          </p>
-        </Section>
+        <FilterGroup title="Other Hunt Filters" active={!!(get('youth') || get('unit'))}>
+          <Section
+            title="Youth Hunts"
+            value={get("youth") || "Hidden"}
+            set={!!get("youth")}
+          >
+            <div className="checks2">
+              {[
+                ["", "Hide"],
+                ["include", "Include"],
+                ["only", "Youth Only"],
+              ].map(([v, l]) => (
+                <label key={v}>
+                  <input
+                    type="radio"
+                    name="co-youth"
+                    checked={get("youth") === v}
+                    onChange={() => push({ youth: v || null })}
+                  />
+                  {l}
+                </label>
+              ))}
+            </div>
+          </Section>
+          <Section title="Unit" value={get('unit') ? `Unit ${get('unit')}` : 'Any'} set={!!get('unit')}>
+            <UnitField value={get('unit')} onCommit={(v) => push({ unit: v })} />
+            <p className="small muted" style={{ margin: '6px 0 0' }}>
+              Or tap a unit on the map.
+            </p>
+          </Section>
+        </FilterGroup>
+        <FilterGroup title="Colorado Filters" active={!!(get('season') || get('second') || get('hybrid') || get('priv') || get('otcElk'))}>
+          <Section title="Season" value={many(SEASON, 'season', 'Any')} set={list('season').length > 0}>
+            {checks('season', SEASON)}
+          </Section>
+          <Section
+            title="Choice & Draw"
+            value={
+              [get('second') && '2nd choice', get('hybrid') && 'Hybrid', get('priv') && 'Private land shown'].filter(Boolean).join(', ') ||
+              'Any'
+            }
+            set={!!(get('second') || get('hybrid') || get('priv'))}
+          >
+            <div className="checks2">
+              {flag('second', 'Drew as a 2nd choice (keeps your points)')}
+              {flag('hybrid', 'Has a hybrid draw (random draw for 5+ points)')}
+              {flag('priv', 'Include private-land-only and Ranching for Wildlife')}
+            </div>
+          </Section>
+          {sp_ === 'DEER' && <Section title="Overlapping Elk" value={get('otcElk') === '1' ? 'Has OTC elk' : get('otcElk') === '0' ? 'No OTC elk' : 'Any'} set={['0','1'].includes(get('otcElk'))}><div className="checks2">{[['','Any'],['1','Has OTC elk'],['0','No OTC elk']].map(([v,l])=><label key={v}><input type="radio" name="co-otc-elk" checked={get('otcElk')===v} onChange={()=>push({otcElk:v||null})}/>{l}</label>)}</div><p className="small muted">Same unit and at least one shared open date. Eligibility follows the published CPW regulations. Hunts without verified dates are excluded from both overlap choices.</p></Section>}
+        </FilterGroup>
       </div>
       {open && (
         <div className="rail-done">

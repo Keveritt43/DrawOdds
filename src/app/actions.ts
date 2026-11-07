@@ -113,7 +113,8 @@ export async function setPoints(state: string, patch: Partial<StatePoints>) {
     youth: patch.youth !== undefined ? !!patch.youth : cur.youth,
     set: true,
   };
-  const all = { ...store, [state]: next };
+  // Only state points belong in this cookie; account preferences stay in the account.
+  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), [state]: next };
   if (userId) await db.$executeRaw`UPDATE "User" SET points=jsonb_set(COALESCE(points,'{}'::jsonb),ARRAY[${state}]::text[],${JSON.stringify(next)}::jsonb,true) WHERE id=${userId}`;
   (await cookies()).set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), { maxAge: 60 * 60 * 24 * 365 * 2, sameSite: 'lax', path: '/' });
   revalidatePath("/", "layout");
