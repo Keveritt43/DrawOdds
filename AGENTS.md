@@ -46,6 +46,7 @@ For each role, report the journey, findings and severity, evidence or reproducti
 
 ## Draw odds and metric integrity
 
+- Use `docs/data-dictionary.md` for current metric definitions, units, inputs, limitations and Idaho/Colorado differences; update it and user-facing explanations when calculations change.
 - For future western-state source leads and draw-system research cautions, consult `docs/western-state-research.md`; reverify current agency sources and rules before implementation.
 - Implement and test a draw-odds adapter for each state and draw system using its current official rules and published reports. Account for applicable residency, species, points and point type, license/choice, applicant pool, quota and eligibility; do not assume that applicants, applications, licenses and tags are interchangeable or that all points systems work like Colorado's. Document the formula, inputs, source, reporting years, pool and assumptions. Use official historical results when available and label model-based estimates or projections separately; a past result or projection is not a guarantee.
 - Only calculate a rate when its numerator and denominator describe the same population, geography, season, choice and period. Preserve source granularity and distinguish a pooled multi-year rate from an average of annual rates. Do not infer exact point-level odds or availability from a cutoff, an OTC classification, or incomplete reports. A zero denominator, missing pool, suppressed count or unsupported case is unknown, not 0% or 100%; show an appropriate explanation.
