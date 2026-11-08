@@ -34,6 +34,15 @@ Services: web 250d9cb4-cbc7-45a2-ad97-1584e78014b3; sync 3d60c3e4-e872-4be6-b5c1
 - When working on hunt or unit details, check graphs and data sections against the reference pages across species. Include point-level odds and point-creep views when applicable and supported; display the relevant source and reporting year.
 - For requested features, trace the complete user journey through data, calculation, filtering, display and navigation, and finish the authorized scope rather than stopping after groundwork. Use judgment to fix related issues discovered during verification, preserve unrelated work, and report genuinely incomplete features and evidence limitations plainly.
 
+## UI/UX and bug-finding UAT
+
+When the owner asks for UI/UX UAT or bug-finding UAT, exercise the relevant real user journeys in the UI from both perspectives below, across applicable states, desktop and mobile sizes. Use representative data and record what was actually tested. Treat the personas as evaluation perspectives, not claims about real users or evidence of user research.
+
+- **Beginner from Washington:** Knows little about out-of-state hunting and wants deer and elk options, including general and controlled hunts. Can they understand terminology, select and compare states, find appropriate hunts, understand eligibility and next steps, and see the relevant license, application and tag costs and total costs where supported? Identify missing or unclear prices, fees and eligibility; never invent a total or imply that incomplete prices are complete.
+- **Experienced, skeptical out-of-state hunter:** Currently pays for GoHunt and uses other services. Evaluate whether DrawOdds earns trust and gives a compelling reason to switch: data coverage, sources and freshness, point-specific odds and assumptions, hunt comparisons, maps, filtering, usability and distinctive features. Report what this hunter would likely value, dislike or find missing, and what would encourage adoption; do not present hypotheses as actual user feedback or unverified competitor claims.
+
+For each role, report the journey, findings and severity, evidence or reproduction steps, and what worked well. Fix relevant bugs within the authorized task, rerun the affected journeys, and distinguish fixed issues from remaining gaps and untested areas. Make recommendations specific and actionable; do not imply a missing feature exists merely because a persona needs it.
+
 ## Draw odds and metric integrity
 
 - For future western-state source leads and draw-system research cautions, consult `docs/western-state-research.md`; reverify current agency sources and rules before implementation.
