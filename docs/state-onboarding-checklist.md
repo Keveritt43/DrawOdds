@@ -2,7 +2,7 @@
 
 Use one copy of this checklist per state and release scope. Record evidence, links, dates, owners and outstanding gaps; mark an item not applicable with a reason rather than implying it passed. The goal is to extend the existing Idaho and Colorado experience and database to a unified search across all integrated states. See [AGENTS.md](../AGENTS.md), [multi-state search](multi-state-search.md) and [western state research](western-state-research.md). The checklist does not authorize production data operations.
 
-State-specific starting worksheets: [Wyoming](states/wy-onboarding.md).
+State-specific starting worksheets: [Wyoming](states/wy-onboarding.md), [Utah](states/ut-onboarding.md).
 
 ## Scope and sources
 
