@@ -16,6 +16,7 @@ Services: web 250d9cb4-cbc7-45a2-ad97-1584e78014b3; sync 3d60c3e4-e872-4be6-b5c1
 
 ## Find Hunts and state onboarding
 
+- For each new state, follow and record evidence against `docs/state-onboarding-checklist.md`; the checklist does not grant additional production data permissions.
 - Long-term goal: integrate all states into one DrawOdds experience so hunters can search for any supported species across any selection of states, up to all integrated states at once. Start from the existing Idaho and Colorado integrations, shared search and database setup; inspect and extend their reusable patterns while adapting to each state's actual species, data and draw rules. Design for expansion without assuming every species or metric exists in every state. Preserve historical data and follow the operational safeguards below for any database or production work.
 - Use these live pages as concrete layout and feature references when building or reviewing state and species experiences. Inspect the current pages and implementation, then adapt for applicable regulations and available data:
   - Unit detail: Idaho Unit 54 — https://web-production-39e54.up.railway.app/units/54
