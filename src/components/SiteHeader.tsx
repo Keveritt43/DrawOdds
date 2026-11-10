@@ -36,7 +36,9 @@ export function SiteHeader({ draw }: { draw: Draw }) {
           <Link href="/" className="brand" aria-label="DrawOdds home">
             <Wordmark />
           </Link>
-          <StateSwitch />
+          {/* The home page has its own state picker in the headline; two "Idaho ▾" menus that behave differently
+              (this one switches state, that one selects states to search) is what confuses first-time visitors. */}
+          {path !== '/' && <StateSwitch />}
         </span>
         <nav className={`nav-main ${open ? 'open' : ''}`} aria-label="Main">
           {links.map((l) => (
@@ -55,7 +57,13 @@ export function SiteHeader({ draw }: { draw: Draw }) {
       {st.draws.length > 1 && <div className="draw-bar">
         <div className="db-item">
           <span>Drawing</span>
-          <Suspense fallback={<div className="seg draw-seg" />}>
+          {/* The fallback carries the real labels: an empty bordered box reads as a broken control while the
+              client half of the switch is still arriving. */}
+          <Suspense fallback={
+            <div className="seg draw-seg" role="group" aria-label="Which drawing">
+              {st.draws.map((d) => <button key={d.key} type="button" disabled aria-pressed={d.key === draw}>{d.label}</button>)}
+            </div>
+          }>
             <DrawSwitch value={draw} />
           </Suspense>
         </div>
