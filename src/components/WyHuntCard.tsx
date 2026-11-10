@@ -27,10 +27,10 @@ export function WyHuntCard({ r, odds, points, nr, special, mode, saved, signedIn
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
-          <span className="pill ctl">{r.tagCode?.includes('R-') ? 'Nonresident Region Draw' : 'Limited Quota Draw'}</span>
+          <span className={`pill ${r.type === 'GENERAL' ? 'gen' : 'ctl'}`}>{r.type === 'GENERAL' ? (nr ? `General · NR Region ${po?.nrRegion ?? '?'} license` : 'General · Over the counter') : r.tagCode?.includes('R-') ? 'Nonresident Region Draw' : 'Limited Quota Draw'}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />
-        <span className="small muted tags">{r.tags === null ? (r.tagCode?.includes('R-') ? 'Region quota: see details' : 'Quota: see WGFD') : `${int(r.tags)} licenses`}</span>
+        <span className="small muted tags">{r.type === 'GENERAL' ? (nr ? 'Region license quota' : 'No quota') : r.tags === null ? (r.tagCode?.includes('R-') ? 'Region quota: see details' : 'Quota: see WGFD') : `${int(r.tags)} licenses`}</span>
       </div>
       <div className="dates">
         {[r.takeMethod, r.units.length > 1 ? r.units.map(wyAreaLabel).join(', ') : '', dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land' : '']
@@ -47,20 +47,20 @@ export function WyHuntCard({ r, odds, points, nr, special, mode, saved, signedIn
       )}
       <div className="hrow-stats three">
         <div>
-          <span className="k">Draw odds · {nr ? `${WY_POOL_SHORT[pool]} · ${points ?? 0} pts` : 'Resident'}</span>
+          <span className="k">{r.type === 'GENERAL' && !nr ? 'License' : `Draw odds · ${nr ? `${r.type === 'GENERAL' ? `Region ${po?.nrRegion ?? ''} · ` : ''}${WY_POOL_SHORT[pool]} · ${points ?? 0} pts` : 'Resident'}`}</span>
           <b>{pctOdds(odds)}</b>
           <span className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>
             {odds === null ? (nr && special && !special_ ? 'No special pool' : 'No draw data') : CHANCE_LABEL[chance]}
           </span>
           <span className="sub">
-            {projected ? `${po!.projYear} projected` : `${r.oddsLastYear ?? 'Latest'} draw`} · {nr ? 'NR' : 'resident, estimated'}
+            {r.type === 'GENERAL' && !nr ? 'General license, over the counter' : <>{projected ? `${po!.projYear} projected` : `${r.oddsLastYear ?? 'Latest'} draw`} · {nr ? 'NR' : 'resident, estimated'}</>}
           </span>
         </div>
         <div>
           <span className="k">Success {years ? `${years}-yr` : ''}</span>
           <b>{pct(r.success5)}</b>
           <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
-          <span className="sub">{r.harvestLastYear ? `${r.harvestLastYear}: ${pct(r.successLast)}` : 'WGFD harvest survey'}</span>
+          <span className="sub">{po?.harvestBasis ? 'Region general seasons' : r.harvestLastYear ? `${r.harvestLastYear}: ${pct(r.successLast)}` : 'WGFD harvest survey'}</span>
         </div>
         <div>
           <span className="k">Hunters/mi²</span>

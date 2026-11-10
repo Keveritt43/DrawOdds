@@ -32,6 +32,9 @@ ROOT = Path(__file__).resolve().parent.parent / "data" / "wy"
 SPECIES = {"antelope": "PRONGHORN", "deer": "DEER", "elk": "ELK"}
 PREFIX = {"antelope": "A", "deer": "D", "elk": "E"}
 PROJECT = {"antelope": True, "deer": True, "elk": False}
+# WGFD's elk nonresident region layer names regions; the draw reports use letters
+REGION_CODE = {"Eastern": "E", "Southern": "S", "Western": "W"}
+region_of = lambda info: REGION_CODE.get(info.get("region") or "", info.get("region"))
 BANDS = [1, 3, 6, 10]
 QS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 MAX_PTS = 30
@@ -186,9 +189,13 @@ def main():
             if not y or not (y.get("regular") or y.get("res")):
                 continue
             region = h["type"] is None
+            if region and h["area"] == "GEN":
+                continue  # resident general licenses: sold over the counter, not drawn (see general seasons below)
             if region:
                 code, lkey, units = f"{h['area']}", None, [f"{PREFIX[sp]}R-{h['area']}"]
-                region_units = [unit(a) for a, info in ainfo.items() if info.get("region") == h["area"]]
+                region_units = [unit(a) for a, info in ainfo.items() if region_of(info) == h["area"]]
+                if not region_units and ainfo:
+                    problems.append(f"{sp} region {h['area']}: no hunt areas in that region")
                 reg = None
             else:
                 lkey = f"{int(h['area'])}-{h['type']}"
@@ -276,9 +283,77 @@ def main():
                               "harvest": hv, "land": land},
             }
             out.append(rec)
+        gens = general_seasons(sp, SP, lic, ainfo, hinfo, [r for r in out if r["species"] == SP and "R-" in r["tagCode"]], latest, regs["year"])
+        out.extend(gens)
+        # region licenses: harvest and land from the general seasons of the region's hunt areas (labeled on the page)
+        for r in [x for x in out if x["species"] == SP and "R-" in x["tagCode"]]:
+            members = [g for g in gens if set(g["units"]) & set(r["units"])]
+            years = sorted({h["year"] for g in members for h in g["pointOdds"]["harvest"]})
+            hv = [{"year": y, "hunters": sum(h["hunters"] for g in members for h in g["pointOdds"]["harvest"] if h["year"] == y),
+                   "harvest": sum(h["harvest"] for g in members for h in g["pointOdds"]["harvest"] if h["year"] == y), "days": None} for y in years][-5:]
+            hunters5 = sum(h["hunters"] for h in hv) if hv else None
+            land = combine_land([ainfo[u[1:]] for u in r["units"] if u[1:] in ainfo]) if r["units"] else None
+            r.update({"success5": sum(h["harvest"] for h in hv) / hunters5 if hunters5 else None, "hunters5": hunters5,
+                      "harvest5": sum(h["harvest"] for h in hv) if hv else None, "harvestYears": len(hv),
+                      "harvestLastYear": hv[-1]["year"] if hv else None, "successLast": hv[-1]["harvest"] / hv[-1]["hunters"] if hv and hv[-1]["hunters"] else None,
+                      "huntersSqMi": hunters5 / len(hv) / land["sqmi"] if hunters5 and land else None,
+                      "acres": land["acres"] if land else None, "publicPct": land["publicPct"] if land else None, "privatePct": land["privatePct"] if land else None,
+                      "accessYesAcres": land.get("accessAcres") if land else None, "accessYesCount": land.get("accessCount") if land else None,
+                      "accessYesPct": land.get("accessPct") if land else None})
+            r["pointOdds"].update({"harvest": hv, "harvestBasis": "general seasons in the region's hunt areas (all general license holders)", "land": land})
     doc = {"generated": "scripts/wy_build_hunts.py", "drawYear": latest, "regsYear": regs["year"], "problems": problems, "hunts": out}
     (ROOT / "hunts.json").write_text(json.dumps(doc, separators=(",", ":")) + "\n")
     print(f"{len(out)} hunts; problems: {problems}")
+
+
+def general_seasons(sp, SP, lic, ainfo, hinfo, region_recs, latest, regs_year):
+    """General seasons by hunt area (deer, elk). Residents buy a general license over the counter. Nonresidents need
+    the region general license for the area's region, so their odds are that region's draw odds."""
+    by_region = {r["tagCode"].split("R-")[1]: r for r in region_recs}
+    out = []
+    for key, reg in sorted(lic.items()):
+        if not key.endswith("-gen"):
+            continue
+        area = key.split("-")[0]
+        info = ainfo.get(area)
+        if info is None:
+            continue
+        rr = by_region.get(region_of(info) or "")
+        segs = reg["segments"]
+        open_d, close_d = season_span(segs)
+        lim = "; ".join(dict.fromkeys(g["limitations"] for g in segs if g["limitations"]))
+        hv = sorted(hinfo.get(key, []), key=lambda x: x["year"])[-5:]
+        hunters5 = sum(x["hunters"] for x in hv) if hv else None
+        harvest5 = sum(x["harvest"] for x in hv) if hv else None
+        tables = {"proj": {"res": [1.0]}, "last": {"res": [1.0]}}
+        if rr:
+            for m in ("proj", "last"):
+                for pool in ("nr", "nrs"):
+                    if pool in rr["oddsByPts"][m]:
+                        tables[m][pool] = rr["oddsByPts"][m][pool]
+        units = [f"{PREFIX[sp]}{int(a)}" for a in (reg["sharedAreas"] or [area])]
+        out.append({
+            "id": f"WY:{sp}:{int(area):03d}-gen", "slug": f"wy-{sp}-{int(area):03d}-gen", "state": "WY", "species": SP, "type": "GENERAL",
+            "tagCode": f"{PREFIX[sp]}{area}-gen", "name": f"Area {int(area)} · General", "description": "General license",
+            "units": units, "weapon": weapon_of(lim), "antlerClass": antler_class(sp, lim), "takeMethod": lim[:120] or "General license",
+            "openDate": open_d, "closeDate": close_d, "tags": None, "privateOnly": False, "youthOnly": False,
+            "oddsLastYear": rr["oddsLastYear"] if rr else latest, "oddsYears": rr["oddsYears"] if rr else 0,
+            "resOddsLast": 1.0, "nrAppsLast": rr["nrAppsLast"] if rr else None, "resAppsLast": None,
+            "ptsNr": rr["ptsNr"] if rr else None, "effNr": rr["effNr"] if rr else None, "projNr": rr["projNr"] if rr else None, "creepNr": rr["creepNr"] if rr else None,
+            "success5": (harvest5 / hunters5) if hunters5 else None, "hunters5": hunters5, "harvest5": harvest5, "harvestYears": len(hv),
+            "harvestLastYear": hv[-1]["year"] if hv else None, "successLast": (hv[-1]["harvest"] / hv[-1]["hunters"]) if hv and hv[-1]["hunters"] else None,
+            "daysPerHunter5": (sum(x["days"] for x in hv) / hunters5) if hunters5 and all(x.get("days") is not None for x in hv) else None,
+            "smallSample": bool(hv) and hunters5 / len(hv) < 20, "huntersSqMi": (hunters5 / len(hv) / info["sqmi"]) if hunters5 and info.get("sqmi") else None,
+            "acres": info["acres"], "publicPct": info["publicPct"], "privatePct": info["privatePct"],
+            "accessYesAcres": info.get("accessAcres"), "accessYesCount": info.get("accessCount"), "accessYesPct": info.get("accessPct"),
+            "oddsByPts": tables,
+            "pointOdds": {"state": "WY", "year": latest, "projYear": latest + 1, "projected": PROJECT[sp],
+                          "pools": rr["pointOdds"]["pools"] if rr else {}, "res": None, "general": True,
+                          "nrRegion": region_of(info), "nrRegionSlug": rr["slug"] if rr else None, "calibrationN": None,
+                          "regs": {"year": regs_year, "quota": reg["quota"], "segments": segs, "sharedAreas": reg["sharedAreas"]},
+                          "harvest": [dict(x) for x in hv], "land": info},
+        })
+    return out
 
 
 def slope(hist):

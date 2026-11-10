@@ -69,17 +69,24 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         {' · '}{s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('WY', u))}`}>{wyAreaLabel(u)}</HuntLink></span>)}
       </p>
 
+      {po.general && (
+        <div className="card" style={{ margin: '12px 0' }}>
+          <b>General season.</b> Residents buy a general {spLabel} license over the counter. Nonresidents need the{' '}
+          {po.nrRegionSlug ? <HuntLink href={`/hunts/${po.nrRegionSlug}`}>Region {po.nrRegion} nonresident general license</HuntLink> : `Region ${po.nrRegion ?? '?'} nonresident general license`}, which is drawn: the odds below are that region&apos;s.
+        </div>
+      )}
+      {po.harvestBasis && <p className="small muted">Harvest, success and crowding for this region license come from the {po.harvestBasis}.</p>}
       <ScoreRow r={{ ...s, scoreOppRes: nr ? null : opportunity(s.scoreQuality, mine), scoreOppNr: nr ? opportunity(s.scoreQuality, mine) : null }} nr={nr} open />
       <div className="co-top">
         <div className="card co-mine">
-          <div className="k">Your {projected && nr ? po.projYear : po.year} odds · {nr ? `${p} ${spLabel} point${p === 1 ? '' : 's'} · ${WY_POOL_LABEL[myPool]}` : 'Resident'}</div>
+          <div className="k">{po.general && !nr ? 'Your license' : `Your ${projected && nr ? po.projYear : po.year} odds · ${nr ? `${p} ${spLabel} point${p === 1 ? '' : 's'} · ${WY_POOL_LABEL[myPool]}` : 'Resident'}`}</div>
           <div className="co-big">{pct(mine)} <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span></div>
           <div className="small muted">
             {nr && myP ? <>
               {projected && myP.proj ? `${po.projYear} cutoff, projected: ${myP.proj.lo.toFixed(1)}–${myP.proj.hi.toFixed(1)} points. ` : ''}
               {`In ${po.year}: ${pct(lastPref)} in the preference draw at ${p} points`}{rnd !== null ? `, then about ${pct(rnd)} in the random draw (estimated: WGFD doesn't publish random-draw results).` : '.'}
               {mode === 'proj' && !po.projected ? ` No ${spLabel} projection passed our backtest, so this is the ${po.year} draw.` : ''}
-            </> : nr ? `No ${myPool === 'nrs' ? 'special' : 'regular'} pool for this license in ${po.year}.` : `Estimated from ${po.year} resident first-choice applicants and quota. Residents don't use points for ${spLabel}.`}
+            </> : nr ? `No ${myPool === 'nrs' ? 'special' : 'regular'} pool for this license in ${po.year}.` : po.general ? 'Residents buy a general license over the counter: no draw.' : `Estimated from ${po.year} resident first-choice applicants and quota. Residents don't use points for ${spLabel}.`}
             {nr && !pts.set && <> <Link href="/account#hunting-preferences">Set your Wyoming points in Account</Link> for your own odds.</>}
           </div>
         </div>

@@ -34,7 +34,13 @@ export interface WyPointOdds {
   res: { last: WyRandom | null; history: { year: number; quota: number | null; apps: number[] }[] } | null;
   regs: { year: number; quota: number | 'unlimited' | null; segments: WySegment[]; sharedAreas: string[] | null } | null;
   harvest: WyHarvestYear[];
+  /** set when harvest is combined from other rows (region licenses: the region's general seasons) */
+  harvestBasis?: string;
   land: WyLand | null;
+  /** general season: residents buy over the counter; nonresidents need this region's license */
+  general?: boolean;
+  nrRegion?: string | null;
+  nrRegionSlug?: string | null;
 }
 
 export type WyOddsTable = Record<'proj' | 'last', Partial<Record<WyPool, number[]>>>;

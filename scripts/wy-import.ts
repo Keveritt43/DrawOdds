@@ -15,7 +15,7 @@ import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
 
-type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'PRONGHORN'; units: string[]; name: string; tagCode: string };
+type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'PRONGHORN'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; geometry: object | null; bbox: number[] | null; acres: number | null; publicPct: number | null; privatePct: number | null; ownership: { manager: string; pct: number }[]; accessAcres: number | null; accessCount: number | null };
 
 const apply = process.argv.includes('--apply');
@@ -63,13 +63,13 @@ async function main() {
   const errors = validate();
   if (errors.length) throw Error(`Wyoming data failed validation:\n${errors.slice(0, 30).join('\n')}`);
   const scores = scoreHunts(hunts.hunts.map((h) => ({
-    id: h.id, species: h.species, type: 'CONTROLLED', nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
+    id: h.id, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
     publicPct: h.privateOnly ? (num(h.publicPct) === null ? null : 0) : num(h.publicPct),
     huntablePct: null, bigPct5: null, resOdds5: null, nrOdds5: null,
   })));
   const huntRows: Prisma.HuntCreateManyInput[] = hunts.hunts.map((h) => ({
-    idfgId: syntheticId(h.id), state: 'WY', year: hunts.drawYear + 1, species: h.species, type: 'CONTROLLED', code: h.tagCode,
+    idfgId: syntheticId(h.id), state: 'WY', year: hunts.drawYear + 1, species: h.species, type: h.type, code: h.tagCode,
     source: 'wy-import', name: h.name, takeMethod: String(h.takeMethod ?? ''), weapon: h.weapon as Prisma.HuntCreateManyInput['weapon'],
     antlerClass: h.antlerClass as Prisma.HuntCreateManyInput['antlerClass'], sexText: String(h.takeMethod ?? ''),
     openDate: date(h.openDate), closeDate: date(h.closeDate), tags: num(h.tags), youthOnly: false, units: h.units,
@@ -77,7 +77,7 @@ async function main() {
   const summaryRows: Prisma.HuntSummaryCreateManyInput[] = hunts.hunts.map((h) => {
     const sc = scores.get(h.id)!;
     return {
-      id: h.id, state: 'WY', slug: h.slug, huntId: syntheticId(h.id), species: h.species, type: 'CONTROLLED', name: h.name,
+      id: h.id, state: 'WY', slug: h.slug, huntId: syntheticId(h.id), species: h.species, type: h.type, name: h.name,
       unit: h.units[0] ?? null, units: h.units, weapon: h.weapon as Prisma.HuntSummaryCreateManyInput['weapon'], takeMethod: String(h.takeMethod ?? ''),
       antlerClass: h.antlerClass as Prisma.HuntSummaryCreateManyInput['antlerClass'], openDate: date(h.openDate), closeDate: date(h.closeDate),
       months: [], seasonDays: [], tags: num(h.tags), youthOnly: false, tagCode: h.tagCode, privateOnly: h.privateOnly === true,
