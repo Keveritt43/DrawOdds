@@ -4,8 +4,8 @@ import { withCoScores, type CoScored } from './coScores';
 import { otcElkOverlap } from './overlappingSeasons';
 import { getPointsStore, readState } from './points';
 import { getResidency, getState } from './residency';
-import { runSearch, type SearchParams } from './multiStateSearch';
-import { searchStates } from './searchStates';
+import { param, runSearch, type SearchParams } from './multiStateSearch';
+import { searchStates, wySpecialView } from './searchStates';
 import type { StateCode } from './states';
 
 type PublicIndex = { rows: CoScored[]; overlaps: Record<string, boolean | null>; migrations: Partial<Record<string, string[]>> };
@@ -43,9 +43,11 @@ export async function searchHunts(sp: SearchParams) {
   const [data, store, id] = await Promise.all([
     Promise.all(states.map(publicSearchIndex)), getPointsStore(), getResidency(undefined, 'ID'),
   ]);
-  const settings = { ID: id.residency, CO: readState(store.store, 'CO'), WY: readState(store.store, 'WY') };
+  const wy = readState(store.store, 'WY');
+  // a pool preview from the filter rail changes this search only, never the saved setting
+  const settings = { ID: id.residency, CO: readState(store.store, 'CO'), WY: { ...wy, wySpecial: wySpecialView(param(sp, 'wyPool'), wy.wySpecial === true) } };
   const migrations = Object.assign({}, ...data.map(d => d.migrations));
   const overlaps = Object.assign({}, ...data.map(d => d.overlaps));
   const results = runSearch(data.flatMap(d => d.rows), sp, header.code, settings, migrations, overlaps);
-  return { header, states, settings, results, overlaps };
+  return { header, states, settings, results, overlaps, wySavedSpecial: wy.wySpecial === true };
 }
