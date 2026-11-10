@@ -84,7 +84,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="small muted">
             {nr && myP ? <>
               {projected && myP.proj ? `${po.projYear} cutoff, projected: ${myP.proj.lo.toFixed(1)}–${myP.proj.hi.toFixed(1)} points. ` : ''}
-              {`In ${po.year}: ${pct(lastPref)} in the preference draw at ${p} points`}{rnd !== null ? `, then about ${pct(rnd)} in the random draw (estimated: WGFD doesn't publish random-draw results).` : '.'}
+              {`In ${po.year}: ${pct(lastPref)} in the preference draw at ${p} points`}{rnd !== null && (lastPref ?? 0) < 0.995 ? `, then about ${pct(rnd)} in the random draw if you missed (estimated: WGFD doesn't publish random-draw results).` : '.'}
               {mode === 'proj' && !po.projected ? ` No ${spLabel} projection passed our backtest, so this is the ${po.year} draw.` : ''}
             </> : nr ? `No ${myPool === 'nrs' ? 'special' : 'regular'} pool for this license in ${po.year}.` : po.general ? 'Residents buy a general license over the counter: no draw.' : `Estimated from ${po.year} resident first-choice applicants and quota. Residents don't use points for ${spLabel}.`}
             {nr && !pts.set && <> <Link href="/account#hunting-preferences">Set your Wyoming points in Account</Link> for your own odds.</>}
@@ -95,6 +95,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
             <div className="k">Nonresident points needed, {po.year} draw</div>
             <div className="co-need-row"><span className="nr">Regular</span><b>{need(po.pools.regular)}</b><span className="small muted">creep {fmtCreep(s.creepNr)}</span></div>
             <div className="co-need-row"><span className="nr">Special</span><b>{need(po.pools.special)}</b><span className="small muted">{po.pools.special ? `${po.pools.special.pref.quota + (po.pools.special.random.quota ?? 0)} licenses` : 'no special pool'}</span></div>
+            {wyTableOdds(table, 'last', 'nr', 0) === 1 && po.pools.regular?.eff !== null && <p className="small"><b>Everyone drew in {po.year}:</b> applicants below the preference cutoff got the random-draw licenses.</p>}
             <p className="small muted" style={{ marginBottom: 0 }}>Preference points count only on your first choice. About 25% of each pool is drawn at random among applicants who missed, so any point level has a chance there.</p>
           </div>
         )}
@@ -148,7 +149,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
             {(['nr', 'nrs'] as WyPool[]).filter((x) => table?.last?.[x]).map((x) => <HuntLink key={x} className="seg-link" href={q({ pool: x === myPool ? null : x })} aria-pressed={pool === x} scroll={false}>{WY_POOL_SHORT[x]}</HuntLink>)}
           </span>
         </div>
-        {P ? <Ladder P={P} table={table} pool={pool} mode={mode} me={nr && pool === myPool ? p : null} /> : <p className="muted">Pick a nonresident pool.</p>}
+        {P ? <Ladder P={P} table={table} pool={pool} mode={mode} me={nr && pool === myPool ? p : null} year={po.year} projected={po.projected} /> : <p className="muted">Pick a nonresident pool.</p>}
         <p className="small muted">{projected
           ? `${po.projYear} projection: last draw's cutoff moved by each of the year-to-year changes measured across Wyoming ${spLabel} hunts (never below the last draw); odds are the average over those outcomes. It beat last year's odds in a 2024–2026 backtest. Quotas, applicants and rule changes can move the result.`
           : `${po.year} draw: WGFD's printed first-choice preference odds by points, then the random draw estimated from its quota and first-choice applicants.`}</p>
@@ -158,11 +159,11 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   );
 }
 
-function Ladder({ P, table, pool, mode, me }: { P: WyNrPoolData; table: WyOddsTable | null; pool: WyPool; mode: 'proj' | 'last'; me: number | null }) {
+function Ladder({ P, table, pool, mode, me, year, projected }: { P: WyNrPoolData; table: WyOddsTable | null; pool: WyPool; mode: 'proj' | 'last'; me: number | null; year: number; projected: boolean }) {
   const rows = P.pref.rows.filter((r) => r[2] !== 'p');
   const top = Math.max(0, ...rows.map((r) => r[3])) + 1;
   return (
-    <div className="htable-wrap"><table><thead><tr><th>Points</th><th className="num">1st-choice applicants ({mode === 'last' ? 'last draw' : 'last draw, for reference'})</th><th className="num">Preference odds (printed)</th><th className="num">With random draw</th></tr></thead>
+    <div className="htable-wrap"><table><thead><tr><th>Points</th><th className="num">1st-choice applicants ({year} draw)</th><th className="num">{year} preference odds (printed)</th><th className="num">{mode === 'proj' && projected ? `${year + 1} projected, incl. random draw` : `${year} incl. random draw`}</th></tr></thead>
       <tbody>{Array.from({ length: top + 1 }, (_, k) => top - k).map((pt) => {
         const row = rows.find((r) => r[2] === 'e' && r[3] === pt) ?? (pt <= (rows.find((r) => r[2] === 'r')?.[3] ?? -1) ? rows.find((r) => r[2] === 'r') : undefined);
         return <tr key={pt} className={me === pt ? 'me' : undefined}><td>{row?.[2] === 'r' ? `${pt} (in "${row[3]} or fewer")` : pt}{me === pt ? ' · you' : ''}</td><td className="num">{row && row[2] === 'e' ? int(row[4]) : row ? '' : '0'}</td><td className="num">{pct(prefOdds(P.pref, pt))}</td><td className="num">{pct(wyTableOdds(table, mode, pool, pt))}</td></tr>;
