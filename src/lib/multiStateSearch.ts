@@ -9,6 +9,7 @@ import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
 export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
+import { wyHuntWilderness } from './wyWilderness';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
 import { DRAW_SPECIES } from './species';
@@ -133,6 +134,12 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     if (param(sp, 'wyMaxPts') !== '') {
       const n = Number(param(sp, 'wyMaxPts'));
       if (Number.isFinite(n) && x.nr && (x.need === null || x.need === undefined || x.need > n)) return false;
+    }
+    // W.S. 23-2-401(a): a nonresident needs a guide inside designated wilderness. The rule follows the wilderness
+    // boundary, not the hunt area, so this filters on whether an area contains any - never on how much of it.
+    const wild = param(sp, 'wyWild');
+    if (wild === 'none' || wild === 'has') {
+      if ((wild === 'has') !== (wyHuntWilderness(r.units).length > 0)) return false;
     }
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
