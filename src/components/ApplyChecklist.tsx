@@ -1,4 +1,5 @@
 import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, BUY_SITE, md, nextWindow } from '@/lib/applyInfo';
+import { CostLine } from './CostLine';
 
 /**
  * "How to apply" for one hunt: the code to enter, when, what you need first, and where. Server component: the
@@ -19,6 +20,7 @@ export function ApplyChecklist({ kind, code, nr, species, secondChoiceNote }: {
           <li>Buy an Idaho hunting license and a general {species.toLowerCase()} tag {species === 'ELK' ? '(pick the zone’s A or B tag: their seasons differ)' : ''} at <a href={BUY_SITE} target="_blank" rel="noreferrer">GoOutdoorsIdaho</a> or a license vendor. No draw.</li>
           <li>Check the season dates and boundaries in the current IDFG regulations before you go.</li>
         </ol>
+        <CostLine kind="otc" residency={nr ? 'NONRESIDENT' : 'RESIDENT'} species={species} />
       </div>
     );
   }
@@ -41,6 +43,7 @@ export function ApplyChecklist({ kind, code, nr, species, secondChoiceNote }: {
           {nr && <li><b>Nonresidents:</b> {MSG_DRAW.nr}</li>}
           <li><b>Where:</b> <a href={BUY_SITE} target="_blank" rel="noreferrer">GoOutdoorsIdaho</a>, by phone (1-800-554-8685), or at a license vendor or IDFG office.</li>
         </ol>
+        <CostLine kind="msg" residency={nr ? 'NONRESIDENT' : 'RESIDENT'} species={species} />
         <p className="small muted" style={{ margin: 0 }}>
           Checked {md(MSG_DRAW.checked, true)} against <a href={MSG_DRAW.source} target="_blank" rel="noreferrer">{MSG_DRAW.sourceLabel}</a> and IDAPA 13.01.08.257. Fees and rules can change; confirm before you apply.
         </p>
@@ -65,6 +68,7 @@ export function ApplyChecklist({ kind, code, nr, species, secondChoiceNote }: {
         <li><b>Where:</b> <a href={BUY_SITE} target="_blank" rel="noreferrer">GoOutdoorsIdaho</a> (IDFG&apos;s license site), by phone, or at a license vendor.</li>
         {kind === 'controlled' && nr && <li><b>Nonresidents:</b> you&apos;re limited to a share of the tags in each hunt (see the tag numbers above), so your odds can differ a lot from residents&apos;.</li>}
       </ol>
+      <CostLine kind={kind} residency={nr ? 'NONRESIDENT' : 'RESIDENT'} species={species} />
       <p className="small muted" style={{ margin: 0 }}>
         Dates checked {md(info.checked, true)} against <a href={info.source} target="_blank" rel="noreferrer">{info.sourceLabel}</a>. IDFG can change them; confirm before you apply.
       </p>

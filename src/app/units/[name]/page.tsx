@@ -17,6 +17,7 @@ import { UnitMap } from '@/components/UnitMap';
 import { StateProvider } from '@/components/StateContext';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
+import { Term } from '@/components/Term';
 import { HuntCard, ObjectivePills } from '@/components/HuntCards';
 import { sortUnitHunts } from '@/lib/unitHunts';
 import { LandBar } from '@/components/LandBar';
@@ -96,7 +97,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
       <div className="stats">
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(unit.publicPct)}</div></div>
         <div className="stat"><div className="k">Private land</div><div className="v">{pct100(unit.privatePct)}</div></div>
-        <div className="stat"><div className="k">Access Yes!</div><div className="v">{unit.accessYesCount && unit.acres ? `${((unit.accessYesAcres ?? 0) / unit.acres * 100) < 1 ? '<1' : Math.round((unit.accessYesAcres ?? 0) / unit.acres * 100)}%` : 'None'}</div><div className="small muted">{unit.accessYesCount ? `${int(unit.accessYesAcres)} ac` : ''}</div></div>
+        <div className="stat"><div className="k"><Term k="accessYes">Access Yes!</Term></div><div className="v">{unit.accessYesCount && unit.acres ? `${((unit.accessYesAcres ?? 0) / unit.acres * 100) < 1 ? '<1' : Math.round((unit.accessYesAcres ?? 0) / unit.acres * 100)}%` : 'None'}</div><div className="small muted">{unit.accessYesCount ? `${int(unit.accessYesAcres)} ac` : ''}</div></div>
         <div className="stat"><div className="k">Huntable (public + AY!)</div><div className="v">{unit.publicPct !== null ? `${Math.round(Math.min(100, unit.publicPct + (unit.acres ? ((unit.accessYesAcres ?? 0) / unit.acres) * 100 : 0)))}%` : '-'}</div></div>
         <div className="stat"><div className="k">Wilderness</div><div className="v">{pct100(unit.wildernessPct)}</div></div>
         <div className="stat"><div className="k">Hunts touching unit</div><div className="v">{hunts.length}</div></div>

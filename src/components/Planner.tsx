@@ -97,7 +97,7 @@ const money = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
 export function Planner({ nr, windows, costs }: {
   nr: boolean;
   windows: { title: string; start: string; end: string; note?: string }[];
-  costs: { year: number; license: number; accessFee: number; generalDrawApp: number; deerTag: number; elkTag: number; note: string; feeSchedule: string };
+  costs: { label: string; license: number; accessFee: number; generalDrawApp: number; deerTag: number; elkTag: number; note: string; feeSchedule: string };
 }) {
   const [plan, setPlan] = useState<Plan>(EMPTY);
   const [opts, setOpts] = useState<Record<string, PlanOpt[]>>({});
@@ -245,7 +245,7 @@ export function Planner({ nr, windows, costs }: {
         )}
         {nr && (
           <div className="plan-cost">
-            <h3>Cost ({costs.year} prices)</h3>
+            <h3>Cost ({costs.label})</h3>
             <ul>
               <li>Nonresident hunting license + access fee: <b>{money(costs.license + costs.accessFee)}</b> (required to apply; nonrefundable)</li>
               {nrApps > 0 && <li>General tag draw application{nrApps > 1 ? 's' : ''}: <b>{money(nrApps * costs.generalDrawApp)}</b></li>}

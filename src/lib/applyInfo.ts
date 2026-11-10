@@ -81,22 +81,118 @@ export function nextWindow(ws: Window[], now = new Date()): { w: Window; start: 
 }
 
 /**
- * Nonresident costs we've verified (2026 prices; IDFG sets 2027 fees in the nonresident supplement). Controlled
- * hunt application fees and pronghorn / controlled tag prices aren't listed here: see IDFG's fee schedule.
- * Sources: IDFG "Everything a nonresident hunter needs to know about the 2026 tag drawing"; goHUNT 2026 Idaho
- * nonresident general season application strategy (fee table).
+ * Idaho licence, application and tag fees, read from IDFG's own fee schedules.
+ *
+ * IDFG publishes both pages WITHOUT a season year on them, so these are labelled "current schedule, checked
+ * <date>" everywhere they are shown - never given a year we cannot source. Resident rows have a second, lower
+ * "price lock" price for hunters who qualify; IDFG's page does not state the qualifying rule, so we show the
+ * standard price and point at the schedule rather than guess who is eligible.
+ *
+ * Sources: https://idfg.idaho.gov/licenses/fees-nonresident and https://idfg.idaho.gov/licenses/fees-resident
  */
-export const NR_COSTS = {
-  year: 2026,
-  checked: '2026-11-03',
-  license: 185,
-  accessFee: 10,
-  generalDrawApp: 18,
-  deerTag: 351.75,
-  elkTag: 651.75,
-  note: 'License and application fees are nonrefundable. General deer and elk tags are bought only if you draw. Online purchases add a small convenience fee.',
-  feeSchedule: 'https://idfg.idaho.gov/licenses/fees-nonresident',
+export const FEES = {
+  checked: '2026-11-10',
+  source: {
+    NONRESIDENT: 'https://idfg.idaho.gov/licenses/fees-nonresident',
+    RESIDENT: 'https://idfg.idaho.gov/licenses/fees-resident',
+  },
+  NONRESIDENT: {
+    license: 185,
+    accessFee: 10,
+    /** Deer, elk, pronghorn (also bear and turkey). */
+    controlledApp: 18,
+    /** Moose, bighorn sheep, mountain goat: a separate, higher application fee. */
+    msgApp: 45.75,
+    /** The nonresident general deer and elk tag draw (since 2026). */
+    generalDrawApp: 18,
+    tag: { DEER: 351.75, ELK: 651.75, PRONGHORN: 342.75, MOOSE: 2626.75, BIGHORN: 2626.75, GOAT: 2626.75 } as Record<string, number>,
+  },
+  RESIDENT: {
+    license: 15.75,
+    accessFee: 5,
+    controlledApp: 6.25,
+    msgApp: 16.75,
+    /** Residents buy general deer and elk tags over the counter; there is no general draw for them. */
+    generalDrawApp: null,
+    tag: { DEER: 24.75, ELK: 36.75, PRONGHORN: 36.5, MOOSE: 199.75, BIGHORN: 199.75, GOAT: 199.75 } as Record<string, number>,
+  },
+} as const;
+
+export type Residency = 'RESIDENT' | 'NONRESIDENT';
+export type CostKind = 'controlled' | 'nrGeneral' | 'otc' | 'msg';
+export interface CostItem { label: string; amount: number }
+export interface CostBreakdown {
+  /** Paid when you apply or buy, whether or not you end up hunting. */
+  upFront: CostItem[];
+  /** Paid only if you draw. Empty when the tag is bought outright or already paid at application. */
+  ifYouDraw: CostItem[];
+  notes: string[];
+  checked: string;
+  source: string;
+  /** False when some part of the cost is not known, so no total is ever implied. */
+  complete: boolean;
+}
+
+const SPECIES_WORD: Record<string, string> = {
+  DEER: 'deer', ELK: 'elk', PRONGHORN: 'pronghorn',
+  MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat',
 };
+
+/**
+ * What this hunt costs, itemised. Never returns a single total: the licence is annual and covers every hunt that
+ * year, so adding it to one hunt's tag would overstate what a second application costs. Callers show the groups.
+ */
+export function costLines(kind: CostKind, residency: Residency, species: string): CostBreakdown {
+  const f = FEES[residency];
+  const nr = residency === 'NONRESIDENT';
+  const word = SPECIES_WORD[species] ?? species.toLowerCase();
+  const tag = f.tag[species];
+  // Residents buy general deer and elk tags over the counter; only nonresidents draw for them.
+  const k: CostKind = kind === 'nrGeneral' && !nr ? 'otc' : kind;
+
+  const upFront: CostItem[] = [
+    { label: `${nr ? 'Nonresident' : 'Resident'} hunting licence`, amount: f.license },
+    { label: 'Access/depredation fee', amount: f.accessFee },
+  ];
+  const ifYouDraw: CostItem[] = [];
+  const notes: string[] = [];
+  let complete = tag !== undefined;
+
+  if (k === 'controlled') {
+    upFront.push({ label: 'Controlled hunt application', amount: f.controlledApp });
+    if (tag !== undefined) ifYouDraw.push({ label: `${word[0].toUpperCase()}${word.slice(1)} tag`, amount: tag });
+  } else if (k === 'msg') {
+    upFront.push({ label: 'Moose/sheep/goat application', amount: f.msgApp });
+    if (tag !== undefined) upFront.push({ label: `${word[0].toUpperCase()}${word.slice(1)} tag, paid at application`, amount: tag });
+    notes.push('The tag fee is refunded if you do not draw. The licence and the application fee are not.');
+  } else if (k === 'nrGeneral') {
+    if (f.generalDrawApp !== null) upFront.push({ label: 'General tag draw application', amount: f.generalDrawApp });
+    if (tag !== undefined) ifYouDraw.push({ label: `${word[0].toUpperCase()}${word.slice(1)} tag`, amount: tag });
+    notes.push('One elk and one deer application each year; the fee is charged per application.');
+  } else {
+    if (tag !== undefined) upFront.push({ label: `${word[0].toUpperCase()}${word.slice(1)} tag, over the counter`, amount: tag });
+    notes.push('No draw: buy the tag and hunt the open seasons.');
+  }
+
+  if (!complete) notes.push(`We do not have IDFG's current ${word} tag price; check the fee schedule.`);
+  if (!nr) notes.push('IDFG lists a lower "price lock" price for residents who qualify; the schedule has the rule.');
+  notes.push('The licence is annual and covers every hunt you apply for that year. Licence and application fees are nonrefundable.');
+
+  return { upFront, ifYouDraw, notes, checked: FEES.checked, source: FEES.source[residency], complete };
+}
+
+/** The nonresident figures the planner's cost card needs, in the shape it already expects. */
+export const plannerCosts = () => ({
+  label: `IDFG fees, checked ${md(FEES.checked, true)}`,
+  license: FEES.NONRESIDENT.license,
+  accessFee: FEES.NONRESIDENT.accessFee,
+  generalDrawApp: FEES.NONRESIDENT.generalDrawApp,
+  deerTag: FEES.NONRESIDENT.tag.DEER,
+  elkTag: FEES.NONRESIDENT.tag.ELK,
+  note: 'Licence and application fees are nonrefundable. General deer and elk tags are bought only if you draw. Online purchases add a small convenience fee.',
+  feeSchedule: FEES.source.NONRESIDENT,
+});
+
 export const money = (n: number) => `$${n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
 
 /** Calendar file (.ics) for application windows. */
