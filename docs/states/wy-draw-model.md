@@ -1,6 +1,6 @@
 # Wyoming draw data and odds model (deer, elk, antelope)
 
-Status, Nov 2026: parser, data and odds library done and tested. Not wired into the app yet (registry, cards, details, filters, map). Not in production.
+Status, Nov 2026: draws, regulations, odds, search, cards, hunt and area pages, and account settings are done on branch codex/wy-draw-sources (PR #46). Harvest, land, and hunt-area boundaries wait on the round-2 download (get-wgfd-2.ps1). Not in production yet.
 
 ## Sources
 
@@ -48,23 +48,25 @@ Deer/antelope rule (Chapter 44 §4(b)): 80% of licenses are *offered to resident
 - **Solo applicants only.** Party odds depend on averaged points and party size.
 - **Cutoff:** "effective points" as in `coOdds.ts`. Drawn out at L points with fraction f drawn → L + (1 − f). Party rows use the midpoint. Points-to-guarantee = floor(cutoff) + 1. Point creep = the measured change in cutoffs, not a forecast.
 
-## Projection backtest: none ships yet
+## Projection backtest
 
-**Target:** next draw's printed preference odds at each exact point level, applicant-weighted mean absolute error. Also the error in points needed for ≥50%.
+Scored as Colorado is scored (docs/states/co.md): Brier score of each applicant's draw outcome at exact point levels.
+Each test year is predicted from earlier draws only. "Last draw" = last draw's printed odds at your points.
+"Colorado method" = last draw's effective cutoff plus each decile of the measured year-to-year cutoff moves
+(species × cutoff band, floored at the last draw), with odds averaged over those outcomes.
 
-| Model (2023→24 … 2025→26) | Antelope | Deer | Elk |
+| Test draw | Antelope: last / Colorado method | Deer | Elk |
 |---|---|---|---|
-| Last draw's printed odds (baseline) | 0.213 / 1.41 | 0.120 / 0.89 | 0.206 / 1.01 |
-| Mean of last 2 / 3 draws | worse on ≥1 metric | worse | mixed |
-| Roll unsuccessful applicants forward +1 point | worse or mixed | worse | mixed |
-| Same demand, next year's quota known in advance (oracle) | barely better | worse | barely better |
-| Cutoff + full median creep (fit 2021–23) | mixed | worse | worse |
-| Cutoff + half median creep | better | better | worse odds error |
+| 2024 | 0.212 / 0.245 | 0.166 / 0.164 | 0.228 / 0.224 |
+| 2025 | 0.221 / **0.139** | 0.112 / **0.085** | 0.251 / **0.206** |
+| 2026 | 0.207 / **0.153** | 0.106 / **0.080** | 0.136 / 0.205 |
+| Mean | 0.213 / **0.179** | 0.128 / **0.110** | **0.205** / 0.212 |
 
-- No model beats the baseline for all three species.
-- The half-creep variant was chosen after seeing the test years, so its win is not evidence.
-- **Decision:** show last draw's odds, labeled with the draw year, plus how far cutoffs typically move: p10/p50/p90 of the yearly change, in `meta.cutoffMove` (antelope −1.5 / +0.64 / +2.09 points).
-- **Re-test the half-creep variant against the 2027 draw** before showing any projection.
+- **Antelope and deer** default to the projected next draw (Colorado method).
+- **Elk** shows the last draw: its projection lost on average, badly in 2026. The basis says so on every card and page.
+- Random-phase odds are not projected: they use the last draw's random quota ÷ first-choice applicants.
+- Rejected earlier: applicant roll-forward, 2–3 year averages, and fixed creep shifts. A half-creep shift helped antelope and deer, but it was chosen after seeing the test years, so it doesn't count.
+- An earlier version of this doc said no projection ships. That conclusion came from point-estimate error, not Brier. The Brier re-test above replaces it.
 
 ## Before the app can use this
 
