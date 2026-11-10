@@ -104,7 +104,7 @@ test('points needed follows the pool shown, and "everyone drew" counts as 0', ()
   const sp = { states: 'WY', antler: 'ALL', minScore: '0', wyMaxPts: '1' };
   assert.equal(runSearch([ant], sp, 'WY', wy({}), {}, {}).length, 0);
   assert.equal(runSearch([ant], sp, 'WY', wy({ wySpecial: true }), {}, {}).length, 1);
-  const allDrew = asRow(byId.get('WY:antelope:023-2')!);
+  const allDrew = asRow(byId.get('WY:antelope:091-2')!);
   assert.equal(allDrew.ptsNr, null);
   assert.equal(runSearch([allDrew], { ...sp, wyMaxPts: '0' }, 'WY', wy({}), {}, {}).length, 1);
   // residents have no points needed, so the nonresident cap never removes their results
