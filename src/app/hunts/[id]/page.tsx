@@ -15,6 +15,7 @@ import { auth } from '@/auth';
 import { getResidency } from '@/lib/residency';
 import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
+import { isPrivateOnly } from '@/lib/privateLand';
 import { pct, pct100, pctOdds, int, range, WEAPON, DEERTYPE, nrTags, antlerLabel, oddsVerdict, drawFillLine, TROPHY_LABEL } from '@/lib/format';
 import { BackLink } from '@/components/BackLink';
 import { SIZE_LABEL, drawOf, type SpeciesKey } from '@/lib/species';
@@ -130,6 +131,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           <h1>{title}</h1>
           <p className="lead-sum">{summary}</p>
           <Rules r={s} />
+          {isPrivateOnly(s) && <p className="small" style={{ margin: '6px 0' }}><span className="pill warn">Private land only</span> IDFG: valid only on private land. You need landowner permission before you hunt; the unit&apos;s public land doesn&apos;t count for this tag.</p>}
           <ObjectivePills units={s.units} species={s.species} />
           <ScoreRow r={s} nr={nr} open />
         </div>
