@@ -14,6 +14,7 @@ import { HuntCard } from '@/components/HuntCards';
 import { CoHuntCard } from '@/components/CoHuntCard';
 import { WyHuntCard } from '@/components/WyHuntCard';
 import { WySearchFilters } from '@/components/WySearchFilters';
+import { wyWilderness } from '@/lib/wyWilderness';
 import { getFavorites } from '@/lib/favorites';
 import { residencyFields } from '@/lib/finder';
 import { chanceOf } from '@/lib/coOdds';
@@ -57,7 +58,10 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       fill: max(rows.map(x => x.odds !== null && x.r.success5 !== null ? x.odds * x.r.success5 : null)),
       success: hunters ? successRows.reduce((n, x) => n + x.r.harvest5!, 0) / hunters : null,
       public: max(rows.map(x => x.r.publicPct)), crowd: crowd.length ? Math.min(...crowd) : null,
-      huntable: null, objBull: null, objCow: null };
+      huntable: null, objBull: null, objCow: null,
+      // Wyoming only: read from data/wy/wilderness.json at render time, so no production row carries it. An area the
+      // build measured and found none in is 0, not unknown; other states are not measured at all.
+      wilderness: key.startsWith('WY:') ? wyWilderness(key.slice(3))?.pct ?? 0 : null };
   }
   const entries = [...groups.entries()].sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
   // Idaho's general seasons share unit/weapon harvest data. Preserve its existing card grouping.
