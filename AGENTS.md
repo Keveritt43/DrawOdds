@@ -6,6 +6,31 @@ Railway: idaho-hunt-planner, project 3b787b52-68db-4733-850a-aa0e2685586e
 Environment: production, 839f3c6e-14ff-43b5-a6ad-b23b5b6c0698
 Services: web 250d9cb4-cbc7-45a2-ad97-1584e78014b3; sync 3d60c3e4-e872-4be6-b5c1-cf585c67e843; Postgres 099c9c2a-f489-4058-8d3d-dd168afcb9f6.
 
+## Where to look first
+
+| Task | Read |
+|---|---|
+| Add or extend a state | `docs/state-adapter-guide.md` (data-element mapping to Idaho, odds models by draw system, validation), then `docs/state-onboarding-checklist.md` and `docs/states/<st>-onboarding.md` |
+| Change a metric or score | `docs/data-dictionary.md`, `src/lib/score.ts`, `docs/idaho-scoring-rollout.md` |
+| Combined search, filters, map | `docs/multi-state-search.md`, `src/lib/multiStateSearch.ts`, `src/lib/mapMetrics.ts` |
+| Colorado specifics | `docs/states/co.md`, `docs/colorado-rollout.md` |
+| Source leads for other states | `docs/western-state-research.md` |
+| New GIS / environmental metrics | `docs/advanced-metrics.md` |
+
+## How the owner wants work done
+
+The owner has said these more than once. Treat them as standing instructions.
+
+- **Challenge everything, including the owner's own material.** Check formulas, claims and plans (including your own earlier ones) against the evidence before building on them. Say plainly when something is wrong, including your own past work, and what you changed.
+- **Find the data yourself.** Search the agency site, its document host and its GIS portal before saying a source doesn't exist. Use every report the agency publishes (draw, harvest, regulations, population, boundaries). Ask the owner only for what can't be reached.
+- **Finish the journey.** Carry each feature through data, calculation, filters, cards, details, map, mobile layout and deployment, and verify it in production. Don't stop at a plan, a PR or groundwork.
+- **Idaho is the template.** A new state or species should look and behave like Idaho, unless its rules or data truly differ, and then say how.
+- **Default to the next draw, and keep the last draw one click away.** Label projections as projections.
+- **Launch the core species first.** Launch deer and elk, then add species as their data is validated. Label anything partial.
+- **Plain hunter language** in the UI: "points needed", "drew at", "Near Certain". No model jargon.
+- The owner uses Google Sheets, not Excel.
+- Never put the owner's email address in a User-Agent or any outbound request. Don't spoof browser User-Agents. Don't fetch production database credentials.
+
 ## Product baseline
 
 - Use the existing Idaho deer and elk experience as the default reference when building or changing another state or species. Compare the actual Idaho pages and behavior: navigation, formatting, responsive layout, hunt cards, graphs and their sizing, maps and shading, filters, hunt and unit details, scoring explanations, and available data elements. A hunter familiar with Idaho should find a consistent experience elsewhere.
@@ -16,7 +41,7 @@ Services: web 250d9cb4-cbc7-45a2-ad97-1584e78014b3; sync 3d60c3e4-e872-4be6-b5c1
 
 ## Find Hunts and state onboarding
 
-- For each new state, follow and record evidence against `docs/state-onboarding-checklist.md`; the checklist does not grant additional production data permissions.
+- For each new state, build to `docs/state-adapter-guide.md` and follow and record evidence against `docs/state-onboarding-checklist.md`; the checklist does not grant additional production data permissions.
 - Long-term goal: integrate all states into one DrawOdds experience so hunters can search for any supported species across any selection of states, up to all integrated states at once. Start from the existing Idaho and Colorado integrations, shared search and database setup; inspect and extend their reusable patterns while adapting to each state's actual species, data and draw rules. Design for expansion without assuming every species or metric exists in every state. Preserve historical data and follow the operational safeguards below for any database or production work.
 - Use these live pages as concrete layout and feature references when building or reviewing state and species experiences. Inspect the current pages and implementation, then adapt for applicable regulations and available data:
   - Unit detail: Idaho Unit 54 — https://web-production-39e54.up.railway.app/units/54
@@ -55,9 +80,9 @@ For each role, report the journey, findings and severity, evidence or reproducti
 
 ## Operational safeguards
 
-- Preserve Idaho's existing layout, navigation and functionality; no unrelated redesign. Colorado is under development.
+- Preserve Idaho's existing layout, navigation and functionality; no unrelated redesign. Colorado is live; keep changing it through the same checks.
 - Preserve historical data. Do not run agency data sync, destructive Prisma commands, or schema startup scripts against production.
-- Work on codex/ feature branches and prepare PRs. Standing owner approval granted 2026-11-06: complete requested DrawOdds work, run appropriate checks, and merge/deploy the completed changes to production without asking for confirmation again. Carry through deployment and verify production health and the changed behavior; do not stop at a PR. This approval persists for future work in this project unless the owner revokes it.
+- Work on feature branches (`codex/` for Codex, `claude/` for Claude) and prepare PRs. Standing owner approval granted 2026-11-06: complete requested DrawOdds work, run appropriate checks, and merge/deploy the completed changes to production without asking for confirmation again. Carry through deployment and verify production health and the changed behavior; do not stop at a PR. This approval persists for future work in this project unless the owner revokes it.
 - Standing deployment approval does not remove the historical-data protections below: destructive database/schema operations, Idaho agency synchronization, and restoration of automatic sync still require specific approval as described here.
 - Automatic sync should remain disabled. Any later approved restoration must run at most weekly.
 - `npm start` runs Next.js only; schema operations are separate and require review. `npm run build`, tests, typecheck and `prisma generate` do not push schemas.

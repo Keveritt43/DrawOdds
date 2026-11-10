@@ -1,37 +1,31 @@
 # Colorado (CO)
 
-Status: deer loaded and live behind a link (`/api/state?code=co&next=/hunts`); not listed in the state picker yet
-(`enabled: false` in `src/lib/states.ts`). Elk is next.
+**Status:** live and listed in the state picker (the beta label was removed in #31). Species: deer, elk and pronghorn (preference points), plus moose, bighorn sheep and mountain goat (special-species points). For the detail, see [colorado-rollout.md](../colorado-rollout.md) (sources, loading, harvest corrections), [colorado-pronghorn.md](../colorado-pronghorn.md), [colorado-special-species.md](../colorado-special-species.md), [colorado-elk-pressure.md](../colorado-elk-pressure.md) and [colorado-ui-parity.md](../colorado-ui-parity.md). This page is the short reference for a new-state builder.
 
-## Data
+## Data map
 
-| Source | Years | Where | Notes |
+| Source | Parser | Stored as | Gotchas |
 |---|---|---|---|
-| CPW Draw Recap (primary), deer | 2021-2026 | `co-draw` -> `DrawRecap` | 5,832 hunt-years; every one passes the row-total check. Links in `src/sync/co/manifest.ts` (new link each May). |
-| CPW GMU boundaries | current | `co-gmu` -> `Unit` (state CO) | 186 units, with deer/elk herd (DAU) per unit. |
-| CPW harvest estimates, deer | 2019-2025 | `co-reports` -> `StateReport` | 2025 is by hunt code; 2019-2024 by unit and season, summed over a code's units (antlered/antlerless split tables where CPW has them). 2024-2025 live on cpw.widencollective.com: `resolvePdf` makes the viewer's anonymous API call to find the PDF. |
-| CPW Chapter W-2 regulations | 2026 | `co-reports` -> `StateReport` | Units per hunt code (incl. "portion of" descriptions), licenses, season dates: rifle 1-4 and muzzleloader by year through 2029, archery annual, others the row's own (2026) dates. |
-| Hunt boundaries | | none needed | CPW publishes no hunt-code boundary layer (checked the Colorado Geospatial Portal and CPWAdminData: GMUs, DAUs, RFW, walk-in, managed properties). A code is its W-2 unit list; partial-unit codes carry the text. |
-| Draw Recap, elk | 2021-2026 | not yet | Same parser; hybrid draw common (38 elk codes in 2026). |
-| CPW post-hunt population estimates, deer | 2019-2025 (not 2022) | `co-reports` -> `StateReport` | By herd (DAU) with its units; checked against the statewide total each year. 2022's PDF has no text layer. Shown on hunt and unit pages. |
-| Secondary draw, land ownership (public %) | | not yet | |
+| CPW Draw Recap (primary and secondary), drawn-out-at, 2021–2026 | `src/sync/co/recap.ts` | `DrawRecap`, then `HuntSummary.pointOdds` / `oddsByPts` | Reads text positions. A hunt ends at its Grand Total row. Cells wrap. Two-digit numbers can split ("1 8"). `DP99999P` is the point-only code. |
+| CPW harvest estimates, 2019–2025 | `src/sync/co/harvest.ts` | `StateReport` kind harvest | 2025 is by hunt code; earlier years are by unit and season (`basis` says which). Elk tables shift columns. Ambiguous rows are listed, not counted. |
+| Chapter W-2 regulations | `src/sync/co/regs.ts` | `StateReport` kind regs | Unit lists per code, including "portion of" text. Road numbers in the boundary text are not units. Archery dates sit on the next line. |
+| Post-hunt population by herd (DAU), 2019–2025 | `src/sync/co/population.ts` | `StateReport` kind population | The 2022 PDFs had broken fonts and were transcribed by hand into `data/co-population-2022.json`. |
+| GMU boundaries and herds | CPWAdminData FeatureServer/6 | `Unit` (state CO) | 186 GMUs. |
+| Land ownership | `scripts/build-co-land.py` (BLM CO SMA × GMU, EPSG:5070) | `Unit.publicPct` | Offline build. Public land is not the same as legal access. |
+| Report catalog | `data/co-reports.json` | | All 74 public source links. |
 
-Parser: `src/sync/co/recap.ts` reads text positions (cells wrap, tables continue on the next page; a hunt ends at
-its Grand Total row). The point-only code `DP99999P` is parsed but not shown.
+**Fetching:** CPW's newer PDFs are on `cpw.widencollective.com`. The share page loads the PDF through an anonymous API call, and `resolvePdf` in `src/sync/co/index.ts` repeats that call.
 
-## Odds model (`src/lib/coOdds.ts`)
+## Odds model
 
-- Effective points: points at the cutoff + share not drawn there (6 points, 60% drew = 6.4).
-- Last draw: exact applicants / drawn per point level per pool.
-- Next draw: last draw's cutoff + the year-to-year moves measured across every hunt code, by residency and level
-  band (deciles). Odds are averaged over those outcomes and scaled by the share above the cutoff who draw
-  (res 96.5%, nonres 93.5%).
-- Backtest (each of 2024-2026 predicted from earlier draws only): Brier 0.080-0.085 vs 0.098-0.107 for last year's
-  odds (nonresidents), 0.051-0.055 vs 0.058-0.066 (residents). Tried and rejected: a re-draw simulation (worse than
-  last year) and a 5-year trend (no better year ahead; conditioning the spread on trend didn't help either).
-- Point creep (5-year slope) is shown and drives "years to draw", which stops meaning much at the 2028 rule change.
+See [state-adapter-guide.md §4](../state-adapter-guide.md#preference-points-colorado-oregons-75-phase-wyoming-nonresident-preference-phase). The code is `src/lib/coOdds.ts`, and the hunt-level glue is `src/lib/coHunt.ts`.
 
-## 2028 rules (not modeled yet)
-
-From the 2028 draw: each hunt code splits 50/50 preference / bonus draw, hybrid draw ends, nonresidents a flat 25%
-(at most half of it through the preference half). Build the bonus model once CPW publishes how bonus points weigh.
+- **Draw rules (current, through the 2027 draw):**
+  - First choice goes by preference points; 2nd–4th choices use no points.
+  - Nonresidents are capped at 25% (some elk codes 20%; 35% before 2024). Landowner (LPP) licenses come off the top.
+  - A hybrid draw gives up to 20% of licenses at random to applicants with 5+ points.
+- **From the 2028 draw (`RULE_CHANGE_YEAR`):**
+  - 50/50 preference/bonus split; the hybrid draw ends.
+  - Nonresidents a flat 25%.
+  - Not modeled yet. Needs CPW's published bonus weighting first.
+- **Open issue:** the returning-cohort floor has not been backtested. Rerun the Brier backtest (2024–2026, each year predicted from earlier years only) and update the numbers in the `projectedOdds` comment, or remove them.

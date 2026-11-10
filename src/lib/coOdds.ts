@@ -246,8 +246,8 @@ export const CHANCE_LABEL: Record<Chance, string> = {
 
 /**
  * Projected odds at p points: the average over the cutoff's possible values (scaled by `rate`, the share above the
- * cutoff who draw), with the lowest and highest of those outcomes. Backtest, deer 2024-2026, each year predicted
- * from the years before it: Brier score 0.08 vs 0.10 for last year's odds (nonresidents), 0.054 vs 0.062 (residents).
+ * cutoff who draw), with the lowest and highest of those outcomes. The 0.08 vs 0.10 Brier backtest (deer 2024-2026)
+ * predates the returning-cohort floor in project(); rerun it before quoting accuracy (docs/states/co.md).
  */
 export function projectedOdds(
   p: number,
