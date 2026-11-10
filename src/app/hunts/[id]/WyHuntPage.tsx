@@ -87,7 +87,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="card co-need">
             <div className="k">Nonresident points needed, {po.year} draw</div>
             <div className="co-need-row"><span className="nr">Regular</span><b>{need(po.pools.regular)}</b><span className="small muted">creep {fmtCreep(s.creepNr)}</span></div>
-            <div className="co-need-row"><span className="nr">Special</span><b>{need(po.pools.special)}</b><span className="small muted">{po.pools.special ? `${po.pools.special.pref.quota + po.pools.special.random.quota} licenses` : 'no special pool'}</span></div>
+            <div className="co-need-row"><span className="nr">Special</span><b>{need(po.pools.special)}</b><span className="small muted">{po.pools.special ? `${po.pools.special.pref.quota + (po.pools.special.random.quota ?? 0)} licenses` : 'no special pool'}</span></div>
             <p className="small muted" style={{ marginBottom: 0 }}>Preference points count only on your first choice. About 25% of each pool is drawn at random among applicants who missed, so any point level has a chance there.</p>
           </div>
         )}
