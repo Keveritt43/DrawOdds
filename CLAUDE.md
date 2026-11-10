@@ -7,6 +7,10 @@ Read and follow [AGENTS.md](AGENTS.md) for this repository's product requirement
 - `git fetch` and branch from `origin/main`. Other agents (Codex) merge to main often, sometimes dozens of commits a day. Before editing a file, check whether main already changed or built what you're about to build. Name branches `claude/<topic>`.
 - Read the "Where to look first" table in AGENTS.md for the task, and the code it points to. Docs can lag the code; when they disagree, trust the code and fix the doc.
 
+## Merging and deploying
+
+The owner has authorized (2026-11-10) Claude to merge its own PRs into `main` once CI on the branch is green. No manual review is needed; Railway then deploys `main`. Do this with `gh api -X PUT repos/Keveritt43/DrawOdds/pulls/<n>/merge -f merge_method=merge`, then check the deploy and the live site. This doesn't lift the database and sync safeguards in AGENTS.md. Never merge with failing or pending CI.
+
 ## What this environment can and can't reach
 
 - **Cloud container:** GitHub (`gh`) and package registries only. npm and pip installs may be blocked, and there is no `node_modules` in the repo. Agency sites (CPW, IDFG, ArcGIS, BLM) are **not** reachable from the shell.
