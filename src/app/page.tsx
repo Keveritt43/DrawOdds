@@ -19,7 +19,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
   if ((await getState()).code === "CO") {
     return (
       <main><section className="home-hero"><div className="inner"><div>
-        <h1>Find Your <HomeStatePicker selected={["CO"]} /> Hunt. Know Your Odds.</h1><p className="small">Choose states above to search one or multiple states.</p>
+        <h1>Find Your <HomeStatePicker selected={["CO"]} /> Hunt. Know Your Odds.</h1><p className="small">Tap the state name above to search one state or several.</p>
         <p>
           Research deer and elk licenses with preference-point scenarios,
           harvest estimates, hunter density and public/private ownership.
@@ -85,7 +85,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             <h1>
               Find Your <HomeStatePicker selected={["ID"]} /> Hunt. <em>Know Your Odds.</em>
             </h1>
-            <p className="small">Choose states above to search one or multiple states.</p><p className="lead">
+            <p className="small">Tap the state name above to search one state or several.</p><p className="lead">
               Every Idaho deer, elk, pronghorn, moose, bighorn sheep and mountain goat hunt in one place: draw odds for your residency, hunter success, how
               crowded it gets, public land and Access Yes! acres, on a map. Answer a few questions and we&apos;ll show you
               where to start.
@@ -95,6 +95,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
                 {deadline.open ? 'Open now' : 'Next deadline'}: <b>{deadline.what}</b>, {md(deadline.start.toISOString().slice(0, 10))} – {md(deadline.end.toISOString().slice(0, 10), true)}.
               </p>
             )}
+            {/* The one thing a hunter from a points state has to unlearn before the numbers here mean anything. */}
+            <p className="small">
+              <b>Idaho has no preference or bonus points.</b> Every draw is a fresh random number, so a hunt&apos;s recent odds are your real odds.{' '}
+              <Link href="/guide">How the Idaho draw works</Link>
+            </p>
             <div className="ctas">
               <Link className="btn primary big" href="/hunts">Start Filtering</Link>
               <Link className="btn btn-light big" href="/map">Explore The Unit Map</Link>
@@ -107,17 +112,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             <label>Which Drawing</label>
             <Suspense fallback={null}><DrawSwitch value={draw} /></Suspense>
             <p className="hint">Idaho applicants pick one each year: deer, elk and pronghorn (May 1 – June 5), or one of moose, bighorn sheep or mountain goat (April 1 – 30).</p>
-            <label>Species</label>
-            {msg
-              ? <div className="opts">{opt('species', 'MOOSE', 'Moose', true)}{opt('species', 'BIGHORN', 'Bighorn Sheep')}{opt('species', 'GOAT', 'Mountain Goat')}{opt('species', '', 'Compare All Three')}</div>
-              : <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', 'PRONGHORN', 'Pronghorn')}{opt('species', '', 'Any')}</div>}
-            {!msg && (
-              // shown only while Deer is picked (CSS :has), no script needed
-              <div className="deer-type">
-                <label>Type Of Deer</label>
-                <div className="opts">{opt('deerType', '', 'Either', true)}{opt('deerType', 'MULE', 'Mule Deer')}{opt('deerType', 'WHITETAIL', 'Whitetail')}</div>
-              </div>
-            )}
             {!msg && (
               <>
                 <label>Hunt Type</label>
@@ -130,6 +124,17 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
                   ? 'Controlled hunts: limited tags, separate odds. General: since 2026 nonresidents draw for general deer and elk tags too (elk by zone, deer by unit). Pronghorn are controlled only.'
                   : 'Controlled hunts: limited tags by draw, often better hunting. General: buy a tag over the counter and hunt the open seasons. Pronghorn are controlled only.'}</p>
               </>
+            )}
+            <label>Species</label>
+            {msg
+              ? <div className="opts">{opt('species', 'MOOSE', 'Moose', true)}{opt('species', 'BIGHORN', 'Bighorn Sheep')}{opt('species', 'GOAT', 'Mountain Goat')}{opt('species', '', 'Compare All Three')}</div>
+              : <div className="opts">{opt('species', 'ELK', 'Elk', true)}{opt('species', 'DEER', 'Deer')}{opt('species', 'PRONGHORN', 'Pronghorn')}{opt('species', '', 'Any')}</div>}
+            {!msg && (
+              // shown only while Deer is picked (CSS :has), no script needed
+              <div className="deer-type">
+                <label>Type Of Deer</label>
+                <div className="opts">{opt('deerType', '', 'Either', true)}{opt('deerType', 'MULE', 'Mule Deer')}{opt('deerType', 'WHITETAIL', 'Whitetail')}</div>
+              </div>
             )}
             <label>What Are You After?</label>
             <div className="opts">
@@ -154,6 +159,19 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
 
       <div className="wrap">
         <div className="tiles">
+          {/* The beginner's question is "can I just get a tag this year?". Idaho's answer differs by residency:
+              residents buy general tags over the counter, nonresidents have drawn for them since 2026. Neither is
+              an over-the-counter promise to a nonresident, so the tile never calls one guaranteed. */}
+          {!msg && (
+            <Link className="tile tone-sage" href="/hunts?type=GENERAL&sort=odds">
+              <span className="pill good">General</span>
+              <h3>Tags That Aren&apos;t A Lottery</h3>
+              <p>{nr
+                ? <>General deer and elk tags. Nonresidents apply for these{nextNr ? ` (${md(nextNr.start.toISOString().slice(0, 10))} – ${md(nextNr.end.toISOString().slice(0, 10))})` : ''}, but plenty of them go to everyone who asks. Sorted by the best chance first.</>
+                : <>General deer and elk tags you buy over the counter. No draw, no deadline, hunt the open seasons.</>}</p>
+              <span className="go">{nr ? 'Best general tag odds →' : 'See general tags →'}</span>
+            </Link>
+          )}
           <Link className="tile tone-blaze" href="/hunts?type=CONTROLLED&sort=odds">
             <span className="pill blaze">Draw Odds</span>
             <h3>Odds For Your Residency</h3>

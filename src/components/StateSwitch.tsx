@@ -5,6 +5,7 @@ import { enabledStates } from '@/lib/states';
 import { setStateCode } from '@/app/actions';
 import { useStateConfig } from './StateContext';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 /** The state name beside the logo doubles as the state picker. */
 export function StateSwitch() {
@@ -30,7 +31,9 @@ export function StateSwitch() {
             {s.name}{s.code === cur.code ? ' ✓' : ''}
           </button>
         ))}
-        <p className="small muted">More states are on the way.</p>
+        {/* Read on its own under a list of live states, "More states are on the way" made Colorado and Wyoming
+            look unavailable. Say what this menu does instead, and where to search several states at once. */}
+        <p className="small muted">Switches states. To search several at once, choose them on the <Link href="/">home page</Link>. More states on the way.</p>
       </div>
     </details>
   );
