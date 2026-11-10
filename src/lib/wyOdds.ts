@@ -17,9 +17,9 @@
  *     applicants, capped at 100%, assuming first choices are filled before any second choice.
  *   - Resident odds are estimated the same way from the resident report.
  *
- * Projection: none yet. Backtests over 2021-2026 found no projection (applicant roll-forward, multi-year
- * averages, point-creep shifts) that beat "last draw's odds" for all three species out of sample. So the
- * default view is the last draw, labeled as such, with the typical year-to-year cutoff movement as context.
+ * Projection: lives in the hunt builder, not here. Scored with Brier the way Colorado is (each year predicted from
+ * earlier draws only), it beats "last draw's odds" for antelope and deer, which default to projected; elk loses
+ * and shows the last draw, labeled. See docs/states/wy-draw-model.md.
  */
 
 export type WyKind = 'e' | 'p' | 'r';
