@@ -1,6 +1,20 @@
 # Wyoming draw data and odds model (deer, elk, antelope)
 
-Status, Nov 2026: draws, regulations, odds, search, cards, hunt and area pages, and account settings are done on branch codex/wy-draw-sources (PR #46). Harvest, land, and hunt-area boundaries wait on the round-2 download (get-wgfd-2.ps1). Not in production yet.
+Status, Nov 10 2026: everything below is built and CI-green on branch codex/wy-draw-sources (PR #46). Not in production yet. Production needs the one-off import (`scripts/wy-import.ts`, dry run first, then `--apply`), then merge and UAT.
+
+Built data:
+- `draws.json`: draw demand reports 2021–2026.
+- `regs-2026.json`: season tables.
+- `harvest.json`: harvest reports 2021–2025, from `wy_parse_harvest.py`. Every row reconciles. A few deer rows where mule + white-tailed harvest exceeds the larger hunter count are listed in `problems` and skipped.
+- `areas.json` + `units.json`: 333 species hunt areas, from `wy_build_areas.py`. Land is BLM SMA on a 100 m equal-area raster. Statewide: 45.3% federal, 6.8% state. Walk-In + HMA acres match WGFD's acreage fields.
+- `hunts.json`: 520 hunts, from `wy_build_hunts.py`:
+  - 367 limited-quota and region licenses;
+  - 153 general seasons. Residents buy over the counter; nonresidents use their region's draw odds.
+  - Region licenses take harvest and land from their areas' general seasons, labeled as such.
+
+Known data notes:
+- WGFD's `SqMiles` attribute is stale for some redrawn areas (2026 deer 138/143/155/156, elk 117/123/126). Areas are computed from the geometry.
+- Deer harvest has separate mule and white-tailed tables. A hunter can be in both, so deer success is an upper bound.
 
 ## Sources
 
