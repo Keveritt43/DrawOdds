@@ -10,7 +10,9 @@ export async function GET(req: Request) {
   const msg = params.get('draw') === 'msg';
   if (!enabledStates().some(s => s.code === state)) return Response.json({ error: 'Unknown state' }, { status: 400 });
   const units = await db.unit.findMany({ where: { state }, select: { name: true, geometry: true } });
-  return Response.json({ type: 'FeatureCollection', features: units.filter(u => u.geometry && (state !== 'CO' || (msg
+  // Wyoming hunt areas differ by species: "A12" antelope, "D12" deer, "E12" elk (default deer)
+  const wyPrefix = species === 'PRONGHORN' ? 'A' : species === 'ELK' ? 'E' : 'D';
+  return Response.json({ type: 'FeatureCollection', features: units.filter(u => u.geometry && (state === 'WY' ? u.name.startsWith(wyPrefix) && !u.name.includes('R-') : state !== 'CO' || (msg
     ? species === 'GOAT' ? u.name.startsWith('G') : species === 'BIGHORN' ? u.name.startsWith('S') : species === 'MOOSE' ? /^\d/.test(u.name) : true
     : /^\d/.test(u.name)))).map(u => ({
     type: 'Feature', geometry: u.geometry, properties: { name: `${state}:${u.name}` },

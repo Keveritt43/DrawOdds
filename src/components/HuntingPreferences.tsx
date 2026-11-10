@@ -7,13 +7,16 @@ import type { StatePoints } from '@/lib/points';
 import { POINT_SPECIES, SPECIAL_POINT_SPECIES } from '@/lib/states';
 import { SPECIES_LABEL } from '@/lib/format';
 
-export function HuntingPreferences({ idaho, colorado }: { idaho: Residency; colorado: StatePoints }) {
+export function HuntingPreferences({ idaho, colorado, wyoming }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
   const [points, setPoints] = useState({ DEER: String(colorado.DEER), ELK: String(colorado.ELK), PRONGHORN: String(colorado.PRONGHORN) });
   const [youth, setYouth] = useState(colorado.youth);
   const [special, setSpecial] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado[s] ?? 0)])));
+  const [wyResidency, setWyResidency] = useState(wyoming?.res ?? 'NONRESIDENT');
+  const [wyPoints, setWyPoints] = useState({ DEER: String(wyoming?.DEER ?? 0), ELK: String(wyoming?.ELK ?? 0), PRONGHORN: String(wyoming?.PRONGHORN ?? 0) });
+  const [wySpecial, setWySpecial] = useState(wyoming?.wySpecial === true);
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
   return (
     <form className="card account-preferences" action={save} id="hunting-preferences" onSubmit={event => {
@@ -61,6 +64,25 @@ export function HuntingPreferences({ idaho, colorado }: { idaho: Residency; colo
           </div>)}
         </div>
         <label className="account-youth"><input type="checkbox" name="youth" checked={youth} onChange={e => setYouth(e.target.checked)} /> Youth draw results</label>
+      </fieldset>
+      <fieldset>
+        <legend>Wyoming</legend>
+        <label>Residency
+          <select name="wyomingResidency" value={wyResidency} onChange={e => setWyResidency(e.target.value as Residency)}>
+            <option value="RESIDENT">Resident</option>
+            <option value="NONRESIDENT">Nonresident</option>
+          </select>
+        </label>
+        <p className="small muted">Nonresident preference points (residents draw at random for these species).</p>
+        <div className="account-points">
+          {POINT_SPECIES.WY?.map(species => (
+            <label key={species}>{species === 'PRONGHORN' ? 'Antelope' : SPECIES_LABEL[species]} points
+              <input type="number" name={`wy${species}`} min={0} max={40} step={1} required value={wyPoints[species]}
+                onChange={e => setWyPoints({ ...wyPoints, [species]: e.target.value })} />
+            </label>
+          ))}
+        </div>
+        <label className="account-youth"><input type="checkbox" name="wySpecial" checked={wySpecial} onChange={e => setWySpecial(e.target.checked)} /> Apply in the nonresident special pool (higher license fee, separate quota)</label>
       </fieldset>
       <div className="account-save">
         <button className="btn primary" type="submit" disabled={pending}>{pending ? 'Saving…' : 'Save Preferences'}</button>

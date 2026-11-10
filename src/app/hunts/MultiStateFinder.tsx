@@ -12,6 +12,8 @@ import { CoSearchFilters } from '@/components/CoSearchFilters';
 import { HuntMap, type MatchStat } from '@/components/HuntMap';
 import { HuntCard } from '@/components/HuntCards';
 import { CoHuntCard } from '@/components/CoHuntCard';
+import { WyHuntCard } from '@/components/WyHuntCard';
+import { WySearchFilters } from '@/components/WySearchFilters';
 import { getFavorites } from '@/lib/favorites';
 import { residencyFields } from '@/lib/finder';
 import { chanceOf } from '@/lib/coOdds';
@@ -23,7 +25,7 @@ import { DRAW_LABEL } from '@/lib/species';
 import { CompareToggle } from '@/components/Compare';
 
 const PAGE_SIZE = 40;
-const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'], ['odds', 'My odds'], ['best', 'Draw and fill'], ['success', 'Harvest success'], ['public', 'Public land'], ['densityLow', 'Fewest hunters per sq mi'], ['open', 'Opening date'], ['alpha', 'State / unit'], ['big', 'Trophy potential'], ['harvest', 'Most harvest'], ['hunters', 'Most hunters'], ['huntersLow', 'Fewest hunters'], ['apps', 'Most applicants (my residency)'], ['appsLow', 'Fewest applicants (my residency)'], ['tags', 'Most tags'], ['leftover', 'Leftover tags (Idaho)'], ['pts', 'Points needed (Colorado)'], ['creep', 'Point creep (Colorado)'], ['unit', 'Unit']];
+const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'], ['odds', 'My odds'], ['best', 'Draw and fill'], ['success', 'Harvest success'], ['public', 'Public land'], ['densityLow', 'Fewest hunters per sq mi'], ['open', 'Opening date'], ['alpha', 'State / unit'], ['big', 'Trophy potential'], ['harvest', 'Most harvest'], ['hunters', 'Most hunters'], ['huntersLow', 'Fewest hunters'], ['apps', 'Most applicants (my residency)'], ['appsLow', 'Fewest applicants (my residency)'], ['tags', 'Most tags'], ['leftover', 'Leftover tags (Idaho)'], ['pts', 'Points needed (Colorado, Wyoming NR)'], ['creep', 'Point creep (Colorado, Wyoming NR)'], ['unit', 'Unit']];
 const max = (values: (number | null)[]) => { const finite = values.filter((v): v is number => v !== null && Number.isFinite(v)); return finite.length ? Math.max(...finite) : null; };
 
 export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
@@ -73,12 +75,13 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   const mode = param(sp, 'odds') === 'last' ? 'last' : 'proj';
   const selectedUnit = param(sp, 'unit');
   const renderCard = (x: SearchResult, key: string, also: SearchResult['r'][] = []) => <div key={key} className="search-result">
-    <details className="small search-result-context"><summary><b>{STATES[x.r.state as keyof typeof STATES].name}</b> · {x.nr ? 'Nonresident' : 'Resident'} · Opportunity {x.opportunity ?? '—'}</summary><p>{x.basis}{x.r.state === 'CO' && settings.CO.youth ? ' · Youth pool' : ''}{x.r.scoreQuality === null ? ' · Incomplete scoring data' : ''}</p></details>
-    {x.r.state === 'CO' ? <CoHuntCard r={x.r} preScored hasOtcElk={overlaps[x.r.id] === true} odds={x.odds} chance={chanceOf(x.odds, 0, x.odds ?? 0)} points={x.points} nr={x.nr} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
+    <details className="small search-result-context"><summary><b>{STATES[x.r.state as keyof typeof STATES].name}</b> · {x.nr ? 'Nonresident' : 'Resident'} · Opportunity {x.opportunity ?? '—'}</summary><p>{x.basis}{x.r.state === 'CO' && settings.CO.youth ? ' · Youth pool' : ''}{x.r.state === 'WY' && x.nr && settings.WY?.wySpecial ? ' · Special pool' : ''}{x.r.scoreQuality === null ? ' · Incomplete scoring data' : ''}</p></details>
+    {x.r.state === 'WY' ? <WyHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} special={settings.WY?.wySpecial === true} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
+      : x.r.state === 'CO' ? <CoHuntCard r={x.r} preScored hasOtcElk={overlaps[x.r.id] === true} odds={x.odds} chance={chanceOf(x.odds, 0, x.odds ?? 0)} points={x.points} nr={x.nr} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : <article className="ucard single"><HuntCard r={x.r} also={also} c={{ nr: x.nr, rf: residencyFields(x.nr ? 'NONRESIDENT' : 'RESIDENT'), favHunts: fav.hunts, signedIn: fav.signedIn, sort }} /></article>}
   </div>;
   return <main className={`filtering multi-state-finder${view === 'table' ? ' tablemode' : ''}`}>
-    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={msg ? param(sp, 'species').toUpperCase() : ''} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
+    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg || states.includes('WY') ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={msg || states.includes('WY') ? param(sp, 'species').toUpperCase() : ''} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
     <section className="f-list" aria-label="Results">
       <RememberFinderNavigation />
       <div className="search-intro">
@@ -92,7 +95,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
           <p className="small muted search-state-counts">{stateCounts.map(({ state, count }) => `${STATES[state].name}: ${count}`).join(' · ')}</p>
           <SearchStates />
           <Link className="small" href="/account#hunting-preferences">Edit hunting preferences in Account</Link>
-          <details className="small muted search-ranking"><summary>How these rankings compare</summary><p>Opportunity = Quality × √your tag odds. Idaho uses historical draw odds; {msg ? 'Colorado uses published first-choice results at your saved regular and weighted points, residency and age group. Before points are saved, rates are pooled previews.' : `Colorado uses your points and ${mode === 'proj' ? 'projected' : 'historical'} odds.`} Unknown scores sort after ranked hunts. Report years and season dates vary; details show the underlying evidence.</p></details>
+          <details className="small muted search-ranking"><summary>How these rankings compare</summary><p>Opportunity = Quality × √your tag odds. Idaho uses historical draw odds; {msg ? 'Colorado uses published first-choice results at your saved regular and weighted points, residency and age group. Before points are saved, rates are pooled previews.' : `Colorado uses your points and ${mode === 'proj' ? 'projected' : 'historical'} odds.`}{states.includes('WY') ? ' Wyoming nonresidents: your points in the regular or special pool (preference draw, then random draw); antelope and deer are projected, elk shows the last draw. Wyoming residents: estimated random-draw odds.' : ''} Unknown scores sort after ranked hunts. Report years and season dates vary; details show the underlying evidence.</p></details>
         </details>
       </div>
       <div className="f-head search-toolbar">
@@ -109,6 +112,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       presets={<FilterPresets key={fav.userId} owner={fav.userId} state={header.code} states={states} />}
       drawFilters={!msg && states.includes('CO') && <CoSearchFilters part="points" />}>
       {states.includes('CO') && <CoSearchFilters part="state" historical={msg} />}
+      {states.includes('WY') && <WySearchFilters />}
     </FilterRail>
   </main>;
 }

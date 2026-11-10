@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO';
+export type StateCode = 'ID' | 'CO' | 'WY';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -33,7 +33,7 @@ export interface StateConfig {
   /** Hunting-on-private-land access program, if any ("Access Yes!"). */
   accessProgram: string | null;
   /** How draws reward past applications: Idaho has none (a fresh random draw every year). */
-  points: 'none' | 'preference' | 'bonus' | 'hybrid';
+  points: 'none' | 'preference' | 'bonus' | 'hybrid' | 'preference-random';
   /** Separate drawings an applicant chooses between (Idaho: deer/elk/pronghorn or moose/sheep/goat). */
   draws: { key: Draw; label: string; species: SpeciesKey[] }[];
   species: SpeciesKey[];
@@ -75,6 +75,22 @@ export const STATES: Record<StateCode, StateConfig> = {
     bounds: [[-109.06, 36.99], [-102.04, 41.0]],
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
+  WY: {
+    code: 'WY',
+    name: 'Wyoming',
+    slug: 'wyoming',
+    enabled: true,
+    agency: { short: 'WGFD', name: 'Wyoming Game and Fish Department', url: 'https://wgfd.wyo.gov/hunting-trapping' },
+    // WGFD's Access Yes program funds Walk-In Hunting Areas and Hunter Management Areas (mostly private land)
+    accessProgram: 'Access Yes',
+    // nonresidents: preference draw (75%) then random draw (25%), regular and special pools; residents: random only
+    points: 'preference-random',
+    draws: [{ key: 'DEP', label: 'Deer · Elk · Pronghorn', species: ['DEER', 'ELK', 'PRONGHORN'] }],
+    species: ['DEER', 'ELK', 'PRONGHORN'],
+    bounds: [[-111.06, 40.99], [-104.05, 45.01]],
+    // hunt areas differ by species: units are stored per species ("A1" antelope, "D1" deer, "E1" elk)
+    features: { elkZones: false, nrGeneralTagDraw: true, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
 };
 
 export const DEFAULT_STATE: StateCode = 'ID';
@@ -86,7 +102,7 @@ export const stateConfig = (code?: string | null): StateConfig => {
   return STATES[c] ?? STATES[DEFAULT_STATE];
 };
 /** Species that use preference points in a state's draw (point tracker rows). */
-export const POINT_SPECIES: Partial<Record<StateCode, ('DEER' | 'ELK' | 'PRONGHORN')[]>> = { CO: ['DEER', 'ELK', 'PRONGHORN'] };
+export const POINT_SPECIES: Partial<Record<StateCode, ('DEER' | 'ELK' | 'PRONGHORN')[]>> = { CO: ['DEER', 'ELK', 'PRONGHORN'], WY: ['DEER', 'ELK', 'PRONGHORN'] };
 export const SPECIAL_POINT_SPECIES = ['MOOSE', 'BIGHORN', 'GOAT'] as const;
 export type SpecialPointSpecies = typeof SPECIAL_POINT_SPECIES[number];
 

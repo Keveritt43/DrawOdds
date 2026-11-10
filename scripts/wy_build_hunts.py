@@ -246,7 +246,8 @@ def main():
             rec = {
                 "id": f"WY:{sp}:{key}", "slug": f"wy-{sp}-{key.lower()}", "state": "WY", "species": SP,
                 "type": "CONTROLLED", "tagCode": f"{PREFIX[sp]}{'R-' + h['area'] if region else lkey}",
-                "name": name, "description": h["description"], "units": units, "regionUnits": region_units,
+                # a region license is valid in every hunt area of its region: list those areas (when known)
+                "name": name, "description": h["description"], "units": sorted(region_units, key=lambda u: int(u[1:])) if region and region_units else units,
                 "weapon": weapon_of(lim), "antlerClass": antler_class(sp, lim), "takeMethod": lim[:120],
                 "openDate": open_d, "closeDate": close_d, "tags": reg["quota"] if reg and isinstance(reg["quota"], int) else None,
                 "privateOnly": private_only, "youthOnly": False,

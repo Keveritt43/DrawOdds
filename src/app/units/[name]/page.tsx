@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { parseUnitKey } from '@/lib/states';
 import { CoUnitPage } from './CoUnitPage';
+import { WyUnitPage } from './WyUnitPage';
+import { wyAreaLabel } from '@/lib/wyHunt';
 import { getResidency, getDraw } from '@/lib/residency';
 import { DRAW_SPECIES } from '@/lib/species';
 import { residencyFields } from '@/lib/finder';
@@ -25,6 +27,7 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const ref = parseUnitKey(decodeURIComponent((await params).name));
   const name = ref.name.toUpperCase();
+  if (ref.state === 'WY') return { title: `Wyoming Hunt ${wyAreaLabel(name)}`, description: `Wyoming hunt ${wyAreaLabel(name).toLowerCase()}: licenses, draw odds at your points, hunter success and public land.` };
   if (ref.state === 'CO') return { title: `Colorado Unit ${name}`, description: `Colorado game management unit ${name}: hunt licenses, draw results, hunter success and public land.` };
   return { title: `Unit ${name}`, description: `Idaho hunting unit ${name}: deer, elk and pronghorn hunts, draw odds, success and public land.` };
 }
@@ -40,6 +43,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const sp = await searchParams;
   const ref = parseUnitKey(decodeURIComponent((await params).name));
   if (ref.state === 'CO') return <CoUnitPage name={ref.name.toUpperCase()} />;
+  if (ref.state === 'WY') return <WyUnitPage name={ref.name.toUpperCase()} />;
   if (ref.state !== 'ID') notFound();
   const name = ref.name.toUpperCase();
   const unit = await db.unit.findUnique({ where: { state_name: { state: 'ID', name } } });

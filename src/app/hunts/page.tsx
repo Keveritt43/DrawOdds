@@ -84,6 +84,8 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const sp = await searchParams;
   if (sp.states !== undefined) return <MultiStateFinder sp={sp} />;
   const state = (await getState(sp.state)).code;
+  // Wyoming lives only in the combined finder
+  if (state === 'WY') redirect(`/hunts?${new URLSearchParams(Object.entries({ antler: 'ANTLERED', sort: 'opp', ...sp, states: 'WY' }).flatMap(([k, v]) => v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]]))}`);
   if (state === 'CO' && searchDraw(Array.isArray(sp.draw) ? sp.draw[0] : sp.draw, Array.isArray(sp.species) ? sp.species[0] : sp.species) === 'MSG') {
     redirect(`/hunts?${new URLSearchParams(Object.entries({ ...sp, states: 'CO', draw: 'msg' }).flatMap(([k,v]) => v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]]))}`);
   }

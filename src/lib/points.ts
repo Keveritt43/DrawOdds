@@ -23,6 +23,8 @@ export interface StatePoints {
   GOAT?: number;
   weighted?: Partial<Record<SpecialPointSpecies, number>>;
   specialSet?: boolean;
+  /** Wyoming nonresidents: apply in the special (higher-fee) pool instead of the regular one. */
+  wySpecial?: boolean;
 }
 export type PointsStore = Record<string, Partial<StatePoints>>;
 
@@ -47,6 +49,7 @@ export function readState(store: PointsStore | null | undefined, state: string):
       GOAT: clampPts(s.weighted?.GOAT),
     },
     specialSet: s.specialSet === true,
+    wySpecial: s.wySpecial === true,
   };
 }
 
