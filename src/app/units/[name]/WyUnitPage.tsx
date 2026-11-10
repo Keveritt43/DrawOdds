@@ -7,6 +7,7 @@ import { Star } from '@/components/Star';
 import { int, pct as pct0 } from '@/lib/format';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { unitKey } from '@/lib/states';
+import { WyWildernessNote } from '@/components/WyWildernessNote';
 import { wyAreaLabel, wyPool, wyTableOdds, WY_POOL_SHORT, WY_UNIT_SPECIES, type WyOddsTable } from '@/lib/wyHunt';
 
 const pct = (o: number | null) => (o === null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
@@ -37,6 +38,7 @@ export async function WyUnitPage({ name }: { name: string }) {
         {unit.accessYesAcres ? ` · ${int(unit.accessYesAcres)} acres of Walk-In / Hunter Management Areas (${unit.accessYesCount ?? 0})` : ''}
         {' · '}WGFD {spLabel} hunt area. Deer, elk and antelope areas have different boundaries.
       </p>
+      <WyWildernessNote units={[name]} nr={nr} />
       {own.length > 0 && (
         <p className="small">{own.filter((o) => o.pct >= 0.5).map((o) => `${OWNER[o.manager] ?? o.manager} ${Math.round(o.pct)}%`).join(' · ')}
           <span className="muted"> · BLM Wyoming surface management; public ownership is not permission to cross private land.</span></p>

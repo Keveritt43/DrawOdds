@@ -1,0 +1,1389 @@
+{
+ "source": "Wilderness Connect (wilderness.net), Wilderness Areas in the United States, features with STATE containing WY",
+ "sourceUrl": "https://services1.arcgis.com/ERdCHt0sNM6dENSD/arcgis/rest/services/Wilderness_Areas_in_the_United_States/FeatureServer/0",
+ "retrieved": "2026-11-10",
+ "method": "Hunt-area map boundaries (data/wy/units.json) and wilderness boundaries projected to EPSG:5070 and integrated on scanlines every 30 m; overlaps under 1000 acres per wilderness are boundary slivers and are listed under slivers, not counted.",
+ "rule": "W.S. 23-2-401(a): a nonresident may not hunt big or trophy game on a federally designated wilderness area in Wyoming without a licensed professional guide or a resident guide; one guide per two nonresident hunters.",
+ "wilderness": [
+  {
+   "name": "Platte River Wilderness",
+   "state": "CO/WY",
+   "publishedAcres": 24051,
+   "acres": 23301
+  },
+  {
+   "name": "Absaroka-Beartooth Wilderness",
+   "state": "MT/WY",
+   "publishedAcres": 937102,
+   "acres": 941250
+  },
+  {
+   "name": "Bridger Wilderness",
+   "state": "WY",
+   "publishedAcres": 426751,
+   "acres": 426754
+  },
+  {
+   "name": "Cloud Peak Wilderness",
+   "state": "WY",
+   "publishedAcres": 191914,
+   "acres": 191908
+  },
+  {
+   "name": "Encampment River Wilderness",
+   "state": "WY",
+   "publishedAcres": 10208,
+   "acres": 10214
+  },
+  {
+   "name": "Fitzpatrick Wilderness",
+   "state": "WY",
+   "publishedAcres": 198906,
+   "acres": 198906
+  },
+  {
+   "name": "Gros Ventre Wilderness",
+   "state": "WY",
+   "publishedAcres": 285619,
+   "acres": 286235
+  },
+  {
+   "name": "Huston Park Wilderness",
+   "state": "WY",
+   "publishedAcres": 31057,
+   "acres": 31059
+  },
+  {
+   "name": "Jedediah Smith Wilderness",
+   "state": "WY",
+   "publishedAcres": 123896,
+   "acres": 123849
+  },
+  {
+   "name": "North Absaroka Wilderness",
+   "state": "WY",
+   "publishedAcres": 346320,
+   "acres": 346323
+  },
+  {
+   "name": "Popo Agie Wilderness",
+   "state": "WY",
+   "publishedAcres": 102620,
+   "acres": 102619
+  },
+  {
+   "name": "Teton Wilderness",
+   "state": "WY",
+   "publishedAcres": 584733,
+   "acres": 584731
+  },
+  {
+   "name": "Savage Run Wilderness",
+   "state": "WY",
+   "publishedAcres": 15284,
+   "acres": 15283
+  },
+  {
+   "name": "Washakie Wilderness",
+   "state": "WY",
+   "publishedAcres": 693934,
+   "acres": 693933
+  },
+  {
+   "name": "Winegar Hole Wilderness",
+   "state": "WY",
+   "publishedAcres": 10662,
+   "acres": 10662
+  }
+ ],
+ "areas": {
+  "A50": {
+   "pct": 4.5,
+   "wildAcres": 33861,
+   "acres": 759310,
+   "wilderness": [
+    {
+     "name": "Platte River Wilderness",
+     "acres": 18578
+    },
+    {
+     "name": "Savage Run Wilderness",
+     "acres": 15283
+    }
+   ]
+  },
+  "A51": {
+   "pct": 4.7,
+   "wildAcres": 9549,
+   "acres": 203399,
+   "wilderness": [
+    {
+     "name": "Encampment River Wilderness",
+     "acres": 5588
+    },
+    {
+     "name": "Platte River Wilderness",
+     "acres": 3961
+    }
+   ]
+  },
+  "A52": {
+   "pct": 4.1,
+   "wildAcres": 16107,
+   "acres": 394683,
+   "wilderness": [
+    {
+     "name": "Huston Park Wilderness",
+     "acres": 11481
+    },
+    {
+     "name": "Encampment River Wilderness",
+     "acres": 4626
+    }
+   ]
+  },
+  "A53": {
+   "pct": 3.1,
+   "wildAcres": 19577,
+   "acres": 640581,
+   "wilderness": [
+    {
+     "name": "Huston Park Wilderness",
+     "acres": 19577
+    }
+   ]
+  },
+  "A65": {
+   "pct": 18.5,
+   "wildAcres": 102301,
+   "acres": 554351,
+   "wilderness": [
+    {
+     "name": "Popo Agie Wilderness",
+     "acres": 102301
+    }
+   ]
+  },
+  "A81": {
+   "pct": 9.2,
+   "wildAcres": 36472,
+   "acres": 396565,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 36472
+    }
+   ]
+  },
+  "A82": {
+   "pct": 22.3,
+   "wildAcres": 77722,
+   "acres": 348425,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 77722
+    }
+   ]
+  },
+  "A83": {
+   "pct": 0.9,
+   "wildAcres": 7791,
+   "acres": 895813,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 7791
+    }
+   ]
+  },
+  "A84": {
+   "pct": 44.9,
+   "wildAcres": 358815,
+   "acres": 798285,
+   "wilderness": [
+    {
+     "name": "Fitzpatrick Wilderness",
+     "acres": 198518
+    },
+    {
+     "name": "Washakie Wilderness",
+     "acres": 160297
+    }
+   ]
+  },
+  "A85": {
+   "pct": 31,
+   "wildAcres": 173193,
+   "acres": 559350,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 173193
+    }
+   ]
+  },
+  "A86": {
+   "pct": 17.9,
+   "wildAcres": 64970,
+   "acres": 362966,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 64970
+    }
+   ]
+  },
+  "A87": {
+   "pct": 37.5,
+   "wildAcres": 314801,
+   "acres": 838539,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 290140
+    },
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 24661
+    }
+   ]
+  },
+  "A90": {
+   "pct": 25.8,
+   "wildAcres": 93618,
+   "acres": 363422,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 93618
+    }
+   ]
+  },
+  "A91": {
+   "pct": 8.5,
+   "wildAcres": 37428,
+   "acres": 440791,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 37428
+    }
+   ]
+  },
+  "A102": {
+   "pct": 14.1,
+   "wildAcres": 41768,
+   "acres": 296512,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 41768
+    }
+   ]
+  },
+  "A107": {
+   "pct": 2.5,
+   "wildAcres": 4871,
+   "acres": 195961,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 4871
+    }
+   ]
+  },
+  "A110": {
+   "pct": 13.8,
+   "wildAcres": 54897,
+   "acres": 398127,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 54897
+    }
+   ]
+  },
+  "D25": {
+   "pct": 11.9,
+   "wildAcres": 57499,
+   "acres": 484163,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 57499
+    }
+   ]
+  },
+  "D28": {
+   "pct": 19.1,
+   "wildAcres": 41735,
+   "acres": 218820,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 41735
+    }
+   ]
+  },
+  "D46": {
+   "pct": 40.5,
+   "wildAcres": 92675,
+   "acres": 229056,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 92675
+    }
+   ]
+  },
+  "D78": {
+   "pct": 12.9,
+   "wildAcres": 37812,
+   "acres": 292255,
+   "wilderness": [
+    {
+     "name": "Platte River Wilderness",
+     "acres": 22529
+    },
+    {
+     "name": "Savage Run Wilderness",
+     "acres": 15283
+    }
+   ]
+  },
+  "D81": {
+   "pct": 11.1,
+   "wildAcres": 21591,
+   "acres": 194524,
+   "wilderness": [
+    {
+     "name": "Huston Park Wilderness",
+     "acres": 11377
+    },
+    {
+     "name": "Encampment River Wilderness",
+     "acres": 10214
+    }
+   ]
+  },
+  "D82": {
+   "pct": 3.1,
+   "wildAcres": 19686,
+   "acres": 640499,
+   "wilderness": [
+    {
+     "name": "Huston Park Wilderness",
+     "acres": 19686
+    }
+   ]
+  },
+  "D92": {
+   "pct": 25.4,
+   "wildAcres": 107533,
+   "acres": 422713,
+   "wilderness": [
+    {
+     "name": "Popo Agie Wilderness",
+     "acres": 102409
+    },
+    {
+     "name": "Bridger Wilderness",
+     "acres": 5124
+    }
+   ]
+  },
+  "D105": {
+   "pct": 10.4,
+   "wildAcres": 23864,
+   "acres": 228963,
+   "wilderness": [
+    {
+     "name": "Absaroka-Beartooth Wilderness",
+     "acres": 23864
+    }
+   ]
+  },
+  "D106": {
+   "pct": 56.8,
+   "wildAcres": 177483,
+   "acres": 312443,
+   "wilderness": [
+    {
+     "name": "North Absaroka Wilderness",
+     "acres": 177483
+    }
+   ]
+  },
+  "D110": {
+   "pct": 82.8,
+   "wildAcres": 207720,
+   "acres": 250783,
+   "wilderness": [
+    {
+     "name": "North Absaroka Wilderness",
+     "acres": 117598
+    },
+    {
+     "name": "Washakie Wilderness",
+     "acres": 90122
+    }
+   ]
+  },
+  "D111": {
+   "pct": 42.7,
+   "wildAcres": 118007,
+   "acres": 276290,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 67118
+    },
+    {
+     "name": "North Absaroka Wilderness",
+     "acres": 50889
+    }
+   ]
+  },
+  "D112": {
+   "pct": 56.2,
+   "wildAcres": 81779,
+   "acres": 145400,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 81779
+    }
+   ]
+  },
+  "D113": {
+   "pct": 14.4,
+   "wildAcres": 36674,
+   "acres": 254533,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 36674
+    }
+   ]
+  },
+  "D114": {
+   "pct": 99.9,
+   "wildAcres": 116679,
+   "acres": 116746,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 116679
+    }
+   ]
+  },
+  "D115": {
+   "pct": 99.7,
+   "wildAcres": 209812,
+   "acres": 210506,
+   "wilderness": [
+    {
+     "name": "Teton Wilderness",
+     "acres": 209812
+    }
+   ]
+  },
+  "D117": {
+   "pct": 48.1,
+   "wildAcres": 132382,
+   "acres": 275421,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 132382
+    }
+   ]
+  },
+  "D119": {
+   "pct": 2.8,
+   "wildAcres": 7811,
+   "acres": 281200,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 7811
+    }
+   ]
+  },
+  "D128": {
+   "pct": 45,
+   "wildAcres": 359165,
+   "acres": 798514,
+   "wilderness": [
+    {
+     "name": "Fitzpatrick Wilderness",
+     "acres": 198638
+    },
+    {
+     "name": "Washakie Wilderness",
+     "acres": 160527
+    }
+   ]
+  },
+  "D130": {
+   "pct": 8.5,
+   "wildAcres": 37428,
+   "acres": 440565,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 37428
+    }
+   ]
+  },
+  "D138": {
+   "pct": 10.1,
+   "wildAcres": 93615,
+   "acres": 925524,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 93615
+    }
+   ]
+  },
+  "D139": {
+   "pct": 43.2,
+   "wildAcres": 131703,
+   "acres": 304976,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 131703
+    }
+   ]
+  },
+  "D140": {
+   "pct": 29.7,
+   "wildAcres": 61957,
+   "acres": 208715,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 61957
+    }
+   ]
+  },
+  "D141": {
+   "pct": 37.3,
+   "wildAcres": 121094,
+   "acres": 324505,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 96436
+    },
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 24658
+    }
+   ]
+  },
+  "D148": {
+   "pct": 85.4,
+   "wildAcres": 374517,
+   "acres": 438410,
+   "wilderness": [
+    {
+     "name": "Teton Wilderness",
+     "acres": 374517
+    }
+   ]
+  },
+  "D149": {
+   "pct": 54.7,
+   "wildAcres": 134022,
+   "acres": 244975,
+   "wilderness": [
+    {
+     "name": "Jedediah Smith Wilderness",
+     "acres": 123360
+    },
+    {
+     "name": "Winegar Hole Wilderness",
+     "acres": 10662
+    }
+   ]
+  },
+  "D152": {
+   "pct": 31.3,
+   "wildAcres": 79406,
+   "acres": 253523,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 79406
+    }
+   ]
+  },
+  "D154": {
+   "pct": 7.8,
+   "wildAcres": 8775,
+   "acres": 112050,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 8775
+    }
+   ]
+  },
+  "D155": {
+   "pct": 60,
+   "wildAcres": 173399,
+   "acres": 289009,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 173399
+    }
+   ]
+  },
+  "E13": {
+   "pct": 11.2,
+   "wildAcres": 21696,
+   "acres": 194250,
+   "wilderness": [
+    {
+     "name": "Huston Park Wilderness",
+     "acres": 11482
+    },
+    {
+     "name": "Encampment River Wilderness",
+     "acres": 10214
+    }
+   ]
+  },
+  "E21": {
+   "pct": 3.1,
+   "wildAcres": 19577,
+   "acres": 640556,
+   "wilderness": [
+    {
+     "name": "Huston Park Wilderness",
+     "acres": 19577
+    }
+   ]
+  },
+  "E27": {
+   "pct": 6.5,
+   "wildAcres": 4871,
+   "acres": 75480,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 4871
+    }
+   ]
+  },
+  "E28": {
+   "pct": 29.5,
+   "wildAcres": 102348,
+   "acres": 347242,
+   "wilderness": [
+    {
+     "name": "Popo Agie Wilderness",
+     "acres": 102348
+    }
+   ]
+  },
+  "E35": {
+   "pct": 17.7,
+   "wildAcres": 28484,
+   "acres": 160677,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 28484
+    }
+   ]
+  },
+  "E36": {
+   "pct": 10,
+   "wildAcres": 13337,
+   "acres": 133613,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 13337
+    }
+   ]
+  },
+  "E37": {
+   "pct": 13.3,
+   "wildAcres": 58371,
+   "acres": 437689,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 58371
+    }
+   ]
+  },
+  "E41": {
+   "pct": 7.4,
+   "wildAcres": 31612,
+   "acres": 426348,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 31612
+    }
+   ]
+  },
+  "E45": {
+   "pct": 12.1,
+   "wildAcres": 60111,
+   "acres": 498012,
+   "wilderness": [
+    {
+     "name": "Cloud Peak Wilderness",
+     "acres": 60111
+    }
+   ]
+  },
+  "E51": {
+   "pct": 48.6,
+   "wildAcres": 202393,
+   "acres": 416068,
+   "wilderness": [
+    {
+     "name": "North Absaroka Wilderness",
+     "acres": 177215
+    },
+    {
+     "name": "Absaroka-Beartooth Wilderness",
+     "acres": 25178
+    }
+   ]
+  },
+  "E55": {
+   "pct": 82.8,
+   "wildAcres": 207872,
+   "acres": 251066,
+   "wilderness": [
+    {
+     "name": "North Absaroka Wilderness",
+     "acres": 117753
+    },
+    {
+     "name": "Washakie Wilderness",
+     "acres": 90119
+    }
+   ]
+  },
+  "E56": {
+   "pct": 54.2,
+   "wildAcres": 163962,
+   "acres": 302598,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 113077
+    },
+    {
+     "name": "North Absaroka Wilderness",
+     "acres": 50885
+    }
+   ]
+  },
+  "E59": {
+   "pct": 75.3,
+   "wildAcres": 189285,
+   "acres": 251441,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 189285
+    }
+   ]
+  },
+  "E60": {
+   "pct": 99.7,
+   "wildAcres": 211240,
+   "acres": 211936,
+   "wilderness": [
+    {
+     "name": "Teton Wilderness",
+     "acres": 211240
+    }
+   ]
+  },
+  "E61": {
+   "pct": 31.5,
+   "wildAcres": 77560,
+   "acres": 246344,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 77560
+    }
+   ]
+  },
+  "E62": {
+   "pct": 11,
+   "wildAcres": 18079,
+   "acres": 163795,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 18079
+    }
+   ]
+  },
+  "E63": {
+   "pct": 15.7,
+   "wildAcres": 36679,
+   "acres": 234358,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 36679
+    }
+   ]
+  },
+  "E64": {
+   "pct": 1.2,
+   "wildAcres": 7785,
+   "acres": 654443,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 7785
+    }
+   ]
+  },
+  "E67": {
+   "pct": 35.8,
+   "wildAcres": 160557,
+   "acres": 448446,
+   "wilderness": [
+    {
+     "name": "Washakie Wilderness",
+     "acres": 160557
+    }
+   ]
+  },
+  "E68": {
+   "pct": 7.2,
+   "wildAcres": 9854,
+   "acres": 137383,
+   "wilderness": [
+    {
+     "name": "Fitzpatrick Wilderness",
+     "acres": 9854
+    }
+   ]
+  },
+  "E69": {
+   "pct": 88.7,
+   "wildAcres": 188785,
+   "acres": 212730,
+   "wilderness": [
+    {
+     "name": "Fitzpatrick Wilderness",
+     "acres": 188785
+    }
+   ]
+  },
+  "E70": {
+   "pct": 86.4,
+   "wildAcres": 247788,
+   "acres": 286898,
+   "wilderness": [
+    {
+     "name": "Teton Wilderness",
+     "acres": 247788
+    }
+   ]
+  },
+  "E71": {
+   "pct": 83.5,
+   "wildAcres": 125308,
+   "acres": 150019,
+   "wilderness": [
+    {
+     "name": "Teton Wilderness",
+     "acres": 125308
+    }
+   ]
+  },
+  "E73": {
+   "pct": 54.7,
+   "wildAcres": 134009,
+   "acres": 244973,
+   "wilderness": [
+    {
+     "name": "Jedediah Smith Wilderness",
+     "acres": 123347
+    },
+    {
+     "name": "Winegar Hole Wilderness",
+     "acres": 10662
+    }
+   ]
+  },
+  "E80": {
+   "pct": 71,
+   "wildAcres": 40423,
+   "acres": 56914,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 40423
+    }
+   ]
+  },
+  "E82": {
+   "pct": 88.7,
+   "wildAcres": 132958,
+   "acres": 149939,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 132958
+    }
+   ]
+  },
+  "E84": {
+   "pct": 31.3,
+   "wildAcres": 79401,
+   "acres": 253356,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 79401
+    }
+   ]
+  },
+  "E87": {
+   "pct": 11.9,
+   "wildAcres": 8777,
+   "acres": 73784,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 8777
+    }
+   ]
+  },
+  "E93": {
+   "pct": 14.8,
+   "wildAcres": 24661,
+   "acres": 166587,
+   "wilderness": [
+    {
+     "name": "Gros Ventre Wilderness",
+     "acres": 24661
+    }
+   ]
+  },
+  "E95": {
+   "pct": 46.7,
+   "wildAcres": 96430,
+   "acres": 206518,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 96430
+    }
+   ]
+  },
+  "E96": {
+   "pct": 38.6,
+   "wildAcres": 61957,
+   "acres": 160443,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 61957
+    }
+   ]
+  },
+  "E97": {
+   "pct": 42.8,
+   "wildAcres": 129877,
+   "acres": 303139,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 129877
+    }
+   ]
+  },
+  "E98": {
+   "pct": 7.7,
+   "wildAcres": 95455,
+   "acres": 1236841,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 95455
+    }
+   ]
+  },
+  "E99": {
+   "pct": 8.5,
+   "wildAcres": 37428,
+   "acres": 440558,
+   "wilderness": [
+    {
+     "name": "Bridger Wilderness",
+     "acres": 37428
+    }
+   ]
+  },
+  "E110": {
+   "pct": 12.9,
+   "wildAcres": 37812,
+   "acres": 292256,
+   "wilderness": [
+    {
+     "name": "Platte River Wilderness",
+     "acres": 22529
+    },
+    {
+     "name": "Savage Run Wilderness",
+     "acres": 15283
+    }
+   ]
+  }
+ },
+ "slivers": {
+  "A65": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 254
+   }
+  ],
+  "A80": [
+   {
+    "name": "North Absaroka Wilderness",
+    "acres": 1
+   }
+  ],
+  "A84": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 255
+   },
+   {
+    "name": "Teton Wilderness",
+    "acres": 34
+   }
+  ],
+  "A87": [
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 363
+   }
+  ],
+  "A90": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 114
+   }
+  ],
+  "A91": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 76
+   }
+  ],
+  "A107": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 66
+   }
+  ],
+  "A117": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 182
+   },
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 60
+   },
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 22
+   },
+   {
+    "name": "Washakie Wilderness",
+    "acres": 11
+   }
+  ],
+  "D106": [
+   {
+    "name": "Absaroka-Beartooth Wilderness",
+    "acres": 24
+   }
+  ],
+  "D109": [
+   {
+    "name": "North Absaroka Wilderness",
+    "acres": 37
+   }
+  ],
+  "D110": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 16
+   }
+  ],
+  "D111": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 10
+   }
+  ],
+  "D112": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 22
+   }
+  ],
+  "D114": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 42
+   }
+  ],
+  "D115": [
+   {
+    "name": "Washakie Wilderness",
+    "acres": 526
+   }
+  ],
+  "D118": [
+   {
+    "name": "Washakie Wilderness",
+    "acres": 50
+   }
+  ],
+  "D128": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 297
+   },
+   {
+    "name": "Teton Wilderness",
+    "acres": 52
+   }
+  ],
+  "D130": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 76
+   }
+  ],
+  "D138": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 115
+   }
+  ],
+  "D139": [
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 125
+   }
+  ],
+  "D141": [
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 115
+   }
+  ],
+  "D148": [
+   {
+    "name": "Washakie Wilderness",
+    "acres": 166
+   },
+   {
+    "name": "Jedediah Smith Wilderness",
+    "acres": 16
+   }
+  ],
+  "D150": [
+   {
+    "name": "Jedediah Smith Wilderness",
+    "acres": 47
+   }
+  ],
+  "D156": [
+   {
+    "name": "Gros Ventre Wilderness",
+    "acres": 2
+   }
+  ],
+  "D171": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 185
+   },
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 72
+   },
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 16
+   },
+   {
+    "name": "Washakie Wilderness",
+    "acres": 5
+   }
+  ],
+  "E27": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 66
+   }
+  ],
+  "E28": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 254
+   }
+  ],
+  "E54": [
+   {
+    "name": "North Absaroka Wilderness",
+    "acres": 106
+   }
+  ],
+  "E55": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 16
+   }
+  ],
+  "E56": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 18
+   }
+  ],
+  "E59": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 57
+   }
+  ],
+  "E60": [
+   {
+    "name": "Washakie Wilderness",
+    "acres": 522
+   }
+  ],
+  "E67": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 54
+   }
+  ],
+  "E68": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 22
+   }
+  ],
+  "E69": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 276
+   }
+  ],
+  "E70": [
+   {
+    "name": "Washakie Wilderness",
+    "acres": 164
+   }
+  ],
+  "E71": [
+   {
+    "name": "Jedediah Smith Wilderness",
+    "acres": 16
+   }
+  ],
+  "E72": [
+   {
+    "name": "Jedediah Smith Wilderness",
+    "acres": 263
+   }
+  ],
+  "E77": [
+   {
+    "name": "Gros Ventre Wilderness",
+    "acres": 19
+   }
+  ],
+  "E78": [
+   {
+    "name": "Jedediah Smith Wilderness",
+    "acres": 48
+   }
+  ],
+  "E79": [
+   {
+    "name": "Teton Wilderness",
+    "acres": 250
+   }
+  ],
+  "E81": [
+   {
+    "name": "Gros Ventre Wilderness",
+    "acres": 2
+   }
+  ],
+  "E95": [
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 112
+   }
+  ],
+  "E97": [
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 123
+   }
+  ],
+  "E98": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 114
+   }
+  ],
+  "E99": [
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 76
+   }
+  ],
+  "E127": [
+   {
+    "name": "Bridger Wilderness",
+    "acres": 182
+   },
+   {
+    "name": "Fitzpatrick Wilderness",
+    "acres": 79
+   },
+   {
+    "name": "Popo Agie Wilderness",
+    "acres": 12
+   },
+   {
+    "name": "Washakie Wilderness",
+    "acres": 5
+   }
+  ]
+ }
+}
