@@ -13,7 +13,7 @@ import { withPresetEdit } from '@/lib/filterPresets';
 import { showPrivate } from '@/lib/privateLand';
 
 /** URL keys that mark a state's own filter group as in use. Idaho's group is built in this file. */
-const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyMaxPts'] };
+const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyMaxPts', 'wyPool'] };
 
 type Opt = [value: string, label: string];
 

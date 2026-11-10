@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import type { HuntSummary } from '@prisma/client';
 import { runSearch, evaluateHunt, type HunterSettings } from '../src/lib/multiStateSearch';
-import { searchStates, searchBounds } from '../src/lib/searchStates';
-import { wyTableOdds, wyPool, wyAreaLabel, type WyOddsTable } from '../src/lib/wyHunt';
+import { searchStates, searchBounds, wySpecialView } from '../src/lib/searchStates';
+import { wyTableOdds, wyPool, wyNeed, wyAreaLabel, type WyOddsTable, type WyPointOdds } from '../src/lib/wyHunt';
 import { STATES, unitKey, parseUnitKey } from '../src/lib/states';
 
 const data = JSON.parse(readFileSync(new URL('../data/wy/hunts.json', import.meta.url), 'utf8')) as { hunts: Record<string, unknown>[] };
@@ -87,4 +87,26 @@ test('every shipped Wyoming hunt has odds tables in [0,1] that never fall with m
       arr.forEach((o, i) => { assert.ok(o >= 0 && o <= 1); if (i) assert.ok(o + 1e-9 >= arr[i - 1]); });
     }
   }
+});
+
+test('the pool preview overrides the saved pool only when set, and never for residents', () => {
+  assert.equal(wySpecialView('nrs', false), true);
+  assert.equal(wySpecialView('nr', true), false);
+  assert.equal(wySpecialView(undefined, true), true);
+  assert.equal(wySpecialView('junk', false), false);
+  assert.equal(wyPool(false, wySpecialView('nrs', false)), 'res');
+});
+
+test('points needed follows the pool shown, and "everyone drew" counts as 0', () => {
+  // 2026 antelope 001-1: regular cutoff 3 points, special pool everyone at 0+ drew
+  assert.equal(wyNeed(ant.pointOdds as unknown as WyPointOdds, 'nr'), 3);
+  assert.equal(wyNeed(ant.pointOdds as unknown as WyPointOdds, 'nrs'), 0);
+  const sp = { states: 'WY', antler: 'ALL', minScore: '0', wyMaxPts: '1' };
+  assert.equal(runSearch([ant], sp, 'WY', wy({}), {}, {}).length, 0);
+  assert.equal(runSearch([ant], sp, 'WY', wy({ wySpecial: true }), {}, {}).length, 1);
+  const allDrew = asRow(byId.get('WY:antelope:091-2')!);
+  assert.equal(allDrew.ptsNr, null);
+  assert.equal(runSearch([allDrew], { ...sp, wyMaxPts: '0' }, 'WY', wy({}), {}, {}).length, 1);
+  // residents have no points needed, so the nonresident cap never removes their results
+  assert.equal(runSearch([ant], sp, 'WY', wy({ res: 'RESIDENT' }), {}, {}).length, 1);
 });

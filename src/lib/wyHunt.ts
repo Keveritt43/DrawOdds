@@ -47,6 +47,13 @@ export type WyOddsTable = Record<'proj' | 'last', Partial<Record<WyPool, number[
 
 export const wyPool = (nr: boolean, special: boolean): WyPool => (!nr ? 'res' : special ? 'nrs' : 'nr');
 
+/** Whole points needed in a nonresident pool's last draw: 0 when everyone drew, null when the hunt has no such pool. */
+export function wyNeed(po: WyPointOdds | null | undefined, pool: WyPool): number | null {
+  const P = pool === 'nrs' ? po?.pools.special : pool === 'nr' ? po?.pools.regular : undefined;
+  if (!P) return null;
+  return P.eff === null ? 0 : Math.floor(P.eff + 1e-9);
+}
+
 /** Odds at p points from the stored table (null when the hunt has no such pool). Past the end: the last value. */
 export function wyTableOdds(t: WyOddsTable | null | undefined, mode: 'proj' | 'last', pool: WyPool, p: number): number | null {
   const a = t?.[mode]?.[pool];
