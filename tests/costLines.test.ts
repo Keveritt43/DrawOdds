@@ -50,3 +50,18 @@ test('every breakdown carries the date its figures were read and the schedule th
       assert.ok(c.notes.length > 0);
     }
 });
+
+test('the up-front group is named for what the money actually buys', () => {
+  assert.equal(costLines('controlled', 'NONRESIDENT', 'DEER').upFrontLabel, 'To apply');
+  // a moose application is still an application, even though the tag fee is paid with it
+  assert.equal(costLines('msg', 'NONRESIDENT', 'MOOSE').upFrontLabel, 'To apply');
+  assert.equal(costLines('otc', 'RESIDENT', 'DEER').upFrontLabel, 'To buy and hunt');
+});
+
+test('moose, sheep and goat say which fees are refundable once, not twice', () => {
+  const msg = costLines('msg', 'NONRESIDENT', 'MOOSE').notes.join(' ');
+  assert.ok(msg.includes('refunded if you do not draw'));
+  assert.equal(msg.match(/nonrefundable/gi), null);
+  // every other kind still carries the plain warning
+  assert.ok(costLines('controlled', 'NONRESIDENT', 'DEER').notes.join(' ').includes('nonrefundable'));
+});
