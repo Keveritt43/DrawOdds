@@ -3,6 +3,7 @@ import { withPresetEdit } from '@/lib/filterPresets';
 import { HuntLink } from '@/components/HuntNavigation';
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
 import { savedFilters } from "@/lib/savedFilters";
+import { restoresSavedFilters } from "@/lib/filterPreferences";
 import { migrationUnits } from '@/lib/migrations';
 import { dayLabel } from '@/lib/seasonDays';
 import { huntHref } from '@/lib/huntSlug';
@@ -22,7 +23,6 @@ import { FilterRail } from '@/components/FilterRail';
 import { HuntMap } from '@/components/HuntMap';
 import { SortSelect } from '@/components/SortSelect';
 import { RememberQuery, LAST_HUNTS_COOKIE } from '@/components/BackLink';
-import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { HuntTable } from '@/components/HuntTable';
 import { HuntCard, ZoneCard, TopPicks, choosePicks, type CardCtx } from '@/components/HuntCards';
@@ -90,20 +90,11 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     redirect(`/hunts?${new URLSearchParams(Object.entries({ ...sp, states: 'CO', draw: 'msg' }).flatMap(([k,v]) => v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]]))}`);
   }
   if(state==='CO'&&sp.sex!==undefined&&sp.antler===undefined){const sexes=(Array.isArray(sp.sex)?sp.sex.join(','):sp.sex).split(',');sp.antler=sexes.includes('E')?'ALL':sexes.map(x=>x==='F'?'ANTLERLESS':'ANTLERED').join(',');}
-  const ref = (await headers()).get("referer") ?? "";
-  const fromHere = /\/hunts(\?|$)/.test(ref.replace(/^https?:\/\/[^/]+/, ''));
-  if (sp.restore !== "1" && !sp.reset && (!fromHere || !Object.keys(sp).length)) {
-    const saved = await savedFilters(state);
-    const p = new URLSearchParams(saved);
-    for (const [k, v] of Object.entries(sp))
-      if (v !== undefined) p.set(k, Array.isArray(v) ? v.join(",") : v);
+  // A bare /hunts reopens the saved search. Any URL that names something of its own is left exactly as it arrived.
+  if (restoresSavedFilters(sp)) {
+    const p = new URLSearchParams(await savedFilters(state));
     if (!p.has("antler")) p.set("antler", "ANTLERED");
-    const current = new URLSearchParams(
-      Object.entries(sp).flatMap(([k, v]) =>
-        v === undefined ? [] : [[k, Array.isArray(v) ? v.join(",") : v]],
-      ),
-    ).toString();
-    if (p.toString() !== current) redirect("/hunts?" + p);
+    redirect("/hunts?" + p);
   }
   if (state === "CO") return <CoFinder sp={sp} />;
   const f = parseFilters(sp);
