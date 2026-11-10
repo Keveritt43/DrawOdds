@@ -29,3 +29,12 @@ export function privateOnlyExclusion(state: string) {
     ? [{ privateOnly: false }, { NOT: { type: 'CONTROLLED' as const, OR: ID_PRIVATE_ONLY_2026.map(k => { const [species, n] = k.split(':'); return { species: species as 'ELK', huntNumber: Number(n) }; }) } }]
     : [{ privateOnly: false }];
 }
+
+/**
+ * Score land inputs: a private-land-only license gets no credit for the unit's public land, the same rule Colorado
+ * (coScores) and Wyoming (wy-import) apply. Unknown land stays unknown rather than becoming 0.
+ */
+export function scoreLand<T extends { publicPct: number | null; huntablePct: number | null }>(r: PrivateLandRow & T): Pick<T, 'publicPct' | 'huntablePct'> {
+  if (!isPrivateOnly(r)) return { publicPct: r.publicPct, huntablePct: r.huntablePct };
+  return { publicPct: r.publicPct === null ? null : 0, huntablePct: r.huntablePct === null ? null : 0 };
+}
