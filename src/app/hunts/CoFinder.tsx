@@ -170,6 +170,8 @@ export async function CoFinder({ sp }: { sp: SP }) {
                       ...hs.map((x) => x.r.huntersSqMi ?? Infinity),
                     ),
                     public: land?.publicPct ?? null,
+                    // only Wyoming hunt areas are measured for wilderness; unmeasured is null, never 0
+                    wilderness: null,
                     huntable: null,
                     objBull: null,
                     objCow: null,

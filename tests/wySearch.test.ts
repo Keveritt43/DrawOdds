@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import type { HuntSummary } from '@prisma/client';
 import { runSearch, evaluateHunt, type HunterSettings } from '../src/lib/multiStateSearch';
-import { searchStates, searchBounds, wySpecialView } from '../src/lib/searchStates';
+import { searchStates, searchBounds, wySpecialView, searchUnitKey } from '../src/lib/searchStates';
 import { WY_RESTRICTIONS } from '../src/lib/searchStates';
-import { wyHuntWilderness, wildernessPctLabel } from '../src/lib/wyWilderness';
+import { wyHuntWilderness, wildernessPctLabel, wyWilderness } from '../src/lib/wyWilderness';
 import { wyTableOdds, wyPool, wyNeed, wyAreaLabel, type WyOddsTable, type WyPointOdds } from '../src/lib/wyHunt';
 import { STATES, unitKey, parseUnitKey } from '../src/lib/states';
 
@@ -139,4 +139,14 @@ test('a 4.5% hunt area is reported as a share, never as "the hunt is wilderness"
   // a real but tiny overlap still reads as a share rather than rounding to nothing
   assert.equal(wildernessPctLabel(0.4), '<1%');
   assert.deepEqual(wyHuntWilderness(['A1']), []);
+});
+
+test('the map reads wilderness by the same unit key the finder groups by', () => {
+  // MultiStateFinder shades from key.slice(3) of a "WY:<area>" group key; if that convention moves, this breaks
+  const key = searchUnitKey('WY', 'A50');
+  assert.equal(key, 'WY:A50');
+  assert.ok(key.startsWith('WY:'));
+  assert.equal(wyWilderness(key.slice(3))?.pct, wyWilderness('A50')?.pct);
+  // an area the build measured and found none in is a known zero, not missing data
+  assert.equal(wyWilderness('A1'), null);
 });

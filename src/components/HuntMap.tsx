@@ -13,7 +13,7 @@ import { divergingClasses, type BreakMode } from '@/lib/breaks';
 import { OBJ_SOURCE } from '@/lib/elkObjectives';
 import { colorsFor, msgSuccessClasses, scoreClasses, fixedClasses, FIXED_SCALES, OBJECTIVE_LABELS, type FixedScale, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
 
-export type MatchStat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null };
+export type MatchStat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null; wilderness: number | null };
 type ShadeKey = 'match' | 'none' | keyof MatchStat;
 const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
 type Mode = BreakMode | "score" | FixedScale;
@@ -27,6 +27,7 @@ const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode:
   public: { label: 'Public Land % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes!.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
   huntable: { label: 'Public + Access Yes! % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Public land plus Access Yes! land in each unit with a matching hunt.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
   objBull: { label: 'Elk: Bulls vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Bull elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more bulls than the target.`, scaleNote: '' },
+  wilderness: { label: 'Wilderness % (Matching Areas)', mode: 'pct', better: 'low', fmt: (v) => `${fmtNum(v)}%`, none: 'Not measured outside Wyoming', note: 'Share of each Wyoming hunt area that is federally designated wilderness, where a nonresident needs a licensed or resident guide (W.S. 23-2-401). Green = less of the area inside a wilderness boundary. This is not a judgement of the hunting: some of the best areas are almost entirely wilderness. The rule follows the boundary, not the area, so check the official wilderness map before you hunt.', scaleNote: 'Yellow = typical for these results.' },
   objCow: { label: 'Elk: Cows vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Cow elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more cows than the target; often more antlerless tags.`, scaleNote: '' },
 };
 import { loadUnits, loadSearchUnits } from "@/lib/unitData";
@@ -88,7 +89,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     const { matched, selected, stats } = latestPaint.current;
     const m = map.current;
     if (!m || !loaded.current) return;
-    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null });
+    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null });
     for (const u of matched) m.setFeatureState({ source: 'units', id: u }, { match: true, ...(stats.units[u] ?? {}) });
     prevMatched.current = matched;
     if (prevSel.current) m.setFeatureState({ source: 'units', id: prevSel.current }, { sel: false });
@@ -309,7 +310,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       m.setPaintProperty('units-line', 'line-opacity', on ? 0.35 : 0.85);
       m.setLayoutProperty('units-label', 'visibility', on ? 'none' : 'visible');
       if (on) {
-        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null });
+        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null });
         for (const a of matchedAreas) m.setFeatureState({ source: 'areas', id: a }, { match: true, sel: a === selectedArea, ...(stats.areas[a] ?? {}) });
         prevAreas.current = matchedAreas;
       }
@@ -336,6 +337,8 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       .filter(
         (k) =>
           !(areaMode && k.startsWith("obj")) &&
+          // only Wyoming hunt areas are measured for wilderness, so the option appears only with Wyoming selected
+          (k !== 'wilderness' ? true : !!states?.includes('WY')) &&
           (!states && stCode === "ID" ||
             !["objBull", "objCow", "huntable"].includes(k)),
       )
