@@ -5,7 +5,7 @@ import type { StateCode } from '@/lib/states';
 export function MultiQuickStart({ states }: { states: StateCode[] }) {
   return <main><section className="home-hero"><div className="inner"><div>
     <h1>Find Your <HomeStatePicker key={states.join(",")} selected={states} /> Hunt. <em>Know Your Odds.</em></h1>
-    <p className="small">Choose states above to search one or multiple states.</p>
+    <p className="small">Tap the state name above to search one state or several.</p>
     <p>Compare hunts across states using draw odds, harvest rates, public land and hunter density.</p>
     <p>Each state has its own draw rules. Set your residency and points in your <Link href="/account#hunting-preferences">hunting preferences</Link> or on the results page.</p>
   </div><form className="quick" action="/hunts" method="get">
