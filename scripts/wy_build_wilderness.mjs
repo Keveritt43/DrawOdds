@@ -18,6 +18,8 @@
  * wy_build_areas.py) of the acreage stored in data/wy/units.json, whose map geometry is generalized.
  */
 
+import fs from 'node:fs';
+
 export const DY = 30; // metres between scanlines
 /**
  * Overlaps smaller than this (per wilderness) are boundary slivers, not wilderness inside the hunt area: the map
@@ -176,7 +178,6 @@ export function toOutput(res, retrieved) {
 // ---- CLI ----
 const isMain = typeof process !== 'undefined' && process.argv?.[1] && import.meta.url.endsWith(process.argv[1].split(/[\\/]/).pop());
 if (isMain) {
-  const fs = await import('node:fs');
   const [unitsPath, wildPath, out = 'data/wy/wilderness.json'] = process.argv.slice(2);
   if (!unitsPath || !wildPath) {
     console.error('Usage: node scripts/wy_build_wilderness.mjs <units> <wilderness.geojson> [out]');
