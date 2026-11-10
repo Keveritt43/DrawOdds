@@ -10,8 +10,8 @@ import { wyAreaLabel, WY_POOL_SHORT, wyPool, type WyPointOdds } from '@/lib/wyHu
 
 /** Wyoming result card: Idaho's card structure, with Wyoming's pools (resident random; nonresident regular or
  *  special preference + random) and points needed for nonresidents. */
-export function WyHuntCard({ r, odds, points, nr, special, mode, saved, signedIn }: {
-  r: CoScored; odds: number | null; points: number | null; nr: boolean; special: boolean; mode: 'last' | 'proj'; saved: boolean; signedIn: boolean;
+export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved, signedIn }: {
+  r: CoScored; odds: number | null; points: number | null; nr: boolean; special: boolean; poolLink?: string; mode: 'last' | 'proj'; saved: boolean; signedIn: boolean;
 }) {
   const po = r.pointOdds as unknown as WyPointOdds | null;
   const chance = chanceOf(odds, 0, odds ?? 0);
@@ -26,7 +26,7 @@ export function WyHuntCard({ r, odds, points, nr, special, mode, saved, signedIn
       <div className="hrow-top">
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
-          <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
+          <HuntLink href={`/hunts/${r.slug}${nr && (poolLink === 'nr' || poolLink === 'nrs') ? `?pool=${poolLink}` : ''}`}>{r.name}</HuntLink>
           <span className={`pill ${r.type === 'GENERAL' ? 'gen' : 'ctl'}`}>{r.type === 'GENERAL' ? (nr ? `General · NR Region ${po?.nrRegion ?? '?'} license` : 'General · Over the counter') : r.tagCode?.includes('R-') ? 'Nonresident Region Draw' : 'Limited Quota Draw'}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />

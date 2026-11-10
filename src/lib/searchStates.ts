@@ -3,7 +3,13 @@ import { enabledStates, STATES, type StateCode } from './states';
 
 export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable', 'deerType', 'minBig'];
 export const CO_RESTRICTIONS = ['season', 'chance', 'minPts', 'maxPts', 'second', 'hybrid', 'otcElk'];
-export const WY_RESTRICTIONS = ['wyMaxPts'];
+export const WY_RESTRICTIONS = ['wyMaxPts', 'wyPool'];
+
+/** Wyoming nonresident pool to show in search: `wyPool=nr|nrs` previews the other pool without changing the saved
+ *  Account setting; anything else falls back to it. */
+export function wySpecialView(value: string | undefined, saved: boolean): boolean {
+  return value === 'nrs' ? true : value === 'nr' ? false : saved;
+}
 
 /** Explicit URL selection wins; the header state supplies the initial selection. */
 export function searchStates(value: string | string[] | undefined, fallback: StateCode): StateCode[] {

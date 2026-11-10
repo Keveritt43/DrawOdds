@@ -8,7 +8,7 @@ import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
 export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS } from './searchStates';
-import { wyPool, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
+import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
 import { DRAW_SPECIES } from './species';
@@ -27,6 +27,8 @@ export interface SearchResult {
   points: number | null;
   basis: string;
   applicants?: number;
+  /** Wyoming nonresidents: points needed in the pool shown (regular or special). */
+  need?: number | null;
 }
 export const param = (sp: SearchParams, k: string) => (Array.isArray(sp[k]) ? sp[k]!.join(',') : sp[k] ?? '') as string;
 const list = (sp: SearchParams, k: string) => param(sp, k).split(',').filter(Boolean);
@@ -68,7 +70,7 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     const odds = wyTableOdds(table, mode, pool, points ?? 0);
     const basis = wyBasis(pool, mode, points ?? 0, r.pointOdds as unknown as WyPointOdds | null);
     const opp = opportunity(r.scoreQuality, odds);
-    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis };
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis, need: nr ? wyNeed(r.pointOdds as unknown as WyPointOdds | null, pool) : null };
   }
   const special = coSpecial(r);
   const points = special ? settings.CO.specialSet ? specialPointSetting(special, settings.CO)?.weighted ?? null : null : r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
@@ -130,7 +132,7 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   } else if (r.state === 'WY') {
     if (param(sp, 'wyMaxPts') !== '') {
       const n = Number(param(sp, 'wyMaxPts'));
-      if (Number.isFinite(n) && x.nr && (r.ptsNr === null || r.ptsNr > n)) return false;
+      if (Number.isFinite(n) && x.nr && (x.need === null || x.need === undefined || x.need > n)) return false;
     }
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
@@ -167,7 +169,7 @@ export function compareSearch(a: SearchResult, b: SearchResult, sort: string): n
       case 'densityLow': return r.huntersSqMi;
       case 'apps': case 'appsLow': return x.applicants ?? (x.nr ? r.nrAppsLast : r.resAppsLast);
       case 'open': return r.openDate ? +r.openDate : null;
-      case 'pts': return x.nr ? r.ptsNr : r.ptsRes;
+      case 'pts': return r.state === 'WY' && x.nr ? x.need ?? null : x.nr ? r.ptsNr : r.ptsRes;
       case 'tags': return r.tags;
       case 'creep': return x.nr ? r.creepNr : r.creepRes;
       default: return x.opportunity;

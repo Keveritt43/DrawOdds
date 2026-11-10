@@ -4,6 +4,7 @@ import { db, thisYear, type StepResult } from '../core/context';
 import { unitsFromName, parentUnit } from '../core/parse';
 import { seasonsClass, seasonRules } from '../../lib/tagSeasons';
 import { scoreHunts } from '../../lib/score';
+import { scoreLand } from '../../lib/privateLand';
 import { assignSlugs } from '../../lib/huntSlug';
 import { seasonDays } from '../../lib/seasonDays';
 import { loadElkTagSeasons, loadDeerTagSeasons, loadElkZones, type TagSeason } from '../core/datafiles';
@@ -297,7 +298,8 @@ export async function buildSummaries(): Promise<StepResult> {
   // DrawOdds Score: absolute grades computed after all summary inputs are built
   const scores = scoreHunts(out.map((r) => ({
     id: r.id, species: r.species, type: r.type, nrTag: r.nrTag, weapon: r.weapon, antlerClass: r.antlerClass,
-    hunters5: r.hunters5, harvest5: r.harvest5, huntersSqMi: r.huntersSqMi, publicPct: r.publicPct, huntablePct: r.huntablePct,
+    hunters5: r.hunters5, harvest5: r.harvest5, huntersSqMi: r.huntersSqMi,
+    ...scoreLand({ state: 'ID', privateOnly: false, species: r.species, type: r.type, huntNumber: r.huntNumber ?? null, publicPct: r.publicPct ?? null, huntablePct: r.huntablePct ?? null }),
     bigPct5: r.bigPct5, deerType: r.deerType, twoPoint: seasonRules(r.tagSeasons, r.species).includes('2-point bucks only'),
     resOdds5: r.resOdds5, nrOdds5: r.nrOdds5, capped: r.capped,
   })));

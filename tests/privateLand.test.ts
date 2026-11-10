@@ -61,3 +61,12 @@ test('Wyoming private-only means every season segment is limited to private land
   // open to the entire area for part of the season, so not private-only
   for (const code of ['D24-3', 'E16-4', 'E33-4', 'E78-2', 'E124-2']) assert.equal(hunts.find(h => h.tagCode === code)?.privateOnly, false, code);
 });
+
+test('private-land-only hunts score with no public land; unknown land stays unknown', async () => {
+  const { scoreLand } = await import('../src/lib/privateLand');
+  const base = { state: 'ID', privateOnly: false, species: 'ELK', type: 'CONTROLLED', publicPct: 40, huntablePct: 45 };
+  assert.deepEqual(scoreLand({ ...base, huntNumber: 2168 }), { publicPct: 0, huntablePct: 0 });
+  assert.deepEqual(scoreLand({ ...base, huntNumber: 2001 }), { publicPct: 40, huntablePct: 45 });
+  assert.deepEqual(scoreLand({ ...base, huntNumber: 2168, publicPct: null, huntablePct: null }), { publicPct: null, huntablePct: null });
+  assert.deepEqual(scoreLand({ ...base, state: 'CO', privateOnly: true, huntNumber: null }), { publicPct: 0, huntablePct: 0 });
+});

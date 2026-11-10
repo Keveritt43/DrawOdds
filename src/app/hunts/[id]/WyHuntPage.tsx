@@ -120,7 +120,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <h2 id="trends">Hunt Trends</h2>
       <div className="grid2 co-graph-grid">
         <WyCreepChart po={po} />
-        <WyOddsPointsChart table={table} po={po} pool={pool === 'res' ? 'nr' : pool} mode={mode} myPoints={nr && pool === myPool ? p : null} />
+        <WyOddsPointsChart table={table} po={po} pool={pool === 'res' ? 'nr' : pool} mode={mode} myPoints={nr ? p : null} />
         {po.harvest.length ? <WyHarvestCharts rows={po.harvest} /> : null}
       </div>
 
@@ -151,7 +151,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
             {(['nr', 'nrs'] as WyPool[]).filter((x) => table?.last?.[x]).map((x) => <HuntLink key={x} className="seg-link" href={q({ pool: x === myPool ? null : x })} aria-pressed={pool === x} scroll={false}>{WY_POOL_SHORT[x]}</HuntLink>)}
           </span>
         </div>
-        {P ? <Ladder P={P} table={table} pool={pool} mode={mode} me={nr && pool === myPool ? p : null} year={po.year} projected={po.projected} /> : <p className="muted">Pick a nonresident pool.</p>}
+        {P ? <Ladder P={P} table={table} pool={pool} mode={mode} me={nr ? p : null} year={po.year} projected={po.projected} /> : <p className="muted">Pick a nonresident pool.</p>}
         <p className="small muted">{projected
           ? `${po.projYear} projection: last draw's cutoff moved by each of the year-to-year changes measured across Wyoming ${spLabel} hunts (never below the last draw); odds are the average over those outcomes. It beat last year's odds in a 2024–2026 backtest. Quotas, applicants and rule changes can move the result.`
           : `${po.year} draw: WGFD's printed first-choice preference odds by points, then the random draw estimated from its quota and first-choice applicants.`}</p>
@@ -163,12 +163,17 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
 
 function Ladder({ P, table, pool, mode, me, year, projected }: { P: WyNrPoolData; table: WyOddsTable | null; pool: WyPool; mode: 'proj' | 'last'; me: number | null; year: number; projected: boolean }) {
   const rows = P.pref.rows.filter((r) => r[2] !== 'p');
-  const top = Math.max(0, ...rows.map((r) => r[3])) + 1;
+  // WGFD prints the bottom of the ladder as one closing row ("N or fewer points"): label it once, at N
+  const rest = rows.find((r) => r[2] === 'r');
+  const top = Math.max(0, me ?? 0, ...rows.map((r) => r[3])) + 1;
   return (
-    <div className="htable-wrap"><table><thead><tr><th>Points</th><th className="num">1st-choice applicants ({year} draw)</th><th className="num">{year} preference odds (printed)</th><th className="num">{mode === 'proj' && projected ? `${year + 1} projected, incl. random draw` : `${year} incl. random draw`}</th></tr></thead>
+    <div className="htable-wrap"><table className="co-ladder"><thead><tr><th>Points</th><th className="num">1st-choice applicants ({year} draw)</th><th className="num">{year} preference odds (printed)</th><th className="num">{mode === 'proj' && projected ? `${year + 1} projected, incl. random draw` : `${year} incl. random draw`}</th></tr></thead>
       <tbody>{Array.from({ length: top + 1 }, (_, k) => top - k).map((pt) => {
-        const row = rows.find((r) => r[2] === 'e' && r[3] === pt) ?? (pt <= (rows.find((r) => r[2] === 'r')?.[3] ?? -1) ? rows.find((r) => r[2] === 'r') : undefined);
-        return <tr key={pt} className={me === pt ? 'me' : undefined}><td>{row?.[2] === 'r' ? `${pt} (in "${row[3]} or fewer")` : pt}{me === pt ? ' · you' : ''}</td><td className="num">{row && row[2] === 'e' ? int(row[4]) : row ? '' : '0'}</td><td className="num">{pct(prefOdds(P.pref, pt))}</td><td className="num">{pct(wyTableOdds(table, mode, pool, pt))}</td></tr>;
+        const exact = rows.find((r) => r[2] === 'e' && r[3] === pt);
+        const inRest = !exact && rest !== undefined && pt <= rest[3];
+        const label = inRest && pt === rest[3] ? `${pt} or fewer` : String(pt);
+        const apps = exact ? int(exact[4]) : inRest ? (pt === rest[3] ? `${int(rest[4])} (all ${pt} or fewer)` : '') : '0';
+        return <tr key={pt} className={me === pt ? 'me' : undefined} aria-current={me === pt ? 'true' : undefined}><td>{me === pt ? <b>{label} · you</b> : label}</td><td className="num">{apps}</td><td className="num">{pct(prefOdds(P.pref, pt))}</td><td className="num">{pct(wyTableOdds(table, mode, pool, pt))}</td></tr>;
       })}</tbody></table></div>
   );
 }
