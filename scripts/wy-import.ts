@@ -100,28 +100,32 @@ async function main() {
   const counts = { hunts: huntRows.length, summaries: summaryRows.length, units: unitRows.length, scored: summaryRows.filter((r) => r.scoreQuality !== null).length };
   console.log('[WY] plan', JSON.stringify(counts));
   // Field-by-field comparison with the live Wyoming rows, so a dry run shows exactly what --apply would change.
-  // jsonb stores object keys in its own order: compare with sorted keys
-  const sorted = (v: unknown): unknown => v instanceof Date ? v.toISOString() : Array.isArray(v) ? v.map(sorted)
-    : v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, sorted((v as Record<string, unknown>)[k])])) : v ?? null;
-  const norm = (v: unknown) => JSON.stringify(sorted(v));
+  // Numbers within 1e-9 (relative) are equal: Postgres hands back doubles printed to fewer digits than JS writes.
+  // JSON (jsonb reorders keys) is compared deeply, and each difference is reported by its path.
+  const iso = (v: unknown) => (v instanceof Date ? v.toISOString() : v);
+  const diffs = (a: unknown, b: unknown, path: string, out: string[]) => {
+    a = iso(a ?? null); b = iso(b ?? null);
+    if (typeof a === 'number' && typeof b === 'number') { if (Math.abs(a - b) > 1e-9 * Math.max(1, Math.abs(a))) out.push(`${path}: ${a} -> ${b}`); return; }
+    if (a && b && typeof a === 'object' && typeof b === 'object') {
+      for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) diffs((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k], `${path}.${k}`, out);
+      return;
+    }
+    if (JSON.stringify(a) !== JSON.stringify(b)) out.push(`${path}: ${JSON.stringify(a)?.slice(0, 60)} -> ${JSON.stringify(b)?.slice(0, 60)}`);
+  };
   const live = new Map((await db.huntSummary.findMany({ where: { state: 'WY' } })).map((r) => [r.id, r as unknown as Record<string, unknown>]));
   const added = summaryRows.filter((r) => !live.has(r.id)).map((r) => r.id);
   const removed = [...live.keys()].filter((id) => !summaryRows.some((r) => r.id === id));
-  const changed: { id: string; tagCode: string | null | undefined; fields: Record<string, [unknown, unknown]> }[] = [];
+  let changedRows = 0;
   for (const r of summaryRows) {
     const cur = live.get(r.id);
     if (!cur) continue;
-    const fields: Record<string, [unknown, unknown]> = {};
-    for (const [k, v] of Object.entries(r)) {
-      const a = norm(cur[k]), b = norm(v);
-      if (a !== b) fields[k] = [a.length > 80 ? `${a.slice(0, 80)}…` : JSON.parse(a), b.length > 80 ? `${b.slice(0, 80)}…` : JSON.parse(b)];
-    }
-    if (Object.keys(fields).length) changed.push({ id: r.id, tagCode: r.tagCode, fields });
+    const out: string[] = [];
+    for (const [k, v] of Object.entries(r)) diffs(cur[k], v, k, out);
+    if (out.length) { changedRows++; console.log('[WY] changed', r.tagCode ?? r.id, out.slice(0, 12).join(' | '), out.length > 12 ? `(+${out.length - 12} more)` : ''); }
   }
-  console.log('[WY] diff', JSON.stringify({ live: live.size, added: added.length, removed: removed.length, changed: changed.length }));
+  console.log('[WY] diff', JSON.stringify({ live: live.size, added: added.length, removed: removed.length, changed: changedRows }));
   if (added.length) console.log('[WY] added', added.join(', '));
   if (removed.length) console.log('[WY] removed', removed.join(', '));
-  for (const c of changed) console.log('[WY] changed', c.tagCode ?? c.id, JSON.stringify(c.fields));
   if (!apply) {
     console.log('[WY] dry run only; pass --apply to write');
     return;
