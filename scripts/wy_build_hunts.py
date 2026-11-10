@@ -226,7 +226,13 @@ def main():
             segs = reg["segments"] if reg else []
             lim = "; ".join(dict.fromkeys(s["limitations"] for s in segs if s["limitations"])) if reg else "Nonresident region general license"
             open_d, close_d = season_span(segs)
-            private_only = bool(re.search(r"valid (only )?on private land|private land only", (segs[0]["limitations"] if segs else "").lower()))
+            # Private-land-only means every season segment restricts the license to private land. Checking only the
+            # first segment wrongly flagged licenses that open to the entire area later (D24-3, E16-4, E33-4, E78-2,
+            # E124-2: a wrapped boundary line, then an unrestricted segment).
+            private_only = bool(segs) and all(
+                re.search(r"valid (only )?on private land|private land only", (s["limitations"] or "").lower())
+                and not re.search(r"entire area|off private land", (s["limitations"] or "").lower())
+                for s in segs)
             hv = harvest_for(lkey) if lkey else harvest_for(f"region-{h['area']}")
             h5 = hv[-5:]
             hunters5 = sum(x["hunters"] for x in h5) if h5 else None

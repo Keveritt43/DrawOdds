@@ -3,6 +3,7 @@ import { ELK_ZONES, ELK_ZONE_NAMES } from './elkZones';
 import { DRAW_SPECIES, type Draw } from './species';
 import { DEFAULT_STATE } from './states';
 import { parseMonthDay, toMonthDay } from './seasonDays';
+import { privateOnlyExclusion } from './privateLand';
 
 /** A valid from-to pair from ?from=10-20&to=10-31 (swapped if backwards), or no window. */
 function dayWindow(from?: string, to?: string): { dayFrom: number | null; dayTo: number | null } {
@@ -46,6 +47,8 @@ export interface Filters {
   maxDensity: number | null; // at most this many hunters per square mile
   accessYes: boolean;
   youth: 'exclude' | 'include' | 'only';
+  /** show hunts whose license is valid only on private land (hidden by default in every state) */
+  priv: boolean;
   unit: string;
   zones: string[]; // elk zone names: hunts in any of their units
   q: string;
@@ -95,6 +98,7 @@ export function parseFilters(sp: SP): Filters {
     maxDensity: Number(one(sp.maxDensity)) > 0 ? Math.min(100, Number(one(sp.maxDensity))) : null,
     accessYes: one(sp.accessYes) === '1',
     youth: (['include', 'only'] as const).find((y) => y === one(sp.youth)) ?? 'exclude',
+    priv: one(sp.priv) === '1' || one(sp.wyPriv) === '1',
     unit: one(sp.unit).trim().toUpperCase().slice(0, 6),
     zones: [...new Set(list(sp.zone).map((v) => ELK_ZONE_NAMES.find((z) => z.toLowerCase() === v.trim().toLowerCase())).filter((z): z is string => !!z))],
     q: one(sp.q).trim().slice(0, 60),
@@ -165,6 +169,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   if (f.accessYes) and.push({ accessYesCount: { gt: 0 } });
   if (f.youth === 'exclude') and.push({ youthOnly: false });
   if (f.youth === 'only') and.push({OR:[{youthOnly:true},{type:'GENERAL'}]});
+  if (!f.priv) and.push(...privateOnlyExclusion(state));
   if (f.unit) and.push({ units: { has: f.unit } });
   if (f.zones.length) and.push({ units: { hasSome: zoneUnits(f.zones) } });
   if (f.q) {
@@ -260,6 +265,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('maxDensity', m.maxDensity);
   set('accessYes', m.accessYes);
   if (m.youth && m.youth !== 'exclude') set('youth', m.youth);
+  if (m.priv) set('priv', '1');
   set('unit', m.unit);
   set('zone', m.zones);
   set('q', m.q);
