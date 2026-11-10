@@ -43,7 +43,7 @@ export async function searchHunts(sp: SearchParams) {
   const [data, store, id] = await Promise.all([
     Promise.all(states.map(publicSearchIndex)), getPointsStore(), getResidency(undefined, 'ID'),
   ]);
-  const settings = { ID: id.residency, CO: readState(store.store, 'CO') };
+  const settings = { ID: id.residency, CO: readState(store.store, 'CO'), WY: readState(store.store, 'WY') };
   const migrations = Object.assign({}, ...data.map(d => d.migrations));
   const overlaps = Object.assign({}, ...data.map(d => d.overlaps));
   const results = runSearch(data.flatMap(d => d.rows), sp, header.code, settings, migrations, overlaps);

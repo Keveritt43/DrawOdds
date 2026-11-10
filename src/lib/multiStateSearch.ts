@@ -7,7 +7,8 @@ import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
-export { ID_RESTRICTIONS, CO_RESTRICTIONS } from './searchStates';
+export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS } from './searchStates';
+import { wyPool, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
 import { DRAW_SPECIES } from './species';
@@ -16,7 +17,7 @@ import { specialPersonalOdds, specialOddsBasis, specialPointSetting } from './co
 import { chanceOf } from './coOdds';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
-export type HunterSettings = { ID: Residency; CO: StatePoints };
+export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints };
 export interface SearchResult {
   r: CoScored;
   odds: number | null;
@@ -40,8 +41,12 @@ export function searchFilters(sp: SearchParams): Filters {
 }
 
 /** All personal values are derived on copies; the public cached rows are never modified. */
+/** Residency for a row's state: Idaho's profile residency, else that state's saved settings. */
+export const isNonresident = (state: string, settings: HunterSettings) =>
+  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
+
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
-  const nr = (r.state === 'ID' ? settings.ID : settings.CO.res) === 'NONRESIDENT';
+  const nr = isNonresident(r.state, settings);
   if (r.state === 'ID' && r.nrTag && !nr && r.species !== 'ELK') return null;
   // Match the Idaho listing: zone tags replace duplicated per-weapon general elk rows.
   if (r.state === 'ID' && r.type === 'GENERAL' && !r.nrTag && r.species === 'ELK') return null;
@@ -52,7 +57,18 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
 export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
-  const nr = (r.state === 'ID' ? settings.ID : settings.CO.res) === 'NONRESIDENT';
+  const nr = isNonresident(r.state, settings);
+  if (r.state === 'WY') {
+    const wy = settings.WY;
+    const points = nr ? wy?.[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
+    const pool = wyPool(nr, wy?.wySpecial === true);
+    const table = r.oddsByPts as unknown as WyOddsTable | null;
+    // a special-pool hunter can still fall back to the regular pool only by applying there; never mix pools
+    const odds = wyTableOdds(table, mode, pool, points ?? 0);
+    const basis = wyBasis(pool, mode, points ?? 0, r.pointOdds as unknown as WyPointOdds | null);
+    const opp = opportunity(r.scoreQuality, odds);
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis };
+  }
   const special = coSpecial(r);
   const points = special ? settings.CO.specialSet ? specialPointSetting(special, settings.CO)?.weighted ?? null : null : r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
   const general = (r.pointOdds as unknown as PointOdds | null)?.general;
@@ -107,6 +123,12 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     if (f.migration) {
       const has = r.units.some(u => migrations[r.species]?.includes(u));
       if (has !== (f.migration === 'yes')) return false;
+    }
+  } else if (r.state === 'WY') {
+    if (r.privateOnly && param(sp, 'wyPriv') !== '1') return false;
+    if (param(sp, 'wyMaxPts') !== '') {
+      const n = Number(param(sp, 'wyMaxPts'));
+      if (Number.isFinite(n) && x.nr && (r.ptsNr === null || r.ptsNr > n)) return false;
     }
   } else if (r.state === 'CO') {
     if (r.privateOnly && param(sp, 'priv') !== '1') return false;

@@ -28,18 +28,26 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
     special[species] = pref; weighted[species] = weight;
   }
   const CO: StatePoints = { res: colorado, DEER, ELK, PRONGHORN, ...special, weighted, specialSet: true, youth: form.get('youth') === 'on', set: true };
+  // Wyoming: residency, nonresident preference points (deer, elk, antelope) and the regular/special pool
+  const wyoming = form.get('wyomingResidency');
+  const wyDEER = readPoints('wyDEER'), wyELK = readPoints('wyELK'), wyPRONGHORN = readPoints('wyPRONGHORN');
+  const WY: StatePoints | null = validResidency(wyoming) && wyDEER !== null && wyELK !== null && wyPRONGHORN !== null
+    ? { res: wyoming, DEER: wyDEER, ELK: wyELK, PRONGHORN: wyPRONGHORN, youth: false, set: true, wySpecial: form.get('wySpecial') === 'on' }
+    : null;
+  if (form.has('wyomingResidency') && !WY) return { message: 'Enter whole Wyoming points from 0 to 40 for each species.', saved: false };
   const { store, userId } = await getPointsStore();
   if (userId) {
     await db.$transaction(async tx => {
       await tx.user.update({ where: { id: userId }, data: { residency: idaho } });
       await setAccountPreference(userId, 'CO', CO, tx);
+      if (WY) await setAccountPreference(userId, 'WY', WY, tx);
     });
   }
   const jar = await cookies();
   const options = { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax' as const, path: '/', httpOnly: true };
   jar.set(RESIDENCY_COOKIE, idaho, options);
   // Keep account-only preferences out of the browser cookie.
-  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO };
+  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO, ...(WY ? { WY } : {}) };
   jar.set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), options);
   revalidatePath('/', 'layout');
   return { message: 'Hunting preferences saved.', saved: true };
