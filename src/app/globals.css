@@ -348,6 +348,13 @@ table.results tr.old td { opacity: .45; }
 .apply code { font: 700 .95rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
 .apply-next { margin: 0 0 6px; padding: 8px 10px; background: var(--bg); border-radius: 8px; font-size: .92rem; }
 .apply-next.open { background: rgba(111,154,106,.15); }
+.cost-lines { margin: 12px 0 8px; padding: 10px 12px; background: var(--stat-bg); border: 1px solid var(--stat-line); border-radius: 8px; }
+.cost-lines h4 { margin: 0 0 6px; font: 700 .8rem/1 var(--font-body); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.cost-lines dl { margin: 0 0 8px; display: grid; gap: 2px; }
+.cost-lines dt { margin-top: 6px; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.cost-lines dt:first-child { margin-top: 0; }
+.cost-lines dd { margin: 0; display: flex; justify-content: space-between; gap: 12px; font-size: .95rem; }
+.cost-lines dd b { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .home-hero .deadline { margin: 16px 0 0; padding: 8px 12px; border-left: 3px solid var(--blaze); background: rgba(29,32,35,.7); color: #e6e9e3; font-size: .95rem; max-width: 56ch; }
 .home-hero .deadline b { color: #fff; }
 .quick .hint { color: #a9b0a7; font-size: .8rem; margin: 6px 0 0; }

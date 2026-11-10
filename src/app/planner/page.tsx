@@ -4,7 +4,7 @@ import { getPoints } from "@/lib/points";
 import { poolFor, tableOdds, type OddsTable } from "@/lib/coHunt";
 import { CoPlanner } from "@/components/CoPlanner";
 import { getResidency } from '@/lib/residency';
-import { NR_COSTS, upcomingWindows } from '@/lib/applyInfo';
+import { plannerCosts, upcomingWindows } from '@/lib/applyInfo';
 import { Planner } from '@/components/Planner';
 
 export const dynamic = 'force-dynamic';
@@ -50,7 +50,7 @@ export default async function PlannerPage({ searchParams,
       <p className="muted" style={{ maxWidth: '72ch' }}>
         Put your choices in order and see your real chance of drawing, what it costs and when to apply. Idaho has <b>no preference or bonus points</b>: every year is a fresh random draw, so last year&apos;s odds are your odds and nothing carries over. {signedIn ? 'Your plan is saved to your account, so it follows you to any device.' : <>Your plan stays in this browser; <a href="/login">sign in</a> to keep it on every device.</>} Planning as a {nr ? 'nonresident' : 'resident'} (switch at the top).
       </p>
-      <Planner nr={nr} windows={upcomingWindows().map((w) => ({ ...w, start: w.start.toISOString(), end: w.end.toISOString() }))} costs={NR_COSTS} />
+      <Planner nr={nr} windows={upcomingWindows().map((w) => ({ ...w, start: w.start.toISOString(), end: w.end.toISOString() }))} costs={plannerCosts()} />
     </main>
   );
 }

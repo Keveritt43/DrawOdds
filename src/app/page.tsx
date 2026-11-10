@@ -7,7 +7,7 @@ import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { DrawSwitch } from '@/components/DrawSwitch';
 import { Suspense } from 'react';
-import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, nextWindow, md } from '@/lib/applyInfo';
+import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, FEES, money, nextWindow, md } from '@/lib/applyInfo';
 
 export const dynamic = 'force-dynamic';
 
@@ -65,6 +65,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
   ]);
   const yrs = oddsYears.map((y) => y.year);
   const nr = residency === 'NONRESIDENT';
+  const fees = FEES[residency];
   // the next application window that matters to this visitor
   const nextNr = nextWindow(NR_GENERAL_DRAW.windows);
   const nextCtl = nextWindow(CONTROLLED_DRAW.windows);
@@ -91,7 +92,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             </h1>
             <p className="small">Tap the state name above to search one state or several.</p><p className="lead">
               Every Idaho deer, elk, pronghorn, moose, bighorn sheep and mountain goat hunt in one place: draw odds for your residency, hunter success, how
-              crowded it gets, public land and Access Yes! acres, on a map. Answer a few questions and we&apos;ll show you
+              crowded it gets, public land and Access Yes! acres (IDFG\u2019s program that pays private landowners to open their ground to public hunting), on a map. Answer a few questions and we&apos;ll show you
               where to start.
             </p>
             {deadline && (
@@ -99,6 +100,14 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
                 {deadline.open ? 'Open now' : 'Next deadline'}: <b>{deadline.what}</b>, {md(deadline.start.toISOString().slice(0, 10))} – {md(deadline.end.toISOString().slice(0, 10), true)}.
               </p>
             )}
+            {/* The first UAT question nobody could answer from this page: what does it cost? Itemised, never totalled -
+                the licence is annual and covers every hunt that year. */}
+            <p className="small">
+              <b>What it costs:</b> {msg
+                ? <>licence {money(fees.license)} plus the {money(fees.accessFee)} access fee, {money(fees.msgApp)} to apply, and the full tag fee up front ({money(fees.tag.MOOSE)} for moose, sheep or goat alike), refunded if you don&apos;t draw.</>
+                : <>licence {money(fees.license)} plus the {money(fees.accessFee)} access fee, then {money(fees.controlledApp)} an application. Tags are extra{nr ? ' and only if you draw' : ''}: deer {money(fees.tag.DEER)}, elk {money(fees.tag.ELK)}, pronghorn {money(fees.tag.PRONGHORN)}.</>}
+              {' '}<Link href="/guide">Fees and deadlines in full</Link>
+            </p>
             {/* The one thing a hunter from a points state has to unlearn before the numbers here mean anything. */}
             <p className="small">
               <b>Idaho has no preference or bonus points.</b> Every draw is a fresh random number, so a hunt&apos;s recent odds are your real odds.{' '}
@@ -179,7 +188,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
           <Link className="tile tone-blaze" href="/hunts?type=CONTROLLED&sort=odds">
             <span className="pill blaze">Draw Odds</span>
             <h3>Odds For Your Residency</h3>
-            <p>Resident and nonresident first-choice odds, 5-year totals, and applicant trends, followed through IDFG&apos;s hunt renumbering.</p>
+            <p>Resident and nonresident first-choice odds, 5-year totals, and applicant trends, followed through even when IDFG changes a hunt&apos;s number.</p>
             <span className="go">Best odds →</span>
           </Link>
           <Link className="tile tone-sage" href="/hunts?sort=success">

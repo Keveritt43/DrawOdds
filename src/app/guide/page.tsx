@@ -1,7 +1,7 @@
 import { CoGuide } from "@/components/CoPages";
 import { getState } from "@/lib/residency";
 import Link from 'next/link';
-import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, NR_COSTS, md, money } from '@/lib/applyInfo';
+import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, FEES, md, money } from '@/lib/applyInfo';
 
 export const metadata = { title: "How The Draw Works",
   description: 'Idaho deer, elk, pronghorn, moose, sheep and goat draws for residents and nonresidents: no points, choice order, nonresident limits, leftovers and strategy.',
@@ -26,12 +26,12 @@ export default async function GuidePage() {
 
       <h2>Nonresident General Tags: How Your 5 Choices Work</h2>
       <ul>
-        <li>Buy the year&apos;s Idaho hunting license first ({money(NR_COSTS.license)} in {NR_COSTS.year}, nonrefundable), then one elk application and one deer application, each with up to five tag choices in order ({NR_GENERAL_DRAW.fee}).</li>
+        <li>Buy the year&apos;s Idaho hunting license first ({money(FEES.NONRESIDENT.license)}, nonrefundable), then one elk application and one deer application, each with up to five tag choices in order ({NR_GENERAL_DRAW.fee}).</li>
         <li>Every application gets a random number. IDFG fills <b>all 1st choices first</b>, then 2nd choices for those still without a tag, and so on. A tag that runs out on 1st choices never reaches anyone&apos;s 2nd.</li>
         <li>So a later choice only helps if that tag had tags left after the earlier rounds. Every tag card here says whether it &ldquo;works as a backup pick&rdquo; (tags reached 2nd-5th choices) or &ldquo;filled on 1st choices&rdquo;. Filling your 2-5 slots with tags that fill on 1st choices wastes them.</li>
         <li>Elk tags are by zone (an A or a B tag, each with its own seasons); deer by unit (Regular or White-tailed). Groups of up to 4 draw all-or-nothing.</li>
         <li>Drew in the first period? You can&apos;t apply in the second. Drawing a general tag doesn&apos;t affect your controlled hunt applications in the spring.</li>
-        <li>Tags if you draw ({NR_COSTS.year}): elk {money(NR_COSTS.elkTag)}, deer {money(NR_COSTS.deerTag)}.</li>
+        <li>Tags if you draw: elk {money(FEES.NONRESIDENT.tag.ELK)}, deer {money(FEES.NONRESIDENT.tag.DEER)} (IDFG fees, checked {md(FEES.checked, true)}).</li>
       </ul>
 
       <h2>Controlled Hunts</h2>
