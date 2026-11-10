@@ -15,6 +15,7 @@ import { DRAW_SPECIES } from './species';
 import { coSpecial, specialCounts } from './coSpecial';
 import { specialPersonalOdds, specialOddsBasis, specialPointSetting } from './coSpecialPoints';
 import { chanceOf } from './coOdds';
+import { isPrivateOnly, showPrivate } from './privateLand';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
 export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints };
@@ -109,6 +110,8 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     const [state, unit] = selected.includes(':') ? selected.split(':') : ['', selected.toUpperCase()];
     if ((state && state !== r.state) || !r.units.includes(unit)) return false;
   }
+  // shared across states: hidden by default, `priv=1` shows them everywhere
+  if (isPrivateOnly(r) && !showPrivate(k => param(sp, k))) return false;
   if (f.q && ![r.name, r.areaName, r.tagCode, String(r.huntNumber ?? '')].some(s => s?.toLowerCase().includes(f.q.toLowerCase()))) return false;
   if (r.state === 'ID') {
     if (f.deerType.length && !f.deerType.includes(r.tagCode?.startsWith('WD') ? 'WHITETAIL' : r.deerType as 'MULE')) return false;
@@ -125,13 +128,11 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
       if (has !== (f.migration === 'yes')) return false;
     }
   } else if (r.state === 'WY') {
-    if (r.privateOnly && param(sp, 'wyPriv') !== '1') return false;
     if (param(sp, 'wyMaxPts') !== '') {
       const n = Number(param(sp, 'wyMaxPts'));
       if (Number.isFinite(n) && x.nr && (r.ptsNr === null || r.ptsNr > n)) return false;
     }
   } else if (r.state === 'CO') {
-    if (r.privateOnly && param(sp, 'priv') !== '1') return false;
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;
     for (const key of ['minPts', 'maxPts']) if (param(sp, key) !== '') {

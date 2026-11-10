@@ -3,6 +3,7 @@ import { CoPressureNote } from './CoPressureNote';
 import type { CoScored } from '@/lib/coScores';
 import Link from 'next/link';
 import { huntHref } from '@/lib/huntSlug';
+import { isPrivateOnly } from '@/lib/privateLand';
 import type { HuntSummary } from '@prisma/client';
 import { seasonsSummary, seasonRules, RULE_HELP } from '@/lib/tagSeasons';
 import { recentBoundaryChanges } from '@/lib/boundaries';
@@ -133,6 +134,7 @@ function Footer({ r, c }: { r: HuntSummary; c: CardCtx }) {
         <span className={`pill ${r.permitsLast > r.permitsPrev ? 'good' : 'warn'}`} title="Tags in the latest drawing vs the year before">Tags {int(r.permitsPrev)} → {int(r.permitsLast)}</span>
       )}
       {r.leftoverTags ? <span className="pill" title={`IDFG's second drawing (Aug) for leftover tags${r.leftoverApps ? `: ${int(r.leftoverApps)} applied, ${int(r.leftoverDrew)} drew` : ''}`}>{int(r.leftoverTags)} leftover tags in {r.leftoverYear}</span> : null}
+      {isPrivateOnly(r) && <span className="pill warn" title="Valid only on private land: you need landowner permission before you hunt">Private land only</span>}
       {r.youthOnly && <span className="pill">Youth</span>}
       {r.smallSample && <span className="pill warn" title="Fewer than 50 hunters over 5 years">Small Sample</span>}
       {recentBoundaryChanges(r.units) && <span className="pill warn" title="IDFG changed this unit's boundary recently; earlier years cover different ground">Boundary Changed {recentBoundaryChanges(r.units)!.year}</span>}

@@ -3,7 +3,7 @@ import { enabledStates, STATES, type StateCode } from './states';
 
 export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable', 'deerType', 'minBig'];
 export const CO_RESTRICTIONS = ['season', 'chance', 'minPts', 'maxPts', 'second', 'hybrid', 'otcElk'];
-export const WY_RESTRICTIONS = ['wyPriv', 'wyMaxPts'];
+export const WY_RESTRICTIONS = ['wyMaxPts'];
 
 /** Explicit URL selection wins; the header state supplies the initial selection. */
 export function searchStates(value: string | string[] | undefined, fallback: StateCode): StateCode[] {

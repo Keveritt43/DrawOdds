@@ -10,6 +10,10 @@ import { DRAW_SPECIES, type Draw } from '@/lib/species';
 import { STATES, type StateCode } from '@/lib/states';
 import { ID_RESTRICTIONS, searchUnitLabel } from '@/lib/searchStates';
 import { withPresetEdit } from '@/lib/filterPresets';
+import { showPrivate } from '@/lib/privateLand';
+
+/** URL keys that mark a state's own filter group as in use. Idaho's group is built in this file. */
+const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyMaxPts'] };
 
 type Opt = [value: string, label: string];
 
@@ -31,7 +35,11 @@ const DENSITY = [0, 8, 5, 3, 2, 1.5, 1, 0.5, 0.25]; // 0 = any; dragging right =
 const DEER: Opt[] = [['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED', 'Mixed']];
 
 /** goHunt-style rail: each section shows its current value and opens to edit. Every change updates the URL. */
-export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilters, children }: { residency: Residency; draw?: Draw; states?: StateCode[]; presets?: React.ReactNode; drawFilters?: React.ReactNode; children?: React.ReactNode }) {
+/**
+ * `stateFilters`: each selected state's own filters, shown in that state's group ("Wyoming Filters"). Groups follow the
+ * selected states, so a new state gets its own group by passing its filters here, never another state's heading.
+ */
+export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilters, stateFilters = {} }: { residency: Residency; draw?: Draw; states?: StateCode[]; presets?: React.ReactNode; drawFilters?: React.ReactNode; stateFilters?: Partial<Record<StateCode, React.ReactNode>> }) {
   const msg = draw === 'MSG';
   // filters that only exist in some states (elk zones, objectives, migration studies...)
   const header = useStateConfig();
@@ -145,6 +153,12 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           {sharedNote}
           <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
         </Section>
+        <Section title="Private-Land-Only Hunts" value={showPrivate(get) ? 'Shown' : 'Hidden'} set={showPrivate(get)}>
+          <div className="checks2">
+            <label><input type="checkbox" checked={!showPrivate(get)} onChange={() => push(showPrivate(get) ? { priv: null, wyPriv: null } : { priv: '1' })} /> Hide hunts valid only on private land</label>
+          </div>
+          <p className="small muted" style={{ margin: '6px 0 0' }}>These licenses need landowner permission before you hunt. {states ? 'Applies to all selected states: ' : ''}{(states ?? [config.code]).map(s => `${STATES[s].name}: ${STATES[s].privateLandOnly}`).join('. ')}.</p>
+        </Section>
         <Section title="Harvest Success" value={get('minSuccess') ? `${get('minSuccess')}%+` : 'Any'} set={!!get('minSuccess')}>
           {sharedNote}
           <Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
@@ -252,10 +266,12 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             </Section>
           )}
         </FilterGroup>}
-        {children && <FilterGroup title="Colorado Filters" active={active('season', 'second', 'hybrid', 'priv', 'otcElk')}>
-          <div className="filter-group-note"><p className="small muted">Applies to Colorado only. Other selected states are unchanged.</p></div>
-          {children}
-        </FilterGroup>}
+        {(states ?? []).filter(s => s !== 'ID' && stateFilters[s]).map(s => (
+          <FilterGroup key={s} title={`${STATES[s].name} Filters`} active={active(...(STATE_GROUP_KEYS[s] ?? []))}>
+            <div className="filter-group-note"><p className="small muted">Applies to {STATES[s].name} only. Other selected states are unchanged.</p></div>
+            {stateFilters[s]}
+          </FilterGroup>
+        ))}
         <div style={{ padding: 16 }}>
           <a className="btn" href={resetHref} style={{ width: '100%', textAlign: 'center' }}>Clear All Filters</a>
         </div>

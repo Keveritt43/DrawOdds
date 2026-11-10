@@ -32,6 +32,12 @@ export interface StateConfig {
   agency: { short: string; name: string; url: string };
   /** Hunting-on-private-land access program, if any ("Access Yes!"). */
   accessProgram: string | null;
+  /**
+   * Required for every state: which licenses count as private-land-only (landowner permission needed), in plain words
+   * and with the agency source. The shared "Private-Land-Only Hunts" filter hides them by default in every state; a new
+   * state must set HuntSummary.privateOnly (or a documented read-time rule, see src/lib/privateLand.ts) before launch.
+   */
+  privateLandOnly: string;
   /** How draws reward past applications: Idaho has none (a fresh random draw every year). */
   points: 'none' | 'preference' | 'bonus' | 'hybrid' | 'preference-random';
   /** Separate drawings an applicant chooses between (Idaho: deer/elk/pronghorn or moose/sheep/goat). */
@@ -50,6 +56,7 @@ export const STATES: Record<StateCode, StateConfig> = {
     enabled: true,
     agency: { short: 'IDFG', name: 'Idaho Department of Fish and Game', url: 'https://idfg.idaho.gov/hunt' },
     accessProgram: 'Access Yes!',
+    privateLandOnly: 'controlled hunts IDFG lists as "Private land only" in the 2026 Seasons & Rules (deer, elk, pronghorn)',
     points: 'none',
     draws: [
       { key: 'DEP', label: 'Deer · Elk · Pronghorn', species: ['DEER', 'ELK', 'PRONGHORN'] },
@@ -66,6 +73,7 @@ export const STATES: Record<StateCode, StateConfig> = {
     enabled: true,
     agency: { short: 'CPW', name: 'Colorado Parks and Wildlife', url: 'https://cpw.state.co.us/activities/hunting/big-game' },
     accessProgram: null,
+    privateLandOnly: 'private-land-only and Ranching for Wildlife licenses (CPW hunt codes with P, W or J)',
     points: 'preference',
     draws: [
       { key: 'DEP', label: 'Deer · Elk · Pronghorn', species: ['DEER', 'ELK', 'PRONGHORN'] },
@@ -83,6 +91,7 @@ export const STATES: Record<StateCode, StateConfig> = {
     agency: { short: 'WGFD', name: 'Wyoming Game and Fish Department', url: 'https://wgfd.wyo.gov/hunting-trapping' },
     // WGFD's Access Yes program funds Walk-In Hunting Areas and Hunter Management Areas (mostly private land)
     accessProgram: 'Access Yes',
+    privateLandOnly: 'licenses WGFD limits to private land for the whole season (2026 regulations)',
     // nonresidents: preference draw (75%) then random draw (25%), regular and special pools; residents: random only
     points: 'preference-random',
     draws: [{ key: 'DEP', label: 'Deer · Elk · Pronghorn', species: ['DEER', 'ELK', 'PRONGHORN'] }],

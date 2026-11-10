@@ -110,9 +110,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     </section>
     <FilterRail residency={settings.ID} states={states} draw={draw}
       presets={<FilterPresets key={fav.userId} owner={fav.userId} state={header.code} states={states} />}
-      drawFilters={!msg && states.includes('CO') && <CoSearchFilters part="points" />}>
-      {states.includes('CO') && <CoSearchFilters part="state" historical={msg} />}
-      {states.includes('WY') && <WySearchFilters />}
-    </FilterRail>
+      drawFilters={!msg && states.includes('CO') && <CoSearchFilters part="points" />}
+      stateFilters={msg ? {} : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters /> }} />
   </main>;
 }
