@@ -50,6 +50,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
       </div><CoQuickStart /></div></section></main>
     );
   }
+  // Idaho and Colorado are the only states with a home page of their own. Everything below queries Idaho rows and
+  // says "Idaho" in the headline, so another state (Wyoming today) has to get the state-neutral page instead of
+  // Idaho's content under its own name in the header.
+  if (current !== 'ID') return <MultiQuickStart states={[current]} />;
   const [{ residency }, draw] = await Promise.all([getResidency(), getDraw()]);
   const msg = draw === 'MSG';
   const [hunts, controlled, units, oddsYears, accessYes] = await Promise.all([
