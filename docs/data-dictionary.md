@@ -34,6 +34,13 @@ This describes the current Idaho and Colorado implementation, not a universal de
 - **Colorado:** Uses validated state/unit ownership information; the adapter checks coverage and shares and gives private-only hunts zero public-access credit for scoring. Colorado does not inherit Idaho's Access Yes! program.
 - **Limitations:** Ownership classification and access rights are different, and surface access, private inholdings, seasonal restrictions and reporting coverage matter. See `src/lib/coLand.ts`, `src/lib/coScores.ts` and `src/sync/steps/summary.ts`.
 
+## Wilderness share (Wyoming)
+
+- **Meaning and units:** `pct` in `data/wy/wilderness.json` is the share of a Wyoming hunt area that lies inside federally designated wilderness, 0–100. It drives the nonresident guide note on Wyoming unit and hunt pages: W.S. 23-2-401(a) bars a nonresident from hunting big or trophy game inside designated wilderness without a licensed professional guide or a resident guide (one guide per two nonresidents). The rule follows the wilderness boundary; the share only says how much of the area it covers.
+- **Inputs:** Wilderness Connect (wilderness.net) boundaries for the 15 wildernesses touching Wyoming, all Forest Service, and the hunt-area map boundaries in `data/wy/units.json`, both in EPSG:5070. Built by `scripts/wy_build_wilderness.mjs`; checks: the 13 Wyoming-only wildernesses integrate within 1.5% of their published acreage (actual: within 0.3%), and hunt-area acreage within the `wy_build_areas.py` tolerances.
+- **Not counted:** overlaps under 1,000 acres per wilderness, which are slivers where a generalized hunt-area boundary follows a wilderness edge (largest 526 ac; smallest real overlap 3,961 ac). They are listed under `slivers`. Wilderness study areas, roadless areas and national parks are not designated wilderness and are not included.
+- **Not a score input.** Read at render time; production rows are not changed. Idaho's `wildernessPct` (IDFG unit pages) is a different source and Idaho has no such guide rule.
+
 ## Quality
 
 - **Meaning and units:** A 0–100 decision index for hunt quality, not a probability of harvest. Current Idaho model v3 uses species-specific absolute success benchmarks and components for success, access and elbow room.

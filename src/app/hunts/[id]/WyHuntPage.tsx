@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { WyWildernessNote } from '@/components/WyWildernessNote';
 import type { HuntSummary } from '@prisma/client';
 import { HuntLink } from '@/components/HuntNavigation';
 import { BackLink } from '@/components/BackLink';
@@ -69,6 +70,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         {' · '}{s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('WY', u))}`}>{wyAreaLabel(u)}</HuntLink></span>)}
       </p>
 
+      {!s.privateOnly && <WyWildernessNote units={s.units} nr={nr} />}
       {po.general && (
         <div className="card" style={{ margin: '12px 0' }}>
           <b>General season.</b> Residents buy a general {spLabel} license over the counter. Nonresidents need the{' '}
