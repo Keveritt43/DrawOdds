@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 import type { HuntSummary } from '@prisma/client';
 import { runSearch, evaluateHunt, type HunterSettings } from '../src/lib/multiStateSearch';
 import { searchStates, searchBounds, wySpecialView } from '../src/lib/searchStates';
+import { WY_RESTRICTIONS } from '../src/lib/searchStates';
+import { wyHuntWilderness, wildernessPctLabel } from '../src/lib/wyWilderness';
 import { wyTableOdds, wyPool, wyNeed, wyAreaLabel, type WyOddsTable, type WyPointOdds } from '../src/lib/wyHunt';
 import { STATES, unitKey, parseUnitKey } from '../src/lib/states';
 
@@ -109,4 +111,32 @@ test('points needed follows the pool shown, and "everyone drew" counts as 0', ()
   assert.equal(runSearch([allDrew], { ...sp, wyMaxPts: '0' }, 'WY', wy({}), {}, {}).length, 1);
   // residents have no points needed, so the nonresident cap never removes their results
   assert.equal(runSearch([ant], sp, 'WY', wy({ res: 'RESIDENT' }), {}, {}).length, 1);
+});
+
+test('the Wyoming wilderness filter splits hunt areas by whether they contain any, in both directions', () => {
+  const wildRow = asRow(byId.get('WY:antelope:050-1')!);   // area A50, 4.5% wilderness
+  const openRow = asRow(byId.get('WY:antelope:001-1')!);   // area A1, none
+  const rows = [wildRow, openRow] as unknown as Parameters<typeof runSearch>[0];
+  const ids = (wyWild?: string) => runSearch(rows, { states: 'WY', species: 'PRONGHORN', ...(wyWild ? { wyWild } : {}) },
+    'WY', wy({})).map((x) => x.r.id);
+
+  assert.deepEqual(ids().sort(), [wildRow.id, openRow.id].sort());   // unset shows both
+  assert.deepEqual(ids('none'), [openRow.id]);
+  assert.deepEqual(ids('has'), [wildRow.id]);
+  // an unrecognised value must not silently drop results
+  assert.deepEqual(ids('maybe').sort(), [wildRow.id, openRow.id].sort());
+});
+
+test('the wilderness filter is a Wyoming restriction, so it is dropped when Wyoming leaves the search', () => {
+  assert.ok(WY_RESTRICTIONS.includes('wyWild'));
+});
+
+test('a 4.5% hunt area is reported as a share, never as "the hunt is wilderness"', () => {
+  const hits = wyHuntWilderness(['A50']);
+  assert.equal(hits.length, 1);
+  assert.ok(hits[0].area.pct < 5);
+  assert.equal(wildernessPctLabel(hits[0].area.pct), '5%');
+  // a real but tiny overlap still reads as a share rather than rounding to nothing
+  assert.equal(wildernessPctLabel(0.4), '<1%');
+  assert.deepEqual(wyHuntWilderness(['A1']), []);
 });

@@ -36,6 +36,18 @@ export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: bool
         <option value="">Any</option>{Array.from({ length: 21 }, (_, i) => <option key={i} value={String(i)}>{i} points</option>)}
       </select></label>
     </Section>
+    <Section title="Wyoming: Wilderness" value={get('wyWild') === 'none' ? 'No wilderness' : get('wyWild') === 'has' ? 'Has wilderness' : 'Any'} set={!!get('wyWild')}>
+      {note}
+      <p className="small muted">{nr
+        ? 'Wyoming bars a nonresident from hunting big game inside federally designated wilderness without a licensed or resident guide (W.S. 23-2-401). The rule follows the wilderness boundary, not the hunt area, so an area that only clips a wilderness is still mostly huntable on your own.'
+        : 'Residents need no guide. Shown here because a nonresident in your party would.'}</p>
+      <div className="seg light" role="group" aria-label="Wyoming wilderness">
+        {([['', 'Any'], ['none', 'No wilderness'], ['has', 'Has wilderness']] as const).map(([v, label]) => (
+          <button key={v || 'any'} type="button" className="seg-link" aria-pressed={get('wyWild') === v}
+            onClick={() => push({ wyWild: v || null })}>{label}</button>
+        ))}
+      </div>
+    </Section>
     {!coSelected && <Section title="Wyoming: Odds Basis" value={get('odds') === 'last' ? 'Last draw' : 'Next draw'} set={get('odds') === 'last'}>
       <label>Odds <select aria-label="Wyoming odds basis" value={get('odds') || 'proj'} onChange={e => push({ odds: e.target.value === 'last' ? 'last' : null })}><option value="proj">Next draw (projected: antelope, deer)</option><option value="last">Last draw (actual)</option></select></label>
       <p className="small muted">Elk has no validated projection, so it shows the last draw either way.</p>

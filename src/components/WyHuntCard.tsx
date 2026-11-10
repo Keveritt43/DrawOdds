@@ -7,6 +7,7 @@ import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/format';
 import { dateRange, fmtNeed, fmtCreep } from '@/lib/coDisplay';
 import { wyAreaLabel, WY_POOL_SHORT, wyPool, type WyPointOdds } from '@/lib/wyHunt';
+import { wyHuntWilderness, wildernessPctLabel } from '@/lib/wyWilderness';
 
 /** Wyoming result card: Idaho's card structure, with Wyoming's pools (resident random; nonresident regular or
  *  special preference + random) and points needed for nonresidents. */
@@ -21,6 +22,8 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
   const pool = wyPool(nr, special);
   const projected = mode === 'proj' && !!po?.projected && nr;
   const special_ = po?.pools.special;
+  // the guide rule binds inside the wilderness boundary only, so the card reports the share and says who it binds
+  const wild = wyHuntWilderness(r.units);
   return (
     <article className="hrow co-row">
       <div className="hrow-top">
@@ -75,6 +78,9 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
         {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
         {r.accessYesPct !== null ? ` · Walk-In / HMA: ${Math.round(r.accessYesPct)}%` : ''}
         {r.privateOnly ? ' · Valid on private land: landowner permission needed' : ''}
+        {wild.length > 0 && <> · Wilderness: {wild.length > 1
+          ? `${wild.length} of this license's areas, up to ${wildernessPctLabel(wild[0].area.pct)}`
+          : wildernessPctLabel(wild[0].area.pct)}{nr ? ' (nonresidents need a guide inside it)' : ''}</>}
       </div>
     </article>
   );
