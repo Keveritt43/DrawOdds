@@ -43,6 +43,7 @@ export function WyHuntCard({ r, odds, points, nr, special, mode, saved, signedIn
           <span className="nr">Regular {po?.pools.regular ? r.effNr === null ? 'everyone drew' : fmtNeed(r.ptsNr, 1 - (r.effNr - Math.floor(r.effNr + 1e-9))) : '–'}</span>
           {special_ ? <> · <span className="nr">Special {special_.eff === null ? 'everyone drew' : fmtNeed(Math.floor(special_.eff + 1e-9), 1 - (special_.eff - Math.floor(special_.eff + 1e-9)))}</span></> : null}
           {' '}· Creep {fmtCreep(r.creepNr)}
+          {po?.pools.regular && r.effNr !== null && (r.oddsByPts as unknown as { last?: { nr?: number[] } } | null)?.last?.nr?.[0] === 1 ? <span className="muted"> · random draw covered the rest: everyone drew</span> : null}
         </div>
       )}
       <div className="hrow-stats three">
