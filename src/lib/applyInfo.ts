@@ -122,6 +122,8 @@ export type Residency = 'RESIDENT' | 'NONRESIDENT';
 export type CostKind = 'controlled' | 'nrGeneral' | 'otc' | 'msg';
 export interface CostItem { label: string; amount: number }
 export interface CostBreakdown {
+  /** What the up-front group is called: applying and buying a tag outright are not the same act. */
+  upFrontLabel: string;
   /** Paid when you apply or buy, whether or not you end up hunting. */
   upFront: CostItem[];
   /** Paid only if you draw. Empty when the tag is bought outright or already paid at application. */
@@ -176,9 +178,13 @@ export function costLines(kind: CostKind, residency: Residency, species: string)
 
   if (!complete) notes.push(`We do not have IDFG's current ${word} tag price; check the fee schedule.`);
   if (!nr) notes.push('IDFG lists a lower "price lock" price for residents who qualify; the schedule has the rule.');
-  notes.push('The licence is annual and covers every hunt you apply for that year. Licence and application fees are nonrefundable.');
+  notes.push('The licence is annual and covers every hunt you apply for that year.');
+  // the moose/sheep/goat note above already says which parts are nonrefundable, and says it more precisely
+  if (k !== 'msg') notes.push('Licence and application fees are nonrefundable.');
 
-  return { upFront, ifYouDraw, notes, checked: FEES.checked, source: FEES.source[residency], complete };
+  // "and hunt" only where buying the tag is the whole transaction; a moose application is still just an application
+  const upFrontLabel = k === 'otc' ? 'To buy and hunt' : 'To apply';
+  return { upFrontLabel, upFront, ifYouDraw, notes, checked: FEES.checked, source: FEES.source[residency], complete };
 }
 
 /** The nonresident figures the planner's cost card needs, in the shape it already expects. */

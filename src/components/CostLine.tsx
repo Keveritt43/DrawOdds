@@ -13,7 +13,7 @@ export function CostLine({ kind, residency, species }: { kind: CostKind; residen
     <div className="cost-lines">
       <h4>What It Costs</h4>
       <dl>
-        <dt>To apply{c.ifYouDraw.length ? '' : ' and hunt'}</dt>
+        <dt>{c.upFrontLabel}</dt>
         {c.upFront.map((i) => <dd key={i.label}><span>{i.label}</span><b>{money(i.amount)}</b></dd>)}
         {c.ifYouDraw.length > 0 && <dt>Only if you draw</dt>}
         {c.ifYouDraw.map((i) => <dd key={i.label}><span>{i.label}</span><b>{money(i.amount)}</b></dd>)}
