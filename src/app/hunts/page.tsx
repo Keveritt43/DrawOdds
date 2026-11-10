@@ -329,7 +329,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   );
 }
 
-type Stat = { objBull: number | null; objCow: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null };
+type Stat = { objBull: number | null; objCow: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; wilderness: number | null };
 
 /** Per-unit and per-hunt-area numbers of the matching hunts, for the map's "Shade" options. */
 async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeof residencyFields>, zu: string[] | null) {
@@ -383,6 +383,8 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
       crowd: a.crowd,
       public: u ? u.publicPct : a.public,
       huntable: u ? (u.publicPct !== null ? Math.min(100, u.publicPct + ay) : null) : a.huntable,
+      // only Wyoming hunt areas are measured for wilderness; unmeasured is null, never 0
+      wilderness: null,
     };
     (kind === 'unit' ? out.units : out.areas)[name] = st;
   }
