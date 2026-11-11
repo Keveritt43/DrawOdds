@@ -3,6 +3,10 @@
 # Files: https://myfwp.mt.gov/getRepositoryFile?objectID=<objectID>
 # Listing: https://myfwp.mt.gov/fwpPub/drawingStatistics (AJAX; see scripts/mt_fetch_sources.mjs)
 #
+# SUPERSEDED for 2021-2026 deer/elk/antelope: the complete listing (76 reports, including the 2023 Deer Permit
+# and Elk Permit detailed reports missing below) is in data/mt/draws.json source.files, read from FWP's listing
+# on 2026-11-11. This file still lists the nonresident-combination and pre-2021 reports.
+#
 # PARTIAL. These rows were captured and verified by hand on 2026-11-10 and cover
 # the deer/elk/antelope and nonresident-combination reports that the odds models
 # need. The full listing is 118 deer/elk/antelope reports for 2016-2026 plus 13

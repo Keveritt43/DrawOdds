@@ -1,0 +1,14 @@
+Drawing Statistics Report (ALS30401) - ANTELOPE 900,,,,,,,,,,,,,,,,,,,,,,,
+;,,,,,,,,,,,,,,,,,,,,,,,
+;,,Landowner,,,,,,Regular,,,,,,,,,,,,,,,
+;,,Resident,,,Non_Resident,,,Resident,,,,,,,Non_Resident,,,,,,,,
+;,,,Apps Succ,,,Apps Succ,,,Applicants,,,Successful,,,,Applicants,,,Successful,,,Total,Sur-
+District,Quota,QTA,1st,1st,QTA,1st,1st,QTA,1st,2nd,3rd,1st,2nd,3rd,QTA,1st,2nd,3rd,1st,2nd,3rd,Succ,plus
+900-20,5600,840,6,6,560,3,3,5600,5283,0,0,5038,0,0,560,1398,0,0,553,0,0,5600,0
+;,,,,,,,,,,,,,,,,,,,,,,,
+;,Totals;,,,,,,,,,,,,,,,,,,,,,,
+;,,Landowner Totals,,,,,,Regular Totals,,,,,,,,,,,,,,,
+;,,Resident,,,Non_Resident,,,Resident,,,,,,,Non_Resident,,,,,,,,
+;,,,Apps Succ,,,Apps Succ,,,Applicants,,,Successful,,,,Applicants,,,Successful,,,Total,Sur-
+;,Quota,QTA,1st,1st,QTA,1st,1st,QTA,1st,2nd,3rd,1st,2nd,3rd,QTA,1st,2nd,3rd,1st,2nd,3rd,Succ,plus
+,5600,840,6,6,560,3,3,5600,5283,0,0,5038,0,0,5600,1398,0,0,553,0,0,5600,0

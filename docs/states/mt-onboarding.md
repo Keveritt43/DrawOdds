@@ -64,7 +64,7 @@ Build the manifest from the live listing, store it as `data/mt/draw-sources.csv`
 Columns: `Item Description | District | Residency | Number of Points | Number of Applications | Number of Successes | % Successful`
 
 - **District** is really the **LPT** — the license/permit type code, `NNN-TT`. FWP's own on-page legend says the first three digits "most often" represent the hunting district. Exceptions seen: `007-20` (Region 7 area-wide) and `900-20` (statewide archery). Treat the district mapping as a lookup table built from the regulations, never as a substring parse.
-- `TT` is the license type: `20` = antelope licence, `21` = antelope B. Deer/elk permit and B-licence suffixes still need confirming from the regulations district tables.
+- `TT` is the licence type within a species, but it is **not unique across species**: `100-00` is both a Deer B and an Elk B licence (§2.4). Antelope licences end `-20`/`-21`, antelope B `-30`/`-31` (an earlier note here said antelope B was `-21`; the regulations and the draw reports both say `-30`). Always key a code by licence type + code.
 - **Residency** has four values, not two: `RESIDENT`, `RESIDENT LANDOWNER`, `NONRESIDENT`, `NONRESIDENT LANDOWNER`. Landowner preference is a **separate pool** and must not be merged into the general pool — a landowner row at 100% would otherwise flatter the public odds.
 - `% Successful` = successes ÷ applications for that point level.
 - `# Applicants` is **first-choice only** (stated in the page legend), like Wyoming.
@@ -246,7 +246,55 @@ can wait for the projection work, if it ever happens.
 
 The second bonus-point rule — **confirmed** in the 2025 regulations (p. 17), not just the FAQ: accumulated bonus points are **not used at all** in a year unless you buy a point with that application (they are kept, not lost). A hunter sitting on five points who applies without buying gets exactly one chance. That is a trap no other state in the app has, and it needs its own UI warning. It also means the "points" a hunter stores in their account is not sufficient state — we need to know whether they are buying this year.
 
-### 3.3 Nonresident caps — the one architecture-guide claim that survived
+**Corrected 2026-11-11 (step 3).** The analysis above read the last "0" row in the 2024–2026 reports as hunters holding zero banked points. §3.4 shows it is the applicants who **did not buy a point**. The printed level is the points *used* in the draw, banked plus the one bought that year. Read that way:
+
+- FWP's two formulas are the same formula. Both are `level² + 1`, because the level already counts the purchased point.
+- The predicted 1-vs-"0" ratio is 2.0. It was observed at 2.087 above, and at 2.0–2.1 in the pooled check below.
+- The "mixture of buyers and non-buyers" hypothesis is withdrawn. It reconciled a contradiction that came from misreading the column.
+- The simulation likelihood table above was fitted under the old reading and has not been re-run. A projection would need that redone; last-draw odds do not.
+
+### 3.4 What the points column means — established 2026-11-11
+
+FWP never defines it. Its listing legend covers only LPT, applicants and successes, all first-choice. Neither the reports nor the 2023 legislative audit of the drawing system say either. So it was established from the reports' own structure, across every deer, elk and antelope pool, 2021–2026:
+
+| Draw | Bottom groups printed | Reading |
+|---|---|---|
+| 2021 | blank, `0`, then `1`… in almost every pool | unclear |
+| 2022 | blank, then `1`…; a `0` group in 141 of 661 pools | unclear |
+| 2023 | blank, then `1`… (a `0` in 7 pools) | points used |
+| 2024–2026 | `1`…, then `0` printed **last** (blank in one pool a year) | points used |
+
+The evidence for 2023–2026:
+
+- **No buyer is listed at zero.** Every first-time buyer starts at 1, so the level must include the point bought with that application.
+- **A separate group draws at about half the 1-point rate every year.** Pooled over unsaturated pools (all levels under 20%), the ratio of 1-point to that group is 2.04 (2023), 2.09 (2024), 3.15 (2025) and 2.44 (2026). One chance against two (`1² + 1`) predicts 2.0. That group is the applicants who applied without buying, whose banked points the regulations say are not used.
+- **It matches an older pattern.** An informal [Hunt Talk thread](https://www.hunttalk.com/threads/montana-drawing-statistics-data-question.306512/) (undated here, not FWP) described the 2021-style layout as blank = didn't buy, 0 = bought with nothing banked. From 2023 the "0 banked" buyers move to 1 and the blank group stays. That's a change of label, not of rule.
+
+2021 and 2022 don't fit cleanly. In 2022 the `0` group draws *worse* than the blank group (ratio 0.43), which no reading of the rules explains. Those years are kept as printed for totals, quotas and trends, but **are not used for odds by point level** (`pointsColumn` in `data/mt/draws.json`).
+
+**What a hunter's saved points mean against these tables:** a hunter with N points on their FWP account who buys a point this year compares with last year's **N+1** row. One who applies without buying compares with the no-purchase row, whatever they hold. That's a one-row shift the hunt pages must make explicitly. It's also why the account tracker stores a "buying this year" switch (#71).
+
+### 3.5 The detailed draw reports, 2021–2026 — parsed 2026-11-11
+
+`data/mt/draws.json` comes from `scripts/mt_parse_draws.py`. Its input is `data/mt/source/draw-reports-2021-2026.json`: the listing read in the browser, the pdf.js text of every PDF, and the 2021–2022 reports, which are **Excel files** (`.xls`). Those were converted with LibreOffice into `data/mt/source/draw-xls-csv/`.
+
+- **Coverage.** The full FWP listing has 76 deer, elk and antelope reports for 2021–2026. The hand-built `draw-sources.csv` lacked the 2023 Deer Permit and Elk Permit detailed reports (108845, 108847). The output holds 2,149 licence-years and 32,407 point-level rows.
+- **Format traps, all handled and all reported if they recur:**
+  - column positions differ in every report, so rows are read by token type, not position;
+  - 2026 deer codes carry the species ("004-01 WT", "101-50 MULE");
+  - elk permit codes carry notes ("270-45 (First Choice Only)");
+  - some summary PDFs split a code into three runs ("100", "-", "00");
+  - a blank points cell and a "0" are different values and are kept apart.
+
+  The first two were being **skipped silently** until the parser was made to fail on any data line it can't read.
+- **FWP's printed totals:** 2,147 per-code TOTAL rows, and all agree with the rows except one. 2024 Deer B 393-01 rows sum to 151 applications against a printed 152; successes agree.
+- **Detailed vs summary report:** the summary report is printed separately and gives quotas by pool and 1st/2nd/3rd-choice results. The detailed report's first-choice pool totals match it **exactly in about 95% of pools**, within 1% in about 4%, and by more in about 1% (90 of 6,512). Where they differ, the summary nearly always has a few more applicants and the same successes. The two are run on different dates, so the detailed report is used for odds.
+- **Against the 2026 regulations:**
+  - 362 of 363 drawn codes have a 2026 report, and every report code is in the regulations.
+  - The one gap is Elk B 004-00, which the regulations print as "Jun 1" only in HD 417. It has no draw report, so it was sold over the counter, and HD 417's line is the misprint.
+  - All 41 quotas that differ from the printed regulations fall inside the printed quota range, none outside. FWP sets the final quota within the range, which is what the range is for.
+
+### 3.6 Nonresident caps — the one architecture-guide claim that survived
 
 Nonresident share of antelope licence successes, across 44 codes with 50+ total successes: median 9.4%, 75th percentile 10.0%, maximum 10.4%. The 10% nonresident cap is real for antelope licences. Do not generalise it to deer and elk permits without the same test — run it per species and per year from the reports rather than hard-coding a constant.
 
