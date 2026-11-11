@@ -73,9 +73,36 @@ Columns: `Item Description | District | Residency | Number of Points | Number of
 
 Nine years available, 2018–2026, plus rolled-up "2011 Through 2020" style multi-year files. Titles drift here too: *"Nonresident Combination License Preference Point Drawing Statistics"* (2018–2021), *"Big Game Combo / Elk Combo Drawing Statistics"* + a separate deer file (2022), *"NR Combo PP Stats"* (2023), *"NR Combination Preference Point Statistics"* (2024–2026).
 
-### 2.4 Regulations
+### 2.4 Regulations — parsed 2026-11-11
 
-2025 deer/elk/antelope regulations: `https://fwp.mt.gov/binaries/content/assets/fwp/hunt/regulations/2025/2025-dea-regulations-final-for-web.pdf` — 426,598 characters of extracted text; the district tables (pp. 46–119, 138–143) carry the per-district season structure and the five-digit codes and **have not been parsed yet**. They are the source for general-vs-permit status (§6).
+**Use the 2026 book, not 2025.** Earlier notes here pointed at the 2025 regulations. FWP's regulations page now lists the [2026 Deer, Elk & Antelope regulations](https://fwp.mt.gov/binaries/content/assets/fwp/hunt/regulations/2026/2026-dea-regulations-final-with-low-resolution-maps-for-web.pdf) (141 pages) and a one-page [corrections](https://fwp.mt.gov/binaries/content/assets/fwp/hunt/regulations/2026/corrections-to-the-2026-printed-dea-regulations-and-legal-descriptions.pdf) sheet. District boundaries are on a two-year cycle (legal descriptions valid Mar 1 2026 – Feb 28 2027), and match the 2026 GIS layer in `data/mt/units.json`. The 2027 regulations are not published yet, so the next draw's season structure is unknown: label what we show as the 2026 regulations.
+
+Built: `data/mt/regs-2026.json` by `scripts/mt_parse_regs.py` from two browser extracts kept in `data/mt/source/` so the build reruns offline:
+
+- `2026-dea-regs-text.json` — every pdf.js 4.4.168 text run with its position. Pages 44–120 are stored rotated 90°; the parser re-projects them.
+- `2026-dea-regs-rules.json` — the y of every horizontal table rule, per column, found by rendering each page at 3× and scanning pixel rows. **This is why the parse is right.** Cells merge vertically (one "General Deer License" cell spans four season rows; one Elk B licence carries different restrictions on its two rows), and merged text is centred on rows of unequal height, so text position alone misassigns it. A cell is the band between two rules in its column, as drawn.
+
+Output: 335 district/species tables (139 deer, 139 elk, 57 antelope sections), 1,418 opportunity rows, 387 licence/permit codes, 42 multi-district codes. Each row: licence, code, opportunity, apply-by, OTC flag, quota, quota range, the five season columns (two for antelope), restrictions text, and a section qualifier where the species band carries one.
+
+Checks, none of which the parser can satisfy by construction:
+
+- **Every GIS district has a table and vice versa:** deer 139/139, elk 139/139. Antelope 55 district tables plus Region 7's two "Portions of HDs 700–705 North / South of the Yellowstone" sections cover all 61 GIS districts.
+- **Five pages compared cell by cell against the rendered page** (pp. 53, 59, 60, 95, 137), including both merged-cell cases. `tests/mtRegs.test.ts` holds those values.
+- **The multi-district reference table (pp. 122–123) and the district tables are printed independently, and name the same districts for every one of the 42 codes.** My first parse said three disagreed; that was my regex stopping at the word "portion" ("a portion of 270"). Corrected, and any future disagreement now fails the build.
+- **Drawing-only elk.** Nine districts have no General Elk License at all: 250, 410, 455, 555, 620, 621, 622, 630, 700. Seven carry the band "ELK Hunting by Drawing Only"; HD 250 and 622 print no band but their elk tables hold only Elk B licences and permits (250 confirmed on the rendered page).
+- **Corrections sheet:** both items (HD 202 archery season, HD 535 youth mule deer antlerless) are already in the web edition; nothing applied.
+
+Findings that change the model:
+
+- **A licence code is not unique on its own.** `100-00` is a Deer B licence and an Elk B licence with different quotas; `005-00` is a drawn Deer B (June 1, quota 4,500) and an over-the-counter Elk B. Key every code by licence type + code. FWP's detailed draw reports are split by licence type, so the join in step 3 is (report type, code), never code alone. This corrects §2.2, which treated the code as the identity.
+- **The regulations contradict themselves in seven places**, all checked against the page text. Each district keeps what its own table prints, and the code map records the conflict rather than picking one (`codes[].conflicts`, `codes[].referenceConflict`; the build fails if the set changes):
+  - Deer B 395-01: HD 380 "Jun 1", HD 391 "OTC: Jun 15".
+  - Elk B 004-00: HD 417 "Jun 1", every other Region 4 table OTC.
+  - Elk B 210-03: quota 300 in HD 210, 200 in HDs 211, 212, 216.
+  - Elk Permit 799-21: HD 704 prints a range of "1,000–1,000", the others none.
+  - The reference table disagrees with every district table on how three licences are sold: Deer B 006-00 (reference OTC; districts June 1, quota 2,000), Elk B 005-00 and Elk B 201-01 (reference June 1; districts OTC, unlimited).
+- **Private-land-only is per row, not per licence.** 169 of the 1,418 rows carry "Only valid on private land" (or "Valid on private land only", "Private land only"). Elk B 240-01 is private-only in its late segment and not otherwise. Rows that add other land ("AND ALSO VALID on DNRC lands") are not flagged, and a restriction scoped to other districts ("In HD 390, only valid on private land" printed in HD 380's table) is not applied to the district it is printed in. A hunt is private-only only when every one of its rows is, the Wyoming rule. No district has every general deer or general elk row private-only.
+- **Not parsed:** p. 120, the youth/PTHFV summary. It restates rows already in the district tables.
 
 ### 2.5 Harvest estimates
 
@@ -311,13 +338,15 @@ So:
 
 The owner's requirement: every district open to a general tag appears, with shading for which districts have a general hunt, and Montana has very few permit-only districts.
 
-Not yet sourced. Three candidates, in order of preference:
+**Sourced from the regulations district tables (§2.4).** That bears the requirement out:
 
-1. The **regulations district tables** (2025 regs pp. 46–119) — authoritative, states per district what the general licence is valid for and which permits exist. Requires parsing the regs PDF; this is the real job.
-2. **Big Game Restricted Areas / Elk Restricted Areas** GIS layers (2, 15) — gives a map layer directly but describes restricted areas, which is not the same fact as "a general licence is valid here".
-3. Derived from the LPT list — a district that appears only with permit codes and never with a general season. Weakest, and inverts the logic; use only as a cross-check.
+- Every one of the 139 deer/elk districts has a General Deer License opportunity.
+- 130 have a General Elk License opportunity. The nine that don't are drawing-only for elk: 250, 410, 455, 555, 620, 621, 622, 630, 700.
 
-Build from (1), cross-check against (3), and use (2) for map shading only if its semantics hold up. Do not infer "general" from the absence of a permit.
+Two cautions for the build:
+
+- **"Has a general licence row" is not "a general hunter can hunt there."** Some general rows are youth-only, PTHFV-only, private-land-only or archery-only. The hunt rows in step 4 must carry those restrictions rather than flatten them into "general: yes".
+- The Restricted Areas GIS layers (2, 15) remain unused. They describe restricted areas, which is a different fact from where a general licence is valid.
 
 ### What the finder has to show for general districts (owner, Nov 10 2026)
 
