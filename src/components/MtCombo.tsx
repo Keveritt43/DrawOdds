@@ -40,8 +40,12 @@ function Verdict({ licenseKey, points }: { licenseKey: string; points: number })
   );
 }
 
-export function MtCombo() {
-  const [points, setPoints] = useState(0);
+/**
+ * `saved` is the hunter's balance from the account page, when they have saved one. Clicking a level here previews it
+ * and never changes what is saved, the same as Wyoming's pool switch.
+ */
+export function MtCombo({ saved }: { saved?: number | null }) {
+  const [points, setPoints] = useState(saved ?? 0);
   const licenses = ['biggame-elk', 'deer'];
 
   return (
@@ -67,8 +71,12 @@ export function MtCombo() {
           ))}
         </div>
         <p className="small muted" style={{ marginBottom: 0 }}>
-          Montana caps preference points at {MT_POINTS_CAP}. You lose them all if you draw, and also if you skip a year without
-          buying a point. Party applications average their members&apos; points, so a party can sit between these numbers.
+          Montana caps preference points at {MT_POINTS_CAP}. You lose them all if you draw, and also if you hold points and
+          don&apos;t apply in the next drawing: buying a point-only does not keep them. Party applications average their
+          members&apos; points, so a party can sit between these numbers.{' '}
+          {saved != null
+            ? <>Starting from the {saved} {saved === 1 ? 'point' : 'points'} saved on your <a href="/account#hunting-preferences">account</a>; picking another level here doesn&apos;t change it.</>
+            : <>Save your balance on your <a href="/account#hunting-preferences">account</a> and this page will start from it.</>}
         </p>
       </div>
 

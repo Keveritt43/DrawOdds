@@ -15,7 +15,7 @@ Montana does not fit either the Idaho or the Colorado template cleanly, and it i
 | System | **Preference points**, capped at 3 | **Bonus points**, squared, uncapped |
 | Applies to | NR general deer/elk opportunity | Antelope, Antelope B, Deer B, Elk B, deer permits, elk permits |
 | Allocation | 75% by points, 25% random **to zero-point applicants only** | Weighted lottery over the whole pool |
-| Points lost | On drawing, **and on skipping a year** | On drawing only |
+| Points lost | On drawing, **and on not applying in the next drawing** (a point-only purchase doesn't prevent it) | On drawing only |
 | Residents | Not applicable (residents buy general licenses OTC) | Residents and nonresidents draw in separate pools |
 
 The second structural difference: **a Montana general license is the normal way to hunt deer or elk**, and permits only *restrict* where and when you may use it. A permit is not an extra animal. This is the opposite of Idaho's controlled-hunt framing and has to be reflected in the hunt-type labels, or a Washington hunter will read a Montana permit as a tag.
@@ -121,7 +121,7 @@ Checks that passed:
 
 - Preference-phase winners 5,377 + 7,281 = 12,658 of 16,863 total = **75.0%**; random winners 4,205 = **24.9%**. The 75/25 split is exact.
 - Total drawn 16,863 ≈ the 17,000 Big Game combination quota named in the 2025 regulations. Independent corroboration of both numbers.
-- The 25% random pool is **zero-point applicants only**. FWP's page does not say this outright, but it is forced by the data: 7,063 applicants between 0.2 and 1.8 points drew nothing while zero-point applicants drew at 53.61%. They cannot have been in the same random pool.
+- The 25% random pool is **zero-point applicants only**. The 2025 regulations (p. 17) state it; an earlier note here said FWP didn't, which was wrong — we had only read the web page. The data agrees independently: 7,063 applicants between 0.2 and 1.8 points drew nothing while zero-point applicants drew at 53.61%. They cannot have been in the same random pool.
 
 So the model is:
 
@@ -160,7 +160,7 @@ What this settles, and what it changes:
 
 **2018–2020 are not parsed.** Those PDFs are laid out column-wise, so extracting text by line yields stacked fragments ("100 100 100 100 100", "Successful", "%") rather than rows. They need 2-D reconstruction from x/y positions, which is a separate job. Six years is already enough for gate 1 and for the cutoff history; the older years matter only if a projection is attempted later.
 
-Also verified from FWP: points cap at 3; points are lost on drawing **and on skipping an application year**; a separate Nonresident Landowner Priority Pool runs alongside (133 applicants in 2026, all point levels drawing at 100% where any applied) and must be modelled as its own pool.
+Also verified from FWP: points cap at 3; points are lost on drawing **and when a holder does not apply for a combination licence in the next available drawing** (2025 regulations p. 17). A nonresident who does not apply may buy one point-only ($100, Jul 1 – Dec 31), but that does not stop the deletion: the rule is about applying. Earlier site copy said buying a point kept them; corrected 2026-11-11; a separate Nonresident Landowner Priority Pool runs alongside (133 applicants in 2026, all point levels drawing at 100% where any applied) and must be modelled as its own pool.
 
 ### 3.2 Bonus points — formula contested, evidence favours one reading
 
@@ -209,7 +209,7 @@ hunt can be read straight from them, with no entry formula involved. The formula
 future draw, which Montana is not doing. Controlled-hunt odds are therefore unblocked; resolving the formula
 can wait for the projection work, if it ever happens.
 
-The second bonus-point rule to verify before building: the FAQ states that accumulated bonus points are **not used at all** in a year unless you buy a point with that application. If true, a hunter sitting on five points who applies without buying gets exactly one chance. That is a trap no other state in the app has, and it needs its own UI warning. It also means the "points" a hunter stores in their account is not sufficient state — we need to know whether they are buying this year.
+The second bonus-point rule — **confirmed** in the 2025 regulations (p. 17), not just the FAQ: accumulated bonus points are **not used at all** in a year unless you buy a point with that application (they are kept, not lost). A hunter sitting on five points who applies without buying gets exactly one chance. That is a trap no other state in the app has, and it needs its own UI warning. It also means the "points" a hunter stores in their account is not sufficient state — we need to know whether they are buying this year.
 
 ### 3.3 Nonresident caps — the one architecture-guide claim that survived
 
@@ -381,8 +381,8 @@ Follows Idaho/Colorado/Wyoming with no new concepts:
 
 New work Montana forces:
 - Two point systems in one state, so the account model needs **per-system** point balances, not one number per species. Colorado's special-species split is the nearest precedent but is not the same shape.
-- A points value that can be **fractional** (party averaging) and **capped**.
-- A "did you buy a point this year?" input for bonus-point species, if §3.2's second rule holds.
+- A points value that can be **fractional** (party averaging) and **capped**. A *person's* balance is whole; only a party's average is fractional, so the account stores whole points.
+- A "buying a point this year?" input per bonus-point licence type. **Built** (2026-11-11): the account page stores one combination preference balance (0–3) and a bonus balance plus buying switch for each of deer permit, elk permit, antelope, Deer B, Elk B and Antelope B (`src/lib/mtPoints.ts`). Bonus points are per licence type and not transferable between species drawings (regulations p. 17); antelope archery-only codes (`900-20`) are antelope licences and share the antelope balance.
 - Species-specific unit geometry: deer and elk share districts, antelope does not. The map needs the same species-switch Wyoming has, but for a different reason.
 - Surveyed-year labelling throughout, because no two species share a harvest year.
 - General-licence shading as a first-class unit attribute.

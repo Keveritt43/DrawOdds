@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { MtCombo } from '@/components/MtCombo';
+import { getPointsStore } from '@/lib/points';
+import { readMtPoints } from '@/lib/mtPoints';
 import { MT_SOURCE, mtLicense, mtLatestYear, mtRandomShare, mtYears } from '@/lib/mtOdds';
 
 export const metadata = {
@@ -8,7 +10,10 @@ export const metadata = {
     'Montana nonresident Big Game, Elk and Deer Combination license draw odds by preference point level, from FWP’s published results. Why one point can be worse than none.',
 };
 
-export default function MontanaPage() {
+export default async function MontanaPage() {
+  const mt = readMtPoints((await getPointsStore()).store);
+  // only a nonresident's saved combination balance means anything here
+  const saved = mt.set && mt.res === 'NONRESIDENT' ? mt.combo : null;
   const year = mtLatestYear('biggame-elk');
   const randomShare = mtRandomShare('biggame-elk');
   const lo = mtLicense('biggame-elk-landowner');
@@ -37,7 +42,7 @@ export default function MontanaPage() {
 
       <h2>What it took, and what you have</h2>
       <p className="small muted">Pick your point balance to see where you would have landed in the {year} draw, and what the {years.length} draws before it did.</p>
-      <MtCombo />
+      <MtCombo saved={saved} />
 
       {lo && (
         <section style={{ marginBottom: 28 }}>

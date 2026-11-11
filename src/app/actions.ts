@@ -8,6 +8,7 @@ import { db } from '@/lib/db';
 import { RESIDENCY_COOKIE, DRAW_COOKIE } from '@/lib/residency';
 import { getPointsStore, POINTS_COOKIE, type StatePoints } from '@/lib/points';
 import { setAccountPreference } from '@/lib/accountPreferences';
+import { parseMtForm } from '@/lib/mtPoints';
 import { GUEST_FAVORITES_COOKIE, GUEST_FAVORITES_LIMIT, parseGuestFavorites } from '@/lib/guestFavorites';
 
 export async function saveHuntingPreferences(_previous: { message: string; saved: boolean }, form: FormData) {
@@ -35,19 +36,23 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
     ? { res: wyoming, DEER: wyDEER, ELK: wyELK, PRONGHORN: wyPRONGHORN, youth: false, set: true, wySpecial: form.get('wySpecial') === 'on' }
     : null;
   if (form.has('wyomingResidency') && !WY) return { message: 'Enter whole Wyoming points from 0 to 40 for each species.', saved: false };
+  // Montana: combination preference points (0-3) plus a bonus-point balance per license type (src/lib/mtPoints.ts)
+  const MT = parseMtForm(name => form.get(name), name => form.has(name));
+  if (typeof MT === 'string') return { message: MT, saved: false };
   const { store, userId } = await getPointsStore();
   if (userId) {
     await db.$transaction(async tx => {
       await tx.user.update({ where: { id: userId }, data: { residency: idaho } });
       await setAccountPreference(userId, 'CO', CO, tx);
       if (WY) await setAccountPreference(userId, 'WY', WY, tx);
+      if (MT) await setAccountPreference(userId, 'MT', MT, tx);
     });
   }
   const jar = await cookies();
   const options = { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax' as const, path: '/', httpOnly: true };
   jar.set(RESIDENCY_COOKIE, idaho, options);
   // Keep account-only preferences out of the browser cookie.
-  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO, ...(WY ? { WY } : {}) };
+  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO, ...(WY ? { WY } : {}), ...(MT ? { MT } : {}) };
   jar.set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), options);
   revalidatePath('/', 'layout');
   return { message: 'Hunting preferences saved.', saved: true };
