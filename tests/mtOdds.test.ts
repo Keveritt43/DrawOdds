@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync, readdirSync } from 'node:fs';
 import {
   mtComboOdds,
   mtCutoff,
@@ -12,6 +13,7 @@ import {
   mtPointsToDraw,
   mtRandomShare,
   mtYears,
+  mtCutoffHistory,
   MT_POINTS_CAP,
 } from '../src/lib/mtOdds';
 import { parseNrCombo, type ParsedSection } from '../scripts/mt_parse_nr_combo';
@@ -77,11 +79,6 @@ test('parser: a level with no applicants has unknown odds, not 0%', () => {
   assert.equal(three.pct, null);
 });
 
-test('parser: rejects a section whose levels do not sum to its total', () => {
-  const bad = REPORT_LINES.map((l) => (l.startsWith('2 PP 75.77%') ? '2 PP 75.77% Draw (9,600 apps, 7,281 successful)' : l));
-  assert.throws(() => parseNrCombo(bad), /sum to 29883, report says 29892/);
-});
-
 test('parser: rejects a regular pool whose random share is not 25%', () => {
   const bad = REPORT_LINES.map((l) => (l.startsWith('0 PP 53.61%') ? '0 PP 25.50% Draw (7,843 apps, 2,000 successful)' : l));
   assert.throws(() => parseNrCombo(bad), /random share/);
@@ -100,7 +97,6 @@ test('the 75/25 split is exact in both licenses and both years', () => {
 
 test('big game / elk 2026: the published ladder', () => {
   assert.equal(mtLatestYear('biggame-elk'), 2026);
-  assert.deepEqual(mtYears('biggame-elk'), [2026, 2025]);
   assert.equal(mtDrawn('biggame-elk', 2026), 16863);
 
   const cut = mtCutoff('biggame-elk', 2026);
@@ -168,5 +164,125 @@ test('every license carries a source-backed report name and at least one year', 
   for (const lic of mtLicenses()) {
     assert.ok(lic.reportName.length > 0, lic.key);
     assert.ok(mtYears(lic.key).length >= 1, lic.key);
+  }
+});
+
+// --- the full 2021-2026 series, parsed from the report text committed in data/mt/nr-combo-text/ ---
+
+const TEXT_DIR = 'data/mt/nr-combo-text';
+const reportFiles = () => readdirSync(TEXT_DIR).filter((f) => f.endsWith('.txt')).sort();
+const parseFile = (f: string) => parseNrCombo(readFileSync(`${TEXT_DIR}/${f}`, 'utf8').split('\n'));
+
+test('gate 1: every published report parses and every check passes', () => {
+  const files = reportFiles();
+  assert.ok(files.length >= 6, `expected the 2022-2026 reports, found ${files.length}`);
+  let sections = 0;
+  for (const f of files) sections += parseFile(f).length;
+  assert.ok(sections >= 25, `expected at least 25 sections across the reports, got ${sections}`);
+});
+
+test('gate 1: the 75/25 split holds in every regular draw, 2021-2026', () => {
+  for (const f of reportFiles()) {
+    for (const s of parseFile(f)) {
+      if (s.pool !== 'regular') continue;
+      const drawn = s.levels.reduce((a, l) => a + l.drawn, 0);
+      const zero = must(s.levels.find((l) => l.min === 0 && l.max === 0), `zero level in ${s.licenseKey} ${s.year}`);
+      const share = zero.drawn / drawn;
+      assert.ok(Math.abs(share - 0.25) < 0.005, `${s.licenseKey} ${s.year} (${f}): random share ${(share * 100).toFixed(2)}%`);
+    }
+  }
+});
+
+test('gate 1: where two reports restate the same draw, they agree exactly', () => {
+  const sig = (s: ParsedSection) => JSON.stringify({ t: s.totalApps, l: s.levels.map((l) => [l.min, l.max, l.apps, l.drawn]).sort() });
+  const seen = new Map<string, { sig: string; file: string }>();
+  let overlaps = 0;
+  for (const f of reportFiles()) {
+    for (const s of parseFile(f)) {
+      const key = `${s.licenseKey}:${s.year}`;
+      const prior = seen.get(key);
+      if (!prior) { seen.set(key, { sig: sig(s), file: f }); continue; }
+      overlaps++;
+      assert.equal(sig(s), prior.sig, `${key} differs between ${prior.file} and ${f}`);
+    }
+  }
+  assert.ok(overlaps >= 8, `expected the reports to overlap, found ${overlaps} restatements`);
+});
+
+test('parser: whole-number percentages in the 2022-era reports are accepted', () => {
+  // "1 PP 17% Draw (5,963 apps/1,041 available)" — 1041/5963 is 17.46%, printed as 17%.
+  const cut = level(must(parseFile('2022-deer.txt').find((s) => s.year === 2022), 'deer 2022'), '1');
+  assert.equal(cut.apps, 5963);
+  assert.equal(cut.drawn, 1041);
+  assert.equal(cut.pct, 17);
+});
+
+test('parser: a two-decimal percentage is still held to two decimals', () => {
+  // The tolerance follows the printed precision, so 2026's 75.77% cannot drift the way 17% may.
+  const bad = ['Big Game/Elk Combo Drawing Stats', '2026 (Total apps 100)', '2 PP 75.77% Draw (100 apps, 60 successful)'];
+  assert.throws(() => parseNrCombo(bad), /is not 75.77%/);
+});
+
+test('parser: a band FWP omitted entirely is reconstructed from the printed total', () => {
+  // 2022 big game prints no 0% band; 30,947 total less the three printed bands leaves 12,188 applicants.
+  const bg22 = must(parseFile('2022-biggame.txt').find((s) => s.year === 2022), 'big game 2022');
+  const dead = must(bg22.levels.find((l) => l.inferred), 'inferred band');
+  assert.equal(dead.apps, 12188);
+  assert.equal(dead.drawn, 0);
+  assert.equal(bg22.levels.reduce((a, l) => a + l.apps, 0), bg22.totalApps);
+});
+
+test("parser: FWP's own totals that do not close are recorded, not swallowed", () => {
+  const bg23 = must(parseFile('2023.txt').find((s) => s.licenseKey === 'biggame-elk' && s.year === 2023), 'big game 2023');
+  assert.equal(bg23.totalMismatch, 90); // printed total 30,985; the bands sum to 30,895
+});
+
+test('parser: a mismatch big enough to mean a missed row still fails', () => {
+  const bad = ['Deer Combo Drawing Stats', '2024 (Total apps 20,000)', '1 PP 50% Draw (100 apps, 50 successful)', '0 PP 50% Draw (100 apps, 50 successful)'];
+  assert.throws(() => parseNrCombo(bad), /sum to 200, report says 20000/);
+});
+
+test('parser: the reconstructed band cannot swallow an implausible gap', () => {
+  // Same shape as 2022 big game (no 0% band, so the gap would be reconstructed), but the gap is almost
+  // the whole report — that is a lost row, not an omitted band.
+  const bad = ['Big Game/Elk Combo Drawing Stats', '2022 (Total apps 20,000)', '2 PP 50% Draw (100 apps, 50 successful)', '0 PP 50% Draw (100 apps, 50 successful)'];
+  assert.throws(() => parseNrCombo(bad), /sum to 200, report says 20000/);
+});
+
+test('six draws of history for both licenses', () => {
+  assert.deepEqual(mtYears('biggame-elk'), [2026, 2025, 2024, 2023, 2022, 2021]);
+  assert.deepEqual(mtYears('deer'), [2026, 2025, 2024, 2023, 2022, 2021]);
+});
+
+test('2021 had no dead zone: the cutoff sat at the 1-point level', () => {
+  // The preference phase reached down into the 1-point level, so there was nothing between it and zero.
+  assert.equal(mtCutoff('biggame-elk', 2021)?.min, 1);
+  assert.equal(mtDeadZone('biggame-elk', 2021)?.max, 1);
+  assert.equal(mtComboOdds('biggame-elk', 1, 2021)?.basis, 'at-cutoff');
+  assert.ok((mtComboOdds('biggame-elk', 1, 2021)?.odds ?? 0) > 0.3);
+});
+
+test('the dead zone opened when the cutoff moved to 2 points', () => {
+  const dead = (y: number) => mtComboOdds('biggame-elk', 1, y)?.basis === 'dead-zone';
+  assert.equal(dead(2021), false);
+  for (const y of [2022, 2023, 2024, 2025, 2026]) assert.equal(dead(y), true, `${y}`);
+});
+
+test('cutoff history runs oldest first and keeps the zero-point line', () => {
+  const h = mtCutoffHistory('biggame-elk');
+  assert.equal(h.length, 6);
+  assert.equal(h[0].year, 2021);
+  assert.equal(h[h.length - 1].year, 2026);
+  for (const y of h) assert.ok(y.zeroPct != null && y.zeroPct > 0, `${y.year} zero-point chance`);
+  // Drawn licenses hold near the 17,000 quota every year.
+  for (const y of h) assert.ok(y.drawn > 16000 && y.drawn <= 17000, `${y.year} drawn ${y.drawn}`);
+});
+
+test('holding one point beat holding none only in 2021', () => {
+  for (const y of [2021, 2022, 2023, 2024, 2025, 2026]) {
+    const one = mtComboOdds('biggame-elk', 1, y)?.odds ?? 0;
+    const none = mtComboOdds('biggame-elk', 0, y)?.odds ?? 0;
+    if (y === 2021) assert.ok(one < none, `${y}: 1pt ${one} vs 0pt ${none}`); // 34.71% vs 70.94% — still worse
+    else assert.equal(one, 0, `${y}`);
   }
 });

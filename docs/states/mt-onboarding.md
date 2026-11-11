@@ -1,6 +1,6 @@
 # Montana onboarding: data, draw models and integration plan
 
-Status, Nov 10 2026: **the nonresident combination draw is built** — 2025 and 2026 data parsed (`data/mt/nr-combo.json`), odds adapter (`src/lib/mtOdds.ts`), charts and the `/montana` page. No projection for 2027, by decision. Everything else below is still research and plan: no permits or B licenses, no districts, no harvest, no hunt or unit rows, nothing imported into the database. Montana is registered in `src/lib/states.ts` as **disabled**, so it stays out of the state picker and Find Hunts until it has hunt data. Everything marked *verified* was checked against the agency's own reports or GIS services; everything marked *unverified* is a lead. Use this worksheet with the [state-onboarding checklist](../state-onboarding-checklist.md) and the [state adapter guide](../state-adapter-guide.md).
+Status, Nov 10 2026: **the nonresident combination draw is built, with six draws of history** — 2021–2026 parsed from FWP's own report text (`data/mt/nr-combo-text/` → `data/mt/nr-combo.json`), odds adapter (`src/lib/mtOdds.ts`), charts and the `/montana` page. Gate 1 passes for 2021–2026 (see §3.1). No projection for 2027, by decision. Everything else below is still research and plan: no permits or B licenses, no districts, no harvest, no hunt or unit rows, nothing imported into the database. Montana is registered in `src/lib/states.ts` as **disabled**, so it stays out of the state picker and Find Hunts until it has hunt data. Everything marked *verified* was checked against the agency's own reports or GIS services; everything marked *unverified* is a lead. Use this worksheet with the [state-onboarding checklist](../state-onboarding-checklist.md) and the [state adapter guide](../state-adapter-guide.md).
 
 Scope for the first release: **deer, elk and antelope (pronghorn)**. Moose, sheep, goat and bison use the same bonus-point machinery and can follow once the core three are validated.
 
@@ -136,6 +136,30 @@ Fractional levels (2.2, 0.75) are **party applications**: a party's points are t
 
 **The consequence a Montana applicant most needs told:** in 2026, a nonresident holding 1 preference point had **no chance at all** at a big game combination, while a nonresident holding none drew at better than a coin flip. Below the cutoff, buying a preference point is strictly worse than holding none. This is the opposite of how Colorado and Wyoming points behave and it is the single most important thing the Montana pages must communicate. See §9.
 
+#### The full series, 2021–2026 (gate 1)
+
+Six draws are parsed and machine-checked (`tests/mtOdds.test.ts`). The allocation rule holds in **every** regular draw:
+
+| Draw | Big Game / Elk cutoff | At the cutoff | 0 points | Licenses | Random share |
+|---|---|---|---|---|---|
+| 2021 | 1 | 31% | 71.7% | 16,994 | 25.01% |
+| 2022 | 2 | 97.5% | 73.6% | 16,998 | 25.00% |
+| 2023 | 2 | 83.9% | 60.2% | 17,000 | 25.00% |
+| 2024 | 2 | 90.27% | 56.61% | 16,864 | 25.05% |
+| 2025 | 2 | 83.80% | 52.84% | 16,870 | 24.91% |
+| 2026 | 2 | 75.77% | 53.61% | 16,863 | 24.94% |
+
+What this settles, and what it changes:
+
+- **The dead zone is not permanent, it is a consequence of where the cutoff lands.** In 2021 the cutoff sat at the 1-point level, so there was nothing between it and zero and no dead zone existed. From 2022 the cutoff has sat at 2 points every year, so 1-point holders have drawn nothing for five straight years. The model derives this rather than hard-coding it.
+- **Big Game and Elk combinations are one drawing.** FWP reported them as two licenses through 2021 and as a single "Big Game/Elk Combo" from 2022. The 2021 tabular report's separate pools give a random share of 22.85% (big game) and 31.76% (elk), which looks like a rule change — but combined they give 25.007%, and FWP's own 2022 restatement of 2021 confirms the single pool. **Treat them as one draw in every year.** This was nearly recorded as "the rules changed in 2022"; they did not.
+- **Holding one point has been worse than holding none in all six draws**, not just the recent ones. Even in 2021, when 1 point still drew, it drew at 31% against 71.7% for zero points.
+- **Where two reports restate the same draw, they agree exactly** for every overlap in 2021–2026, and the build fails if that ever stops being true. The exception is outside the narrative series: FWP's older tabular 2021 report bands points as whole numbers and disagrees slightly with the 2022 restatement (31,917 vs 31,915 applicants). The narrative restatement is used.
+- **Two of FWP's printed totals do not close**: 2023 big game is 90 applicants short of its own band sum, and 2021 deer by one. Both are recorded as `totalMismatch` and shown as published rather than silently corrected. The parser fails if a gap exceeds 1% of the total.
+- **2022 big game omits its 0% band entirely.** The 12,188 applicants the printed total does not account for are reconstructed and flagged `inferred`, bounded so the reconstruction cannot absorb a genuinely lost row.
+
+**2018–2020 are not parsed.** Those PDFs are laid out column-wise, so extracting text by line yields stacked fragments ("100 100 100 100 100", "Successful", "%") rather than rows. They need 2-D reconstruction from x/y positions, which is a separate job. Six years is already enough for gate 1 and for the cutoff history; the older years matter only if a projection is attempted later.
+
 Also verified from FWP: points cap at 3; points are lost on drawing **and on skipping an application year**; a separate Nonresident Landowner Priority Pool runs alongside (133 applicants in 2026, all point levels drawing at 100% where any applied) and must be modelled as its own pool.
 
 ### 3.2 Bonus points — formula contested, evidence favours one reading
@@ -249,6 +273,16 @@ Not yet sourced. Three candidates, in order of preference:
 
 Build from (1), cross-check against (3), and use (2) for map shading only if its semantics hold up. Do not infer "general" from the absence of a permit.
 
+### What the finder has to show for general districts (owner, Nov 10 2026)
+
+Every district open to a general tag appears as a row in Find Hunts, carrying:
+
+- the **last reported harvest statistics** for that district — which, given §5, means the most recent *surveyed* season for that species, labelled with its actual year, and different years for deer and elk on the same district;
+- the hunter's **overall odds**, which for a general tag is the combination-licence draw at their preference point balance — the same number `mtOdds` already produces. It is a statewide figure, identical across every general district, so the card must say that it is the chance of getting a licence at all, not the chance of drawing that district. Printing a per-district number that never varies would read as a per-district fact and mislead;
+- **shading on the map** for which districts have a general hunt, since very few Montana districts are permit-only.
+
+Two things to settle before building it. First, a Montana general district is not a "hunt" in the Idaho sense — the licence is statewide and the district only bounds where you may use it, so the hunt/unit identity needs deciding rather than copying. Second, a hunter holding 1 point currently draws at 0%, which would stamp **0% on every Montana row in a combined search**. That is accurate, but it needs the dead-zone explanation attached to the card, not a bare zero.
+
 ---
 
 ## 7. Costs and refunds
@@ -322,8 +356,9 @@ Open question for the owner: **should Montana launch with the nonresident combin
 ## 11. Build order
 
 1. ~~`scripts/mt_fetch_sources.mjs` → `data/mt/draw-sources.csv`~~ **done** (manifest partial; regenerate before the permit work). Still to do: freeze a PDF fixture per report shape (2006 combined, 2022 renamed, 2026 split).
-2. **Done for 2025–2026:** `scripts/mt_parse_nr_combo.ts` parses the NR combination report (repairing the digits pdf.js splits inside numbers, and failing loudly on any line it does not recognise); `src/lib/mtOdds.ts` resolves odds from the cutoff rather than by matching a printed band, so a party's fractional average still lands correctly; `tests/mtOdds.test.ts` checks both against the published results. The parser asserts that each section's levels sum to the printed total and that the random share is 25%; both hold for both licenses in both years.
-   - Still to do: parse 2018–2024 and reproduce every published year (gate 1 across the full series), then the Brier backtest (gate 2) before any 2027 projection is shown. No projection ships until then — `/montana` says so on the page.
+2. **Done for 2021–2026.** `scripts/mt_parse_nr_combo.ts` parses the narrative reports; `scripts/mt_build_nr_combo.ts` merges them into `data/mt/nr-combo.json` and fails if two reports state the same draw differently; `src/lib/mtOdds.ts` resolves odds from the cutoff rather than by matching a printed band, so a party's fractional average still lands correctly. The extracted report text is committed under `data/mt/nr-combo-text/` so the build is reproducible without a browser. 30 tests.
+   - Format quirks the parser handles, all real: point bands written either way round (`2.2 – 3`, `3-2.2`); en dash or hyphen; leading-dot decimals; pdf.js splitting digits inside numbers (`9,7 21`, `2,01 8`, `53. 6`); successes written as `, 7,281 successful` or `/ 9,098 combos available`; the word "Draw" missing; and a whole band omitted. Percentage tolerance follows the printed precision — the 2022-era reports round to whole numbers (17% for 17.46%), while 2026's two decimals are held to two decimals.
+   - Still to do: 2018–2020, which need a column-aware extractor (see §3.1). Gate 2 (Brier backtest) stays unstarted until someone wants a projection — nothing projects today, and `/montana` says so.
 3. District crosswalk from the GIS "all past years" layers → `data/mt/district-history.json`.
 4. Harvest loader with the §5 rules: rollup rows dropped, off-year zeros nulled, surveyed years recorded per species.
 5. Regulations district-table parser → general-vs-permit, season dates, LPT→district mapping.

@@ -1,7 +1,7 @@
 'use client';
-import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine, LineChart, Line, Legend } from 'recharts';
 import { Frame } from './Charts';
-import { mtLevels, mtCutoff, type MtLevel } from '@/lib/mtOdds';
+import { mtLevels, mtCutoff, mtCutoffHistory, type MtLevel } from '@/lib/mtOdds';
 
 const grid = 'rgba(128,128,128,.2)';
 // Drew in full / the level it ran out at / drew nothing / the separate random draw at zero points.
@@ -71,6 +71,46 @@ export function MtComboPointsChart({ licenseKey, year, title, myPoints }: { lice
           ? <>Licenses ran out partway through the <b>{cut.label}</b>-point level. Above it everyone drew; below it, down to but not including zero, <b>nobody drew</b> — those applicants miss the points phase and are not eligible for the random draw. </>
           : <>Everyone who applied drew, at every point level. </>}
         {myBand ? `Dashed line: your ${myPoints} points.` : ''}
+      </p>
+    </div>
+  );
+}
+
+/**
+ * What each year's draw actually did, 2021 onward. Two lines that matter to a hunter deciding whether a
+ * point is worth buying: the chance at the cutoff level, and the chance with no points at all. They cross
+ * and re-cross, which is the honest picture — this is history, not a trend to extrapolate.
+ */
+export function MtCutoffHistoryChart({ licenseKey, title }: { licenseKey: string; title: string }) {
+  const rows = mtCutoffHistory(licenseKey).map((h) => ({
+    year: h.year,
+    cutoff: h.cutoffPct,
+    zero: h.zeroPct,
+    level: h.cutoff,
+    drawn: h.drawn,
+  }));
+  if (rows.length < 2) return null;
+  const levels = [...new Set(rows.map((r) => r.level).filter((l): l is number => l != null))];
+  return (
+    <div>
+      <Frame title={title} height={230}>
+        <LineChart data={rows} margin={{ top: 5, right: 12, left: 0, bottom: 0 }}>
+          <CartesianGrid stroke={grid} vertical={false} />
+          <XAxis dataKey="year" tickLine={false} />
+          <YAxis width={44} tickLine={false} domain={[0, 100]} tickFormatter={(v: unknown) => `${v}%`} />
+          <Tooltip
+            formatter={(v: unknown, name: unknown) => [typeof v === 'number' ? `${v.toFixed(2)}%` : 'Everyone drew', name]}
+            labelFormatter={(v: unknown) => `${v} draw`}
+          />
+          <Legend />
+          <Line name="At the cutoff level" dataKey="cutoff" stroke={ZONE_COLOR.cutoff} strokeWidth={2.5} dot={{ r: 3 }} connectNulls={false} />
+          <Line name="With 0 points" dataKey="zero" stroke={ZONE_COLOR.zero} strokeWidth={2.5} strokeDasharray="6 4" dot={{ r: 3 }} connectNulls={false} />
+        </LineChart>
+      </Frame>
+      <p className="small muted">
+        Last {rows.length} draws. The cutoff has sat at {levels.length === 1 ? <>the <b>{levels[0]}</b>-point level throughout</> : <>point level {levels.sort((a, b) => a - b).join(' then ')}</>},
+        so what moves year to year is how much of that level got through — not how many points it takes to be in the running.
+        No projection: see the page notes.
       </p>
     </div>
   );

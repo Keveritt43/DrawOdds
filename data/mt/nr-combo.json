@@ -1,12 +1,17 @@
 {
   "source": {
     "agency": "Montana Fish, Wildlife & Parks",
-    "title": "2026 NR Combination Preference Point Statistics",
-    "objectId": 116132,
-    "url": "https://myfwp.mt.gov/getRepositoryFile?objectID=116132",
     "listing": "https://myfwp.mt.gov/fwpPub/drawingStatistics",
+    "objectIds": {
+      "2023": 108844,
+      "2024": 110887,
+      "2025": 112967,
+      "2026": 116132,
+      "2022-biggame": 106434,
+      "2022-deer": 106435
+    },
     "retrieved": "2026-11-10",
-    "note": "The 2026 file carries both the 2026 and 2025 draws. Built by scripts/mt_parse_nr_combo.ts from pdf.js text; every year's level applicants sum to the printed total."
+    "note": "Built by scripts/mt_build_nr_combo.ts from the report text in data/mt/nr-combo-text/. Each report restates the previous year; where two reports cover the same draw they agree exactly, and the build fails if they ever stop agreeing."
   },
   "pointsCap": 3,
   "licenses": [
@@ -15,25 +20,259 @@
       "name": "Big Game / Elk Combination",
       "shortName": "Big Game / Elk",
       "pool": "regular",
-      "reportName": "General Big Game/Elk Combo Primary Drawing Stats — Regular",
-      "note": "One drawing issues both the Big Game (deer + elk) and Elk Combination licenses. FWP does not split them in this report.",
+      "reportName": "General Big Game/Elk Combo Primary Drawing Stats",
+      "note": "One drawing issues both the Big Game (deer + elk) and Elk Combination licenses. FWP reported them as two licenses through 2021 and as one drawing from 2022; the 2021 numbers here are FWP’s own restatement of that draw as a single pool.",
       "years": {
-        "2026": {
-          "totalApps": 29892,
+        "2021": {
+          "totalApps": 31915,
+          "sources": [
+            "2022-biggame.txt"
+          ],
           "levels": [
-            { "label": "2.2 – 3", "min": 2.2, "max": 3, "apps": 5377, "drawn": 5377, "drawnDerived": true, "pct": 100 },
-            { "label": "2", "min": 2, "max": 2, "apps": 9609, "drawn": 7281, "pct": 75.77 },
-            { "label": ".2 – 1.8", "min": 0.2, "max": 1.8, "apps": 7063, "drawn": 0, "pct": 0 },
-            { "label": "0", "min": 0, "max": 0, "apps": 7843, "drawn": 4205, "pct": 53.61 }
+            {
+              "label": "1.2 – 3",
+              "min": 1.2,
+              "max": 3,
+              "apps": 6952,
+              "drawn": 6952,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 18933,
+              "drawn": 5792,
+              "pct": 31
+            },
+            {
+              "label": "0.2 – 0.8",
+              "min": 0.2,
+              "max": 0.8,
+              "apps": 104,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 5926,
+              "drawn": 4250,
+              "pct": 71.7
+            }
+          ]
+        },
+        "2022": {
+          "totalApps": 30947,
+          "sources": [
+            "2022-biggame.txt",
+            "2023.txt"
+          ],
+          "levels": [
+            {
+              "label": "2.2 – 3",
+              "min": 2.2,
+              "max": 3,
+              "apps": 3651,
+              "drawn": 3651,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 9336,
+              "drawn": 9098,
+              "pct": 97.5
+            },
+            {
+              "label": "0 – 2",
+              "min": 0.2,
+              "max": 1.8,
+              "apps": 12188,
+              "drawn": 0,
+              "inferred": true,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 5772,
+              "drawn": 4249,
+              "pct": 73.6
+            }
+          ]
+        },
+        "2023": {
+          "totalApps": 30985,
+          "totalMismatch": 90,
+          "sources": [
+            "2023.txt",
+            "2024.txt"
+          ],
+          "levels": [
+            {
+              "label": "2.2 – 3",
+              "min": 2.2,
+              "max": 3,
+              "apps": 4138,
+              "drawn": 4138,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 10259,
+              "drawn": 8612,
+              "pct": 83.9
+            },
+            {
+              "label": "0.2 – 1.8",
+              "min": 0.2,
+              "max": 1.8,
+              "apps": 9443,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 7055,
+              "drawn": 4250,
+              "pct": 60.2
+            }
+          ]
+        },
+        "2024": {
+          "totalApps": 29518,
+          "sources": [
+            "2024.txt",
+            "2025.txt"
+          ],
+          "levels": [
+            {
+              "label": "2.2 – 3",
+              "min": 2.2,
+              "max": 3,
+              "apps": 4562,
+              "drawn": 4562,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 8949,
+              "drawn": 8078,
+              "pct": 90.27
+            },
+            {
+              "label": "0.2 – 1.8",
+              "min": 0.2,
+              "max": 1.8,
+              "apps": 8546,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 7461,
+              "drawn": 4224,
+              "pct": 56.61
+            }
           ]
         },
         "2025": {
           "totalApps": 29519,
+          "sources": [
+            "2025.txt",
+            "2026.txt"
+          ],
           "levels": [
-            { "label": "2.2 – 3", "min": 2.2, "max": 3, "apps": 4522, "drawn": 4522, "drawnDerived": true, "pct": 100 },
-            { "label": "2", "min": 2, "max": 2, "apps": 9721, "drawn": 8146, "pct": 83.8 },
-            { "label": ".2 – 1.8", "min": 0.2, "max": 1.8, "apps": 7323, "drawn": 0, "pct": 0 },
-            { "label": "0", "min": 0, "max": 0, "apps": 7953, "drawn": 4202, "pct": 52.84 }
+            {
+              "label": "2.2 – 3",
+              "min": 2.2,
+              "max": 3,
+              "apps": 4522,
+              "drawn": 4522,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 9721,
+              "drawn": 8146,
+              "pct": 83.8
+            },
+            {
+              "label": "0.2 – 1.8",
+              "min": 0.2,
+              "max": 1.8,
+              "apps": 7323,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 7953,
+              "drawn": 4202,
+              "pct": 52.84
+            }
+          ]
+        },
+        "2026": {
+          "totalApps": 29892,
+          "sources": [
+            "2026.txt"
+          ],
+          "levels": [
+            {
+              "label": "2.2 – 3",
+              "min": 2.2,
+              "max": 3,
+              "apps": 5377,
+              "drawn": 5377,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 9609,
+              "drawn": 7281,
+              "pct": 75.77
+            },
+            {
+              "label": "0.2 – 1.8",
+              "min": 0.2,
+              "max": 1.8,
+              "apps": 7063,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 7843,
+              "drawn": 4205,
+              "pct": 53.61
+            }
           ]
         }
       }
@@ -46,22 +285,255 @@
       "reportName": "General Deer Combo Primary Drawing Stats",
       "note": "In December 2025 the Fish and Wildlife Commission withheld about 2,500 nonresident general deer licenses for the 2026-2027 seasons. Licenses drawn fell from 10,440 in 2025 to 8,226 in 2026.",
       "years": {
-        "2026": {
-          "totalApps": 13213,
+        "2021": {
+          "totalApps": 19484,
+          "totalMismatch": 1,
+          "sources": [
+            "2022-deer.txt"
+          ],
           "levels": [
-            { "label": "1.2 – 3", "min": 1.2, "max": 3, "apps": 5410, "drawn": 5410, "drawnDerived": true, "pct": 100 },
-            { "label": "1", "min": 1, "max": 1, "apps": 3637, "drawn": 760, "pct": 20.9 },
-            { "label": ".2 – .75", "min": 0.2, "max": 0.75, "apps": 137, "drawn": 0, "pct": 0 },
-            { "label": "0", "min": 0, "max": 0, "apps": 4029, "drawn": 2056, "pct": 51.03 }
+            {
+              "label": "1.2 – 3",
+              "min": 1.2,
+              "max": 3,
+              "apps": 2955,
+              "drawn": 2955,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 11944,
+              "drawn": 4465,
+              "pct": 37
+            },
+            {
+              "label": "0.2 – 0.75",
+              "min": 0.2,
+              "max": 0.75,
+              "apps": 93,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 4491,
+              "drawn": 2474,
+              "pct": 55
+            }
+          ]
+        },
+        "2022": {
+          "totalApps": 17396,
+          "sources": [
+            "2022-deer.txt",
+            "2023.txt"
+          ],
+          "levels": [
+            {
+              "label": "1.2 – 3",
+              "min": 1.2,
+              "max": 3,
+              "apps": 6480,
+              "drawn": 6480,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 5963,
+              "drawn": 1041,
+              "pct": 17
+            },
+            {
+              "label": "0.2 – 0.8",
+              "min": 0.2,
+              "max": 0.8,
+              "apps": 332,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 4621,
+              "drawn": 2507,
+              "pct": 54
+            }
+          ]
+        },
+        "2023": {
+          "totalApps": 15929,
+          "sources": [
+            "2023.txt",
+            "2024.txt"
+          ],
+          "levels": [
+            {
+              "label": "1.2 – 3",
+              "min": 1.2,
+              "max": 3,
+              "apps": 5799,
+              "drawn": 5799,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 5021,
+              "drawn": 2018,
+              "pct": 40.2
+            },
+            {
+              "label": "0.2 – 0.8",
+              "min": 0.2,
+              "max": 0.8,
+              "apps": 243,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 4866,
+              "drawn": 2606,
+              "pct": 53.6
+            }
+          ]
+        },
+        "2024": {
+          "totalApps": 15634,
+          "sources": [
+            "2024.txt",
+            "2025.txt"
+          ],
+          "levels": [
+            {
+              "label": "1.2 – 3",
+              "min": 1.2,
+              "max": 3,
+              "apps": 5525,
+              "drawn": 5525,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 4757,
+              "drawn": 2347,
+              "pct": 49.34
+            },
+            {
+              "label": "0.2 – 0.75",
+              "min": 0.2,
+              "max": 0.75,
+              "apps": 271,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 5081,
+              "drawn": 2623,
+              "pct": 51.62
+            }
           ]
         },
         "2025": {
           "totalApps": 14957,
+          "sources": [
+            "2025.txt",
+            "2026.txt"
+          ],
           "levels": [
-            { "label": "1.2 – 3", "min": 1.2, "max": 3, "apps": 5816, "drawn": 5816, "drawnDerived": true, "pct": 100 },
-            { "label": "1", "min": 1, "max": 1, "apps": 4221, "drawn": 2014, "pct": 47.71 },
-            { "label": ".2 – .8", "min": 0.2, "max": 0.8, "apps": 157, "drawn": 0, "pct": 0 },
-            { "label": "0", "min": 0, "max": 0, "apps": 4763, "drawn": 2610, "pct": 54.8 }
+            {
+              "label": "1.2 – 3",
+              "min": 1.2,
+              "max": 3,
+              "apps": 5816,
+              "drawn": 5816,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 4221,
+              "drawn": 2014,
+              "pct": 47.71
+            },
+            {
+              "label": "0.2 – 0.8",
+              "min": 0.2,
+              "max": 0.8,
+              "apps": 157,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 4763,
+              "drawn": 2610,
+              "pct": 54.8
+            }
+          ]
+        },
+        "2026": {
+          "totalApps": 13213,
+          "sources": [
+            "2026.txt"
+          ],
+          "levels": [
+            {
+              "label": "1.2 – 3",
+              "min": 1.2,
+              "max": 3,
+              "apps": 5410,
+              "drawn": 5410,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 3637,
+              "drawn": 760,
+              "pct": 20.9
+            },
+            {
+              "label": "0.2 – 0.75",
+              "min": 0.2,
+              "max": 0.75,
+              "apps": 137,
+              "drawn": 0,
+              "pct": 0
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 4029,
+              "drawn": 2056,
+              "pct": 51.03
+            }
           ]
         }
       }
@@ -72,24 +544,138 @@
       "shortName": "Landowner pool",
       "pool": "landowner",
       "reportName": "NR Landowner Priority Pool",
-      "note": "A separate pool for nonresident landowners. Everyone who applied drew in both years, at every point level with applicants.",
+      "note": "A separate pool for nonresident landowners. Everyone who applied drew, at every point level with applicants, in every year reported.",
       "years": {
-        "2026": {
-          "totalApps": 133,
+        "2024": {
+          "totalApps": 131,
+          "sources": [
+            "2024.txt",
+            "2025.txt"
+          ],
           "levels": [
-            { "label": "3", "min": 3, "max": 3, "apps": 0, "drawn": 0, "pct": null },
-            { "label": "2", "min": 2, "max": 2, "apps": 20, "drawn": 20, "drawnDerived": true, "pct": 100 },
-            { "label": "1", "min": 1, "max": 1, "apps": 69, "drawn": 69, "drawnDerived": true, "pct": 100 },
-            { "label": "0", "min": 0, "max": 0, "apps": 44, "drawn": 44, "drawnDerived": true, "pct": 100 }
+            {
+              "label": "3",
+              "min": 3,
+              "max": 3,
+              "apps": 2,
+              "drawn": 2,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 36,
+              "drawn": 36,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 69,
+              "drawn": 69,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 24,
+              "drawn": 24,
+              "drawnDerived": true,
+              "pct": 100
+            }
           ]
         },
         "2025": {
           "totalApps": 129,
+          "sources": [
+            "2025.txt",
+            "2026.txt"
+          ],
           "levels": [
-            { "label": "3", "min": 3, "max": 3, "apps": 0, "drawn": 0, "pct": null },
-            { "label": "2", "min": 2, "max": 2, "apps": 25, "drawn": 25, "drawnDerived": true, "pct": 100 },
-            { "label": "1", "min": 1, "max": 1, "apps": 57, "drawn": 57, "drawnDerived": true, "pct": 100 },
-            { "label": "0", "min": 0, "max": 0, "apps": 47, "drawn": 47, "drawnDerived": true, "pct": 100 }
+            {
+              "label": "3",
+              "min": 3,
+              "max": 3,
+              "apps": 0,
+              "drawn": 0,
+              "pct": null
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 25,
+              "drawn": 25,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 57,
+              "drawn": 57,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 47,
+              "drawn": 47,
+              "drawnDerived": true,
+              "pct": 100
+            }
+          ]
+        },
+        "2026": {
+          "totalApps": 133,
+          "sources": [
+            "2026.txt"
+          ],
+          "levels": [
+            {
+              "label": "3",
+              "min": 3,
+              "max": 3,
+              "apps": 0,
+              "drawn": 0,
+              "pct": null
+            },
+            {
+              "label": "2",
+              "min": 2,
+              "max": 2,
+              "apps": 20,
+              "drawn": 20,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "1",
+              "min": 1,
+              "max": 1,
+              "apps": 69,
+              "drawn": 69,
+              "drawnDerived": true,
+              "pct": 100
+            },
+            {
+              "label": "0",
+              "min": 0,
+              "max": 0,
+              "apps": 44,
+              "drawn": 44,
+              "drawnDerived": true,
+              "pct": 100
+            }
           ]
         }
       }
