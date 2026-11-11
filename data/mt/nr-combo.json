@@ -1,0 +1,98 @@
+{
+  "source": {
+    "agency": "Montana Fish, Wildlife & Parks",
+    "title": "2026 NR Combination Preference Point Statistics",
+    "objectId": 116132,
+    "url": "https://myfwp.mt.gov/getRepositoryFile?objectID=116132",
+    "listing": "https://myfwp.mt.gov/fwpPub/drawingStatistics",
+    "retrieved": "2026-11-10",
+    "note": "The 2026 file carries both the 2026 and 2025 draws. Built by scripts/mt_parse_nr_combo.mjs from pdf.js text; every year's level applicants sum to the printed total."
+  },
+  "pointsCap": 3,
+  "licenses": [
+    {
+      "key": "biggame-elk",
+      "name": "Big Game / Elk Combination",
+      "shortName": "Big Game / Elk",
+      "pool": "regular",
+      "reportName": "General Big Game/Elk Combo Primary Drawing Stats — Regular",
+      "note": "One drawing issues both the Big Game (deer + elk) and Elk Combination licenses. FWP does not split them in this report.",
+      "years": {
+        "2026": {
+          "totalApps": 29892,
+          "levels": [
+            { "label": "2.2 – 3", "min": 2.2, "max": 3, "apps": 5377, "drawn": 5377, "drawnDerived": true, "pct": 100 },
+            { "label": "2", "min": 2, "max": 2, "apps": 9609, "drawn": 7281, "pct": 75.77 },
+            { "label": ".2 – 1.8", "min": 0.2, "max": 1.8, "apps": 7063, "drawn": 0, "pct": 0 },
+            { "label": "0", "min": 0, "max": 0, "apps": 7843, "drawn": 4205, "pct": 53.61 }
+          ]
+        },
+        "2025": {
+          "totalApps": 29519,
+          "levels": [
+            { "label": "2.2 – 3", "min": 2.2, "max": 3, "apps": 4522, "drawn": 4522, "drawnDerived": true, "pct": 100 },
+            { "label": "2", "min": 2, "max": 2, "apps": 9721, "drawn": 8146, "pct": 83.8 },
+            { "label": ".2 – 1.8", "min": 0.2, "max": 1.8, "apps": 7323, "drawn": 0, "pct": 0 },
+            { "label": "0", "min": 0, "max": 0, "apps": 7953, "drawn": 4202, "pct": 52.84 }
+          ]
+        }
+      }
+    },
+    {
+      "key": "deer",
+      "name": "General Deer Combination",
+      "shortName": "Deer",
+      "pool": "regular",
+      "reportName": "General Deer Combo Primary Drawing Stats",
+      "note": "In December 2025 the Fish and Wildlife Commission withheld about 2,500 nonresident general deer licenses for the 2026-2027 seasons. Licenses drawn fell from 10,440 in 2025 to 8,226 in 2026.",
+      "years": {
+        "2026": {
+          "totalApps": 13213,
+          "levels": [
+            { "label": "1.2 – 3", "min": 1.2, "max": 3, "apps": 5410, "drawn": 5410, "drawnDerived": true, "pct": 100 },
+            { "label": "1", "min": 1, "max": 1, "apps": 3637, "drawn": 760, "pct": 20.9 },
+            { "label": ".2 – .75", "min": 0.2, "max": 0.75, "apps": 137, "drawn": 0, "pct": 0 },
+            { "label": "0", "min": 0, "max": 0, "apps": 4029, "drawn": 2056, "pct": 51.03 }
+          ]
+        },
+        "2025": {
+          "totalApps": 14957,
+          "levels": [
+            { "label": "1.2 – 3", "min": 1.2, "max": 3, "apps": 5816, "drawn": 5816, "drawnDerived": true, "pct": 100 },
+            { "label": "1", "min": 1, "max": 1, "apps": 4221, "drawn": 2014, "pct": 47.71 },
+            { "label": ".2 – .8", "min": 0.2, "max": 0.8, "apps": 157, "drawn": 0, "pct": 0 },
+            { "label": "0", "min": 0, "max": 0, "apps": 4763, "drawn": 2610, "pct": 54.8 }
+          ]
+        }
+      }
+    },
+    {
+      "key": "biggame-elk-landowner",
+      "name": "Big Game / Elk Combination — Nonresident Landowner Priority Pool",
+      "shortName": "Landowner pool",
+      "pool": "landowner",
+      "reportName": "NR Landowner Priority Pool",
+      "note": "A separate pool for nonresident landowners. Everyone who applied drew in both years, at every point level with applicants.",
+      "years": {
+        "2026": {
+          "totalApps": 133,
+          "levels": [
+            { "label": "3", "min": 3, "max": 3, "apps": 0, "drawn": 0, "pct": null },
+            { "label": "2", "min": 2, "max": 2, "apps": 20, "drawn": 20, "drawnDerived": true, "pct": 100 },
+            { "label": "1", "min": 1, "max": 1, "apps": 69, "drawn": 69, "drawnDerived": true, "pct": 100 },
+            { "label": "0", "min": 0, "max": 0, "apps": 44, "drawn": 44, "drawnDerived": true, "pct": 100 }
+          ]
+        },
+        "2025": {
+          "totalApps": 129,
+          "levels": [
+            { "label": "3", "min": 3, "max": 3, "apps": 0, "drawn": 0, "pct": null },
+            { "label": "2", "min": 2, "max": 2, "apps": 25, "drawn": 25, "drawnDerived": true, "pct": 100 },
+            { "label": "1", "min": 1, "max": 1, "apps": 57, "drawn": 57, "drawnDerived": true, "pct": 100 },
+            { "label": "0", "min": 0, "max": 0, "apps": 47, "drawn": 47, "drawnDerived": true, "pct": 100 }
+          ]
+        }
+      }
+    }
+  ]
+}

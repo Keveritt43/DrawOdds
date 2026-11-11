@@ -1,6 +1,6 @@
 # Montana onboarding: data, draw models and integration plan
 
-Status, Nov 10 2026: **research and plan only.** No Montana data is parsed, no adapter exists, nothing is imported. Everything below that is marked *verified* was checked against the agency's own reports or GIS services during this research; everything marked *unverified* is a lead. Use this worksheet with the [state-onboarding checklist](../state-onboarding-checklist.md) and the [state adapter guide](../state-adapter-guide.md).
+Status, Nov 10 2026: **the nonresident combination draw is built** — 2025 and 2026 data parsed (`data/mt/nr-combo.json`), odds adapter (`src/lib/mtOdds.ts`), charts and the `/montana` page. No projection for 2027, by decision. Everything else below is still research and plan: no permits or B licenses, no districts, no harvest, no hunt or unit rows, nothing imported into the database. Montana is registered in `src/lib/states.ts` as **disabled**, so it stays out of the state picker and Find Hunts until it has hunt data. Everything marked *verified* was checked against the agency's own reports or GIS services; everything marked *unverified* is a lead. Use this worksheet with the [state-onboarding checklist](../state-onboarding-checklist.md) and the [state adapter guide](../state-adapter-guide.md).
 
 Scope for the first release: **deer, elk and antelope (pronghorn)**. Moose, sheep, goat and bison use the same bonus-point machinery and can follow once the core three are validated.
 
@@ -321,8 +321,9 @@ Open question for the owner: **should Montana launch with the nonresident combin
 
 ## 11. Build order
 
-1. `scripts/mt_fetch_sources.mjs` → `data/mt/draw-sources.csv`; freeze a PDF fixture per report shape (2006 combined, 2022 renamed, 2026 split, NR combo).
-2. NR combination parser + `mtOdds` preference model; reproduce 2018–2026 published results exactly (gate 1); Brier backtest against "last year's cutoff" (gate 2) before any projection is shown.
+1. ~~`scripts/mt_fetch_sources.mjs` → `data/mt/draw-sources.csv`~~ **done** (manifest partial; regenerate before the permit work). Still to do: freeze a PDF fixture per report shape (2006 combined, 2022 renamed, 2026 split).
+2. **Done for 2025–2026:** `scripts/mt_parse_nr_combo.mjs` parses the NR combination report (repairing the digits pdf.js splits inside numbers, and failing loudly on any line it does not recognise); `src/lib/mtOdds.ts` resolves odds from the cutoff rather than by matching a printed band, so a party's fractional average still lands correctly; `tests/mtOdds.test.ts` checks both against the published results. The parser asserts that each section's levels sum to the printed total and that the random share is 25%; both hold for both licenses in both years.
+   - Still to do: parse 2018–2024 and reproduce every published year (gate 1 across the full series), then the Brier backtest (gate 2) before any 2027 projection is shown. No projection ships until then — `/montana` says so on the page.
 3. District crosswalk from the GIS "all past years" layers → `data/mt/district-history.json`.
 4. Harvest loader with the §5 rules: rollup rows dropped, off-year zeros nulled, surveyed years recorded per species.
 5. Regulations district-table parser → general-vs-permit, season dates, LPT→district mapping.
