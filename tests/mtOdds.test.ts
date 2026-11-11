@@ -14,7 +14,7 @@ import {
   mtYears,
   MT_POINTS_CAP,
 } from '../src/lib/mtOdds';
-import { parseNrCombo } from '../scripts/mt_parse_nr_combo.mjs';
+import { parseNrCombo, type ParsedSection } from '../scripts/mt_parse_nr_combo';
 
 // Lines as pdf.js extracted them from FWP's "2026 NR Combination Preference Point Statistics"
 // (objectID 116132), including the split digits it produces inside "9,721" and "8,146".
@@ -43,32 +43,38 @@ const REPORT_LINES = [
   '0 PP 51.03% Draw (4,029 apps, 2,056 successful)',
 ];
 
+/** Fail the test where a lookup misses, instead of asserting against undefined. */
+function must<T>(x: T | undefined, what: string): T {
+  if (x === undefined) throw new Error(`missing ${what}`);
+  return x;
+}
+const section = (key: string, year: number) =>
+  must(parseNrCombo(REPORT_LINES).find((s) => s.licenseKey === key && s.year === year), `${key} ${year}`);
+const level = (s: ParsedSection, label: string) => must(s.levels.find((l) => l.label === label), `level ${label}`);
+
 test('parser: reconciles every section against the printed total', () => {
-  const sections = parseNrCombo(REPORT_LINES);
-  assert.equal(sections.length, 4);
-  const bg26 = sections.find((s) => s.licenseKey === 'biggame-elk' && s.year === 2026);
+  assert.equal(parseNrCombo(REPORT_LINES).length, 4);
+  const bg26 = section('biggame-elk', 2026);
   assert.equal(bg26.totalApps, 29892);
   assert.equal(bg26.levels.reduce((a, l) => a + l.apps, 0), 29892);
 });
 
 test('parser: repairs digits pdf.js split inside a number', () => {
-  const bg25 = parseNrCombo(REPORT_LINES).find((s) => s.licenseKey === 'biggame-elk' && s.year === 2025);
-  const cutoff = bg25.levels.find((l) => l.label === '2');
+  const cutoff = level(section('biggame-elk', 2025), '2');
   assert.equal(cutoff.apps, 9721); // printed as "9,7 21"
   assert.equal(cutoff.drawn, 8146); // printed as "8,1 46"
 });
 
 test('parser: 100% levels carry no success count, so drawn is derived', () => {
-  const bg26 = parseNrCombo(REPORT_LINES).find((s) => s.licenseKey === 'biggame-elk' && s.year === 2026);
-  const top = bg26.levels.find((l) => l.label === '2.2 – 3');
+  const top = level(section('biggame-elk', 2026), '2.2 – 3');
   assert.equal(top.drawn, 5377);
   assert.equal(top.drawnDerived, true);
 });
 
 test('parser: a level with no applicants has unknown odds, not 0%', () => {
-  const lo = parseNrCombo(REPORT_LINES).find((s) => s.pool === 'landowner' && s.year === 2026);
-  assert.equal(lo.levels.find((l) => l.label === '3').apps, 0);
-  assert.equal(lo.levels.find((l) => l.label === '3').pct, null);
+  const three = level(section('biggame-elk-landowner', 2026), '3');
+  assert.equal(three.apps, 0);
+  assert.equal(three.pct, null);
 });
 
 test('parser: rejects a section whose levels do not sum to its total', () => {

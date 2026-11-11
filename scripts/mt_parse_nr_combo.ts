@@ -4,24 +4,46 @@
 // Extract its text with pdf.js in a tab on myfwp.mt.gov, one line per visual row, ordered by y then x —
 // see docs/states/mt-onboarding.md §8 — then:
 //
-//   node scripts/mt_parse_nr_combo.mjs <lines.txt> data/mt/nr-combo.json
+//   NODE_PATH=/opt/npm-tools/node_modules /opt/npm-tools/node_modules/.bin/tsx \
+//     scripts/mt_parse_nr_combo.ts <lines.txt> data/mt/nr-combo.json
 //
 // Every check below throws rather than skipping a row. The report is small enough that a silent
 // miss would go unnoticed, and FWP's layout has already changed titles four times in nine years.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 
+export interface ParsedLevel {
+  label: string;
+  min: number;
+  max: number;
+  apps: number;
+  drawn: number;
+  /** FWP prints no success count where everyone drew; `drawn` is then the applicant count. */
+  drawnDerived?: boolean;
+  /** null where nobody applied at that level — unknown, not 0%. */
+  pct: number | null;
+}
+
+export interface ParsedSection {
+  licenseKey: string;
+  licenseName: string;
+  pool: 'regular' | 'landowner';
+  year: number;
+  totalApps: number;
+  levels: ParsedLevel[];
+}
+
 // pdf.js splits digits inside a glyph run often enough that it matters: the 2026 file prints
 // 9,721 as "9,7 21" and 8,146 as "8,1 46". Strip spaces inside a number, then the commas.
 // Totals are checked afterwards, which is what actually catches a bad repair.
-const num = (s) => {
+function num(s: string): number {
   const cleaned = String(s).replace(/(?<=[\d,])\s+(?=\d)/g, '').replace(/,/g, '');
   if (!/^\d+$/.test(cleaned)) throw new Error(`not a whole number: ${JSON.stringify(s)}`);
   return Number(cleaned);
-};
+}
 
 // "2.2 – 3 PP", "1 PP", ".2 - .75 PP" — en dash or hyphen, leading-dot decimals.
-function parseBand(label) {
+function parseBand(label: string): { min: number; max: number } {
   const t = label.replace(/\s*PP$/, '').trim();
   const m = /^([\d.]+)\s*[–-]\s*([\d.]+)$/.exec(t);
   if (m) return { min: Number(m[1]), max: Number(m[2]) };
@@ -34,10 +56,10 @@ const LICENSE_HEADINGS = [
   { match: /General Deer Combo/i, key: 'deer', name: 'General Deer Combination' },
 ];
 
-export function parseNrCombo(lines) {
-  const sections = [];
-  let heading = null;
-  let current = null;
+export function parseNrCombo(lines: string[]): ParsedSection[] {
+  const sections: ParsedSection[] = [];
+  let heading: (typeof LICENSE_HEADINGS)[number] | null = null;
+  let current: ParsedSection | null = null;
 
   for (const raw of lines) {
     const line = raw.trim();
@@ -70,7 +92,7 @@ export function parseNrCombo(lines) {
       const { min, max } = parseBand(lvl[1]);
       const apps = num(lvl[3]);
       const pct = Number(lvl[2]);
-      let drawn;
+      let drawn: number;
       let drawnDerived = false;
       if (lvl[4] !== undefined) {
         drawn = num(lvl[4]);
@@ -82,7 +104,7 @@ export function parseNrCombo(lines) {
       } else {
         throw new Error(`level has no success count and is neither 0% nor 100%: ${line}`);
       }
-      const level = { label: lvl[1].replace(/\s*PP$/, '').trim(), min, max, apps, drawn, pct: apps === 0 ? null : pct };
+      const level: ParsedLevel = { label: lvl[1].replace(/\s*PP$/, '').trim(), min, max, apps, drawn, pct: apps === 0 ? null : pct };
       if (drawnDerived) level.drawnDerived = true;
       current.levels.push(level);
       continue;
@@ -100,7 +122,7 @@ export function parseNrCombo(lines) {
     }
     for (const l of s.levels) {
       if (l.drawn > l.apps) throw new Error(`${s.licenseKey} ${s.year} ${l.label}: drawn ${l.drawn} > apps ${l.apps}`);
-      if (l.apps > 0 && Math.abs((l.drawn / l.apps) * 100 - l.pct) > 0.01) {
+      if (l.apps > 0 && l.pct != null && Math.abs((l.drawn / l.apps) * 100 - l.pct) > 0.01) {
         throw new Error(`${s.licenseKey} ${s.year} ${l.label}: ${l.drawn}/${l.apps} is not ${l.pct}%`);
       }
     }
@@ -120,10 +142,11 @@ export function parseNrCombo(lines) {
   return sections;
 }
 
-if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/^.*\//, ''))) {
+const invokedDirectly = process.argv[1]?.endsWith('mt_parse_nr_combo.ts');
+if (invokedDirectly) {
   const [, , inPath, outPath] = process.argv;
   if (!inPath) {
-    console.error('usage: node scripts/mt_parse_nr_combo.mjs <lines.txt> [out.json]');
+    console.error('usage: tsx scripts/mt_parse_nr_combo.ts <lines.txt> [out.json]');
     process.exit(1);
   }
   const sections = parseNrCombo(readFileSync(inPath, 'utf8').split('\n'));

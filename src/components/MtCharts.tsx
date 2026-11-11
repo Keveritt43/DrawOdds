@@ -34,18 +34,16 @@ export function MtComboPointsChart({ licenseKey, year, title, myPoints }: { lice
   const cutoffMin = cut?.min ?? null;
 
   // Lowest points on the left, so the axis reads the way a hunter accumulates them.
-  const data = levels
-    .slice()
-    .sort((a, b) => a.min - b.min)
-    .map((l) => {
-      const zone = zoneOf(l, cutoffMin);
-      return { label: l.label === '0' ? '0 pts' : l.label, pct: l.pct ?? 0, apps: l.apps, drawn: l.drawn, zone, note: ZONE_NOTE[zone] };
-    });
-
-  const myBand = myPoints == null ? null : data.find((d, i) => {
-    const l = levels.slice().sort((a, b) => a.min - b.min)[i];
-    return myPoints >= l.min && myPoints <= l.max;
+  const ordered = levels.slice().sort((a, b) => a.min - b.min);
+  const data = ordered.map((l) => {
+    const zone = zoneOf(l, cutoffMin);
+    return { label: l.label === '0' ? '0 pts' : l.label, pct: l.pct ?? 0, apps: l.apps, drawn: l.drawn, zone, note: ZONE_NOTE[zone] };
   });
+
+  // Only marks the hunter's balance when it falls inside a printed band; a party average between bands
+  // has no bar to sit on, and the verdict card above the chart already states where it lands.
+  const myIndex = myPoints == null ? -1 : ordered.findIndex((l) => myPoints >= l.min && myPoints <= l.max);
+  const myBand = myIndex >= 0 ? data[myIndex] : null;
 
   return (
     <div>
@@ -55,11 +53,12 @@ export function MtComboPointsChart({ licenseKey, year, title, myPoints }: { lice
           <XAxis dataKey="label" tickLine={false} />
           <YAxis width={44} tickLine={false} domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
           <Tooltip
-            formatter={(v: unknown, _n, item) => {
-              const p = item?.payload as { apps: number; drawn: number; note: string } | undefined;
-              return [`${typeof v === 'number' ? v.toFixed(2) : '–'}% — ${p ? `${p.drawn.toLocaleString()} of ${p.apps.toLocaleString()} drew` : ''}`, p?.note ?? 'Drew'];
+            formatter={(v: unknown, _name: unknown, item: unknown) => {
+              const p = (item as { payload?: { apps: number; drawn: number; note: string } } | undefined)?.payload;
+              const pct = typeof v === 'number' ? v.toFixed(2) : '–';
+              return [p ? `${pct}% — ${p.drawn.toLocaleString()} of ${p.apps.toLocaleString()} drew` : `${pct}%`, p?.note ?? 'Drew'];
             }}
-            labelFormatter={(v) => `${v} preference points`}
+            labelFormatter={(v: unknown) => `${v} preference points`}
           />
           <Bar dataKey="pct" name="Drew" isAnimationActive={false}>
             {data.map((d) => <Cell key={d.label} fill={ZONE_COLOR[d.zone as Zone]} />)}

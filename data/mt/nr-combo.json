@@ -6,7 +6,7 @@
     "url": "https://myfwp.mt.gov/getRepositoryFile?objectID=116132",
     "listing": "https://myfwp.mt.gov/fwpPub/drawingStatistics",
     "retrieved": "2026-11-10",
-    "note": "The 2026 file carries both the 2026 and 2025 draws. Built by scripts/mt_parse_nr_combo.mjs from pdf.js text; every year's level applicants sum to the printed total."
+    "note": "The 2026 file carries both the 2026 and 2025 draws. Built by scripts/mt_parse_nr_combo.ts from pdf.js text; every year's level applicants sum to the printed total."
   },
   "pointsCap": 3,
   "licenses": [
