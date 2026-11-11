@@ -15,12 +15,16 @@ import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
 
-type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
+type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'PRONGHORN'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; species: string; acres: number | null; bbox: number[] | null; geometry: object | null; publicPct?: number | null; privatePct?: number | null; ownership?: { manager: string; pct: number }[] };
 
 const apply = process.argv.includes('--apply');
 const hunts = JSON.parse(readFileSync('data/mt/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
-const areas = (JSON.parse(readFileSync('data/mt/units.json', 'utf8')) as { units: Area[] }).units.filter((a) => a.species === 'deer-elk');
+// Unit rows: deer/elk districts by number ("261"); antelope districts prefixed "A" ("A320"). FWP's antelope HDs 701
+// and 703 are not units: their licences cover the portions north and south of the Yellowstone ("A701N" ...).
+const areas = (JSON.parse(readFileSync('data/mt/units.json', 'utf8')) as { units: (Area & { portionOf?: string })[] }).units
+  .filter((a) => a.species === 'deer-elk' || (a.species === 'antelope' && !['701', '703'].includes(a.name)))
+  .map((a) => (a.species === 'antelope' ? { ...a, name: `A${a.name}` } : a));
 
 const digest = async (state: string) =>
   JSON.stringify(await db.$queryRaw`SELECT md5(COALESCE(jsonb_agg(to_jsonb(s) ORDER BY id)::text,'[]')) AS digest FROM "HuntSummary" s WHERE state=${state}`);
@@ -53,7 +57,7 @@ function validate(): string[] {
     if (h.state !== 'MT') errors.push(`${h.id}: state ${String(h.state)}`);
   }
   for (const a of areas) {
-    if (!/^\d{3}$/.test(a.name)) errors.push(`bad district name ${a.name}`);
+    if (!/^(\d{3}|A\d{3}[NS]?)$/.test(a.name)) errors.push(`bad district name ${a.name}`);
     // every district has measured land (scripts/mt_build_land.py); never import a missing share as 0% public
     for (const v of [a.publicPct, a.privatePct]) if (!(typeof v === 'number' && v >= 0 && v <= 100)) errors.push(`${a.name}: land share missing`);
   }

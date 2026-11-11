@@ -547,3 +547,29 @@ Nothing in steps 1–7 writes to production. The eventual import follows the Wyo
 - **Hunts:** a multi-district licence takes the acre-weighted share of its districts (Wyoming's rule). A private-land-only licence shows its districts' share, but **scores as 0% public**, as in Wyoming's import. With land in, all 535 Montana hunts get a Quality score.
 - **Ownership is not access.** State trust land and Corps land have their own access rules, and landlocked public land still counts. Every page says so.
 
+
+## 14. Antelope — built 2026-11-11
+
+**96 antelope hunts:** 59 Antelope Licenses and 37 Antelope B Licenses, every one in the 2026 draw. Montana sells no general antelope license, and **a nonresident applies without a combination license** (owner-confirmed 2026-11-11; deer and elk permits still need one).
+
+- **Districts:**
+  - Antelope districts are not the deer/elk districts. Unit keys carry an "A" (`A320`; URL `/units/mt-A320`).
+  - Region 7's licences are printed for "Portions of HDs 700, 701 and 703 North of the Yellowstone River" and "Portions of HDs 701–705 South".
+    - Those are FWP's layer-4 portions plus whole districts: north `A700, A701N, A703N`; south `A701S, A702, A703S, A704, A705`.
+    - Whole 701 and 703 are not imported as units.
+  - The portions' display outlines come from an inverse EPSG:5070 projection (`to_lonlat` in `mt_build_land.py`). It matches FWP's own lon/lat outline of 701 to 0.0001°.
+- **Public land:** the same raster and classes as deer/elk (§13), measured per antelope district and portion. Across districts: min 4.4%, median 27.6%, max 79.1%. The two portions of 701 and of 703 add up to their district within 1%.
+- **Harvest and the 2022 redraw.** `data/mt/district-history.json` holds, for each 2026 antelope district and each regulation year 2014–2026, the overlap of that year's outline with today's. The source is FWP's "Antelope Hunting Districts All Past Years"; the overlap is intersection ÷ union on the 100 m raster. The 2026 entries all overlap 100%, which checks the method.
+  - A surveyed season counts only if the district then overlapped today's by ≥ 98%. Season Y uses the latest regulation year ≤ Y, because FWP sets districts for two seasons.
+  - Districts that overlap today's by ≥ 98%: 33 of 61 in 2014, 42 in 2020, 56 in 2022, 57 in 2024.
+  - **Not only 2022:** HD 480 was redrawn again for 2026. Its overlap with every earlier outline is 37%, so it has no harvest at all, and nor does 485, which FWP has never estimated.
+  - The archery licence 900-20 is valid in 33 areas, including 430 and 480. With the every-district rule it has no usable season, so it's unscored and says why. That's 5 unscored hunts in all.
+  - Harvest is never apportioned by area.
+  - FWP estimates 701 and 703 whole, so a Region 7 licence uses the whole districts' estimates and says so.
+- **No trophy share.** FWP's antelope estimates count bucks and does, not horn size, so `bigPct5` is null rather than 0%. The hunt page shows the bucks' share of the harvest instead.
+- **Found and fixed while building this:** 40 drawn deer/elk licences carried the **antelope** district's name. `district_name()` took the first regulations table with that number, which was sometimes the antelope one: Deer B 318-00 said "Big Hole" instead of "Butte-Basin". This fix changes only those names; no deer/elk score moves.
+- **App:**
+  - **Search:** the Montana: License Type filter gains "Antelope licenses". Antelope B licences sit under "B licenses".
+  - **Map:** with Pronghorn picked, the map draws antelope districts.
+  - **District pages:** they explain that there's no general licence and no combination licence.
+  - **Hunt pages:** they show the stand-alone rule for nonresidents.

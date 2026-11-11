@@ -14,8 +14,8 @@ const R = regs as unknown as { districts: Table[]; codes: Record<string, Record<
 const table = (hd: string, species: string) => R.districts.find((t) => t.hd === hd && t.species === species)!;
 
 test('every GIS district has a regulations table, and no table lacks a district', () => {
-  const geo = (sp: string) => new Set((units as { units: { name: string; species: string }[] }).units
-    .filter((u) => u.species === sp).map((u) => u.name));
+  const geo = (sp: string) => new Set((units as { units: { name: string; species: string; portionOf?: string }[] }).units
+    .filter((u) => u.species === sp && !u.portionOf).map((u) => u.name));
   for (const sp of ['DEER', 'ELK']) {
     const regsHds = new Set(R.districts.filter((t) => t.species === sp).map((t) => t.hd));
     assert.deepEqual([...regsHds].sort(), [...geo('deer-elk')].sort(), sp);

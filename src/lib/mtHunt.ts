@@ -59,20 +59,33 @@ export interface MtPointOdds {
   harvestBasis: string;
   /** permits are added to a general licence: a nonresident must also hold a combination licence */
   needsGeneral?: boolean;
+  /** antelope: the regulation districts as FWP prints them (Region 7 areas are "R7:Portions of HDs …") */
+  regsDistricts?: string[];
   combo?: { key: string; name: string; year: number };
 }
 
 export const MT_LICENSE_TYPE: Record<string, MtBonusType> = {
   'Deer Permit': 'DEER_PERMIT', 'Elk Permit': 'ELK_PERMIT', 'Deer B License': 'DEER_B', 'Elk B License': 'ELK_B',
+  'Antelope License': 'ANTELOPE', 'Antelope B License': 'ANTELOPE_B',
 };
 export const MT_POOL_LABEL: Record<MtPool, string> = { res: 'Resident', nr: 'Nonresident' };
 
-/** "Elk Permit" -> "permit", "Elk B License" -> "B licence", general -> "general". Used by the licence-type filter. */
-export function mtKind(po: MtPointOdds | null | undefined): 'general' | 'permit' | 'b' | null {
+/** "Elk Permit" -> "permit", "Antelope License" -> "antelope", any B licence -> "b", general -> "general".
+ *  Used by the licence-type filter. */
+export function mtKind(po: MtPointOdds | null | undefined): 'general' | 'permit' | 'antelope' | 'b' | null {
   if (!po) return null;
   if (po.kind === 'general') return 'general';
+  if (po.license === 'Antelope License') return 'antelope';
   return /Permit$/.test(po.license) ? 'permit' : 'b';
 }
+
+/** Unit key -> what a hunter reads: "261" -> "HD 261"; antelope "A320" -> "HD 320"; "A701N" -> "HD 701 north". */
+export function mtUnitLabel(u: string): string {
+  const m = /^A(\d+)([NS])?$/.exec(u);
+  if (!m) return `HD ${u}`;
+  return `HD ${m[1]}${m[2] ? (m[2] === 'N' ? ' north' : ' south') : ''}`;
+}
+export const mtIsAntelopeUnit = (u: string) => /^A\d/.test(u);
 
 const at = (a: number[] | undefined, i: number) => (a && a.length ? a[Math.min(Math.max(0, Math.floor(i)), a.length - 1)] : null);
 
@@ -104,6 +117,6 @@ export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLast
 
 /** "HD 217" / "HDs 210, 211 …" for cards. */
 export function mtDistricts(units: string[], max = 4): string {
-  if (units.length === 1) return `HD ${units[0]}`;
-  return `HDs ${units.slice(0, max).join(', ')}${units.length > max ? ` +${units.length - max}` : ''}`;
+  if (units.length === 1) return mtUnitLabel(units[0]);
+  return `HDs ${units.slice(0, max).map((u) => mtUnitLabel(u).slice(3)).join(', ')}${units.length > max ? ` +${units.length - max}` : ''}`;
 }

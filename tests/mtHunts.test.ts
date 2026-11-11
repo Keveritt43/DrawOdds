@@ -59,3 +59,14 @@ test('search: Montana licence-type filter and private-land-only hidden by defaul
   assert.equal(matchesSearch(x, f({}), {}), false);
   assert.equal(matchesSearch(x, f({ priv: '1' }), { priv: '1' }), true);
 });
+
+test('antelope: drawn by bonus points at the antelope balance, its own filter kind, no combination licence', () => {
+  const h = by('MT:antelope:546-20');
+  assert.equal(mtKind(h.pointOdds), 'antelope');
+  assert.equal(mtKind(by('MT:antelope-b:546-30').pointOdds), 'b');
+  const nr = mtPersonal(h as never, pts({ res: 'NONRESIDENT', mtBonus: { ANTELOPE: 2 } }), true);
+  assert.equal(nr.odds, h.oddsByPts.last.nr[2]);
+  // the deer permit balance does not leak into antelope
+  assert.equal(mtPersonal(h as never, pts({ mtBonus: { DEER_PERMIT: 9 } }), false).odds, h.oddsByPts.last.res[0]);
+  assert.deepEqual(by('MT:antelope:007-21').units, ['A700', 'A701N', 'A703N']);
+});

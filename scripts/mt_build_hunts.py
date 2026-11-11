@@ -10,12 +10,18 @@ Inputs, all checked by their own builders (docs/states/mt-onboarding.md):
   data/mt/units.json      2026 district boundaries and areas (mt_build_districts.ts)
   data/mt/nr-combo.json   nonresident combination licence draw (the general-licence route for nonresidents)
 
-Hunts (deer and elk only; antelope comes later, as the owner asked):
+Hunts (deer, elk and antelope):
   general  one per district and species where the regulations print a General Deer/Elk License opportunity.
            Residents buy it over the counter. Nonresidents must first draw a combination licence, so their odds
            are that draw's, at their preference points.
   draw     one per drawn Deer/Elk Permit and Deer/Elk B licence in the 2026 draw, keyed by licence type + code
            (a code alone is not unique). Odds by bonus points from the 2026 detailed report.
+  antelope one per drawn Antelope License and Antelope B License. There is no general antelope licence, and a
+           nonresident applies without a combination licence (owner-confirmed 2026-11-11). Antelope districts are
+           not the deer/elk districts: their unit keys carry an "A" ("A320"), and Region 7's two licence areas north
+           and south of the Yellowstone are FWP's portions A701N/A701S and A703N/A703S with A700, A702, A704, A705.
+           Antelope harvest counts a season only where that season's district outline matches today's
+           (data/mt/district-history.json; the 2022 redraw changed many).
 Over-the-counter B licences (e.g. Deer B 260-01) are not hunts here yet: they are add-ons to a general licence,
 and the finder has no way to say so. Recorded as a follow-up.
 
@@ -40,10 +46,15 @@ ROOT = Path(__file__).resolve().parent.parent
 D = ROOT / "data" / "mt"
 YEAR = 2026
 MAX_PTS = 30
-SPECIES = {"DEER": "deer", "ELK": "elk"}
-LICENSES = {"Deer Permit": "DEER", "Elk Permit": "ELK", "Deer B License": "DEER", "Elk B License": "ELK"}
+SPECIES = {"DEER": "deer", "ELK": "elk", "PRONGHORN": "antelope"}
+REGS_SPECIES = {"DEER": "DEER", "ELK": "ELK", "PRONGHORN": "ANTELOPE"}
+LICENSES = {"Deer Permit": "DEER", "Elk Permit": "ELK", "Deer B License": "DEER", "Elk B License": "ELK",
+            "Antelope License": "PRONGHORN", "Antelope B License": "PRONGHORN"}
 SLUG = {"Deer Permit": "deer-permit", "Elk Permit": "elk-permit", "Deer B License": "deer-b", "Elk B License": "elk-b",
+        "Antelope License": "antelope", "Antelope B License": "antelope-b",
         "General Deer License": "deer-general", "General Elk License": "elk-general"}
+# Region 7 antelope licences are drawn for two areas FWP prints as "Portions of HDs ..." (regs-2026.json hd "R7:...")
+R7_AREAS = {"North": ["A700", "A701N", "A703N"], "South": ["A701S", "A702", "A703S", "A704", "A705"]}
 MON = {m: i for i, m in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
 SEASON_COLS = [("early", "ANY", "Early season"), ("archery", "ARCHERY", "Archery only"), ("general", "ANY", "General"),
                ("heritage", "MUZZLELOADER", "Heritage muzzleloader"), ("late", "ANY", "Late season")]
@@ -57,8 +68,47 @@ def load(name):
 
 regs, draws, harvest, units, combo = (load(n) for n in ("regs-2026.json", "draws.json", "harvest.json", "units.json", "nr-combo.json"))
 AREA = {u["name"]: u for u in units["units"] if u["species"] == "deer-elk"}
-REGION = {u["name"]: u.get("region") for u in AREA.values()}
-LAND = load("land.json")["districts"]  # scripts/mt_build_land.py
+# antelope unit keys carry an "A"; FWP's whole districts 701 and 703 are replaced by their two portions each
+AREA.update({f"A{u['name']}": u for u in units["units"] if u["species"] == "antelope" and u["name"] not in ("701", "703")})
+REGION = {u: a.get("region") for u, a in AREA.items()}
+_land = load("land.json")  # scripts/mt_build_land.py
+LAND = {**_land["districts"], **{f"A{k}": v for k, v in _land["antelope"].items()}}
+HISTORY = load("district-history.json")
+STABLE = HISTORY["stableIou"]
+
+
+def unit_keys(sp: str, hds: list[str]) -> list[str]:
+    """Regulation district names -> unit keys (deer/elk "261"; antelope "A320", Region 7 areas -> portions)."""
+    if sp != "PRONGHORN":
+        return hds
+    out = []
+    for h in hds:
+        if h.startswith("R7:"):
+            out += R7_AREAS["North" if "North" in h else "South"]
+        else:
+            out.append(f"A{h}")
+    return sorted(set(out), key=lambda k: (len(k), k))
+
+
+def harvest_district(key: str) -> str:
+    """Unit key -> FWP harvest district: "A701N" -> "701" (FWP estimates whole districts, not portions)."""
+    return re.sub(r"^A|[NS]$", "", key) if key.startswith("A") else key
+
+
+WHOLE = {u["name"]: u for u in units["units"] if u["species"] == "antelope" and not u.get("portionOf")}
+
+
+def stable_season(key: str, year: int) -> bool:
+    """Antelope: was this season's district the same ground as today's? Season Y uses the latest regulation year
+    <= Y (FWP sets districts for two seasons). Deer/elk: no crosswalk yet, so every season counts (see doc §4)."""
+    if not key.startswith("A"):
+        return True
+    rec = HISTORY["antelope"].get(harvest_district(key), {})
+    rys = [int(r) for r in rec if int(r) <= year]
+    if not rys:
+        return False
+    iou = rec[str(max(rys))]
+    return iou is not None and iou >= STABLE
 
 
 def land(hds: list[str]) -> dict:
@@ -89,7 +139,7 @@ def span(text: str):
 
 def antler_of(opp: str) -> str:
     t = (opp or "").lower()
-    if "antlerless" in t:
+    if "antlerless" in t or "doe" in t:
         return "ANTLERLESS"
     if "either-sex" in t or "either sex" in t or " or antlerless" in t:
         return "EITHER"
@@ -154,22 +204,28 @@ def district_harvest(sp: str, hd: str):
     return years
 
 
-def harvest_fields(sp: str, hds: list[str]):
+def harvest_fields(sp: str, keys: list[str]):
     surveyed = harvest["species"][sp]["surveyedYears"]
-    per = {hd: district_harvest(sp, hd) for hd in hds}
-    yrs = [y for y in surveyed if any(y in per[hd] for hd in hds)][-5:]
+    hds = sorted({harvest_district(k) for k in keys}, key=lambda h: (len(h), h))
+    akey = {harvest_district(k): k for k in keys}
+    per = {hd: {y: r for y, r in district_harvest(sp, hd).items() if stable_season(akey[hd], y)} for hd in hds}
+    # a multi-district hunt counts a season only when every district was estimated (and, for antelope, unchanged)
+    yrs = [y for y in surveyed if all(y in per[hd] for hd in hds)][-5:]
     hv = []
     for y in yrs:
-        rows = [per[hd][y] for hd in hds if y in per[hd]]
-        if len(rows) < len(hds):
-            continue  # a multi-district hunt counts a season only when every district was estimated
+        rows = [per[hd][y] for hd in hds]
         hv.append({"year": y, "hunters": sum(r["hunters"] for r in rows), "harvest": sum(r["harvest"] for r in rows),
                    "days": sum(r["days"] for r in rows) if all(r.get("days") is not None for r in rows) else None,
                    "antlered": sum(r["antlered"] for r in rows), "big": sum(r.get("big") or 0 for r in rows)})
     combined = sorted({c for hd in hds for r in per[hd].values() for c in (r.get("combined") or [])})
-    sqmi = sum((AREA[hd].get("acres") or 0) for hd in hds) / 640 or None
+    # density uses the area FWP estimated: whole districts, also where the licence covers a portion
+    sqmi = sum(((WHOLE.get(hd) if sp == "PRONGHORN" else AREA.get(hd)) or {}).get("acres") or 0 for hd in hds) / 640 or None
     basis = (f"FWP district estimate for all {SPECIES[sp]} hunters in {'HD ' + hds[0] if len(hds) == 1 else str(len(hds)) + ' districts'}, "
              "every licence type, surveyed seasons only")
+    if sp == "PRONGHORN":
+        basis += "; only seasons whose district outline matches today's"
+        if any(k.endswith(("N", "S")) for k in keys):
+            basis += "; FWP estimates HDs 701 and 703 whole, not north or south of the Yellowstone"
     if len(hds) > 1:
         basis += "; summed across districts (a hunter who hunted several is counted in each)"
     if combined:
@@ -186,7 +242,8 @@ def harvest_fields(sp: str, hds: list[str]):
         "daysPerHunter5": (sum(x["days"] for x in hv) / hunters5) if hunters5 and all(x["days"] is not None for x in hv) else None,
         "smallSample": hunters5 / len(hv) < 20,
         "huntersSqMi": hunters5 / len(hv) / sqmi if sqmi else None,
-        "bigPct5": sum(x["big"] for x in hv) / ant if ant else None,
+        # FWP's antelope estimates count bucks and does, not horn size: no trophy share, rather than a false 0%
+        "bigPct5": None if sp == "PRONGHORN" else sum(x["big"] for x in hv) / ant if ant else None,
         **deer_mix(sp, hds, [x["year"] for x in hv]),
     }, hv, basis
 
@@ -247,8 +304,8 @@ def combo_odds(key: str):
 
 # ---------------------------------------------------------------- build
 
-def district_name(hd):
-    t = next((t for t in regs["districts"] if t["hd"] == hd), None)
+def district_name(hd, species=None):
+    t = next((t for t in regs["districts"] if t["hd"] == hd and (species is None or t["species"] == species)), None)
     return t["name"] if t else None
 
 
@@ -268,8 +325,8 @@ for key, c in sorted(codes.items()):
         if e is None and c["otc"] is not True and key not in KNOWN_OTC:
             problems.append(f"{key}: not over the counter but no {YEAR} draw report")
         continue
-    hds = sorted(c["districts"], key=lambda h: (len(h), h))
-    rows = [dict(o, hd=t["hd"]) for t in regs["districts"] if t["species"] == sp
+    hds = unit_keys(sp, sorted(c["districts"], key=lambda h: (len(h), h)))
+    rows = [dict(o, hd=t["hd"]) for t in regs["districts"] if t["species"] == REGS_SPECIES[sp]
             for o in t["opportunities"] if o["license"] == c["license"] and o["code"] == c["code"]]
     seasons = seasons_of(rows)
     open_, close = date_range(seasons)
@@ -288,8 +345,10 @@ for key, c in sorted(codes.items()):
     hf, hv, hbasis = harvest_fields(sp, hds)
     land_private = bool(rows) and all(r.get("landLimit") == "private" for r in rows)
     quota = e["quota"] if isinstance(e["quota"], int) else None
-    names = [district_name(h) for h in hds]
-    area = f"HD {hds[0]} · {names[0]}" if len(hds) == 1 else (c.get("validIn", {}).get("text") or f"{len(hds)} districts")
+    regs_hds = sorted(c["districts"], key=lambda h: (len(h), h))
+    names = [district_name(h, REGS_SPECIES[sp]) for h in regs_hds]
+    area = (f"HD {regs_hds[0]} · {names[0]}" if len(regs_hds) == 1 and not regs_hds[0].startswith("R7:")
+            else names[0] if len(regs_hds) == 1 else (c.get("validIn", {}).get("text") or f"{len(regs_hds)} districts"))
     rec = {
         "id": f"MT:{SLUG[c['license']]}:{c['code']}", "slug": f"mt-{SLUG[c['license']]}-{c['code']}", "state": "MT",
         "species": sp, "type": "CONTROLLED", "tagCode": c["code"],
@@ -325,8 +384,10 @@ for key, c in sorted(codes.items()):
             "regs": {"year": YEAR, "rows": [{k: r.get(k) for k in ("hd", "opportunity", "applyBy", "seasons", "details", "section", "landLimit")} for r in rows],
                      "validIn": c.get("validIn", {}).get("text"), "conflicts": c.get("conflicts"), "referenceConflict": c.get("referenceConflict")},
             "harvest": hv, "harvestBasis": hbasis,
-            # permits and B licences are added to a general licence; a nonresident must hold a combination licence
+            # deer/elk permits are added to a general licence, so a nonresident must hold a combination licence;
+            # antelope licences stand alone (a nonresident needs no combination licence)
             "needsGeneral": c["license"] in ("Deer Permit", "Elk Permit"),
+            **({"regsDistricts": regs_hds} if sp == "PRONGHORN" else {}),
         },
     }
     if not rows:
@@ -336,7 +397,7 @@ for key, c in sorted(codes.items()):
 # general hunts
 DEER_COMBO, ELK_COMBO = combo_odds("deer"), combo_odds("biggame-elk")
 for t in regs["districts"]:
-    if t["species"] not in SPECIES:
+    if t["species"] not in ("DEER", "ELK"):
         continue
     lic = f"General {t['species'].title()} License"
     rows = [dict(o, hd=t["hd"]) for o in t["opportunities"] if o["license"] == lic]
@@ -392,7 +453,7 @@ for h in hunts:
 
 out = {"generated": date.today().isoformat(), "drawYear": YEAR, "regsYear": YEAR, "problems": problems, "hunts": hunts}
 (D / "hunts.json").write_text(json.dumps(out, indent=None, separators=(",", ":"), ensure_ascii=False))
-n = {k: sum(1 for h in hunts if (h["species"], h["type"]) == k) for k in [("DEER", "GENERAL"), ("ELK", "GENERAL"), ("DEER", "CONTROLLED"), ("ELK", "CONTROLLED")]}
+n = {k: sum(1 for h in hunts if (h["species"], h["type"]) == k) for k in [("DEER", "GENERAL"), ("ELK", "GENERAL"), ("DEER", "CONTROLLED"), ("ELK", "CONTROLLED"), ("PRONGHORN", "CONTROLLED")]}
 print(f"{len(hunts)} hunts {n}; {len(problems)} problems")
 for p in problems[:40]:
     print("PROBLEM", p)
