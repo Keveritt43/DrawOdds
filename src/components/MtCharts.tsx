@@ -99,7 +99,7 @@ export function MtCutoffHistoryChart({ licenseKey, title }: { licenseKey: string
           <XAxis dataKey="year" tickLine={false} />
           <YAxis width={44} tickLine={false} domain={[0, 100]} tickFormatter={(v: unknown) => `${v}%`} />
           <Tooltip
-            formatter={(v: unknown, name: unknown) => [typeof v === 'number' ? `${v.toFixed(2)}%` : 'Everyone drew', name]}
+            formatter={(v: unknown, n: string) => [typeof v === 'number' ? `${v.toFixed(2)}%` : 'Everyone drew', n]}
             labelFormatter={(v: unknown) => `${v} draw`}
           />
           <Legend />
