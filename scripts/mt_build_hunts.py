@@ -99,11 +99,9 @@ WHOLE = {u["name"]: u for u in units["units"] if u["species"] == "antelope" and 
 
 
 def stable_season(key: str, year: int) -> bool:
-    """Antelope: was this season's district the same ground as today's? Season Y uses the latest regulation year
-    <= Y (FWP sets districts for two seasons). Deer/elk: no crosswalk yet, so every season counts (see doc §4)."""
-    if not key.startswith("A"):
-        return True
-    rec = HISTORY["antelope"].get(harvest_district(key), {})
+    """Was this season's district the same ground as today's (>= STABLE overlap)? Season Y uses the latest
+    regulation year <= Y: FWP sets districts for two seasons. Antelope and deer/elk each have their own history."""
+    rec = HISTORY["antelope" if key.startswith("A") else "deerElk"].get(harvest_district(key), {})
     rys = [int(r) for r in rec if int(r) <= year]
     if not rys:
         return False
@@ -204,11 +202,29 @@ def district_harvest(sp: str, hd: str):
     return years
 
 
-def harvest_fields(sp: str, keys: list[str]):
-    surveyed = harvest["species"][sp]["surveyedYears"]
+DEER_SOURCE = {frozenset({"MULE"}): "DEER_MULE", frozenset({"WHITETAIL"}): "DEER_WHITETAIL"}
+DEER_WORD = {"DEER_MULE": "mule deer", "DEER_WHITETAIL": "white-tailed deer"}
+
+
+def deer_species(rows) -> frozenset:
+    """Which deer a licence's regulation rows allow: "Antlered Buck Mule Deer" -> MULE, "Either-sex White-tailed
+    Deer" -> WHITETAIL. A row naming neither allows both."""
+    out = set()
+    for r in rows:
+        t = r.get("opportunity") or ""
+        out |= {"MULE"} if "Mule" in t else {"WHITETAIL"} if "White-tailed" in t else {"MULE", "WHITETAIL"}
+    return frozenset(out)
+
+
+def harvest_fields(sp: str, keys: list[str], deer: frozenset | None = None):
+    """FWP harvest for the hunt's districts. A deer licence for one species (all its rows mule deer, or all
+    whitetail) uses FWP's estimate for that species: that species' harvest per deer hunter (FWP counts hunters
+    per district, not per species, so the hunter count is all deer hunters)."""
+    src = DEER_SOURCE.get(deer, sp) if sp == "DEER" and deer else sp
+    surveyed = harvest["species"][src]["surveyedYears"]
     hds = sorted({harvest_district(k) for k in keys}, key=lambda h: (len(h), h))
     akey = {harvest_district(k): k for k in keys}
-    per = {hd: {y: r for y, r in district_harvest(sp, hd).items() if stable_season(akey[hd], y)} for hd in hds}
+    per = {hd: {y: r for y, r in district_harvest(src, hd).items() if stable_season(akey[hd], y)} for hd in hds}
     # a multi-district hunt counts a season only when every district was estimated (and, for antelope, unchanged)
     yrs = [y for y in surveyed if all(y in per[hd] for hd in hds)][-5:]
     hv = []
@@ -220,10 +236,12 @@ def harvest_fields(sp: str, keys: list[str]):
     combined = sorted({c for hd in hds for r in per[hd].values() for c in (r.get("combined") or [])})
     # density uses the area FWP estimated: whole districts, also where the licence covers a portion
     sqmi = sum(((WHOLE.get(hd) if sp == "PRONGHORN" else AREA.get(hd)) or {}).get("acres") or 0 for hd in hds) / 640 or None
-    basis = (f"FWP district estimate for all {SPECIES[sp]} hunters in {'HD ' + hds[0] if len(hds) == 1 else str(len(hds)) + ' districts'}, "
-             "every licence type, surveyed seasons only")
+    where = 'HD ' + hds[0] if len(hds) == 1 else str(len(hds)) + ' districts'
+    basis = (f"FWP's {DEER_WORD[src]} harvest per deer hunter in {where} (FWP doesn't count hunters by deer species), "
+             "every licence type, surveyed seasons only" if src in DEER_WORD else
+             f"FWP district estimate for all {SPECIES[sp]} hunters in {where}, every licence type, surveyed seasons only")
+    basis += "; only seasons whose district outline matches today's"
     if sp == "PRONGHORN":
-        basis += "; only seasons whose district outline matches today's"
         if any(k.endswith(("N", "S")) for k in keys):
             basis += "; FWP estimates HDs 701 and 703 whole, not north or south of the Yellowstone"
     if len(hds) > 1:
@@ -242,16 +260,20 @@ def harvest_fields(sp: str, keys: list[str]):
         "daysPerHunter5": (sum(x["days"] for x in hv) / hunters5) if hunters5 and all(x["days"] is not None for x in hv) else None,
         "smallSample": hunters5 / len(hv) < 20,
         "huntersSqMi": hunters5 / len(hv) / sqmi if sqmi else None,
-        # FWP's antelope estimates count bucks and does, not horn size: no trophy share, rather than a false 0%
-        "bigPct5": None if sp == "PRONGHORN" else sum(x["big"] for x in hv) / ant if ant else None,
-        **deer_mix(sp, hds, [x["year"] for x in hv]),
+        # FWP's antelope estimates count bucks and does, not horn size: no trophy share, rather than a false 0%.
+        # Whitetail-only licences get none either (Idaho's trophy rule skips whitetail).
+        "bigPct5": None if sp == "PRONGHORN" or src == "DEER_WHITETAIL" else sum(x["big"] for x in hv) / ant if ant else None,
+        **deer_mix(sp, hds, [x["year"] for x in hv], src),
     }, hv, basis
 
 
-def deer_mix(sp, hds, years):
-    """Whitetail share of the deer harvest in the same seasons, and Idaho's deerType rule (src/sync/core/math.ts)."""
+def deer_mix(sp, hds, years, src="DEER"):
+    """Whitetail share of the deer harvest in the same seasons, and Idaho's deerType rule (src/sync/core/math.ts).
+    A licence for one deer species is that species, whatever the district's mix."""
     if sp != "DEER" or not years:
         return {}
+    if src in ("DEER_MULE", "DEER_WHITETAIL"):
+        return {"whitetailPct5": None, "deerType": "MULE" if src == "DEER_MULE" else "WHITETAIL"}
     wt = mu = 0
     for hd in hds:
         for y in years:
@@ -309,6 +331,77 @@ def district_name(hd, species=None):
     return t["name"] if t else None
 
 
+DEER_COMBO, ELK_COMBO = combo_odds("deer"), combo_odds("biggame-elk")
+
+
+def combo_block():
+    """The nonresident combination draws, at 0..3 preference points, exactly as drawn (dead zone kept). A
+    nonresident applies for one: Big Game (deer and elk) or Elk share FWP's Big Game / Elk draw; Deer has its own."""
+    nr = lambda odds: [v if v is not None else 0.0 for v in odds]
+    return {"year": ELK_COMBO[0], "odds": {"biggame-elk": nr(ELK_COMBO[1]), "deer": nr(DEER_COMBO[1])},
+            "names": {"biggame-elk": ELK_COMBO[2], "deer": DEER_COMBO[2]}}
+
+
+# Districts where only a Deer Permit lets you take a mule deer buck (no general or B licence row allows antlered
+# mule deer, in any season): there FWP's antlered mule deer harvest was taken by permit holders, so a permit's
+# success can be read as that harvest over the permits issued.
+MULE_PERMIT_ONLY = {}
+for _t in regs["districts"]:
+    if _t["species"] != "DEER":
+        continue
+    _mule = lambda o: "Mule" in (o["opportunity"] or "")
+    _buck = lambda o: not (o["opportunity"] or "").startswith("Antlerless")
+    _other = [o for o in _t["opportunities"] if o["license"] != "Deer Permit" and _mule(o) and _buck(o)]
+    _perm = sorted({o["code"] for o in _t["opportunities"] if o["license"] == "Deer Permit" and _mule(o) and _buck(o)})
+    if _perm and not _other and all(len(regs["codes"][f"Deer Permit {c}"]["districts"]) == 1 for c in _perm):
+        MULE_PERMIT_ONLY[_t["hd"]] = _perm
+
+
+def mule_permit_fields(hd, hf, hv, basis):
+    """Success for a mule-buck permit where permits are the only way to take a mule deer buck: FWP's antlered mule
+    deer harvest in the district over the permits issued (all pools, all the district's mule-buck permits together),
+    in surveyed seasons when every one of those permits was drawn and the district had today's boundary. A season
+    whose harvest estimate exceeds the permits issued is left out: the estimate can't all be the permits'."""
+    codes = MULE_PERMIT_ONLY[hd]
+    rows, skipped, moved = [], [], []
+    for y in harvest["species"]["DEER_MULE"]["surveyedYears"]:
+        es = [draws["years"].get(str(y), {}).get(f"Deer Permit {c}") for c in codes]
+        r = next((x for x in harvest["species"]["DEER_MULE"]["districts"].get(hd, []) if x["year"] == y and x.get("hunters")), None)
+        if r is None or any(e is None for e in es):
+            continue
+        if not stable_season(hd, y):
+            moved.append(str(y))
+            continue
+        issued = sum(e["totalSucc"] if isinstance(e["totalSucc"], int) else sum(sum(p["succ"]) for p in e["pools"].values()) for e in es)
+        if not issued:
+            continue
+        if r["antlered"] > issued:
+            skipped.append(f"{y}: {r['antlered']} mule bucks estimated, {issued} permits")
+            continue
+        rows.append({"year": y, "hunters": issued, "harvest": r["antlered"], "days": None, "antlered": r["antlered"],
+                     "big": r.get("big") or 0, "permitBasis": True})
+    together = f"the {len(codes)} mule-buck permits together ({', '.join(codes)})" if len(codes) > 1 else "permits issued"
+    if not rows:
+        why = skipped + ([f"{', '.join(moved)}: HD {hd} had a different boundary"] if moved else [])
+        note = f"; mule bucks per permit not usable here ({'; '.join(why) or 'no surveyed season with every permit drawn'})"
+        return {**hf, "mulePermitNote": note.lstrip("; ")}, hv, basis + note
+    hunters5, harvest5 = sum(x["hunters"] for x in rows), sum(x["harvest"] for x in rows)
+    out = dict(hf)
+    out.update({
+        "success5": harvest5 / hunters5, "hunters5": hunters5, "harvest5": harvest5, "harvestYears": len(rows),
+        "harvestLastYear": rows[-1]["year"], "successLast": rows[-1]["harvest"] / rows[-1]["hunters"],
+        "daysPerHunter5": None, "smallSample": hunters5 / len(rows) < 20,
+        "bigPct5": sum(x["big"] for x in rows) / harvest5 if harvest5 else None, "deerType": "MULE", "whitetailPct5": None,
+        # crowding stays the district's: everyone you share it with, not just permit holders
+        "huntersSqMi": hf.get("huntersSqMi"), "mulePermit": True,
+    })
+    b = (f"Only a Deer Permit lets you take a mule deer buck in HD {hd}, so this is FWP's estimate of mule bucks taken there "
+         f"divided by {together}, surveyed seasons with today's district boundary")
+    if skipped:
+        b += f"; left out, where the estimate exceeds the permits: {'; '.join(skipped)}"
+    return out, rows, b
+
+
 hunts = []
 codes = regs["codes"]
 rep = draws["years"][str(YEAR)]
@@ -342,7 +435,18 @@ for key, c in sorted(codes.items()):
     five = [h for h in hist if h["year"] > YEAR - 5]
     pooled = lambda k: (sum(h[k][1] for h in five) / sum(h[k][0] for h in five)) if sum(h[k][0] for h in five) else None
     prev = next((h for h in hist if h["year"] == YEAR - 1), None)
+    dsp = deer_species(rows) if sp == "DEER" else None
+    mule_flag = mule_note = None
+    # Drawn licences keep the district's all-deer success: FWP counts hunters by district, not by licence or deer
+    # species, so a species rate (say whitetail harvest over every deer hunter) would describe the district's hunters,
+    # not this licence's, and for a whitetail B licence in mule deer country it fell to a few percent. The one
+    # exception is a mule-buck permit where only permits allow a mule buck (below). The deer type is the licence's.
     hf, hv, hbasis = harvest_fields(sp, hds)
+    if dsp is not None and len(dsp) == 1:
+        hf["deerType"] = next(iter(dsp))
+    if sp == "DEER" and len(hds) == 1 and hds[0] in MULE_PERMIT_ONLY and c["code"] in MULE_PERMIT_ONLY[hds[0]]:
+        hf, hv, hbasis = mule_permit_fields(hds[0], hf, hv, hbasis)
+    mule_flag, mule_note = hf.pop("mulePermit", None), hf.pop("mulePermitNote", None)
     land_private = bool(rows) and all(r.get("landLimit") == "private" for r in rows)
     quota = e["quota"] if isinstance(e["quota"], int) else None
     regs_hds = sorted(c["districts"], key=lambda h: (len(h), h))
@@ -387,6 +491,10 @@ for key, c in sorted(codes.items()):
             # deer/elk permits are added to a general licence, so a nonresident must hold a combination licence;
             # antelope licences stand alone (a nonresident needs no combination licence)
             "needsGeneral": c["license"] in ("Deer Permit", "Elk Permit"),
+            **({"combo": combo_block()} if c["license"] in ("Deer Permit", "Elk Permit") else {}),
+            **({"deer": sorted(dsp)} if sp == "DEER" else {}),
+            **({"mulePermit": True} if mule_flag else {}),
+            **({"mulePermitNote": mule_note} if mule_note else {}),
             **({"regsDistricts": regs_hds} if sp == "PRONGHORN" else {}),
         },
     }
@@ -395,7 +503,6 @@ for key, c in sorted(codes.items()):
     hunts.append(rec)
 
 # general hunts
-DEER_COMBO, ELK_COMBO = combo_odds("deer"), combo_odds("biggame-elk")
 for t in regs["districts"]:
     if t["species"] not in ("DEER", "ELK"):
         continue
@@ -409,7 +516,9 @@ for t in regs["districts"]:
     seasons = seasons_of(rows)
     open_, close = date_range(seasons)
     cyear, codds, cname = DEER_COMBO if sp == "DEER" else ELK_COMBO
-    hf, hv, hbasis = harvest_fields(sp, [hd])
+    hf, hv, hbasis = harvest_fields(sp, [hd], deer_species(rows) if sp == "DEER" else None)
+    if sp == "DEER" and len(deer_species(rows)) == 1:
+        hf["deerType"] = next(iter(deer_species(rows)))  # known from the licence even with no usable harvest
     nr_arr = []
     for v in codds:  # a running maximum would hide Montana's dead zone; keep it exactly as drawn
         nr_arr.append(v if v is not None else (nr_arr[-1] if nr_arr else 0.0))
@@ -431,7 +540,8 @@ for t in regs["districts"]:
         "tagSeasons": {"year": YEAR, "seasons": seasons},
         "pointOdds": {
             "state": "MT", "kind": "general", "year": YEAR, "projected": False, "license": lic,
-            "combo": {"key": "deer" if sp == "DEER" else "biggame-elk", "name": cname, "year": cyear},
+            "combo": {"key": "deer" if sp == "DEER" else "biggame-elk", "name": cname, "year": cyear, **combo_block()},
+            **({"deer": sorted(deer_species(rows))} if sp == "DEER" else {}),
             "regs": {"year": YEAR, "rows": [{k: r.get(k) for k in ("hd", "opportunity", "seasons", "details", "section", "landLimit")} for r in rows],
                      "notes": t["notes"]},
             "harvest": hv, "harvestBasis": hbasis,

@@ -7,7 +7,7 @@ import type { StatePoints } from '@/lib/points';
 import { POINT_SPECIES, SPECIAL_POINT_SPECIES } from '@/lib/states';
 import { SPECIES_LABEL } from '@/lib/format';
 import Link from 'next/link';
-import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, type MtPoints } from '@/lib/mtPoints';
+import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, MT_COMBO_TYPES, type MtComboType, type MtPoints } from '@/lib/mtPoints';
 
 export function HuntingPreferences({ idaho, colorado, wyoming, montana }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
@@ -21,6 +21,7 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana }: { idah
   const [wySpecial, setWySpecial] = useState(wyoming?.wySpecial === true);
   const [mtResidency, setMtResidency] = useState<Residency>(montana?.res ?? 'NONRESIDENT');
   const [mtCombo, setMtCombo] = useState(String(montana?.combo ?? 0));
+  const [mtComboType, setMtComboType] = useState<MtComboType>(montana?.comboType ?? 'BIG_GAME');
   const [mtBonus, setMtBonus] = useState(Object.fromEntries(MT_BONUS_TYPES.map(t => [t.key, String(montana?.bonus[t.key] ?? 0)])));
   const [mtBuying, setMtBuying] = useState(Object.fromEntries(MT_BONUS_TYPES.map(t => [t.key, montana?.buying[t.key] ?? true])));
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
@@ -106,13 +107,23 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana }: { idah
           <Link href="/montana">See why</Link>.
         </p>
         <div className="account-points">
+          <label>Combination you apply for
+            <select name="mtComboType" value={mtComboType} disabled={mtResidency === 'RESIDENT'} onChange={e => setMtComboType(e.target.value as MtComboType)}>
+              {MT_COMBO_TYPES.map((t) => <option key={t.key} value={t.key}>{t.label}</option>)}
+            </select>
+          </label>
           <label>Combination preference points
             <input type="number" name="mtCombo" min={0} max={MT_COMBO_CAP} step={1} required value={mtCombo}
               disabled={mtResidency === 'RESIDENT'} onChange={e => setMtCombo(e.target.value)} />
           </label>
         </div>
+        {mtResidency === 'NONRESIDENT' && <p className="small muted">
+          Big Game and Elk combinations are one drawing; the Deer combination is a separate one with its own odds. A deer
+          permit needs Big Game or Deer, an elk permit Big Game or Elk. Your odds for a permit include this draw.
+        </p>}
         {mtResidency === 'RESIDENT' && <>
           <input type="hidden" name="mtCombo" value={mtCombo} />
+          <input type="hidden" name="mtComboType" value={mtComboType} />
           <p className="small muted">Residents buy general deer and elk licenses over the counter, so this balance isn&apos;t used.</p>
         </>}
         <h3>Bonus Points (Permits &amp; B Licenses)</h3>

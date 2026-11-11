@@ -10,6 +10,9 @@
  *   - Deleted when you draw a combination license, AND when you hold points and do not APPLY for a combination
  *     license in the next available drawing. Buying a point-only ($100, Jul 1 – Dec 31) does not stop that.
  *   - 75% of licenses go by points; the other 25% are drawn among applicants holding ZERO points (FWP states this).
+ *   - Which combination: Big Game (deer and elk), Elk, or Deer. Big Game and Elk are one FWP drawing ("Big Game /
+ *     Elk"); Deer is its own, with different odds. A deer permit needs Big Game or Deer; an elk permit needs Big Game
+ *     or Elk (2026 regulations p. 12). So the choice decides both which odds apply and which species you can hunt.
  *
  * Permits and B licenses — BONUS points.
  *   - A separate balance per license type ("cannot be transferred between the species drawings"), uncapped.
@@ -21,6 +24,14 @@
 import type { Residency } from '@prisma/client';
 
 export const MT_COMBO_CAP = 3;
+
+export const MT_COMBO_TYPES = [
+  { key: 'BIG_GAME', label: 'Big Game Combination (deer and elk)', draw: 'biggame-elk', species: ['DEER', 'ELK'] },
+  { key: 'ELK', label: 'Elk Combination (elk only)', draw: 'biggame-elk', species: ['ELK'] },
+  { key: 'DEER', label: 'Deer Combination (deer only)', draw: 'deer', species: ['DEER'] },
+] as const;
+export type MtComboType = (typeof MT_COMBO_TYPES)[number]['key'];
+export const mtCombo = (k: MtComboType) => MT_COMBO_TYPES.find((t) => t.key === k)!;
 /** Sanity bound only: Montana bonus points are uncapped, but nobody holds 40 for these license types. */
 export const MT_BONUS_MAX = 40;
 
@@ -43,6 +54,8 @@ export type MtBonusType = (typeof MT_BONUS_TYPES)[number]['key'];
 export interface MtStored {
   res: Residency;
   mtCombo: number;
+  /** which combination license the nonresident applies for (absent in older saves: Big Game) */
+  mtComboType?: MtComboType;
   mtBonus: Record<MtBonusType, number>;
   /** Buying a bonus point with this year's application. false = accumulated points are not used this year. */
   mtBuying: Record<MtBonusType, boolean>;
@@ -52,6 +65,7 @@ export interface MtStored {
 export interface MtPoints {
   res: Residency;
   combo: number;
+  comboType: MtComboType;
   bonus: Record<MtBonusType, number>;
   buying: Record<MtBonusType, boolean>;
   /** false until the hunter has saved anything for Montana, so pages can ask instead of assuming 0 points. */
@@ -73,6 +87,7 @@ export function readMtPoints(store: Record<string, unknown> | null | undefined):
     // most Montana users of a multi-state site are nonresidents chasing the combination draw
     res: s.res === 'RESIDENT' ? 'RESIDENT' : 'NONRESIDENT',
     combo: whole(s.mtCombo, MT_COMBO_CAP),
+    comboType: MT_COMBO_TYPES.some((t) => t.key === s.mtComboType) ? s.mtComboType! : 'BIG_GAME',
     bonus,
     buying,
     set: s.set === true,
@@ -96,6 +111,9 @@ export function parseMtForm(get: (name: string) => FormDataEntryValue | null, ha
   };
   const mtCombo = int('mtCombo', MT_COMBO_CAP);
   if (mtCombo === null) return `Montana combination preference points are a whole number from 0 to ${MT_COMBO_CAP}.`;
+  const ct = get('mtComboType') ?? 'BIG_GAME';
+  if (!MT_COMBO_TYPES.some((t) => t.key === ct)) return 'Select which Montana combination license you apply for.';
+  const mtComboType = ct as MtComboType;
   const mtBonus = {} as Record<MtBonusType, number>, mtBuying = {} as Record<MtBonusType, boolean>;
   for (const { key, label } of MT_BONUS_TYPES) {
     const n = int('mtBonus_' + key, MT_BONUS_MAX);
@@ -103,5 +121,5 @@ export function parseMtForm(get: (name: string) => FormDataEntryValue | null, ha
     mtBonus[key] = n;
     mtBuying[key] = get('mtBuy_' + key) === 'on';
   }
-  return { res, mtCombo, mtBonus, mtBuying, set: true };
+  return { res, mtCombo, mtComboType, mtBonus, mtBuying, set: true };
 }

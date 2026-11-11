@@ -85,3 +85,42 @@ test('antelope B licences ("Doe/Fawn") are antlerless in search; antelope distri
   assert.equal(matchesSearch(evaluateHunt(row(by('MT:antelope-b:546-30')), settings, 'proj'), searchFilters(sp), sp), false);
   assert.equal(matchesSearch(evaluateHunt(row(by('MT:antelope:546-20')), settings, 'proj'), searchFilters(sp), sp), true);
 });
+
+test('nonresident permits: the combination draw is part of the odds, for the combination the hunter applies for', () => {
+  const nrPts = (o: Record<string, unknown>) => pts({ res: 'NONRESIDENT', ...o });
+  // a deer permit every nonresident drew at 0 points is exactly as likely as the combination draw at 0 points
+  const sure = D.hunts.find((h) => h.id.startsWith('MT:deer-permit:') && h.oddsByPts.last.nr[0] === 1)!;
+  const combo = (sure.pointOdds as unknown as { combo: { odds: Record<string, number[]> } }).combo.odds;
+  assert.equal(mtPersonal(sure as never, nrPts({}), true).odds, combo['biggame-elk'][0]);           // Big Game (default)
+  assert.equal(mtPersonal(sure as never, nrPts({ mtComboType: 'DEER' }), true).odds, combo.deer[0]);
+  assert.equal(mtPersonal(sure as never, nrPts({ mtComboType: 'ELK' }), true).odds, 0);              // Elk combo: no deer
+  assert.match(mtPersonal(sure as never, nrPts({ mtComboType: 'ELK' }), true).basis, /doesn't include deer/);
+  // Montana's dead zone carries through: 1 combination point drew nothing
+  assert.equal(mtPersonal(sure as never, nrPts({ mtCombo: 1 }), true).odds, combo['biggame-elk'][1]);
+  // residents and B licences are unaffected
+  const e = by('MT:elk-permit:217-10');
+  assert.equal(mtPersonal(e as never, pts({ mtBonus: { ELK_PERMIT: 1 } }), false).odds, 0.2324);
+  assert.equal(mtPersonal(by('MT:elk-b:215-01') as never, nrPts({ mtComboType: 'DEER' }), true).parts, undefined);
+  const both = mtPersonal(e as never, nrPts({ mtBonus: { ELK_PERMIT: 1 } }), true);
+  assert.ok(Math.abs(both.odds! - e.oddsByPts.last.nr[1] * combo['biggame-elk'][0]) < 1e-12);
+});
+
+test('mule deer vs whitetail: licence rows decide; mule-buck permits where only a permit allows a mule buck', () => {
+  const g270 = by('MT:deer-general:270') as H & { deerType: string };
+  assert.equal(g270.deerType, 'WHITETAIL');
+  assert.deepEqual(g270.pointOdds.deer, ['WHITETAIL']);
+  const p261 = by('MT:deer-permit:261-50') as H & { success5: number; deerType: string };
+  assert.equal(p261.pointOdds.mulePermit, true);
+  assert.equal(p261.deerType, 'MULE');
+  assert.equal(p261.success5, (8 + 8 + 9) / (15 + 15 + 10)); // FWP mule bucks 2021/23/25 over permits issued
+  // HD 270: FWP's mule buck estimate exceeds the 60 permits every season, so it is not attributed to them
+  assert.match(String(by('MT:deer-permit:270-50').pointOdds.mulePermitNote), /70 mule bucks estimated, 60 permits/);
+  const settings: HunterSettings = { ID: 'RESIDENT', CO: { res: 'RESIDENT', DEER: 0, ELK: 0, PRONGHORN: 0 } as never, MT: pts({}) };
+  const row = (h: H) => ({ ...h, openDate: h.openDate ? new Date(String(h.openDate)) : null, closeDate: h.closeDate ? new Date(String(h.closeDate)) : null, huntNumber: null, scoreQuality: 50 }) as unknown as CoScored;
+  const f = (x: Record<string, string>) => searchFilters({ antler: 'ALL', ...x });
+  const m = (h: H, x: Record<string, string>) => matchesSearch(evaluateHunt(row(h), settings, 'proj'), f(x), x);
+  assert.equal(m(g270, { mtDeer: 'MULE' }), false);
+  assert.equal(m(g270, { mtDeer: 'WHITETAIL' }), true);
+  assert.equal(m(p261, { mtDeer: 'MULE' }), true);
+  assert.equal(m(by('MT:elk-general:261'), { mtDeer: 'MULE' }), false);
+});

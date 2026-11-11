@@ -573,3 +573,31 @@ Nothing in steps 1–7 writes to production. The eventual import follows the Wyo
   - **Map:** with Pronghorn picked, the map draws antelope districts.
   - **District pages:** they explain that there's no general licence and no combination licence.
   - **Hunt pages:** they show the stand-alone rule for nonresidents.
+
+## 15. Mule deer vs whitetail, mule-buck permits, and nonresident odds — 2026-11-11
+
+Asked by the owner, 2026-11-11.
+
+- **Which deer a licence allows comes from its own regulation rows** ("Antlered Buck Mule Deer", "Either-sex White-tailed Deer"). It is stored as `pointOdds.deer`, and the hunt's `deerType` is that species when there's only one; otherwise Idaho's harvest-share rule applies. Ten general deer licences are whitetail only, HD 270 among them.
+  - Filter: **Montana: Mule Deer Or Whitetail** (`mtDeer`). A licence allowing both counts as either.
+- **Species success, general licences only.** A general licence for one species uses FWP's harvest of that species. FWP's species estimates carry the same hunter count as the all-deer estimate (HD 270, 2025: 1,968 hunters in all three), so the rate is "whitetail harvest per deer hunter". HD 270's general rate goes from 23.6% to 18.8%, because the mule bucks taken by permit holders no longer count for it.
+  - **Not applied to drawn licences.** Their holders are a small subset of the district's hunters, so a species rate describes the district, not the licence. I tried it: a whitetail Deer B in mule deer country fell to about 5%, e.g. Deer B 262-00 from 49 to 5. Drawn licences keep the district's all-deer success, labelled.
+- **Mule-buck permits where only a permit allows a mule buck** (16 districts, from the 2026 rows: no general or B row allows antlered mule deer in any season, and every such permit is single-district).
+  - Success there = FWP's antlered mule deer harvest ÷ permits issued (all pools, all the district's mule-buck permits together).
+  - It uses surveyed seasons 2021, 2023 and 2025, but only where every such permit was drawn that year and the district had today's boundary.
+  - **A season whose estimate exceeds the permits issued is left out.** HD 270 does so every season (70, 72 and 62 mule bucks estimated against 60 permits), so it stays on the district rate, and so does HD 303's 300-50.
+  - **Results, mule bucks per permit vs the old district rate:** 202-50 62% (was 36%), 291-50/51 83% (30%), 410-50 88% (39%, 2025 only, as 410 had no mule permit before then), 261-50 63% (34%), 262-51/52 45% (56%).
+  - **Assumption:** the 2026 rule (permit-only mule bucks) held in each season used. A season only counts when the permit existed that year, but the older regulations aren't parsed.
+- **Deer/elk district history.** `district-history.json` now has `deerElk`, from FWP's "Deer Elk and Mountain Lion Hunting Districts All Past Years". That layer holds every district twice per regulation year. The copies are identical except 7 in 2026, where the later copy (higher OBJECTID) matches the current layer, so the build keeps the latest.
+  - Deer/elk harvest now uses the same ≥ 98% rule as antelope. Districts matching today's: 68 of 139 in 2014, 96 in 2020, 123 in 2022, 130 in 2024.
+  - **Districts redrawn for 2026:** 652, 311, 320, 700, 622, 630, 123, 413 and 432. Their earlier seasons describe different ground, and their hunts lose that harvest.
+  - **Effect on scores:**
+    - 35 deer and elk hunts lose all harvest; 16 deer and 19 elk hunts lose their score.
+    - 197 hunts have fewer seasons.
+    - 120 deer and 88 elk scores change.
+- **Nonresident odds include the combination draw.** Deer and elk permits need a combination licence, applied for together: deer permits need Big Game or Deer, elk permits need Big Game or Elk (2026 regulations p. 12).
+  - A nonresident's odds = combination odds at their preference points × permit odds. A permit everyone drew at 0 points equals the combination draw at 0 points.
+  - Draw and fill uses the product.
+  - FWP doesn't say how a permit drawn without a combination is handled, so the two draws are treated as independent.
+  - **Account:** "Combination you apply for" — Big Game (deer and elk), Elk, or Deer. Big Game and Elk share FWP's Big Game / Elk drawing; Deer has its own odds. A licence the chosen combination doesn't cover shows 0%, with the reason.
+  - **Changed default:** nonresident general deer odds now default to the Big Game draw. Before this they used the Deer Combination draw.
