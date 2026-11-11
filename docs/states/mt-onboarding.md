@@ -94,6 +94,14 @@ ArcGIS server: `https://fwp-gis.mt.gov/arcgis/rest/services/admbnd/huntingDistri
 
 Layer 11 fields: `DISTRICT` (3-char), `REG` (region), `AREA_AC`, `AREA_MI`, `REGYEAR`, plus deer/elk web page links and a PDF map link. `AREA_MI` gives us unit area directly, so density does not need an offline acreage build the way Colorado did — but verify `AREA_MI` against the geometry before trusting it (Wyoming's equivalent `SqMiles` was stale for redrawn areas).
 
+**Built 2026-11-11** into `data/mt/units.json` (`scripts/mt_build_districts.ts --from <dir>`): 139 deer/elk and 61 antelope districts, all `REGYEAR` 2026. Saved from the browser because neither the workspace nor the owner's PC shell can reach fwp-gis.mt.gov. Geometry is server-generalized (`maxAllowableOffset` 0.001°, ~100 m) for display: full resolution froze the tab. The public-land overlay must fetch full resolution, not reuse these.
+
+Checks against data the geometry did not produce:
+- Deer: every one of the 138 districts with 2025 harvest has a polygon. The only polygon without harvest is 432.
+- Antelope: every one of the 59 districts with 2024 harvest has a polygon. Extras with no harvest: 413 and 485.
+- Elk 2024 harvest reports ten codes with no polygon: 391N/S, 411E/W, 535E/W, 580N/S and 701E/W. They are elk *portions* of 391, 411, 535, 580 and 701 (layer 14), so the hunt-to-district join must map portions to parents.
+- Deer/elk districts total 84.2M acres. Montana's land area is about 93M acres. The gap is about the size of Montana's Indian reservations (~8M acres), which FWP districts would not cover. That explanation is plausible but **not yet checked against a reservation layer**.
+
 These layers are **current-season only** (description: "the current deer-elk-lion hunting districts"). The hub also publishes *"Antelope Hunting Districts All Past Years"* and *"Big Game Hunting District Restricted Areas All Past Years"*, which are the historical tie-out source (§4). The deer/elk "all past years" equivalent still needs locating.
 
 ### 2.7 Fees — current schedule, no season year on the page
