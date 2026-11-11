@@ -169,17 +169,45 @@ FWP's two pages disagree, and this is not a nitpick — it changes every permit 
 - The [bonus points page](https://fwp.mt.gov/buyandapply/hunting-licenses/bonus-points) says 10 points gives 101 chances, i.e. `entries = p² + 1`.
 - The [licence FAQ](https://fwp.mt.gov/buyandapply/licenseandpermitfaq) works an example of 3 accumulated points plus 1 purchased = 4² + 1 = **17** chances, i.e. `entries = (accumulated + purchased)² + 1`.
 
-Tested against the 2026 Antelope detailed report. Pooling the 20 pools where zero-point odds are under 10% (so that without-replacement saturation barely distorts the ratios):
+Tested properly on 2026-11-10: **7,000 point-level rows** across antelope, Deer B, Elk B and the elk permit
+reports, 2024–2026, fitted with a Monte Carlo of the weighted draw **without replacement** — the algorithm
+FWP actually runs, and the one the adapter guide prescribes.
 
-| Accumulated points | Pooled odds | Observed ratio to 0 pts | `p²+1` predicts | `(p+1)²+1` predicts |
-|---|---|---|---|---|
-| 0 | 4.09% | 1.00 | 1.0 | 1.0 |
-| 1 | 10.11% | **2.48** | 2.0 | **2.5** |
-| 2 | 19.22% | **4.70** | 5.0 | **5.0** |
+First attempt used the closed-form approximation `P(draw) = min(1, c · entries)`. It ranked "points don't
+matter at all" **above** both squared candidates, which is a sign the model was wrong rather than the data.
+Capping at 1 ignores that a winner's entries are removed, and that is exactly what bites at high draw rates.
+Replacing it with a real simulation fixed the ranking.
 
-Point level 1 is the only level that distinguishes the two formulas, and it lands on 2.48. **The evidence favours `(accumulated + 1)² + 1`**, with the report's "Number of Points" column meaning accumulated points *before* the current year's purchase.
+| Entry weight | Log-likelihood (220 pools) |
+|---|---|
+| `(points+1)² + 1` | **−53,855** |
+| `points² + 1` | −53,900 |
+| `(points+1)²` | −54,069 |
+| `points + 1` | −55,676 |
+| 1 (points ignored) | −63,240 |
 
-Caveats, recorded honestly: the unfiltered median across all 36 usable pools was 2.14 at point level 1, not 2.48, and that gap is not yet explained. Levels 3 and 4 are censored by pools where odds approach 100% and were not used. **This must not ship until validation gate 1 in the adapter guide passes** — a full without-replacement simulation reproducing the published successes per point level across many codes and at least three years.
+**Squaring is confirmed decisively** — both squared forms beat `points+1` by thousands of log-likelihood
+units. **Which squared form is not resolved**, and my earlier note here claiming the evidence favoured
+`(accumulated+1)²+1` was based on too narrow a sample (one report, one low-odds subset, ratio 2.48). On 190
+low-saturation pools across three species and three years the picture is mixed:
+
+- the simulation likelihood favours `(points+1)²+1` by 43 units — real but small;
+- the observed median odds ratio between 1 point and 0 points is **2.087**, against 2.0 predicted by
+  `points²+1` and 2.5 by `(points+1)²+1` — which favours the other one.
+
+A hypothesis that reconciles them, and is consistent with FWP's FAQ rule that accumulated points go unused
+unless you buy a point with that application: each reported point level is a **mixture** of applicants who
+bought this year and applicants who did not. If a share *f* buy, average entries at level *p* are
+`f·((p+1)²+1) + (1−f)·1`, and the 1-versus-0 ratio becomes `(1+4f)/(1+f)`. The observed 2.087 implies
+*f* ≈ 0.57. Under `points²+1` the same mixture gives a ratio of `1+f`, which cannot reach 2.087 at all. So
+the mixture story only works with the FAQ's formula. **This is a two-parameter fit to aggregate data and is
+not good enough to ship.**
+
+**It also turns out not to block anything.** The detailed reports publish observed success *by point level,
+per licence code, per pool* — the same shape as Wyoming's printed odds. Last-draw odds for every controlled
+hunt can be read straight from them, with no entry formula involved. The formula is only needed to project a
+future draw, which Montana is not doing. Controlled-hunt odds are therefore unblocked; resolving the formula
+can wait for the projection work, if it ever happens.
 
 The second bonus-point rule to verify before building: the FAQ states that accumulated bonus points are **not used at all** in a year unless you buy a point with that application. If true, a hunter sitting on five points who applies without buying gets exactly one chance. That is a trap no other state in the app has, and it needs its own UI warning. It also means the "points" a hunter stores in their account is not sufficient state — we need to know whether they are buying this year.
 
