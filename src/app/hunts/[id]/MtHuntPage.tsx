@@ -14,6 +14,7 @@ import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
 import { mtPersonal, mtUnitLabel, MT_LICENSE_TYPE, MT_POOL_LABEL, type MtOddsTable, type MtPointOdds, type MtPool } from '@/lib/mtHunt';
 import { MT_BONUS_TYPES } from '@/lib/mtPoints';
+import { MtBmaBlock } from '@/components/MtBma';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 const SEASON_LABEL: Record<string, string> = { early: 'Early', archery: 'Archery only', general: 'General', heritage: 'Heritage muzzleloader', late: 'Late' };
@@ -98,6 +99,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       <p className="small"><b>Land:</b> {s.publicPct === null ? 'not computed' : `${Math.round(s.publicPct)}% public`}{s.units.length > 1 ? ` across its ${s.units.length} districts` : ''}
         {s.privateOnly ? <b> · this license is valid on private land only: you need landowner permission, and the score counts it as 0% public</b> : null}
         <span className="muted"> · public ownership is not permission to cross private land, and state trust land has its own access rules</span></p>
+      <MtBmaBlock units={s.units} species={s.species} publicPct={s.privateOnly ? 0 : s.publicPct} />
       <ScoreRow r={{ ...s, scoreOppRes: nr ? null : opportunity(s.scoreQuality, mine.odds), scoreOppNr: nr ? opportunity(s.scoreQuality, mine.odds) : null }} nr={nr} open />
 
       <div className="co-top">

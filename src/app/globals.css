@@ -759,3 +759,8 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .home-state-menu p { font-size: 14px; margin: 8px 0; }
 .home-state-menu label { display: block; margin: 12px 0; }
 .home-state-menu button { font-size: 16px; }
+/* Montana Block Management (src/components/MtBma.tsx) */
+.mt-bma { width: 100%; max-width: 520px; border-collapse: collapse; }
+.mt-bma td { padding: 4px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.mt-bma td:last-child { padding-left: 10px; white-space: nowrap; }
+.mt-bma-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 4px 24px; }

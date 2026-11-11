@@ -63,7 +63,9 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       fill: max(rows.map(x => x.odds !== null && x.r.success5 !== null ? x.odds * x.r.success5 : null)),
       success: hunters ? successRows.reduce((n, x) => n + x.r.harvest5!, 0) / hunters : null,
       public: max(rows.map(x => x.r.publicPct)), crowd: crowd.length ? Math.min(...crowd) : null,
-      huntable: null, objBull: null, objCow: null,
+      // public + access program: Idaho's Access Yes!, Montana's Block Management Type 1 (never Type 2). Other
+      // states have no measured program, so no value rather than public land relabelled.
+      huntable: key.startsWith('ID:') || key.startsWith('MT:') ? max(rows.map(x => x.r.huntablePct)) : null, objBull: null, objCow: null,
       // Wyoming only: read from data/wy/wilderness.json at render time, so no production row carries it. An area the
       // build measured and found none in is 0, not unknown; other states are not measured at all.
       wilderness: key.startsWith('WY:') ? wyWilderness(key.slice(3))?.pct ?? 0 : null };

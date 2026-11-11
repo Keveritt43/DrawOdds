@@ -18,6 +18,7 @@ import { specialPersonalOdds, specialOddsBasis, specialPointSetting } from './co
 import { chanceOf } from './coOdds';
 import { isPrivateOnly, showPrivate } from './privateLand';
 import { mtKind, mtPersonal, type MtPointOdds } from './mtHunt';
+import { mtBma, mtAccessPct } from './mtBma';
 import type { MtPoints } from './mtPoints';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
@@ -160,6 +161,8 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     // mule deer or whitetail: the licence's own regulation rows say which deer it allows (both = either choice)
     const deer = list(sp, 'mtDeer');
     if (deer.length && !(r.species === 'DEER' && ((r.pointOdds as unknown as MtPointOdds | null)?.deer ?? ['MULE', 'WHITETAIL']).some((d) => deer.includes(d)))) return false;
+    // Block Management: Type 1 (self sign-in) counts by default; Type 2 (landowner/FWP permission) only on request
+    if (!matchesMtBma(r, sp)) return false;
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;
@@ -174,6 +177,24 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
       // UI uses the agency model's published chance labels.
       if (!list(sp, 'chance').includes(chance)) return false;
     }
+  }
+  return true;
+}
+
+/** Montana Block Management filters (`mtMinBma`, `mtMinHuntable`, `mtHasBma`, `mtBma2`). Type 2 is added only
+ *  with `mtBma2=1`. A private-land-only licence has no public land, but BMA ground (private) still counts for it. */
+export function matchesMtBma(r: { units: string[]; species: string; publicPct: number | null; privateOnly?: boolean | null }, sp: SearchParams): boolean {
+  const minBma = param(sp, 'mtMinBma'), minHunt = param(sp, 'mtMinHuntable'), has = param(sp, 'mtHasBma') === '1';
+  if (!minBma && !minHunt && !has) return true;
+  const two = param(sp, 'mtBma2') === '1';
+  const b = mtBma(r.units, r.species);
+  const access = mtAccessPct(b, two);
+  if (has && !(b && (b.n1 > 0 || (two && b.n2 > 0)))) return false;
+  if (minBma && !atLeast(access, Number(minBma))) return false;
+  if (minHunt) {
+    const pub = r.privateOnly ? 0 : r.publicPct;
+    const huntable = pub === null || access === null ? null : Math.min(100, pub + access);
+    if (!atLeast(huntable, Number(minHunt))) return false;
   }
   return true;
 }

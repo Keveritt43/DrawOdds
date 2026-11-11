@@ -24,8 +24,8 @@ const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode:
   fill: { label: 'Draw And Fill (Best Matching Hunt)', mode: 'fill', better: 'high', fmt: pct1, none: 'No draw or too few hunters', note: 'Draw odds × 5-year hunter success: the chance one application ends with an animal, for your residency. Best matching hunt in each unit. Resident general seasons: just success.', scaleNote: 'Fixed scale: 20-30% is yellow.' },
   success: { label: 'Hunter Success (Matching Hunts)', mode: 'sd', snap: 0.05, better: 'high', fmt: pct1, none: 'Too few hunters', note: 'Harvest ÷ hunters over 5 years for the matching hunts in each unit, pooled.', scaleNote: 'Yellow = average for these results, in 5-point steps.' },
   crowd: { label: 'Hunters / Sq Mi (Least Crowded Match)', mode: 'pct', better: 'low', fmt: fmtNum, none: 'No hunter data', note: 'Hunters per square mile of the least crowded matching hunt in each unit. Green = fewer hunters.', scaleNote: 'Yellow = typical for these results.' },
-  public: { label: 'Public Land % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes!.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
-  huntable: { label: 'Public + Access Yes! % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Public land plus Access Yes! land in each unit with a matching hunt.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
+  public: { label: 'Public Land % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No data', note: 'Federal + state land in each unit with a matching hunt. Does not include Access Yes! or Block Management.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
+  huntable: { label: 'Public + Access Program % (Matching Units)', mode: 'land', better: 'high', fmt: (v) => `${fmtNum(v)}%`, none: 'No access program measured', note: 'Public land plus private land open to hunting through the state\'s access program, best matching hunt in each unit: Idaho\'s Access Yes!, and Montana\'s Block Management Type 1 only (you sign yourself in). Montana Type 2 needs landowner or FWP permission and is never included. Montana counts only areas FWP lists for the species. Colorado and Wyoming: not measured.', scaleNote: 'Fixed scale: 50-60% is yellow.' },
   objBull: { label: 'Elk: Bulls vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Bull elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more bulls than the target.`, scaleNote: '' },
   wilderness: { label: 'Wilderness % (Matching Areas)', mode: 'pct', better: 'low', fmt: (v) => `${fmtNum(v)}%`, none: 'Not measured outside Wyoming', note: 'Share of each Wyoming hunt area that is federally designated wilderness, where a nonresident needs a licensed or resident guide (W.S. 23-2-401). Green = less of the area inside a wilderness boundary. This is not a judgement of the hunting: some of the best areas are almost entirely wilderness. The rule follows the boundary, not the area, so check the official wilderness map before you hunt.', scaleNote: 'Yellow = typical for these results.' },
   objCow: { label: 'Elk: Cows vs Population Objective', mode: 'objective', better: 'high', fmt: String, labels: OBJECTIVE_LABELS, none: 'No numeric objective', note: `Cow elk numbers against IDFG's objective for the unit's elk zone (${OBJ_SOURCE}). Above = more cows than the target; often more antlerless tags.`, scaleNote: '' },
@@ -340,9 +340,11 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
           // only Wyoming hunt areas are measured for wilderness, so the option appears only with Wyoming selected
           (k !== 'wilderness' ? true : !!states?.includes('WY')) &&
           (!states && stCode === "ID" ||
+            (k === 'huntable' && !!states && (states.includes('ID') || states.includes('MT'))) ||
             !["objBull", "objCow", "huntable"].includes(k)),
       )
-      .map((k) => ({ value: k, label: SHADES[k].label.replace('Units', areaMode ? 'Areas' : 'Units') })),
+      // Idaho alone keeps its own program's name; with Montana selected the option covers both programs
+      .map((k) => ({ value: k, label: (k === 'huntable' && !states?.includes('MT') ? 'Public + Access Yes! % (Matching Units)' : k === 'huntable' && !states?.includes('ID') ? 'Public + Block Mgmt Type 1 % (Matching Units)' : SHADES[k].label).replace('Units', areaMode ? 'Areas' : 'Units') })),
   ];
 
   return (
@@ -359,7 +361,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
           ramp={S ? { classes: cls, colors, fmt: S.fmt, none: S.none, missing: missingN, unit: where, labels: S.labels } : undefined}
           items={matchItems} extraItems={extraItems}
           note={states && (metric === 'odds' || metric === 'fill') ? `Uses each matching hunt's personal odds: historical Idaho odds and Colorado odds at your points in the selected mode. Unknown values stay unshaded. ${S?.scaleNote ?? ''}` : S ? `${S.note} ${msgSuccess ? 'Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : S.scaleNote}` : `Pick another shading to color the matching ${where} by draw odds, success, crowding or public land.`}
-          kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" />} folded />
+          kind={kind} onKind={setKind} err={err} layers={<LandToggles map={mapObj} before="units-line" states={states} />} folded />
       </div>
     </div>
   );
