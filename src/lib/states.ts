@@ -104,9 +104,10 @@ export const STATES: Record<StateCode, StateConfig> = {
     code: 'MT',
     name: 'Montana',
     slug: 'montana',
-    // Not in the state picker or the finder: only the statewide nonresident combination draw is modelled so far
-    // (/montana). Montana has no hunt, unit, harvest or land rows yet, so a Montana search would come back empty.
-    enabled: false,
+    // In the state picker, but it contributes no rows to Find Hunts: only the statewide nonresident combination
+    // draw is modelled so far (/montana). The home panel and a Find Hunts notice say so rather than leaving a
+    // hunter at an empty result set. See src/components/MtHome.tsx.
+    enabled: true,
     agency: { short: 'FWP', name: 'Montana Fish, Wildlife & Parks', url: 'https://fwp.mt.gov/hunt' },
     // FWP's Block Management opens private land to public hunting; not modelled yet, so not claimed here.
     accessProgram: null,

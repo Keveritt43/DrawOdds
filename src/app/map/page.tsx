@@ -1,3 +1,4 @@
+import { MtElsewhere } from "@/components/MtHome";
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { UnitMap } from '@/components/UnitMap';
 import { getFavorites } from '@/lib/favorites';
@@ -12,6 +13,7 @@ export default async function MapPage() {
   const [{ residency }, fav, draw] = await Promise.all([getResidency(), getFavorites(), getDraw()]);
   return (
     <main className="mapbox">
+      {state.code === 'MT' && <div className="wrap" style={{ maxWidth: 860, margin: '16px auto' }}><MtElsewhere what="The unit map" /></div>}
       <UnitMap key={state.code + draw + JSON.stringify(points)} coPointsKey={points ? JSON.stringify(points) : ''} draw={draw} nr={residency === 'NONRESIDENT'} savedUnits={[...fav.units]} signedIn={fav.signedIn} />
     </main>
   );

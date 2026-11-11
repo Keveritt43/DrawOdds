@@ -1,3 +1,4 @@
+import { MtElsewhere } from "@/components/MtHome";
 import { getState } from "@/lib/residency";
 import { db } from "@/lib/db";
 import { getPoints } from "@/lib/points";
@@ -14,6 +15,7 @@ export default async function PlannerPage({ searchParams,
 }: { searchParams: Promise<{ as?: string }>;
 }) {
   const { residency, signedIn } = await getResidency((await searchParams).as);
+  if ((await getState()).code === "MT") return <main className="wrap" style={{ maxWidth: 860, margin: '24px auto 48px' }}><h1>Planner</h1><MtElsewhere what="The planner" /></main>;
   if ((await getState()).code === "CO") {
     const pts = await getPoints("CO"),
       pool = poolFor(pts.res === "NONRESIDENT", pts.youth);
