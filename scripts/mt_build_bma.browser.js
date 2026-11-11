@@ -2,7 +2,7 @@
  * Montana Block Management (BMA) acres per hunting district, computed in a browser tab on fwp-gis.mt.gov.
  *
  * Why a browser: neither the workspace shell nor the owner's PC shell can reach FWP or BLM (CLAUDE.md), and the
- * results are small. Paste this file into the console of any https://fwp-gis.mt.gov/ page (Claude in Chrome
+ * results are small. Paste this file into the console of an FWP page (fwp-gis.mt.gov and gis.blm.gov answer cross-site requests) (Claude in Chrome
  * javascript_tool), then `await mtBma.run(species)`; the result is left in `window.mtBmaResult` and read out in pieces.
  *
  * Method: the same 100 m equal-area raster as scripts/mt_build_land.py (EPSG:5070, cell centre inside polygon,
@@ -31,8 +31,8 @@
   const AGENCY = { BLM: 'BLM', USFS: 'USFS', NPS: 'NPS', FWS: 'FWS', USBR: 'BOR', DOD: 'DOD', USACE: 'OTHER', USDA: 'OTHER', DOE: 'OTHER',
     GSA: 'OTHER', VA: 'OTHER', OTHFE: 'OTHER', ST: 'STATE', LG: 'LOCAL', PVT: 'PRIVATE', BIA: 'TRIBAL', UND: 'UNDETERMINED' };
   const CUT = new Set(['Not in BMA (No Trespassing)', 'Safety Zone (No Trespassing, No Hunting)', 'No Shooting Area']);
-  const HD = '/arcgis/rest/services/admbnd/huntingDistricts/MapServer/';
-  const BMA = '/arcgis/rest/services/wild/hpNewBMA_MIL/MapServer/';
+  const HD = 'https://fwp-gis.mt.gov/arcgis/rest/services/admbnd/huntingDistricts/MapServer/';
+  const BMA = 'https://fwp-gis.mt.gov/arcgis/rest/services/wild/hpNewBMA_MIL/MapServer/';
   const SMA = 'https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer/1/query?';
 
   const polys = (g) => !g ? [] : g.type === 'MultiPolygon' ? g.coordinates : g.type === 'Polygon' ? [g.coordinates] : [];
