@@ -142,12 +142,19 @@
     let cut = 0;
     for (const f of cuts) grid.runs(polys(f.geometry), (row, a, b) => { const o = row * grid.w; for (let k = o + a; k < o + b; k++) if (typ[k]) { typ[k] = 0; ids[k] = -1; cut++; } });
     let cells = { 1: 0, 2: 0 }, priv = { 1: 0, 2: 0 };
-    for (let k = 0; k < typ.length; k++) if (typ[k]) { cells[typ[k]]++; if (!PUBLIC.has(own[k])) priv[typ[k]]++; }
+    const byRegion = {}; // check against the acreage FWP prints on each regional page
+    for (let k = 0; k < typ.length; k++) if (typ[k]) {
+      cells[typ[k]]++;
+      const r = (byRegion[bmaList[ids[k]].split('-')[0]] ??= { bmas: new Set(), acres: 0, notPublicAcres: 0 });
+      r.bmas.add(ids[k]); r.acres += ACRES;
+      if (!PUBLIC.has(own[k])) { priv[typ[k]]++; r.notPublicAcres += ACRES; }
+    }
     const statewide = {
       bmas: bmaList.length,
       type1: { acres: Math.round(cells[1] * ACRES), notPublicAcres: Math.round(priv[1] * ACRES), polygonAcres: Math.round(exact[1]) },
       type2: { acres: Math.round(cells[2] * ACRES), notPublicAcres: Math.round(priv[2] * ACRES), polygonAcres: Math.round(exact[2]) },
       cutAcres: Math.round(cut * ACRES),
+      byRegion: Object.fromEntries(Object.entries(byRegion).sort().map(([r, v]) => [r, { bmas: v.bmas.size, acres: Math.round(v.acres), notPublicAcres: Math.round(v.notPublicAcres) }])),
     };
     log.push('statewide ' + JSON.stringify(statewide));
 
