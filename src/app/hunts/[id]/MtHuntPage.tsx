@@ -80,6 +80,9 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
         </div>
       )}
       <p className="small muted">Harvest, success and crowding: {po.harvestBasis}. They describe the district, not this license.</p>
+      <p className="small"><b>Land:</b> {s.publicPct === null ? 'not computed' : `${Math.round(s.publicPct)}% public`}{s.units.length > 1 ? ` across its ${s.units.length} districts` : ''}
+        {s.privateOnly ? <b> · this license is valid on private land only: you need landowner permission, and the score counts it as 0% public</b> : null}
+        <span className="muted"> · public ownership is not permission to cross private land, and state trust land has its own access rules</span></p>
       <ScoreRow r={{ ...s, scoreOppRes: nr ? null : opportunity(s.scoreQuality, mine.odds), scoreOppNr: nr ? opportunity(s.scoreQuality, mine.odds) : null }} nr={nr} open />
 
       <div className="co-top">
@@ -136,7 +139,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           <p className="small muted">FWP surveys {spLabel} hunters every other year ({s.species === 'ELK' ? 'even' : 'odd'} years); in other years district hunter counts are not estimated, so those seasons are left out rather than guessed. {po.harvestBasis}.</p></div>
       ) : <p className="muted">No FWP harvest estimate for this district.</p>}
 
-      <p className="small muted">Source: FWP {po.year} {spLabel} drawing statistics (detailed and summary reports), the {po.regs.year} Deer, Elk &amp; Antelope regulations and FWP harvest estimates. Public land is not measured for Montana yet. Confirm dates and rules with FWP before you apply.</p>
+      <p className="small muted">Source: FWP {po.year} {spLabel} drawing statistics (detailed and summary reports), the {po.regs.year} Deer, Elk &amp; Antelope regulations and FWP harvest estimates. Land ownership: BLM Surface Management Agency. Confirm dates and rules with FWP before you apply.</p>
     </main>
   );
 }

@@ -59,8 +59,8 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
         </div>
       </div>
       <div className="small muted" style={{ marginTop: 8 }}>
-        Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land: not measured yet
-        {r.privateOnly ? ' · Valid on private land only: landowner permission needed' : ''}
+        Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land: {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
+        {r.privateOnly ? ' · This license is valid on private land only: landowner permission needed' : ''}
         {nr && po?.needsGeneral ? ' · Also needs a general license: for a nonresident, the combination draw' : ''}
         {notBuying ? <> · <Link href="/account#hunting-preferences">Your banked points only count if you buy a point</Link></> : null}
       </div>

@@ -52,7 +52,8 @@ export async function MtQuickStart() {
               <li><b>Deer and elk in every hunting district</b> — general licenses, permits and B licenses ({hunts} in all), with seasons and restrictions from the 2026 regulations.</li>
               <li><b>Odds at your points</b> — permits and B licenses at your bonus points for that license type, if you buy a point this year; the combination draw at your preference points.</li>
               <li><b>Hunter success</b> from FWP&apos;s surveyed seasons, by district.</li>
-              <li><b>Not yet:</b> public land, antelope, and over-the-counter B licenses.</li>
+              <li><b>Public land</b> in every district, from BLM&apos;s ownership map.</li>
+              <li><b>Not yet:</b> antelope, and over-the-counter B licenses.</li>
             </ul> : <ul>
               <li><b>The nonresident combination draw</b> — Big Game / Elk and Deer, with odds at your point balance and what each of the last six draws took.</li>
               <li><b>Not yet:</b> hunting districts, harvest and public land, so Montana has no rows in Find Hunts.</li>
@@ -76,8 +77,7 @@ export function MtFinderNotice({ only }: { only: boolean }) {
       <p>
         Montana&apos;s district boundaries and harvest estimates are in, but its hunt list isn&apos;t built yet: which
         districts are general and which need a permit, and the permit draw odds from FWP&apos;s reports. Until then it
-        contributes no rows here{only ? '' : ' — the results below are the other states you selected'}. Public land
-        isn&apos;t measured for Montana yet either. What Montana does have now is the draw that decides whether a
+        contributes no rows here{only ? '' : ' — the results below are the other states you selected'}. What Montana does have now is the draw that decides whether a
         nonresident hunts there at all.
       </p>
       <p><Link className="btn" href="/montana">Montana: the nonresident combination draw</Link></p>
@@ -95,9 +95,9 @@ export function MtElsewhere({ what }: { what: string }) {
     <div className="ucard">
       <h2>{what} does not cover Montana yet</h2>
       <p>
-        Montana is in DrawOdds for its nonresident combination draw. This page is built on hunt and unit data,
-        and Montana&apos;s districts, harvest and public land are not loaded — so rather than show you another
-        state&apos;s rules under a Montana heading, there is nothing here.
+        This page is built on another state&apos;s draw rules and data and has no Montana version yet, so rather
+        than show you that state&apos;s rules under a Montana heading, there is nothing here. Montana&apos;s hunts,
+        odds, harvest and public land are in Find Hunts and on each district&apos;s page.
       </p>
       <p><Link className="btn" href="/montana">Montana: the nonresident combination draw</Link></p>
     </div>

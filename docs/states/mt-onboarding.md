@@ -127,7 +127,7 @@ Checks against data the geometry did not produce:
 - Deer: every one of the 138 districts with 2025 harvest has a polygon. The only polygon without harvest is 432.
 - Antelope: every one of the 59 districts with 2024 harvest has a polygon. Extras with no harvest: 413 and 485.
 - Elk 2024 harvest reports ten codes with no polygon: 391N/S, 411E/W, 535E/W, 580N/S and 701E/W. They are elk *portions* of 391, 411, 535, 580 and 701 (layer 14), so the hunt-to-district join must map portions to parents.
-- Deer/elk districts total 84.2M acres. Montana's land area is about 93M acres. The gap is about the size of Montana's Indian reservations (~8M acres), which FWP districts would not cover. That explanation is plausible but **not yet checked against a reservation layer**.
+- Deer/elk districts total 84.2M acres. Montana's land area is about 93M acres. The gap is about the size of Montana's Indian reservations (~8M acres), which FWP districts would not cover. That explanation is plausible but **not yet checked against a reservation layer**. (2026-11-11: the land build found only 0.13% tribal land inside the districts, and the districts leave out Glacier too, which supports it.)
 
 These layers are **current-season only** (description: "the current deer-elk-lion hunting districts"). The hub also publishes *"Antelope Hunting Districts All Past Years"* and *"Big Game Hunting District Restricted Areas All Past Years"*, which are the historical tie-out source (§4). The deer/elk "all past years" equivalent still needs locating.
 
@@ -487,6 +487,7 @@ Open question for the owner: **should Montana launch with the nonresident combin
 5. **Done (#74).** Regulations district-table parser (§2.4).
 6. **Not needed for last-draw odds (#75).** Detailed draw reports parsed (§3.5) and the points column established (§3.4). A simulator is only needed for a projection.
 7. **Built 2026-11-11, step 4.** `scripts/mt_build_hunts.py` → `data/mt/hunts.json`, and the app side (see §12).
+8. **Built 2026-11-11.** `scripts/mt_build_land.py` → `data/mt/land.json` and the land fields on `data/mt/units.json` (§13). Run it before `mt_build_hunts.py`, which reads it.
 
 Nothing in steps 1–7 writes to production. The import is `scripts/mt-import.ts`: state-scoped, dry run by default, and it aborts if any Idaho, Colorado or Wyoming summary changes. It applies only after a reviewed dry run and the owner's explicit yes, per AGENTS.md.
 
@@ -509,7 +510,7 @@ Nothing in steps 1–7 writes to production. The import is `scripts/mt-import.ts
 - **Deer type** uses Idaho's rule: whitetail share of the same seasons' harvest, ≥ 60% whitetail and ≤ 40% mule deer.
 - **Seasons:** each regulations row and season column becomes a `tagSeasons` entry, so the weapon, season, youth and antler filters work as they do in Idaho. "ArchEquip only" rows are archery throughout.
 - **Flags:** 71 hunts are private-land-only (every row "Only valid on private land") and 6 are youth-only.
-- **Public land: not measured.** `publicPct` stays null, so Quality has no access component for Montana, and every surface says "not measured".
+- **Public land: measured 2026-11-11 (§13).** Superseded the step-4 state, where `publicPct` was null and no Montana hunt had a Quality score.
 
 **App:**
 
@@ -529,3 +530,20 @@ Nothing in steps 1–7 writes to production. The import is `scripts/mt-import.ts
 
 
 Nothing in steps 1–7 writes to production. The eventual import follows the Wyoming pattern: a state-scoped script, a reviewed dry run, and the owner's explicit yes, per AGENTS.md.
+
+## 13. Public land — built 2026-11-11
+
+`scripts/mt_build_land.py` measures land ownership in each of the 139 deer/elk districts.
+
+- **Source:** BLM's national Surface Management Agency layer (`BLM_Natl_SMA_LimitedScale/MapServer/1`, `ADMIN_ST='MT'`), the same source as Colorado and Wyoming. Montana's own BLM service needs a token. The 43 features came back at full resolution in EPSG:5070. District outlines were fetched again at 10 m, because `units.json`'s ~100 m display outlines are too coarse for acreage. Both were saved from Chrome into `Downloads\huntapp`.
+- **Method:** Wyoming's 100 m equal-area raster, with one fix. PIL's polygon fill includes every cell an edge touches. A 10×10-cell square fills 121 cells and a 4×4 square fills 25, so small parcels come out 20–60% too big. Montana's scattered 640-acre state sections would have been overstated (the first run gave 7.2% state land, against 6.7% once fixed). The Montana build fills a cell when its centre is inside the polygon, which has no such bias, and district areas then agree with the exact polygon areas within 1%.
+- **Wyoming has the same bias,** in `wy_build_areas.py`. Its statewide checks passed, but areas with many small parcels are likely to overstate public land. **Not fixed:** it would change live Wyoming scores, so it needs its own reviewed change.
+- **Classes:** public = BLM, Forest Service, NPS, FWS, Reclamation, Defense, other federal (Corps, USDA research land), state (trust land and FWP) and local government. Not public: private, tribal (BIA) and BLM's "undetermined" (0.4% of the districts, up to 2.7% in HD 170), which we don't guess at.
+- **Checks (the build stops on any failure):**
+  - every district's raster area is within 1% of its polygon area;
+  - ownership covers at least 97% of every district (it covers 100%);
+  - across all districts, federal land is 29–34% and state land 5.5–8%. The published statewide figures (~29% federal, ~6% state) cover all of Montana, while the districts leave out the reservations and Glacier and Yellowstone.
+- **Expected vs built:** about 17.0M acres Forest Service + 8.0M BLM + 1.1M FWS ≈ 31% of the districts' 84.3M acres. Built: 31.5% federal (Forest Service 20.2%, BLM 9.6%) and 6.7% state. Drawing the parcels in reverse order gives the same shares to 0.01%, so the SMA parcels don't overlap.
+- **Hunts:** a multi-district licence takes the acre-weighted share of its districts (Wyoming's rule). A private-land-only licence shows its districts' share, but **scores as 0% public**, as in Wyoming's import. With land in, all 535 Montana hunts get a Quality score.
+- **Ownership is not access.** State trust land and Corps land have their own access rules, and landlocked public land still counts. Every page says so.
+

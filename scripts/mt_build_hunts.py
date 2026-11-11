@@ -58,6 +58,17 @@ def load(name):
 regs, draws, harvest, units, combo = (load(n) for n in ("regs-2026.json", "draws.json", "harvest.json", "units.json", "nr-combo.json"))
 AREA = {u["name"]: u for u in units["units"] if u["species"] == "deer-elk"}
 REGION = {u["name"]: u.get("region") for u in AREA.values()}
+LAND = load("land.json")["districts"]  # scripts/mt_build_land.py
+
+
+def land(hds: list[str]) -> dict:
+    """Public and private share of the hunt's districts, weighted by district acres (Wyoming's rule)."""
+    recs = [LAND.get(h) for h in hds]
+    if not recs or any(r is None for r in recs):
+        problems.append(f"no land record for districts {hds}")
+        return {"publicPct": None, "privatePct": None}
+    acres = sum(r["acres"] for r in recs)
+    return {k: round(sum(r[k] * r["acres"] for r in recs) / acres, 1) for k in ("publicPct", "privatePct")}
 
 
 def iso(md: str, after: date | None = None) -> str:
@@ -298,8 +309,7 @@ for key, c in sorted(codes.items()):
         "nrPermitsLast": e["pools"]["nr"]["succ"][0], "permitsLast": e["totalSucc"] if isinstance(e["totalSucc"], int) else None,
         "secondDrewLast": sum(e["pools"][p]["succ"][1] for p in ("res", "nr")),
         "secondAppsLast": sum(e["pools"][p]["apps"][1] for p in ("res", "nr")),
-        **hf, "acres": sum(AREA[h].get("acres") or 0 for h in hds) or None,
-        "publicPct": None, "privatePct": None,
+        **hf, "acres": sum(AREA[h].get("acres") or 0 for h in hds) or None, **land(hds),
         "oddsByPts": {"proj": {"res": res_arr, "nr": nr_arr}, "last": {"res": res_arr, "nr": nr_arr},
                       **({"noBuy": {"res": res_nb, "nr": nr_nb}})},
         "tagSeasons": {"year": YEAR, "seasons": seasons},
@@ -352,7 +362,7 @@ for t in regs["districts"]:
         "privateOnly": all(r.get("landLimit") == "private" for r in rows),
         "youthOnly": all(youth_only(r) for r in rows),
         "oddsLastYear": cyear, "oddsYears": 1, "resOddsLast": 1.0, "nrOddsLast": None,
-        **hf, "acres": AREA.get(hd, {}).get("acres"), "publicPct": None, "privatePct": None,
+        **hf, "acres": AREA.get(hd, {}).get("acres"), **land([hd]),
         "nrTag": False, "capped": False,
         # residents: over the counter. Nonresidents: the combination draw at 0..3 preference points (NOT smoothed:
         # 1-2 points below the cutoff drew 0% while 0 points drew from the random quarter)

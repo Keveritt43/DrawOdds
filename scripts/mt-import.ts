@@ -16,7 +16,7 @@ import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
 
 type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
-type Area = { name: string; species: string; acres: number | null; bbox: number[] | null; geometry: object | null };
+type Area = { name: string; species: string; acres: number | null; bbox: number[] | null; geometry: object | null; publicPct?: number | null; privatePct?: number | null; ownership?: { manager: string; pct: number }[] };
 
 const apply = process.argv.includes('--apply');
 const hunts = JSON.parse(readFileSync('data/mt/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
@@ -52,7 +52,12 @@ function validate(): string[] {
     for (const v of Object.values(t.noBuy ?? {})) if (v !== null && !(v >= 0 && v <= 1)) errors.push(`${h.id}: bad no-purchase odds`);
     if (h.state !== 'MT') errors.push(`${h.id}: state ${String(h.state)}`);
   }
-  for (const a of areas) if (!/^\d{3}$/.test(a.name)) errors.push(`bad district name ${a.name}`);
+  for (const a of areas) {
+    if (!/^\d{3}$/.test(a.name)) errors.push(`bad district name ${a.name}`);
+    // every district has measured land (scripts/mt_build_land.py); never import a missing share as 0% public
+    for (const v of [a.publicPct, a.privatePct]) if (!(typeof v === 'number' && v >= 0 && v <= 100)) errors.push(`${a.name}: land share missing`);
+  }
+  for (const h of hunts.hunts) if (num(h.publicPct) === null) errors.push(`${h.id}: public land missing`);
   return errors;
 }
 
@@ -62,9 +67,8 @@ async function main() {
   const scores = scoreHunts(hunts.hunts.map((h) => ({
     id: h.id, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
-    // publicPct stays null until Montana's public land is measured, and score.ts deliberately gives no Quality
-    // without land rather than inflating the other weights: Montana hunts import unscored until then.
-    publicPct: null, huntablePct: null, bigPct5: num(h.bigPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
+    // Wyoming's rule: a licence valid on private land only scores as 0% public, whatever the district holds
+    publicPct: h.privateOnly ? (num(h.publicPct) === null ? null : 0) : num(h.publicPct), huntablePct: null, bigPct5: num(h.bigPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
     resOdds5: null, nrOdds5: null,
   })));
   const huntRows: Prisma.HuntCreateManyInput[] = hunts.hunts.map((h) => ({
@@ -88,7 +92,8 @@ async function main() {
       nrPermitsLast: num(h.nrPermitsLast), permitsLast: num(h.permitsLast), secondDrewLast: num(h.secondDrewLast), secondAppsLast: num(h.secondAppsLast),
       success5: num(h.success5), hunters5: num(h.hunters5), harvest5: num(h.harvest5), harvestYears: num(h.harvestYears) ?? 0,
       harvestLastYear: num(h.harvestLastYear), successLast: num(h.successLast), daysPerHunter5: num(h.daysPerHunter5),
-      smallSample: h.smallSample === true, huntersSqMi: num(h.huntersSqMi), acres: num(h.acres), publicPct: null, privatePct: null,
+      smallSample: h.smallSample === true, huntersSqMi: num(h.huntersSqMi), acres: num(h.acres), publicPct: num(h.publicPct),
+      privatePct: num(h.privatePct),
       bigPct5: num(h.bigPct5), whitetailPct5: num(h.whitetailPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
       tagSeasons: h.tagSeasons as object, pointOdds: h.pointOdds as object, oddsByPts: h.oddsByPts as object,
       scoreQuality: sc.scoreQuality, scoreSuccess: sc.scoreSuccess, scoreAccess: sc.scoreAccess, scoreCrowd: sc.scoreCrowd, scoreTrophy: sc.scoreTrophy,
@@ -96,6 +101,7 @@ async function main() {
   });
   const unitRows: Prisma.UnitCreateManyInput[] = areas.map((a) => ({
     state: 'MT', name: a.name, acres: a.acres, geometry: (a.geometry ?? undefined) as object | undefined, bbox: (a.bbox ?? undefined) as object | undefined,
+    landOwnership: (a.ownership ?? undefined) as object | undefined, publicPct: a.publicPct ?? null, privatePct: a.privatePct ?? null,
   }));
   const counts = { hunts: huntRows.length, summaries: summaryRows.length, units: unitRows.length, scored: summaryRows.filter((r) => r.scoreQuality !== null).length };
   console.log('[MT] plan', JSON.stringify(counts));
@@ -123,7 +129,7 @@ async function main() {
   }
   // the reviewed plan: every summary's id, odds table and score, hashed, so an apply can be gated on the dry run
   const { createHash } = await import('node:crypto');
-  const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.success5, r.privateOnly]))).digest('hex').slice(0, 16);
+  const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.success5, r.privateOnly, r.publicPct]))).digest('hex').slice(0, 16);
   console.log('[MT] diff', JSON.stringify({ live: live.size, liveUnits, added: added.length, removed: removed.length, changed: changedRows, planDigest }));
   if (removed.length) console.log('[MT] removed', removed.join(', '));
   if (!apply) {

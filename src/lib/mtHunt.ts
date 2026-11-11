@@ -15,6 +15,12 @@
  */
 import type { MtBonusType, MtPoints } from './mtPoints';
 
+/** Labels for the ownership classes in data/mt/land.json (scripts/mt_build_land.py). */
+export const MT_OWNER: Record<string, string> = {
+  BLM: 'BLM', USFS: 'Forest Service', STATE: 'State and FWP', NPS: 'National Park', FWS: 'Fish & Wildlife', BOR: 'Reclamation', DOD: 'Defense',
+  LOCAL: 'Local government', OTHER: 'Other federal', PRIVATE: 'Private', TRIBAL: 'Tribal', UNDETERMINED: 'Not attributed',
+};
+
 export type MtPool = 'res' | 'nr';
 export interface MtOddsTable {
   proj: Partial<Record<MtPool, number[]>>;

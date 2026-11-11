@@ -8,7 +8,7 @@ import { Star } from '@/components/Star';
 import { int, pct as pct0 } from '@/lib/format';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { unitKey } from '@/lib/states';
-import { mtPersonal, type MtPointOdds } from '@/lib/mtHunt';
+import { mtPersonal, MT_OWNER, type MtPointOdds } from '@/lib/mtHunt';
 
 const pct = (o: number | null) => (o === null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 
@@ -35,13 +35,18 @@ export async function MtUnitPage({ name }: { name: string }) {
       <td className="num">{pct(m.odds)} <span className="small muted">{m.odds === null ? '' : CHANCE_LABEL[chanceOf(m.odds, 0, m.odds)]}</span></td>
       <td className="num">{pct0(h.success5)}</td></tr>;
   };
+  const own = (unit.landOwnership ?? []) as { manager: string; pct: number }[];
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
       <p className="small"><Link href={`/hunts?states=MT&unit=MT:${name}`}>Find Montana hunts in this district →</Link></p>
       <h1 className="star-head">Montana Hunting District {name}{hunts[0]?.areaName && hunts[0].type === 'GENERAL' ? ` · ${hunts[0].areaName}` : ''} <Star kind="unit" id={key} saved={fav.units.has(key)} signedIn={fav.signedIn} label /></h1>
       <p className="muted" style={{ marginTop: 0 }}>
-        {unit.acres ? `${int(unit.acres / 640)} mi²` : 'Size not computed'} · FWP deer and elk hunting district (antelope districts have different boundaries) · public land not measured yet
+        {unit.acres ? `${int(unit.acres / 640)} mi²` : 'Size not computed'}{unit.publicPct !== null ? ` · ${Math.round(unit.publicPct)}% public land` : ''} · FWP deer and elk hunting district (antelope districts have different boundaries)
       </p>
+      {own.length > 0 && (
+        <p className="small">{own.filter((o) => o.pct >= 0.5).map((o) => `${MT_OWNER[o.manager] ?? o.manager} ${Math.round(o.pct)}%`).join(' · ')}
+          <span className="muted"> · BLM surface management; public ownership is not permission to cross private land, and state trust land has its own access rules.</span></p>
+      )}
       {!pts.set && <p className="small"><Link href="/account#hunting-preferences">Set your Montana points</Link> for odds at your points.</p>}
       <h2>General Licenses</h2>
       {general.length ? <div className="htable-wrap"><table><thead><tr><th aria-label="Save" /><th>License</th><th>Opportunities</th><th className="num">Quota</th><th className="num">Your odds ({nr ? `combination draw, ${pts.combo} pts` : 'resident'})</th><th className="num">Success</th></tr></thead><tbody>{general.map(row)}</tbody></table></div>
