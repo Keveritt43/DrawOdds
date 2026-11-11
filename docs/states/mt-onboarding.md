@@ -601,3 +601,59 @@ Asked by the owner, 2026-11-11.
   - FWP doesn't say how a permit drawn without a combination is handled, so the two draws are treated as independent.
   - **Account:** "Combination you apply for" — Big Game (deer and elk), Elk, or Deer. Big Game and Elk share FWP's Big Game / Elk drawing; Deer has its own odds. A licence the chosen combination doesn't cover shows 0%, with the reason.
   - **Changed default:** nonresident general deer odds now default to the Big Game draw. Before this they used the Deer Combination draw.
+
+## 16. Block Management — built 2026-11-11
+
+FWP's Block Management program is Montana's counterpart to Idaho's Access Yes!: landowners enrol private land and FWP
+opens it to public hunting. The owner asked for it to be treated by permission type (Nov 11, 2026):
+
+- **Type 1**: FWP: "Area where hunters administer their own permission" (sign-in box, roster, or none). Treated as
+  public access with the BMA's own rules (vehicles usually on marked roads only, sometimes walk-in only; rules vary
+  by BMA, so the copy never promises one rule). **Included** in "public + Block Management", the Quality score's
+  access input, the map's combined shading and, by default, the filters.
+- **Type 2**: FWP: "Area where someone other than the hunter issues permission" (landowner or FWP; often
+  reservations, pasture assignments and hunter limits). **Never** added to public land or the score. Shown on its
+  own on cards, hunt and district pages and the map; the filters count it only with "Also count Type 2" (`mtBma2=1`).
+
+**Sources.**
+- FWP `wild/hpNewBMA_MIL/MapServer`: layer 5 BMA boundaries with `PTYPE` 1/2 (946 features, 905 BMAs), layer 4 BMAs
+  with access closed or restricted (1, left out), layer 3 restricted areas inside BMAs ("Not in BMA (No
+  Trespassing)", safety zones and no-shooting areas are cut out: 113,147 acres; weapon and species restriction areas
+  stay in). A BMA is `REGION-BMANUM`: numbers repeat across regions.
+- FWP's 2026 Block Management guide (`2026-fwpblockmanegment-finalproof.pdf`) for **species**. The GIS has no
+  species field, and BMAs differ: #3-132 is antelope only, #3-87 whitetail and birds, #3-143 allows only elk and
+  antelope, #6-132 is upland birds only. Counting every BMA for every species would overstate elk access badly
+  (855 of 892 BMAs list deer, only 273 elk). `scripts/mt_parse_bma_guide.browser.js` reads the sideways-printed
+  tables (several county tables per page in Regions 6 and 7; a BMA crossing counties is listed in each).
+  - 18 open BMAs on the map are not in the guide (late enrolments: 3-5, 4-80/84/87/89/90, 6-213/214/215/218/240/241/245,
+    7-272/273/276/277/279). They count for **no** species: unknown is not "open to elk". This understates Type 2 in
+    HD 701 by about half.
+  - 8 guide rows list none of deer, elk, antelope (bird-only, #1-19 "Antlerless" with no species, #3-1 blank).
+
+**Method.** `scripts/mt_build_bma.browser.js`, run in Chrome on an FWP tab (the shells can't reach FWP), on the grid
+of `mt_build_land.py`: 100 m equal-area cells, centre-in-polygon. Public shares reproduce `land.json` within 0.1
+point in all 204 districts. The acres added to public land are BMA cells that are **not already public** (BMAs
+enrol state and federal parcels inside a ranch: 4.69M Type 1 acres, of which 3.93M are not public). A cell in both
+types counts as Type 1. Results were read out of the tab and checked against an in-tab checksum, saved in
+`data/mt/source/bma-2026-*.txt`, and built into `data/mt/bma.json` by `scripts/mt_build_bma.py`.
+
+**Checks.**
+- Statewide 6.81M acres of boundary (6.69M after cut-outs) against FWP's "almost 7 million acres" for 2026.
+- Region 7: 244 BMAs, 1.95M acres against FWP's 245 and 1.99M (−2%).
+- **Region 6 does not match:** 212 BMAs and 1.46M acres against FWP's printed 210 and 1.25M (+17%). Not
+  explained; recorded in `bma.json` `regionCheck`.
+- Same totals on two independent runs, in two tabs.
+
+**Where it shows.**
+- `HuntSummary.accessYesAcres / accessYesCount / accessYesPct / huntablePct` carry **Type 1 only**, for the hunt's
+  species (`mt_build_hunts.py`, `mt-import.ts`). A private-land-only licence has 0% public, but Type 1 BMA ground is
+  private land open by sign-in, so its huntable share is the Type 1 share.
+- Score effect (dry run of `score.ts`): 268 of 591 scored hunts rise, median +1, largest +10 (Elk B 122-00); none fall.
+- `src/lib/mtBma.ts` reads `bma.json` at render time for Type 2 and for the filters.
+- Find Hunts: "Montana: Block Management" (`mtMinBma`, `mtMinHuntable`, `mtHasBma`, `mtBma2`); card line; hunt page
+  and district page tables; finder map "Public + Block Mgmt Type 1 %".
+- Map layers: FWP's live outlines (FWP's service answers this site's cross-site requests), Type 1 purple, Type 2
+  orange dashed, cut-outs dark grey, popups linking FWP's PDF map for the BMA.
+
+**Refresh each season**: re-run both browser scripts on the new guide and enrolment, then `mt_build_bma.py`,
+`mt_build_hunts.py`, and the import as a reviewed dry run.

@@ -9,6 +9,7 @@ import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/
 import { dateRange } from '@/lib/coDisplay';
 import { seasonsSummary } from '@/lib/tagSeasons';
 import { mtDistricts, type MtPointOdds } from '@/lib/mtHunt';
+import { mtBma, bmaPct } from '@/lib/mtBma';
 
 /** Montana result card: Idaho's card structure, with Montana's two systems — general licences (residents over the
  *  counter, nonresidents through the combination draw) and bonus-point permits and B licences. */
@@ -27,6 +28,7 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
   const successSub = po?.mulePermit ? 'Mule bucks per permit' : deer && general ? `${deer} harvest per deer hunter` : 'District, all licenses';
   // short pills: Montana names ("HD 652 · General deer") are long, and on a phone a long pill squeezed the name to one word a line
   const kind = /Permit$/.test(po?.license ?? '') ? 'permits' : 'licenses';
+  const bma = mtBma(r.units, r.species);
   const pill = general ? (nr ? 'General · NR combo draw' : 'General · Over the counter') : /Permit$/.test(po?.license ?? '') ? 'Permit · Bonus points' : po?.license === 'Antelope License' ? 'Antelope · Bonus points' : 'B License · Bonus points';
   return (
     <article className="hrow co-row mt-row">
@@ -66,6 +68,7 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
       </div>
       <div className="small muted" style={{ marginTop: 8 }}>
         Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land: {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
+        {bma && (bma.n1 > 0 || bma.n2 > 0) ? <> · Block Mgmt: <b>Type 1 {bmaPct(bma.t1Pct)}</b>{bma.n2 > 0 ? ` · Type 2 ${bmaPct(bma.t2Pct)} (permission needed)` : ''}</> : bma ? ' · No Block Management' : ''}
         {r.privateOnly ? ' · This license is valid on private land only: landowner permission needed' : ''}
         {withCombo ? ' · Odds include the combination draw this permit needs' : ''}
         {deer ? ` · ${deer} only` : ''}

@@ -9,6 +9,7 @@ import { int, pct as pct0 } from '@/lib/format';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { unitKey } from '@/lib/states';
 import { mtPersonal, mtIsAntelopeUnit, mtUnitLabel, MT_OWNER, type MtPointOdds } from '@/lib/mtHunt';
+import { MtBmaDistrict } from '@/components/MtBma';
 
 const pct = (o: number | null) => (o === null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 
@@ -57,6 +58,7 @@ export async function MtUnitPage({ name }: { name: string }) {
         <p className="small">{own.filter((o) => o.pct >= 0.5).map((o) => `${MT_OWNER[o.manager] ?? o.manager} ${Math.round(o.pct)}%`).join(' · ')}
           <span className="muted"> · BLM surface management; public ownership is not permission to cross private land, and state trust land has its own access rules.</span></p>
       )}
+      <MtBmaDistrict unit={name} publicPct={unit.publicPct} />
       {!pts.set && <p className="small"><Link href="/account#hunting-preferences">Set your Montana points</Link> for odds at your points.</p>}
       {antelope ? <p className="small">Montana sells no general antelope license: every antelope license is drawn, with bonus points. {nr ? 'As a nonresident you apply without a combination license.' : ''}</p> : <>
       <h2>General Licenses</h2>

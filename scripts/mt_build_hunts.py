@@ -73,6 +73,8 @@ AREA.update({f"A{u['name']}": u for u in units["units"] if u["species"] == "ante
 REGION = {u: a.get("region") for u, a in AREA.items()}
 _land = load("land.json")  # scripts/mt_build_land.py
 LAND = {**_land["districts"], **{f"A{k}": v for k, v in _land["antelope"].items()}}
+_bma = load("bma.json")  # scripts/mt_build_bma.py
+BMA = {**_bma["districts"], **_bma["antelope"]}
 HISTORY = load("district-history.json")
 STABLE = HISTORY["stableIou"]
 
@@ -109,14 +111,31 @@ def stable_season(key: str, year: int) -> bool:
     return iou is not None and iou >= STABLE
 
 
-def land(hds: list[str]) -> dict:
-    """Public and private share of the hunt's districts, weighted by district acres (Wyoming's rule)."""
+BMA_SPECIES = {"DEER": "deer", "ELK": "elk", "PRONGHORN": "antelope"}
+
+
+def land(hds: list[str], sp: str) -> dict:
+    """Public and private share of the hunt's districts, weighted by district acres (Wyoming's rule), plus Block
+    Management. Type 1 BMA land that is not already public (private ground enrolled, open by self sign-in) goes into
+    the access-program fields that Idaho's Access Yes! uses, so it reaches the score, sorting and map shading as
+    "public + access program". Only BMAs whose guide row lists this species count. Type 2 (permission issued by the
+    landowner or FWP) is never added: it is read at render time from data/mt/bma.json (src/lib/mtBma.ts)."""
     recs = [LAND.get(h) for h in hds]
     if not recs or any(r is None for r in recs):
         problems.append(f"no land record for districts {hds}")
         return {"publicPct": None, "privatePct": None}
     acres = sum(r["acres"] for r in recs)
-    return {k: round(sum(r[k] * r["acres"] for r in recs) / acres, 1) for k in ("publicPct", "privatePct")}
+    out = {k: round(sum(r[k] * r["acres"] for r in recs) / acres, 1) for k in ("publicPct", "privatePct")}
+    b = [BMA.get(h) for h in hds]
+    if any(x is None for x in b):
+        problems.append(f"no Block Management record for districts {hds}")
+        return out
+    t1 = sum(x[BMA_SPECIES[sp]]["t1"] for x in b)
+    out["accessYesAcres"] = t1
+    out["accessYesCount"] = sum(x[BMA_SPECIES[sp]]["n1"] for x in b)
+    out["accessYesPct"] = round(100 * t1 / acres, 1)
+    out["huntablePct"] = round(min(100.0, out["publicPct"] + 100 * t1 / acres), 1)
+    return out
 
 
 def iso(md: str, after: date | None = None) -> str:
@@ -472,7 +491,7 @@ for key, c in sorted(codes.items()):
         "nrPermitsLast": e["pools"]["nr"]["succ"][0], "permitsLast": e["totalSucc"] if isinstance(e["totalSucc"], int) else None,
         "secondDrewLast": sum(e["pools"][p]["succ"][1] for p in ("res", "nr")),
         "secondAppsLast": sum(e["pools"][p]["apps"][1] for p in ("res", "nr")),
-        **hf, "acres": sum(AREA[h].get("acres") or 0 for h in hds) or None, **land(hds),
+        **hf, "acres": sum(AREA[h].get("acres") or 0 for h in hds) or None, **land(hds, sp),
         "oddsByPts": {"proj": {"res": res_arr, "nr": nr_arr}, "last": {"res": res_arr, "nr": nr_arr},
                       **({"noBuy": {"res": res_nb, "nr": nr_nb}})},
         "tagSeasons": {"year": YEAR, "seasons": seasons},
@@ -532,7 +551,7 @@ for t in regs["districts"]:
         "privateOnly": all(r.get("landLimit") == "private" for r in rows),
         "youthOnly": all(youth_only(r) for r in rows),
         "oddsLastYear": cyear, "oddsYears": 1, "resOddsLast": 1.0, "nrOddsLast": None,
-        **hf, "acres": AREA.get(hd, {}).get("acres"), **land([hd]),
+        **hf, "acres": AREA.get(hd, {}).get("acres"), **land([hd], sp),
         "nrTag": False, "capped": False,
         # residents: over the counter. Nonresidents: the combination draw at 0..3 preference points (NOT smoothed:
         # 1-2 points below the cutoff drew 0% while 0 points drew from the random quarter)

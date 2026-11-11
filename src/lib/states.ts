@@ -108,7 +108,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     // those rows exist the home panel and a Find Hunts notice say so (src/components/MtHome.tsx).
     enabled: true,
     agency: { short: 'FWP', name: 'Montana Fish, Wildlife & Parks', url: 'https://fwp.mt.gov/hunt' },
-    // FWP's Block Management opens private land to public hunting; not modelled yet, so not claimed here.
+    // FWP's Block Management is modelled separately (src/lib/mtBma.ts): its two permission types need their own
+    // fields, filters and map layers, so the single Idaho-style accessProgram slot stays empty for Montana.
     accessProgram: null,
     privateLandOnly: 'a hunt whose every opportunity row in the 2026 regulations district tables says "Only valid on private land" (data/mt/regs-2026.json landLimit; docs/states/mt-onboarding.md §2.4), set on HuntSummary.privateOnly by scripts/mt_build_hunts.py.',
     // Nonresident combination licenses: 75% by preference points (capped at 3), 25% random among ZERO-point

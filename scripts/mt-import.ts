@@ -5,7 +5,8 @@
  *   npx tsx scripts/mt-import.ts          dry run: validates and prints what would change
  *   npx tsx scripts/mt-import.ts --apply  writes, in one transaction
  *
- * Scope: only rows with state 'MT' are replaced. Idaho, Colorado and Wyoming summaries are digested before and
+ * Scope: only rows with state 'MT' are replaced. Block Management Type 1 is written to the access-program fields
+ * (accessYesAcres/Count/Pct, huntablePct) and into the score's access input; Type 2 never is. Idaho, Colorado and Wyoming summaries are digested before and
  * after; any change aborts. No agency fetch, no schema change. Saved Montana hunts survive re-imports because hunt
  * ids are stable (hash of the Montana hunt key). Deer and elk only; Unit rows are the deer/elk districts.
  */
@@ -62,17 +63,26 @@ function validate(): string[] {
     for (const v of [a.publicPct, a.privatePct]) if (!(typeof v === 'number' && v >= 0 && v <= 100)) errors.push(`${a.name}: land share missing`);
   }
   for (const h of hunts.hunts) if (num(h.publicPct) === null) errors.push(`${h.id}: public land missing`);
+  // Block Management Type 1 (scripts/mt_build_bma.py): measured for every district, so never missing
+  for (const h of hunts.hunts) {
+    const ay = num(h.accessYesPct), hu = num(h.huntablePct), pub = num(h.publicPct);
+    if (ay === null || hu === null || num(h.accessYesAcres) === null || num(h.accessYesCount) === null) errors.push(`${h.id}: Block Management missing`);
+    else if (ay < 0 || hu > 100 || pub === null || hu + 1e-9 < pub || Math.abs(hu - Math.min(100, pub + ay)) > 0.11) errors.push(`${h.id}: Block Management inconsistent`);
+  }
   return errors;
 }
 
 async function main() {
   const errors = validate();
   if (errors.length) throw Error(`Montana data failed validation:\n${errors.slice(0, 30).join('\n')}`);
+  // Public + Block Management Type 1. A private-land-only licence has no public land (Wyoming's rule), but Type 1
+  // BMA ground is private land open by self sign-in, so it still counts for that licence.
+  const huntable = (h: Rec) => (h.privateOnly ? num(h.accessYesPct) : num(h.huntablePct));
   const scores = scoreHunts(hunts.hunts.map((h) => ({
     id: h.id, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
     // Wyoming's rule: a licence valid on private land only scores as 0% public, whatever the district holds
-    publicPct: h.privateOnly ? (num(h.publicPct) === null ? null : 0) : num(h.publicPct), huntablePct: null, bigPct5: num(h.bigPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
+    publicPct: h.privateOnly ? (num(h.publicPct) === null ? null : 0) : num(h.publicPct), huntablePct: huntable(h), bigPct5: num(h.bigPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
     resOdds5: null, nrOdds5: null,
   })));
   const huntRows: Prisma.HuntCreateManyInput[] = hunts.hunts.map((h) => ({
@@ -98,6 +108,7 @@ async function main() {
       harvestLastYear: num(h.harvestLastYear), successLast: num(h.successLast), daysPerHunter5: num(h.daysPerHunter5),
       smallSample: h.smallSample === true, huntersSqMi: num(h.huntersSqMi), acres: num(h.acres), publicPct: num(h.publicPct),
       privatePct: num(h.privatePct),
+      accessYesAcres: num(h.accessYesAcres), accessYesCount: num(h.accessYesCount), accessYesPct: num(h.accessYesPct), huntablePct: huntable(h),
       bigPct5: num(h.bigPct5), whitetailPct5: num(h.whitetailPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
       tagSeasons: h.tagSeasons as object, pointOdds: h.pointOdds as object, oddsByPts: h.oddsByPts as object,
       scoreQuality: sc.scoreQuality, scoreSuccess: sc.scoreSuccess, scoreAccess: sc.scoreAccess, scoreCrowd: sc.scoreCrowd, scoreTrophy: sc.scoreTrophy,
@@ -133,7 +144,7 @@ async function main() {
   }
   // the reviewed plan: every summary's id, odds table and score, hashed, so an apply can be gated on the dry run
   const { createHash } = await import('node:crypto');
-  const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.success5, r.privateOnly, r.publicPct]))).digest('hex').slice(0, 16);
+  const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.success5, r.privateOnly, r.publicPct, r.accessYesPct, r.huntablePct]))).digest('hex').slice(0, 16);
   console.log('[MT] diff', JSON.stringify({ live: live.size, liveUnits, added: added.length, removed: removed.length, changed: changedRows, planDigest }));
   if (removed.length) console.log('[MT] removed', removed.join(', '));
   if (!apply) {

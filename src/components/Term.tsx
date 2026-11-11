@@ -12,6 +12,9 @@ export const DEFS = {
   size: 'Average antler spread (moose) or horn length (bighorn sheep, mountain goat) of the animals hunters took, in inches, from IDFG harvest reports over the last 5 years.',
   smallSample: 'Fewer than 50 hunters over 5 years (10 for moose, sheep and goat): one or two animals swing the success rate a lot.',
   accessYes: 'Access Yes!: IDFG pays private landowners to open their ground to public hunting and fishing, or to let hunters cross it to reach public land. The acres shown are enrolled properties inside the unit or hunt area. Anyone can hunt them, but rules differ by property - check IDFG\u2019s Access Yes! listing and any sign-in box before you go.',
+  bma: 'Block Management: Montana FWP pays landowners to open their private land to public hunting. The share shown is enrolled private ground in the district (state and federal parcels inside a BMA are already counted as public land), from FWP’s 2026–27 maps, counting only areas FWP’s guide lists for this species. Each area has its own rules and season dates - read its map before you go.',
+  bmaType1: 'Type 1 Block Management: you give yourself permission, at a sign-in box or roster, or with no sign-in at all. Treat it like public land with the area’s rules: vehicles are often limited to marked roads, and some areas are walk-in only. It counts toward "public + Block Management".',
+  bmaType2: 'Type 2 Block Management: the landowner or FWP gives permission, often by reservation or written permission, with limits on hunters per day. It isn’t a sure way in, so it is never counted as public land and is shown on its own.',
   applicants: '1st-choice applicants in the latest drawing, for your residency. "All" adds residents and nonresidents.',
 } as const;
 
