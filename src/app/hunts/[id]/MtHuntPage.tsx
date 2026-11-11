@@ -75,9 +75,17 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       )}
       {!general && nr && po.needsGeneral && (
         <div className="card" style={{ margin: '12px 0' }}>
-          <b>A permit is added to a general license.</b> As a nonresident you also need a {s.species === 'ELK' ? 'Big Game or Elk' : 'Big Game or Deer'} Combination license, which is its own draw (<Link href="/montana">odds</Link>). The odds here are the permit draw&apos;s alone.
+          <b>A permit is added to a general license.</b> As a nonresident you also need a {s.species === 'ELK' ? 'Big Game or Elk' : 'Big Game or Deer'} Combination license, drawn at the same time (<Link href="/montana">odds</Link>).
+          {mine.parts ? <> Your odds are both draws: the permit at <b>{pct(mine.parts.permit)}</b> × the {mine.parts.comboName} at <b>{pct(mine.parts.combo)}</b> = <b>{pct(mine.odds)}</b>. So a permit everyone draws is only as sure as your combination draw. FWP doesn&apos;t say how a permit drawn without a combination is handled, so this treats the two as independent. <Link href="/account#hunting-preferences">Change which combination you apply for</Link>.</> : null}
         </div>
       )}
+      {s.species === 'DEER' && po.deer && po.deer.length === 1 && (
+        <p className="small"><b>{po.deer[0] === 'MULE' ? 'Mule deer' : 'Whitetail'} only.</b> {po.mulePermit
+          ? 'Only a permit lets you take a mule deer buck in this district, so success here is FWP\'s estimate of mule bucks taken over the permits issued.'
+          : general ? `Success is FWP's ${po.deer[0] === 'MULE' ? 'mule deer' : 'white-tailed deer'} harvest per deer hunter in the district (FWP doesn't count hunters by deer species).`
+          : 'Success is the district\'s, for all deer hunters: FWP doesn\'t count hunters by license or by deer species, so a rate for this license alone can\'t be read from its estimates.'}</p>
+      )}
+      {po.mulePermitNote && <p className="small muted">Mule bucks per permit: {po.mulePermitNote}. Success below is the district&apos;s, for all deer hunters.</p>}
       {!general && (
         <div className="card" style={{ margin: '12px 0' }}>
           <b>How your points map to FWP&apos;s table.</b> FWP prints the points <i>used</i> in the draw: the ones you have banked plus the one you buy with the application.
@@ -140,7 +148,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
 
       <h2>Hunter Success</h2>
       {po.harvest.length ? (
-        <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th><th className="num">{s.species === 'ELK' ? '6+ pt bulls' : antelope ? 'Bucks' : '4+ pt bucks'}</th></tr></thead>
+        <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">{po.mulePermit ? 'Permits' : 'Hunters'}</th><th className="num">{po.mulePermit ? 'Mule bucks' : 'Harvest'}</th><th className="num">Success</th><th className="num">{s.species === 'ELK' ? '6+ pt bulls' : antelope ? 'Bucks' : '4+ pt bucks'}</th></tr></thead>
           <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{antelope ? (h.harvest ? `${Math.round((100 * h.antlered) / h.harvest)}% of harvest` : '–') : h.antlered ? `${Math.round((100 * h.big) / h.antlered)}% of ${int(h.antlered)}` : '–'}</td></tr>)}</tbody></table>
           <p className="small muted">FWP surveys {spLabel} hunters every other year ({s.species === 'DEER' ? 'odd' : 'even'} years); in other years district hunter counts are not estimated, so those seasons are left out rather than guessed.{antelope ? ' FWP redrew many antelope districts in 2022 and again for 2026, so a season counts only where its district had the same boundary as today.' : ''} {po.harvestBasis}.</p></div>
       ) : <p className="muted">{antelope ? 'No FWP harvest estimate for a season when this license\'s districts had today\'s boundaries. FWP redrew several for 2026, so earlier estimates describe different ground and are left out.' : 'No FWP harvest estimate for this district.'}</p>}

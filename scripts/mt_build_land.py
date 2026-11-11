@@ -239,14 +239,22 @@ def portion_key(props):
     return f"{props['DISTRICT']}{side}"
 
 
-def antelope_history(grid, current, past, errors):
-    """For each 2026 antelope district, which regulation years (FWP sets them for two seasons) drew it the same.
-    Harvest from a season counts only when that season's district matched today's (docs/states/mt-onboarding.md §13)."""
+def district_history(grid, current, past, errors, label, keep):
+    """For each 2026 district, how closely each regulation year's outline (FWP sets districts for two seasons)
+    matched today's. Harvest from a season counts only when that season's district matched (doc §13, §14, §15).
+    A district can come as several features in a year: they are drawn together."""
     by_year = {}
     for f in past:
         p = f["properties"]
-        if p.get("HARVTYPE") == "Special" and p.get("DISTRICT"):
-            by_year.setdefault(int(p["REGYEAR"]), {}).setdefault(str(p["DISTRICT"]), []).append(f)
+        if keep(p) and p.get("DISTRICT"):
+            by_year.setdefault(int(p["REGYEAR"]), {}).setdefault(str(p["DISTRICT"]).strip(), []).append(f)
+    if label == "deer/elk":
+        # The deer/elk/lion layer holds every district twice per regulation year. The copies are identical except
+        # seven in 2026 (410, 621, 622, 630, 650, 652, 700), where the later copy (higher OBJECTID) is the one that
+        # matches the current layer: a revision. So keep the latest copy.
+        for yr in by_year.values():
+            for hd, fs in yr.items():
+                yr[hd] = [max(fs, key=lambda x: x["properties"]["OBJECTID"])]
     out = {}
     for hd, f in current.items():
         ps = polys(f["geometry"])
@@ -266,7 +274,7 @@ def antelope_history(grid, current, past, errors):
                 grid.fill(a, polys(x["geometry"]), True, ox=ox, oy=oy)
             rec[str(ry)] = round(float((a & cur).sum() / (a | cur).sum()), 4)
         if rec.get("2026") is None or rec["2026"] < 0.999:
-            errors.append(f"antelope {hd}: the past-years layer's 2026 outline does not match the current layer ({rec.get('2026')})")
+            errors.append(f"{label} {hd}: the past-years layer's 2026 outline does not match the current layer ({rec.get('2026')})")
         out[hd] = rec
     return out
 
@@ -339,7 +347,10 @@ def main(gis: str) -> None:
         both = sum(ant[k]["acres"] for k in an_por if k[:-1] == hd)
         if abs(both - ant[hd]["acres"]) / ant[hd]["acres"] > 0.01:
             errors.append(f"antelope {hd}: portions {both} acres vs district {ant[hd]['acres']}")
-    history = antelope_history(grid, an_cur, an["past"]["features"], errors)
+    history = district_history(grid, an_cur, an["past"]["features"], errors, "antelope", lambda p: p.get("HARVTYPE") == "Special")
+    de_past = json.load(open(g / "mt-deer-elk-past-5070.json"))["past"]["features"]
+    de_cur = {str(f["properties"]["DISTRICT"]).strip(): f for f in districts}
+    de_history = district_history(grid, de_cur, de_past, errors, "deer/elk", lambda p: True)
     if errors:
         raise SystemExit("land checks failed:\n" + "\n".join(errors[:40]))
 
@@ -349,11 +360,11 @@ def main(gis: str) -> None:
         "resolutionM": RES, "public": sorted(PUBLIC), "statewide": statewide,
         "districts": dict(sorted(info.items())), "antelope": dict(sorted(ant.items()))}, separators=(",", ":")) + "\n")
     (out / "district-history.json").write_text(json.dumps({
-        "source": "FWP Antelope Hunting Districts All Past Years (services3.arcgis.com/Cdxz8r11hT0MGzg1), REGYEAR 2014-2026, "
-                  "compared with the 2026 districts on the 100 m raster",
+        "source": "FWP Antelope Hunting Districts All Past Years and Deer Elk and Mountain Lion Hunting Districts All Past Years "
+                  "(services3.arcgis.com/Cdxz8r11hT0MGzg1), REGYEAR 2014-2026, compared with the 2026 districts on the 100 m raster",
         "measure": "intersection over union of the regulation year's outline with the 2026 outline; null = no district of that number",
         "stableIou": STABLE_IOU,
-        "antelope": dict(sorted(history.items()))}, indent=1) + "\n")
+        "antelope": dict(sorted(history.items())), "deerElk": dict(sorted(de_history.items()))}, indent=1) + "\n")
 
     up = out / "units.json"
     units = json.loads(up.read_text())

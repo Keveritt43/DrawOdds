@@ -21,6 +21,10 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
   const years = r.harvestYears;
   const crowd = crowdVerdict(r.huntersSqMi), success = successVerdict(r.success5, r.species, r.weapon, r.type);
   const notBuying = !general && /not buying/.test(basis);
+  const withCombo = nr && !general && po?.needsGeneral === true;
+  const deer = r.species === 'DEER' && po?.deer?.length === 1 ? (po.deer[0] === 'MULE' ? 'Mule deer' : 'Whitetail') : null;
+  // general licences for one deer species use that species' harvest; drawn licences keep the district's (see builder)
+  const successSub = po?.mulePermit ? 'Mule bucks per permit' : deer && general ? `${deer} harvest per deer hunter` : 'District, all licenses';
   // short pills: Montana names ("HD 652 · General deer") are long, and on a phone a long pill squeezed the name to one word a line
   const kind = /Permit$/.test(po?.license ?? '') ? 'permits' : 'licenses';
   const pill = general ? (nr ? 'General · NR combo draw' : 'General · Over the counter') : /Permit$/.test(po?.license ?? '') ? 'Permit · Bonus points' : po?.license === 'Antelope License' ? 'Antelope · Bonus points' : 'B License · Bonus points';
@@ -42,7 +46,7 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
       <ScoreRow r={r} nr={nr} />
       <div className="hrow-stats three">
         <div>
-          <span className="k">{general && !nr ? 'License' : general ? `Combination draw · ${points ?? 0} pref. pts` : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}`}</span>
+          <span className="k">{general && !nr ? 'License' : general ? `Combination draw · ${points ?? 0} pref. pts` : withCombo ? `Permit × combination · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}` : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}`}</span>
           <b>{pctOdds(odds)}</b>
           <span className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{odds === null ? 'No draw data' : CHANCE_LABEL[chance]}</span>
           <span className="sub">{general && !nr ? 'Resident general license' : `${po?.combo?.year ?? po?.year ?? 'Latest'} draw · last draw, not a forecast`}</span>
@@ -51,7 +55,7 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
           <span className="k">Success {years ? `${years} surveyed seasons` : ''}</span>
           <b>{pct(r.success5)}</b>
           <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
-          <span className="sub">District, all licenses{r.harvestLastYear ? ` · ${r.harvestLastYear}: ${pct(r.successLast)}` : ''}</span>
+          <span className="sub">{successSub}{r.harvestLastYear ? ` · ${r.harvestLastYear}: ${pct(r.successLast)}` : ''}</span>
         </div>
         <div>
           <span className="k">Hunters/mi²</span>
@@ -63,7 +67,8 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
       <div className="small muted" style={{ marginTop: 8 }}>
         Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land: {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
         {r.privateOnly ? ' · This license is valid on private land only: landowner permission needed' : ''}
-        {nr && po?.needsGeneral ? ' · Also needs a general license: for a nonresident, the combination draw' : ''}
+        {withCombo ? ' · Odds include the combination draw this permit needs' : ''}
+        {deer ? ` · ${deer} only` : ''}
         {notBuying ? <> · <Link href="/account#hunting-preferences">Your banked points only count if you buy a point</Link></> : null}
       </div>
     </article>

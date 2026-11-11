@@ -13,7 +13,7 @@
  *            has their banked points ignored: oddsByPts.noBuy.
  * Last draw only: no Montana projection has been backtested, so "next draw" shows the last draw, labelled.
  */
-import type { MtBonusType, MtPoints } from './mtPoints';
+import { mtCombo, type MtBonusType, type MtPoints } from './mtPoints';
 
 /** Labels for the ownership classes in data/mt/land.json (scripts/mt_build_land.py). */
 export const MT_OWNER: Record<string, string> = {
@@ -61,7 +61,13 @@ export interface MtPointOdds {
   needsGeneral?: boolean;
   /** antelope: the regulation districts as FWP prints them (Region 7 areas are "R7:Portions of HDs …") */
   regsDistricts?: string[];
-  combo?: { key: string; name: string; year: number };
+  /** the nonresident combination draws at 0..3 preference points, by FWP drawing ('biggame-elk' | 'deer') */
+  combo?: { key?: string; name?: string; year: number; odds?: Record<string, number[]>; names?: Record<string, string> };
+  /** deer the licence allows: ['MULE'], ['WHITETAIL'] or both */
+  deer?: ('MULE' | 'WHITETAIL')[];
+  /** success is mule bucks per permit (only a permit allows a mule deer buck in the district) */
+  mulePermit?: boolean;
+  mulePermitNote?: string;
 }
 
 export const MT_LICENSE_TYPE: Record<string, MtBonusType> = {
@@ -89,7 +95,22 @@ export const mtIsAntelopeUnit = (u: string) => /^A\d/.test(u);
 
 const at = (a: number[] | undefined, i: number) => (a && a.length ? a[Math.min(Math.max(0, Math.floor(i)), a.length - 1)] : null);
 
-export interface MtPersonal { odds: number | null; points: number | null; buying: boolean | null; basis: string }
+export interface MtPersonal {
+  odds: number | null; points: number | null; buying: boolean | null; basis: string;
+  /** nonresident permit: the combination draw's part and the permit draw's part of `odds` */
+  parts?: { combo: number | null; permit: number | null; comboName: string };
+}
+
+/** The nonresident combination draw that applies to a species for the hunter's chosen combination, or why none. */
+export function mtComboFor(po: MtPointOdds, species: string, p: MtPoints): { odds: number | null; name: string; covered: boolean } {
+  const c = mtCombo(p.comboType);
+  const covered = (c.species as readonly string[]).includes(species);
+  const name = po.combo?.names?.[c.draw] ?? (c.draw === 'deer' ? 'Deer Combination' : 'Big Game / Elk Combination');
+  if (!covered) return { odds: 0, name: c.label.replace(/ \(.*\)$/, ''), covered };
+  const arr = po.combo?.odds?.[c.draw];
+  const pts = Math.min(3, Math.max(0, Math.floor(p.combo)));
+  return { odds: arr ? at(arr, pts) : null, name, covered };
+}
 
 /** A hunter's odds for one Montana hunt from their saved settings. */
 export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLastYear: number | null }, p: MtPoints, nr: boolean): MtPersonal {
@@ -97,9 +118,16 @@ export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLast
   const t = r.oddsByPts as MtOddsTable | null;
   const year = po?.year ?? r.oddsLastYear ?? 'latest';
   if (!po || !t) return { odds: null, points: null, buying: null, basis: 'No draw data' };
+  const species = po.license.startsWith('General Elk') || po.license.startsWith('Elk') ? 'ELK' : 'DEER';
   if (po.kind === 'general') {
     if (!nr) return { odds: 1, points: null, buying: null, basis: 'Resident general licence, over the counter' };
     const pts = Math.min(3, Math.max(0, Math.floor(p.combo)));
+    if (po.combo?.odds) {
+      const c = mtComboFor(po, species, p);
+      return { odds: c.odds, points: pts, buying: null,
+        basis: c.covered ? `${po.combo.year} ${c.name} draw · ${pts} preference point${pts === 1 ? '' : 's'}`
+          : `Your ${c.name} doesn't include ${species === 'ELK' ? 'elk' : 'deer'}: change it in Account` };
+    }
     return { odds: at(t.last.nr, pts), points: pts, buying: null,
       basis: `${po.combo?.year ?? year} ${po.combo?.name ?? 'combination'} draw · ${pts} preference point${pts === 1 ? '' : 's'}` };
   }
@@ -107,12 +135,21 @@ export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLast
   const pool: MtPool = nr ? 'nr' : 'res';
   const banked = type ? p.bonus[type] : 0;
   const buying = type ? p.buying[type] : true;
-  if (!buying) {
-    const o = t.noBuy?.[pool] ?? null;
-    return { odds: o, points: banked, buying, basis: `${year} draw · ${MT_POOL_LABEL[pool]} · not buying a point: your ${banked} banked point${banked === 1 ? ' is' : 's are'} not used` };
+  const permit = !buying ? (t.noBuy?.[pool] ?? null) : at(t.last[pool], banked);
+  const basis = !buying
+    ? `${year} draw · ${MT_POOL_LABEL[pool]} · not buying a point: your ${banked} banked point${banked === 1 ? ' is' : 's are'} not used`
+    : `${year} draw · ${MT_POOL_LABEL[pool]} · ${banked} bonus point${banked === 1 ? '' : 's'} + this year's (FWP's ${banked + 1}-point row)`;
+  // A nonresident's deer or elk permit is only good with a combination licence, drawn at the same time: the chance
+  // of hunting is both draws. Treated as independent; FWP doesn't say how a permit drawn without a combination is
+  // handled, so this is the chance of holding both.
+  if (nr && po.needsGeneral && po.combo?.odds) {
+    const c = mtComboFor(po, species, p);
+    const both = c.odds === null || permit === null ? null : c.odds * permit;
+    return { odds: both, points: banked, buying, parts: { combo: c.odds, permit, comboName: c.name },
+      basis: c.covered ? `${basis} × ${po.combo.year} ${c.name} draw at ${Math.min(3, Math.floor(p.combo))} preference points`
+        : `Your ${c.name} doesn't include ${species === 'ELK' ? 'elk' : 'deer'}, which this permit needs: change it in Account` };
   }
-  return { odds: at(t.last[pool], banked), points: banked, buying,
-    basis: `${year} draw · ${MT_POOL_LABEL[pool]} · ${banked} bonus point${banked === 1 ? '' : 's'} + this year's (FWP's ${banked + 1}-point row)` };
+  return { odds: permit, points: banked, buying, basis };
 }
 
 /** "HD 217" / "HDs 210, 211 …" for cards. */

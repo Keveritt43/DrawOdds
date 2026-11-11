@@ -66,7 +66,7 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
   const nr = isNonresident(r.state, settings);
   if (r.state === 'MT') {
     // unsaved settings: 0 points, buying, nonresident (src/lib/mtPoints.ts readMtPoints defaults)
-    const mt = settings.MT ?? { res: 'NONRESIDENT', combo: 0, bonus: { DEER_PERMIT: 0, ELK_PERMIT: 0, ANTELOPE: 0, DEER_B: 0, ELK_B: 0, ANTELOPE_B: 0 },
+    const mt = settings.MT ?? { res: 'NONRESIDENT', combo: 0, comboType: 'BIG_GAME' as const, bonus: { DEER_PERMIT: 0, ELK_PERMIT: 0, ANTELOPE: 0, DEER_B: 0, ELK_B: 0, ANTELOPE_B: 0 },
       buying: { DEER_PERMIT: true, ELK_PERMIT: true, ANTELOPE: true, DEER_B: true, ELK_B: true, ANTELOPE_B: true }, set: false } as MtPoints;
     const m = mtPersonal(r, mt, nr);
     const opp = opportunity(r.scoreQuality, m.odds);
@@ -154,6 +154,9 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   } else if (r.state === 'MT') {
     const kinds = list(sp, 'mtLic');
     if (kinds.length && !kinds.includes(mtKind(r.pointOdds as unknown as MtPointOdds | null) ?? '')) return false;
+    // mule deer or whitetail: the licence's own regulation rows say which deer it allows (both = either choice)
+    const deer = list(sp, 'mtDeer');
+    if (deer.length && !(r.species === 'DEER' && ((r.pointOdds as unknown as MtPointOdds | null)?.deer ?? ['MULE', 'WHITETAIL']).some((d) => deer.includes(d)))) return false;
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;
