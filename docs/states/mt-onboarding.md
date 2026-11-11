@@ -215,23 +215,33 @@ A sub-district (`212E`) rolls up into its parent family (`212`) for pooling, but
 
 This is where Montana is genuinely weaker than Idaho, Colorado and Wyoming, and the weakness is not the one previously recorded in `western-state-research.md`.
 
-### 5.1 District-level estimates alternate by species — the owner was right
+### 5.1 Harvest is annual; hunter participation alternates — corrected 2026-11-10
 
-Every calendar year 2004–2025 is present in all three files, which is why a first pass reads as full annual coverage. It isn't. In the off years **every district row is zero** and only the statewide row carries data.
+An earlier version of this section said that in off years "every district row is zero and only the statewide
+row carries data". **That was wrong**, and it understated what Montana has. Checked against all three exports:
 
-| Species | Years with district-level data |
-|---|---|
-| Elk | 2004–2012 annually, 2014, 2015, 2016, then **even years only**: 2018, 2020, 2022, 2024 |
-| Deer | 2004–2011 annually, 2013, then **odd years only**: 2017, 2019, 2021, 2023, 2025 |
-| Antelope | 2004–2012 annually, 2014, 2015, then **even years only**: 2018, 2020, 2022, 2024 |
+- **District harvest is estimated every year, 2004–2025**, for 140–168 deer and elk districts and 58–69
+  pronghorn districts. The harvest trend is annual, like Idaho's.
+- **Hunters and days are not.** FWP surveys hunter participation in alternating years by species. In a
+  non-survey year every district's `Hunters` and `Days` read 0 while the harvest columns are populated.
 
-Since 2017 FWP rotates: deer in odd years, elk and antelope in even years. Most recent district-level data is **deer 2025, elk 2024, antelope 2024**.
+| Species | Years hunter participation was surveyed | Latest |
+|---|---|---|
+| Elk | annual 2004–2012, then 2014, 2015, 2016, and even years to 2024 | 2024 |
+| Deer | annual 2004–2011, then 2013 and odd years to 2025 | 2025 |
+| Pronghorn | annual 2004–2012, then 2014, 2015, and even years to 2024 | 2024 |
 
-Consequences:
+Consequences, which are narrower than the earlier note claimed:
 
-- "Five-year success" cannot mean five calendar years. It must mean **five surveyed seasons**, which spans about nine calendar years for elk and antelope. Label it with the actual years on every surface: "5 surveyed seasons (2016, 2018, 2020, 2022, 2024)".
-- Never interpolate a missing year, and never treat a zero row as a zero harvest. A zero district row in an off year means *not estimated*, and must be read as null before any aggregation.
-- Deer and elk success figures for the same district will come from different years. On a combined deer/elk page this must be stated, not smoothed over.
+- **Harvest trend: annual.** No special handling beyond labelling the source.
+- **Harvest success and hunter density: surveyed years only.** Both need a hunter count, so both are
+  limited to the table above. "Five-year success" means five *surveyed* seasons — about nine calendar
+  years for elk and pronghorn — and must be labelled with the actual years on every surface.
+- Deer and elk success for the same district will always come from different years. On a combined page
+  that has to be stated, not smoothed over.
+- A zero `Hunters` in a non-survey year means *not estimated*. `scripts/mt_build_harvest.ts` stores it as
+  **null**, never 0, and never interpolates. A district reporting hunters in a year classed as unsurveyed
+  fails the build.
 
 ### 5.2 Hunter counts are not additive across districts
 
