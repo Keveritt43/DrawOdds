@@ -183,7 +183,7 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
 
 /** Montana Block Management filters (`mtMinBma`, `mtMinHuntable`, `mtHasBma`, `mtBma2`). Type 2 is added only
  *  with `mtBma2=1`. A private-land-only licence has no public land, but BMA ground (private) still counts for it. */
-export function matchesMtBma(r: Pick<CoScored, 'units' | 'species' | 'publicPct' | 'privateOnly'>, sp: SearchParams): boolean {
+export function matchesMtBma(r: { units: string[]; species: string; publicPct: number | null; privateOnly?: boolean | null }, sp: SearchParams): boolean {
   const minBma = param(sp, 'mtMinBma'), minHunt = param(sp, 'mtMinHuntable'), has = param(sp, 'mtHasBma') === '1';
   if (!minBma && !minHunt && !has) return true;
   const two = param(sp, 'mtBma2') === '1';
