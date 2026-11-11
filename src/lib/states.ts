@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -98,6 +98,26 @@ export const STATES: Record<StateCode, StateConfig> = {
     species: ['DEER', 'ELK', 'PRONGHORN'],
     bounds: [[-111.06, 40.99], [-104.05, 45.01]],
     // hunt areas differ by species: units are stored per species ("A1" antelope, "D1" deer, "E1" elk)
+    features: { elkZones: false, nrGeneralTagDraw: true, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  MT: {
+    code: 'MT',
+    name: 'Montana',
+    slug: 'montana',
+    // Not in the state picker or the finder: only the statewide nonresident combination draw is modelled so far
+    // (/montana). Montana has no hunt, unit, harvest or land rows yet, so a Montana search would come back empty.
+    enabled: false,
+    agency: { short: 'FWP', name: 'Montana Fish, Wildlife & Parks', url: 'https://fwp.mt.gov/hunt' },
+    // FWP's Block Management opens private land to public hunting; not modelled yet, so not claimed here.
+    accessProgram: null,
+    privateLandOnly: 'not yet determined — the 2025 regulations district tables have not been parsed (docs/states/mt-onboarding.md §6)',
+    // Nonresident combination licenses: 75% by preference points (capped at 3), 25% random among ZERO-point
+    // applicants only, so anyone above zero and below the cutoff draws at 0%. Permits and B licenses use a
+    // separate uncapped squared bonus-point system that is not modelled. See src/lib/mtOdds.ts.
+    points: 'preference-random',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-116.05, 44.35], [-104.04, 49.01]],
     features: { elkZones: false, nrGeneralTagDraw: true, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };
