@@ -39,7 +39,10 @@
   const ringArea = (r) => { let a = 0; for (let i = 0; i < r.length; i++) { const [x1, y1] = r[i], [x2, y2] = r[(i + 1) % r.length]; a += x1 * y2 - x2 * y1; } return Math.abs(a) / 2; };
   const polyArea = (p) => ringArea(p[0]) - p.slice(1).reduce((s, h) => s + ringArea(h), 0);
 
+  const cache = (window.mtBmaCache ??= {}); // reruns in the same tab skip the downloads
   async function getAll(url, params) {
+    const ck = url + JSON.stringify(params);
+    if (cache[ck]) return cache[ck];
     const ids = (await fetch(url + new URLSearchParams({ ...params, returnIdsOnly: true, f: 'json' })).then((r) => r.json())).objectIds || [];
     ids.sort((a, b) => a - b);
     const out = [];
@@ -48,9 +51,9 @@
       delete q.where;
       const j = await fetch(url + new URLSearchParams(q)).then((r) => r.json());
       if (!j.features) throw new Error('fetch failed: ' + url + ' ' + JSON.stringify(j).slice(0, 200));
-      out.push(...j.features);
+      for (const x of j.features) out.push(x);
     }
-    return out;
+    return (cache[ck] = out);
   }
 
   class Grid {
@@ -90,17 +93,19 @@
       .filter((f) => /North|South/.test(f.properties.PORTIONNAME || ''));
     log.push(`districts: deer/elk ${de.length}, antelope ${an.length}, portions ${por.length}`);
 
-    const xs = [], ys = [];
-    for (const f of de) for (const p of polys(f.geometry)) for (const [x, y] of p[0]) { xs.push(x); ys.push(y); }
+    let mnx = Infinity, mny = Infinity, mxx = -Infinity, mxy = -Infinity; // no Math.min(...xs): too many args
+    for (const f of de) for (const p of polys(f.geometry)) for (const [x, y] of p[0]) {
+      if (x < mnx) mnx = x; if (x > mxx) mxx = x; if (y < mny) mny = y; if (y > mxy) mxy = y;
+    }
     const pad = 600 * RES;
-    const grid = new Grid(Math.min(...xs) - 1000 - pad, Math.min(...ys) - 1000 - pad, Math.max(...xs) + 1000 + pad, Math.max(...ys) + 1000 + pad);
+    const grid = new Grid(mnx - 1000 - pad, mny - 1000 - pad, mxx + 1000 + pad, mxy + 1000 + pad);
     log.push(`grid ${grid.w} x ${grid.h}`);
 
     // ownership, largest parcel first (as mt_build_land.py)
     const smaIds = (await fetch(SMA + new URLSearchParams({ where: "ADMIN_ST='MT'", returnIdsOnly: true, f: 'json' })).then((r) => r.json())).objectIds;
     const parts = [];
     for (const id of smaIds) {
-      const j = await fetch(SMA + new URLSearchParams({ objectIds: id, outFields: 'ADMIN_AGENCY_CODE', outSR: 5070, geometryPrecision: 0, f: 'geojson' })).then((r) => r.json());
+      const j = (cache['sma' + id] ??= await fetch(SMA + new URLSearchParams({ objectIds: id, outFields: 'ADMIN_AGENCY_CODE', outSR: 5070, geometryPrecision: 0, f: 'geojson' })).then((r) => r.json()));
       for (const f of j.features) {
         const cls = AGENCY[f.properties.ADMIN_AGENCY_CODE];
         if (!cls) throw new Error('unmapped agency ' + f.properties.ADMIN_AGENCY_CODE);
