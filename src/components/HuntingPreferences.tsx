@@ -6,8 +6,10 @@ import type { Residency } from '@prisma/client';
 import type { StatePoints } from '@/lib/points';
 import { POINT_SPECIES, SPECIAL_POINT_SPECIES } from '@/lib/states';
 import { SPECIES_LABEL } from '@/lib/format';
+import Link from 'next/link';
+import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, type MtPoints } from '@/lib/mtPoints';
 
-export function HuntingPreferences({ idaho, colorado, wyoming }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints }) {
+export function HuntingPreferences({ idaho, colorado, wyoming, montana }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
@@ -17,6 +19,10 @@ export function HuntingPreferences({ idaho, colorado, wyoming }: { idaho: Reside
   const [wyResidency, setWyResidency] = useState(wyoming?.res ?? 'NONRESIDENT');
   const [wyPoints, setWyPoints] = useState({ DEER: String(wyoming?.DEER ?? 0), ELK: String(wyoming?.ELK ?? 0), PRONGHORN: String(wyoming?.PRONGHORN ?? 0) });
   const [wySpecial, setWySpecial] = useState(wyoming?.wySpecial === true);
+  const [mtResidency, setMtResidency] = useState<Residency>(montana?.res ?? 'NONRESIDENT');
+  const [mtCombo, setMtCombo] = useState(String(montana?.combo ?? 0));
+  const [mtBonus, setMtBonus] = useState(Object.fromEntries(MT_BONUS_TYPES.map(t => [t.key, String(montana?.bonus[t.key] ?? 0)])));
+  const [mtBuying, setMtBuying] = useState(Object.fromEntries(MT_BONUS_TYPES.map(t => [t.key, montana?.buying[t.key] ?? true])));
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
   return (
     <form className="card account-preferences" action={save} id="hunting-preferences" onSubmit={event => {
@@ -84,6 +90,50 @@ export function HuntingPreferences({ idaho, colorado, wyoming }: { idaho: Reside
         </div>
         <label className="account-youth"><input type="checkbox" name="wySpecial" checked={wySpecial} onChange={e => setWySpecial(e.target.checked)} /> Apply in the nonresident special pool (higher license fee, separate quota)</label>
       </fieldset>
+      {montana && <fieldset>
+        <legend>Montana</legend>
+        <label>Residency
+          <select name="mtResidency" value={mtResidency} onChange={e => setMtResidency(e.target.value as Residency)}>
+            <option value="RESIDENT">Resident</option>
+            <option value="NONRESIDENT">Nonresident</option>
+          </select>
+        </label>
+        <h3>Combination License Preference Points</h3>
+        <p className="small muted">
+          The draw every nonresident needs before hunting deer or elk. One balance, {MT_COMBO_CAP} at most. You lose
+          it when you draw, and also if you hold points and don&apos;t apply in the next drawing (buying a point-only
+          doesn&apos;t save it). Applicants with <b>some</b> points but fewer than the cutoff have drawn <b>nothing</b> since 2022.{' '}
+          <Link href="/montana">See why</Link>.
+        </p>
+        <div className="account-points">
+          <label>Combination preference points
+            <input type="number" name="mtCombo" min={0} max={MT_COMBO_CAP} step={1} required value={mtCombo}
+              disabled={mtResidency === 'RESIDENT'} onChange={e => setMtCombo(e.target.value)} />
+          </label>
+        </div>
+        {mtResidency === 'RESIDENT' && <>
+          <input type="hidden" name="mtCombo" value={mtCombo} />
+          <p className="small muted">Residents buy general deer and elk licenses over the counter, so this balance isn&apos;t used.</p>
+        </>}
+        <h3>Bonus Points (Permits &amp; B Licenses)</h3>
+        <p className="small muted">
+          A separate balance for each license type. Your saved points <b>only count in a drawing if you buy a bonus point
+          with that application</b>; otherwise you keep them, but enter with a single chance that year.
+        </p>
+        <div className="account-special-points">
+          {MT_BONUS_TYPES.map(({ key, label }) => <div key={key}>
+            <b>{label}</b>
+            <div className="account-points">
+              <label>Bonus points
+                <input type="number" name={'mtBonus_' + key} min={0} max={MT_BONUS_MAX} step={1} required value={mtBonus[key]}
+                  onChange={e => setMtBonus({ ...mtBonus, [key]: e.target.value })} />
+              </label>
+              <label className="account-youth"><input type="checkbox" name={'mtBuy_' + key} checked={mtBuying[key]}
+                onChange={e => setMtBuying({ ...mtBuying, [key]: e.target.checked })} /> Buying a point this year</label>
+            </div>
+          </div>)}
+        </div>
+      </fieldset>}
       <div className="account-save">
         <button className="btn primary" type="submit" disabled={pending}>{pending ? 'Saving…' : 'Save Preferences'}</button>
         <span role={result.message && !result.saved ? 'alert' : 'status'}>{result.message}</span>
