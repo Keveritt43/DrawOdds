@@ -21,9 +21,10 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
   const years = r.harvestYears;
   const crowd = crowdVerdict(r.huntersSqMi), success = successVerdict(r.success5, r.species, r.weapon, r.type);
   const notBuying = !general && /not buying/.test(basis);
-  const pill = general ? (nr ? 'General · Combination draw for nonresidents' : 'General · Over the counter') : /Permit$/.test(po?.license ?? '') ? 'Permit · Bonus-point draw' : 'B License · Bonus-point draw';
+  // short pills: Montana names ("HD 652 · General deer") are long, and on a phone a long pill squeezed the name to one word a line
+  const pill = general ? (nr ? 'General · NR combo draw' : 'General · Over the counter') : /Permit$/.test(po?.license ?? '') ? 'Permit · Bonus points' : 'B License · Bonus points';
   return (
-    <article className="hrow co-row">
+    <article className="hrow co-row mt-row">
       <div className="hrow-top">
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
@@ -31,7 +32,7 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
           <span className={`pill ${general ? 'gen' : 'ctl'}`}>{pill}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />
-        <span className="small muted tags">{general ? (nr ? 'Statewide combination quota' : 'No quota') : r.tags === null ? 'Unlimited' : `${int(r.tags)} ${/Permit$/.test(po?.license ?? '') ? 'permits' : 'licenses'} (${po?.year ?? 'latest'})`}</span>
+        <span className="small muted tags">{general ? (nr ? 'Statewide combination quota' : 'No quota') : r.tags === null ? 'Unlimited' : `${int(r.tags)} ${/Permit$/.test(po?.license ?? '') ? 'permits' : 'licenses'}`}</span>
       </div>
       <div className="dates">
         {[general ? r.areaName : mtDistricts(r.units), r.takeMethod, seasonsSummary(r.tagSeasons) || dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land only' : '']

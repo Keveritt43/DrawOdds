@@ -316,6 +316,7 @@ table.results tr.old td { opacity: .45; }
 .hrow-foot { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; margin-top: 8px; font-size: .82rem; }
 .hrow-foot b { font-weight: 700; }
 .hrow-top .tags { text-align: right; }
+.mt-row .star-head { flex-wrap: wrap; } .mt-row .star-head > a { white-space: nowrap; }
 .ucard.single { padding: 8px 12px; }
 .ucard.single .hrow { margin: 0; background: var(--card); border: 0; padding: 4px 2px; }
 .zcard .ztags { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 6px; }
