@@ -108,8 +108,9 @@ export function MtCutoffHistoryChart({ licenseKey, title }: { licenseKey: string
         </LineChart>
       </Frame>
       <p className="small muted">
-        Last {rows.length} draws. The cutoff has sat at {levels.length === 1 ? <>the <b>{levels[0]}</b>-point level throughout</> : <>point level {levels.sort((a, b) => a - b).join(' then ')}</>},
-        so what moves year to year is how much of that level got through — not how many points it takes to be in the running.
+        Last {rows.length} draws. {levels.length === 1
+          ? <>The cutoff has sat at the <b>{levels[0]}</b>-point level in every one, so what moves year to year is how much of that level got through, not how many points put you in the running. </>
+          : <>The cutoff moved from the <b>{Math.min(...levels)}</b>-point level to the <b>{Math.max(...levels)}</b>-point level, and the share drawn at it has swung as well — both can change. </>}
         No projection: see the page notes.
       </p>
     </div>
