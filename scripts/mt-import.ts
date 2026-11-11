@@ -62,7 +62,10 @@ async function main() {
   const scores = scoreHunts(hunts.hunts.map((h) => ({
     id: h.id, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
-    publicPct: null, huntablePct: null, bigPct5: num(h.bigPct5), resOdds5: null, nrOdds5: null,
+    // publicPct stays null until Montana's public land is measured, and score.ts deliberately gives no Quality
+    // without land rather than inflating the other weights: Montana hunts import unscored until then.
+    publicPct: null, huntablePct: null, bigPct5: num(h.bigPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
+    resOdds5: null, nrOdds5: null,
   })));
   const huntRows: Prisma.HuntCreateManyInput[] = hunts.hunts.map((h) => ({
     idfgId: syntheticId(h.id), state: 'MT', year: hunts.drawYear + 1, species: h.species, type: h.type, code: h.tagCode,
