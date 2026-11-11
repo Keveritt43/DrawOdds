@@ -66,9 +66,11 @@ export function MtFinderNotice({ only }: { only: boolean }) {
     <div className="ucard">
       <h2>Montana is not in Find Hunts yet</h2>
       <p>
-        Montana&apos;s hunting districts, harvest estimates and public-land figures are not loaded, so it contributes
-        no rows here{only ? '' : ' — the results below are the other states you selected'}. What Montana does have is
-        the draw that decides whether a nonresident hunts there at all.
+        Montana&apos;s district boundaries and harvest estimates are in, but its hunt list isn&apos;t built yet: which
+        districts are general and which need a permit, and the permit draw odds from FWP&apos;s reports. Until then it
+        contributes no rows here{only ? '' : ' — the results below are the other states you selected'}. Public land
+        isn&apos;t measured for Montana yet either. What Montana does have now is the draw that decides whether a
+        nonresident hunts there at all.
       </p>
       <p><Link className="btn" href="/montana">Montana: the nonresident combination draw</Link></p>
     </div>
