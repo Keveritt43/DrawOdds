@@ -22,7 +22,8 @@ export function searchStates(value: string | string[] | undefined, fallback: Sta
 
 export const searchUnitKey = (state: string, unit: string) => `${state}:${unit}`;
 /** Keep state-qualified keys in filters; only the displayed unit label is bare. */
-export const searchUnitLabel = (key: string) => key.replace(/^[A-Z]{2}:/, '');
+// Montana antelope districts are keyed "A320" (deer/elk use the same numbers), but a hunter reads them as 320
+export const searchUnitLabel = (key: string) => key.replace(/^MT:A(?=\d)/, '').replace(/^[A-Z]{2}:/, '');
 
 export function searchBounds(states: StateCode[]): [[number, number], [number, number]] {
   const boxes = states.map(s => STATES[s].bounds);

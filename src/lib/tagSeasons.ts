@@ -92,7 +92,8 @@ export const RULE_HELP: Record<string, string> = {
 export function seasonsClass(seasons: { sex: string }[]): 'ANTLERED' | 'ANTLERLESS' | 'EITHER' {
   const sx = seasons.map((x) => x.sex.replace(/^[AB] tag · /i, '').toLowerCase());
   const any = (x: string) => /any (elk|deer)|either|spike or antlerless|antlerless or spike/.test(x);
-  const f = sx.some((x) => any(x) || /^antlerless/.test(x));
+  // Montana antelope B licences are printed "Doe/Fawn"
+  const f = sx.some((x) => any(x) || /^antlerless|^doe\b|doe\/fawn/.test(x));
   const m = sx.some((x) => any(x) || /^antlered|spike|brow-tined|bull/.test(x));
   return f && m ? 'EITHER' : f ? 'ANTLERLESS' : m ? 'ANTLERED' : 'EITHER';
 }

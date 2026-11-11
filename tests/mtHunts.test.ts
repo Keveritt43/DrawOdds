@@ -70,3 +70,18 @@ test('antelope: drawn by bonus points at the antelope balance, its own filter ki
   assert.equal(mtPersonal(h as never, pts({ mtBonus: { DEER_PERMIT: 9 } }), false).odds, h.oddsByPts.last.res[0]);
   assert.deepEqual(by('MT:antelope:007-21').units, ['A700', 'A701N', 'A703N']);
 });
+
+test('antelope B licences ("Doe/Fawn") are antlerless in search; antelope districts read as plain numbers', async () => {
+  const { seasonsClass } = await import('../src/lib/tagSeasons');
+  const { searchUnitLabel } = await import('../src/lib/searchStates');
+  assert.equal(seasonsClass([{ sex: 'Doe/Fawn' }]), 'ANTLERLESS');
+  assert.equal(seasonsClass([{ sex: 'Either-sex' }]), 'EITHER');
+  assert.equal(searchUnitLabel('MT:A320'), '320');
+  assert.equal(searchUnitLabel('MT:A701N'), '701N');
+  assert.equal(searchUnitLabel('WY:A23'), 'A23'); // Wyoming keeps its species letter
+  const settings: HunterSettings = { ID: 'RESIDENT', CO: { res: 'RESIDENT', DEER: 0, ELK: 0, PRONGHORN: 0 } as never, MT: pts({}) };
+  const row = (h: H) => ({ ...h, openDate: h.openDate ? new Date(String(h.openDate)) : null, closeDate: h.closeDate ? new Date(String(h.closeDate)) : null, huntNumber: null, scoreQuality: 50 }) as unknown as CoScored;
+  const sp = { antler: 'ANTLERED' };
+  assert.equal(matchesSearch(evaluateHunt(row(by('MT:antelope-b:546-30')), settings, 'proj'), searchFilters(sp), sp), false);
+  assert.equal(matchesSearch(evaluateHunt(row(by('MT:antelope:546-20')), settings, 'proj'), searchFilters(sp), sp), true);
+});
