@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { MtCombo } from '@/components/MtCombo';
-import { MT_SOURCE, mtLicense, mtLatestYear, mtRandomShare } from '@/lib/mtOdds';
+import { MT_SOURCE, mtLicense, mtLatestYear, mtRandomShare, mtYears } from '@/lib/mtOdds';
 
 export const metadata = {
   title: 'Montana: The Nonresident Combination Draw',
@@ -12,7 +12,9 @@ export default function MontanaPage() {
   const year = mtLatestYear('biggame-elk');
   const randomShare = mtRandomShare('biggame-elk');
   const lo = mtLicense('biggame-elk-landowner');
-  const src = MT_SOURCE as { title: string; url: string; retrieved: string; agency: string };
+  const years = mtYears('biggame-elk');
+  const firstYear = years[years.length - 1];
+  const src = MT_SOURCE as { listing: string; retrieved: string; agency: string };
 
   return (
     <main className="wrap" style={{ maxWidth: 900, margin: '24px auto 48px' }}>
@@ -34,7 +36,7 @@ export default function MontanaPage() {
       </div>
 
       <h2>What it took, and what you have</h2>
-      <p className="small muted">Pick your point balance to see where you would have landed in the {year} draw.</p>
+      <p className="small muted">Pick your point balance to see where you would have landed in the {year} draw, and what the {years.length} draws before it did.</p>
       <MtCombo />
 
       {lo && (
@@ -67,11 +69,13 @@ export default function MontanaPage() {
 
       <h2>Where these numbers come from</h2>
       <p className="small muted">
-        {src.agency}, <a href={src.url} rel="nofollow">{src.title}</a> (checked {src.retrieved}). Applicant counts are first choices.
-        Every level&apos;s applicants sum to the total the report prints, and the share drawn at random comes to{' '}
-        {randomShare == null ? 'about a quarter' : `${(randomShare * 100).toFixed(1)}%`} of the licenses, matching the 75/25 rule.
-        Licenses and fees change; check FWP before applying. <Link href="/guide">How Idaho&apos;s draw works</Link> ·{' '}
-        <Link href="/hunts">Find Hunts</Link>
+        {src.agency} <a href={src.listing} rel="nofollow">drawing statistics</a>, the {firstYear}&ndash;{year} reports
+        (checked {src.retrieved}). Applicant counts are first choices. Each report restates the previous year, and where two
+        reports cover the same draw they agree exactly. The share drawn at random comes to{' '}
+        {randomShare == null ? 'about a quarter' : `${(randomShare * 100).toFixed(1)}%`} of the licenses, matching the 75/25 rule
+        in every draw back to {firstYear}. Two of FWP&apos;s own printed totals do not quite close (2023 big game is 90 applicants
+        short, 2021 deer by one) and are shown as published. Licenses and fees change; check FWP before applying.{' '}
+        <Link href="/guide">How Idaho&apos;s draw works</Link> · <Link href="/hunts">Find Hunts</Link>
       </p>
     </main>
   );

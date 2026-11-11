@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { MtComboPointsChart } from './MtCharts';
+import { MtComboPointsChart, MtCutoffHistoryChart } from './MtCharts';
 import { mtComboOdds, mtCutoff, mtDrawn, mtLatestYear, mtLicense, mtPointsToDraw, MT_POINTS_CAP } from '@/lib/mtOdds';
 
 const PCT = (v: number) => `${(v * 100).toFixed(1)}%`;
@@ -86,6 +86,9 @@ export function MtCombo() {
             <h2>{lic.name}</h2>
             {lic.note && <p className="small muted">{lic.note}</p>}
             <MtComboPointsChart licenseKey={k} title={`${year} draw — chance by preference points`} myPoints={points} />
+            <div style={{ marginTop: 16 }}>
+              <MtCutoffHistoryChart licenseKey={k} title="What it took, draw by draw" />
+            </div>
             <table className="data" style={{ marginTop: 12, width: '100%' }}>
               <caption className="small muted" style={{ captionSide: 'bottom', textAlign: 'left', paddingTop: 6 }}>
                 {year} draw. {mtDrawn(k, year)?.toLocaleString()} licenses issued to {lic.years[String(year)].totalApps.toLocaleString()} first-choice applicants

@@ -33,10 +33,19 @@ export interface MtLevel {
   drawn: number;
   /** FWP prints no success count where everyone drew; `drawn` is then the applicant count. */
   drawnDerived?: boolean;
+  /** The band is absent from FWP's report and was reconstructed from the printed total (2022 big game). */
+  inferred?: boolean;
   /** null where nobody applied at that level — unknown, not 0%. */
   pct: number | null;
 }
-export interface MtYear { totalApps: number; levels: MtLevel[] }
+export interface MtYear {
+  totalApps: number;
+  /** Printed total minus the sum of the printed bands, where FWP's own arithmetic does not close. */
+  totalMismatch?: number;
+  /** Which report file(s) this draw was read from. */
+  sources?: string[];
+  levels: MtLevel[];
+}
 export interface MtLicense {
   key: string;
   name: string;
@@ -145,6 +154,41 @@ export function mtPointsToDraw(key: string, year?: number): number | null {
   if (!cut) return null;
   const above = mtLevels(key, year).find((l) => l.min > cut.max);
   return above ? above.min : null;
+}
+
+export interface MtCutoffYear {
+  year: number;
+  /** Lowest point level that drew in full, or null where even the top level was partial. */
+  drewInFull: number | null;
+  /** The partial level, and the share of it that drew. null where everyone drew. */
+  cutoff: number | null;
+  cutoffPct: number | null;
+  /** Chance for an applicant holding no points at all, drawn from the random quarter. */
+  zeroPct: number | null;
+  /** Licenses issued, summed from the published levels. */
+  drawn: number;
+}
+
+/**
+ * What it took each year, oldest first. This is history, not a forecast — Montana's cutoff has sat at the
+ * same point level while the share drawn at it swung widely, so the useful thing to show a hunter is the
+ * run of past cutoffs rather than a projected one.
+ */
+export function mtCutoffHistory(key: string): MtCutoffYear[] {
+  return mtYears(key).slice().reverse().map((year) => {
+    const levels = mtLevels(key, year);
+    const cut = mtCutoff(key, year);
+    const above = cut ? levels.find((l) => l.min > cut.max) : levels.find((l) => l.min > 0);
+    const zero = levels.find((l) => l.min === 0 && l.max === 0);
+    return {
+      year,
+      drewInFull: above ? above.min : null,
+      cutoff: cut ? cut.min : null,
+      cutoffPct: cut?.pct ?? null,
+      zeroPct: zero?.pct ?? null,
+      drawn: levels.reduce((a, l) => a + l.drawn, 0),
+    };
+  });
 }
 
 /** Share of the licenses drawn at random among zero-point applicants (0-1). Montana publishes no quota. */
