@@ -2,14 +2,14 @@
 
 Use one copy of this checklist per state and release scope. Record evidence, links, dates, owners and outstanding gaps; mark an item not applicable with a reason rather than implying it passed. The goal is to extend the existing Idaho and Colorado experience and database to a unified search across all integrated states. See [AGENTS.md](../AGENTS.md), [multi-state search](multi-state-search.md) and [western state research](western-state-research.md). The checklist does not authorize production data operations.
 
-State-specific starting worksheets: [Wyoming](states/wy-onboarding.md), [Utah](states/ut-onboarding.md), [Washington](states/wa-onboarding.md), [Arizona](states/az-onboarding.md).
+State-specific starting worksheets: [Wyoming](states/wy-onboarding.md), [Montana](states/mt-onboarding.md), [Utah](states/ut-onboarding.md), [Washington](states/wa-onboarding.md), [Arizona](states/az-onboarding.md).
 
 ## Scope and sources
 
 - [ ] Define state, species, hunt types, years, eligible users and intended release; identify unsupported or partial features. Inspect current Idaho/Colorado integrations, state registry, schema, shared finder and UI before choosing reusable extensions.
 - [ ] Inventory official regulations, draw reports, harvest surveys, season dates, boundaries, land and access data, population data and fees where available. Record URLs, access terms, attribution, publication date, season year, format, update cadence, coverage, source granularity and missing or revised years.
 - [ ] Record hunt codes, unit/area identifiers and stable state-qualified keys. Investigate boundary changes, split/merged units, multi-unit hunts and changes in reporting geography before joining or aggregating across years.
-- [ ] Assess source reliability and agency estimation methods. For Montana, verify the owner's reported harvest-data limitations and cadence against current FWP reports; investigate validated supplemental metrics and leave unsupported scores unknown. Do not duplicate biennial observations or assume missing years are zero.
+- [ ] Assess source reliability and agency estimation methods. For Montana, this was done on 2026-11-10 — see [states/mt-onboarding.md](states/mt-onboarding.md) §5: district-level estimates rotate by species (deer odd years, elk and antelope even years since 2017), off-year district rows are zeros meaning "not estimated", rollup rows (`State`, `Reg_n`, `nXX`, `XXX`) sit in the same column as districts, and hunter counts are not additive across districts. Investigate validated supplemental metrics and leave unsupported scores unknown. Do not duplicate biennial observations or assume missing years are zero.
 
 ## Draw rules and data pipeline
 
