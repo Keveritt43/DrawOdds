@@ -1,5 +1,6 @@
 import { HomeStatePicker } from '@/components/HomeStatePicker';
 import { MultiQuickStart } from '@/components/MultiQuickStart';
+import { MtQuickStart } from '@/components/MtHome';
 import { searchStates } from '@/lib/searchStates';
 import { CoQuickStart } from '@/components/CoQuickStart';
 import Link from 'next/link';
@@ -16,6 +17,8 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
   const current = (await getState()).code;
   const states = searchStates(params.states, current);
   if (states.length > 1) return <MultiQuickStart states={states} />;
+  // Montana has no hunt rows, so the generic Quick Start would send the hunter to an empty search.
+  if (states.length === 1 && states[0] === 'MT') return <MtQuickStart />;
   if ((await getState()).code === "CO") {
     return (
       <main><section className="home-hero"><div className="inner"><div>
