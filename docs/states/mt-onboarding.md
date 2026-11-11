@@ -654,7 +654,7 @@ types counts as Type 1. Results were read out of the tab and checked against an 
 - Find Hunts: "Montana: Block Management" (`mtMinBma`, `mtMinHuntable`, `mtHasBma`, `mtBma2`); card line; hunt page
   and district page tables; finder map "Public + Block Mgmt Type 1 %".
 - Map layers: FWP's live outlines (FWP's service answers this site's cross-site requests), Type 1 purple, Type 2
-  orange dashed, cut-outs dark grey, popups linking FWP's PDF map for the BMA.
+  teal dashed, cut-outs dark grey, popups linking FWP's PDF map for the BMA.
 
 **Refresh each season**: re-run both browser scripts on the new guide and enrolment, then `mt_build_bma.py`,
 `mt_build_hunts.py`, and the import as a reviewed dry run.

@@ -73,7 +73,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
       </div>
       <div className="small muted" style={{ marginTop: 8 }}>
         Draw and fill{parts ? ' (both draws)' : ''}: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land: {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
-        {bma && (bma.n1 > 0 || bma.n2 > 0) ? <> · Block Mgmt: <b>Type 1 {bmaPct(bma.t1Pct)}</b>{bma.n2 > 0 ? ` · Type 2 ${bmaPct(bma.t2Pct)} (permission needed)` : ''}</> : bma ? ' · No Block Management' : ''}
+        {bma && (bma.t1 > 0 || bma.t2 > 0) ? <> · Block Mgmt: {bma.t1 > 0 ? <b>Type 1 {bmaPct(bma.t1Pct)}</b> : 'no Type 1'}{bma.t2 > 0 ? ` · Type 2 ${bmaPct(bma.t2Pct)} (permission needed)` : ''}</> : bma ? ' · No Block Management' : ''}
         {r.privateOnly ? ' · This license is valid on private land only: landowner permission needed' : ''}
         {withCombo && parts ? ` · Chance to hold both: ${pctOdds(odds)}` : ''}
         {deer ? ` · ${deer} only` : ''}

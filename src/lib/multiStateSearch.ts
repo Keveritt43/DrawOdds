@@ -189,7 +189,8 @@ export function matchesMtBma(r: { units: string[]; species: string; publicPct: n
   const two = param(sp, 'mtBma2') === '1';
   const b = mtBma(r.units, r.species);
   const access = mtAccessPct(b, two);
-  if (has && !(b && (b.n1 > 0 || (two && b.n2 > 0)))) return false;
+  // enrolled private acres, not a count: a BMA touching the district only on public parcels adds nothing
+  if (has && !(b && (b.t1 > 0 || (two && b.t2 > 0)))) return false;
   if (minBma && !atLeast(access, Number(minBma))) return false;
   if (minHunt) {
     const pub = r.privateOnly ? 0 : r.publicPct;
