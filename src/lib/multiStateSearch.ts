@@ -7,7 +7,7 @@ import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
-export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS } from './searchStates';
+export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import { wyHuntWilderness } from './wyWilderness';
 import type { StatePoints } from './points';
@@ -17,9 +17,11 @@ import { coSpecial, specialCounts } from './coSpecial';
 import { specialPersonalOdds, specialOddsBasis, specialPointSetting } from './coSpecialPoints';
 import { chanceOf } from './coOdds';
 import { isPrivateOnly, showPrivate } from './privateLand';
+import { mtKind, mtPersonal, type MtPointOdds } from './mtHunt';
+import type { MtPoints } from './mtPoints';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
-export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints };
+export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints };
 export interface SearchResult {
   r: CoScored;
   odds: number | null;
@@ -47,7 +49,7 @@ export function searchFilters(sp: SearchParams): Filters {
 /** All personal values are derived on copies; the public cached rows are never modified. */
 /** Residency for a row's state: Idaho's profile residency, else that state's saved settings. */
 export const isNonresident = (state: string, settings: HunterSettings) =>
-  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
+  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
 
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
   const nr = isNonresident(r.state, settings);
@@ -62,6 +64,14 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
 export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
   const nr = isNonresident(r.state, settings);
+  if (r.state === 'MT') {
+    // unsaved settings: 0 points, buying, nonresident (src/lib/mtPoints.ts readMtPoints defaults)
+    const mt = settings.MT ?? { res: 'NONRESIDENT', combo: 0, bonus: { DEER_PERMIT: 0, ELK_PERMIT: 0, ANTELOPE: 0, DEER_B: 0, ELK_B: 0, ANTELOPE_B: 0 },
+      buying: { DEER_PERMIT: true, ELK_PERMIT: true, ANTELOPE: true, DEER_B: true, ELK_B: true, ANTELOPE_B: true }, set: false } as MtPoints;
+    const m = mtPersonal(r, mt, nr);
+    const opp = opportunity(r.scoreQuality, m.odds);
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: m.points, basis: m.basis };
+  }
   if (r.state === 'WY') {
     const wy = settings.WY;
     const points = nr ? wy?.[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
@@ -141,6 +151,9 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     if (wild === 'none' || wild === 'has') {
       if ((wild === 'has') !== (wyHuntWilderness(r.units).length > 0)) return false;
     }
+  } else if (r.state === 'MT') {
+    const kinds = list(sp, 'mtLic');
+    if (kinds.length && !kinds.includes(mtKind(r.pointOdds as unknown as MtPointOdds | null) ?? '')) return false;
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;

@@ -482,10 +482,50 @@ Open question for the owner: **should Montana launch with the nonresident combin
 2. **Done for 2021–2026.** `scripts/mt_parse_nr_combo.ts` parses the narrative reports; `scripts/mt_build_nr_combo.ts` merges them into `data/mt/nr-combo.json` and fails if two reports state the same draw differently; `src/lib/mtOdds.ts` resolves odds from the cutoff rather than by matching a printed band, so a party's fractional average still lands correctly. The extracted report text is committed under `data/mt/nr-combo-text/` so the build is reproducible without a browser. 30 tests.
    - Format quirks the parser handles, all real: point bands written either way round (`2.2 – 3`, `3-2.2`); en dash or hyphen; leading-dot decimals; pdf.js splitting digits inside numbers (`9,7 21`, `2,01 8`, `53. 6`); successes written as `, 7,281 successful` or `/ 9,098 combos available`; the word "Draw" missing; and a whole band omitted. Percentage tolerance follows the printed precision — the 2022-era reports round to whole numbers (17% for 17.46%), while 2026's two decimals are held to two decimals.
    - Still to do: 2018–2020, which need a column-aware extractor (see §3.1). Gate 2 (Brier backtest) stays unstarted until someone wants a projection — nothing projects today, and `/montana` says so.
-3. District crosswalk from the GIS "all past years" layers → `data/mt/district-history.json`.
-4. Harvest loader with the §5 rules: rollup rows dropped, off-year zeros nulled, surveyed years recorded per species.
-5. Regulations district-table parser → general-vs-permit, season dates, LPT→district mapping.
-6. Bonus-point simulator, only once gate 1 passes for a sample of codes across three years.
-7. UI: cards, hunt and unit pages, the §9 charts, filters, map, both UAT personas, phone and desktop.
+3. District crosswalk from the GIS "all past years" layers → `data/mt/district-history.json`. **Not done.** Until it is, five-season harvest figures assume a district number means the same ground across 2016–2025, which is wrong for districts changed in the 2022 restructure.
+4. **Done (#68), with a bug fixed 2026-11-11.** Harvest loader with the §5 rules. The deer "4 or More Points" column key carried a leading space, so every deer trophy value read as 0. The CSV header is trimmed and the key wasn't. Fixed, and the builder now fails on any column name it can't find. The rebuilt `harvest.json` is identical apart from that column.
+5. **Done (#74).** Regulations district-table parser (§2.4).
+6. **Not needed for last-draw odds (#75).** Detailed draw reports parsed (§3.5) and the points column established (§3.4). A simulator is only needed for a projection.
+7. **Built 2026-11-11, step 4.** `scripts/mt_build_hunts.py` → `data/mt/hunts.json`, and the app side (see §12).
+
+Nothing in steps 1–7 writes to production. The import is `scripts/mt-import.ts`: state-scoped, dry run by default, and it aborts if any Idaho, Colorado or Wyoming summary changes. It applies only after a reviewed dry run and the owner's explicit yes, per AGENTS.md.
+
+## 12. Montana hunts — what step 4 built (2026-11-11)
+
+**535 deer and elk hunts.** Antelope waits, as the owner asked.
+
+- **General licences: 139 deer and 130 elk,** one per district where the regulations print a General Deer or Elk License row. The nine drawing-only elk districts have none (250, 410, 455, 555, 620, 621, 622, 630, 700).
+  - Residents buy over the counter.
+  - Nonresidents get the combination draw's odds at 0–3 preference points, **as drawn**. The dead zone is kept: at 1 point the general elk odds are 0%, at 0 points 53.6%.
+- **Drawn permits and B licences: 137 deer and 129 elk,** keyed by licence type + code.
+  - `oddsByPts.last[pool][N]` is the odds for a hunter holding N bonus points who buys one, which is FWP's row N+1.
+  - `oddsByPts.noBuy[pool]` is for a hunter who applies without buying.
+  - Levels nobody applied at take the level below, and a running maximum removes small-sample dips, because more points can never lower a chance in a weighted draw.
+  - 32 are valid in several districts. Region-wide licences expand to every district in the region.
+- **Over-the-counter B licences are not hunts yet.** They're add-ons to a general licence, and the finder has no way to say so. Recorded as a follow-up.
+- **Harvest** is FWP's district estimate for **all** hunters of that species, every licence type. It covers the last five *surveyed* seasons (deer odd years, elk even years). Every hunt carries `harvestBasis` saying so, and the hunt page repeats it.
+  - The elk portions (391N/S etc.) are combined when the parent has no row.
+  - Multi-district hunts sum their districts and say a hunter in several districts is counted in each.
+- **Deer type** uses Idaho's rule: whitetail share of the same seasons' harvest, ≥ 60% whitetail and ≤ 40% mule deer.
+- **Seasons:** each regulations row and season column becomes a `tagSeasons` entry, so the weapon, season, youth and antler filters work as they do in Idaho. "ArchEquip only" rows are archery throughout.
+- **Flags:** 71 hunts are private-land-only (every row "Only valid on private land") and 6 are youth-only.
+- **Public land: not measured.** `publicPct` stays null, so Quality has no access component for Montana, and every surface says "not measured".
+
+**App:**
+
+- **Search:** `src/lib/mtHunt.ts` gives `mtPersonal()`, the odds from your Account settings. The finder has Montana cards (`MtHuntCard`) and a **Montana: License Type** filter (`mtLic`, kept in saved presets). The shared private-land-only filter covers Montana.
+- **Pages:**
+  - The hunt page (`MtHuntPage`) shows:
+    - your points against FWP's row;
+    - the full ladder with the no-purchase row;
+    - quotas by pool, with landowner pools reported separately;
+    - seasons by district;
+    - FWP's own contradictions where a licence has them;
+    - the draw history;
+    - harvest by surveyed season.
+  - A district page (`MtUnitPage`) lists general licences, then permits and B licences.
+- **Map:** shades by district, from Unit rows the import writes.
+- **What disappears by itself after the import:** the Find Hunts notice and the home panel's "not yet" list follow whether Montana rows exist.
+
 
 Nothing in steps 1–7 writes to production. The eventual import follows the Wyoming pattern: a state-scoped script, a reviewed dry run, and the owner's explicit yes, per AGENTS.md.

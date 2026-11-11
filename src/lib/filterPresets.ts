@@ -1,5 +1,5 @@
 import { validFinderReturn } from './huntNavigation';
-import { CO_RESTRICTIONS, ID_RESTRICTIONS, WY_RESTRICTIONS, searchStates } from './searchStates';
+import { CO_RESTRICTIONS, ID_RESTRICTIONS, MT_RESTRICTIONS, WY_RESTRICTIONS, searchStates } from './searchStates';
 import { DEFAULT_STATE, enabledStates, type StateCode } from './states';
 
 export const PRESET_KEY = '_hunt_presets';
@@ -32,7 +32,7 @@ const filterKeys = new Set([
   'species', 'type', 'weapon', 'method', 'antler', 'sex', 'draw', 'sort', 'view',
   'month', 'from', 'to', 'dmode', 'minScore', 'minOpp', 'minOdds', 'minPublic',
   'minSuccess', 'minSucc', 'minTags', 'maxDensity', 'youth', 'unit', 'q', 'odds', 'priv',
-  ...ID_RESTRICTIONS, ...CO_RESTRICTIONS, ...WY_RESTRICTIONS,
+  ...ID_RESTRICTIONS, ...CO_RESTRICTIONS, ...WY_RESTRICTIONS, ...MT_RESTRICTIONS,
 ]);
 
 export function presetName(raw: unknown): string | null {

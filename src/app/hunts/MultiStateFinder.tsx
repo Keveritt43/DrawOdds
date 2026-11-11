@@ -15,6 +15,8 @@ import { HuntCard } from '@/components/HuntCards';
 import { CoHuntCard } from '@/components/CoHuntCard';
 import { WyHuntCard } from '@/components/WyHuntCard';
 import { WySearchFilters } from '@/components/WySearchFilters';
+import { MtHuntCard } from '@/components/MtHuntCard';
+import { MtSearchFilters } from '@/components/MtSearchFilters';
 import { wyWilderness } from '@/lib/wyWilderness';
 import { getFavorites } from '@/lib/favorites';
 import { residencyFields } from '@/lib/finder';
@@ -31,7 +33,9 @@ const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'],
 const max = (values: (number | null)[]) => { const finite = values.filter((v): v is number => v !== null && Number.isFinite(v)); return finite.length ? Math.max(...finite) : null; };
 
 export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
-  const [{ header, states, settings, results, overlaps, wySavedSpecial }, fav] = await Promise.all([searchHunts(sp), getFavorites()]);
+  const [{ header, states, settings, results, overlaps, wySavedSpecial, indexed }, fav] = await Promise.all([searchHunts(sp), getFavorites()]);
+  // Montana's notice stands in for an empty state: once Montana rows are imported it is not shown
+  const mtEmpty = states.includes('MT') && !indexed.MT;
   const draw = searchDraw(param(sp, 'draw'), param(sp, 'species').toUpperCase());
   const msg = draw === 'MSG';
   const stateCounts = states.map(state => ({ state, count: results.filter(x => x.r.state === state).length }));
@@ -81,7 +85,8 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   const selectedUnit = param(sp, 'unit');
   const renderCard = (x: SearchResult, key: string, also: SearchResult['r'][] = []) => <div key={key} className="search-result">
     <details className="small search-result-context"><summary><b>{STATES[x.r.state as keyof typeof STATES].name}</b> · {x.nr ? 'Nonresident' : 'Resident'} · Opportunity {x.opportunity ?? '—'}</summary><p>{x.basis}{x.r.state === 'CO' && settings.CO.youth ? ' · Youth pool' : ''}{x.r.state === 'WY' && x.nr && settings.WY?.wySpecial ? ' · Special pool' : ''}{x.r.scoreQuality === null ? ' · Incomplete scoring data' : ''}</p></details>
-    {x.r.state === 'WY' ? <WyHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} special={settings.WY?.wySpecial === true} poolLink={param(sp, 'wyPool')} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
+    {x.r.state === 'MT' ? <MtHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
+      : x.r.state === 'WY' ? <WyHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} special={settings.WY?.wySpecial === true} poolLink={param(sp, 'wyPool')} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'CO' ? <CoHuntCard r={x.r} preScored hasOtcElk={overlaps[x.r.id] === true} odds={x.odds} chance={chanceOf(x.odds, 0, x.odds ?? 0)} points={x.points} nr={x.nr} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : <article className="ucard single"><HuntCard r={x.r} also={also} c={{ nr: x.nr, rf: residencyFields(x.nr ? 'NONRESIDENT' : 'RESIDENT'), favHunts: fav.hunts, signedIn: fav.signedIn, sort }} /></article>}
   </div>;
@@ -100,15 +105,15 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
           <p className="small muted search-state-counts">{stateCounts.map(({ state, count }) => `${STATES[state].name}: ${count}`).join(' · ')}</p>
           <SearchStates />
           <Link className="small" href="/account#hunting-preferences">Edit hunting preferences in Account</Link>
-          <details className="small muted search-ranking"><summary>How these rankings compare</summary><p>Opportunity = Quality × √your tag odds. Idaho uses historical draw odds; {msg ? 'Colorado uses published first-choice results at your saved regular and weighted points, residency and age group. Before points are saved, rates are pooled previews.' : `Colorado uses your points and ${mode === 'proj' ? 'projected' : 'historical'} odds.`}{states.includes('WY') ? ' Wyoming nonresidents: your points in the regular or special pool (preference draw, then random draw); antelope and deer are projected, elk shows the last draw. Wyoming residents: estimated random-draw odds.' : ''} Unknown scores sort after ranked hunts. Report years and season dates vary; details show the underlying evidence.</p></details>
+          <details className="small muted search-ranking"><summary>How these rankings compare</summary><p>Opportunity = Quality × √your tag odds. Idaho uses historical draw odds; {msg ? 'Colorado uses published first-choice results at your saved regular and weighted points, residency and age group. Before points are saved, rates are pooled previews.' : `Colorado uses your points and ${mode === 'proj' ? 'projected' : 'historical'} odds.`}{states.includes('WY') ? ' Wyoming nonresidents: your points in the regular or special pool (preference draw, then random draw); antelope and deer are projected, elk shows the last draw. Wyoming residents: estimated random-draw odds.' : ''}{states.includes('MT') ? ' Montana: the last draw, not a forecast. Permits and B licenses at your bonus points for that license type, if you buy a point this year; general licenses are over the counter for residents and need the combination draw for nonresidents.' : ''} Unknown scores sort after ranked hunts. Report years and season dates vary; details show the underlying evidence.</p></details>
         </details>
       </div>
       <div className="f-head search-toolbar">
         <div className="f-sub search-sort"><span><b>{results.length}</b> hunt options</span><span className="search-sort-control"><span>Sort by</span><SortSelect value={sort} options={SORTS} /></span></div>
         <div className="f-sub"><div className="seg light" role="group" aria-label="List by">{[['hunt', 'By hunt'], ['unit', 'By unit'], ['table', 'Table']].map(([value, label]) => <Link key={value} className="seg-link" aria-pressed={(view || 'hunt') === value} href={`/hunts${q({ view: value, page: null })}`} scroll={false}>{label}</Link>)}</div><a className="small" href={`/api/export${q({ page: null })}`}>Download CSV</a><Link className="small" href={withPresetEdit(`/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0`, sp.editPreset)}>Reset filters</Link></div>
       </div>
-      {states.includes('MT') && <MtFinderNotice only={states.length === 1} />}
-      {!results.length && !(states.length === 1 && states[0] === 'MT') && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p></div>}
+      {mtEmpty && <MtFinderNotice only={states.length === 1} />}
+      {!results.length && !(mtEmpty && states.length === 1) && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p></div>}
       {view === 'table' ? <div className="htable-wrap"><table className="htable"><thead><tr><th aria-label="Compare" />{['State', 'Hunt', 'Species', 'Units', 'Weapon', 'Season dates', 'Your odds', 'Odds basis', 'Success', 'Public land', 'Quality', 'Opportunity'].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{shown.map(x => <tr key={x.r.id}><td><CompareToggle id={x.r.id} label={x.r.name} compact /></td><td>{x.r.state}</td><td><HuntLink href={huntHref(x.r) + (x.r.state === 'WY' && param(sp, 'wyPool') ? `?pool=${param(sp, 'wyPool')}` : '')}>{x.r.name}</HuntLink></td><td>{SPECIES_LABEL[x.r.species]}</td><td>{x.r.units.join(', ')}</td><td>{WEAPON[x.r.weapon]}</td><td>{seasonsSummary(x.r.tagSeasons) || range(x.r.openDate, x.r.closeDate)}</td><td>{pct(x.odds)}</td><td>{x.basis}</td><td>{pct(x.r.success5)}</td><td>{x.r.publicPct === null ? '—' : `${Math.round(x.r.publicPct)}%`}</td><td>{x.r.scoreQuality ?? '—'}</td><td>{x.opportunity ?? '—'}</td></tr>)}</tbody></table></div>
         : view === 'unit' ? entries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(([key, rows]) => { const [state, unit] = key.split(':'); return <div key={key} className="ucard"><h2><HuntLink href={`/units/${unitKey(state, unit)}`}>{STATES[state as keyof typeof STATES].name} · Unit {unit}</HuntLink></h2>{rows.map(x => renderCard(x, x.r.id))}</div>; })
           : [...cards.entries()].slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(([key, { x, also }]) => renderCard(x, key, also))}
@@ -117,6 +122,6 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     <FilterRail residency={settings.ID} states={states} draw={draw}
       presets={<FilterPresets key={fav.userId} owner={fav.userId} state={header.code} states={states} />}
       drawFilters={!msg && states.includes('CO') && <CoSearchFilters part="points" />}
-      stateFilters={msg ? {} : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters nr={settings.WY?.res !== 'RESIDENT'} savedSpecial={wySavedSpecial} /> }} />
+      stateFilters={msg ? {} : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters nr={settings.WY?.res !== 'RESIDENT'} savedSpecial={wySavedSpecial} />, MT: <MtSearchFilters nr={settings.MT?.res !== 'RESIDENT'} /> }} />
   </main>;
 }
