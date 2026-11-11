@@ -76,6 +76,11 @@ const int = (v: string | undefined) => {
 function build(path: string, species: string, cols: { antlered: string; antlerless: string; young: string; big?: string; weapons?: boolean }, speciesFilter?: string): SpeciesHarvest {
   const rows = readCsv(path).filter((r) => r.Residency === 'SUM' && (!speciesFilter || r['Deer Species'] === speciesFilter));
   if (!rows.length) throw new Error(`${path}: no SUM rows${speciesFilter ? ` for ${speciesFilter}` : ''}`);
+  // A column name that does not match reads as '' and then as 0, silently: until 2026-11-11 the deer
+  // "4 or More Points" key carried a leading space and every deer trophy value was 0. Fail instead.
+  for (const c of [cols.antlered, cols.antlerless, cols.young, cols.big, ...(cols.weapons ? ['Bow', 'Rifle'] : [])]) {
+    if (c && !(c in rows[0])) throw new Error(`${path}: no column ${JSON.stringify(c)}; columns are ${Object.keys(rows[0]).join(', ')}`);
+  }
 
   const districts: Record<string, DistrictYear[]> = {};
   const statewide: Record<string, { hunters: number; harvest: number }> = {};
@@ -185,9 +190,9 @@ const out = {
   },
   species: {
     ELK: build(elkCsv, 'ELK', { antlered: 'Bulls', antlerless: 'Cows', young: 'Calves', big: '6 or More Points', weapons: true }),
-    DEER: build(deerCsv, 'DEER', { antlered: 'Bucks', antlerless: 'Does', young: 'Fawns', big: ' 4 or More Points', weapons: true }, 'all_deer'),
-    DEER_MULE: build(deerCsv, 'DEER_MULE', { antlered: 'Bucks', antlerless: 'Does', young: 'Fawns', big: ' 4 or More Points', weapons: true }, 'md'),
-    DEER_WHITETAIL: build(deerCsv, 'DEER_WHITETAIL', { antlered: 'Bucks', antlerless: 'Does', young: 'Fawns', big: ' 4 or More Points', weapons: true }, 'wt'),
+    DEER: build(deerCsv, 'DEER', { antlered: 'Bucks', antlerless: 'Does', young: 'Fawns', big: '4 or More Points', weapons: true }, 'all_deer'),
+    DEER_MULE: build(deerCsv, 'DEER_MULE', { antlered: 'Bucks', antlerless: 'Does', young: 'Fawns', big: '4 or More Points', weapons: true }, 'md'),
+    DEER_WHITETAIL: build(deerCsv, 'DEER_WHITETAIL', { antlered: 'Bucks', antlerless: 'Does', young: 'Fawns', big: '4 or More Points', weapons: true }, 'wt'),
     PRONGHORN: build(antelopeCsv, 'PRONGHORN', { antlered: 'Bucks', antlerless: 'Does', young: 'Fawns' }),
   },
 };

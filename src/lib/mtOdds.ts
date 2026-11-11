@@ -14,7 +14,8 @@
  *      phase and are not eligible for the random phase. In 2026 that was everyone holding 1 point for a Big
  *      Game / Elk combination. Holding points is worse than holding none until you reach the cutoff.
  *
- * Points cap at 3 and are lost on drawing or on skipping an application year. Party applications average their
+ * Points cap at 3 and are lost on drawing, or when the holder does not apply in the next drawing (a point-only
+ * purchase does not prevent that; 2025 regulations p. 17). Party applications average their
  * members' points to three decimals and draw as one entry, so a point balance can be fractional.
  *
  * Everything here is the LAST DRAW — what happened, not a forecast. There is no projection for next year:

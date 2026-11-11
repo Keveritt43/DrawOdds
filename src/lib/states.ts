@@ -104,17 +104,16 @@ export const STATES: Record<StateCode, StateConfig> = {
     code: 'MT',
     name: 'Montana',
     slug: 'montana',
-    // In the state picker, but it contributes no rows to Find Hunts: only the statewide nonresident combination
-    // draw is modelled so far (/montana). The home panel and a Find Hunts notice say so rather than leaving a
-    // hunter at an empty result set. See src/components/MtHome.tsx.
+    // Deer and elk hunts from scripts/mt-import.ts (general licenses per district, permits, B licenses); until
+    // those rows exist the home panel and a Find Hunts notice say so (src/components/MtHome.tsx).
     enabled: true,
     agency: { short: 'FWP', name: 'Montana Fish, Wildlife & Parks', url: 'https://fwp.mt.gov/hunt' },
     // FWP's Block Management opens private land to public hunting; not modelled yet, so not claimed here.
     accessProgram: null,
-    privateLandOnly: 'a hunt whose every opportunity row in the 2026 regulations district tables says "Only valid on private land" (data/mt/regs-2026.json landLimit; docs/states/mt-onboarding.md §2.4). No Montana rows reach Find Hunts yet.',
+    privateLandOnly: 'a hunt whose every opportunity row in the 2026 regulations district tables says "Only valid on private land" (data/mt/regs-2026.json landLimit; docs/states/mt-onboarding.md §2.4), set on HuntSummary.privateOnly by scripts/mt_build_hunts.py.',
     // Nonresident combination licenses: 75% by preference points (capped at 3), 25% random among ZERO-point
-    // applicants only, so anyone above zero and below the cutoff draws at 0%. Permits and B licenses use a
-    // separate uncapped squared bonus-point system that is not modelled. See src/lib/mtOdds.ts.
+    // applicants only, so anyone above zero and below the cutoff draws at 0% (src/lib/mtOdds.ts). Permits and B
+    // licenses: uncapped squared bonus points, last-draw odds read from FWP's reports (src/lib/mtHunt.ts).
     points: 'preference-random',
     draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
     species: ['DEER', 'ELK'],

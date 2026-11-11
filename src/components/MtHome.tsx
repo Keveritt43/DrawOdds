@@ -1,14 +1,15 @@
 import Link from 'next/link';
 import { HomeStatePicker } from './HomeStatePicker';
 import { mtComboOdds, mtCutoff, mtLatestYear, mtPointsToDraw } from '@/lib/mtOdds';
+import { db } from '@/lib/db';
 
 /**
  * Montana's home panel and its Find Hunts notice.
  *
- * Montana is in the state picker for one thing: the nonresident combination draw, which a nonresident has to
- * win before hunting deer or elk there at all. It has no hunt, unit, harvest or land rows yet, so neither of
- * these surfaces pretends otherwise — the point of both is to send the hunter to /montana rather than to an
- * empty result set. See docs/states/mt-onboarding.md.
+ * Both surfaces follow what is actually loaded. Before Montana's hunt rows are imported (scripts/mt-import.ts),
+ * they say Montana has only the nonresident combination draw and send the hunter to /montana rather than to an
+ * empty result set; once rows exist, the home panel describes them and the Find Hunts notice is not shown
+ * (MultiStateFinder checks the state's row count). See docs/states/mt-onboarding.md.
  */
 
 function DeadZoneLine() {
@@ -26,7 +27,8 @@ function DeadZoneLine() {
   );
 }
 
-export function MtQuickStart() {
+export async function MtQuickStart() {
+  const hunts = await db.huntSummary.count({ where: { state: 'MT' } }).catch(() => 0);
   return (
     <main>
       <section className="home-hero">
@@ -46,13 +48,19 @@ export function MtQuickStart() {
           </div>
           <div className="quick">
             <h2>What Montana has here so far</h2>
-            <ul>
+            {hunts ? <ul>
+              <li><b>Deer and elk in every hunting district</b> — general licenses, permits and B licenses ({hunts} in all), with seasons and restrictions from the 2026 regulations.</li>
+              <li><b>Odds at your points</b> — permits and B licenses at your bonus points for that license type, if you buy a point this year; the combination draw at your preference points.</li>
+              <li><b>Hunter success</b> from FWP&apos;s surveyed seasons, by district.</li>
+              <li><b>Not yet:</b> public land, antelope, and over-the-counter B licenses.</li>
+            </ul> : <ul>
               <li><b>The nonresident combination draw</b> — Big Game / Elk and Deer, with odds at your point balance and what each of the last six draws took.</li>
               <li><b>Not yet:</b> hunting districts, harvest and public land, so Montana has no rows in Find Hunts.</li>
               <li><b>Not yet:</b> permits and B licenses (antelope, Deer B, Elk B), which use a separate bonus-point system.</li>
-            </ul>
+            </ul>}
             <p className="hint">Nothing here is a forecast. Every number is a past draw, labelled with its year.</p>
-            <Link className="btn primary" href="/montana">Open the Montana draw</Link>
+            {hunts ? <Link className="btn primary" href="/hunts?states=MT&antler=ANTLERED&sort=opp">Find Montana hunts</Link> : null}{' '}
+            <Link className={`btn${hunts ? '' : ' primary'}`} href="/montana">Open the Montana draw</Link>
           </div>
         </div>
       </section>
