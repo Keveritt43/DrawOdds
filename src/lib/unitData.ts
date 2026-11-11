@@ -36,7 +36,7 @@ const cached: Record<string, Promise<UnitData> | null> = {};
 
 export function loadSearchUnits(state: string, draw = 'DEP', species = ''): Promise<UnitData> {
   const key = ['search', state, draw, species].join(':');
-  cached[key] ??= fetch(`/api/search/units?state=${encodeURIComponent(state)}&draw=${draw.toLowerCase()}&species=${encodeURIComponent(species)}&v=2`).then(async r => {
+  cached[key] ??= fetch(`/api/search/units?state=${encodeURIComponent(state)}&draw=${draw.toLowerCase()}&species=${encodeURIComponent(species)}&v=3`).then(async r => {
     if (!r.ok) throw new Error(`boundaries ${r.status}`);
     const fc = await r.json() as UnitData['fc'];
     const labels = labelPoints(fc);
