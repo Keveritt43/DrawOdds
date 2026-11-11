@@ -55,6 +55,10 @@ test('filters count Type 1 by default and Type 2 only when asked', () => {
   // a private-land-only licence has no public land, but BMA ground still counts
   assert.equal(matchesMtBma({ ...r339, privateOnly: true }, { mtMinHuntable: '35' }), true);
   assert.equal(matchesMtBma({ ...r339, privateOnly: true }, { mtMinHuntable: '40' }), false);
+  // HD 290: one Type 1 BMA touches the district, but only on public parcels, so it adds no access
+  const b290 = mtBma(['290'], 'ELK')!;
+  assert.equal(b290.n1, 1); assert.equal(b290.t1, 0);
+  assert.equal(matchesMtBma({ units: ['290'], species: 'ELK', publicPct: 18, privateOnly: false }, { mtHasBma: '1' }), false);
   // no filter set: everything passes, including districts without BMAs
   assert.equal(matchesMtBma({ units: ['999'], species: 'DEER', publicPct: null, privateOnly: false }, {}), true);
 });

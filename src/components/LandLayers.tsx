@@ -40,7 +40,8 @@ async function addAccessYes(m: MlMap, before?: string) {
 // whose access is closed or restricted (left off), layer 3 = restricted areas inside BMAs.
 const FWP_BMA = 'https://fwp-gis.mt.gov/arcgis/rest/services/wild/hpNewBMA_MIL/MapServer';
 export const BMA1 = '#7b3fe4';
-export const BMA2 = '#e07b00';
+// teal, not orange: the finder fills matching units blaze orange
+export const BMA2 = '#0f9fb0';
 const BMA_CUT = ['Not in BMA (No Trespassing)', 'Safety Zone (No Trespassing, No Hunting)', 'No Shooting Area'];
 const q = (layer: number, params: Record<string, string>) =>
   fetch(`${FWP_BMA}/${layer}/query?${new URLSearchParams({ f: 'geojson', outSR: '4326', maxAllowableOffset: '0.0003', geometryPrecision: '5', ...params })}`)
@@ -164,7 +165,7 @@ export function LandToggles({ map, before, className = '', states }: { map: MlMa
           <i className="sw" style={{ background: BMA2 }} /> Block Management Type 2{on.length > 1 ? ' (MT)' : ''}
         </label>
       </>}
-      {montana && (b1 || b2) && <p className="muted">FWP&apos;s current Block Management Areas. Type 1 (purple): sign yourself in. Type 2 (orange, dashed): permission or reservation needed, not a sure way in. Dark grey: no-trespass and safety zones inside a BMA. Tap an area for its rules map.</p>}
+      {montana && (b1 || b2) && <p className="muted">FWP&apos;s current Block Management Areas. Type 1 (purple): sign yourself in. Type 2 (teal, dashed): permission or reservation needed, not a sure way in. Dark grey: no-trespass and safety zones inside a BMA. Tap an area for its rules map.</p>}
       {own && legend && legend.length > 0 && (
         <div className="sma-key">{legend.map((l) => <span key={l.label}><img src={l.img} alt="" width={14} height={10} />{l.label.replace(/\s*\(.*?\)\s*/g, '')}</span>)}</div>
       )}

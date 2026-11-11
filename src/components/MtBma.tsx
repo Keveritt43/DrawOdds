@@ -7,9 +7,9 @@ function Rows({ b, publicPct }: { b: MtBma; publicPct: number | null }) {
   return (
     <table className="small mt-bma"><colgroup><col /><col style={{ width: "11em" }} /></colgroup>
       <tbody>
-        <tr><td><Term k="bmaType1">Type 1</Term> · sign yourself in</td><td style={{ textAlign: 'right' }}>{b.n1 ? `${bmaAcres(b.t1)} (${bmaPct(b.t1Pct)})` : 'none'}</td></tr>
+        <tr><td><Term k="bmaType1">Type 1</Term> · sign yourself in</td><td style={{ textAlign: 'right' }}>{b.t1 ? `${bmaAcres(b.t1)} (${bmaPct(b.t1Pct)})` : 'none'}</td></tr>
         {publicPct !== null && <tr><td><b>Public + Type 1</b></td><td style={{ textAlign: 'right' }}><b>{Math.round(Math.min(100, publicPct + b.t1Pct))}%</b></td></tr>}
-        <tr><td><Term k="bmaType2">Type 2</Term> · permission or reservation needed</td><td style={{ textAlign: 'right' }}>{b.n2 ? `${bmaAcres(b.t2)} (${bmaPct(b.t2Pct)})` : 'none'}</td></tr>
+        <tr><td><Term k="bmaType2">Type 2</Term> · permission or reservation needed</td><td style={{ textAlign: 'right' }}>{b.t2 ? `${bmaAcres(b.t2)} (${bmaPct(b.t2Pct)})` : 'none'}</td></tr>
       </tbody>
     </table>
   );
