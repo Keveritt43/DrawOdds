@@ -124,3 +124,10 @@ test('mule deer vs whitetail: licence rows decide; mule-buck permits where only 
   assert.equal(m(p261, { mtDeer: 'MULE' }), true);
   assert.equal(m(by('MT:elk-general:261'), { mtDeer: 'MULE' }), false);
 });
+
+test('a nonresident permit shows the permit draw alone; the combination and both together ride along', () => {
+  const sure = D.hunts.find((h) => h.id.startsWith('MT:deer-permit:') && h.oddsByPts.last.nr[0] === 1)!;
+  const m = mtPersonal(sure as never, pts({ res: 'NONRESIDENT' }), true);
+  assert.equal(m.parts!.permit, 1);
+  assert.equal(m.odds, m.parts!.combo); // 100% permit x combination
+});

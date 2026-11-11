@@ -13,12 +13,16 @@ import { mtBma, bmaPct } from '@/lib/mtBma';
 
 /** Montana result card: Idaho's card structure, with Montana's two systems — general licences (residents over the
  *  counter, nonresidents through the combination draw) and bonus-point permits and B licences. */
-export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
-  r: CoScored; odds: number | null; points: number | null; nr: boolean; basis: string; saved: boolean; signedIn: boolean;
+export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn }: {
+  r: CoScored; odds: number | null; parts?: { combo: number | null; permit: number | null; comboName: string };
+  points: number | null; nr: boolean; basis: string; saved: boolean; signedIn: boolean;
 }) {
   const po = r.pointOdds as unknown as MtPointOdds | null;
   const general = po?.kind === 'general';
-  const chance = chanceOf(odds, 0, odds ?? 0);
+  // A nonresident permit shows the permit draw's own odds (as if the combination is drawn); the combination's odds sit
+  // beneath it, and draw-and-fill multiplies both, so the overall chance is never hidden.
+  const shown = parts ? parts.permit : odds;
+  const chance = chanceOf(shown, 0, shown ?? 0);
   const years = r.harvestYears;
   const crowd = crowdVerdict(r.huntersSqMi), success = successVerdict(r.success5, r.species, r.weapon, r.type);
   const notBuying = !general && /not buying/.test(basis);
@@ -48,10 +52,11 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
       <ScoreRow r={r} nr={nr} />
       <div className="hrow-stats three">
         <div>
-          <span className="k">{general && !nr ? 'License' : general ? `Combination draw · ${points ?? 0} pref. pts` : withCombo ? `Permit × combination · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}` : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}`}</span>
-          <b>{pctOdds(odds)}</b>
-          <span className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{odds === null ? 'No draw data' : CHANCE_LABEL[chance]}</span>
-          <span className="sub">{general && !nr ? 'Resident general license' : `${po?.combo?.year ?? po?.year ?? 'Latest'} draw · last draw, not a forecast`}</span>
+          <span className="k">{general && !nr ? 'License' : general ? `Combination draw · ${points ?? 0} pref. pts` : withCombo ? `Permit draw · NR · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}` : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}`}</span>
+          <b>{pctOdds(shown)}</b>
+          <span className={`verdict ${shown === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{shown === null ? 'No draw data' : CHANCE_LABEL[chance]}</span>
+          <span className="sub">{general && !nr ? 'Resident general license' : parts ? `${po?.year ?? 'Latest'} draw, if you draw the combination` : `${po?.combo?.year ?? po?.year ?? 'Latest'} draw · last draw, not a forecast`}</span>
+          {parts && <span className="sub">Your {parts.comboName} draw: <b>{pctOdds(parts.combo)}</b></span>}
         </div>
         <div>
           <span className="k">Success {years ? `${years} surveyed seasons` : ''}</span>
@@ -67,10 +72,10 @@ export function MtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
         </div>
       </div>
       <div className="small muted" style={{ marginTop: 8 }}>
-        Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land: {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
+        Draw and fill{parts ? ' (both draws)' : ''}: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land: {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
         {bma && (bma.n1 > 0 || bma.n2 > 0) ? <> · Block Mgmt: <b>Type 1 {bmaPct(bma.t1Pct)}</b>{bma.n2 > 0 ? ` · Type 2 ${bmaPct(bma.t2Pct)} (permission needed)` : ''}</> : bma ? ' · No Block Management' : ''}
         {r.privateOnly ? ' · This license is valid on private land only: landowner permission needed' : ''}
-        {withCombo ? ' · Odds include the combination draw this permit needs' : ''}
+        {withCombo && parts ? ` · Chance to hold both: ${pctOdds(odds)}` : ''}
         {deer ? ` · ${deer} only` : ''}
         {notBuying ? <> · <Link href="/account#hunting-preferences">Your banked points only count if you buy a point</Link></> : null}
       </div>

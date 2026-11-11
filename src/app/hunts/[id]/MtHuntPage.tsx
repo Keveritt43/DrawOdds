@@ -30,7 +30,8 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
   const saved = session?.user ? await db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } }) : null;
   const nr = pts.res === 'NONRESIDENT';
   const mine = mtPersonal(s, pts, nr);
-  const chance = chanceOf(mine.odds, 0, mine.odds ?? 0);
+  const shown = mine.parts ? mine.parts.permit : mine.odds; // permit draw alone, as if the combination is drawn
+  const chance = chanceOf(shown, 0, shown ?? 0);
   if (!po) return <main className="wrap" style={{ margin: '24px auto' }}><p className="small"><BackLink state="MT" /></p><h1>{s.name}</h1><p className="muted">No data for this hunt yet.</p></main>;
   const general = po.kind === 'general';
   const myPool: MtPool = nr ? 'nr' : 'res';
@@ -77,7 +78,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       {!general && nr && po.needsGeneral && (
         <div className="card" style={{ margin: '12px 0' }}>
           <b>A permit is added to a general license.</b> As a nonresident you also need a {s.species === 'ELK' ? 'Big Game or Elk' : 'Big Game or Deer'} Combination license, drawn at the same time (<Link href="/montana">odds</Link>).
-          {mine.parts ? <> Your odds are both draws: the permit at <b>{pct(mine.parts.permit)}</b> × the {mine.parts.comboName} at <b>{pct(mine.parts.combo)}</b> = <b>{pct(mine.odds)}</b>. So a permit everyone draws is only as sure as your combination draw. FWP doesn&apos;t say how a permit drawn without a combination is handled, so this treats the two as independent. <Link href="/account#hunting-preferences">Change which combination you apply for</Link>.</> : null}
+          {mine.parts ? <> The odds shown are the permit draw&apos;s, if you draw the combination; your chance of holding both is the permit at <b>{pct(mine.parts.permit)}</b> × the {mine.parts.comboName} at <b>{pct(mine.parts.combo)}</b> = <b>{pct(mine.odds)}</b>, and draw and fill and Opportunity use that. So a permit everyone draws is only as sure as your combination draw. FWP doesn&apos;t say how a permit drawn without a combination is handled, so this treats the two as independent. <Link href="/account#hunting-preferences">Change which combination you apply for</Link>.</> : null}
         </div>
       )}
       {s.species === 'DEER' && po.deer && po.deer.length === 1 && (
@@ -104,7 +105,8 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       <div className="co-top">
         <div className="card co-mine">
           <div className="k">{general && !nr ? 'Your license' : `Your ${general ? po.combo?.year ?? po.year : po.year} odds · ${MT_POOL_LABEL[myPool]}`}</div>
-          <div className="co-big">{pct(mine.odds)} <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span></div>
+          <div className="co-big">{pct(shown)} <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span></div>
+          {mine.parts && <div className="small">If you draw the combination. Your {mine.parts.comboName} draw: <b>{pct(mine.parts.combo)}</b>; both: <b>{pct(mine.odds)}</b>{s.success5 !== null && mine.odds !== null ? <> · draw and fill <b>{pct(mine.odds * s.success5)}</b></> : null}.</div>}
           <div className="small muted">
             {mine.basis}. Last draw, not a forecast: no Montana projection has been tested against past draws.
             {!pts.set && <> <Link href="/account#hunting-preferences">Set your Montana points in Account</Link> for your own odds.</>}

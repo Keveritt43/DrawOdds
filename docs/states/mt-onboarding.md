@@ -596,7 +596,8 @@ Asked by the owner, 2026-11-11.
     - 197 hunts have fewer seasons.
     - 120 deer and 88 elk scores change.
 - **Nonresident odds include the combination draw.** Deer and elk permits need a combination licence, applied for together: deer permits need Big Game or Deer, elk permits need Big Game or Elk (2026 regulations p. 12).
-  - A nonresident's odds = combination odds at their preference points × permit odds. A permit everyone drew at 0 points equals the combination draw at 0 points.
+  - A nonresident's chance of holding both = combination odds at their preference points × permit odds. A permit everyone drew at 0 points equals the combination draw at 0 points.
+  - **Display (owner, 2026-11-11):** the draw odds shown on cards and hunt pages are the permit draw's alone, as if the combination is drawn. The combination draw's odds sit just beneath. Draw and fill, the Opportunity score and odds sorting use both.
   - Draw and fill uses the product.
   - FWP doesn't say how a permit drawn without a combination is handled, so the two draws are treated as independent.
   - **Account:** "Combination you apply for" — Big Game (deer and elk), Elk, or Deer. Big Game and Elk share FWP's Big Game / Elk drawing; Deer has its own odds. A licence the chosen combination doesn't cover shows 0%, with the reason.

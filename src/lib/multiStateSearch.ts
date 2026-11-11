@@ -30,6 +30,9 @@ export interface SearchResult {
   nr: boolean;
   points: number | null;
   basis: string;
+  /** Montana nonresident deer/elk permit: `odds` is both draws; these are the permit draw (shown as the draw odds,
+   *  assuming the combination is drawn) and the combination draw (shown beneath it). */
+  mtParts?: { combo: number | null; permit: number | null; comboName: string };
   applicants?: number;
   /** Wyoming nonresidents: points needed in the pool shown (regular or special). */
   need?: number | null;
@@ -71,7 +74,7 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
       buying: { DEER_PERMIT: true, ELK_PERMIT: true, ANTELOPE: true, DEER_B: true, ELK_B: true, ANTELOPE_B: true }, set: false } as MtPoints;
     const m = mtPersonal(r, mt, nr);
     const opp = opportunity(r.scoreQuality, m.odds);
-    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: m.points, basis: m.basis };
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: m.points, basis: m.basis, mtParts: m.parts };
   }
   if (r.state === 'WY') {
     const wy = settings.WY;
