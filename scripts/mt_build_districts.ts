@@ -1,10 +1,18 @@
 // Build data/mt/units.json — Montana hunting district boundaries — from FWP's ArcGIS server.
 //
 //   NODE_PATH=/opt/npm-tools/node_modules /opt/npm-tools/node_modules/.bin/tsx scripts/mt_build_districts.ts
+//   ... scripts/mt_build_districts.ts --from <dir>
 //
-// Needs network access to fwp-gis.mt.gov. The egress allowlist is read when the container starts, so a
-// session that began before the host was allowed still gets a 403 at the gateway — run this from a session
-// started afterwards.
+// Without --from it fetches from fwp-gis.mt.gov, which the Claude workspace (and the owner's PC shell) cannot
+// reach: Bash network access is off for this account. With --from it reads two GeoJSON files saved from the
+// same queries in a browser, which is how data/mt/units.json was built on 2026-11-11:
+//   <dir>/mt-deer-elk-districts.geojson   layer 11
+//   <dir>/mt-antelope-districts.geojson   layer 3
+// saved from  <layer>/query?where=1=1&outFields=*&returnGeometry=true&outSR=4326&f=geojson
+//             &geometryPrecision=5&maxAllowableOffset=0.001&resultRecordCount=2000
+// The server-side generalization (0.001° ≈ 80-110 m) is deliberate: full resolution froze the browser tab,
+// and ~100 m is finer than the map draws a district at. Do not use these outlines for acreage overlays — the
+// public-land job must use full-resolution geometry.
 //
 // Output matches Wyoming's data/wy/units.json shape so the shared map and unit pages can read it the same
 // way: { units: [{ name, species, bbox, acres, geometry }] }. Public-land shares are NOT set here; they
@@ -17,13 +25,17 @@
 // pages anyway), supportsPagination true, geoJSON supported, source SR 3857 — we request outSR 4326
 // because MapLibre and the existing unit records use lon/lat.
 
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 const BASE = 'https://fwp-gis.mt.gov/arcgis/rest/services/admbnd/huntingDistricts/MapServer';
 const LAYERS = [
-  { id: 11, species: 'deer-elk', label: 'Deer Elk Lion Hunting Districts' },
-  { id: 3, species: 'antelope', label: 'Antelope Hunting Districts' },
+  { id: 11, species: 'deer-elk', label: 'Deer Elk Lion Hunting Districts', file: 'mt-deer-elk-districts.geojson' },
+  { id: 3, species: 'antelope', label: 'Antelope Hunting Districts', file: 'mt-antelope-districts.geojson' },
 ];
+const fromArg = process.argv.indexOf('--from');
+const FROM = fromArg > 0 ? process.argv[fromArg + 1] : null;
+if (fromArg > 0 && !FROM) throw new Error('--from needs a directory');
 const PAGE = 1000;
 
 type Ring = number[][];
@@ -58,8 +70,13 @@ async function fieldsOf(id: number): Promise<Set<string>> {
 
 const pick = (have: Set<string>, ...names: string[]) => names.find((n) => have.has(n));
 
-async function fetchLayer(id: number, species: string, label: string) {
-  const have = await fieldsOf(id);
+async function fetchLayer(id: number, species: string, label: string, file: string) {
+  let local: { features?: Feature[]; exceededTransferLimit?: boolean } | null = null;
+  if (FROM) {
+    local = JSON.parse(readFileSync(join(FROM, file), 'utf8'));
+    if (local!.exceededTransferLimit) throw new Error(`${file}: saved page was truncated (exceededTransferLimit)`);
+  }
+  const have = local ? new Set(Object.keys(local.features?.[0]?.properties ?? {})) : await fieldsOf(id);
   const districtField = pick(have, 'DISTRICT', 'HUNT_DIST', 'HD');
   if (!districtField) throw new Error(`layer ${id} (${label}): no district field in ${[...have].join(', ')}`);
   const acresField = pick(have, 'AREA_AC', 'ACRES');
@@ -71,7 +88,7 @@ async function fetchLayer(id: number, species: string, label: string) {
   for (let offset = 0; ; offset += PAGE) {
     const url = `${BASE}/${id}/query?where=1%3D1&outFields=${encodeURIComponent(outFields)}`
       + `&returnGeometry=true&outSR=4326&f=geojson&resultOffset=${offset}&resultRecordCount=${PAGE}`;
-    const page = await getJson(url) as unknown as { features?: Feature[]; exceededTransferLimit?: boolean };
+    const page = local ?? await getJson(url) as unknown as { features?: Feature[]; exceededTransferLimit?: boolean };
     const feats = page.features ?? [];
     for (const f of feats) {
       const name = String(f.properties[districtField] ?? '').trim();
@@ -87,7 +104,7 @@ async function fetchLayer(id: number, species: string, label: string) {
         geometry: f.geometry,
       });
     }
-    if (feats.length < PAGE && !page.exceededTransferLimit) break;
+    if (local || (feats.length < PAGE && !page.exceededTransferLimit)) break;
     if (offset > 20000) throw new Error(`layer ${id}: pagination did not terminate`);
   }
 
@@ -121,8 +138,8 @@ function bboxOf(geom: { type: string; coordinates: unknown }): [number, number, 
 
 async function main(): Promise<void> {
   const all: Record<string, unknown>[] = [];
-  for (const { id, species, label } of LAYERS) {
-    const units = await fetchLayer(id, species, label);
+  for (const { id, species, label, file } of LAYERS) {
+    const units = await fetchLayer(id, species, label, file);
     console.error(`layer ${id} ${label}: ${units.length} districts`);
     all.push(...units);
   }
@@ -141,6 +158,7 @@ async function main(): Promise<void> {
       agency: 'Montana Fish, Wildlife & Parks',
       service: BASE,
       layers: LAYERS.map((l) => `${l.id}: ${l.label}`),
+      geometry: FROM ? 'server-generalized, maxAllowableOffset 0.001 deg, 5-decimal coordinates; for display, not acreage' : 'full resolution',
       note: 'Current-season boundaries. Deer and elk share districts; antelope does not. Public-land shares are not set here. Historical boundaries live in the "All Past Years" layers — see docs/states/mt-onboarding.md §4.',
       retrieved: new Date().toISOString().slice(0, 10),
     },
