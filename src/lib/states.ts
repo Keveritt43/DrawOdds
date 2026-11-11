@@ -111,7 +111,7 @@ export const STATES: Record<StateCode, StateConfig> = {
     agency: { short: 'FWP', name: 'Montana Fish, Wildlife & Parks', url: 'https://fwp.mt.gov/hunt' },
     // FWP's Block Management opens private land to public hunting; not modelled yet, so not claimed here.
     accessProgram: null,
-    privateLandOnly: 'not yet determined — the 2025 regulations district tables have not been parsed (docs/states/mt-onboarding.md §6)',
+    privateLandOnly: 'a hunt whose every opportunity row in the 2026 regulations district tables says "Only valid on private land" (data/mt/regs-2026.json landLimit; docs/states/mt-onboarding.md §2.4). No Montana rows reach Find Hunts yet.',
     // Nonresident combination licenses: 75% by preference points (capped at 3), 25% random among ZERO-point
     // applicants only, so anyone above zero and below the cutoff draws at 0%. Permits and B licenses use a
     // separate uncapped squared bonus-point system that is not modelled. See src/lib/mtOdds.ts.
