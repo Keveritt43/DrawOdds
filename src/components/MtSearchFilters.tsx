@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 
-const KINDS = [['general', 'General licenses'], ['permit', 'Permits'], ['b', 'B licenses']] as const;
+const KINDS = [['general', 'General licenses'], ['permit', 'Deer and elk permits'], ['antelope', 'Antelope licenses'], ['b', 'B licenses']] as const;
 
 /** Montana-only filters; they narrow Montana results and leave other selected states unchanged. Private-land-only
  * hunts use the shared filter in FilterRail. */
@@ -25,8 +25,8 @@ export function MtSearchFilters({ nr = true }: { nr?: boolean }) {
       ))}
       <p className="small muted">
         {nr
-          ? 'General licenses: a nonresident first has to draw a combination license, at your preference points. Permits and B licenses use bonus points.'
-          : 'General licenses are over the counter for residents. Permits and B licenses use bonus points.'}{' '}
+          ? 'General deer and elk licenses: a nonresident first has to draw a combination license, at your preference points. Permits, antelope licenses and B licenses use bonus points; antelope needs no combination license.'
+          : 'General deer and elk licenses are over the counter for residents. Permits, antelope licenses and B licenses use bonus points.'}{' '}
         Odds use the points and &ldquo;buying a point this year&rdquo; settings in <Link href="/account#hunting-preferences">Account</Link>: in Montana, banked bonus points count only if you buy a point with the application.
       </p>
     </Section>

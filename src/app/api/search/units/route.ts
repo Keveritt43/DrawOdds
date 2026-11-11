@@ -13,8 +13,8 @@ export async function GET(req: Request) {
   // Wyoming hunt areas differ by species: "A12" antelope, "D12" deer, "E12" elk (default deer)
   const wyPrefix = species === 'PRONGHORN' ? 'A' : species === 'ELK' ? 'E' : 'D';
   const features = units.filter(u => u.geometry && (state === 'WY' ? u.name.startsWith(wyPrefix) && !u.name.includes('R-')
-    // Montana: deer and elk share districts ("217"); antelope districts, when loaded, will be "A320"
-    : state === 'MT' ? /^\d/.test(u.name) : state !== 'CO' || (msg
+    // Montana: deer and elk share districts ("217"); antelope districts are "A320" (and Region 7 portions "A701N")
+    : state === 'MT' ? (species === 'PRONGHORN' ? /^A\d/.test(u.name) : /^\d/.test(u.name)) : state !== 'CO' || (msg
     ? species === 'GOAT' ? u.name.startsWith('G') : species === 'BIGHORN' ? u.name.startsWith('S') : species === 'MOOSE' ? /^\d/.test(u.name) : true
     : /^\d/.test(u.name)))).map(u => ({
     type: 'Feature', geometry: u.geometry, properties: { name: `${state}:${u.name}` },

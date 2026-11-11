@@ -12,7 +12,7 @@ import { int, pct as pct0 } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
-import { mtPersonal, MT_LICENSE_TYPE, MT_POOL_LABEL, type MtOddsTable, type MtPointOdds, type MtPool } from '@/lib/mtHunt';
+import { mtPersonal, mtUnitLabel, MT_LICENSE_TYPE, MT_POOL_LABEL, type MtOddsTable, type MtPointOdds, type MtPool } from '@/lib/mtHunt';
 import { MT_BONUS_TYPES } from '@/lib/mtPoints';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
@@ -22,7 +22,8 @@ const SEASON_LABEL: Record<string, string> = { early: 'Early', archery: 'Archery
 export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: string } }) {
   const po = s.pointOdds as unknown as MtPointOdds | null;
   const table = s.oddsByPts as unknown as MtOddsTable | null;
-  const spLabel = s.species === 'ELK' ? 'elk' : 'deer';
+  const spLabel = s.species === 'ELK' ? 'elk' : s.species === 'PRONGHORN' ? 'antelope' : 'deer';
+  const antelope = s.species === 'PRONGHORN';
   const [store, session] = await Promise.all([getPointsStore(), auth()]);
   const pts = readMtPoints(store.store as Record<string, unknown>);
   const saved = session?.user ? await db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } }) : null;
@@ -48,16 +49,16 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
     <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
       <p className="small">
         <BackLink state="MT" />
-        {first ? <> · <Link href={`/hunts?states=MT&unit=MT:${first}&species=${s.species}`}>Montana {spLabel} hunts in HD {first}</Link></> : null}
+        {first ? <> · <Link href={`/hunts?states=MT&unit=MT:${first}&species=${s.species}`}>Montana {spLabel} hunts in {mtUnitLabel(first)}</Link></> : null}
       </p>
       <h1 className="star-head">
-        Montana {spLabel[0].toUpperCase() + spLabel.slice(1)} {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
+        Montana {s.name.toLowerCase().startsWith(spLabel) ? '' : `${spLabel[0].toUpperCase() + spLabel.slice(1)} `}{s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
       </h1>
       <p className="muted" style={{ marginTop: 0 }}>
         {s.takeMethod}
         {!general ? ` · ${s.tags !== null ? `${int(s.tags)} ${/Permit$/.test(po.license) ? 'permits' : 'licenses'} (${po.year} quota)` : 'Unlimited'}` : ''}
         {s.privateOnly ? ' · Valid on private land only: you need landowner permission' : ''}
-        {' · '}{s.units.length > 8 ? <>{po.regs.validIn ?? `${s.units.length} districts`}</> : s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('MT', u))}`}>HD {u}</HuntLink></span>)}
+        {' · '}{s.units.length > 8 ? <>{po.regs.validIn ?? `${s.units.length} districts`}</> : s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('MT', u))}`}>{mtUnitLabel(u)}</HuntLink></span>)}
       </p>
 
       {general && (
@@ -65,6 +66,11 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           <b>General license.</b> Residents buy a general {spLabel} license over the counter. Nonresidents must first draw a{' '}
           <Link href="/montana">{po.combo?.name ?? 'combination license'}</Link>: the nonresident odds below are that statewide draw&apos;s, at your
           preference points. In Montana, holding 1 or 2 points below the cutoff has drawn <b>nothing</b>, while 0 points drew from the random quarter.
+        </div>
+      )}
+      {antelope && nr && (
+        <div className="card" style={{ margin: '12px 0' }}>
+          <b>No combination license needed.</b> Unlike deer and elk, a nonresident applies for a Montana antelope license on its own: the odds here are the whole story.
         </div>
       )}
       {!general && nr && po.needsGeneral && (
@@ -134,10 +140,10 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
 
       <h2>Hunter Success</h2>
       {po.harvest.length ? (
-        <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th><th className="num">{s.species === 'ELK' ? '6+ pt bulls' : '4+ pt bucks'}</th></tr></thead>
-          <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{h.antlered ? `${Math.round((100 * h.big) / h.antlered)}% of ${int(h.antlered)}` : '–'}</td></tr>)}</tbody></table>
-          <p className="small muted">FWP surveys {spLabel} hunters every other year ({s.species === 'ELK' ? 'even' : 'odd'} years); in other years district hunter counts are not estimated, so those seasons are left out rather than guessed. {po.harvestBasis}.</p></div>
-      ) : <p className="muted">No FWP harvest estimate for this district.</p>}
+        <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th><th className="num">{s.species === 'ELK' ? '6+ pt bulls' : antelope ? 'Bucks' : '4+ pt bucks'}</th></tr></thead>
+          <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{antelope ? (h.harvest ? `${Math.round((100 * h.antlered) / h.harvest)}% of harvest` : '–') : h.antlered ? `${Math.round((100 * h.big) / h.antlered)}% of ${int(h.antlered)}` : '–'}</td></tr>)}</tbody></table>
+          <p className="small muted">FWP surveys {spLabel} hunters every other year ({s.species === 'DEER' ? 'odd' : 'even'} years); in other years district hunter counts are not estimated, so those seasons are left out rather than guessed.{antelope ? ' FWP redrew many antelope districts in 2022 and again for 2026, so a season counts only where its district had the same boundary as today.' : ''} {po.harvestBasis}.</p></div>
+      ) : <p className="muted">{antelope ? 'No FWP harvest estimate for a season when this license\'s districts had today\'s boundaries. FWP redrew several for 2026, so earlier estimates describe different ground and are left out.' : 'No FWP harvest estimate for this district.'}</p>}
 
       <p className="small muted">Source: FWP {po.year} {spLabel} drawing statistics (detailed and summary reports), the {po.regs.year} Deer, Elk &amp; Antelope regulations and FWP harvest estimates. Land ownership: BLM Surface Management Agency. Confirm dates and rules with FWP before you apply.</p>
     </main>
