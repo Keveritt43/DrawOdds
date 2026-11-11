@@ -3,7 +3,7 @@
  *
  * Why a browser: neither the workspace shell nor the owner's PC shell can reach FWP or BLM (CLAUDE.md), and the
  * results are small. Paste this file into the console of any https://fwp-gis.mt.gov/ page (Claude in Chrome
- * javascript_tool), then `await mtBma.run()`; the result is left in `window.mtBmaResult` and read out in pieces.
+ * javascript_tool), then `await mtBma.run(species)`; the result is left in `window.mtBmaResult` and read out in pieces.
  *
  * Method: the same 100 m equal-area raster as scripts/mt_build_land.py (EPSG:5070, cell centre inside polygon,
  * even-odd scanline fill, ownership parcels drawn largest first, grid aligned to the deer/elk districts the same
@@ -85,7 +85,10 @@
     fill(arr, ps, v) { this.runs(ps, (row, a, b) => arr.fill(v, row * this.w + a, row * this.w + b)); }
   }
 
-  async function run() {
+  // species: optional { 'REGION-BMANUM': { deer, elk, ant } } from FWP's Block Management guide (scripts/mt_parse_bma_guide.browser.js).
+  // With it, each district also gets acres per species, counting only BMAs whose guide row lists that species;
+  // a BMA missing from the guide counts for no species (unknown is not "open to elk").
+  async function run(species) {
     const log = [];
     const de = await getAll(HD + '11/query?', { where: '1=1', outFields: 'DISTRICT', maxAllowableOffset: 10 });
     const an = await getAll(HD + '3/query?', { where: '1=1', outFields: 'DISTRICT', maxAllowableOffset: 10 });
@@ -162,6 +165,7 @@
     const measure = (ps) => {
       let n = 0, pub = 0, cov = 0;
       const c = { 1: 0, 2: 0 }, cp = { 1: 0, 2: 0 }, seen = { 1: new Set(), 2: new Set() };
+      const bySp = { deer: { 1: 0, 2: 0, n1: new Set(), n2: new Set() }, elk: { 1: 0, 2: 0, n1: new Set(), n2: new Set() }, ant: { 1: 0, 2: 0, n1: new Set(), n2: new Set() } };
       grid.runs(ps, (row, a, b) => {
         const o = row * grid.w;
         for (let k = o + a; k < o + b; k++) {
@@ -170,7 +174,12 @@
           if (ow) cov++;
           if (PUBLIC.has(ow)) pub++;
           const t = typ[k];
-          if (t) { c[t]++; seen[t].add(ids[k]); if (!PUBLIC.has(ow)) cp[t]++; }
+          if (t) {
+            c[t]++; seen[t].add(ids[k]);
+            if (!PUBLIC.has(ow)) cp[t]++;
+            const sp = species && species[bmaList[ids[k]]];
+            if (sp) for (const n of ['deer', 'elk', 'ant']) if (sp[n]) { if (!PUBLIC.has(ow)) bySp[n][t]++; bySp[n]['n' + t].add(ids[k]); }
+          }
         }
       });
       const pct = (x) => Math.round((1000 * x) / n) / 10;
@@ -179,6 +188,7 @@
         bma1Acres: Math.round(cp[1] * ACRES), bma1Pct: pct(cp[1]), bma1AllAcres: Math.round(c[1] * ACRES), bma1Count: seen[1].size,
         bma2Acres: Math.round(cp[2] * ACRES), bma2Pct: pct(cp[2]), bma2AllAcres: Math.round(c[2] * ACRES), bma2Count: seen[2].size,
         bma1Ids: [...seen[1]].map((i) => bmaList[i]).sort(), bma2Ids: [...seen[2]].map((i) => bmaList[i]).sort(),
+        species: species ? Object.fromEntries(Object.entries(bySp).map(([n, v]) => [n, { bma1Acres: Math.round(v[1] * ACRES), bma1Count: v.n1.size, bma2Acres: Math.round(v[2] * ACRES), bma2Count: v.n2.size }])) : undefined,
       };
     };
     const districts = {}, antelope = {};
@@ -194,6 +204,7 @@
       const k = keyOf(f);
       meta[k] = { name: f.properties.BMANAME, type: f.properties.PTYPE, region: f.properties.REGION, closed: closed.has(k) };
     }
+    if (species) log.push(`species table: ${Object.keys(species).length} BMAs; open BMAs not in it: ${bmaList.filter((k) => !species[k]).length}`);
     window.mtBmaResult = { statewide, districts, antelope, bmas: meta, log };
     return log.join('\n');
   }
