@@ -18,7 +18,7 @@ import {
 import { parseCutoffText, decodeHuntCode } from '../src/sync/co/recap';
 
 test('chance boundaries retain 94% hunts and separate missing odds from no chance', () => {
-  for (const [odds, expected] of [[0, 'none'], [0.004, 'none'], [0.005, 'longshot'], [0.299, 'longshot'], [0.3, 'possible'], [0.599, 'possible'], [0.6, 'likely'], [0.899, 'likely'], [0.9, 'sure'], [0.94, 'sure'], [1, 'sure'], [null, 'unavailable']] as const) {
+  for (const [odds, expected] of [[0, 'none'], [0.0001, 'longshot'], [0.004, 'longshot'], [0.005, 'longshot'], [0.299, 'longshot'], [0.3, 'possible'], [0.599, 'possible'], [0.6, 'likely'], [0.899, 'likely'], [0.9, 'sure'], [0.94, 'sure'], [1, 'sure'], [null, 'unavailable']] as const) {
     assert.equal(chanceOf(odds, 0, 1), expected);
   }
 });

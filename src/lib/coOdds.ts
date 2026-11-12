@@ -262,10 +262,11 @@ export function projectedOdds(
   return { odds, lo, hi, chance: chanceOf(odds, lo, hi) };
 }
 
-/** Label for odds (0..1); `hi` = the best case: none only when no outcome draws. */
+/** Label for odds (0..1); `hi` = the best case. "No chance" only when nothing draws: any real chance, however
+ *  small (Utah bison at 0 points is about 1 in 10,000), is a long shot (owner's call, Nov 12, 2026). */
 export function chanceOf(odds: number | null, _lo: number, hi: number): Chance {
   if (odds === null || !Number.isFinite(odds)) return 'unavailable';
-  if (hi <= 0 || odds < 0.005) return 'none';
+  if (hi <= 0 || odds <= 0) return 'none';
   if (odds >= 0.9) return 'sure';
   if (odds >= 0.6) return 'likely';
   if (odds >= 0.3) return 'possible';
