@@ -199,9 +199,10 @@ export async function GET(req: Request) {
         m[`huntersSqMi${sp}`] = r.huntersSqMi;
         continue;
       }
-      // buck / bull (and either-sex antelope) licences, as Idaho's map; antlerless B licences would paint
-      // every district at 100%
-      const adult = r.antlerClass === 'ANTLERED' || (r.species === 'PRONGHORN' && r.antlerClass === 'EITHER');
+      // licences that let you take a buck or bull: antlered or either-sex. Most Montana elk permits are
+      // "Brow-tined Bull or Antlerless Elk" (either sex), so antlered-only would leave 3 districts shaded.
+      // Antlerless B licences are left out: they'd paint every district at 100%.
+      const adult = r.antlerClass === 'ANTLERED' || r.antlerClass === 'EITHER';
       for (const u of r.units) {
         const m = by.get(u) ?? by.set(u, {}).get(u)!;
         m.controlled = Number(m.controlled ?? 0) + 1;
