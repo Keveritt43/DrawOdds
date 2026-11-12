@@ -20,6 +20,8 @@ import { mtHarvestSeries, mtDrawSeries } from '@/lib/mtSeries';
 import { LandBar } from '@/components/LandBar';
 import { OddsChart, ApplicantsChart, SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
 import { mtProjected, type MtProjection } from '@/lib/mtProj';
+import { mtApplicationCost, mtComboCost, mtGeneralResCost, mtMoney, MT_COMBO_PRICE } from '@/lib/mtFees';
+import { MtCostLine } from '@/components/MtCostLine';
 import { MtOddsPointsChart, MtDeerQualityChart, MtComboPointsChart } from '@/components/MtCharts';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
@@ -151,6 +153,11 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           </div>
         )}
       </div>
+
+      {!otc && (general
+        ? nr ? <MtCostLine cost={mtComboCost(pts.comboType, true)} extra={`For your ${combo.label.replace(/ \(.*\)$/, '')}; change it in Account.`} />
+          : s.species !== 'PRONGHORN' && <MtCostLine cost={mtGeneralResCost(s.species === 'ELK' ? 'ELK' : 'DEER')} />
+        : type && <MtCostLine cost={mtApplicationCost(type, nr, mine.buying !== false)} extra={nr && po.needsGeneral ? `Plus your combination license application (${mtMoney(MT_COMBO_PRICE[pts.comboType])} for the ${combo.label.replace(/ \(.*\)$/, '')}), which this permit needs.` : undefined} />)}
 
       {general && nr && (combo.species as readonly string[]).includes(s.species) && <>
         <h2>Your Combination Draw</h2>

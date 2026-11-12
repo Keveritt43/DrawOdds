@@ -96,6 +96,8 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   );
   const [classes, setClasses] = useState<Record<string, Classes>>({});
   const [missing, setMissing] = useState<Record<string, number>>({});
+  // Montana: the loaded districts' values, so the key counts only the set on screen (deer/elk or antelope)
+  const [feats, setFeats] = useState<Record<string, unknown>[]>([]);
   const [sel, setSel] = useState<Props | null>(null);
   // outline units or elk zones (elk zones only exist on the deer/elk/pronghorn drawing)
   const [bounds, setBoundsRaw] = useState<'units' | 'zones'>('units');
@@ -137,6 +139,22 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const field = M.field(sp, nr);
   const cls = classes[field];
   const colors = useMemo(() => (cls ? colorsFor(cls, M.better) : []), [cls, M.better]);
+  // The API counts every Montana district in one set; the map shows deer/elk or antelope districts, so recount the
+  // key over the districts on screen. Same class rule as the fill: class i covers [breaks[i-1], breaks[i]).
+  const shown = useMemo(() => {
+    if (st.code !== 'MT' || bare || !cls || !feats.length) return null;
+    const on = feats.filter((p) => (sp === 'PRONGHORN') === /^A\d/.test(String(p.name)));
+    const counts = cls.counts.map(() => 0);
+    let none = 0;
+    for (const p of on) {
+      const v = p[field];
+      if (typeof v !== 'number') { none++; continue; }
+      let i = 0;
+      while (i < cls.breaks.length && v >= cls.breaks[i]) i++;
+      counts[i]++;
+    }
+    return { cls: { ...cls, counts }, missing: none };
+  }, [st.code, bare, cls, feats, sp, field]);
 
   useEffect(() => {
     if (!el.current || map.current) return;
@@ -172,6 +190,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         });
         setClasses(cl);
         setMissing(miss);
+        if (st.code === 'MT') setFeats(fc.features.map((f) => f.properties as Record<string, unknown>));
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
         m.addLayer({ id: 'units-fill', type: 'fill', source: 'units', paint: { 'fill-color': '#ccc', 'fill-opacity': 0.62 } });
         m.addLayer({ id: 'units-line', type: 'line', source: 'units', paint: { 'line-color': '#1d2023', 'line-width': 0.8 } });
@@ -364,7 +383,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           value={noShade ? "none" : metric}
           options={options}
           onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
-          ramp={noShade ? undefined : { classes: cls, colors, fmt: M.fmt, none: M.none, missing: missing[field] ?? 0, unit: 'units', labels: M.labels }}
+          ramp={noShade ? undefined : { classes: shown?.cls ?? cls, colors, fmt: M.fmt, none: M.none, missing: shown ? shown.missing : missing[field] ?? 0, unit: st.code === 'MT' ? 'districts' : 'units', labels: M.labels }}
           note={`${mt && MT_NOTE[metric] ? MT_NOTE[metric] : st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code === 'CO' && metric === 'ctlSuccess' ? 'Harvest divided by hunters over up to five seasons, pooled across matching adult antlered hunts touching the unit. Multi-unit hunt totals count in each unit; at least 50 hunters are required.' : st.code === 'CO' && metric === 'success' ? 'Harvest divided by hunters over up to five seasons, pooled across matching general hunts touching the unit. Multi-unit hunt totals count in each unit; at least 50 hunters are required.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' })[sp]}${['ctlOdds','ctlFill','ctlPoints','ctlCreep'].includes(metric) ? `, ${nr ? 'nonresident' : 'resident'}` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ((st.code === 'CO' && metric === 'ctlPoints' ? ' Yellow = your saved species points; greener = fewer points needed, redder = more. Bands use whole points; 3 fewer or lower and 3 more or higher share the end colors.' : metric==='ctlQuality' ? ' Fixed 0–100 scale, matching the Quality badges.' : SCALE_NOTE[fixedScale(field) ?? '']) ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
           extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
           kind={kind}

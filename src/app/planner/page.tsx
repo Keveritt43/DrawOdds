@@ -5,6 +5,7 @@ import { mtPersonal, mtDistricts, type MtPointOdds } from "@/lib/mtHunt";
 import { mtAppOf, mtDay, MT_APPS, MT_CHOICES, MT_DATES_YEAR } from "@/lib/mtPlan";
 import { mtComboOdds, mtOddsLabel, mtLatestYear } from "@/lib/mtOdds";
 import { huntHref } from "@/lib/huntSlug";
+import { MT_COMBO_PRICE, MT_DRAW_PRICE, MT_PREF_POINT, MT_BONUS_POINT, MT_REFUND_MAILED, MT_PREREQ, MT_FEES_YEAR, MT_FEES_SOURCE } from "@/lib/mtFees";
 import Link from "next/link";
 import { getState } from "@/lib/residency";
 import { db } from "@/lib/db";
@@ -88,6 +89,10 @@ async function MtPlannerPage({ signedIn }: { signedIn: boolean }) {
     key: a.key, label: a.label, deadline: a.deadline, day: mtDay(a.deadline), results: a.results, what: a.what,
     points: a.key === 'COMBO' ? pts.combo : pts.bonus[a.key], buying: a.key === 'COMBO' ? true : pts.buying[a.key],
     nrNeedsCombo: a.key === 'DEER_PERMIT' || a.key === 'ELK_PERMIT',
+    price: a.key === 'COMBO' ? MT_COMBO_PRICE[pts.comboType] : (nr ? MT_DRAW_PRICE[a.key].nr : MT_DRAW_PRICE[a.key].res),
+    pointFee: a.key === 'COMBO' ? MT_PREF_POINT : MT_BONUS_POINT[nr ? 'nr' : 'res'],
+    refunded: a.key === 'COMBO' ? true : MT_DRAW_PRICE[a.key].refundable,
+    refundMailed: MT_REFUND_MAILED[a.key],
   }));
   const c = mtCombo(pts.comboType);
   const co = nr ? mtComboOdds(c.draw, Math.min(3, pts.combo)) : null;
@@ -96,6 +101,7 @@ async function MtPlannerPage({ signedIn }: { signedIn: boolean }) {
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>Montana Application Planner</h1>
       <MtPlanner opts={opts} apps={apps} nr={nr} signedIn={signedIn} set={pts.set} year={year} choices={MT_CHOICES}
+        fees={{ prereq: [...MT_PREREQ[nr ? 'nr' : 'res']], year: MT_FEES_YEAR, source: MT_FEES_SOURCE }}
         combo={nr ? { name: c.label, points: pts.combo, odds: co?.odds ?? null, label: mtOddsLabel(co), year: co?.year ?? mtLatestYear(c.draw) } : null} />
       <p className="small muted">Deadlines are FWP&apos;s {MT_DATES_YEAR} dates; FWP hadn&apos;t posted {MT_DATES_YEAR + 1} dates yet. <Link href="/guide">How the Montana draw works</Link> · <Link href="/changes">What changed since last year</Link></p>
     </main>
