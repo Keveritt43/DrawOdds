@@ -12,6 +12,21 @@ export function wySpecialView(value: string | undefined, saved: boolean): boolea
   return value === 'nrs' ? true : value === 'nr' ? false : saved;
 }
 
+/**
+ * States with no single-state finder: their hunts live only in the combined finder (`/hunts?states=XX`). A /hunts
+ * request without `states` under one of these headers would otherwise fall through to Idaho's finder (Idaho's elk
+ * zones, Idaho's filters, and no rows for the header state). Montana was missing from this list until Nov 11, 2026.
+ */
+export const COMBINED_ONLY: StateCode[] = ['WY', 'MT'];
+
+/** Where a /hunts request without `states` goes for a combined-only header state, or null to stay put. */
+export function combinedFinderRedirect(state: StateCode, sp: Record<string, string | string[] | undefined>): string | null {
+  if (sp.states !== undefined || !COMBINED_ONLY.includes(state)) return null;
+  const q = new URLSearchParams(Object.entries({ antler: 'ANTLERED', sort: 'opp', ...sp, states: state })
+    .flatMap(([k, v]) => (v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]])));
+  return `/hunts?${q}`;
+}
+
 /** Explicit URL selection wins; the header state supplies the initial selection. */
 export function searchStates(value: string | string[] | undefined, fallback: StateCode): StateCode[] {
   const allowed = new Set(enabledStates().map(s => s.code));

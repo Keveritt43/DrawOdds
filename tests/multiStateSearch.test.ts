@@ -160,3 +160,16 @@ test('CSV preserves search order, personalized odds, provenance and safe spreads
   assert.match(lines[2], /Nonresident,2,60,Projected/);
   assert.match(csv, /https:\/\/example.com\/hunts\/co-dm039o3r/);
 });
+
+test('a Montana or Wyoming header never lands in Idaho\'s finder', async () => {
+  const { combinedFinderRedirect } = await import('../src/lib/searchStates');
+  // the header's Find Hunts link on a fresh visit is a bare /hunts
+  assert.equal(combinedFinderRedirect('MT', {}), '/hunts?antler=ANTLERED&sort=opp&states=MT');
+  assert.equal(combinedFinderRedirect('WY', {}), '/hunts?antler=ANTLERED&sort=opp&states=WY');
+  // what the URL asked for is kept
+  assert.equal(combinedFinderRedirect('MT', { species: 'ELK', antler: 'ALL' }), '/hunts?antler=ALL&sort=opp&species=ELK&states=MT');
+  // already in the combined finder, or a state with its own finder: no redirect
+  assert.equal(combinedFinderRedirect('MT', { states: 'MT,ID' }), null);
+  assert.equal(combinedFinderRedirect('ID', {}), null);
+  assert.equal(combinedFinderRedirect('CO', {}), null);
+});
