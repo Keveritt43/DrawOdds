@@ -5,6 +5,7 @@ export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'lefto
 export const CO_RESTRICTIONS = ['season', 'chance', 'minPts', 'maxPts', 'second', 'hybrid', 'otcElk'];
 export const WY_RESTRICTIONS = ['wyMaxPts', 'wyPool', 'wyWild'];
 export const MT_RESTRICTIONS = ['mtLic', 'mtDeer', 'mtMinBma', 'mtMinHuntable', 'mtHasBma', 'mtBma2'];
+export const UT_RESTRICTIONS = ['utLic'];
 
 /** Wyoming nonresident pool to show in search: `wyPool=nr|nrs` previews the other pool without changing the saved
  *  Account setting; anything else falls back to it. */
@@ -17,7 +18,7 @@ export function wySpecialView(value: string | undefined, saved: boolean): boolea
  * request without `states` under one of these headers would otherwise fall through to Idaho's finder (Idaho's elk
  * zones, Idaho's filters, and no rows for the header state). Montana was missing from this list until Nov 11, 2026.
  */
-export const COMBINED_ONLY: StateCode[] = ['WY', 'MT'];
+export const COMBINED_ONLY: StateCode[] = ['WY', 'MT', 'UT'];
 
 /** Where a /hunts request without `states` goes for a combined-only header state, or null to stay put. */
 export function combinedFinderRedirect(state: StateCode, sp: Record<string, string | string[] | undefined>): string | null {

@@ -6,6 +6,7 @@ import { getFavorites } from '@/lib/favorites';
 import { getResidency } from '@/lib/residency';
 import { getPointsStore, readState } from '@/lib/points';
 import { readMtPoints } from '@/lib/mtPoints';
+import { readUtPoints } from '@/lib/utPoints';
 import { parseUnitKey, unitKey, enabledStates } from '@/lib/states';
 import { readPresets } from '@/lib/filterPresets';
 import { evaluateHunt } from '@/lib/multiStateSearch';
@@ -24,7 +25,7 @@ export const metadata = { title: 'Account' };
 
 export default async function Account() {
   const [session, {residency}, {store}, fav] = await Promise.all([auth(),getResidency(undefined,'ID'),getPointsStore(),getFavorites()]);
-  const colorado=readState(store,'CO'), wyoming=readState(store,'WY'), montana=readMtPoints(store), presets=readPresets(store);
+  const colorado=readState(store,'CO'), wyoming=readState(store,'WY'), montana=readMtPoints(store), utah=readUtPoints(store), presets=readPresets(store);
   const savedRefs=[...fav.units].map(parseUnitKey);
   const [units,hunts,apps]=await Promise.all([
     savedRefs.length?db.unit.findMany({where:{OR:savedRefs},select:{state:true,name:true,elkZone:true,publicPct:true}}):[],
@@ -40,7 +41,7 @@ export default async function Account() {
       <Link href="#hunting-preferences">Hunting Preferences</Link>
       {enabledStates().map(state=><Link key={state.code} href={'#saved-'+state.code.toLowerCase()}>{state.name} Saved Items</Link>)}
     </nav>
-    <HuntingPreferences idaho={residency} colorado={colorado} wyoming={wyoming} montana={enabledStates().some(s=>s.code==='MT')?montana:undefined}/>
+    <HuntingPreferences idaho={residency} colorado={colorado} wyoming={wyoming} montana={enabledStates().some(s=>s.code==='MT')?montana:undefined} utah={enabledStates().some(s=>s.code==='UT')?utah:undefined}/>
     <section id="saved-items">
       <h2>Saved Filters, Units &amp; Hunts</h2>
       <p className="small muted">Organized by state. A search spanning both states appears under each state.</p>

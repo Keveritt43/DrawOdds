@@ -203,6 +203,11 @@ def main() -> None:
         wavg = lambda k: round(sum(r[k] * r["acres"] for r in recs) / acres, 1)
         return {"acres": acres, "publicPct": wavg("publicPct"), "privatePct": wavg("privatePct")}
 
+    def harvest_rows(code):
+        yrs = H.get(code, {})
+        return [{"year": y, "hunters": yrs[y]["hunters"], "harvest": yrs[y]["harvest"], "days": yrs[y].get("days"),
+                 "preliminary": y == 2025} for y in HARVEST_YEARS if y in yrs and yrs[y].get("hunters") and yrs[y].get("harvest") is not None]
+
     def harvest_fields(code):
         yrs = H.get(code, {})
         use = [y for y in HARVEST_YEARS if y in yrs and yrs[y].get("hunters") and yrs[y].get("harvest") is not None]
@@ -251,7 +256,8 @@ def main() -> None:
                 problems.append(f"{code}: no residency quota")
                 continue
             sw = h["SeasonWeapons"] or []
-            seasons = [{"weapon": weapon_of(s["WeaponName"]), "dates": [{"open": iso(s["SeasonStartDate"]), "close": iso(s["SeasonEndDate"])}],
+            sex = "Antlered" if species == "DEER" else "Bull"
+            seasons = [{"weapon": weapon_of(s["WeaponName"]), "sex": sex, "dates": [{"open": iso(s["SeasonStartDate"]), "close": iso(s["SeasonEndDate"])}],
                         "notes": (s.get("SpecialInstruction") or "").strip()} for s in sw]
             opens = [s["dates"][0]["open"] for s in seasons if s["dates"][0]["open"]]
             closes = [s["dates"][0]["close"] for s in seasons if s["dates"][0]["close"]]
@@ -288,8 +294,8 @@ def main() -> None:
                               "pointsMeaning": "Points held when applying (DWR's table). " + (
                                   "Half of each pool's permits (rounded up; a one-permit pool none) go to the most points in order; the rest are drawn with points + 1 entries each."
                                   if kind == "bonus" else "A strict queue: the most points draw first, unit by unit."),
-                              "pools": pools},
-                "history": {str(y): {k: {"apps": v[0], "drew": v[1]} for k, v in p.items()} for y, p in sorted(p_hist.items())},
+                              "pools": pools, "harvest": harvest_rows(code),
+                              "history": {str(y): {k: {"apps": v[0], "drew": v[1]} for k, v in p.items()} for y, p in sorted(p_hist.items())}},
             }
             out.append(rec)
 
@@ -308,7 +314,10 @@ def main() -> None:
             "oddsLastYear": None, "oddsYears": 0, "resOddsLast": None, "nrOddsLast": None, "resOddsPrev": None, "nrOddsPrev": None,
             "resAppsLast": None, "nrAppsLast": None, "appsLast": None, "nrPermitsLast": None, "permitsLast": None,
             **harvest_fields(code), **ln, "oddsByPts": {"proj": {}, "last": {}},
-            "tagSeasons": {"year": YEAR, "seasons": [{"weapon": weapon, "dates": [{"open": op, "close": cl}], "notes": ""}]},
+            "pointOdds": {"state": "UT", "kind": "otc", "year": YEAR, "projected": False, "pools": {}, "harvest": harvest_rows(code),
+                          "pointsMeaning": "Over the counter: no draw and no points. DWR caps the statewide number of permits."},
+            "tagSeasons": {"year": YEAR, "seasons": [{"weapon": weapon, "sex": "Spike only" if take == "Spike bull" else "Bull",
+                                                      "dates": [{"open": op, "close": cl}], "notes": ""}]},
         })
 
     for h in out:
