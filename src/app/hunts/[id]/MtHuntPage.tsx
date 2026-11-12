@@ -106,7 +106,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       {otc && (
         <div className="card" style={{ margin: '12px 0' }}>
           <b>Over the counter, no draw.</b> FWP sells this B license from {po.onSale ?? 'June 15'}{po.quota === 'UNL' ? ', with no limit on numbers' : ''}, to residents and nonresidents alike; no combination license and no points are needed.
-          {po.fee ? <> {po.fee.year} fee: <b>${po.fee.res}</b> resident, <b>${po.fee.nr}</b> nonresident (FWP {po.fee.year} regulations, {po.fee.pages}), plus the conservation and base hunting licenses every hunter buys.</> : null}
+          {po.fee ? <> {po.fee.year} fee: <b>${po.fee.res}</b> resident, <b>${po.fee.nr}</b> nonresident (FWP {po.fee.year} {po.fee.pages}), plus the conservation and base hunting licenses every hunter buys.</> : null}
           {' '}You may hold up to three deer licenses a year (a general license and two B licenses, or three B licenses).
         </div>
       )}
@@ -134,7 +134,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           <div className="co-big">{pct(shown)} <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span></div>
           {mine.parts && <div className="small">If you draw the combination. Your {mine.parts.comboName} draw: <b>{pct(mine.parts.combo)}</b>; both: <b>{pct(mine.odds)}</b>{s.success5 !== null && mine.odds !== null ? <> · draw and fill <b>{pct(mine.odds * s.success5)}</b></> : null}.</div>}
           <div className="small muted">
-            {mine.basis}. Last draw, not a forecast: no Montana projection has been tested against past draws.
+            {mine.basis}.{otc ? '' : ' Last draw, not a forecast: no Montana projection has been tested against past draws.'}
             {!pts.set && <> <Link href="/account#hunting-preferences">Set your Montana points in Account</Link> for your own odds.</>}
           </div>
         </div>
@@ -195,7 +195,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           <p className="small muted">FWP surveys {spLabel} hunters every other year ({s.species === 'DEER' ? 'odd' : 'even'} years); in other years district hunter counts are not estimated, so those seasons are left out rather than guessed.{antelope ? ' FWP redrew many antelope districts in 2022 and again for 2026, so a season counts only where its district had the same boundary as today.' : ''} {po.harvestBasis}.</p></div>
       ) : <p className="muted">{antelope ? 'No FWP harvest estimate for a season when this license\'s districts had today\'s boundaries. FWP redrew several for 2026, so earlier estimates describe different ground and are left out.' : 'No FWP harvest estimate for this district.'}</p>}
 
-      <p className="small muted">Source: FWP {po.year} {spLabel} drawing statistics (detailed and summary reports), the {po.regs.year} Deer, Elk &amp; Antelope regulations and FWP harvest estimates. Land ownership: BLM Surface Management Agency. Confirm dates and rules with FWP before you apply.</p>
+      <p className="small muted">Source: {otc ? '' : `FWP ${po.year} ${spLabel} drawing statistics (detailed and summary reports), `}the {po.regs.year} Deer, Elk &amp; Antelope regulations and FWP harvest estimates. Land ownership: BLM Surface Management Agency. Confirm dates and rules with FWP before you apply.</p>
     </main>
   );
 }
