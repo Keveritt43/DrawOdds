@@ -1,8 +1,9 @@
 export const pct = (v: number | null | undefined, digits = 0) =>
   v === null || v === undefined || Number.isNaN(v) ? '-' : `${(v * 100).toFixed(digits)}%`;
-/** Odds-style percent: one decimal under 10% (but a plain "0%"), whole numbers above. */
+/** Odds-style percent: one decimal under 10% (but a plain "0%"), whole numbers above. A real chance under 0.1%
+ *  (Utah bison at 0 points is about 1 in 10,000) prints as "<0.1%", never "0.0%", which reads as no chance. */
 export const pctOdds = (v: number | null | undefined) =>
-  v === null || v === undefined || Number.isNaN(v) ? '-' : v === 0 ? '0%' : `${(v * 100).toFixed(v < 0.1 ? 1 : 0)}%`;
+  v === null || v === undefined || Number.isNaN(v) ? '-' : v === 0 ? '0%' : v < 0.0005 ? '<0.1%' : `${(v * 100).toFixed(v < 0.1 ? 1 : 0)}%`;
 export const pct100 = (v: number | null | undefined, digits = 0) =>
   v === null || v === undefined ? '-' : `${v.toFixed(digits)}%`;
 export const int = (v: number | null | undefined) => (v === null || v === undefined ? '-' : Math.round(v).toLocaleString('en-US'));

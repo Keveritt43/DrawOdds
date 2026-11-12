@@ -321,6 +321,8 @@ test('verdicts and draw x fill wording', async () => {
   assert.equal(drawFillLine(0.62), 'about 6 in 10');
   assert.equal(pctOdds(0), '0%');
   assert.equal(pctOdds(0.036), '3.6%');
+  assert.equal(pctOdds(0.0001), '<0.1%');
+  assert.equal(pctOdds(0.0006), '0.1%');
   assert.equal(meaningfulChange(6, 2, 20), false);
   assert.equal(meaningfulChange(90, 79, 20), true);
 });
