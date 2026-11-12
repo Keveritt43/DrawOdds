@@ -125,9 +125,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     code: 'UT',
     name: 'Utah',
     slug: 'utah',
-    // Not listed yet (reachable by link for previews): deer and elk rows come from scripts/ut-import.ts, and the
-    // Utah pages (bonus-point odds table, account point tracker, planner) are not built. docs/states/ut-onboarding.md.
-    enabled: false,
+    // Deer and elk (UT-1) from scripts/ut-import.ts; pronghorn and bison later. docs/states/ut-onboarding.md.
+    enabled: true,
     agency: { short: 'DWR', name: 'Utah Division of Wildlife Resources', url: 'https://wildlife.utah.gov/hunting/main-hunting-page/big-game.html' },
     // DWR's Walk-in Access program exists but no layer is loaded, so the slot stays empty rather than read 0%
     accessProgram: null,
