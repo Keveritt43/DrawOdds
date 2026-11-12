@@ -41,8 +41,8 @@ const MT_NOTE: Partial<Record<Metric, string>> = {
 /** Utah's sources and rules. Boundaries are DWR hunt boundaries, which overlap; the map draws one species and hunt type at a time. */
 const UT_NOTE: Partial<Record<Metric, string>> = {
   public: 'Federal + state land from BLM’s Surface Management Agency map, measured over each DWR hunt boundary (tribal land counts as private). Ownership is not permission to cross private land.',
-  success: 'DWR harvest ÷ hunters afield for the boundary’s general-season buck deer hunt, 2021–2025 (2025 preliminary). At least 50 hunters. General elk is over the counter and DWR reports its harvest statewide, so elk boundaries are not shaded.',
-  pressure: 'DWR hunters afield per season ÷ boundary square miles, general-season buck deer. Green = fewer hunters.',
+  success: 'Deer: DWR harvest ÷ hunters afield for the boundary’s general-season buck deer hunt, 2021–2025 (2025 preliminary). Elk: DWR’s general bull elk harvest ÷ hunters for the smallest elk unit or subunit covering 80%+ of the boundary, every adult general permit together, 2021–2024 (youth left out). At least 50 hunters.',
+  pressure: 'DWR hunters per season ÷ square miles: the boundary for general buck deer, the elk unit DWR reports for general bull elk (a hunter counts in every unit hunted). Green = fewer hunters.',
   ctlOdds: 'Best odds at your saved Utah bonus points of any limited-entry buck / bull (or once-in-a-lifetime) hunt on the boundary, from DWR’s 2026 draw. Not a projection of the next draw. CWMU (private-land) and youth-only permits left out.',
   ctlFill: 'Your 2026 draw odds × DWR hunt success (2021–2025), best limited-entry hunt on the boundary.',
   ctlSuccess: 'DWR harvest ÷ hunters afield, limited-entry hunts on the boundary together, 2021–2025 (2025 preliminary). At least 50 hunters; 10 for pronghorn and bison.',
@@ -98,13 +98,13 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const utFlag = `ut${htype === 'GENERAL' ? 'Gen' : 'Ctl'}${({ ELK: 'Elk', DEER: 'Deer', PRONGHORN: 'Pronghorn', BISON: 'Bison' } as Record<string, string>)[sp] ?? 'Elk'}`;
   // Montana: no point cutoffs (bonus points, no projection) and no elk objectives; its walk-in access is Block
   // Management Type 1, in the slot Idaho's Access Yes! uses
-  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : ut ? !["huntable", "objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) && !(htype === 'GENERAL' && sp === 'ELK' && METRICS[k].kind === 'general') : mt ? !["objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow"].includes(k))
+  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : ut ? !["huntable", "objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) : mt ? !["objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow"].includes(k))
       .filter(
         (k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'),
       )
-    .map((k) => ({ value: k, label: ut && k === 'ctlOdds' ? 'Draw Odds At My Points (Best Limited-Entry Hunt)' : ut && k === 'ctlFill' ? 'Draw And Fill At My Points (Best Limited-Entry Hunt)' : ut && k === 'ctlSuccess' ? 'Limited-Entry Hunt Success %' : ut && k === 'success' ? 'General Buck Deer Success %' : ut && k === 'pressure' ? 'General Buck Deer Hunters / Sq Mi' : mt && k === 'huntable' ? 'Public + Block Management Type 1 %' : mt && k === 'ctlOdds' ? 'Draw Odds At My Points (Best Buck / Bull License)' : mt && k === 'ctlFill' ? 'Draw And Fill At My Points (Best Buck / Bull License)' : mt && k === 'ctlSuccess' ? 'Drawn License Success %' : st.code==='CO' && (k==='ctlSuccess' || k==='success') ? 'Harvest Success %' : st.code==='CO' && k==='ctlPoints' ? 'Points Needed' : st.code==='CO' && k==='ctlOdds' ? 'Draw Odds At My Points (Best Antlered Hunt)' : st.code==='CO' && k==='ctlFill' ? 'Draw And Fill At My Points (Best Antlered Hunt)' : METRICS[k].label })),
+    .map((k) => ({ value: k, label: ut && k === 'ctlOdds' ? 'Draw Odds At My Points (Best Limited-Entry Hunt)' : ut && k === 'ctlFill' ? 'Draw And Fill At My Points (Best Limited-Entry Hunt)' : ut && k === 'ctlSuccess' ? 'Limited-Entry Hunt Success %' : ut && k === 'success' ? (sp === 'ELK' ? 'General Bull Elk Success %' : 'General Buck Deer Success %') : ut && k === 'pressure' ? (sp === 'ELK' ? 'General Bull Elk Hunters / Sq Mi' : 'General Buck Deer Hunters / Sq Mi') : mt && k === 'huntable' ? 'Public + Block Management Type 1 %' : mt && k === 'ctlOdds' ? 'Draw Odds At My Points (Best Buck / Bull License)' : mt && k === 'ctlFill' ? 'Draw And Fill At My Points (Best Buck / Bull License)' : mt && k === 'ctlSuccess' ? 'Drawn License Success %' : st.code==='CO' && (k==='ctlSuccess' || k==='success') ? 'Harvest Success %' : st.code==='CO' && k==='ctlPoints' ? 'Points Needed' : st.code==='CO' && k==='ctlOdds' ? 'Draw Odds At My Points (Best Antlered Hunt)' : st.code==='CO' && k==='ctlFill' ? 'Draw And Fill At My Points (Best Antlered Hunt)' : METRICS[k].label })),
   ];
-  // Utah: general elk has no per-boundary harvest, so a general-season shading falls back to public land
+  // Utah: keep the shading valid for the chosen animal and hunt type (fall back to public land)
   useEffect(() => {
     if (ut && !options.some((o) => o.value === metric)) setMetric('public');
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -493,12 +493,13 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                   <td style={{ textAlign: 'right' }}>{v('huntablePct') !== null ? `${Math.round(v('huntablePct')!)}%` : '-'}</td>
                 </tr>
               )}
-              {((msg || (mt && /^A\d/.test(String(sel.name))) ? [] : ut ? (sel.utGenDeer ? ['Deer'] : []) : ['Elk', 'Deer']) as ('Elk' | 'Deer')[]).map((s) => (
+              {((msg || (mt && /^A\d/.test(String(sel.name))) ? [] : ut ? ([...(sel.utGenElk ? ['Elk'] : []), ...(sel.utGenDeer ? ['Deer'] : [])]) : ['Elk', 'Deer']) as ('Elk' | 'Deer')[]).map((s) => (
                 <tr key={s}>
                   <td>General {s.toLowerCase()}</td>
                   <td style={{ textAlign: 'right' }}>
                     {v(`genSuccessRaw${s}`) !== null ? `${Math.round(v(`genSuccessRaw${s}`)!)}% success` : '-'}
                     {v(`genHunters${s}`) !== null ? ` · ${v(`genHunters${s}`)!.toLocaleString()} hunters/yr (${num(v(`huntersSqMi${s}`) ?? 0)}/sq mi)` : ''}
+                    {ut && s === 'Elk' && sel.genUnitsElk ? ` · DWR elk unit ${sel.genUnitsElk}` : ''}
                   </td>
                 </tr>
               ))}

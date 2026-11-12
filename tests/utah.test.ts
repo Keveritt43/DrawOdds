@@ -89,3 +89,12 @@ test('pronghorn and bison: cow bison are antlerless, Antelope Island is resident
   assert.equal(utLicense(by('BI6503') as never), 'oial');
   assert.ok(data.hunts.filter((h) => h.species === 'PRONGHORN').length >= 80);
 });
+
+test('general elk: per-boundary harvest comes from the elk unit covering it; split boundaries get none', async () => {
+  const { utGenElk } = await import('../src/lib/utGenElk');
+  const manti = utGenElk('51');
+  assert.ok(manti && manti.units.includes('16B') && manti.success > 0 && manti.success < 1);
+  // 2026's Oquirrh lies 48% in Oquirrh-Stansbury and 52% in West Desert: the old units describe other ground
+  assert.equal(utGenElk('947'), null);
+  assert.equal(utGenElk('925'), null);
+});
