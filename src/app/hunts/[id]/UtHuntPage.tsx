@@ -8,7 +8,7 @@ import { db } from '@/lib/db';
 import { auth } from '@/auth';
 import { getPointsStore } from '@/lib/points';
 import { readUtPoints, UT_POINT_TYPES } from '@/lib/utPoints';
-import { int, pct as pct0 } from '@/lib/format';
+import { int, pct as pct0, density } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
@@ -107,7 +107,7 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       {/* 2. Do I want it? */}
       <div className="stats">
         <div className="stat"><div className="k">Hunter success</div><div className="v">{pct0(s.success5)}</div><div className="small muted">{s.harvestYears ? `${s.harvestYears} season${s.harvestYears === 1 ? '' : 's'}${s.harvestLastYear === 2025 ? ' (2025 preliminary)' : ''}` : 'no DWR estimate'}</div></div>
-        <div className="stat"><div className="k">Hunters / mi²</div><div className="v">{s.huntersSqMi === null ? '–' : s.huntersSqMi.toFixed(1)}</div><div className="small muted">{s.huntersSqMi === null ? 'no DWR estimate' : otc ? 'statewide hunt over its units' : 'this hunt'}</div></div>
+        <div className="stat"><div className="k">Hunters / mi²</div><div className="v">{density(s.huntersSqMi)}</div><div className="small muted">{s.huntersSqMi === null ? 'no DWR estimate' : otc ? 'statewide hunt over its units' : 'this hunt'}</div></div>
         <div className="stat"><div className="k">Public land</div><div className="v">{s.privateOnly ? '0%' : s.publicPct === null ? '–' : `${Math.round(s.publicPct)}%`}</div><div className="small muted">{s.privateOnly ? 'private land only' : s.units.length > 1 ? `${s.units.length} boundaries` : 'of the boundary'}</div></div>
         {!otc && <div className="stat"><div className="k">Draw and fill</div><div className="v">{fill === null ? '–' : pct(fill)}</div><div className="small muted">odds × success</div></div>}
       </div>
