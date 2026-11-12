@@ -13,14 +13,17 @@ export interface MtPlanOpt {
   second: number | null; secondApps: number | null;
   basis: string;
 }
-export interface MtPlanApp { key: string; label: string; deadline: string; day: string; results: string; what: string; points: number; buying: boolean; nrNeedsCombo: boolean }
+export interface MtPlanApp { key: string; label: string; deadline: string; day: string; results: string; what: string; points: number; buying: boolean; nrNeedsCombo: boolean;
+  /** 2026 price to apply (null = FWP prints none), the point fee if buying one, and when drawing refunds are mailed */
+  price: number | null; pointFee: number; refunded: boolean; refundMailed: string }
+export interface MtPlanFees { prereq: { label: string; amount: number }[]; year: number; source: string }
 export interface MtPlanCombo { name: string; points: number; odds: number | null; label: string; year: number | null }
 
 const KEY = 'drawodds.mt.plan';
 const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 
-export function MtPlanner({ opts, apps, combo, nr, signedIn, set, year, choices }: {
-  opts: MtPlanOpt[]; apps: MtPlanApp[]; combo: MtPlanCombo | null; nr: boolean; signedIn: boolean; set: boolean; year: number; choices: number;
+export function MtPlanner({ opts, apps, combo, nr, signedIn, set, year, choices, fees }: {
+  opts: MtPlanOpt[]; apps: MtPlanApp[]; combo: MtPlanCombo | null; nr: boolean; signedIn: boolean; set: boolean; year: number; choices: number; fees: MtPlanFees;
 }) {
   const [ids, setIds] = useState<string[]>([]), [loaded, setLoaded] = useState(false), [pick, setPick] = useState<Record<string, string>>({}), [status, setStatus] = useState('');
   const byId = new Map(opts.map((o) => [o.id, o]));
@@ -136,6 +139,27 @@ export function MtPlanner({ opts, apps, combo, nr, signedIn, set, year, choices 
           </section>
         );
       })}
+      {(() => {
+        // one application per license type with a choice on it (its three choices are one application)
+        const used = apps.filter((a) => a.key === 'COMBO' ? !!combo : chosen(a.key).length > 0);
+        const lines = used.map((a) => ({ a, amount: a.price === null ? null : a.price + (a.buying ? a.pointFee : 0) }));
+        const known = lines.every((l) => l.amount !== null);
+        const total = lines.reduce((t, l) => t + (l.amount ?? 0), 0) + (lines.length ? fees.prereq.reduce((t, x) => t + x.amount, 0) : 0);
+        const money = (n: number) => `$${n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
+        return (
+          <section className="card plan-sec">
+            <h2>What You Pay When You Apply</h2>
+            {!lines.length ? <p className="muted">Add a choice to see what it costs.</p> : <>
+              <div className="cost-lines" style={{ margin: 0 }}><dl>
+                {lines.map(({ a, amount }) => <dd key={a.key}><span>{a.label}{a.buying && a.pointFee ? ` + ${a.key === 'COMBO' ? 'preference' : 'bonus'} point` : ''}</span><b>{amount === null ? 'not printed' : money(amount)}</b></dd>)}
+                {fees.prereq.map((x) => <dd key={x.label}><span>{x.label} (once a year)</span><b>{money(x.amount)}</b></dd>)}
+                <dd><span><b>{known ? 'Total charged with your applications' : 'Total of the prices FWP prints'}</b></span><b>{money(total)}</b></dd>
+              </dl></div>
+              <p className="small" style={{ marginBottom: 0 }}>Montana takes the license price when you apply. If you don&apos;t draw, FWP mails drawing refunds ({[...new Set(lines.filter((l) => l.a.refunded).map((l) => `${l.a.label.replace(/ \(drawn\)$/, '')}: ${l.a.refundMailed}`))].join('; ') || 'none of these are refunded'}). Not refunded: the $5 application fee in each price, the once-a-year licenses, deer and elk permit fees; FWP doesn&apos;t say whether point fees are. {combo ? 'The combination counts its preference point as bought. ' : ''}<a href={fees.source} target="_blank" rel="noreferrer">FWP {fees.year} regulations</a>, pp. 11–13 and 18.</p>
+            </>}
+          </section>
+        );
+      })()}
       <p role="status" className="small">{status}</p>
       <p className="small muted">Odds are first choice: projected for the next draw from the last one (the combination license as it last drew). Later choices only get licenses first choices left. A nonresident&apos;s permit chance to hunt multiplies the permit and combination draws as if independent. Confirm every choice and deadline with FWP before you apply.</p>
     </>

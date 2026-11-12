@@ -41,9 +41,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <b>Research</b>
               <FindHuntsLink>Find Hunts</FindHuntsLink>
               <Link href="/map">Unit Map</Link>
-              <Link href="/hunts?species=ELK&type=CONTROLLED">Elk Draws</Link>
-              <Link href="/hunts?species=DEER&type=CONTROLLED">Deer Draws</Link>
-              {state.code==='ID'&&<Link href="/hunts?species=PRONGHORN">Pronghorn Draws</Link>}
+              {state.code === 'MT' ? <>
+                {/* Montana's drawn deer and elk hunts are permits (the multi-state finder has no hunt-type filter) */}
+                <Link href="/hunts?states=MT&species=ELK&mtLic=permit">Elk Permits</Link>
+                <Link href="/hunts?states=MT&species=DEER&mtLic=permit">Deer Permits</Link>
+                <Link href="/hunts?states=MT&species=PRONGHORN">Antelope Draws</Link>
+              </> : state.code === 'WY' ? <>
+                <Link href="/hunts?states=WY&species=ELK">Elk Draws</Link>
+                <Link href="/hunts?states=WY&species=DEER">Deer Draws</Link>
+                <Link href="/hunts?states=WY&species=PRONGHORN">Antelope Draws</Link>
+              </> : <>
+                <Link href="/hunts?species=ELK&type=CONTROLLED">Elk Draws</Link>
+                <Link href="/hunts?species=DEER&type=CONTROLLED">Deer Draws</Link>
+                {state.code==='ID'&&<Link href="/hunts?species=PRONGHORN">Pronghorn Draws</Link>}
+              </>}
               {state.code === 'CO' && <Link href="/hunts?states=CO&draw=msg">Moose, Sheep &amp; Goat</Link>}
             </nav>
             <nav aria-label="About">

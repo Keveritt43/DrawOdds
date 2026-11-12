@@ -482,7 +482,7 @@ Open question for the owner: **should Montana launch with the nonresident combin
 2. **Done for 2021–2026.** `scripts/mt_parse_nr_combo.ts` parses the narrative reports; `scripts/mt_build_nr_combo.ts` merges them into `data/mt/nr-combo.json` and fails if two reports state the same draw differently; `src/lib/mtOdds.ts` resolves odds from the cutoff rather than by matching a printed band, so a party's fractional average still lands correctly. The extracted report text is committed under `data/mt/nr-combo-text/` so the build is reproducible without a browser. 30 tests.
    - Format quirks the parser handles, all real: point bands written either way round (`2.2 – 3`, `3-2.2`); en dash or hyphen; leading-dot decimals; pdf.js splitting digits inside numbers (`9,7 21`, `2,01 8`, `53. 6`); successes written as `, 7,281 successful` or `/ 9,098 combos available`; the word "Draw" missing; and a whole band omitted. Percentage tolerance follows the printed precision — the 2022-era reports round to whole numbers (17% for 17.46%), while 2026's two decimals are held to two decimals.
    - Still to do: 2018–2020, which need a column-aware extractor (see §3.1). Gate 2 (Brier backtest) stays unstarted until someone wants a projection — nothing projects today, and `/montana` says so.
-3. District crosswalk from the GIS "all past years" layers → `data/mt/district-history.json`. **Not done.** Until it is, five-season harvest figures assume a district number means the same ground across 2016–2025, which is wrong for districts changed in the 2022 restructure.
+3. District crosswalk from the GIS "all past years" layers → `data/mt/district-history.json`. **Done** (antelope #80, deer/elk #82): a season's harvest counts only where its outline overlaps today's district by at least 98%.
 4. **Done (#68), with a bug fixed 2026-11-11.** Harvest loader with the §5 rules. The deer "4 or More Points" column key carried a leading space, so every deer trophy value read as 0. The CSV header is trimmed and the key wasn't. Fixed, and the builder now fails on any column name it can't find. The rebuilt `harvest.json` is identical apart from that column.
 5. **Done (#74).** Regulations district-table parser (§2.4).
 6. **Not needed for last-draw odds (#75).** Detailed draw reports parsed (§3.5) and the points column established (§3.4). A simulator is only needed for a projection.
@@ -714,3 +714,15 @@ The three menu pages that showed "does not cover Montana yet" now have Montana v
 - Big Game / Elk: the last draw won every year.
 - Deer: the multi-year mean won on average (2023, 2026) and lost in 2024 and 2025. It is **not shipped**: the commission's withheld licences make 2026 the first year of a new quota that holds through 2027, and averaging in the larger pre-cut draws would overstate 2027 odds. Revisit after the 2027 draw.
 - The cohort roll-forward fails badly. The 2.2–3 band each year holds far more applicants than the previous year's unsuccessful 2-point holders could supply (4,138 in 2023 from 238 who failed at 2 in 2022), so the "return rate" is meaningless. Our guess is outfitter clients, who may buy a second point a year, but that is not checked.
+
+## 20. Costs and UAT leftovers — 2026-11-11
+
+- **Costs ship** (`src/lib/mtFees.ts`, `src/components/MtCostLine.tsx`), from the **2026 regulations**, which (unlike FWP's fee page) carry their year: fee charts pp. 12–13, drawing refunds p. 11, "Fees and Refunds" p. 18, read in Chrome with pdf.js.
+  - Montana takes the license price with the application; p. 11 lists when **drawing refunds are mailed**: combinations and deer/elk permits early May; Deer B, Elk B and archery antelope end of August; antelope and Antelope B early September. This settles §7's open question as far as the regulations go.
+  - Not refunded: the $5 application fee per license or permit, the Conservation and Base Hunting licenses and AIS pass, and elk permits ("Elk permits are nonrefundable"). The drawing prices include the $5 where it can be checked (Deer B $15 drawing vs $10 over the counter; Elk B "includes drawing fee").
+  - Not stated anywhere we read: whether point fees come back. The pages say so instead of guessing.
+  - The nonresident chart prints **no Antelope B drawing price**; shown as "not printed".
+  - Hunt pages show "When you apply / once a year / if you don't draw / if you draw"; the planner adds up what is charged with the chosen applications.
+- **Footer:** "Elk Draws"/"Deer Draws" sent Montana and Wyoming headers to an Idaho-shaped search. Montana now links Elk Permits, Deer Permits and Antelope Draws (`mtLic=permit`); Wyoming its own species.
+- **Unit Map key:** the units API counts all 202 Montana districts in one set, so the key's counts mixed deer/elk and antelope districts. The map now recounts the key over the set on screen.
+- **/montana:** said permits and B licences "are not modelled yet" and linked to "How Idaho's draw works". Fixed with #95.
