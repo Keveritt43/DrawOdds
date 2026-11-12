@@ -371,7 +371,7 @@ table.results.compare td .small { display: block; }
 .alts li a { font-weight: 700; }
 .choice-tip { margin: 8px 0 0; padding: 8px 10px; background: var(--bg); border-radius: 8px; font-size: .9rem; }
 .ztag-more { display: grid; gap: 2px; margin-top: 6px; font-size: .8rem; } .ztag-more b { font-weight: 700; }
-.uh-cards { display: grid; gap: 8px; } .uh-cards .hrow { margin: 0; background: var(--card); }
+.uh-cards { display: grid; gap: 8px; } .uh-cards > * { min-width: 0; } .uh-cards .hrow { margin: 0; background: var(--card); }
 .mk-filters { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-bottom: 7px; }
 .mk-seg { display: flex; align-items: center; gap: 6px; }
 .mk-seg .seg button { padding: 5px 9px; font-size: .8rem; }

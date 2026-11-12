@@ -186,9 +186,9 @@ export async function UtPlannerPage() {
             {[['Best odds at your points', g.byOdds], ['Best draw and fill', g.byFill]].map(([title, list]) => (
               <div key={title as string} className="card">
                 <h3 style={{ marginTop: 0 }}>{title as string}</h3>
-                <table className="cmp-table"><tbody>{(list as typeof g.byOdds).map((x) => (
+                <div className="cmp-wrap"><table className="cmp-table"><tbody>{(list as typeof g.byOdds).map((x) => (
                   <tr key={x.r.id}><td><Link href={`/hunts/${x.r.slug}`}>{x.r.name}</Link><div className="small muted">{x.r.tagCode}</div></td><td>{pct(x.odds)}</td><td className="small muted">{x.r.success5 !== null ? `${pct(x.r.success5)} success` : '–'}</td></tr>
-                ))}</tbody></table>
+                ))}</tbody></table></div>
                 {!(list as typeof g.byOdds).length && <p className="small muted">No {nr ? 'nonresident' : 'resident'} permits in this category.</p>}
               </div>
             ))}

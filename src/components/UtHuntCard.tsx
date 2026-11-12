@@ -9,7 +9,7 @@ import { dateRange } from '@/lib/coDisplay';
 import { seasonsSummary } from '@/lib/tagSeasons';
 import { utKind, type UtPointOdds } from '@/lib/utHunt';
 
-const PILL = { le: 'Limited entry · Bonus points', cwmu: 'CWMU · Bonus points', general: 'General · Preference points', otc: 'General · Over the counter' } as const;
+const PILL = { le: 'Limited entry', cwmu: 'CWMU', general: 'General draw', otc: 'Over the counter' } as const;
 
 /** Utah result card: Idaho's card structure, with Utah's three kinds of deer and elk hunt (bonus-point limited
  *  entry and CWMU, the general buck deer preference draw, over-the-counter general elk). */
