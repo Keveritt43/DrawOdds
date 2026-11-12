@@ -24,7 +24,7 @@ export function UtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
   const crowd = crowdVerdict(r.huntersSqMi), success = successVerdict(r.success5, r.species, r.weapon, r.type);
   const units = r.units.length > 3 ? `${r.units.length} hunt boundaries` : r.areaName;
   return (
-    <article className="hrow co-row mt-row">
+    <article className="hrow co-row ut-row">
       <div className="hrow-top">
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
