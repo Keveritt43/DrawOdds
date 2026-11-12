@@ -12,7 +12,7 @@ export async function GET(req: Request) {
   const units = await db.unit.findMany({ where: { state }, select: { name: true, geometry: true } });
   // Utah: hunts are drawn on DWR hunt boundaries that overlap across species and hunt types, so show only the
   // boundaries this species' hunts use (default deer)
-  const utUsed = state === 'UT' ? new Set((await db.huntSummary.findMany({ where: { state: 'UT', species: (['ELK', 'PRONGHORN', 'BISON'].includes(species) ? species : 'DEER') as 'DEER' }, select: { units: true } })).flatMap(h => h.units)) : null;
+  const utUsed = state === 'UT' ? new Set((await db.huntSummary.findMany({ where: { state: 'UT', species: (species && ['ELK', 'PRONGHORN', 'BISON'].includes(species) ? species : 'DEER') as 'DEER' }, select: { units: true } })).flatMap(h => h.units)) : null;
   // Wyoming hunt areas differ by species: "A12" antelope, "D12" deer, "E12" elk (default deer)
   const wyPrefix = species === 'PRONGHORN' ? 'A' : species === 'ELK' ? 'E' : 'D';
   const features = units.filter(u => u.geometry && (utUsed ? utUsed.has(u.name) : state === 'WY' ? u.name.startsWith(wyPrefix) && !u.name.includes('R-')
