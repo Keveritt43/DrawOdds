@@ -8,8 +8,9 @@ import { POINT_SPECIES, SPECIAL_POINT_SPECIES } from '@/lib/states';
 import { SPECIES_LABEL } from '@/lib/format';
 import Link from 'next/link';
 import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, MT_COMBO_TYPES, type MtComboType, type MtPoints } from '@/lib/mtPoints';
+import { UT_POINTS_MAX, UT_POINT_TYPES, type UtPoints } from '@/lib/utPoints';
 
-export function HuntingPreferences({ idaho, colorado, wyoming, montana }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints }) {
+export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
@@ -24,6 +25,8 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana }: { idah
   const [mtComboType, setMtComboType] = useState<MtComboType>(montana?.comboType ?? 'BIG_GAME');
   const [mtBonus, setMtBonus] = useState(Object.fromEntries(MT_BONUS_TYPES.map(t => [t.key, String(montana?.bonus[t.key] ?? 0)])));
   const [mtBuying, setMtBuying] = useState(Object.fromEntries(MT_BONUS_TYPES.map(t => [t.key, montana?.buying[t.key] ?? true])));
+  const [utResidency, setUtResidency] = useState<Residency>(utah?.res ?? 'NONRESIDENT');
+  const [utPts, setUtPts] = useState(Object.fromEntries(UT_POINT_TYPES.map(t => [t.key, String(utah?.points[t.key] ?? 0)])));
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
   return (
     <form className="card account-preferences" action={save} id="hunting-preferences" onSubmit={event => {
@@ -143,6 +146,26 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana }: { idah
                 onChange={e => setMtBuying({ ...mtBuying, [key]: e.target.checked })} /> Buying a point this year</label>
             </div>
           </div>)}
+        </div>
+      </fieldset>}
+      {utah && <fieldset>
+        <legend>Utah</legend>
+        <label>Residency
+          <select name="utResidency" value={utResidency} onChange={e => setUtResidency(e.target.value as Residency)}>
+            <option value="RESIDENT">Resident</option>
+            <option value="NONRESIDENT">Nonresident</option>
+          </select>
+        </label>
+        <p className="small muted">
+          Limited-entry deer and elk use <b>bonus points</b>: half the permits go to the most points, the rest are drawn with
+          one chance plus one per point, so zero points can still draw. General buck deer uses <b>preference points</b>, a
+          strict line. Points are lost only when you draw; drawing limited-entry buck deer or bull elk starts a 5-year wait.
+        </p>
+        <div className="account-points">
+          {UT_POINT_TYPES.map(({ key, label, kind }) => <label key={key}>{label} ({kind} points)
+            <input type="number" name={'utPts_' + key} min={0} max={UT_POINTS_MAX} step={1} required value={utPts[key]}
+              onChange={e => setUtPts({ ...utPts, [key]: e.target.value })} />
+          </label>)}
         </div>
       </fieldset>}
       <div className="account-save">

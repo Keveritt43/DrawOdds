@@ -7,7 +7,7 @@ import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
-export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS } from './searchStates';
+export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import { wyHuntWilderness } from './wyWilderness';
 import type { StatePoints } from './points';
@@ -20,9 +20,11 @@ import { isPrivateOnly, showPrivate } from './privateLand';
 import { mtKind, mtPersonal, type MtPointOdds } from './mtHunt';
 import { mtBma, mtAccessPct } from './mtBma';
 import type { MtPoints } from './mtPoints';
+import { utPersonal, utKind } from './utHunt';
+import { readUtPoints, type UtPoints } from './utPoints';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
-export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints };
+export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints };
 export interface SearchResult {
   r: CoScored;
   odds: number | null;
@@ -53,7 +55,7 @@ export function searchFilters(sp: SearchParams): Filters {
 /** All personal values are derived on copies; the public cached rows are never modified. */
 /** Residency for a row's state: Idaho's profile residency, else that state's saved settings. */
 export const isNonresident = (state: string, settings: HunterSettings) =>
-  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
+  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
 
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
   const nr = isNonresident(r.state, settings);
@@ -75,6 +77,12 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     const m = mtPersonal(r, mt, nr, mode);
     const opp = opportunity(r.scoreQuality, m.odds);
     return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: m.points, basis: m.basis, mtParts: m.parts };
+  }
+  if (r.state === 'UT') {
+    // unsaved settings: nonresident, 0 points (src/lib/utPoints.ts readUtPoints defaults)
+    const u = utPersonal(r, settings.UT ?? readUtPoints(null), nr);
+    const opp = opportunity(r.scoreQuality, u.odds);
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: u.odds, opportunity: opp, nr, points: u.points, basis: u.basis };
   }
   if (r.state === 'WY') {
     const wy = settings.WY;
@@ -163,6 +171,9 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     if (deer.length && !(r.species === 'DEER' && ((r.pointOdds as unknown as MtPointOdds | null)?.deer ?? ['MULE', 'WHITETAIL']).some((d) => deer.includes(d)))) return false;
     // Block Management: Type 1 (self sign-in) counts by default; Type 2 (landowner/FWP permission) only on request
     if (!matchesMtBma(r, sp)) return false;
+  } else if (r.state === 'UT') {
+    const kinds = list(sp, 'utLic');
+    if (kinds.length && !kinds.includes(utLicense(r))) return false;
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;
@@ -198,6 +209,15 @@ export function matchesMtBma(r: { units: string[]; species: string; publicPct: n
     if (!atLeast(huntable, Number(minHunt))) return false;
   }
   return true;
+}
+
+/** Utah hunt type for the "Utah: Hunt Type" filter: limited-entry (incl. premium and management buck), CWMU,
+ *  general-season draw (buck deer), or over the counter (general elk). */
+export function utLicense(r: { tagCode: string | null; species: string; type: string; oddsByPts: unknown; pointOdds: unknown; areaName?: string | null; name: string; privateOnly?: boolean | null }): 'le' | 'cwmu' | 'general' | 'otc' {
+  const k = utKind(r);
+  if (k === 'otc') return 'otc';
+  if (r.type === 'GENERAL') return 'general';
+  return r.privateOnly ? 'cwmu' : 'le';
 }
 
 const desc = (a: number | null, b: number | null) => (b ?? -Infinity) - (a ?? -Infinity) || 0;

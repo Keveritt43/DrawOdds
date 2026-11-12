@@ -9,6 +9,8 @@ import { parseUnitKey } from '@/lib/states';
 import { getPointsStore } from '@/lib/points';
 import { readMtPoints } from '@/lib/mtPoints';
 import { mtPersonal } from '@/lib/mtHunt';
+import { readUtPoints } from '@/lib/utPoints';
+import { utPersonal } from '@/lib/utHunt';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,6 +29,15 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
     return Response.json(rows.map((h) => ({
       id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
       open: h.openDate, close: h.closeDate, resOdds5: odds(h, false), nrOdds5: odds(h, true), success5: h.success5,
+    })), { headers: { 'Cache-Control': 'private, no-store' } });
+  }
+  if (state === 'UT') {
+    // Utah: every deer and elk hunt using the boundary, odds at the hunter's saved Utah points
+    const pts = readUtPoints((await getPointsStore()).store as Record<string, unknown>);
+    const rows = await db.huntSummary.findMany({ where: { state: 'UT', units: { has: name } }, orderBy: [{ type: 'asc' }, { species: 'asc' }, { tagCode: 'asc' }] });
+    return Response.json(rows.map((h) => ({
+      id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
+      open: h.openDate, close: h.closeDate, resOdds5: utPersonal(h, { ...pts, res: 'RESIDENT' }, false).odds, nrOdds5: utPersonal(h, { ...pts, res: 'NONRESIDENT' }, true).odds, success5: h.success5,
     })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   const nr = (await getResidency(undefined, state)).residency === 'NONRESIDENT';

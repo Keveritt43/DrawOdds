@@ -10,9 +10,12 @@ export async function GET(req: Request) {
   const msg = params.get('draw') === 'msg';
   if (!enabledStates().some(s => s.code === state)) return Response.json({ error: 'Unknown state' }, { status: 400 });
   const units = await db.unit.findMany({ where: { state }, select: { name: true, geometry: true } });
+  // Utah: hunts are drawn on DWR hunt boundaries that overlap across species and hunt types, so show only the
+  // boundaries this species' hunts use (default deer)
+  const utUsed = state === 'UT' ? new Set((await db.huntSummary.findMany({ where: { state: 'UT', species: species === 'ELK' ? 'ELK' : 'DEER' }, select: { units: true } })).flatMap(h => h.units)) : null;
   // Wyoming hunt areas differ by species: "A12" antelope, "D12" deer, "E12" elk (default deer)
   const wyPrefix = species === 'PRONGHORN' ? 'A' : species === 'ELK' ? 'E' : 'D';
-  const features = units.filter(u => u.geometry && (state === 'WY' ? u.name.startsWith(wyPrefix) && !u.name.includes('R-')
+  const features = units.filter(u => u.geometry && (utUsed ? utUsed.has(u.name) : state === 'WY' ? u.name.startsWith(wyPrefix) && !u.name.includes('R-')
     // Montana: deer and elk share districts ("217"); antelope districts are "A320" (and Region 7 portions "A701N")
     : state === 'MT' ? (species === 'PRONGHORN' ? /^A\d/.test(u.name) : /^\d/.test(u.name)) : state !== 'CO' || (msg
     ? species === 'GOAT' ? u.name.startsWith('G') : species === 'BIGHORN' ? u.name.startsWith('S') : species === 'MOOSE' ? /^\d/.test(u.name) : true
