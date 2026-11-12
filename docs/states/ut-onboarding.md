@@ -125,6 +125,16 @@ All built offline from files saved in Claude in Chrome; raw GIS inputs too big f
 - **Costs:** 2026 guidebook figures, labelled "2026 guidebook": application fee $10 resident / $21 nonresident per species or point (+2.2% transaction fee); permits resident/nonresident: general deer $46 / $599, LE deer $94 / $1,070, general any-bull elk $56 / $849, LE elk $314 / $1,950, LE pronghorn $63 / $571, bison $460 / $4,840 (Antelope Island resident $1,221). A Utah hunting licence is required to apply; **verify** its 2026 price before showing a total.
 - **Dates:** 2026 application March 19 – April 23, results by May 31; OTC elk on sale July 7/9/16. 2027 dates unknown until DWR posts them.
 
+## 6a. App status (Nov 12, 2026)
+
+Built and merged, with Utah still `enabled: false` (unlisted):
+- #105: hunt page (`src/app/hunts/[id]/UtHuntPage.tsx`: odds at every point level, success and draw-history charts, land bar, seasons, odds table), boundary page (`UtUnitPage.tsx`), finder card (`UtHuntCard`) and the "Utah: Hunt Type" filter (`utLic`: le / general / otc / cwmu), account point tracker (`src/lib/utPoints.ts`: LE deer and LE elk bonus points, general deer preference points), map boundaries per species, `tests/utah.test.ts`.
+- #106: How The Draw Works, What Changed and Planner (`src/components/UtPages.tsx`), header links, home title.
+- Import dry run (maintenance service, commit d1d6033, Nov 12 09:26 PT): 515 hunts, 209 boundaries, 386 scored, 0 live, 515 added, 0 removed, 0 changed, digest `07d110f328cb8427`. **Apply not run:** the session's approval check refused it; it needs the owner's explicit yes in chat. Maintenance service back to idle.
+- After the apply: switch `enabled: true` in `src/lib/states.ts` (and the test), then verify live at desktop and 390 px.
+
+Not built yet: a projection (needs the §5.2 backtest), waiting-period tracking on the account page, Utah's Walk-in Access layer, unit-level general elk harvest on boundary pages, pronghorn (UT-2) and bison (UT-3).
+
 ## 7. Steps, in order
 
 1. Fetch and archive every source in §3 (Chrome), including a sample of the 2026 tool's raw responses.
