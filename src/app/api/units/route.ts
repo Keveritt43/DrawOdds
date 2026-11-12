@@ -14,6 +14,7 @@ import { mtPersonal } from '@/lib/mtHunt';
 import { mtBmaDistrict } from '@/lib/mtBma';
 import { readUtPoints } from '@/lib/utPoints';
 import { utPersonal, utKind } from '@/lib/utHunt';
+import utLabels from '../../../../data/ut/boundary-labels.json';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -258,8 +259,8 @@ export async function GET(req: Request) {
         // CWMU permits (private land, landowner-run) aren't drawn on the map: they'd add gray boundaries with no
         // public draw to shade. Find Hunts lists them under its private-land-only filter.
         if (!r.privateOnly) m[`ut${gen ? 'Gen' : 'Ctl'}${sp}`] = 1;
-        // the boundary's DWR name: a single-boundary hunt carries it as its area name (as the boundary page does)
-        if (r.units.length === 1 && r.areaName && !m.label) m.label = r.areaName;
+        // the boundary's DWR name (DWR's boundary layer; data/ut/boundary-labels.json from scripts/ut_build_land.py)
+        m.label ??= (utLabels as Record<string, string>)[u] ?? null;
       }
       if (gen) {
         if (r.species !== 'DEER' || r.units.length !== 1 || utKind(r) === 'otc') continue;

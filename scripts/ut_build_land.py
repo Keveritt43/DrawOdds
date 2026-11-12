@@ -155,6 +155,9 @@ def main(gis: str) -> None:
                    "retrieved": "2026-11-12"},
         "huntToBoundaries": dict(sorted(hunts.items())),
         "units": sorted(units, key=lambda u: int(u["name"]))}, separators=(",", ":")) + "\n")
+    # DWR boundary names on their own, for the Unit Map labels (units.json is too big to load per request)
+    (out / "boundary-labels.json").write_text(json.dumps(
+        {u["name"]: u["label"] for u in sorted(units, key=lambda u: int(u["name"])) if u.get("label")}, separators=(",", ":")) + "\n")
     print(f"wrote land.json and units.json: {len(units)} boundaries, {len(hunts)} hunts mapped")
 
 
