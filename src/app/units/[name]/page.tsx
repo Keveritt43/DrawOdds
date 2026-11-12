@@ -48,7 +48,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const ref = parseUnitKey(decodeURIComponent((await params).name));
   if (ref.state === 'CO') return <CoUnitPage name={ref.name.toUpperCase()} />;
   if (ref.state === 'WY') return <WyUnitPage name={ref.name.toUpperCase()} />;
-  if (ref.state === 'MT') return <MtUnitPage name={ref.name.toUpperCase()} />;
+  if (ref.state === 'MT') return <MtUnitPage name={ref.name.toUpperCase()} sp={{ species: sp.species, type: sp.type }} />;
   if (ref.state !== 'ID') notFound();
   const name = ref.name.toUpperCase();
   const unit = await db.unit.findUnique({ where: { state_name: { state: 'ID', name } } });

@@ -12,6 +12,17 @@ import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, FEES, money, nextWindow, md
 
 export const dynamic = 'force-dynamic';
 
+// The layout's default title says Idaho; a Montana, Colorado or Wyoming home page says its own state.
+const HOME_TITLE: Record<string, string> = {
+  MT: 'DrawOdds Montana: Draw Odds For Deer, Elk And Antelope',
+  CO: 'DrawOdds Colorado: Draw Odds For Deer, Elk, Pronghorn, Moose, Sheep And Goat',
+  WY: 'DrawOdds Wyoming: Draw Odds For Deer, Elk And Antelope',
+};
+export async function generateMetadata() {
+  const t = HOME_TITLE[(await getState()).code];
+  return t ? { title: { absolute: t } } : {};
+}
+
 export default async function Home({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
   const current = (await getState()).code;

@@ -103,3 +103,24 @@ export function MtElsewhere({ what }: { what: string }) {
     </div>
   );
 }
+
+/** Data & Methods for Montana: where each number comes from (the Idaho page credits IDFG, so it can't be shown). */
+export function MtAbout() {
+  return (
+    <main className="wrap" style={{ maxWidth: 820, margin: '24px auto 48px' }}>
+      <div className="card">
+        <h1>Where Montana&apos;s Numbers Come From</h1>
+        <p>Everything here is public Montana Fish, Wildlife &amp; Parks (FWP) and BLM data. This site is not affiliated with or endorsed by FWP. Seasons and rules change; always confirm in the current FWP regulations before you apply or hunt.</p>
+        <ul>
+          <li><b>Draw odds:</b> FWP&apos;s drawing statistics, 2021–2026: detailed bonus-point reports for permits, antelope and B licenses, and the nonresident combination reports (2018–2026). Every odds number is a past draw, labelled with its year; no Montana projection has passed a backtest yet.</li>
+          <li><b>Seasons, quotas and restrictions:</b> the 2026 Deer, Elk &amp; Antelope regulations, district by district.</li>
+          <li><b>Harvest, success and crowding:</b> FWP&apos;s harvest estimates by district. FWP surveys deer in odd years and elk and antelope in even years, so only surveyed seasons count, and only when the district had the same boundary as today (FWP&apos;s past-years district maps).</li>
+          <li><b>Land:</b> BLM&apos;s Surface Management Agency map, measured over each district on a 100 m equal-area grid. Block Management acres from FWP&apos;s 2026–27 maps and guide.</li>
+          <li><b>Districts:</b> FWP&apos;s hunting district maps. Deer and elk share districts; antelope districts are different ground.</li>
+        </ul>
+        <p className="small muted">Method details: docs/states/mt-onboarding.md in the DrawOdds repository.</p>
+        <p><Link className="btn" href="/hunts?states=MT">Find Montana hunts</Link> <Link className="btn" href="/montana">The combination draw</Link></p>
+      </div>
+    </main>
+  );
+}

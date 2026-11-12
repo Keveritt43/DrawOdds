@@ -15,6 +15,11 @@ import { opportunity } from '@/lib/score';
 import { mtPersonal, mtUnitLabel, MT_LICENSE_TYPE, MT_POOL_LABEL, type MtOddsTable, type MtPointOdds, type MtPool } from '@/lib/mtHunt';
 import { MT_BONUS_TYPES } from '@/lib/mtPoints';
 import { MtBmaBlock } from '@/components/MtBma';
+import { mtCombo } from '@/lib/mtPoints';
+import { mtHarvestSeries, mtDrawSeries } from '@/lib/mtSeries';
+import { LandBar } from '@/components/LandBar';
+import { OddsChart, ApplicantsChart, SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
+import { MtOddsPointsChart, MtDeerQualityChart, MtComboPointsChart } from '@/components/MtCharts';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 const SEASON_LABEL: Record<string, string> = { early: 'Early', archery: 'Archery only', general: 'General', heritage: 'Heritage muzzleloader', late: 'Late' };
@@ -44,6 +49,15 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
     for (const [k, v] of Object.entries(patch)) v === null ? u.delete(k) : u.set(k, v);
     return `/hunts/${s.slug}${u.size ? `?${u}` : ''}#odds`;
   };
+  // land across the hunt's districts, acre-weighted, for Idaho's "Who manages the land" bar
+  const unitRows = await db.unit.findMany({ where: { state: 'MT', name: { in: s.units } }, select: { acres: true, landOwnership: true } });
+  const landTotal = unitRows.reduce((a, u) => a + (u.acres ?? 0), 0);
+  const landMix = new Map<string, number>();
+  for (const u of unitRows) for (const o of (u.landOwnership ?? []) as { manager: string; pct: number }[]) landMix.set(o.manager, (landMix.get(o.manager) ?? 0) + (o.pct * (u.acres ?? 0)) / (landTotal || 1));
+  const land = landTotal ? [...landMix.entries()].map(([manager, pct]) => ({ manager, pct })) : null;
+  const harvestSeries = mtHarvestSeries(po, s.species, s.units);
+  const drawSeries = mtDrawSeries(po);
+  const combo = mtCombo(pts.comboType);
   const byHd = new Map<string, typeof po.regs.rows>();
   for (const r of po.regs.rows) byHd.set(r.hd, [...(byHd.get(r.hd) ?? []), r]);
 
@@ -99,6 +113,10 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       <p className="small"><b>Land:</b> {s.publicPct === null ? 'not computed' : `${Math.round(s.publicPct)}% public`}{s.units.length > 1 ? ` across its ${s.units.length} districts` : ''}
         {s.privateOnly ? <b> · this license is valid on private land only: you need landowner permission, and the score counts it as 0% public</b> : null}
         <span className="muted"> · public ownership is not permission to cross private land, and state trust land has its own access rules</span></p>
+      {land && <div className="card" style={{ margin: '12px 0' }}>
+        <h3 style={{ marginTop: 0 }}>Who manages the land{s.units.length > 1 ? ` · ${s.units.length} districts` : ''}</h3>
+        <LandBar shares={land} />
+      </div>}
       <MtBmaBlock units={s.units} species={s.species} publicPct={s.privateOnly ? 0 : s.publicPct} />
       <ScoreRow r={{ ...s, scoreOppRes: nr ? null : opportunity(s.scoreQuality, mine.odds), scoreOppNr: nr ? opportunity(s.scoreQuality, mine.odds) : null }} nr={nr} open />
 
@@ -122,6 +140,11 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
         )}
       </div>
 
+      {general && nr && (combo.species as readonly string[]).includes(s.species) && <>
+        <h2>Your Combination Draw</h2>
+        <MtComboPointsChart licenseKey={combo.draw} title={`${po.combo?.names?.[combo.draw] ?? combo.label}: odds at each preference point level`} myPoints={pts.combo} />
+      </>}
+
       <h2>Seasons ({po.regs.year} Regulations)</h2>
       {[...byHd.entries()].slice(0, 12).map(([hd, rows]) => (
         <div key={hd} className="htable-wrap">
@@ -139,18 +162,25 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
         <div className="co-oddsbar"><span className="seg light" role="group" aria-label="Pool">
           {(['res', 'nr'] as MtPool[]).map((p) => <HuntLink key={p} className="seg-link" href={q({ pool: p === myPool ? null : p })} aria-pressed={pool === p} scroll={false}>{MT_POOL_LABEL[p]}</HuntLink>)}
         </span></div>
+        {table && <MtOddsPointsChart res={table.last.res ?? []} nr={table.last.nr ?? []} noBuy={{ res: table.noBuy?.res ?? null, nr: table.noBuy?.nr ?? null }} myPoints={mine.buying === false ? null : mine.points} mine={myPool} year={po.year} />}
         <Ladder po={po} table={table} pool={pool} me={pool === myPool ? mine : null} />
         <p className="small muted">{po.year} draw, first-choice applicants. &ldquo;Odds&rdquo; never fall as points rise: a printed rate that dips at a higher level (a handful of applicants) takes the level below&apos;s, because more points can never lower a chance in a weighted draw. Landowner pools are separate and not shown.</p>
       </>}
 
       {po.history && po.history.length > 0 && <>
         <h2>Draw History</h2>
+        <div className="grid2"><OddsChart data={drawSeries} nr={nr} /><ApplicantsChart data={drawSeries} /></div>
         <div className="htable-wrap"><table><thead><tr><th>Draw</th><th className="num">Quota</th><th className="num">Resident drew</th><th className="num">Nonresident drew</th></tr></thead>
           <tbody>{po.history.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{h.quota === 'UNL' ? 'Unlimited' : int(h.quota)}</td><td className="num">{int(h.res[1])} of {int(h.res[0])} ({pct(h.res[0] ? h.res[1] / h.res[0] : null)})</td><td className="num">{int(h.nr[1])} of {int(h.nr[0])} ({pct(h.nr[0] ? h.nr[1] / h.nr[0] : null)})</td></tr>)}</tbody></table>
           <p className="small muted">First-choice applicants. Odds by point level use only 2023 onward: FWP labelled the points column differently in 2021–2022 in a way no reading of the rules explains.</p></div>
       </>}
 
       <h2>Hunter Success</h2>
+      {harvestSeries.length > 0 && <div className="grid2">
+        <SuccessChart data={harvestSeries} />
+        <HarvestChart data={harvestSeries} />
+        {s.species === 'DEER' ? <MtDeerQualityChart data={harvestSeries} /> : s.species === 'ELK' ? <QualityChart data={harvestSeries} species="ELK" /> : null}
+      </div>}
       {po.harvest.length ? (
         <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">{po.mulePermit ? 'Permits' : 'Hunters'}</th><th className="num">{po.mulePermit ? 'Mule bucks' : 'Harvest'}</th><th className="num">Success</th><th className="num">{s.species === 'ELK' ? '6+ pt bulls' : antelope ? 'Bucks' : '4+ pt bucks'}</th></tr></thead>
           <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{antelope ? (h.harvest ? `${Math.round((100 * h.antlered) / h.harvest)}% of harvest` : '–') : h.antlered ? `${Math.round((100 * h.big) / h.antlered)}% of ${int(h.antlered)}` : '–'}</td></tr>)}</tbody></table>

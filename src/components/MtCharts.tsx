@@ -1,5 +1,5 @@
 'use client';
-import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine, LineChart, Line, Legend } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine, LineChart, Line, Legend, ComposedChart } from 'recharts';
 import { Frame } from './Charts';
 import { mtLevels, mtCutoff, mtCutoffHistory, type MtLevel } from '@/lib/mtOdds';
 
@@ -114,5 +114,70 @@ export function MtCutoffHistoryChart({ licenseKey, title }: { licenseKey: string
         No projection: see the page notes.
       </p>
     </div>
+  );
+}
+
+const RES = '#2a78d6';
+const NR = '#eb6834';
+const pctAxis = (v: number) => `${Math.round(v * 100)}%`;
+
+/**
+ * Bonus-point odds as Colorado's and Wyoming's "Draw odds at each point level" chart: resident and nonresident,
+ * your own line bold and your points marked. x is the points you hold if you buy a point this year (FWP's row is
+ * one higher); the not-buying chance is drawn as a flat dashed line, since banked points don't count then.
+ */
+export function MtOddsPointsChart({ res, nr, noBuy, myPoints, mine, year }: {
+  res: number[]; nr: number[]; noBuy?: { res: number | null; nr: number | null }; myPoints: number | null; mine: 'res' | 'nr'; year: number;
+}) {
+  const len = Math.max(res.length, nr.length);
+  if (!len) return null;
+  const max = Math.min(30, Math.max(4, len, (myPoints ?? 0) + 1));
+  const at = (a: number[], i: number) => (a.length ? a[Math.min(i, a.length - 1)] : null);
+  const data = Array.from({ length: max + 1 }, (_, points) => ({ points, res: at(res, points), nr: at(nr, points) }));
+  const nb = noBuy?.[mine] ?? null;
+  return (
+    <div>
+      <Frame title="Draw odds at each bonus point level">
+        <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+          <CartesianGrid stroke={grid} vertical={false} />
+          <XAxis dataKey="points" tickLine={false} />
+          <YAxis width={44} tickLine={false} domain={[0, 1]} tickFormatter={pctAxis} />
+          <Tooltip formatter={(v: unknown, n: string) => [typeof v === 'number' ? `${(v * 100).toFixed(1)}%` : '–', n]} labelFormatter={(v) => `${v} bonus points + buying one`} />
+          <Legend />
+          <Line name="Resident" dataKey="res" stroke={RES} strokeWidth={mine === 'res' ? 3 : 1.5} strokeOpacity={mine === 'res' ? 1 : 0.5} dot={{ r: 3 }} connectNulls />
+          <Line name="Nonresident" dataKey="nr" stroke={NR} strokeDasharray="6 4" strokeWidth={mine === 'nr' ? 3 : 1.5} strokeOpacity={mine === 'nr' ? 1 : 0.5} dot={{ r: 3 }} connectNulls />
+          {nb !== null && <ReferenceLine y={nb} stroke="#5b6168" strokeDasharray="2 4" label={{ value: `Not buying a point: ${Math.round(nb * 100)}%`, position: 'insideTopRight', fontSize: 11, fill: '#5b6168' }} />}
+          {myPoints !== null && <ReferenceLine x={Math.min(myPoints, max)} stroke="#5b6168" strokeDasharray="4 4" />}
+        </LineChart>
+      </Frame>
+      <p className="small muted">{year} draw, first choice. {myPoints !== null ? `Dashed line: your ${myPoints} points. ` : ''}Odds never fall as points rise (see the table below).</p>
+    </div>
+  );
+}
+
+/**
+ * Idaho's deer quality chart with Montana's numbers: mule deer and whitetail harvest stacked, and the 4+ point
+ * share of FWP's antlered deer. Montana's "4 or more points" counts bucks of both species, so the line is labelled
+ * as the share of all antlered bucks, not of mule deer as Idaho's is.
+ */
+export function MtDeerQualityChart({ data }: { data: { year: number; mule?: number | null; whitetail?: number | null; antlered?: number | null; big?: number | null; harvest?: number | null }[] }) {
+  const rows = data.map((d) => ({ ...d, share: d.antlered ? Math.min(1, (d.big ?? 0) / d.antlered) : null }));
+  const split = rows.some((d) => d.mule != null);
+  return (
+    <Frame title={split ? 'Mule deer vs whitetail, and 4+ point buck share (est)' : 'Harvest and 4+ point buck share (est)'}>
+      <ComposedChart data={rows} margin={{ top: 5, right: 12, left: 0, bottom: 0 }}>
+        <CartesianGrid stroke={grid} vertical={false} />
+        <XAxis dataKey="year" tickLine={false} />
+        <YAxis yAxisId="n" width={44} tickLine={false} />
+        <YAxis yAxisId="p" orientation="right" domain={[0, 1]} tickFormatter={pctAxis} width={48} tickLine={false} />
+        <Tooltip formatter={(v: unknown, n: string) => [typeof v === 'number' ? (n.includes('share') ? `${(v * 100).toFixed(1)}%` : v.toLocaleString()) : '–', n]} />
+        <Legend />
+        {split ? <>
+          <Bar yAxisId="n" name="Mule deer" dataKey="mule" stackId="s" fill="#2a78d6" />
+          <Bar yAxisId="n" name="Whitetail" dataKey="whitetail" stackId="s" fill="#eda100" />
+        </> : <Bar yAxisId="n" name="Harvest" dataKey="harvest" fill="#2a78d6" />}
+        <Line yAxisId="p" name="4+ point buck share" dataKey="share" stroke="#0f6e56" strokeWidth={3} dot={{ r: 3 }} connectNulls />
+      </ComposedChart>
+    </Frame>
   );
 }

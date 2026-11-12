@@ -1,9 +1,11 @@
 import { CoAbout } from "@/components/CoPages";
 import { getState } from "@/lib/residency";
+import { MtAbout } from "@/components/MtHome";
 export const metadata = { title: 'Data & Methods' };
 
 export default async function About() {
   if ((await getState()).code === "CO") return <CoAbout />;
+  if ((await getState()).code === "MT") return <MtAbout />;
   return (
     <main className="wrap" style={{ maxWidth: 820, margin: '24px auto 48px' }}>
       <div className="card">

@@ -1,8 +1,13 @@
+// Idaho stores agency names ("Bureau of Land Management"); Montana and Wyoming store codes ("BLM", "USFS",
+// "TRIBAL"). Tribal land and land BLM hasn't attributed are not public, so they get their own colours rather
+// than falling into "Other public".
 const COLORS: [RegExp, string, string][] = [
   [/private/i, '#b4b2a9', 'Private'],
+  [/tribal|reservation|indian/i, '#8c6a4f', 'Tribal'],
+  [/undetermined|not attributed|unknown/i, '#e3e0d6', 'Not attributed'],
   [/land management|blm/i, '#eda100', 'BLM'],
-  [/forest/i, '#3b6d11', 'Forest Service'],
-  [/state/i, '#2a78d6', 'State'],
+  [/forest|usfs/i, '#3b6d11', 'Forest Service'],
+  [/state|fwp/i, '#2a78d6', 'State'],
   [/.*/, '#6250d6', 'Other public'],
 ];
 
