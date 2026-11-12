@@ -14,7 +14,7 @@ export const ANTLER: Record<string, string> = { ANTLERED: 'Antlered', ANTLERLESS
 export const DEERTYPE: Record<string, string> = { MULE: 'Mule deer', WHITETAIL: 'Whitetail', MIXED: 'Mixed' };
 export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const SPECIES_LABEL: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn Sheep', GOAT: 'Mountain Goat' };
+export const SPECIES_LABEL: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn Sheep', GOAT: 'Mountain Goat', BISON: 'Bison' };
 
 /** Sex class in the species' own words: pronghorn have horns (bucks / does), not antlers. */
 export function antlerLabel(species: string, cls: string): string {
@@ -128,6 +128,8 @@ export function oddsVerdict(v: number | null | undefined): Verdict {
 const SUCCESS_BANDS: Record<string, [number, number, number]> = {
   DEER: [0.55, 0.35, 0.75], PRONGHORN: [0.6, 0.35, 0.85],
   MOOSE: [0.7, 0.5, 0.9], BIGHORN: [0.7, 0.5, 0.9], GOAT: [0.7, 0.5, 0.9],
+  // once-in-a-lifetime bison (Utah): most hunts fill; the bar is the same as moose, sheep and goat
+  BISON: [0.7, 0.5, 0.9],
 };
 /** Weapon stays in the signature for existing callers; it does not lower the bar. */
 export function successBands(species: string, _weapon = 'ANY', type: string = 'GENERAL'): [number, number, number] {

@@ -16,14 +16,14 @@ import { StateProvider } from '@/components/StateContext';
 
 type SP = { species?: string; type?: string };
 const FILTERS = {
-  species: [['', 'All species'], ['DEER', 'Deer'], ['ELK', 'Elk']],
-  type: [['', 'All hunts'], ['le', 'Limited entry'], ['general', 'General deer'], ['otc', 'General elk'], ['cwmu', 'CWMU']],
+  species: [['', 'All species'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['PRONGHORN', 'Pronghorn'], ['BISON', 'Bison']],
+  type: [['', 'All hunts'], ['le', 'Limited entry'], ['oial', 'Once in a lifetime'], ['general', 'General deer'], ['otc', 'General elk'], ['cwmu', 'CWMU']],
 } as const;
 
 /**
  * A Utah DWR hunt boundary, laid out like Idaho's unit page. Utah draws hunts on hunt boundaries, not management
  * units: one hunt can use several boundaries, and boundaries for different species and hunt types overlap. So this
- * page is one boundary, and lists every deer and elk hunt that uses it.
+ * page is one boundary, and lists every deer, elk, pronghorn and bison hunt that uses it.
  */
 export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
   const unit = await db.unit.findUnique({ where: { state_name: { state: 'UT', name } } });
@@ -89,7 +89,7 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
       <p className="small muted" style={{ margin: '4px 0 8px' }}>{shown.length} of {rows.length} hunts · odds are {nr ? 'nonresident' : 'resident'}, at your saved points, as the 2026 draw ran</p>
       <div className="uh-cards">
         {shown.map((x) => <UtHuntCard key={x.r.id} r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />)}
-        {!shown.length && <p className="muted">{rows.length ? 'No hunts match these filters.' : 'No deer or elk hunts use this boundary.'}</p>}
+        {!shown.length && <p className="muted">{rows.length ? 'No hunts match these filters.' : 'No deer, elk, pronghorn or bison hunts use this boundary.'}</p>}
       </div>
       <p className="small muted">Source: Utah DWR 2026 draw results, harvest reports and hunt boundaries; land from BLM&apos;s Surface Management Agency map. Confirm with DWR before you apply.</p>
     </main>

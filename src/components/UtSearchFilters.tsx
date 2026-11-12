@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 
-const KINDS = [['le', 'Limited-entry (bonus points)'], ['general', 'General buck deer (preference points)'], ['otc', 'General elk (over the counter)'], ['cwmu', 'CWMU (private land)']] as const;
+const KINDS = [['le', 'Limited-entry (bonus points)'], ['oial', 'Once-in-a-lifetime bison (bonus points)'], ['general', 'General buck deer (preference points)'], ['otc', 'General elk (over the counter)'], ['cwmu', 'CWMU (private land)']] as const;
 
 /** Utah-only filters; they narrow Utah results and leave other selected states unchanged. CWMU hunts are
  *  private-land-only, so the shared filter hides them until "Private-Land-Only Hunts" is shown. */

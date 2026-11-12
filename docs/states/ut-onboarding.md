@@ -137,6 +137,8 @@ Built and merged, with Utah still `enabled: false` (unlisted):
 
 Not built yet: a projection (needs the §5.2 backtest), waiting-period tracking on the account page, Utah's Walk-in Access layer, unit-level general elk harvest on boundary pages, pronghorn (UT-2) and bison (UT-3).
 
+- **UT-2/UT-3 and the Unit Map (PR #114, Nov 12):** builder now makes 617 hunts (+86 pronghorn: 66 limited entry, 20 CWMU; +16 bison; PB5329 omitted, no DWR boundary). Unit Map has a Utah branch: DWR boundaries drawn one set at a time (species × general / limited entry), labelled by DWR name, odds at saved Utah points, CWMU boundaries left off, general elk unshaded (OTC, statewide harvest). **Blocked before merge:** production needs `prisma/add-bison.sql` (additive `ALTER TYPE "Species" ADD VALUE IF NOT EXISTS 'BISON'`) first, because the finder queries `species IN (..., 'BISON')` and Postgres rejects an unknown enum value, which would break search for every state. The session's approval check refused the maintenance-service change that runs it; it needs the owner's explicit yes for this schema change. Then: merge, dry run (expect 515 live, 102 added, 0 removed), apply on its digest, idle the service, verify.
+
 ## 7. Steps, in order
 
 1. Fetch and archive every source in §3 (Chrome), including a sample of the 2026 tool's raw responses.

@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
 
 type SP = { species?: string; type?: string; weapon?: string; as?: string };
 const FILTERS = {
-  species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['PRONGHORN', 'Pronghorn'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn Sheep'], ['GOAT', 'Mountain Goat']],
+  species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['PRONGHORN', 'Pronghorn'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn Sheep'], ['GOAT', 'Mountain Goat'], ['BISON', 'Bison']],
   type: [['', 'All'], ['GENERAL', 'General'], ['CONTROLLED', 'Controlled']],
   weapon: [['', 'All'], ['ANY', 'Any Weapon'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader']],
 } as const;

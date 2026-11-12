@@ -6,7 +6,7 @@ import { ELK_ZONES, ELK_ZONE_NAMES } from '@/lib/elkZones';
 import { useStateConfig } from './StateContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Residency } from '@prisma/client';
-import { DRAW_SPECIES, type Draw } from '@/lib/species';
+import { SEARCH_DRAW_SPECIES, type Draw } from '@/lib/species';
 import { STATES, type StateCode } from '@/lib/states';
 import { ID_RESTRICTIONS, searchUnitLabel } from '@/lib/searchStates';
 import { withPresetEdit } from '@/lib/filterPresets';
@@ -51,7 +51,8 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
   const [open, setOpen] = useState(false);
   const nr = residency === 'NONRESIDENT';
   const resetHref = withPresetEdit(states ? `/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0` : sp.has('editPreset') ? `/hunts?state=${header.code}&restore=1&draw=${draw.toLowerCase()}&antler=ANTLERED` : '/hunts?reset=1', sp.get('editPreset'));
-  const speciesOptions: Opt[] = states ? [['', 'All species'], ...DRAW_SPECIES[draw].map(s => [s, ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn sheep', GOAT: 'Mountain goat' })[s]] as Opt)] : msg ? SPECIES_MSG : SPECIES;
+  // only species a selected state actually has (bison: Utah)
+  const speciesOptions: Opt[] = states ? [['', 'All species'], ...SEARCH_DRAW_SPECIES[draw].filter(s => states.some(st => STATES[st].species.includes(s))).map(s => [s, ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn sheep', GOAT: 'Mountain goat', BISON: 'Bison' })[s]] as Opt)] : msg ? SPECIES_MSG : SPECIES;
   const idNote = states ? <p className="small muted">Applies to Idaho only. Other selected states are unchanged.</p> : null;
   const sharedNote = states ? <p className="small muted">Applies to all selected states.</p> : null;
 

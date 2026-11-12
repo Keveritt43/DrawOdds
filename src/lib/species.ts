@@ -6,7 +6,7 @@
  * The site shows one drawing at a time.
  */
 export type Draw = 'DEP' | 'MSG';
-export type SpeciesKey = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT';
+export type SpeciesKey = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | 'BISON';
 
 export const DRAW_SPECIES: Record<Draw, SpeciesKey[]> = {
   DEP: ['DEER', 'ELK', 'PRONGHORN'],
@@ -14,6 +14,9 @@ export const DRAW_SPECIES: Record<Draw, SpeciesKey[]> = {
 };
 export const DRAW_LABEL: Record<Draw, string> = { DEP: 'Deer · Elk · Pronghorn', MSG: 'Moose · Sheep · Goat' };
 export const DRAW_SHORT: Record<Draw, string> = { DEP: 'Deer/Elk/Pronghorn', MSG: 'Moose/Sheep/Goat' };
+/** Multi-state search: the deer/elk/pronghorn drawing also carries Utah's once-in-a-lifetime bison, which Utah draws in
+ *  the same application. Idaho's own queries keep DRAW_SPECIES (Idaho has no bison). */
+export const SEARCH_DRAW_SPECIES: Record<Draw, SpeciesKey[]> = { DEP: [...DRAW_SPECIES.DEP, 'BISON'], MSG: DRAW_SPECIES.MSG };
 export const drawOf = (sp: string): Draw => (DRAW_SPECIES.MSG.includes(sp as SpeciesKey) ? 'MSG' : 'DEP');
 
 /** Species hunted in their own controlled-hunt areas (not units): maps draw those areas. */

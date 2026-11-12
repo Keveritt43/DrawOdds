@@ -11,8 +11,11 @@
  *
  *   Preference points: general-season buck deer. A strict queue by points, unit by unit.
  *
- * Waiting periods after drawing (2026 guidebook): limited-entry buck deer and bull elk 5 years. Not stored yet;
- * the pages say so.
+ *   Pronghorn (limited-entry buck pronghorn, CWMU pronghorn) and bison (once in a lifetime: hunter's choice, cow
+ *   only and Antelope Island) are bonus-point draws too, each with its own balance.
+ *
+ * Waiting periods after drawing (2026 guidebook): limited-entry buck deer and bull elk 5 years, buck pronghorn
+ * 2 years, bison never again. Not stored yet; the pages say so.
  */
 import type { Residency } from '@prisma/client';
 
@@ -23,6 +26,8 @@ export const UT_POINT_TYPES = [
   { key: 'LE_DEER', label: 'Limited-entry buck deer', kind: 'bonus' },
   { key: 'LE_ELK', label: 'Limited-entry bull elk', kind: 'bonus' },
   { key: 'GEN_DEER', label: 'General-season buck deer', kind: 'preference' },
+  { key: 'LE_PRONGHORN', label: 'Limited-entry buck pronghorn', kind: 'bonus' },
+  { key: 'BISON', label: 'Bison (once in a lifetime)', kind: 'bonus' },
 ] as const;
 export type UtPointType = (typeof UT_POINT_TYPES)[number]['key'];
 
@@ -54,7 +59,7 @@ export function utPointType(tagCode: string | null | undefined, species: string,
   if (!tagCode) return null;
   if (type === 'GENERAL') return species === 'DEER' ? 'GEN_DEER' : null;
   if (/^EB1\d{3}$/.test(tagCode)) return null; // general-season elk hunt numbers (youth draw included)
-  return species === 'DEER' ? 'LE_DEER' : species === 'ELK' ? 'LE_ELK' : null;
+  return species === 'DEER' ? 'LE_DEER' : species === 'ELK' ? 'LE_ELK' : species === 'PRONGHORN' ? 'LE_PRONGHORN' : species === 'BISON' ? 'BISON' : null;
 }
 
 /**

@@ -49,6 +49,6 @@ export function searchBounds(states: StateCode[]): [[number, number], [number, n
 
 /** A linked species takes precedence over a stale group in a saved search. */
 export function searchDraw(draw: string | null | undefined, species?: string | null): Draw {
-  if (species && ['DEER','ELK','PRONGHORN','MOOSE','BIGHORN','GOAT'].includes(species.toUpperCase())) return drawOf(species.toUpperCase());
+  if (species && ['DEER','ELK','PRONGHORN','MOOSE','BIGHORN','GOAT','BISON'].includes(species.toUpperCase())) return drawOf(species.toUpperCase());
   return draw?.toUpperCase() === 'MSG' ? 'MSG' : 'DEP';
 }

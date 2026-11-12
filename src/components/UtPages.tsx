@@ -22,6 +22,9 @@ const FEES_2026: [string, string, string][] = [
   ['Limited-entry buck deer permit', '$94', '$1,070'],
   ['General-season any bull elk permit', '$56', '$849'],
   ['Limited-entry bull elk permit', '$314', '$1,950'],
+  ['Limited-entry buck pronghorn permit', '$63', '$571'],
+  ['Once-in-a-lifetime bison permit', '$460', '$4,840'],
+  ['Antelope Island bison permit', '$1,221', '–'],
 ];
 
 function Timeline() {
@@ -82,7 +85,7 @@ export async function UtGuide() {
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>How The Draw Works · Utah</h1>
-      <p className="muted">Utah runs three kinds of deer and elk hunt: <b>limited entry</b> drawn with bonus points, the <b>general buck deer</b> draw with preference points, and <b>general bull elk</b> sold over the counter. One application window covers both draws.</p>
+      <p className="muted">Utah runs three kinds of deer and elk hunt: <b>limited entry</b> drawn with bonus points, the <b>general buck deer</b> draw with preference points, and <b>general bull elk</b> sold over the counter. Pronghorn and once-in-a-lifetime bison are bonus-point draws too. One application window covers them all.</p>
       <Timeline />
       <p className="small muted">2026 dates from DWR&apos;s Big Game Application Guidebook; DWR hasn&apos;t posted 2027 dates yet. A Utah hunting license is required to apply.</p>
 
@@ -106,6 +109,8 @@ export async function UtGuide() {
       <h2>General Bull Elk: Over The Counter</h2>
       <p>Any bull, spike and archery bull elk permits are sold over the counter to residents and nonresidents until each statewide cap is reached. No draw and no points. Spike permits are valid on spike-only units, any bull permits on any bull units.</p>
 
+      <h2>Pronghorn And Bison</h2>
+      <p><b>Limited-entry buck pronghorn</b> is a bonus-point draw, exactly like limited-entry deer and elk, with its own point balance; drawing starts a 2-year waiting period. <b>Bison is once in a lifetime</b>: hunter&apos;s choice and cow-only hunts on the Henry Mountains and Book Cliffs, plus Antelope Island. Same bonus-point draw, but after drawing any bison permit you can never apply for bison in Utah again, so points only ever build until the one draw that counts.</p>
       <h2>What It Costs (2026)</h2>
       <div className="cmp-wrap"><table className="cmp-table"><thead><tr><th>Item</th><th>Resident</th><th>Nonresident</th></tr></thead>
         <tbody>{FEES_2026.map(([k, r, n]) => <tr key={k}><td>{k}</td><td>{r}</td><td>{n}</td></tr>)}</tbody></table></div>

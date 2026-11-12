@@ -9,7 +9,7 @@ import { dateRange } from '@/lib/coDisplay';
 import { seasonsSummary } from '@/lib/tagSeasons';
 import { utKind, type UtPointOdds } from '@/lib/utHunt';
 
-const PILL = { le: 'Limited entry', cwmu: 'CWMU', general: 'General draw', otc: 'Over the counter' } as const;
+const PILL = { le: 'Limited entry', oial: 'Once in a lifetime', cwmu: 'CWMU', general: 'General draw', otc: 'Over the counter' } as const;
 
 /** Utah result card: Idaho's card structure, with Utah's three kinds of deer and elk hunt (bonus-point limited
  *  entry and CWMU, the general buck deer preference draw, over-the-counter general elk). */
@@ -18,7 +18,7 @@ export function UtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
 }) {
   const po = r.pointOdds as unknown as UtPointOdds | null;
   const kind = utKind(r);
-  const lic = kind === 'otc' ? 'otc' : r.type === 'GENERAL' ? 'general' : r.privateOnly ? 'cwmu' : 'le';
+  const lic = kind === 'otc' ? 'otc' : r.type === 'GENERAL' ? 'general' : r.privateOnly ? 'cwmu' : r.species === 'BISON' ? 'oial' : 'le';
   const chance = chanceOf(odds, 0, odds ?? 0);
   const years = r.harvestYears;
   const crowd = crowdVerdict(r.huntersSqMi), success = successVerdict(r.success5, r.species, r.weapon, r.type);

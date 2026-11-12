@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build data/ut/hunts.json: one record per Utah deer or elk hunt (UT-1), in the HuntSummary shape the other states use.
+"""Build data/ut/hunts.json: one record per Utah deer, elk, pronghorn or bison hunt (UT-1 to UT-3), in the HuntSummary shape the other states use.
 
     python3 -I scripts/ut_build_hunts.py
 
@@ -20,6 +20,9 @@ Hunts:
   general bull elk                     sold over the counter (no draw, statewide caps); one record per DWR hunt
       number (any bull, spike, archery, muzzleloader, multiseason), valid on that hunt's boundaries.
   draw-only youth any bull elk (EB1007) is a youth-only draw (species ID 6); kept with youthOnly.
+  LE buck pronghorn (species ID 10) and once-in-a-lifetime bison (ID 12: hunter's choice, cow only and
+      Antelope Island) are bonus-point draws, same model. Cow-only bison hunts are once-in-a-lifetime and use bison
+      bonus points: DWR lists them under Bison / Once-in-a-lifetime in the 2026 draw.
 CWMU hunts (Cooperative Wildlife Management Units: private land, residents only in the public draw) are kept with
 privateOnly, so the shared filter hides them by default.
 Left out (labelled in the doc): dedicated hunter, landowner, antlerless, conservation/expo/sportsman permits,
@@ -45,6 +48,8 @@ D = ROOT / "data" / "ut"
 YEAR = 2026
 MAX_PTS = 32
 HARVEST_YEARS = [2021, 2022, 2023, 2024, 2025]
+# in the 2026 draw, but DWR's hunt planner returns no boundary for them (checked 2026-11-12): left out, listed
+NO_BOUNDARY = {"PB5329"}
 
 WEAPON = {"Archery": "ARCHERY", "Any Legal Weapon": "ANY", "Muzzleloader": "MUZZLELOADER", "Restricted Muzzleloader": "MUZZLELOADER",
           "Early Any Legal Weapon": "ANY", "Late Any Legal Weapon": "ANY", "Restricted Rifle": "ANY", "Extended Archery": "ARCHERY",
@@ -158,6 +163,7 @@ def main() -> None:
     land = json.load(open(D / "land.json"))["boundaries"]
     h2b = units["huntToBoundaries"]
     problems: list[str] = []
+    omitted: list[str] = []
 
     # harvest by hunt code and year
     H: dict[str, dict[int, dict]] = {}
@@ -224,14 +230,18 @@ def main() -> None:
                 "smallSample": hu < 30}
 
     out = []
-    for sid, species, kind in (("8", "DEER", "bonus"), ("9", "ELK", "bonus"), ("5", "DEER", "pref"), ("6", "ELK", "bonus")):
+    for sid, species, kind in (("8", "DEER", "bonus"), ("9", "ELK", "bonus"), ("5", "DEER", "pref"), ("6", "ELK", "bonus"),
+                                ("10", "PRONGHORN", "bonus"), ("12", "BISON", "bonus")):
         for h in o26["data"][sid]:
             code = h["HuntCode"]
             if not re.fullmatch(r"[A-Z]{2}\d{4}", code):
                 continue  # point-only "hunts" (ELK, DEE, ...)
             bids = h2b.get(code)
             if not bids:
-                problems.append(f"{code}: no hunt boundary")
+                if code in NO_BOUNDARY:
+                    omitted.append(code)
+                else:
+                    problems.append(f"{code}: no hunt boundary")
                 continue
             rows = [dict(zip(F, r)) for r in h["odds"]]
             pools, odds = {}, {}
@@ -256,7 +266,11 @@ def main() -> None:
                 problems.append(f"{code}: no residency quota")
                 continue
             sw = h["SeasonWeapons"] or []
-            sex = "Antlered" if species == "DEER" else "Bull"
+            sub = h["SpeciesSubtypeName"] or ""
+            cow = species == "BISON" and "Cow" in sub
+            either = species == "BISON" and not cow
+            sex = ("Antlerless (cow only)" if cow else "Either sex" if either else
+                   "Antlered" if species in ("DEER", "PRONGHORN") else "Bull")
             seasons = [{"weapon": weapon_of(s["WeaponName"]), "sex": sex, "dates": [{"open": iso(s["SeasonStartDate"]), "close": iso(s["SeasonEndDate"])}],
                         "notes": (s.get("SpecialInstruction") or "").strip()} for s in sw]
             opens = [s["dates"][0]["open"] for s in seasons if s["dates"][0]["open"]]
@@ -277,7 +291,7 @@ def main() -> None:
                 "type": "GENERAL" if kind == "pref" else "CONTROLLED", "tagCode": code,
                 "name": f"{h['HuntName']} {h['SpeciesSubtypeName']}".strip(), "areaName": h["HuntName"],
                 "description": cat, "huntCategory": cat, "units": [str(b) for b in bids],
-                "weapon": weapon, "antlerClass": "ANTLERED", "takeMethod": h["SpeciesSubtypeName"],
+                "weapon": weapon, "antlerClass": "ANTLERLESS" if cow else "EITHER" if either else "ANTLERED", "takeMethod": h["SpeciesSubtypeName"],
                 "openDate": min(opens) if opens else None, "closeDate": max(closes) if closes else None,
                 "tags": h["QuotaQuantity"], "privateOnly": cat == "CWMU", "youthOnly": sid == "6",
                 "oddsLastYear": YEAR, "oddsYears": 1 + len([y for y in p_hist if y >= 2021]),
@@ -327,7 +341,7 @@ def main() -> None:
     if len(ids) != len(set(ids)):
         problems.append("duplicate hunt ids")
     (D / "hunts.json").write_text(json.dumps({"generated": date.today().isoformat(), "drawYear": YEAR, "regsYear": YEAR,
-                                              "problems": problems, "hunts": out}, separators=(",", ":")) + "\n")
+                                              "problems": problems, "omitted": omitted, "hunts": out}, separators=(",", ":")) + "\n")
     by = {}
     for h in out:
         by[(h["species"], h["type"], h.get("huntCategory"))] = by.get((h["species"], h["type"], h.get("huntCategory")), 0) + 1

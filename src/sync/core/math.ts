@@ -2,7 +2,7 @@
  * Pure calculation logic shared by the sync job and the app. No I/O - unit tested.
  */
 
-export type SpeciesName = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT';
+export type SpeciesName = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | 'BISON';
 
 // IDFG footnote: "Beginning in 2016 calculations for %4+Pts are based on mule deer and %5+pts are based on white-tailed deer."
 export const SPLIT_YEAR = 2016;

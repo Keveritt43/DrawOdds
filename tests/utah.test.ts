@@ -42,10 +42,12 @@ test('points map to the right balance', () => {
   assert.equal(utPointType('DB1502', 'DEER', 'GENERAL'), 'GEN_DEER');
   assert.equal(utPointType('EB1001', 'ELK', 'GENERAL'), null);
   assert.equal(utPointType('EB1007', 'ELK', 'CONTROLLED'), null); // youth general elk draw
+  assert.equal(utPointType('PB5001', 'PRONGHORN', 'CONTROLLED'), 'LE_PRONGHORN');
+  assert.equal(utPointType('BI6503', 'BISON', 'CONTROLLED'), 'BISON');
 });
 
 test('personal odds read the table at the hunter\'s points; over-the-counter elk needs no draw', () => {
-  const pts = { ...readUtPoints(null), points: { LE_DEER: 10, LE_ELK: 0, GEN_DEER: 0 } };
+  const pts = { ...readUtPoints(null), points: { LE_DEER: 10, LE_ELK: 0, GEN_DEER: 0, LE_PRONGHORN: 0, BISON: 0 } };
   const le = by('DB1001');
   assert.equal(utPersonal(le as never, pts, true).odds, le.oddsByPts.last.nr[Math.min(10, le.oddsByPts.last.nr.length - 1)]);
   assert.equal(utPersonal(le as never, pts, true).points, 10);
@@ -77,4 +79,13 @@ test('Utah points form', () => {
   assert.equal(typeof parseUtForm((n) => f.get(n), (n) => f.has(n)), 'string');
   assert.equal(parseUtForm(() => null, () => false), null);
   assert.equal(readUtPoints({ UT: { res: 'RESIDENT', utPoints: { LE_DEER: 5 }, set: true } }).points.LE_DEER, 5);
+});
+
+test('pronghorn and bison: cow bison are antlerless, Antelope Island is resident-only, bison are once in a lifetime', () => {
+  const bison = data.hunts.filter((h) => h.species === 'BISON');
+  assert.equal(bison.length, 16);
+  assert.ok(bison.some((h) => (h as { antlerClass?: string }).antlerClass === 'ANTLERLESS'));
+  assert.ok(!by('BI6500').pointOdds.pools.nr);
+  assert.equal(utLicense(by('BI6503') as never), 'oial');
+  assert.ok(data.hunts.filter((h) => h.species === 'PRONGHORN').length >= 80);
 });
