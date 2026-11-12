@@ -1,10 +1,10 @@
 # Utah onboarding: plan for deer, elk, pronghorn and bison
 
-Status (Nov 11, 2026): **plan only.** Nothing is built and no production data has changed. Use this with [state-adapter-guide.md](../state-adapter-guide.md) and [state-onboarding-checklist.md](../state-onboarding-checklist.md). Every rule below was checked against DWR's own pages, the 2026 guidebook or the administrative rule on Nov 11, 2026; the sources are listed in §9. Anything marked **verify** has not been confirmed and must not reach a page until it is.
+Status (Nov 11, 2026): **sources fetched and the draw model checked against 2021–2026 results (§5a); nothing built yet.** No production data has changed. Use this with [state-adapter-guide.md](../state-adapter-guide.md) and [state-onboarding-checklist.md](../state-onboarding-checklist.md). Every rule below was checked against DWR's own pages, the 2026 guidebook or the administrative rule on Nov 11, 2026; the sources are listed in §9. Anything marked **verify** has not been confirmed and must not reach a page until it is.
 
 ## 0. What the earlier worksheet and the attached guide got wrong
 
-- **"Odds reports are PDFs on the DWR odds page."** True through 2025 only. From the 2026 draw, DWR moved to a new draw system (utahdraws.com, run by Aspira) and **stopped posting static PDF odds reports**. 2026 odds exist only in an interactive tool at `utahdraws.com/drawodds`. The 2026 entries on DWR's odds page are empty. The data pipeline has to read that tool, and the 2026 shape will differ from 2021–2025.
+- **"Odds reports are PDFs on the DWR odds page."** True through 2025 only. From the 2026 draw, DWR moved to a new draw system (utahdraws.com, run by Aspira) and **stopped posting static PDF odds reports**. 2026 odds exist only in an interactive tool at `utahdraws.com/drawodds`. The 2026 entries on DWR's odds page are empty. The tool is backed by a JSON endpoint (§3), which is better data than the PDFs: it carries each pool's quota and its max-point and regular-round quotas.
 - **"Utah: Hybrid 50/50 Bonus Points" (master guide).** Half right. The rule (R657-62-8) is: 50% of each hunt's permits go to the applicants with the **most** bonus points on their **first choice**, tier by tier until those permits run out (a preference queue, not a lottery). Everything left, plus everyone not drawn, goes to a random draw where each applicant gets **one random number for the application plus one per bonus point** and keeps the best. Ranking by the best of (points + 1) uniform numbers is mathematically the same as a weighted draw without replacement with weight points + 1. That gives us a model to simulate, not a closed-form formula.
 - **"Draw odds = 1 − (1 − points/total)^quota"** (guide §5). Invalid, as already recorded in the adapter guide. Not used.
 - **No skip-year point loss.** The rule's only forfeiture triggers are drawing a permit for that species (in or after the drawing) or a specific Wildlife Board rule. Don't copy Montana's "lose points if you don't apply" logic. **Verify** against the current rule text (the copy read was last changed Feb 7, 2025; a July 2025 R657-62 amendment package exists).
@@ -26,8 +26,9 @@ Recommendation, challenge welcome: UT-1 and UT-2 parse the same files, so build 
 ## 2. Draw rules to model (2026)
 
 **Bonus points: LE deer, LE elk, LE pronghorn, OIAL bison.**
-- 50% of each hunt's permits reserved for the highest point tier on first choice, then the next tier down, and so on. **Verify** the rounding when a pool has an odd number of permits (especially a single nonresident permit): read it off the 2021–2025 reports, where every hunt prints bonus and regular permits per point level.
+- 50% of each hunt's permits reserved for the highest point tier on first choice, then the next tier down, and so on. **Rounding (verified):** per residency pool, max-point permits = ceil(quota ÷ 2), **except a pool with a single permit, which goes to the random round**. DWR's own 2026 quotas match this in 760 of 760 pools; the 2021–2025 reports match it in 4,125 of 4,135 oversubscribed pools (the 10 misses are pronghorn pools where more permits were issued than the pool's quota). It is the same rule every year; a one-permit hunt does not alternate.
 - Random draw: entries = points + 1. Simulate it (adapter guide §4), seeded, without replacement.
+- Cow bison: the 2026 tool lists the cow hunts (e.g. BI6539) under species Bison, Once-in-a-lifetime, so they use bison bonus points and the lifetime rule. **Verify** the lifetime rule in the guidebook text before stating it.
 - Choices: bonus permits use first choice only. **Verify** the number of choices allowed for LE/OIAL and how later choices draw.
 - Resident and nonresident quotas are separate per hunt. Remaining LE deer/elk/pronghorn permits get a second evaluation that can cross between the two quotas (R657-62-18(4)(c)); that crossover is not stated for OIAL. Use the published pool counts; don't assume 10%.
 - Groups: up to four for LE deer, elk and pronghorn; points averaged and rounded down. **No groups for OIAL.** Model single applicants; flag party effects as a limitation.
@@ -49,13 +50,13 @@ Recommendation, challenge welcome: UT-1 and UT-2 parse the same files, so build 
 |---|---|---|---|
 | LE/OIAL odds by point level, res/NR | `wildlife.utah.gov/pdf/bg/YYYY/YY_bg-odds.pdf` | 2021–2025 | Per hunt: applicants and eligible applicants, bonus and regular permits, success ratio, per point level, residents left / nonresidents right. Interleaved columns; parse by x/y. |
 | General buck deer odds | `.../YY_deer_odds.pdf` (+ youth, dedicated hunter, landowner files) | 2021–2025 | Preference points by unit. |
-| **2026 odds, all hunts** | `utahdraws.com/drawodds` (interactive) | 2026 | Read the tool's own data requests in Claude in Chrome; never scrape rendered text if a JSON source exists. Confirm its fields match the PDF fields before joining. |
-| LE/OIAL harvest per hunt | `.../pdf/bg/YYYY/YYYY_le_oial_all.pdf` | 2015–2025 (index page stops at 2023; 2024 files exist) | Permits, hunters afield, harvest, avg days, success %, satisfaction. No res/NR split. |
-| General buck deer harvest by unit and weapon | `YYYY_gs_buck_deer_hr.pdf` | 2015–2025 | Hunters afield, harvest, days. |
-| General elk harvest by unit (any-bull, spike, archery) | Annual big game report `annual_reports/big_game/YY_bg_report.pdf` (elk pp. 60–99 in 2024) | 2019–2024 | Not in the harvest-data index; it's in the annual report. |
-| Preliminary current-year harvest | `pdf/bg/2025/2026-03-06-2025-preliminary-bg-harvest.pdf` | 2025 | Label preliminary; replace when final. |
+| **2026 odds, all hunts** | `utahdraws.com/drawodds`, backed by `GET /internetsales/Home/DrawOddsData?drawName=Big Game&licenseYear=2026&masterHuntTypeID=<id>` (JSON; same-origin, so call it from a utahdraws.com tab) | 2026 only (the tool offers no earlier year) | IDs: 5 general buck deer, 32 dedicated hunter, 6 youth elk, 8 LE deer (193 hunts), 9 LE elk (210), 10 LE pronghorn (88), 12 bison (17), 11 moose, 13/14 sheep, 15 goat. Per hunt: resident/nonresident quota, max-point and regular-round quotas, youth quotas; `OddsList` per residency × point: `ParticipantCount` (first choice), `SuccessfulByMaxPointRoundCount`, `SuccessfulByRegularRoundCount`, and all-choices counts. |
+| LE/OIAL harvest per hunt | `.../pdf/bg/YYYY/YYYY_le_oial_all.pdf`, listed on `wildlife.utah.gov/biggame/reports` | 2010–2024 (**2025 not published yet**, Nov 11) | Permits, hunters afield, harvest, avg days, success %, satisfaction. No res/NR split. |
+| General buck deer harvest by unit and weapon | `YYYY_gs_buck_deer_hr.pdf` | 2010–2024 final; 2025 as `2025_gs_buck_deer_hr-preliminary.pdf` | Hunters afield, harvest, days. |
+| General elk harvest by unit (any-bull, spike, archery) | Annual big game report `/pdf/annual-reports/big-game/YY_bg_report.pdf` (hyphens; the underscore path now 404s; 2024 is 13.7 MB, elk pp. 60–99) | 2020–2024 | Not in the harvest-data index; it's in the annual report. |
+| Preliminary current-year harvest | `pdf/bg/2025/2025_gs_buck_deer_hr-preliminary.pdf` (the `2026-03-06-…` file found by search now 404s) | 2025 | General deer only. Label preliminary; replace when final. |
 | Population | Annual report (deer post-season estimates by unit 2020–24; elk, pronghorn, bison sections) | | Herd/unit granularity varies by species; never assign a herd total to each hunt. |
-| Hunt boundaries | `dwrmapserv.utah.gov/.../hunt/Boundaries_and_Tables/MapServer`: layer 0 polygons (`BoundaryID`); table 1 `HUNT_INFO_MOBILE` (`HUNT_NUMBER` → `BOUNDARYID`, text) | current; `Utah_Big_Game_Hunt_Boundaries_2024` on ArcGIS Online for history | Polygons are per hunt boundary, not per management unit. maxRecordCount 1000. Join needs a type cast. |
+| Hunt boundaries | `dwrmapserv.utah.gov/.../hunt/Boundaries_and_Tables/MapServer`: layer 0 polygons (`BoundaryID`); table 1 `HUNT_INFO_MOBILE` (`HUNT_NUMBER` → `BOUNDARYID`, text) | current (2026 seasons); `Utah_Big_Game_Hunt_Boundaries_2024` on ArcGIS Online for history | 709 polygons, 3,063 hunt → boundary rows (all species and hunt types). CORS works from a Chrome tab. Polygons are per hunt boundary, not per management unit. maxRecordCount 1000. Join needs a type cast. Example: BI6503 and BI6539 (Henry Mtns) are both boundary 637. |
 | Regulations, dates, quotas, fees | 2026 Big Game Application Guidebook (digital only) and the Hunt Planner | 2026 | 2027 guidebook not out yet; label as 2026. |
 | Land ownership | BLM national SMA (as Montana) | current | Utah trust lands (SITLA) are state; DWR publishes SITLA access layers per species. Tribal land (Uintah & Ouray) is not public. |
 
@@ -72,6 +73,31 @@ Pipeline: `scripts/ut_parse_odds.py` (PDFs), a Chrome-side extractor for 2026, `
 1. **Reproduce 2025** for every LE/OIAL hunt and pool: the bonus half must give exactly the published bonus permits per point level; the simulated random half must land within simulation error of the published regular permits. Same for general deer cutoffs. Record any hunt that doesn't reproduce and why.
 2. **Backtest projections** 2023–2026 (predict each year from earlier years only), Brier against "last draw's odds", per species and residency. Ship projected odds only where they win; otherwise last draw, labelled (Wyoming elk precedent).
 3. Fixtures: a single-NR-permit hunt, a hunt where the bonus half runs below max points, a bison hunt, a general deer unit with a partial cutoff, a 2026 record from the new tool.
+
+## 5a. Results of the checks (Nov 11, 2026)
+
+Run in Claude in Chrome against DWR's own files: pdf.js on the 2021–2025 `YY_bg-odds.pdf` reports, the JSON endpoint for 2026.
+
+**Parsing.** The bonus-point reports are one hunt per page, point levels as columns, resident block above the nonresident block. Every hunt page in all five years reconciles (applicants, bonus, regular and total permits each sum to the printed totals; bonus + regular = total at every level): 2021 550 hunts, 2022 559, 2023 580, 2024 580, 2025 594, zero failures. The hunt name sometimes sits on three separate text items, and the totals column moves (x 525 in 2025, 514 in 2024); the parser keys on the "Totals" label, not a fixed x. The 2025 general buck deer report (`25_deer_odds.pdf`, 106 hunts) has the same layout with wider columns and also reconciles fully.
+
+**Max-point round.** The rounding rule in §2 holds (760/760 pools in 2026, 4,125/4,135 in 2021–2025). Within a pool, the max-point permits go to the top point levels in order in 572 of 605 pools in 2025 and 723 of 745 in 2026. The misses are a few high-point applicants left undrawn at a level, consistent with group applications that can't all fit (groups up to four, averaged points). Model single applicants and say so.
+
+**Random round: points + 1 entries is right.** Expected regular-round permits per point level (weighted draw without replacement, solved exactly for the expected value; a 1,500-run Monte Carlo agreed to the 4th decimal on BI6503), compared with what DWR issued:
+
+| Year | Pools | Brier, points + 1 | Brier, no weighting | Brier, (points + 1)² |
+|---|---|---|---|---|
+| 2021 | 790 | 0.01144 | 0.01172 | — |
+| 2022 | 802 | 0.01149 | 0.01172 | — |
+| 2023 | 847 | 0.01251 | 0.01280 | — |
+| 2024 | 845 | 0.01249 | 0.01277 | — |
+| 2025 | 851 | **0.01309** | 0.01340 | 0.01329 |
+| 2026 | 745 | **0.02033** | 0.02070 | 0.02082 |
+
+2025 regular permits by points held, issued vs model: 0 pts 274 vs 281; 1: 333 vs 332; 2: 327 vs 336; 3: 342 vs 342; 4: 338 vs 335; 5–9: 1,202 vs 1,198; 10–19: 790 vs 792; 20+: 122 vs 113. Without weighting, 0 points would have drawn 744 and 20+ only 48; with squared points, 0 points 133 and 20+ 179. Both are clearly wrong. 2026 is close but looser at the ends (0 pts 346 vs 309; 20+ 64 vs 81); recheck once later choices are modelled.
+
+**General buck deer (preference) 2025:** a strict queue per unit and pool fits. 1.25% of applicants above the cutoff didn't draw, 0.006% below it did, and no permit was a "bonus" permit. Brier 0.071 for the queue against 0.184 for a flat lottery.
+
+**What these checks are not:** they reproduce published results from published applicant counts. They are not yet a projection backtest (§5.2), which needs the next-year applicant counts the model can't know.
 
 ## 6. App work
 
@@ -97,9 +123,9 @@ Pipeline: `scripts/ut_parse_odds.py` (PDFs), a Chrome-side extractor for 2026, `
 
 ## 8. Open questions (need answers before the step that uses them)
 
-- Odd-permit rounding between the bonus and random halves (step 2).
 - Choice counts for LE/OIAL and general deer, and whether later choices draw (step 2).
-- Cow bison: OIAL lifetime and bonus points or not; Antelope Island nonresident eligibility (step 9).
+- Cow bison: confirm the lifetime rule in the guidebook text; Antelope Island nonresident eligibility (step 9).
+- Data transfer: the parsed data lives in a Chrome tab; it needs the owner's computer linked (or a download approved) to land in `data/ut/`.
 - Whether the July 2025 R657-62 package changed point or forfeiture rules (before step 7 copy).
 - Utah hunting licence price, 2026 (before showing costs).
 
