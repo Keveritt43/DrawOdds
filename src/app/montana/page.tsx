@@ -57,18 +57,14 @@ export default async function MontanaPage() {
       <h2>What this page does not cover</h2>
       <ul>
         <li>
-          <b>Montana permits and B licenses</b> — antelope, Deer B, Elk B, and the deer and elk permits that restrict where you
-          may use a general license. Those use a completely different system: uncapped <i>bonus</i> points that are squared. They
-          are not modelled yet.
+          <b>Permits, antelope and B licenses.</b> They use uncapped, squared <i>bonus</i> points, a different system:
+          each hunt&apos;s page shows its odds at your bonus points. <Link href="/hunts?states=MT">Find Montana hunts</Link>.
         </li>
         <li>
-          <b>Next year&apos;s odds.</b> Everything here is the last draw, not a forecast. The Fish and Wildlife Commission withheld
-          roughly 2,500 nonresident general deer licenses for the 2026&ndash;2027 seasons, so the recent trend is not a safe guide,
-          and no projection has been backtested.
-        </li>
-        <li>
-          <b>Hunt-by-hunt odds, harvest and units.</b> A combination license is statewide; it is the ticket to hunt, not a
-          particular hunt. Montana districts are not in Find Hunts yet.
+          <b>Next year&apos;s odds.</b> This draw is shown as it last drew. We tested forecasts of it against the 2023&ndash;2026
+          draws and none beat simply using the year before (docs: mt-onboarding §19). The Fish and Wildlife Commission also
+          withheld roughly 2,500 nonresident general deer licenses for the 2026&ndash;2027 seasons, so older draws are not a
+          safe guide to the deer combination.
         </li>
       </ul>
 
@@ -80,7 +76,7 @@ export default async function MontanaPage() {
         {randomShare == null ? 'about a quarter' : `${(randomShare * 100).toFixed(1)}%`} of the licenses, matching the 75/25 rule
         in every draw back to {firstYear}. Two of FWP&apos;s own printed totals do not quite close (2023 big game is 90 applicants
         short, 2021 deer by one) and are shown as published. Licenses and fees change; check FWP before applying.{' '}
-        <Link href="/guide">How Idaho&apos;s draw works</Link> · <Link href="/hunts">Find Hunts</Link>
+        <Link href="/guide">How the Montana draw works</Link> · <Link href="/hunts?states=MT">Find Montana hunts</Link>
       </p>
     </main>
   );

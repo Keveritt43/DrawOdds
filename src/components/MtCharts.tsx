@@ -126,8 +126,8 @@ const pctAxis = (v: number) => `${Math.round(v * 100)}%`;
  * your own line bold and your points marked. x is the points you hold if you buy a point this year (FWP's row is
  * one higher); the not-buying chance is drawn as a flat dashed line, since banked points don't count then.
  */
-export function MtOddsPointsChart({ res, nr, noBuy, myPoints, mine, year }: {
-  res: number[]; nr: number[]; noBuy?: { res: number | null; nr: number | null }; myPoints: number | null; mine: 'res' | 'nr'; year: number;
+export function MtOddsPointsChart({ res, nr, noBuy, myPoints, mine, year, projected }: {
+  res: number[]; nr: number[]; noBuy?: { res: number | null; nr: number | null }; myPoints: number | null; mine: 'res' | 'nr'; year: number; projected?: boolean;
 }) {
   const len = Math.max(res.length, nr.length);
   if (!len) return null;
@@ -137,7 +137,7 @@ export function MtOddsPointsChart({ res, nr, noBuy, myPoints, mine, year }: {
   const nb = noBuy?.[mine] ?? null;
   return (
     <div>
-      <Frame title="Draw odds at each bonus point level">
+      <Frame title={projected ? 'Next draw (projected): odds at each bonus point level' : `${year} draw: odds at each bonus point level`}>
         <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
           <CartesianGrid stroke={grid} vertical={false} />
           <XAxis dataKey="points" tickLine={false} />
@@ -150,7 +150,7 @@ export function MtOddsPointsChart({ res, nr, noBuy, myPoints, mine, year }: {
           {myPoints !== null && <ReferenceLine x={Math.min(myPoints, max)} stroke="#5b6168" strokeDasharray="4 4" />}
         </LineChart>
       </Frame>
-      <p className="small muted">{year} draw, first choice. {myPoints !== null ? `Dashed line: your ${myPoints} points. ` : ''}Odds never fall as points rise (see the table below).</p>
+      <p className="small muted">{projected ? `Projected from the ${year} draw` : `${year} draw`}, first choice. {myPoints !== null ? `Dashed line: your ${myPoints} points. ` : ''}Odds never fall as points rise (see the table below).</p>
     </div>
   );
 }

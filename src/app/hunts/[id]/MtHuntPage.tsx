@@ -19,13 +19,14 @@ import { mtCombo } from '@/lib/mtPoints';
 import { mtHarvestSeries, mtDrawSeries } from '@/lib/mtSeries';
 import { LandBar } from '@/components/LandBar';
 import { OddsChart, ApplicantsChart, SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
+import { mtProjected, type MtProjection } from '@/lib/mtProj';
 import { MtOddsPointsChart, MtDeerQualityChart, MtComboPointsChart } from '@/components/MtCharts';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 const SEASON_LABEL: Record<string, string> = { early: 'Early', archery: 'Archery only', general: 'General', heritage: 'Heritage muzzleloader', late: 'Late' };
 
 /** A Montana hunt: a general licence in one district, or a drawn permit / B licence (bonus points). */
-export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: string } }) {
+export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: string; odds?: string } }) {
   const po = s.pointOdds as unknown as MtPointOdds | null;
   const table = s.oddsByPts as unknown as MtOddsTable | null;
   const spLabel = s.species === 'ELK' ? 'elk' : s.species === 'PRONGHORN' ? 'antelope' : 'deer';
@@ -34,7 +35,10 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
   const pts = readMtPoints(store.store as Record<string, unknown>);
   const saved = session?.user ? await db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } }) : null;
   const nr = pts.res === 'NONRESIDENT';
-  const mine = mtPersonal(s, pts, nr);
+  const mode = sp.odds === 'last' ? 'last' : 'proj';
+  const mine = mtPersonal(s, pts, nr, mode);
+  const proj = mtProjected(s.pointOdds as unknown as MtPointOdds | null);
+  const projected = mode === 'proj' && !!proj;
   const shown = mine.parts ? mine.parts.permit : mine.odds; // permit draw alone, as if the combination is drawn
   const chance = chanceOf(shown, 0, shown ?? 0);
   if (!po) return <main className="wrap" style={{ margin: '24px auto' }}><p className="small"><BackLink state="MT" /></p><h1>{s.name}</h1><p className="muted">No data for this hunt yet.</p></main>;
@@ -46,7 +50,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
   const typeLabel = MT_BONUS_TYPES.find((t) => t.key === type)?.label.toLowerCase() ?? po.license.toLowerCase();
   const first = s.units[0];
   const q = (patch: Record<string, string | null>) => {
-    const u = new URLSearchParams(Object.entries({ pool: sp.pool ?? '' }).filter(([, v]) => v));
+    const u = new URLSearchParams(Object.entries({ pool: sp.pool ?? '', odds: sp.odds ?? '' }).filter(([, v]) => v));
     for (const [k, v] of Object.entries(patch)) v === null ? u.delete(k) : u.set(k, v);
     return `/hunts/${s.slug}${u.size ? `?${u}` : ''}#odds`;
   };
@@ -130,11 +134,11 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
 
       <div className="co-top">
         <div className="card co-mine">
-          <div className="k">{otc ? 'Your license' : general && !nr ? 'Your license' : `Your ${general ? po.combo?.year ?? po.year : po.year} odds · ${MT_POOL_LABEL[myPool]}`}</div>
+          <div className="k">{otc ? 'Your license' : general && !nr ? 'Your license' : `Your ${general ? `${po.combo?.year ?? po.year}` : projected ? 'next-draw' : po.year} odds · ${MT_POOL_LABEL[myPool]}`}</div>
           <div className="co-big">{pct(shown)} <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span></div>
           {mine.parts && <div className="small">If you draw the combination. Your {mine.parts.comboName} draw: <b>{pct(mine.parts.combo)}</b>; both: <b>{pct(mine.odds)}</b>{s.success5 !== null && mine.odds !== null ? <> · draw and fill <b>{pct(mine.odds * s.success5)}</b></> : null}.</div>}
           <div className="small muted">
-            {mine.basis}.{otc ? '' : ' Last draw, not a forecast: no Montana projection has been tested against past draws.'}
+            {mine.basis}.{otc ? '' : general ? ' The combination draw is shown as it last drew: no forecast of it beat the last draw when tested on past draws.' : projected ? <> Projected: FWP&apos;s own weighted draw (points² + 1 chances) re-run on the {po.year} applicants and licenses. Tested on 2024–2026, it predicted each draw better than the year before&apos;s printed odds. <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {po.year} draw</HuntLink>.</> : <> The {po.year} draw as printed. <HuntLink href={q({ odds: null })} scroll={false}>See the projection</HuntLink>.</>}
             {!pts.set && <> <Link href="/account#hunting-preferences">Set your Montana points in Account</Link> for your own odds.</>}
           </div>
         </div>
@@ -167,12 +171,17 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
 
       {!general && po.pools && <>
         <h2 id="odds">Odds At Every Bonus Point Level</h2>
-        <div className="co-oddsbar"><span className="seg light" role="group" aria-label="Pool">
+        <div className="co-oddsbar">{proj && <span className="seg light" role="group" aria-label="Which draw">
+          <HuntLink className="seg-link" href={q({ odds: null })} aria-pressed={mode === 'proj'} scroll={false}>Next draw (projected)</HuntLink>
+          <HuntLink className="seg-link" href={q({ odds: 'last' })} aria-pressed={mode === 'last'} scroll={false}>{po.year} actual</HuntLink>
+        </span>}<span className="seg light" role="group" aria-label="Pool">
           {(['res', 'nr'] as MtPool[]).map((p) => <HuntLink key={p} className="seg-link" href={q({ pool: p === myPool ? null : p })} aria-pressed={pool === p} scroll={false}>{MT_POOL_LABEL[p]}</HuntLink>)}
         </span></div>
-        {table && <MtOddsPointsChart res={table.last.res ?? []} nr={table.last.nr ?? []} noBuy={{ res: table.noBuy?.res ?? null, nr: table.noBuy?.nr ?? null }} myPoints={mine.buying === false ? null : mine.points} mine={myPool} year={po.year} />}
-        <Ladder po={po} table={table} pool={pool} me={pool === myPool ? mine : null} />
-        <p className="small muted">{po.year} draw, first-choice applicants. &ldquo;Odds&rdquo; never fall as points rise: a printed rate that dips at a higher level (a handful of applicants) takes the level below&apos;s, because more points can never lower a chance in a weighted draw. Landowner pools are separate and not shown.</p>
+        {table && (projected
+          ? <MtOddsPointsChart res={(proj.res ?? []).slice(0, Math.max(table.last.res?.length ?? 0, table.last.nr?.length ?? 0, (mine.points ?? 0) + 2))} nr={(proj.nr ?? []).slice(0, Math.max(table.last.res?.length ?? 0, table.last.nr?.length ?? 0, (mine.points ?? 0) + 2))} noBuy={proj.noBuy} myPoints={mine.buying === false ? null : mine.points} mine={myPool} year={po.year} projected />
+          : <MtOddsPointsChart res={table.last.res ?? []} nr={table.last.nr ?? []} noBuy={{ res: table.noBuy?.res ?? null, nr: table.noBuy?.nr ?? null }} myPoints={mine.buying === false ? null : mine.points} mine={myPool} year={po.year} />)}
+        <Ladder po={po} table={table} proj={proj} pool={pool} me={pool === myPool ? mine : null} />
+        <p className="small muted">{po.year} draw, first-choice applicants. The {po.year} column is FWP&apos;s printed rate, which never falls as points rise: a rate that dips at a higher level (a handful of applicants) takes the level below&apos;s. The projected column re-runs FWP&apos;s weighted draw on the same applicants and licenses, which smooths out levels where a few applicants were lucky or not, and covers levels nobody held. Landowner pools are separate and not shown.</p>
       </>}
 
       {po.history && po.history.length > 0 && <>
@@ -200,7 +209,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
   );
 }
 
-function Ladder({ po, table, pool, me }: { po: MtPointOdds; table: MtOddsTable | null; pool: MtPool; me: { points: number | null; buying: boolean | null } | null }) {
+function Ladder({ po, table, proj, pool, me }: { po: MtPointOdds; table: MtOddsTable | null; proj: MtProjection | null; pool: MtPool; me: { points: number | null; buying: boolean | null } | null }) {
   const lv = po.pools![pool].levels;
   const buyers = lv.filter((l) => l[0] !== '' && l[0] !== '0');
   const noBuy = lv.filter((l) => l[0] === '' || l[0] === '0');
@@ -208,7 +217,7 @@ function Ladder({ po, table, pool, me }: { po: MtPointOdds; table: MtOddsTable |
   const top = Math.max(arr.length - 1, me?.points ?? 0);
   const printed = (L: number) => buyers.find((l) => Number(l[0]) === L);
   return (
-    <div className="htable-wrap"><table className="co-ladder"><thead><tr><th>Your bonus points</th><th>FWP row (points used)</th><th className="num">Applicants</th><th className="num">Drew (printed)</th><th className="num">Odds</th></tr></thead>
+    <div className="htable-wrap"><table className="co-ladder"><thead><tr><th>Your bonus points</th><th>FWP row (points used)</th><th className="num">Applicants</th><th className="num">Drew (printed)</th><th className="num">{po.year} odds</th>{proj?.[pool] && <th className="num">Next draw (projected)</th>}</tr></thead>
       <tbody>
         {Array.from({ length: top + 1 }, (_, k) => top - k).map((n) => {
           const p = printed(n + 1);
@@ -216,12 +225,12 @@ function Ladder({ po, table, pool, me }: { po: MtPointOdds; table: MtOddsTable |
           return <tr key={n} className={isMe ? 'me' : undefined} aria-current={isMe ? 'true' : undefined}>
             <td>{isMe ? <b>{n} + buying · you</b> : `${n} + buying`}</td><td>{n + 1}</td>
             <td className="num">{p ? int(p[1]) : '0'}</td><td className="num">{p ? `${int(p[2])} (${pct(p[1] ? p[2] / p[1] : null)})` : '–'}</td>
-            <td className="num">{pct(arr[Math.min(n, arr.length - 1)] ?? null)}</td></tr>;
+            <td className="num">{pct(arr[Math.min(n, arr.length - 1)] ?? null)}</td>{proj?.[pool] && <td className="num">{pct(proj[pool]![Math.min(n, proj[pool]!.length - 1)])}</td>}</tr>;
         })}
         <tr className={me?.buying === false ? 'me' : undefined}>
           <td>{me?.buying === false ? <b>Not buying a point · you</b> : 'Not buying a point'}</td><td>{noBuy.length ? (noBuy[0][0] === '' ? 'blank' : '0') : '–'}</td>
           <td className="num">{noBuy.length ? int(noBuy.reduce((a, l) => a + l[1], 0)) : '0'}</td><td className="num">{noBuy.length ? int(noBuy.reduce((a, l) => a + l[2], 0)) : '–'}</td>
-          <td className="num">{pct(table?.noBuy?.[pool] ?? null)}</td></tr>
+          <td className="num">{pct(table?.noBuy?.[pool] ?? null)}</td>{proj?.[pool] && <td className="num">{pct(proj.noBuy[pool])}</td>}</tr>
       </tbody></table></div>
   );
 }

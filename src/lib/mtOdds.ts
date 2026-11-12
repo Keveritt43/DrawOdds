@@ -18,9 +18,9 @@
  * purchase does not prevent that; 2025 regulations p. 17). Party applications average their
  * members' points to three decimals and draw as one entry, so a point balance can be fractional.
  *
- * Everything here is the LAST DRAW — what happened, not a forecast. There is no projection for next year:
- * the quota moved for 2026-2027 (the commission withheld about 2,500 nonresident deer licenses) and no
- * projection has been backtested. Label it as the last draw wherever it is shown.
+ * Everything here is the LAST DRAW — what happened, not a forecast. No forecast beat it in the 2023-2026 backtest
+ * (scripts/mt_backtest.py; docs/states/mt-onboarding.md §19), and the quota moved for 2026-2027 (the commission
+ * withheld about 2,500 nonresident deer licenses). Label it as the last draw wherever it is shown.
  */
 import raw from '../../data/mt/nr-combo.json';
 

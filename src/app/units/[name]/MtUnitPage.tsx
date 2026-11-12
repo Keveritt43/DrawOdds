@@ -124,7 +124,7 @@ export async function MtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
           </div>
         ))}
       </div>
-      <p className="small muted" style={{ margin: '4px 0 8px' }}>{shown.length} of {rows.length} hunts · odds are {nr ? 'nonresident' : 'resident'}, the last draw, at your saved points</p>
+      <p className="small muted" style={{ margin: '4px 0 8px' }}>{shown.length} of {rows.length} hunts · odds are {nr ? 'nonresident' : 'resident'}, at your saved points: permits and B licenses projected for the next draw, the combination as it last drew</p>
       <div className="uh-cards">
         {shown.map((x) => <MtHuntCard key={x.r.id} r={x.r} odds={x.odds} parts={x.mtParts} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />)}
         {!shown.length && <p className="muted">{rows.length ? 'No hunts match these filters.' : 'No hunts listed for this district.'}</p>}
@@ -143,7 +143,7 @@ export async function MtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
           </div>
         </section>
       ))}
-      <p className="small muted">Odds: the last draw, not a forecast; over-the-counter B licenses have no draw. Source: FWP regulations, drawing statistics and harvest estimates; land from BLM&apos;s Surface Management Agency map. Confirm with FWP before you apply.</p>
+      <p className="small muted">Odds: permits, antelope and B licenses are projected for the next draw from the last one; the combination draw is the last draw; over-the-counter B licenses have no draw. Source: FWP regulations, drawing statistics and harvest estimates; land from BLM&apos;s Surface Management Agency map. Confirm with FWP before you apply.</p>
     </main>
   );
 }

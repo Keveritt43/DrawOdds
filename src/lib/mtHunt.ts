@@ -11,9 +11,12 @@
  *            holding N bonus points for that licence type who BUYS a point this year: FWP's report prints points
  *            used in the draw (banked + the one bought), so index N is FWP's level N+1. A hunter who does not buy
  *            has their banked points ignored: oddsByPts.noBuy.
- * Last draw only: no Montana projection has been backtested, so "next draw" shows the last draw, labelled.
+ * Next draw: bonus-point licences default to the projection in src/lib/mtProj.ts (FWP's weighted draw re-run on the
+ * last draw's applicants; it beat the last draw in a backtest). The combination draw has no projection that beat its
+ * last draw, so general licences and the combination part of a nonresident permit always show the last draw.
  */
 import { mtCombo, type MtBonusType, type MtPoints } from './mtPoints';
+import { mtProjected } from './mtProj';
 
 /** Labels for the ownership classes in data/mt/land.json (scripts/mt_build_land.py). */
 export const MT_OWNER: Record<string, string> = {
@@ -117,7 +120,7 @@ export function mtComboFor(po: MtPointOdds, species: string, p: MtPoints): { odd
 }
 
 /** A hunter's odds for one Montana hunt from their saved settings. */
-export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLastYear: number | null }, p: MtPoints, nr: boolean): MtPersonal {
+export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLastYear: number | null }, p: MtPoints, nr: boolean, mode: 'proj' | 'last' = 'proj'): MtPersonal {
   const po = r.pointOdds as MtPointOdds | null;
   const t = r.oddsByPts as MtOddsTable | null;
   const year = po?.year ?? r.oddsLastYear ?? 'latest';
@@ -143,10 +146,16 @@ export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLast
   const pool: MtPool = nr ? 'nr' : 'res';
   const banked = type ? p.bonus[type] : 0;
   const buying = type ? p.buying[type] : true;
-  const permit = !buying ? (t.noBuy?.[pool] ?? null) : at(t.last[pool], banked);
+  const proj = mode === 'proj' ? mtProjected(po) : null;
+  const projArr = proj?.[pool] ?? null;
+  const useProj = !!projArr;
+  const permit = useProj
+    ? (!buying ? proj!.noBuy[pool] : at(projArr!, banked))
+    : !buying ? (t.noBuy?.[pool] ?? null) : at(t.last[pool], banked);
+  const when = useProj ? `Next draw, projected from the ${year} draw` : `${year} draw`;
   const basis = !buying
-    ? `${year} draw · ${MT_POOL_LABEL[pool]} · not buying a point: your ${banked} banked point${banked === 1 ? ' is' : 's are'} not used`
-    : `${year} draw · ${MT_POOL_LABEL[pool]} · ${banked} bonus point${banked === 1 ? '' : 's'} + this year's (FWP's ${banked + 1}-point row)`;
+    ? `${when} · ${MT_POOL_LABEL[pool]} · not buying a point: your ${banked} banked point${banked === 1 ? ' is' : 's are'} not used`
+    : `${when} · ${MT_POOL_LABEL[pool]} · ${banked} bonus point${banked === 1 ? '' : 's'} + this year's (FWP's ${banked + 1}-point row)`;
   // A nonresident's deer or elk permit is only good with a combination licence, drawn at the same time: the chance
   // of hunting is both draws. Treated as independent; FWP doesn't say how a permit drawn without a combination is
   // handled, so this is the chance of holding both.
@@ -154,7 +163,7 @@ export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLast
     const c = mtComboFor(po, species, p);
     const both = c.odds === null || permit === null ? null : c.odds * permit;
     return { odds: both, points: banked, buying, parts: { combo: c.odds, permit, comboName: c.name },
-      basis: c.covered ? `${basis} × ${po.combo.year} ${c.name} draw at ${Math.min(3, Math.floor(p.combo))} preference points`
+      basis: c.covered ? `${basis} × ${po.combo.year} ${c.name} draw (last draw) at ${Math.min(3, Math.floor(p.combo))} preference points`
         : `Your ${c.name} doesn't include ${species === 'ELK' ? 'elk' : 'deer'}, which this permit needs: change it in Account` };
   }
   return { odds: permit, points: banked, buying, basis };

@@ -33,16 +33,16 @@ test('general elk keeps Montana\'s dead zone for nonresidents exactly as drawn',
 
 test('mtPersonal: buying uses the N row, not buying uses the no-purchase row, residents buy general over the counter', () => {
   const h = by('MT:elk-permit:217-10');
-  assert.equal(mtPersonal(h as never, pts({ mtBonus: { ELK_PERMIT: 1 } }), false).odds, 0.2324);
-  const nb = mtPersonal(h as never, pts({ mtBonus: { ELK_PERMIT: 5 }, mtBuying: { ELK_PERMIT: false } }), false);
+  assert.equal(mtPersonal(h as never, pts({ mtBonus: { ELK_PERMIT: 1 } }), false, 'last').odds, 0.2324);
+  const nb = mtPersonal(h as never, pts({ mtBonus: { ELK_PERMIT: 5 }, mtBuying: { ELK_PERMIT: false } }), false, 'last');
   assert.equal(nb.odds, 0.0261);
   assert.match(nb.basis, /not buying a point/);
   // past the last printed level: the top value, never undefined
   const top = h.oddsByPts.last.res.at(-1);
-  assert.equal(mtPersonal(h as never, pts({ mtBonus: { ELK_PERMIT: 39 } }), false).odds, top);
+  assert.equal(mtPersonal(h as never, pts({ mtBonus: { ELK_PERMIT: 39 } }), false, 'last').odds, top);
   const g = by('MT:elk-general:261');
-  assert.equal(mtPersonal(g as never, pts({}), false).odds, 1);
-  assert.equal(mtPersonal(g as never, pts({ res: 'NONRESIDENT', mtCombo: 1 }), true).odds, 0);
+  assert.equal(mtPersonal(g as never, pts({}), false, 'last').odds, 1);
+  assert.equal(mtPersonal(g as never, pts({ res: 'NONRESIDENT', mtCombo: 1 }), true, 'last').odds, 0);
 });
 
 test('search: Montana licence-type filter and private-land-only hidden by default', () => {
@@ -64,10 +64,10 @@ test('antelope: drawn by bonus points at the antelope balance, its own filter ki
   const h = by('MT:antelope:546-20');
   assert.equal(mtKind(h.pointOdds), 'antelope');
   assert.equal(mtKind(by('MT:antelope-b:546-30').pointOdds), 'b');
-  const nr = mtPersonal(h as never, pts({ res: 'NONRESIDENT', mtBonus: { ANTELOPE: 2 } }), true);
+  const nr = mtPersonal(h as never, pts({ res: 'NONRESIDENT', mtBonus: { ANTELOPE: 2 } }), true, 'last');
   assert.equal(nr.odds, h.oddsByPts.last.nr[2]);
   // the deer permit balance does not leak into antelope
-  assert.equal(mtPersonal(h as never, pts({ mtBonus: { DEER_PERMIT: 9 } }), false).odds, h.oddsByPts.last.res[0]);
+  assert.equal(mtPersonal(h as never, pts({ mtBonus: { DEER_PERMIT: 9 } }), false, 'last').odds, h.oddsByPts.last.res[0]);
   assert.deepEqual(by('MT:antelope:007-21').units, ['A700', 'A701N', 'A703N']);
 });
 
@@ -91,17 +91,17 @@ test('nonresident permits: the combination draw is part of the odds, for the com
   // a deer permit every nonresident drew at 0 points is exactly as likely as the combination draw at 0 points
   const sure = D.hunts.find((h) => h.id.startsWith('MT:deer-permit:') && h.oddsByPts.last.nr[0] === 1)!;
   const combo = (sure.pointOdds as unknown as { combo: { odds: Record<string, number[]> } }).combo.odds;
-  assert.equal(mtPersonal(sure as never, nrPts({}), true).odds, combo['biggame-elk'][0]);           // Big Game (default)
-  assert.equal(mtPersonal(sure as never, nrPts({ mtComboType: 'DEER' }), true).odds, combo.deer[0]);
-  assert.equal(mtPersonal(sure as never, nrPts({ mtComboType: 'ELK' }), true).odds, 0);              // Elk combo: no deer
-  assert.match(mtPersonal(sure as never, nrPts({ mtComboType: 'ELK' }), true).basis, /doesn't include deer/);
+  assert.equal(mtPersonal(sure as never, nrPts({}), true, 'last').odds, combo['biggame-elk'][0]);           // Big Game (default)
+  assert.equal(mtPersonal(sure as never, nrPts({ mtComboType: 'DEER' }), true, 'last').odds, combo.deer[0]);
+  assert.equal(mtPersonal(sure as never, nrPts({ mtComboType: 'ELK' }), true, 'last').odds, 0);              // Elk combo: no deer
+  assert.match(mtPersonal(sure as never, nrPts({ mtComboType: 'ELK' }), true, 'last').basis, /doesn't include deer/);
   // Montana's dead zone carries through: 1 combination point drew nothing
-  assert.equal(mtPersonal(sure as never, nrPts({ mtCombo: 1 }), true).odds, combo['biggame-elk'][1]);
+  assert.equal(mtPersonal(sure as never, nrPts({ mtCombo: 1 }), true, 'last').odds, combo['biggame-elk'][1]);
   // residents and B licences are unaffected
   const e = by('MT:elk-permit:217-10');
-  assert.equal(mtPersonal(e as never, pts({ mtBonus: { ELK_PERMIT: 1 } }), false).odds, 0.2324);
-  assert.equal(mtPersonal(by('MT:elk-b:215-01') as never, nrPts({ mtComboType: 'DEER' }), true).parts, undefined);
-  const both = mtPersonal(e as never, nrPts({ mtBonus: { ELK_PERMIT: 1 } }), true);
+  assert.equal(mtPersonal(e as never, pts({ mtBonus: { ELK_PERMIT: 1 } }), false, 'last').odds, 0.2324);
+  assert.equal(mtPersonal(by('MT:elk-b:215-01') as never, nrPts({ mtComboType: 'DEER' }), true, 'last').parts, undefined);
+  const both = mtPersonal(e as never, nrPts({ mtBonus: { ELK_PERMIT: 1 } }), true, 'last');
   assert.ok(Math.abs(both.odds! - e.oddsByPts.last.nr[1] * combo['biggame-elk'][0]) < 1e-12);
 });
 
@@ -127,7 +127,7 @@ test('mule deer vs whitetail: licence rows decide; mule-buck permits where only 
 
 test('a nonresident permit shows the permit draw alone; the combination and both together ride along', () => {
   const sure = D.hunts.find((h) => h.id.startsWith('MT:deer-permit:') && h.oddsByPts.last.nr[0] === 1)!;
-  const m = mtPersonal(sure as never, pts({ res: 'NONRESIDENT' }), true);
+  const m = mtPersonal(sure as never, pts({ res: 'NONRESIDENT' }), true, 'last');
   assert.equal(m.parts!.permit, 1);
   assert.equal(m.odds, m.parts!.combo); // 100% permit x combination
 });
@@ -143,7 +143,7 @@ test('over-the-counter B licences: every unlimited Deer B / Elk B with no draw r
   assert.equal(d.antlerClass, 'ANTLERLESS');
   assert.deepEqual((d.pointOdds as unknown as { fee: { res: number; nr: number } }).fee, { res: 10, nr: 75, year: 2026, pages: 'regulations p. 10 (resident), p. 11 (nonresident)' });
   for (const nr of [false, true]) {
-    const m = mtPersonal(d as never, pts({ res: nr ? 'NONRESIDENT' : 'RESIDENT', mtComboType: 'ELK', mtCombo: 1 }), nr);
+    const m = mtPersonal(d as never, pts({ res: nr ? 'NONRESIDENT' : 'RESIDENT', mtComboType: 'ELK', mtCombo: 1 }), nr, 'last');
     assert.equal(m.odds, 1); // no draw, no combination licence: the dead zone and the combo choice don't apply
     assert.match(m.basis, /Over the counter from June 15/);
   }
