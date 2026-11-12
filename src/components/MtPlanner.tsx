@@ -128,7 +128,7 @@ export function MtPlanner({ opts, apps, combo, nr, signedIn, set, year, choices 
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginTop: 8 }}>
                 <select aria-label={`${a.label} choice ${list.length + 1}`} value={pick[a.key] ?? ''} onChange={(e) => setPick({ ...pick, [a.key]: e.target.value })} style={{ maxWidth: '100%' }}>
                   <option value="">{list.length ? `Add choice ${list.length + 1}` : 'Choose your first choice'}</option>
-                  {avail.map((o) => <option key={o.id} value={o.id}>{o.code} · {o.where} · {pct(o.odds)}</option>)}
+                  {avail.map((o) => <option key={o.id} value={o.id}>{o.code} · {o.where} · {o.odds == null ? 'no odds' : pct(o.odds)}</option>)}
                 </select>
                 <button className="btn small" disabled={!loaded || !pick[a.key]} onClick={() => { void save([...ids, pick[a.key]]); setPick({ ...pick, [a.key]: '' }); }}>Add</button>
               </div>

@@ -5,7 +5,7 @@ import districtHistory from '../../data/mt/district-history.json';
 import { huntHref } from '@/lib/huntSlug';
 import { int } from '@/lib/format';
 import { unitKey } from '@/lib/states';
-import { mtComboOdds, mtCutoff, mtCutoffHistory, mtLatestYear, mtPointsToDraw, mtLicense } from '@/lib/mtOdds';
+import { mtComboOdds, mtCutoff, mtCutoffHistory, mtLatestYear, mtLicense } from '@/lib/mtOdds';
 import { mtChanges, mtLatestDraw, mtDay, MT_APPS, MT_DATES_SOURCE, MT_DATES_CHECKED, MT_DATES_YEAR, type MtChangeRow } from '@/lib/mtPlan';
 import { mtDistricts, type MtPointOdds, type MtOddsTable } from '@/lib/mtHunt';
 import { MT_BONUS_TYPES, type MtBonusType } from '@/lib/mtPoints';
@@ -67,7 +67,6 @@ export async function MtGuide() {
   const cut = mtCutoff('biggame-elk');
   const zero = mtComboOdds('biggame-elk', 0)?.odds ?? null;
   const one = mtComboOdds('biggame-elk', 1)?.odds ?? null;
-  const needed = mtPointsToDraw('biggame-elk');
   const drawYear = 2026;
   // what 2 points and 0 points drew, over the draws where the cutoff sat at 2 (the dead-zone years)
   const hist = mtCutoffHistory('biggame-elk').filter((h) => h.cutoff === 2);
@@ -107,7 +106,7 @@ export async function MtGuide() {
       <h2>Nonresident Combination: Preference Points</h2>
       <ul>
         <li><b>75% by points, 25% at random for zero-point applicants only.</b> Licenses go to the most points first until 75% are gone; the last 25% are drawn at random among applicants holding <b>no</b> points.</li>
-        <li>So anyone with points but below the cutoff misses both halves. {year && cut && one !== null && zero !== null && <>In the {year} Big Game / Elk draw it took {needed ?? cut.label} points to be sure; 1 point drew <b>{pct(one)}</b>, and zero points drew <b>{pct(zero, 1)}</b>.</>}</li>
+        <li>So anyone with points but below the cutoff misses both halves. {year && cut && one !== null && zero !== null && <>In the {year} Big Game / Elk draw everyone above {cut.label} points drew, {cut.label} points drew <b>{pct(cut.pct == null ? null : cut.pct / 100)}</b>, 1 point drew <b>{pct(one)}</b>, and zero points drew <b>{pct(zero, 1)}</b>. (Party applications average their members&apos; points, so some hold 2.2 or 1.5.)</>}</li>
         <li>Points cap at 3. You buy a point when you apply; a combination applicant can&apos;t buy one later in the year. You lose them all when you draw, and when you don&apos;t apply in consecutive years: a $100 point-only purchase (Jul 1 – Dec 31, for those who didn&apos;t apply) does <b>not</b> keep them.</li>
         <li>The Big Game and Elk Combinations are one drawing; the Deer Combination is a separate one. Which one you apply for is set on <Link href="/account#hunting-preferences">your account</Link>, and every nonresident deer or elk page uses it.</li>
       </ul>
