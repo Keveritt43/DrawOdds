@@ -130,8 +130,10 @@ All built offline from files saved in Claude in Chrome; raw GIS inputs too big f
 Built and merged, with Utah still `enabled: false` (unlisted):
 - #105: hunt page (`src/app/hunts/[id]/UtHuntPage.tsx`: odds at every point level, success and draw-history charts, land bar, seasons, odds table), boundary page (`UtUnitPage.tsx`), finder card (`UtHuntCard`) and the "Utah: Hunt Type" filter (`utLic`: le / general / otc / cwmu), account point tracker (`src/lib/utPoints.ts`: LE deer and LE elk bonus points, general deer preference points), map boundaries per species, `tests/utah.test.ts`.
 - #106: How The Draw Works, What Changed and Planner (`src/components/UtPages.tsx`), header links, home title.
-- Import dry run (maintenance service, commit d1d6033, Nov 12 09:26 PT): 515 hunts, 209 boundaries, 386 scored, 0 live, 515 added, 0 removed, 0 changed, digest `07d110f328cb8427`. **Apply not run:** the session's approval check refused it; it needs the owner's explicit yes in chat. Maintenance service back to idle.
-- After the apply: switch `enabled: true` in `src/lib/states.ts` (and the test), then verify live at desktop and 390 px.
+- **Imported** (owner: "apply UT", Nov 12 11:28 PT): gated on the dry run (commit d1d6033, 0 live, 515 added, 0 removed, 0 changed, digest `07d110f328cb8427`); result 515 hunts, 209 boundaries, 386 scored, other states unchanged; the re-run showed 515 live and 0 left to change. Maintenance service back to idle. Start command used:
+  `sh -c 'npx tsx scripts/ut-import.ts > /tmp/dry.txt 2>&1; cat /tmp/dry.txt; grep -qF "\"planDigest\":\"<digest>\"" /tmp/dry.txt && grep -qF "\"live\":0,\"liveUnits\":0,\"added\":515,\"removed\":0,\"changed\":0" /tmp/dry.txt && npx tsx scripts/ut-import.ts --apply && npx tsx scripts/ut-import.ts'` (pin the service to the reviewed commit with `connect-service-source` + `commitSha`).
+- **Live** (#109, enabled: true). Verified Nov 12: Find Hunts `?states=UT&species=ELK` (152 elk options with private-land hunts hidden), hunt pages EB3000 / EB1001 / DB1502 / DB1001, boundary 685, How The Draw Works, What Changed, Planner; no horizontal scroll at 390 px after #110/#111.
+- **Open:** the Unit Map (`/map`) with Utah selected still shows Idaho's controls (a Pronghorn toggle, "general season" shading) over the boundaries; it needs a Utah branch like Montana's (#87).
 
 Not built yet: a projection (needs the §5.2 backtest), waiting-period tracking on the account page, Utah's Walk-in Access layer, unit-level general elk harvest on boundary pages, pronghorn (UT-2) and bison (UT-3).
 
