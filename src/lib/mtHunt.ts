@@ -41,7 +41,11 @@ export interface MtHarvestYear { year: number; hunters: number; harvest: number;
 export interface MtHistoryYear { year: number; quota: number | 'UNL'; res: [number, number]; nr: [number, number]; pointsKnown: boolean }
 export interface MtPointOdds {
   state: 'MT';
-  kind: 'bonus' | 'general';
+  /** general licence, drawn bonus-point licence, or a B licence sold over the counter (no draw) */
+  kind: 'bonus' | 'general' | 'otc';
+  /** over-the-counter B licences: 2026 fees as printed, and the day sales open */
+  fee?: { res: number; nr: number; year: number; pages: string };
+  onSale?: string;
   year: number;
   projected: false;
   license: string;
@@ -119,6 +123,10 @@ export function mtPersonal(r: { oddsByPts: unknown; pointOdds: unknown; oddsLast
   const year = po?.year ?? r.oddsLastYear ?? 'latest';
   if (!po || !t) return { odds: null, points: null, buying: null, basis: 'No draw data' };
   const species = po.license.startsWith('General Elk') || po.license.startsWith('Elk') ? 'ELK' : 'DEER';
+  if (po.kind === 'otc') {
+    return { odds: 1, points: null, buying: null,
+      basis: `Over the counter from ${po.onSale ?? 'June 15'}, no draw${po.quota === 'UNL' ? ', unlimited' : ''}; no combination licence needed` };
+  }
   if (po.kind === 'general') {
     if (!nr) return { odds: 1, points: null, buying: null, basis: 'Resident general licence, over the counter' };
     const pts = Math.min(3, Math.max(0, Math.floor(p.combo)));

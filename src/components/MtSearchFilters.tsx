@@ -40,8 +40,8 @@ export function MtSearchFilters({ nr = true }: { nr?: boolean }) {
       ))}
       <p className="small muted">
         {nr
-          ? 'General deer and elk licenses: a nonresident first has to draw a combination license, at your preference points. Permits, antelope licenses and B licenses use bonus points; antelope needs no combination license.'
-          : 'General deer and elk licenses are over the counter for residents. Permits, antelope licenses and B licenses use bonus points.'}{' '}
+          ? 'General deer and elk licenses: a nonresident first has to draw a combination license, at your preference points. Permits, antelope licenses and drawn B licenses use bonus points; antelope and B licenses need no combination license, and some whitetail and elk B licenses are sold over the counter.'
+          : 'General deer and elk licenses are over the counter for residents. Permits, antelope licenses and drawn B licenses use bonus points; some whitetail and elk B licenses are sold over the counter.'}{' '}
         Odds use the points and &ldquo;buying a point this year&rdquo; settings in <Link href="/account#hunting-preferences">Account</Link>: in Montana, banked bonus points count only if you buy a point with the application.
       </p>
     </Section>

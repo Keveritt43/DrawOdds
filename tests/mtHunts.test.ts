@@ -13,10 +13,10 @@ const pts = (o: Record<string, unknown>) => readMtPoints({ MT: { res: 'RESIDENT'
 
 test('the build reports no problems and covers every district', () => {
   assert.deepEqual(D.problems, []);
-  const gen = (sp: string) => D.hunts.filter((h) => h.type === 'GENERAL' && h.species === sp).length;
+  const gen = (sp: string) => D.hunts.filter((h) => h.pointOdds.kind === 'general' && h.species === sp).length;
   assert.equal(gen('DEER'), 139);
   assert.equal(gen('ELK'), 130); // 139 less the nine drawing-only districts
-  const elkGen = new Set(D.hunts.filter((h) => h.type === 'GENERAL' && h.species === 'ELK').map((h) => h.units[0]));
+  const elkGen = new Set(D.hunts.filter((h) => h.pointOdds.kind === 'general' && h.species === 'ELK').map((h) => h.units[0]));
   for (const hd of ['250', '410', '455', '555', '620', '621', '622', '630', '700']) assert.equal(elkGen.has(hd), false, hd);
 });
 
@@ -130,4 +130,24 @@ test('a nonresident permit shows the permit draw alone; the combination and both
   const m = mtPersonal(sure as never, pts({ res: 'NONRESIDENT' }), true);
   assert.equal(m.parts!.permit, 1);
   assert.equal(m.odds, m.parts!.combo); // 100% permit x combination
+});
+
+test('over-the-counter B licences: every unlimited Deer B / Elk B with no draw report, sold from June 15, no draw', () => {
+  const otc = D.hunts.filter((h) => h.pointOdds.kind === 'otc');
+  assert.equal(otc.length, 25);
+  assert.deepEqual([...new Set(otc.map((h) => h.pointOdds.license))].sort(), ['Deer B License', 'Elk B License']);
+  const e = by('MT:elk-b:004-00'); // the regulations disagree (HD 417 prints "Jun 1"); no draw report, so sold over the counter
+  assert.equal(e.pointOdds.kind, 'otc');
+  const d = by('MT:deer-b:170-00') as H & { type: string; antlerClass: string };
+  assert.equal(d.type, 'GENERAL');
+  assert.equal(d.antlerClass, 'ANTLERLESS');
+  assert.deepEqual((d.pointOdds as unknown as { fee: { res: number; nr: number } }).fee, { res: 10, nr: 75, year: 2026, pages: 'regulations p. 10 (resident), p. 11 (nonresident)' });
+  for (const nr of [false, true]) {
+    const m = mtPersonal(d as never, pts({ res: nr ? 'NONRESIDENT' : 'RESIDENT', mtComboType: 'ELK', mtCombo: 1 }), nr);
+    assert.equal(m.odds, 1); // no draw, no combination licence: the dead zone and the combo choice don't apply
+    assert.match(m.basis, /Over the counter from June 15/);
+  }
+  assert.equal(mtKind(d.pointOdds), 'b');
+  // a code marked over the counter in one district but drawn (Deer B 395-01) stays a drawn licence
+  assert.equal(by('MT:deer-b:395-01').pointOdds.kind, 'bonus');
 });
