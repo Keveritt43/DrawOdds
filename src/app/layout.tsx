@@ -46,6 +46,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <Link href="/hunts?states=MT&species=ELK&mtLic=permit">Elk Permits</Link>
                 <Link href="/hunts?states=MT&species=DEER&mtLic=permit">Deer Permits</Link>
                 <Link href="/hunts?states=MT&species=PRONGHORN">Antelope Draws</Link>
+              </> : state.code === 'UT' ? <>
+                <Link href="/hunts?states=UT&species=ELK&utLic=le">Limited-Entry Elk</Link>
+                <Link href="/hunts?states=UT&species=DEER&utLic=le">Limited-Entry Deer</Link>
+                <Link href="/hunts?states=UT&species=DEER&utLic=general">General Deer Draw</Link>
               </> : state.code === 'WY' ? <>
                 <Link href="/hunts?states=WY&species=ELK">Elk Draws</Link>
                 <Link href="/hunts?states=WY&species=DEER">Deer Draws</Link>

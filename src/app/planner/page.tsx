@@ -1,4 +1,5 @@
 import { MtPlanner, type MtPlanOpt, type MtPlanApp } from "@/components/MtPlanner";
+import { UtPlannerPage } from "@/components/UtPages";
 import { readMtPoints, mtCombo } from "@/lib/mtPoints";
 import { getPointsStore } from "@/lib/points";
 import { mtPersonal, mtDistricts, type MtPointOdds } from "@/lib/mtHunt";
@@ -24,6 +25,7 @@ export default async function PlannerPage({ searchParams,
 }) {
   const { residency, signedIn } = await getResidency((await searchParams).as);
   if ((await getState()).code === "MT") return <MtPlannerPage signedIn={signedIn} />;
+  if ((await getState()).code === "UT") return <UtPlannerPage />;
   if ((await getState()).code === "CO") {
     const pts = await getPoints("CO"),
       pool = poolFor(pts.res === "NONRESIDENT", pts.youth);

@@ -1,4 +1,5 @@
 import { MtGuide } from "@/components/MtPages";
+import { UtGuide } from "@/components/UtPages";
 import { CoGuide } from "@/components/CoPages";
 import { getState } from "@/lib/residency";
 import Link from 'next/link';
@@ -11,6 +12,7 @@ export const metadata = { title: "How The Draw Works",
 export default async function GuidePage() {
   if ((await getState()).code === "CO") return <CoGuide />;
   if ((await getState()).code === "MT") return <MtGuide />;
+  if ((await getState()).code === "UT") return <UtGuide />;
   const g = NR_GENERAL_DRAW.windows;
   const c = CONTROLLED_DRAW.windows;
   return (
