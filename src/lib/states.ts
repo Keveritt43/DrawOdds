@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY' | 'MT';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -120,6 +120,26 @@ export const STATES: Record<StateCode, StateConfig> = {
     species: ['DEER', 'ELK', 'PRONGHORN'],
     bounds: [[-116.05, 44.35], [-104.04, 49.01]],
     features: { elkZones: false, nrGeneralTagDraw: true, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  UT: {
+    code: 'UT',
+    name: 'Utah',
+    slug: 'utah',
+    // Not listed yet (reachable by link for previews): deer and elk rows come from scripts/ut-import.ts, and the
+    // Utah pages (bonus-point odds table, account point tracker, planner) are not built. docs/states/ut-onboarding.md.
+    enabled: false,
+    agency: { short: 'DWR', name: 'Utah Division of Wildlife Resources', url: 'https://wildlife.utah.gov/hunting/main-hunting-page/big-game.html' },
+    // DWR's Walk-in Access program exists but no layer is loaded, so the slot stays empty rather than read 0%
+    accessProgram: null,
+    privateLandOnly: 'Cooperative Wildlife Management Unit (CWMU) hunts: private land, residents only in the public draw (HuntSummary.privateOnly set by scripts/ut_build_hunts.py from DWR\'s hunt category).',
+    // limited-entry deer and elk: bonus points (half the permits to the most points, the rest drawn with points + 1
+    // entries); general buck deer: preference points (a strict queue); general bull elk: over the counter
+    points: 'hybrid',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-114.06, 36.99], [-109.04, 42.0]],
+    // hunts are drawn on DWR hunt boundaries (unit keys are BoundaryIDs), several per hunt, overlapping across species
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };
 
