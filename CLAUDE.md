@@ -13,6 +13,8 @@ The owner has authorized (2026-11-10) Claude to merge its own PRs into `main` on
 
 The owner repeated this in chat on 2026-11-11: he does not want to approve PRs himself. When CI on the branch is green, merge your own PR in the same turn and go on to the deploy check; don't ask him to approve, review or merge, and don't end a turn on "PR open, waiting for you". If a merge is still refused by the session's approval check, report that in one line and carry on with the rest of the work.
 
+**Production data imports and applies: always go live (owner, in chat, 2026-11-12: "I don't ever need to approve these. Always go live").** This standing approval covers additive and corrective state data imports (`scripts/*-import.ts --apply`), score recalculations and enabling a finished state. Run the reviewed dry run, gate the apply on its exact digest and counts (the start-command pattern in `docs/states/ut-onboarding.md` §6a), apply in the same session, set the maintenance service back to idle, then switch the state on and verify the live site. Don't stop to ask. The AGENTS.md exclusions still stand: no destructive schema operations, no Idaho agency sync, no restoring automatic sync, and an apply only ever runs on a matching reviewed dry run.
+
 ## What this environment can and can't reach
 
 - **Cloud container:** GitHub (`gh`) and package registries only. npm and pip installs may be blocked, and there is no `node_modules` in the repo. Agency sites (CPW, IDFG, ArcGIS, BLM) are **not** reachable from the shell.
