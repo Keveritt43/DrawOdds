@@ -11,6 +11,8 @@ Read and follow [AGENTS.md](AGENTS.md) for this repository's product requirement
 
 The owner has authorized (2026-11-10) Claude to merge its own PRs into `main` once CI on the branch is green. No manual review is needed; Railway then deploys `main`. Do this with `gh api -X PUT repos/Keveritt43/DrawOdds/pulls/<n>/merge -f merge_method=merge`, then check the deploy and the live site. This doesn't lift the database and sync safeguards in AGENTS.md. Never merge with failing or pending CI.
 
+The owner repeated this in chat on 2026-11-11: he does not want to approve PRs himself. When CI on the branch is green, merge your own PR in the same turn and go on to the deploy check; don't ask him to approve, review or merge, and don't end a turn on "PR open, waiting for you". If a merge is still refused by the session's approval check, report that in one line and carry on with the rest of the work.
+
 ## What this environment can and can't reach
 
 - **Cloud container:** GitHub (`gh`) and package registries only. npm and pip installs may be blocked, and there is no `node_modules` in the repo. Agency sites (CPW, IDFG, ArcGIS, BLM) are **not** reachable from the shell.
