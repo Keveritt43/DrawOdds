@@ -13,6 +13,7 @@ import { UtHuntCard } from '@/components/UtHuntCard';
 import { LandBar } from '@/components/LandBar';
 import { UnitMap } from '@/components/UnitMap';
 import utLabels from '../../../../data/ut/boundary-labels.json';
+import { utGenElk } from '@/lib/utGenElk';
 import { StateProvider } from '@/components/StateContext';
 
 type SP = { species?: string; type?: string };
@@ -48,6 +49,8 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
   };
   // the boundary's DWR name, from DWR's boundary layer (data/ut/boundary-labels.json)
   const label = (utLabels as Record<string, string>)[name] ?? rows.find((h) => h.units.length === 1)?.areaName ?? `Boundary ${name}`;
+  // general bull elk on this ground: DWR's per-unit harvest, when the general elk hunts use this boundary
+  const genElk = rows.some((h) => h.species === 'ELK' && h.type === 'GENERAL') ? utGenElk(name) : null;
   const tribal = (unit.landOwnership as { manager: string; pct: number }[] | null)?.find((o) => o.manager === 'TRIBAL')?.pct ?? 0;
 
   return (
@@ -62,7 +65,10 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
         {tribal > 0.5 && <div className="stat"><div className="k">Tribal land</div><div className="v">{Math.round(tribal)}%</div><div className="small muted">closed unless the tribe permits</div></div>}
         <div className="stat"><div className="k">Size</div><div className="v">{unit.acres ? int(unit.acres / 640) : '-'}</div><div className="small muted">square miles</div></div>
         <div className="stat"><div className="k">Hunts using it</div><div className="v">{rows.length}</div></div>
+        {genElk && <div className="stat"><div className="k">General bull elk success</div><div className="v">{genElk.hunters >= 50 ? `${Math.round(genElk.success * 100)}%` : '-'}</div>
+          <div className="small muted">{genElk.huntersPerYear.toLocaleString('en-US')} hunters/yr · DWR elk unit {genElk.units.join(', ')} · {genElk.years[0]}–{genElk.years[genElk.years.length - 1]}</div></div>}
       </div>
+      {genElk && <p className="small muted" style={{ margin: '6px 0 0' }}>General elk permits are statewide, so the hunt cards below show statewide success. The tile is DWR&apos;s harvest for the elk unit this boundary sits in, every adult general permit together (youth left out). A hunter counts in every unit hunted, so unit hunter counts don&apos;t add up to the statewide total.</p>}
 
       <div className="card" style={{ margin: '14px 0' }}>
         <h3 style={{ marginTop: 0 }}>Who manages the land</h3>

@@ -15,6 +15,7 @@ import { mtBmaDistrict } from '@/lib/mtBma';
 import { readUtPoints } from '@/lib/utPoints';
 import { utPersonal, utKind } from '@/lib/utHunt';
 import utLabels from '../../../../data/ut/boundary-labels.json';
+import { utGenElk } from '@/lib/utGenElk';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -243,8 +244,8 @@ export async function GET(req: Request) {
   if (state === 'UT') {
     // Utah: DWR hunt boundaries overlap across species and hunt types, so every boundary carries flags saying
     // which sets it belongs to (utGenDeer, utCtlElk, ...) and the map draws one set at a time. Odds are at the
-    // hunter's saved Utah points (DWR's 2026 draw, see src/lib/utHunt.ts). General elk is sold over the counter
-    // and its harvest is statewide per hunt number, so it gets no per-boundary success or crowding.
+    // hunter's saved Utah points (DWR's 2026 draw, see src/lib/utHunt.ts). General elk is sold over the counter;
+    // its success and crowding come from DWR's per-unit harvest tables (src/lib/utGenElk.ts).
     const pts = readUtPoints((await getPointsStore()).store as Record<string, unknown>);
     by.clear();
     const rows = await db.huntSummary.findMany({ where: { state: 'UT' } });
@@ -295,6 +296,17 @@ export async function GET(req: Request) {
           a.harvest += r.harvest5;
         }
       }
+    }
+    // general bull elk: DWR's per-unit harvest, crosswalked to hunt boundaries (src/lib/utGenElk.ts)
+    for (const [u, m] of by) {
+      const g = m.utGenElk === 1 ? utGenElk(u) : null;
+      if (!g) continue;
+      m.genSuccessElk = g.hunters >= MIN_HUNTERS ? g.success * 100 : null;
+      m.genSuccessRawElk = g.success * 100;
+      m.genHuntersElk = g.huntersPerYear;
+      m.genYearsElk = g.years.length;
+      m.huntersSqMiElk = g.huntersSqMi;
+      m.genUnitsElk = g.units.join(', ');
     }
     for (const [k, a] of pool) {
       const [sp, u] = k.split('|');
