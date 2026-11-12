@@ -1,6 +1,7 @@
 'use client';
 
 import { startTransition, useActionState, useState } from 'react';
+import type React from 'react';
 import { saveHuntingPreferences } from '@/app/actions';
 import type { Residency } from '@prisma/client';
 import type { StatePoints } from '@/lib/points';
@@ -10,7 +11,20 @@ import Link from 'next/link';
 import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, MT_COMBO_TYPES, type MtComboType, type MtPoints } from '@/lib/mtPoints';
 import { UT_POINTS_MAX, UT_POINT_TYPES, type UtPoints } from '@/lib/utPoints';
 
-export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints }) {
+const resLabel = (r: Residency) => (r === 'RESIDENT' ? 'Resident' : 'Nonresident');
+
+/** One state's settings, collapsed to a line saying what's saved; `open` starts it expanded. */
+function StateBox({ name, line, open, children }: { name: string; line: string; open: boolean; children: React.ReactNode }) {
+  return (
+    <details className="acct-state" open={open}>
+      <summary><b>{name}</b><span className="small muted">{line}</span></summary>
+      <fieldset aria-label={name}>{children}</fieldset>
+    </details>
+  );
+}
+
+/** `openState`: the state the site is set to starts expanded; the others are one line each. */
+export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; openState?: string }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
@@ -28,26 +42,35 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: 
   const [utResidency, setUtResidency] = useState<Residency>(utah?.res ?? 'NONRESIDENT');
   const [utPts, setUtPts] = useState(Object.fromEntries(UT_POINT_TYPES.map(t => [t.key, String(utah?.points[t.key] ?? 0)])));
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
+  const n = (v: string) => (v === '' ? '?' : v);
+  const lines = {
+    ID: resLabel(idahoResidency),
+    CO: `${resLabel(coloradoResidency)} · deer ${n(points.DEER)}, elk ${n(points.ELK)}, pronghorn ${n(points.PRONGHORN)} pts`,
+    WY: `${resLabel(wyResidency)}${wyResidency === 'NONRESIDENT' ? ` · deer ${n(wyPoints.DEER)}, elk ${n(wyPoints.ELK)}, antelope ${n(wyPoints.PRONGHORN)} pts${wySpecial ? ' · special pool' : ''}` : ''}`,
+    MT: `${resLabel(mtResidency)}${mtResidency === 'NONRESIDENT' ? ` · combination ${n(mtCombo)} pts` : ''} · ${MT_BONUS_TYPES.filter((t) => Number(mtBonus[t.key]) > 0).length} bonus balances`,
+    UT: `${resLabel(utResidency)} · ${UT_POINT_TYPES.filter((t) => Number(utPts[t.key]) > 0).map((t) => `${t.key === 'LE_DEER' ? 'LE deer' : t.key === 'LE_ELK' ? 'LE elk' : t.key === 'GEN_DEER' ? 'general deer' : t.key === 'LE_PRONGHORN' ? 'pronghorn' : 'bison'} ${utPts[t.key]}`).join(', ') || 'no points'}`,
+  };
   return (
-    <form className="card account-preferences" action={save} id="hunting-preferences" onSubmit={event => {
+    <form className="card account-preferences" action={save} id="hunting-preferences"
+      // a field the browser rejects may sit in a collapsed state: open it so the browser can point at it
+      onInvalidCapture={event => (event.target as HTMLElement).closest('details')?.setAttribute('open', '')}
+      onSubmit={event => {
       event.preventDefault();
       const values = new FormData(event.currentTarget);
       // Dispatch directly so React does not reset the residency menus after saving.
       startTransition(() => save(values));
     }}>
       <h2>Hunting Preferences</h2>
-      <p className="small muted">Draw odds and rankings use the residency and points you save here.</p>
-      <fieldset>
-        <legend>Idaho</legend>
+      <p className="small muted">Draw odds and rankings use the residency and points you save here. Tap a state to change it.</p>
+      <StateBox name="Idaho" line={lines.ID} open={openState === 'ID'}>
         <label>Residency
           <select name="idahoResidency" value={idahoResidency} onChange={e => setIdahoResidency(e.target.value as Residency)}>
             <option value="RESIDENT">Resident</option>
             <option value="NONRESIDENT">Nonresident</option>
           </select>
         </label>
-      </fieldset>
-      <fieldset>
-        <legend>Colorado</legend>
+      </StateBox>
+      <StateBox name="Colorado" line={lines.CO} open={openState === 'CO'}>
         <label>Residency
           <select name="coloradoResidency" value={coloradoResidency} onChange={e => setColoradoResidency(e.target.value as Residency)}>
             <option value="RESIDENT">Resident</option>
@@ -74,9 +97,8 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: 
           </div>)}
         </div>
         <label className="account-youth"><input type="checkbox" name="youth" checked={youth} onChange={e => setYouth(e.target.checked)} /> Youth draw results</label>
-      </fieldset>
-      <fieldset>
-        <legend>Wyoming</legend>
+      </StateBox>
+      <StateBox name="Wyoming" line={lines.WY} open={openState === 'WY'}>
         <label>Residency
           <select name="wyomingResidency" value={wyResidency} onChange={e => setWyResidency(e.target.value as Residency)}>
             <option value="RESIDENT">Resident</option>
@@ -93,9 +115,8 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: 
           ))}
         </div>
         <label className="account-youth"><input type="checkbox" name="wySpecial" checked={wySpecial} onChange={e => setWySpecial(e.target.checked)} /> Apply in the nonresident special pool (higher license fee, separate quota)</label>
-      </fieldset>
-      {montana && <fieldset>
-        <legend>Montana</legend>
+      </StateBox>
+      {montana && <StateBox name="Montana" line={lines.MT} open={openState === 'MT'}>
         <label>Residency
           <select name="mtResidency" value={mtResidency} onChange={e => setMtResidency(e.target.value as Residency)}>
             <option value="RESIDENT">Resident</option>
@@ -147,9 +168,8 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: 
             </div>
           </div>)}
         </div>
-      </fieldset>}
-      {utah && <fieldset>
-        <legend>Utah</legend>
+      </StateBox>}
+      {utah && <StateBox name="Utah" line={lines.UT} open={openState === 'UT'}>
         <label>Residency
           <select name="utResidency" value={utResidency} onChange={e => setUtResidency(e.target.value as Residency)}>
             <option value="RESIDENT">Resident</option>
@@ -159,7 +179,8 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: 
         <p className="small muted">
           Limited-entry deer and elk use <b>bonus points</b>: half the permits go to the most points, the rest are drawn with
           one chance plus one per point, so zero points can still draw. General buck deer uses <b>preference points</b>, a
-          strict line. Points are lost only when you draw; drawing limited-entry buck deer or bull elk starts a 5-year wait.
+          strict line. Pronghorn and bison are bonus-point draws too, each with its own balance. Points are lost only when you draw;
+          drawing limited-entry buck deer or bull elk starts a 5-year wait, buck pronghorn 2 years, and bison is once in a lifetime.
         </p>
         <div className="account-points">
           {UT_POINT_TYPES.map(({ key, label, kind }) => <label key={key}>{label} ({kind} points)
@@ -167,7 +188,7 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah }: 
               onChange={e => setUtPts({ ...utPts, [key]: e.target.value })} />
           </label>)}
         </div>
-      </fieldset>}
+      </StateBox>}
       <div className="account-save">
         <button className="btn primary" type="submit" disabled={pending}>{pending ? 'Saving…' : 'Save Preferences'}</button>
         <span role={result.message && !result.saved ? 'alert' : 'status'}>{result.message}</span>
