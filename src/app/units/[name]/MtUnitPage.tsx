@@ -143,7 +143,7 @@ export async function MtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
           </div>
         </section>
       ))}
-      <p className="small muted">Odds: the last draw, not a forecast. Over-the-counter B licenses are not listed yet. Source: FWP regulations, drawing statistics and harvest estimates; land from BLM&apos;s Surface Management Agency map. Confirm with FWP before you apply.</p>
+      <p className="small muted">Odds: the last draw, not a forecast; over-the-counter B licenses have no draw. Source: FWP regulations, drawing statistics and harvest estimates; land from BLM&apos;s Surface Management Agency map. Confirm with FWP before you apply.</p>
     </main>
   );
 }

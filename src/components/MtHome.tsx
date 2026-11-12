@@ -53,7 +53,7 @@ export async function MtQuickStart() {
               <li><b>Odds at your points</b> — drawn licenses at your bonus points for that license type, if you buy a point this year; the combination draw at your preference points. Antelope needs no combination license, even for a nonresident.</li>
               <li><b>Hunter success</b> from FWP&apos;s surveyed seasons, by district.</li>
               <li><b>Public land</b> in every district, from BLM&apos;s ownership map.</li>
-              <li><b>Not yet:</b> over-the-counter B licenses.</li>
+              <li><b>Over-the-counter B licenses</b> — the unlimited whitetail and elk B licenses FWP sells from June 15, with their fees.</li>
             </ul> : <ul>
               <li><b>The nonresident combination draw</b> — Big Game / Elk and Deer, with odds at your point balance and what each of the last six draws took.</li>
               <li><b>Not yet:</b> hunting districts, harvest and public land, so Montana has no rows in Find Hunts.</li>

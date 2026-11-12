@@ -39,6 +39,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
   const chance = chanceOf(shown, 0, shown ?? 0);
   if (!po) return <main className="wrap" style={{ margin: '24px auto' }}><p className="small"><BackLink state="MT" /></p><h1>{s.name}</h1><p className="muted">No data for this hunt yet.</p></main>;
   const general = po.kind === 'general';
+  const otc = po.kind === 'otc';
   const myPool: MtPool = nr ? 'nr' : 'res';
   const pool: MtPool = sp.pool === 'res' || sp.pool === 'nr' ? sp.pool : myPool;
   const type = MT_LICENSE_TYPE[po.license];
@@ -72,7 +73,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       </h1>
       <p className="muted" style={{ marginTop: 0 }}>
         {s.takeMethod}
-        {!general ? ` · ${s.tags !== null ? `${int(s.tags)} ${/Permit$/.test(po.license) ? 'permits' : 'licenses'} (${po.year} quota)` : 'Unlimited'}` : ''}
+        {otc ? ` · ${s.tags !== null ? `${int(s.tags)} licenses (${po.year} quota)` : 'Unlimited'} · over the counter` : !general ? ` · ${s.tags !== null ? `${int(s.tags)} ${/Permit$/.test(po.license) ? 'permits' : 'licenses'} (${po.year} quota)` : 'Unlimited'}` : ''}
         {s.privateOnly ? ' · Valid on private land only: you need landowner permission' : ''}
         {' · '}{s.units.length > 8 ? <>{po.regs.validIn ?? `${s.units.length} districts`}</> : s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('MT', u))}`}>{mtUnitLabel(u)}</HuntLink></span>)}
       </p>
@@ -102,7 +103,14 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           : 'Success is the district\'s, for all deer hunters: FWP doesn\'t count hunters by license or by deer species, so a rate for this license alone can\'t be read from its estimates.'}</p>
       )}
       {po.mulePermitNote && <p className="small muted">Mule bucks per permit: {po.mulePermitNote}. Success below is the district&apos;s, for all deer hunters.</p>}
-      {!general && (
+      {otc && (
+        <div className="card" style={{ margin: '12px 0' }}>
+          <b>Over the counter, no draw.</b> FWP sells this B license from {po.onSale ?? 'June 15'}{po.quota === 'UNL' ? ', with no limit on numbers' : ''}, to residents and nonresidents alike; no combination license and no points are needed.
+          {po.fee ? <> {po.fee.year} fee: <b>${po.fee.res}</b> resident, <b>${po.fee.nr}</b> nonresident (FWP {po.fee.year} regulations, {po.fee.pages}), plus the conservation and base hunting licenses every hunter buys.</> : null}
+          {' '}You may hold up to three deer licenses a year (a general license and two B licenses, or three B licenses).
+        </div>
+      )}
+      {!general && !otc && (
         <div className="card" style={{ margin: '12px 0' }}>
           <b>How your points map to FWP&apos;s table.</b> FWP prints the points <i>used</i> in the draw: the ones you have banked plus the one you buy with the application.
           So with {mine.points ?? 0} {typeLabel} bonus point{mine.points === 1 ? '' : 's'} on your account, buying one this year puts you on FWP&apos;s <b>{(mine.points ?? 0) + 1}-point row</b>.
@@ -122,7 +130,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
 
       <div className="co-top">
         <div className="card co-mine">
-          <div className="k">{general && !nr ? 'Your license' : `Your ${general ? po.combo?.year ?? po.year : po.year} odds · ${MT_POOL_LABEL[myPool]}`}</div>
+          <div className="k">{otc ? 'Your license' : general && !nr ? 'Your license' : `Your ${general ? po.combo?.year ?? po.year : po.year} odds · ${MT_POOL_LABEL[myPool]}`}</div>
           <div className="co-big">{pct(shown)} <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span></div>
           {mine.parts && <div className="small">If you draw the combination. Your {mine.parts.comboName} draw: <b>{pct(mine.parts.combo)}</b>; both: <b>{pct(mine.odds)}</b>{s.success5 !== null && mine.odds !== null ? <> · draw and fill <b>{pct(mine.odds * s.success5)}</b></> : null}.</div>}
           <div className="small muted">

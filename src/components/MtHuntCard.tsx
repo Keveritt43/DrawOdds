@@ -33,7 +33,8 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
   // short pills: Montana names ("HD 652 · General deer") are long, and on a phone a long pill squeezed the name to one word a line
   const kind = /Permit$/.test(po?.license ?? '') ? 'permits' : 'licenses';
   const bma = mtBma(r.units, r.species);
-  const pill = general ? (nr ? 'General · NR combo draw' : 'General · Over the counter') : /Permit$/.test(po?.license ?? '') ? 'Permit · Bonus points' : po?.license === 'Antelope License' ? 'Antelope · Bonus points' : 'B License · Bonus points';
+  const otc = po?.kind === 'otc';
+  const pill = otc ? 'B License · Over the counter' : general ? (nr ? 'General · NR combo draw' : 'General · Over the counter') : /Permit$/.test(po?.license ?? '') ? 'Permit · Bonus points' : po?.license === 'Antelope License' ? 'Antelope · Bonus points' : 'B License · Bonus points';
   return (
     <article className="hrow co-row mt-row">
       <div className="hrow-top">
@@ -43,7 +44,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
           <span className={`pill ${general ? 'gen' : 'ctl'}`}>{pill}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />
-        <span className="small muted tags">{general ? (nr ? 'Statewide combination quota' : 'No quota') : r.tags === null ? 'Unlimited' : `${int(r.tags)} ${kind}`}</span>
+        <span className="small muted tags">{otc ? (r.tags === null ? 'Unlimited' : `${int(r.tags)} ${kind}`) : general ? (nr ? 'Statewide combination quota' : 'No quota') : r.tags === null ? 'Unlimited' : `${int(r.tags)} ${kind}`}</span>
       </div>
       <div className="dates">
         {[general ? r.areaName : mtDistricts(r.units), r.takeMethod, seasonsSummary(r.tagSeasons) || dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land only' : '']
@@ -52,10 +53,10 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
       <ScoreRow r={r} nr={nr} />
       <div className="hrow-stats three">
         <div>
-          <span className="k">{general && !nr ? 'License' : general ? `Combination draw · ${points ?? 0} pref. pts` : withCombo ? `Permit draw · NR · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}` : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}`}</span>
+          <span className="k">{otc ? 'License · no draw' : general && !nr ? 'License' : general ? `Combination draw · ${points ?? 0} pref. pts` : withCombo ? `Permit draw · NR · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}` : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}`}</span>
           <b>{pctOdds(shown)}</b>
           <span className={`verdict ${shown === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{shown === null ? 'No draw data' : CHANCE_LABEL[chance]}</span>
-          <span className="sub">{general && !nr ? 'Resident general license' : parts ? `${po?.year ?? 'Latest'} draw, if you draw the combination` : `${po?.combo?.year ?? po?.year ?? 'Latest'} draw · last draw, not a forecast`}</span>
+          <span className="sub">{otc ? `Over the counter from ${po?.onSale ?? 'June 15'}${po?.fee ? ` · $${nr ? po.fee.nr : po.fee.res} ${nr ? 'nonresident' : 'resident'}` : ''}` : general && !nr ? 'Resident general license' : parts ? `${po?.year ?? 'Latest'} draw, if you draw the combination` : `${po?.combo?.year ?? po?.year ?? 'Latest'} draw · last draw, not a forecast`}</span>
           {parts && <span className="sub">Your {parts.comboName} draw: <b>{pctOdds(parts.combo)}</b></span>}
         </div>
         <div>
