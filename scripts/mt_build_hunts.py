@@ -521,6 +521,59 @@ for key, c in sorted(codes.items()):
         problems.append(f"{key}: no regulation rows")
     hunts.append(rec)
 
+# Over-the-counter B licences: Deer B and Elk B licences with an unlimited quota are not drawn; they're sold from
+# June 15 (2026 regulations p. 5, 10, 14). They have no draw report, so no odds table: anyone may buy one,
+# residents and nonresidents alike, without a combination licence. Fees as printed (p. 10 resident, p. 11
+# nonresident), labelled with the regulations year.
+OTC_FEE = {"Deer B License": {"res": 10, "nr": 75}, "Elk B License": {"res": 20, "nr": 270}}
+for key, c in sorted(codes.items()):
+    if c["license"] not in OTC_FEE or rep.get(key) is not None or not (c["otc"] is True or key in KNOWN_OTC):
+        continue
+    sp = LICENSES[c["license"]]
+    hds = unit_keys(sp, sorted(c["districts"], key=lambda h: (len(h), h)))
+    rows = [dict(o, hd=t["hd"]) for t in regs["districts"] if t["species"] == REGS_SPECIES[sp]
+            for o in t["opportunities"] if o["license"] == c["license"] and o["code"] == c["code"]]
+    if not rows:
+        problems.append(f"{key}: no regulation rows")
+        continue
+    seasons = seasons_of(rows)
+    open_, close = date_range(seasons)
+    dsp = deer_species(rows) if sp == "DEER" else None
+    hf, hv, hbasis = harvest_fields(sp, hds)  # district success, as for drawn B licences
+    if dsp is not None and len(dsp) == 1:
+        hf["deerType"] = next(iter(dsp))
+    regs_hds = sorted(c["districts"], key=lambda h: (len(h), h))
+    area = (f"HD {regs_hds[0]} · {district_name(regs_hds[0], REGS_SPECIES[sp])}" if len(regs_hds) == 1
+            else (c.get("validIn", {}).get("text") or f"{len(regs_hds)} districts"))
+    quota = c.get("quota") if isinstance(c.get("quota"), int) else None
+    hunts.append({
+        "id": f"MT:{SLUG[c['license']]}:{c['code']}", "slug": f"mt-{SLUG[c['license']]}-{c['code']}", "state": "MT",
+        # "GENERAL" = bought, not drawn (Idaho's meaning, so the finder's General / over-the-counter filters find them)
+        "species": sp, "type": "GENERAL", "tagCode": c["code"],
+        "name": f"{c['license'].replace(' License', '')} {c['code']}", "areaName": area,
+        "description": "; ".join(sorted({r["opportunity"] for r in rows if r["opportunity"]})),
+        "units": hds, "weapon": weapon_of(seasons), "antlerClass": antler_class(rows),
+        "takeMethod": "; ".join(sorted({r["opportunity"] for r in rows if r["opportunity"]})),
+        "openDate": open_, "closeDate": close, "tags": quota,
+        "privateOnly": all(r.get("landLimit") == "private" for r in rows),
+        "youthOnly": all(youth_only(r) for r in rows),
+        "oddsLastYear": None, "oddsYears": 0, "resOddsLast": None, "nrOddsLast": None, "resOdds5": None, "nrOdds5": None,
+        "resOddsPrev": None, "nrOddsPrev": None, "resAppsLast": None, "nrAppsLast": None, "appsLast": None,
+        "nrPermitsLast": None, "permitsLast": None, "secondDrewLast": None, "secondAppsLast": None,
+        **hf, "acres": sum(AREA[h].get("acres") or 0 for h in hds) or None, **land(hds, sp),
+        "oddsByPts": {"proj": {"res": [1.0], "nr": [1.0]}, "last": {"res": [1.0], "nr": [1.0]}},
+        "tagSeasons": {"year": YEAR, "seasons": seasons},
+        "pointOdds": {
+            "state": "MT", "kind": "otc", "year": YEAR, "projected": False, "license": c["license"],
+            "quota": c.get("quota"), "fee": {**OTC_FEE[c["license"]], "year": YEAR, "pages": "regulations p. 10 (resident), p. 11 (nonresident)"},
+            "onSale": "June 15",
+            "regs": {"year": YEAR, "rows": [{k: r.get(k) for k in ("hd", "opportunity", "applyBy", "seasons", "details", "section", "landLimit")} for r in rows],
+                     "validIn": c.get("validIn", {}).get("text"), "conflicts": c.get("conflicts"), "referenceConflict": c.get("referenceConflict")},
+            "harvest": hv, "harvestBasis": hbasis, "needsGeneral": False,
+            **({"deer": sorted(dsp)} if sp == "DEER" else {}),
+        },
+    })
+
 # general hunts
 for t in regs["districts"]:
     if t["species"] not in ("DEER", "ELK"):
@@ -583,6 +636,7 @@ for h in hunts:
 out = {"generated": date.today().isoformat(), "drawYear": YEAR, "regsYear": YEAR, "problems": problems, "hunts": hunts}
 (D / "hunts.json").write_text(json.dumps(out, indent=None, separators=(",", ":"), ensure_ascii=False))
 n = {k: sum(1 for h in hunts if (h["species"], h["type"]) == k) for k in [("DEER", "GENERAL"), ("ELK", "GENERAL"), ("DEER", "CONTROLLED"), ("ELK", "CONTROLLED"), ("PRONGHORN", "CONTROLLED")]}
+n["OTC B"] = sum(1 for h in hunts if h["pointOdds"].get("kind") == "otc")
 print(f"{len(hunts)} hunts {n}; {len(problems)} problems")
 for p in problems[:40]:
     print("PROBLEM", p)

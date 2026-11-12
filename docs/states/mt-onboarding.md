@@ -658,3 +658,18 @@ types counts as Type 1. Results were read out of the tab and checked against an 
 
 **Refresh each season**: re-run both browser scripts on the new guide and enrolment, then `mt_build_bma.py`,
 `mt_build_hunts.py`, and the import as a reviewed dry run.
+
+## 16. Over-the-counter B licences — built 2026-11-11
+
+- **What they are.** Deer B and Elk B licences with an unlimited quota aren't drawn. FWP sells them from June 15 (2026 regulations p. 5 and p. 14: "those with UNL quotas are available for purchase over the counter").
+- **25 of them:** 19 Deer B (all whitetail, antlerless or either-sex) and 6 Elk B. Every B code with no 2026 draw report is marked over the counter in its district tables, except Elk B 004-00 (§2.4: HD 417 misprints "Jun 1").
+  - Deer B 395-01 is marked over the counter in HD 391 but drawn in HD 380. It has a draw report, so it stays a drawn licence, with the conflict recorded.
+- **Hunt rows:** `type: GENERAL` (bought, not drawn, Idaho's meaning) and `pointOdds.kind: 'otc'`.
+  - Odds are 100% for residents and nonresidents. No combination licence is needed, and points don't apply.
+  - The licence-type filter lists them as B licences.
+- **Fees as printed for 2026,** labelled with the year:
+  - Deer B OTC: $10 resident (p. 10), $75 nonresident (p. 11);
+  - Elk B OTC: $20 resident, $270 nonresident.
+  - The conservation and base hunting licences come on top.
+- **Success is the district's,** as for drawn B licences (§15).
+- **Not modelled:** the three-deer-licence limit (one general + two B, or three B) is stated on the hunt page, not enforced. Nor are limited-quota B licences that could sell out over the counter, or surplus licences after the draw (FWP sells leftovers too; those aren't in the reports).
