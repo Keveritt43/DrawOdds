@@ -10,8 +10,8 @@ import { STATES } from '../src/lib/states';
 const data = JSON.parse(readFileSync('data/ut/hunts.json', 'utf8')) as { problems: string[]; hunts: (Record<string, unknown> & { id: string; tagCode: string; species: string; type: string; units: string[]; oddsByPts: { last: Record<string, number[]> }; pointOdds: { kind: string; pools: Record<string, { levels: [number, number, number][] }> }; privateOnly: boolean })[] };
 const by = (code: string) => data.hunts.find((h) => h.tagCode === code)!;
 
-test('Utah is registered, unlisted, with a private-land-only rule', () => {
-  assert.equal(STATES.UT.enabled, false);
+test('Utah is listed, with a private-land-only rule', () => {
+  assert.equal(STATES.UT.enabled, true);
   assert.ok(STATES.UT.privateLandOnly.includes('CWMU'));
 });
 
