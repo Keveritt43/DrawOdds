@@ -134,8 +134,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     // limited-entry deer and elk: bonus points (half the permits to the most points, the rest drawn with points + 1
     // entries); general buck deer: preference points (a strict queue); general bull elk: over the counter
     points: 'hybrid',
-    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
-    species: ['DEER', 'ELK'],
+    draws: [{ key: 'DEP', label: 'Deer · Elk · Pronghorn · Bison', species: ['DEER', 'ELK', 'PRONGHORN', 'BISON'] }],
+    species: ['DEER', 'ELK', 'PRONGHORN', 'BISON'],
     bounds: [[-114.06, 36.99], [-109.04, 42.0]],
     // hunts are drawn on DWR hunt boundaries (unit keys are BoundaryIDs), several per hunt, overlapping across species
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },

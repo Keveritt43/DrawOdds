@@ -12,6 +12,8 @@ import { getPointsStore } from '@/lib/points';
 import { readMtPoints } from '@/lib/mtPoints';
 import { mtPersonal } from '@/lib/mtHunt';
 import { mtBmaDistrict } from '@/lib/mtBma';
+import { readUtPoints } from '@/lib/utPoints';
+import { utPersonal, utKind } from '@/lib/utHunt';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -26,12 +28,12 @@ const SHADED = [
   'ctlOddsResDeer', 'ctlOddsNrDeer', 'ctlSuccessDeer', 'ctlOddsResElk', 'ctlOddsNrElk', 'ctlSuccessElk',
   'ctlOddsResPronghorn', 'ctlOddsNrPronghorn', 'ctlSuccessPronghorn',
   'ctlOddsResMoose', 'ctlOddsNrMoose', 'ctlSuccessMoose', 'ctlOddsResBighorn', 'ctlOddsNrBighorn', 'ctlSuccessBighorn',
-  'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat',
-  ...['Deer', 'Elk', 'Pronghorn', 'Moose', 'Bighorn', 'Goat'].flatMap((sp) => [`ctlFillRes${sp}`, `ctlFillNr${sp}`]),
+  'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat', 'ctlOddsResBison', 'ctlOddsNrBison', 'ctlSuccessBison', 'ctlQualityBison', 'ctlPressureBison',
+  ...['Deer', 'Elk', 'Pronghorn', 'Moose', 'Bighorn', 'Goat', 'Bison'].flatMap((sp) => [`ctlFillRes${sp}`, `ctlFillNr${sp}`]),
   'objBull', 'objCow',
   ...['Deer','Elk','Pronghorn'].flatMap(sp=>[`ctlQuality${sp}`,`ctlPressure${sp}`,...['Res','Nr'].flatMap(pool=>[`ctlPoints${pool}${sp}`,`ctlCreep${pool}${sp}`])]),
 ];
-const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' };
+const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat', BISON: 'Bison' };
 
 /** Unit boundaries + per-unit metrics for the map, as one GeoJSON FeatureCollection (plus class breaks). */
 export async function GET(req: Request) {
@@ -237,6 +239,68 @@ export async function GET(req: Request) {
       m.huntablePct = u.publicPct !== null ? Math.min(100, u.publicPct + (b?.bma.t1Pct ?? 0)) : null;
     }
   }
+  if (state === 'UT') {
+    // Utah: DWR hunt boundaries overlap across species and hunt types, so every boundary carries flags saying
+    // which sets it belongs to (utGenDeer, utCtlElk, ...) and the map draws one set at a time. Odds are at the
+    // hunter's saved Utah points (DWR's 2026 draw, see src/lib/utHunt.ts). General elk is sold over the counter
+    // and its harvest is statewide per hunt number, so it gets no per-boundary success or crowding.
+    const pts = readUtPoints((await getPointsStore()).store as Record<string, unknown>);
+    by.clear();
+    const rows = await db.huntSummary.findMany({ where: { state: 'UT' } });
+    const pool = new Map<string, { hunters: number; harvest: number }>();
+    const m0 = (u: string) => by.get(u) ?? by.set(u, {}).get(u)!;
+    for (const r of rows) {
+      const sp = SP_KEY[r.species];
+      if (!sp) continue;
+      const gen = r.type === 'GENERAL';
+      for (const u of r.units) {
+        const m = m0(u);
+        // CWMU permits (private land, landowner-run) aren't drawn on the map: they'd add gray boundaries with no
+        // public draw to shade. Find Hunts lists them under its private-land-only filter.
+        if (!r.privateOnly) m[`ut${gen ? 'Gen' : 'Ctl'}${sp}`] = 1;
+        // the boundary's DWR name: a single-boundary hunt carries it as its area name (as the boundary page does)
+        if (r.units.length === 1 && r.areaName && !m.label) m.label = r.areaName;
+      }
+      if (gen) {
+        if (r.species !== 'DEER' || r.units.length !== 1 || utKind(r) === 'otc') continue;
+        const m = m0(r.units[0]);
+        m.genSuccessDeer = r.success5 !== null && (r.hunters5 ?? 0) >= MIN_HUNTERS ? r.success5 * 100 : null;
+        m.genSuccessRawDeer = r.success5 !== null ? r.success5 * 100 : null;
+        m.genHuntersDeer = r.hunters5 !== null && r.harvestYears ? Math.round(r.hunters5 / r.harvestYears) : null;
+        m.genYearsDeer = r.harvestYears;
+        m.huntersSqMiDeer = r.huntersSqMi;
+        continue;
+      }
+      // buck / bull hunts (bison: every once-in-a-lifetime hunt, cow-only included); youth-only and private-land
+      // CWMU permits are counted but don't set a boundary's best odds
+      const adult = r.antlerClass === 'ANTLERED' || r.antlerClass === 'EITHER' || r.species === 'BISON';
+      for (const u of r.units) {
+        const m = m0(u);
+        m.controlled = Number(m.controlled ?? 0) + 1;
+        if (!adult || r.youthOnly || r.privateOnly) continue;
+        m[`ctlCount${sp}`] = Number(m[`ctlCount${sp}`] ?? 0) + 1;
+        const put = (k: string, v: number | null, low = false) => { if (v !== null && Number.isFinite(v)) m[k] = m[k] == null ? v : low ? Math.min(Number(m[k]), v) : Math.max(Number(m[k]), v); };
+        for (const nr of [false, true]) {
+          const p = utPersonal(r, pts, nr);
+          put(`ctlOdds${nr ? 'Nr' : 'Res'}${sp}`, p.odds);
+          put(`ctlFill${nr ? 'Nr' : 'Res'}${sp}`, !r.smallSample && p.odds !== null && r.success5 !== null ? p.odds * r.success5 : null);
+        }
+        put(`ctlQuality${sp}`, r.scoreQuality);
+        put(`ctlPressure${sp}`, r.huntersSqMi, true);
+        if (r.hunters5 && r.harvest5 !== null) {
+          const k = `${sp}|${u}`;
+          const a = pool.get(k) ?? pool.set(k, { hunters: 0, harvest: 0 }).get(k)!;
+          a.hunters += r.hunters5;
+          a.harvest += r.harvest5;
+        }
+      }
+    }
+    for (const [k, a] of pool) {
+      const [sp, u] = k.split('|');
+      // bison and pronghorn hunts carry a handful of permits: 10 hunter-seasons is a real sample for them (as for moose)
+      by.get(u)![`ctlSuccess${sp}`] = a.hunters >= (sp === 'Bison' || sp === 'Pronghorn' ? 10 : MIN_HUNTERS) ? (a.harvest / a.hunters) * 100 : null;
+    }
+  }
   if (state === "CO")
     for (const u of units) {
       const land = coLandUnit(u.name);
@@ -279,6 +343,8 @@ export async function GET(req: Request) {
       };
     });
 
+  // Utah boundaries overlap: draw the big ones first so a small boundary inside one stays visible and clickable
+  if (state === 'UT') features.sort((a, b) => (Number(b.properties.acres) || 0) - (Number(a.properties.acres) || 0));
   const classes = Object.fromEntries(
     SHADED.map((f) => {
       const values = features.map(x => x.properties[f]).filter((v): v is number => typeof v === 'number');
@@ -292,6 +358,6 @@ export async function GET(req: Request) {
   return Response.json(
     { type: 'FeatureCollection', features, classes, years: lastYear },
     // Colorado and Montana shade by the hunter's own points, so their answers are personal
-    { headers: { 'Cache-Control': state === 'CO' || state === 'MT' ? 'private, no-store' : 'public, max-age=600' } },
+    { headers: { 'Cache-Control': state === 'CO' || state === 'MT' || state === 'UT' ? 'private, no-store' : 'public, max-age=600' } },
   );
 }

@@ -17,7 +17,7 @@ const HOME_TITLE: Record<string, string> = {
   MT: 'DrawOdds Montana: Draw Odds For Deer, Elk And Antelope',
   CO: 'DrawOdds Colorado: Draw Odds For Deer, Elk, Pronghorn, Moose, Sheep And Goat',
   WY: 'DrawOdds Wyoming: Draw Odds For Deer, Elk And Antelope',
-  UT: 'DrawOdds Utah: Draw Odds For Deer And Elk',
+  UT: 'DrawOdds Utah: Draw Odds For Deer, Elk, Pronghorn And Bison',
 };
 export async function generateMetadata() {
   const t = HOME_TITLE[(await getState()).code];

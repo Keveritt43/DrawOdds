@@ -12,7 +12,7 @@ import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdd
 import { wyHuntWilderness } from './wyWilderness';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
-import { DRAW_SPECIES } from './species';
+import { SEARCH_DRAW_SPECIES } from './species';
 import { coSpecial, specialCounts } from './coSpecial';
 import { specialPersonalOdds, specialOddsBasis, specialPointSetting } from './coSpecialPoints';
 import { chanceOf } from './coOdds';
@@ -212,12 +212,12 @@ export function matchesMtBma(r: { units: string[]; species: string; publicPct: n
 }
 
 /** Utah hunt type for the "Utah: Hunt Type" filter: limited-entry (incl. premium and management buck), CWMU,
- *  general-season draw (buck deer), or over the counter (general elk). */
-export function utLicense(r: { tagCode: string | null; species: string; type: string; oddsByPts: unknown; pointOdds: unknown; areaName?: string | null; name: string; privateOnly?: boolean | null }): 'le' | 'cwmu' | 'general' | 'otc' {
+ *  once in a lifetime (bison), general-season draw (buck deer), or over the counter (general elk). */
+export function utLicense(r: { tagCode: string | null; species: string; type: string; oddsByPts: unknown; pointOdds: unknown; areaName?: string | null; name: string; privateOnly?: boolean | null }): 'le' | 'oial' | 'cwmu' | 'general' | 'otc' {
   const k = utKind(r);
   if (k === 'otc') return 'otc';
   if (r.type === 'GENERAL') return 'general';
-  return r.privateOnly ? 'cwmu' : 'le';
+  return r.privateOnly ? 'cwmu' : r.species === 'BISON' ? 'oial' : 'le';
 }
 
 const desc = (a: number | null, b: number | null) => (b ?? -Infinity) - (a ?? -Infinity) || 0;
@@ -254,7 +254,7 @@ export function runSearch(rows: CoScored[], sp: SearchParams, fallback: StateCod
   const states = searchStates(sp.states, fallback);
   const filters = searchFilters(sp);
   const mode = param(sp, 'odds') === 'last' ? 'last' : 'proj';
-  const species = DRAW_SPECIES[searchDraw(param(sp, 'draw'), filters.species)];
+  const species = SEARCH_DRAW_SPECIES[searchDraw(param(sp, 'draw'), filters.species)];
   const results = rows.filter(r => states.includes(r.state as StateCode) && species.includes(r.species)).map(r => personalize(r, settings, mode))
     .filter((x): x is SearchResult => x !== null && matchesSearch(x, filters, sp, migrations)
       && (x.r.state !== 'CO' || !['0', '1'].includes(param(sp, 'otcElk')) || (x.r.species === 'DEER' && overlaps[x.r.id] === (param(sp, 'otcElk') === '1'))));

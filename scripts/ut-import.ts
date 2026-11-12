@@ -7,7 +7,7 @@
  *
  * Scope: only rows with state 'UT' are replaced. Idaho, Colorado, Wyoming and Montana summaries are digested before
  * and after; any change aborts. No agency fetch, no schema change. Hunt ids are stable ("UT:<DWR hunt number>").
- * Deer and elk only (UT-1). Unit rows are DWR hunt boundaries, named by BoundaryID.
+ * Deer, elk, pronghorn and bison. Unit rows are DWR hunt boundaries, named by BoundaryID.
  */
 import { readFileSync } from 'node:fs';
 import type { Prisma } from '@prisma/client';
@@ -15,7 +15,7 @@ import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
 
-type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'PRONGHORN'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
+type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'PRONGHORN' | 'BISON'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; acres: number | null; bbox: number[] | null; geometry: object | null; publicPct?: number | null; privatePct?: number | null; ownership?: { manager: string; pct: number }[] };
 
 const apply = process.argv.includes('--apply');

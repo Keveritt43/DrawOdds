@@ -18,7 +18,7 @@ export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 
 export const SORTS: readonly Sort[] = ['score', 'opp', 'leftover', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
 
 export interface Filters {
-  species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | '';
+  species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | 'BISON' | '';
   type: 'CONTROLLED' | 'GENERAL' | 'NRTAG' | ''; // NRTAG = nonresident general tag draw
   weapon: ('ANY' | 'ARCHERY' | 'MUZZLELOADER' | 'SHORT_RANGE')[];
   antler: ('ANTLERED' | 'ANTLERLESS' | 'EITHER')[];
@@ -71,7 +71,7 @@ const pick = <T extends string>(v: string[], allowed: readonly T[]) => v.map((x)
 export function parseFilters(sp: SP): Filters {
   const sort = one(sp.sort) as Sort;
   return {
-    species: pick([one(sp.species)], ['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'] as const)[0] ?? '',
+    species: pick([one(sp.species)], ['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT', 'BISON'] as const)[0] ?? '',
     // NRTAG (the old "General Tag Draw" option) now lives under General: old links keep working
     type: one(sp.type) === 'NRTAG' ? 'GENERAL' : (pick([one(sp.type)], ['CONTROLLED', 'GENERAL'] as const)[0] ?? ''),
     weapon: pick(list(sp.weapon), ['ANY', 'ARCHERY', 'MUZZLELOADER', 'SHORT_RANGE'] as const),

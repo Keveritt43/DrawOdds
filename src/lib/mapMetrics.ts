@@ -2,7 +2,7 @@ import type { Classes, BreakMode } from './breaks';
 import { benchmarkClasses, divergingClasses } from './breaks';
 /** Unit shading shared by every map: what each metric means, its color ramp and how to print it. */
 
-export type Sp = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT';
+export type Sp = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | 'BISON';
 export type Kind = 'land' | 'general' | 'controlled';
 export interface MetricDef {
   label: string;
@@ -19,7 +19,7 @@ export interface MetricDef {
   labels?: string[];
 }
 const OBJECTIVE_LABELS_C = ['Below objective', 'Within objective', 'Above objective'];
-const SPK = (sp: Sp) => ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat' })[sp];
+const SPK = (sp: Sp) => ({ DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat', BISON: 'Bison' })[sp];
 // light -> dark, single hue per meaning: green = land you can hunt, orange = success / odds, plum = crowding
 export const GREEN = ['#eef4e6', '#d2e4bf', '#aecd92', '#84b267', '#5b9242', '#346c27'];
 export const ORANGE = ['#fdeadc', '#fbcaa7', '#f7a474', '#f27c44', '#d85b18', '#9c3d0a'];
@@ -101,7 +101,7 @@ export const pickRamp = (ramp: string[], n: number) =>
   Array.from({ length: n }, (_, i) => ramp[n === 1 ? ramp.length - 1 : Math.round((i * (ramp.length - 1)) / (n - 1))]);
 
 /** Every field a metric can read (for computing breaks client-side when the server didn't send them). */
-export const METRIC_FIELDS = [...new Set(Object.values(METRICS).flatMap((x) => (['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT'] as Sp[]).flatMap((sp) => [x.field(sp, false), x.field(sp, true)])))];
+export const METRIC_FIELDS = [...new Set(Object.values(METRICS).flatMap((x) => (['DEER', 'ELK', 'PRONGHORN', 'MOOSE', 'BIGHORN', 'GOAT', 'BISON'] as Sp[]).flatMap((sp) => [x.field(sp, false), x.field(sp, true)])))];
 
 /**
  * MapLibre step expression for a metric's classes; units without a number get the no-data gray. `value` is a

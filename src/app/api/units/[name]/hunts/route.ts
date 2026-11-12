@@ -32,7 +32,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
     })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   if (state === 'UT') {
-    // Utah: every deer and elk hunt using the boundary, odds at the hunter's saved Utah points
+    // Utah: every deer, elk, pronghorn and bison hunt using the boundary, odds at the hunter's saved Utah points
     const pts = readUtPoints((await getPointsStore()).store as Record<string, unknown>);
     const rows = await db.huntSummary.findMany({ where: { state: 'UT', units: { has: name } }, orderBy: [{ type: 'asc' }, { species: 'asc' }, { tagCode: 'asc' }] });
     return Response.json(rows.map((h) => ({

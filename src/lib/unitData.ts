@@ -9,7 +9,7 @@ export interface UnitData {
   classes: Record<string, Classes>;
   missing: Record<string, number>;
   /** one label point per unit (the middle of its largest piece), so a unit's number shows once */
-  labels: { type: 'FeatureCollection'; features: { type: 'Feature'; geometry: { type: 'Point'; coordinates: [number, number] }; properties: { name: string } }[] };
+  labels: { type: 'FeatureCollection'; features: { type: 'Feature'; geometry: { type: 'Point'; coordinates: [number, number] }; properties: { name: string } & Record<string, unknown> }[] };
 }
 
 type Ring = [number, number][];
@@ -27,7 +27,8 @@ export function labelPoints(fc: UnitData['fc']): UnitData['labels'] {
   const features = fc.features.map((f) => {
     const polys = (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates) as Ring[][];
     const best = polys.map((p) => ringCentroid(p[0])).sort((a, b) => b.a - a.a)[0];
-    return { type: 'Feature' as const, geometry: { type: 'Point' as const, coordinates: best?.c ?? [0, 0] }, properties: { name: f.properties.name } };
+    return { type: 'Feature' as const, geometry: { type: 'Point' as const, coordinates: best?.c ?? [0, 0] }, // Utah's boundary name and set flags ride along, so labels can follow the boundary set on screen
+      properties: { name: f.properties.name, ...Object.fromEntries(Object.entries(f.properties).filter(([k]) => k === 'label' || /^ut(Gen|Ctl)/.test(k))) } };
   });
   return { type: 'FeatureCollection', features };
 }

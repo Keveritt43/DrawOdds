@@ -5,7 +5,8 @@ export const SCORE_VERSION = 'idaho-v3';
 export const SCORE_WEIGHTS = { success: 65, access: 20, crowd: 15, trophy: 10 } as const;
 export type ScorePart = keyof typeof SCORE_WEIGHTS;
 export const SCORE_PART_LABEL: Record<ScorePart, string> = { success: 'Success', access: 'Access', crowd: 'Elbow room', trophy: 'Trophy' };
-const MSG = new Set(['MOOSE', 'BIGHORN', 'GOAT']);
+// small once-in-a-lifetime permit counts: score from 10 hunters, not 30
+const MSG = new Set(['MOOSE', 'BIGHORN', 'GOAT', 'BISON']);
 export interface ScoreInput {
   id: string;
   species: string;
