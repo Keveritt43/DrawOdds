@@ -8,6 +8,10 @@ import { db } from '@/lib/db';
 import { stateConfig } from '@/lib/states';
 import { classesFor, pointsClasses } from '@/lib/mapMetrics';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
+import { getPointsStore } from '@/lib/points';
+import { readMtPoints } from '@/lib/mtPoints';
+import { mtPersonal } from '@/lib/mtHunt';
+import { mtBmaDistrict } from '@/lib/mtBma';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -173,6 +177,65 @@ export async function GET(req: Request) {
       m[`genYears${sp}`]=years;
     }
   }
+  if (state === 'MT') {
+    // Montana: everything from its own HuntSummary rows (no generalHarvest table), with odds at the hunter's
+    // saved Montana points. Deer/elk districts ("261") and antelope districts ("A320") sit side by side; the map
+    // shows one set at a time. Drawn-licence odds are the licence's own draw (a nonresident permit as if the
+    // combination is drawn, as the cards show); draw and fill multiplies in the combination draw.
+    const pts = readMtPoints((await getPointsStore()).store as Record<string, unknown>);
+    by.clear();
+    const rows = await db.huntSummary.findMany({ where: { state: 'MT' } });
+    const pool = new Map<string, { hunters: number; harvest: number }>();
+    for (const r of rows) {
+      const sp = SP_KEY[r.species];
+      if (r.type === 'GENERAL') {
+        // general licences only: an over-the-counter B licence is bought too, but it isn't the district's general season
+        if (r.units.length !== 1 || (r.pointOdds as { kind?: string } | null)?.kind !== 'general') continue;
+        const m = by.get(r.units[0]) ?? by.set(r.units[0], {}).get(r.units[0])!;
+        m[`genSuccess${sp}`] = r.success5 !== null && (r.hunters5 ?? 0) >= MIN_HUNTERS ? r.success5 * 100 : null;
+        m[`genSuccessRaw${sp}`] = r.success5 !== null ? r.success5 * 100 : null;
+        m[`genHunters${sp}`] = r.hunters5 !== null && r.harvestYears ? Math.round(r.hunters5 / r.harvestYears) : null;
+        m[`genYears${sp}`] = r.harvestYears;
+        m[`huntersSqMi${sp}`] = r.huntersSqMi;
+        continue;
+      }
+      // buck / bull (and either-sex antelope) licences, as Idaho's map; antlerless B licences would paint
+      // every district at 100%
+      const adult = r.antlerClass === 'ANTLERED' || (r.species === 'PRONGHORN' && r.antlerClass === 'EITHER');
+      for (const u of r.units) {
+        const m = by.get(u) ?? by.set(u, {}).get(u)!;
+        m.controlled = Number(m.controlled ?? 0) + 1;
+        if (!adult || r.youthOnly || r.privateOnly) continue;
+        m[`ctlCount${sp}`] = Number(m[`ctlCount${sp}`] ?? 0) + 1;
+        const put = (k: string, v: number | null, low = false) => { if (v !== null && Number.isFinite(v)) m[k] = m[k] == null ? v : low ? Math.min(Number(m[k]), v) : Math.max(Number(m[k]), v); };
+        for (const nr of [false, true]) {
+          const p = mtPersonal(r, { ...pts, res: nr ? 'NONRESIDENT' : 'RESIDENT' }, nr);
+          put(`ctlOdds${nr ? 'Nr' : 'Res'}${sp}`, p.parts ? p.parts.permit : p.odds);
+          put(`ctlFill${nr ? 'Nr' : 'Res'}${sp}`, !r.smallSample && p.odds !== null && r.success5 !== null ? p.odds * r.success5 : null);
+        }
+        put(`ctlQuality${sp}`, r.scoreQuality);
+        put(`ctlPressure${sp}`, r.huntersSqMi, true);
+        if (r.hunters5 && r.harvest5 !== null) {
+          const k = `${sp}|${u}`;
+          const a = pool.get(k) ?? pool.set(k, { hunters: 0, harvest: 0 }).get(k)!;
+          a.hunters += r.hunters5;
+          a.harvest += r.harvest5;
+        }
+      }
+    }
+    for (const [k, a] of pool) {
+      const [sp, u] = k.split('|');
+      by.get(u)![`ctlSuccess${sp}`] = a.hunters >= MIN_HUNTERS ? (a.harvest / a.hunters) * 100 : null;
+    }
+    // Block Management Type 1 (sign yourself in) is Montana's walk-in access, in the slot Idaho uses for Access Yes!
+    for (const u of units) {
+      const b = mtBmaDistrict(u.name).find((x) => x.species === (/^A\d/.test(u.name) ? 'PRONGHORN' : 'DEER'));
+      const m = by.get(u.name) ?? by.set(u.name, {}).get(u.name)!;
+      m.accessYesAcres = b ? b.bma.t1 : 0;
+      m.accessYesPct = b ? b.bma.t1Pct : null;
+      m.huntablePct = u.publicPct !== null ? Math.min(100, u.publicPct + (b?.bma.t1Pct ?? 0)) : null;
+    }
+  }
   if (state === "CO")
     for (const u of units) {
       const land = coLandUnit(u.name);
@@ -204,11 +267,11 @@ export async function GET(req: Request) {
           ...(by.get(u.name) ?? {}),
           // elk population vs IDFG objective, by elk zone: 0 below, 1 within, 2 above
           objBull:
-            state === "CO"
+            state !== "ID"
               ? null
               : (() => { const s = unitObjective(u.name).bull; return s ? OBJ_NUM[s] : null; })(),
           objCow:
-            state === "CO"
+            state !== "ID"
               ? null
               : (() => { const s = unitObjective(u.name).cow; return s ? OBJ_NUM[s] : null; })(),
         } as Record<string, unknown>,
@@ -227,6 +290,7 @@ export async function GET(req: Request) {
   }
   return Response.json(
     { type: 'FeatureCollection', features, classes, years: lastYear },
-    { headers: { 'Cache-Control': state === 'CO' ? 'private, no-store' : 'public, max-age=600' } },
+    // Colorado and Montana shade by the hunter's own points, so their answers are personal
+    { headers: { 'Cache-Control': state === 'CO' || state === 'MT' ? 'private, no-store' : 'public, max-age=600' } },
   );
 }
