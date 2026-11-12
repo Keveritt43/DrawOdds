@@ -3,7 +3,7 @@ import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { huntHref } from '@/lib/huntSlug';
 import { getFavorites } from '@/lib/favorites';
-import { getResidency } from '@/lib/residency';
+import { getResidency, getState } from '@/lib/residency';
 import { getPointsStore, readState } from '@/lib/points';
 import { readMtPoints } from '@/lib/mtPoints';
 import { readUtPoints } from '@/lib/utPoints';
@@ -41,7 +41,7 @@ export default async function Account() {
       <Link href="#hunting-preferences">Hunting Preferences</Link>
       {enabledStates().map(state=><Link key={state.code} href={'#saved-'+state.code.toLowerCase()}>{state.name} Saved Items</Link>)}
     </nav>
-    <HuntingPreferences idaho={residency} colorado={colorado} wyoming={wyoming} montana={enabledStates().some(s=>s.code==='MT')?montana:undefined} utah={enabledStates().some(s=>s.code==='UT')?utah:undefined}/>
+    <HuntingPreferences idaho={residency} colorado={colorado} wyoming={wyoming} montana={enabledStates().some(s=>s.code==='MT')?montana:undefined} utah={enabledStates().some(s=>s.code==='UT')?utah:undefined} openState={(await getState()).code}/>
     <section id="saved-items">
       <h2>Saved Filters, Units &amp; Hunts</h2>
       <p className="small muted">Organized by state. A search spanning both states appears under each state.</p>
