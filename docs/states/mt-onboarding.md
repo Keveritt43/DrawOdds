@@ -659,7 +659,7 @@ types counts as Type 1. Results were read out of the tab and checked against an 
 **Refresh each season**: re-run both browser scripts on the new guide and enrolment, then `mt_build_bma.py`,
 `mt_build_hunts.py`, and the import as a reviewed dry run.
 
-## 16. Over-the-counter B licences — built 2026-11-11
+## 17. Over-the-counter B licences — built 2026-11-11
 
 - **What they are.** Deer B and Elk B licences with an unlimited quota aren't drawn. FWP sells them from June 15 (2026 regulations p. 5 and p. 14: "those with UNL quotas are available for purchase over the counter").
 - **25 of them:** 19 Deer B (all whitetail, antlerless or either-sex) and 6 Elk B. Every B code with no 2026 draw report is marked over the counter in its district tables, except Elk B 004-00 (§2.4: HD 417 misprints "Jun 1").
@@ -673,3 +673,15 @@ types counts as Type 1. Results were read out of the tab and checked against an 
   - The conservation and base hunting licences come on top.
 - **Success is the district's,** as for drawn B licences (§15).
 - **Not modelled:** the three-deer-licence limit (one general + two B, or three B) is stated on the hunt page, not enforced. Nor are limited-quota B licences that could sell out over the counter, or surplus licences after the draw (FWP sells leftovers too; those aren't in the reports).
+
+## 18. Guide, What Changed and Planner — built 2026-11-11 (PR #91)
+
+The three menu pages that showed "does not cover Montana yet" now have Montana versions (`src/components/MtPages.tsx`, `src/components/MtPlanner.tsx`, `src/lib/mtPlan.ts`).
+
+- **Dates** come from FWP's "Application & drawing dates" page (fwp.mt.gov/buyandapply/hunting-licenses/application-drawing-dates), checked 2026-11-11. It covers the 2026 licence year only: combination licences and deer/elk permits April 1 (results mid-April); antelope, Deer B and Elk B June 1 (Deer/Elk B results mid-June, antelope early August); 11:45 pm MST. **Antelope B is not on that page**; every Antelope B row of the 2026 regulations says "Apply by June 1". Dates are labelled 2026 and never rolled forward; update `MT_APPS` when FWP posts 2027.
+- **Preference points, corrected from FWP's bonus-points page:** a combination applicant buys the point *at application* and cannot buy one later in the year; the $100 point-only purchase (Jul 1 – Dec 31) is for those who did not apply. Points are lost when the holder does not apply in consecutive years or draws. The 80% refund option is tied to applying for a combination *and an elk permit*: draw the combination but not the permit, take 80% back, and points reset to 0. The earlier note in §7 that applied the refund to any returned combination licence is from the 2025 regulations and should be read with this.
+- **Bonus points:** FWP's page gives its own example, 10 points = (10 × 10) + 1 = 101 chances. This does not settle §3.2's question of whether the bought point is in the 10.
+- **Later choices:** every bonus-point application takes three choices. 2026 statewide, second choices drew 13 of 9,863 deer-permit applicants and 272 of 13,157 elk-permit applicants, against 1,333 of 8,628 for Deer B. The guide shows the table; the planner shows each hunt's own 2nd-choice result.
+- **What Changed:** quota and first-choice applicant changes from each hunt's draw history (2026 vs 2025), codes new since 2021, codes gone from 2025 (from `draws.json`), and districts whose 2026 outline overlaps the 2024 one by less than 98% (`district-history.json`): deer/elk 123, 311, 320, 413, 432 (new), 622, 630, 652, 700; antelope 413, 485 (new), 430, 480.
+- **Planner:** the nonresident combination licence (odds at saved points from the combination report, with the dead-zone note) plus six bonus-point applications, three choices each. A nonresident permit shows the permit draw and the both-draws chance. Saved in the browser, or to the account as `_plan_MT` (`/api/mt-plan`).
+- **Not done:** costs per plan (FWP doesn't say what is charged at application vs refunded, §7), 2027 dates, surplus licences.
