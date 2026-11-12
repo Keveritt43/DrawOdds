@@ -189,7 +189,8 @@ export async function GET(req: Request) {
     for (const r of rows) {
       const sp = SP_KEY[r.species];
       if (r.type === 'GENERAL') {
-        if (r.units.length !== 1) continue;
+        // general licences only: an over-the-counter B licence is bought too, but it isn't the district's general season
+        if (r.units.length !== 1 || (r.pointOdds as { kind?: string } | null)?.kind !== 'general') continue;
         const m = by.get(r.units[0]) ?? by.set(r.units[0], {}).get(r.units[0])!;
         m[`genSuccess${sp}`] = r.success5 !== null && (r.hunters5 ?? 0) >= MIN_HUNTERS ? r.success5 * 100 : null;
         m[`genSuccessRaw${sp}`] = r.success5 !== null ? r.success5 * 100 : null;

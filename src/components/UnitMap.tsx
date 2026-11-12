@@ -273,9 +273,9 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     const m = mapObj;
     if (!m || st.code !== 'MT' || bare) return;
     const isA = ['==', ['index-of', 'A', ['get', 'name']], 0];
-    const keep = (sp === 'PRONGHORN' ? isA : ['!', isA]) as ExpressionSpecification;
+    const keep = (sp === 'PRONGHORN' ? isA : ['!', isA]) as unknown as ExpressionSpecification;
     for (const id of ['units-fill', 'units-line', 'units-sel', 'units-label']) if (m.getLayer(id)) m.setFilter(id, keep);
-    if (m.getLayer('units-label')) m.setLayoutProperty('units-label', 'text-field', ['case', isA, ['slice', ['get', 'name'], 1], ['get', 'name']] as ExpressionSpecification);
+    if (m.getLayer('units-label')) m.setLayoutProperty('units-label', 'text-field', ['case', isA, ['slice', ['get', 'name'], 1], ['get', 'name']] as unknown as ExpressionSpecification);
     setSel(null);
   }, [mapObj, sp, st.code, bare]);
 
