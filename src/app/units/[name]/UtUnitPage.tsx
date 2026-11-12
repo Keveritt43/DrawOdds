@@ -12,6 +12,7 @@ import type { CoScored } from '@/lib/coScores';
 import { UtHuntCard } from '@/components/UtHuntCard';
 import { LandBar } from '@/components/LandBar';
 import { UnitMap } from '@/components/UnitMap';
+import utLabels from '../../../../data/ut/boundary-labels.json';
 import { StateProvider } from '@/components/StateContext';
 
 type SP = { species?: string; type?: string };
@@ -45,8 +46,8 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
     const q = new URLSearchParams(Object.entries({ species: fSpecies, type: fType, ...patch }).filter(([, v]) => v) as [string, string][]);
     return `/units/${encodeURIComponent(key)}${q.size ? `?${q}` : ''}#hunts`;
   };
-  // the boundary's DWR name: a single-boundary hunt carries it as its area name
-  const label = rows.find((h) => h.units.length === 1)?.areaName ?? `Boundary ${name}`;
+  // the boundary's DWR name, from DWR's boundary layer (data/ut/boundary-labels.json)
+  const label = (utLabels as Record<string, string>)[name] ?? rows.find((h) => h.units.length === 1)?.areaName ?? `Boundary ${name}`;
   const tribal = (unit.landOwnership as { manager: string; pct: number }[] | null)?.find((o) => o.manager === 'TRIBAL')?.pct ?? 0;
 
   return (

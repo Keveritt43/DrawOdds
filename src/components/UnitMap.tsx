@@ -20,6 +20,9 @@ import { ELK_ZONES } from '@/lib/elkZones';
 import { unitKey } from "@/lib/states";
 import { useStateConfig } from './StateContext';
 
+/** Odds as a percent; a real but tiny chance prints as <0.1%, not 0.0% */
+const oddsPct = (o: number) => (o > 0 && o < 0.001 ? '<0.1%' : `${(o * 100).toFixed(o < 0.1 ? 1 : 0)}%`);
+
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
 /** Montana's sources and rules, in place of the Idaho notes in METRICS. */
@@ -505,7 +508,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                   <td>{ut ? 'Limited-entry' : 'Controlled'} {s === 'Bighorn' ? 'sheep' : s.toLowerCase()}</td>
                   <td style={{ textAlign: 'right' }}>
                     {v(`ctlCount${s}`) ? `${v(`ctlCount${s}`)} ${msg || s === 'Bison' ? '' : 'buck/bull '}hunt${v(`ctlCount${s}`) === 1 ? '' : 's'}` : '-'}
-                    {v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`) !== null ? ` · best ${nr ? 'NR' : 'res'} odds ${(v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`)! * 100).toFixed(1)}%` : ''}
+                    {v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`) !== null ? ` · best ${nr ? 'NR' : 'res'} odds ${oddsPct(v(`ctlOdds${nr ? 'Nr' : 'Res'}${s}`)!)}` : ''}
                     {v(`ctlSuccess${s}`) !== null ? ` · ${Math.round(v(`ctlSuccess${s}`)!)}% success` : ''}
                   </td>
                 </tr>
@@ -536,8 +539,8 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                             <li key={h.id}>
                               <Link href={huntHref(h)}>{h.label}</Link>
                               <span className="small muted">
-                                {h.antler && h.antler !== 'EITHER' ? ` · ${antlerLabel(h.species, h.antler)}` : ''}
-                                {h.type === 'GENERAL' && ut ? (h.species === 'ELK' ? ' · over the counter' : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% odds at my points` : ' · preference-point draw') : h.type === 'GENERAL' ? (nr ? (mt ? ' · combination draw' : ' · NR tag required') : ' · OTC') : o !== null ? ` · ${(o * 100).toFixed(o < 0.1 ? 1 : 0)}% ${h.type === 'NRTAG' ? '1st-choice ' : ''}odds` : ''}
+                                {h.antler && h.antler !== 'EITHER' && h.species !== 'BISON' ? ` · ${antlerLabel(h.species, h.antler)}` : ''}
+                                {h.type === 'GENERAL' && ut ? (h.species === 'ELK' ? ' · over the counter' : o !== null ? ` · ${oddsPct(o)} odds at my points` : ' · preference-point draw') : h.type === 'GENERAL' ? (nr ? (mt ? ' · combination draw' : ' · NR tag required') : ' · OTC') : o !== null ? ` · ${oddsPct(o)} ${h.type === 'NRTAG' ? '1st-choice ' : ''}odds` : ''}
                                 {h.success5 !== null ? ` · ${Math.round(h.success5 * 100)}% success` : ''}
                               </span>
                             </li>
