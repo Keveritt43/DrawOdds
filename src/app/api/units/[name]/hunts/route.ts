@@ -6,6 +6,9 @@ import { db } from '@/lib/db';
 import { sortUnitHunts, unitHuntLabel } from '@/lib/unitHunts';
 import { getResidency } from '@/lib/residency';
 import { parseUnitKey } from '@/lib/states';
+import { getPointsStore } from '@/lib/points';
+import { readMtPoints } from '@/lib/mtPoints';
+import { mtPersonal } from '@/lib/mtHunt';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +18,17 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
   const ref = parseUnitKey(decodeURIComponent((await params).name));
   const state = ref.state;
   const name = ref.name.toUpperCase().slice(0, 8);
+  if (state === 'MT') {
+    // Montana: every licence touching the district (general, permits, antelope and B licences), odds at the
+    // hunter's saved Montana points; a nonresident permit's odds are its own draw, as the cards show
+    const pts = readMtPoints((await getPointsStore()).store as Record<string, unknown>);
+    const rows = await db.huntSummary.findMany({ where: { state: 'MT', units: { has: name } }, orderBy: [{ type: 'asc' }, { species: 'asc' }, { tagCode: 'asc' }] });
+    const odds = (h: (typeof rows)[number], nr: boolean) => { const p = mtPersonal(h, { ...pts, res: nr ? 'NONRESIDENT' : 'RESIDENT' }, nr); return p.parts ? p.parts.permit : p.odds; };
+    return Response.json(rows.map((h) => ({
+      id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
+      open: h.openDate, close: h.closeDate, resOdds5: odds(h, false), nrOdds5: odds(h, true), success5: h.success5,
+    })), { headers: { 'Cache-Control': 'private, no-store' } });
+  }
   const nr = (await getResidency(undefined, state)).residency === 'NONRESIDENT';
   const all = sortUnitHunts(await db.huntSummary.findMany({ where: { state, units: { has: name }, youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } }));
   // same listing rules as Filtering: elk = zone A/B tags, deer = general seasons (+ White-tailed tag)
