@@ -99,6 +99,12 @@ Run in Claude in Chrome against DWR's own files: pdf.js on the 2021–2025 `YY_b
 
 **What these checks are not:** they reproduce published results from published applicant counts. They are not yet a projection backtest (§5.2), which needs the next-year applicant counts the model can't know.
 
+**Source data in the repo (Nov 11, 2026)**, in `data/ut/source/`, fetched in Claude in Chrome and copied through the owner's `Downloads\huntapp\ut` folder (SHA-256 prefixes checked on both ends):
+
+- `odds-2021-2025.json` (1.5 MB, `4b32d3fefc722e1c`): every hunt page of `YY_bg-odds.pdf` and `YY_deer_odds.pdf`, 2021–2025, parsed as above. Per hunt and pool: `levels` = [points, eligible applicants, max-point permits, random permits, total permits] at first choice, plus the printed totals.
+- `odds-2026.json` (1.1 MB, `4437868606c4f5d6`): the `DrawOddsData` JSON for all 11 big-game species IDs, trimmed to the quota fields and `odds` rows in the order of `oddsFields`.
+- `hunt-boundaries.json` (6.5 MB, `3c2aca70f1b68876`): DWR's 709 hunt-boundary polygons (WGS84, generalized to 0.0005°) and the 3,063-row hunt → boundary table, current 2026 seasons.
+
 ## 6. App work
 
 - **Schema (UT-3 only, needs the owner's yes):** add `BISON` to the `Species` enum (`ALTER TYPE "Species" ADD VALUE 'BISON'`, additive, no rows change). Then `SpeciesKey`, labels, colours, icons, filters, the drawing grouping (`drawOf` must not put bison in Deer/Elk/Pronghorn), a bison score benchmark in `score.ts` (success is near 100% on some hunts, so the deer/elk curve would overrate it), and Montana's later bison can reuse it.
@@ -125,7 +131,6 @@ Run in Claude in Chrome against DWR's own files: pdf.js on the 2021–2025 `YY_b
 
 - Choice counts for LE/OIAL and general deer, and whether later choices draw (step 2).
 - Cow bison: confirm the lifetime rule in the guidebook text; Antelope Island nonresident eligibility (step 9).
-- Data transfer: the parsed data lives in a Chrome tab; it needs the owner's computer linked (or a download approved) to land in `data/ut/`.
 - Whether the July 2025 R657-62 package changed point or forfeiture rules (before step 7 copy).
 - Utah hunting licence price, 2026 (before showing costs).
 
