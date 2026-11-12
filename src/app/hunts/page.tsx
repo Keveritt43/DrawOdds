@@ -15,7 +15,7 @@ import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { CoFinder } from './CoFinder';
 import { MultiStateFinder } from './MultiStateFinder';
-import { searchDraw } from '@/lib/searchStates';
+import { searchDraw, combinedFinderRedirect } from '@/lib/searchStates';
 import { SearchStates } from '@/components/SearchStates';
 import { DRAW_SPECIES, AREA_SPECIES, SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { parseFilters, buildWhere, buildOrder, residencyFields, toQuery, zoneUnits, type Filters } from '@/lib/finder';
@@ -84,8 +84,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const sp = await searchParams;
   if (sp.states !== undefined) return <MultiStateFinder sp={sp} />;
   const state = (await getState(sp.state)).code;
-  // Wyoming lives only in the combined finder
-  if (state === 'WY') redirect(`/hunts?${new URLSearchParams(Object.entries({ antler: 'ANTLERED', sort: 'opp', ...sp, states: 'WY' }).flatMap(([k, v]) => v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]]))}`);
+  // Wyoming and Montana live only in the combined finder
+  const combined = combinedFinderRedirect(state, sp);
+  if (combined) redirect(combined);
   if (state === 'CO' && searchDraw(Array.isArray(sp.draw) ? sp.draw[0] : sp.draw, Array.isArray(sp.species) ? sp.species[0] : sp.species) === 'MSG') {
     redirect(`/hunts?${new URLSearchParams(Object.entries({ ...sp, states: 'CO', draw: 'msg' }).flatMap(([k,v]) => v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]]))}`);
   }
