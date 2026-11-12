@@ -1,4 +1,4 @@
-import { MtElsewhere } from "@/components/MtHome";
+import { MtGuide } from "@/components/MtPages";
 import { CoGuide } from "@/components/CoPages";
 import { getState } from "@/lib/residency";
 import Link from 'next/link';
@@ -10,7 +10,7 @@ export const metadata = { title: "How The Draw Works",
 
 export default async function GuidePage() {
   if ((await getState()).code === "CO") return <CoGuide />;
-  if ((await getState()).code === "MT") return <main className="wrap" style={{ maxWidth: 860, margin: '24px auto 48px' }}><h1>How The Draw Works</h1><MtElsewhere what="This guide" /></main>;
+  if ((await getState()).code === "MT") return <MtGuide />;
   const g = NR_GENERAL_DRAW.windows;
   const c = CONTROLLED_DRAW.windows;
   return (

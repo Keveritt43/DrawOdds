@@ -1,4 +1,11 @@
-import { MtElsewhere } from "@/components/MtHome";
+import { MtPlanner, type MtPlanOpt, type MtPlanApp } from "@/components/MtPlanner";
+import { readMtPoints, mtCombo } from "@/lib/mtPoints";
+import { getPointsStore } from "@/lib/points";
+import { mtPersonal, mtDistricts, type MtPointOdds } from "@/lib/mtHunt";
+import { mtAppOf, mtDay, MT_APPS, MT_CHOICES, MT_DATES_YEAR } from "@/lib/mtPlan";
+import { mtComboOdds, mtOddsLabel, mtLatestYear } from "@/lib/mtOdds";
+import { huntHref } from "@/lib/huntSlug";
+import Link from "next/link";
 import { getState } from "@/lib/residency";
 import { db } from "@/lib/db";
 import { getPoints } from "@/lib/points";
@@ -15,7 +22,7 @@ export default async function PlannerPage({ searchParams,
 }: { searchParams: Promise<{ as?: string }>;
 }) {
   const { residency, signedIn } = await getResidency((await searchParams).as);
-  if ((await getState()).code === "MT") return <main className="wrap" style={{ maxWidth: 860, margin: '24px auto 48px' }}><h1>Planner</h1><MtElsewhere what="The planner" /></main>;
+  if ((await getState()).code === "MT") return <MtPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "CO") {
     const pts = await getPoints("CO"),
       pool = poolFor(pts.res === "NONRESIDENT", pts.youth);
@@ -53,6 +60,44 @@ export default async function PlannerPage({ searchParams,
         Put your choices in order and see your real chance of drawing, what it costs and when to apply. Idaho has <b>no preference or bonus points</b>: every year is a fresh random draw, so last year&apos;s odds are your odds and nothing carries over. {signedIn ? 'Your plan is saved to your account, so it follows you to any device.' : <>Your plan stays in this browser; <a href="/login">sign in</a> to keep it on every device.</>} Planning as a {nr ? 'nonresident' : 'resident'} (switch at the top).
       </p>
       <Planner nr={nr} windows={upcomingWindows().map((w) => ({ ...w, start: w.start.toISOString(), end: w.end.toISOString() }))} costs={plannerCosts()} />
+    </main>
+  );
+}
+
+/** Montana: every application a hunter files in a year, with their choices and odds at their saved points. */
+async function MtPlannerPage({ signedIn }: { signedIn: boolean }) {
+  const [store, rows] = await Promise.all([
+    getPointsStore(),
+    db.huntSummary.findMany({ where: { state: 'MT', type: 'CONTROLLED' }, orderBy: [{ tagCode: 'asc' }] }),
+  ]);
+  const pts = readMtPoints(store.store as Record<string, unknown>);
+  const nr = pts.res === 'NONRESIDENT';
+  const opts: MtPlanOpt[] = [];
+  for (const r of rows) {
+    const po = r.pointOdds as unknown as MtPointOdds | null;
+    const app = mtAppOf(po);
+    if (!app || !r.tagCode) continue;
+    const m = mtPersonal(r, pts, nr);
+    opts.push({
+      id: r.id, href: huntHref(r), name: r.name, code: r.tagCode, where: mtDistricts(r.units, 3), app,
+      odds: m.parts ? m.parts.permit : m.odds, both: m.parts ? m.odds : null,
+      second: r.secondDrewLast, secondApps: r.secondAppsLast, basis: m.basis,
+    });
+  }
+  const apps: MtPlanApp[] = MT_APPS.filter((a) => nr || !a.nrOnly).map((a) => ({
+    key: a.key, label: a.label, deadline: a.deadline, day: mtDay(a.deadline), results: a.results, what: a.what,
+    points: a.key === 'COMBO' ? pts.combo : pts.bonus[a.key], buying: a.key === 'COMBO' ? true : pts.buying[a.key],
+    nrNeedsCombo: a.key === 'DEER_PERMIT' || a.key === 'ELK_PERMIT',
+  }));
+  const c = mtCombo(pts.comboType);
+  const co = nr ? mtComboOdds(c.draw, Math.min(3, pts.combo)) : null;
+  const year = Math.max(...rows.map((r) => r.oddsLastYear ?? 0)) || MT_DATES_YEAR;
+  return (
+    <main className="wrap" style={{ margin: '24px auto 48px' }}>
+      <h1>Montana Application Planner</h1>
+      <MtPlanner opts={opts} apps={apps} nr={nr} signedIn={signedIn} set={pts.set} year={year} choices={MT_CHOICES}
+        combo={nr ? { name: c.label, points: pts.combo, odds: co?.odds ?? null, label: mtOddsLabel(co), year: co?.year ?? mtLatestYear(c.draw) } : null} />
+      <p className="small muted">Deadlines are FWP&apos;s {MT_DATES_YEAR} dates; FWP hadn&apos;t posted {MT_DATES_YEAR + 1} dates yet. <Link href="/guide">How the Montana draw works</Link> · <Link href="/changes">What changed since last year</Link></p>
     </main>
   );
 }

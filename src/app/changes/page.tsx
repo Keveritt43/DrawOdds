@@ -1,4 +1,4 @@
-import { MtElsewhere } from "@/components/MtHome";
+import { MtChanges } from "@/components/MtPages";
 import { CoChanges } from "@/components/CoPages";
 import { getState } from "@/lib/residency";
 import Link from 'next/link';
@@ -13,7 +13,7 @@ export const metadata = { title: 'What Changed', description: 'Idaho controlled 
 
 export default async function ChangesPage() {
   if ((await getState()).code === "CO") return <CoChanges />;
-  if ((await getState()).code === "MT") return <main className="wrap" style={{ maxWidth: 860, margin: '24px auto 48px' }}><h1>What Changed</h1><MtElsewhere what="This change log" /></main>;
+  if ((await getState()).code === "MT") return <MtChanges />;
   const draw = await getDraw();
   const species = DRAW_SPECIES[draw];
   const rows = await db.huntSummary.findMany({ where: { state: 'ID', type: 'CONTROLLED', species: { in: species } } });
