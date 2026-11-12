@@ -74,3 +74,11 @@ test('antelope harvest counts only seasons whose district outline matches today\
     for (const u of h.units) assert.match(u, /^A\d{3}[NS]?$/, h.id);
   }
 });
+
+test('harvest counts a season at 95% the same ground: HD 700 keeps its elk estimates, HD 480 antelope does not', () => {
+  const h700 = H.find((h) => h.id === 'MT:elk-permit:700-20')!;
+  const hist = (history as unknown as { deerElk: Record<string, Record<string, number | null>> }).deerElk['700'];
+  assert.ok(hist['2024']! >= 0.95 && hist['2024']! < 0.98, String(hist['2024'])); // the outline moved a little for 2026
+  assert.ok(h700.harvestYears >= 3, String(h700.harvestYears));
+  assert.equal(H.find((h) => h.id === 'MT:antelope:480-20')!.harvestYears, 0);
+});

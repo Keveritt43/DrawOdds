@@ -223,7 +223,7 @@ export async function MtChanges() {
       {dropped.length ? <ul>{dropped.map(({ k, e }) => <li key={k}>{e.license} {e.code} ({typeof e.quota === 'number' ? `${int(e.quota)} licenses` : e.quota} in {year - 1})</li>)}</ul> : <p className="muted">None.</p>}
 
       <h2 id="districts">Districts Redrawn For {year}</h2>
-      <p className="small muted">Districts whose {year} outline overlaps the {prior} one by less than {Math.round(H.stableIou * 100)}% (or that are new), measured from FWP&apos;s past-years district maps. Harvest from before the change describes different ground, so those district pages leave it out.</p>
+      <p className="small muted">Districts whose {year} outline overlaps the {prior} one by less than {Math.round(H.stableIou * 100)}% (or that are new), measured from FWP&apos;s past-years district maps. Where at least 95% is the same ground, earlier harvest estimates still count and the hunt page says so; below that they describe different country and are left out.</p>
       {redrawn.length ? <ul>{redrawn.map((r) => (
         <li key={r.set + r.d}><Link href={`/units/${encodeURIComponent(unitKey('MT', `${r.set === 'antelope' ? 'A' : ''}${r.d}`))}`}>{r.set === 'antelope' ? 'Antelope ' : 'Deer/elk '}HD {r.d}</Link> · {r.iou == null ? `no district ${r.d} in ${prior}` : `${Math.round(r.iou * 100)}% the same ground as ${prior}`}</li>
       ))}</ul> : <p className="muted">None.</p>}

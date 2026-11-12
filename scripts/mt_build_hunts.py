@@ -76,7 +76,12 @@ LAND = {**_land["districts"], **{f"A{k}": v for k, v in _land["antelope"].items(
 _bma = load("bma.json")  # scripts/mt_build_bma.py
 BMA = {**_bma["districts"], **_bma["antelope"]}
 HISTORY = load("district-history.json")
-STABLE = HISTORY["stableIou"]
+# Harvest counts a season when its district was at least 95% the same ground as today's. district-history.json's
+# stableIou (98%) is the "unchanged" line the change log uses; between the two the outline moved a little (HD 700:
+# 96.6-96.8% every cycle since 2014) and FWP's estimate still describes the district far better than nothing, so
+# it counts and the page names the overlap. Under 95% (HD 480's 2026 redraw: 37%) it doesn't. Corrects the
+# first build, which dropped every season under 98% and left 21 elk licences with no harvest at all.
+STABLE = 0.95
 
 
 def unit_keys(sp: str, hds: list[str]) -> list[str]:
@@ -259,7 +264,7 @@ def harvest_fields(sp: str, keys: list[str], deer: frozenset | None = None):
     basis = (f"FWP's {DEER_WORD[src]} harvest per deer hunter in {where} (FWP doesn't count hunters by deer species), "
              "every licence type, surveyed seasons only" if src in DEER_WORD else
              f"FWP district estimate for all {SPECIES[sp]} hunters in {where}, every licence type, surveyed seasons only")
-    basis += "; only seasons whose district outline matches today's"
+    basis += "; only seasons when the district was at least 95% today's ground"
     if sp == "PRONGHORN":
         if any(k.endswith(("N", "S")) for k in keys):
             basis += "; FWP estimates HDs 701 and 703 whole, not north or south of the Yellowstone"

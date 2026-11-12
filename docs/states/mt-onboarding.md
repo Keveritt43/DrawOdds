@@ -726,3 +726,9 @@ The three menu pages that showed "does not cover Montana yet" now have Montana v
 - **Footer:** "Elk Draws"/"Deer Draws" sent Montana and Wyoming headers to an Idaho-shaped search. Montana now links Elk Permits, Deer Permits and Antelope Draws (`mtLic=permit`); Wyoming its own species.
 - **Unit Map key:** the units API counts all 202 Montana districts in one set, so the key's counts mixed deer/elk and antelope districts. The map now recounts the key over the set on screen.
 - **/montana:** said permits and B licences "are not modelled yet" and linked to "How Idaho's draw works". Fixed with #95.
+
+## 21. Harvest at 95% overlap; hunt page answer-first — 2026-11-11
+
+- **Owner UAT:** Elk Permit 700-20 showed no success and no density. HD 700's outline overlaps every earlier cycle (2014–2024) by 96.6–96.8%, under the 98% rule, so all its elk seasons were dropped, for a district that is 97% the same ground. **The 98% rule was too strict for harvest.** FWP's survey estimates carry far more error than a 3% boundary move. Harvest now counts a season at ≥ 95% overlap (`STABLE` in `scripts/mt_build_hunts.py`), and the hunt page names the overlap. The change log's "redrawn" line stays at 98%.
+- Effect: 51 hunts' harvest changed, 27 gained harvest they had none of (e.g. HD 700, 123, 320, 622, 630 elk and deer B licences). 19 still have none, e.g. HD 480 antelope (37% overlap) and districts new for 2026.
+- **Hunt pages are answer-first:** your odds and the quota card, then a row of "do I want it" tiles (success, hunters/mi², big-animal share, public land, draw and fill), then the charts (odds by points, success, draw history). Explanations, the odds table, costs, land, seasons and the season tables are folded below under Details.
