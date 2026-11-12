@@ -116,8 +116,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     // applicants only, so anyone above zero and below the cutoff draws at 0% (src/lib/mtOdds.ts). Permits and B
     // licenses: uncapped squared bonus points, last-draw odds read from FWP's reports (src/lib/mtHunt.ts).
     points: 'preference-random',
-    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
-    species: ['DEER', 'ELK'],
+    draws: [{ key: 'DEP', label: 'Deer · Elk · Antelope', species: ['DEER', 'ELK', 'PRONGHORN'] }],
+    species: ['DEER', 'ELK', 'PRONGHORN'],
     bounds: [[-116.05, 44.35], [-104.04, 49.01]],
     features: { elkZones: false, nrGeneralTagDraw: true, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },

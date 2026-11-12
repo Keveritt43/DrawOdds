@@ -24,8 +24,9 @@ type Props = Record<string, string | number | boolean | null | undefined> & { na
 
 const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.', fill: ' Fixed scale: 20-30% is yellow.', land: ' Fixed scale: 50-60% is yellow.', objective: '' };
 
-/** `bare`: just the unit on the map (unit pages), no shading or key. */
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '' }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[] }) {
+/** `bare`: just the unit on the map (unit pages), no shading or key. `unitSet`: Montana's deer/elk and antelope
+ *  districts are different ground stored side by side ("261" and "A320"); draw only the set the page is about. */
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '', unitSet }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[]; unitSet?: 'deer-elk' | 'antelope' }) {
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const st = useStateConfig();
   const msg = draw === "MSG" && st.code === "ID";
@@ -144,7 +145,15 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           classes: cl,
           missing: miss,
           labels,
-        } = await loadUnits(st.code,coPointsKey);
+        } = await loadUnits(st.code,coPointsKey).then((d) => {
+          if (!unitSet) return d;
+          const keep = (n: unknown) => (unitSet === 'antelope') === /^A\d/.test(String(n));
+          const fc0 = { ...d.fc, features: d.fc.features.filter((f) => keep(f.properties.name)) };
+          // antelope districts read as plain numbers ("A320" -> "320"), as on the finder map
+          const lab = { ...d.labels, features: d.labels.features.filter((f) => keep(f.properties.name))
+            .map((f) => ({ ...f, properties: { ...f.properties, name: f.properties.name.replace(/^A(?=\d)/, '') } })) };
+          return { ...d, fc: fc0, labels: lab };
+        });
         setClasses(cl);
         setMissing(miss);
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
