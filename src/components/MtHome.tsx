@@ -59,7 +59,7 @@ export async function MtQuickStart() {
               <li><b>Not yet:</b> hunting districts, harvest and public land, so Montana has no rows in Find Hunts.</li>
               <li><b>Not yet:</b> permits and B licenses (antelope, Deer B, Elk B), which use a separate bonus-point system.</li>
             </ul>}
-            <p className="hint">Nothing here is a forecast. Every number is a past draw, labelled with its year.</p>
+            <p className="hint">Permits, antelope and B licenses default to a next-draw projection (FWP&apos;s weighted draw re-run on the last draw, tested on 2024–2026); the combination draw is shown as it last drew.</p>
             {hunts ? <Link className="btn primary" href="/hunts?states=MT&antler=ANTLERED&sort=opp">Find Montana hunts</Link> : null}{' '}
             <Link className={`btn${hunts ? '' : ' primary'}`} href="/montana">Open the Montana draw</Link>
           </div>
@@ -112,7 +112,7 @@ export function MtAbout() {
         <h1>Where Montana&apos;s Numbers Come From</h1>
         <p>Everything here is public Montana Fish, Wildlife &amp; Parks (FWP) and BLM data. This site is not affiliated with or endorsed by FWP. Seasons and rules change; always confirm in the current FWP regulations before you apply or hunt.</p>
         <ul>
-          <li><b>Draw odds:</b> FWP&apos;s drawing statistics, 2021–2026: detailed bonus-point reports for permits, antelope and B licenses, and the nonresident combination reports (2018–2026). Every odds number is a past draw, labelled with its year; no Montana projection has passed a backtest yet.</li>
+          <li><b>Draw odds:</b> FWP&apos;s drawing statistics, 2021–2026: detailed bonus-point reports for permits, antelope and B licenses, and the nonresident combination reports (2018–2026). Permit, antelope and B license odds default to a next-draw projection: FWP&apos;s weighted draw (points² + 1 chances) re-run on the last draw&apos;s applicants and licenses, which beat the year before&apos;s printed rates on every 2024–2026 draw. The combination draw is the last draw: no forecast of it beat that.</li>
           <li><b>Seasons, quotas and restrictions:</b> the 2026 Deer, Elk &amp; Antelope regulations, district by district.</li>
           <li><b>Harvest, success and crowding:</b> FWP&apos;s harvest estimates by district. FWP surveys deer in odd years and elk and antelope in even years, so only surveyed seasons count, and only when the district had the same boundary as today (FWP&apos;s past-years district maps).</li>
           <li><b>Land:</b> BLM&apos;s Surface Management Agency map, measured over each district on a 100 m equal-area grid. Block Management acres from FWP&apos;s 2026–27 maps and guide.</li>

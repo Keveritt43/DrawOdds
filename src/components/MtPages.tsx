@@ -145,7 +145,7 @@ export async function MtGuide() {
         <li><b>Buy a bonus point every year for every type you care about,</b> even with a long-shot first choice: skipping a year wastes the squared growth.</li>
         <li><b>A permit is worth only as much as your combination odds.</b> A nonresident&apos;s chance to hunt a permit is both draws; every nonresident permit card shows the two parts.</li>
         <li><b>Use 2nd and 3rd choices on hunts that reached them.</b> In most permit hunts they drew nothing; B licenses are where later choices pay off.</li>
-        <li><b>Odds here are the last draw, not a forecast.</b> The Fish and Wildlife Commission withheld about 2,500 nonresident general deer licenses for the 2026–2027 seasons, so the trend is not a safe guide. See <Link href="/changes">What Changed</Link>.</li>
+        <li><b>Know which odds you are reading.</b> Permit, antelope and B license odds default to a next-draw projection: FWP&apos;s weighted draw re-run on the last draw, which predicted 2024–2026 better than the year before&apos;s printed rates. Combination odds are the last draw: no forecast beat it, and the Fish and Wildlife Commission withheld about 2,500 nonresident general deer licenses for the 2026–2027 seasons. See <Link href="/changes">What Changed</Link>.</li>
       </ul>
 
       <h2>Costs</h2>

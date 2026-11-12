@@ -63,7 +63,7 @@ export function MtPlanner({ opts, apps, combo, nr, signedIn, set, year, choices 
   return (
     <>
       <p className="muted" style={{ maxWidth: '72ch' }}>
-        Up to {choices} choices on each application, in order. Odds are the {year} draw at {set ? 'your saved points' : 'zero points'}, as a {nr ? 'nonresident' : 'resident'}.{' '}
+        Up to {choices} choices on each application, in order. Odds are projected for the next draw from the {year} draw, at {set ? 'your saved points' : 'zero points'}, as a {nr ? 'nonresident' : 'resident'}.{' '}
         {signedIn ? 'Your Montana plan is saved to your account.' : <>Your plan stays in this browser; <a href="/login">sign in</a> to keep it on every device.</>} Montana plans are kept apart from other states&apos;.
       </p>
       {!set && <p className="note"><Link href="/account#hunting-preferences">Save your Montana points</Link> first: with squared bonus points, your balance changes every number below.</p>}
@@ -137,7 +137,7 @@ export function MtPlanner({ opts, apps, combo, nr, signedIn, set, year, choices 
         );
       })}
       <p role="status" className="small">{status}</p>
-      <p className="small muted">Odds are the last draw, first choice, not a forecast. Later choices only get licenses first choices left. A nonresident&apos;s permit chance to hunt multiplies the permit and combination draws as if independent. Confirm every choice and deadline with FWP before you apply.</p>
+      <p className="small muted">Odds are first choice: projected for the next draw from the last one (the combination license as it last drew). Later choices only get licenses first choices left. A nonresident&apos;s permit chance to hunt multiplies the permit and combination draws as if independent. Confirm every choice and deadline with FWP before you apply.</p>
     </>
   );
 }

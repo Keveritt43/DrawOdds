@@ -28,7 +28,7 @@ const MT_NOTE: Partial<Record<Metric, string>> = {
   huntable: 'Public land plus private land enrolled in FWP Block Management Type 1 (sign yourself in), 2026–27. Type 2 needs permission and is not counted.',
   success: 'FWP harvest ÷ hunters for the district’s general license, surveyed seasons only (deer odd years, elk even), and only seasons when the district had today’s boundary. At least 50 hunters.',
   pressure: 'FWP’s estimated hunters per surveyed season ÷ district square miles, general license. Green = fewer hunters.',
-  ctlOdds: 'Best last-draw odds at your saved Montana bonus points of any buck / bull permit or antelope license touching the district (B licenses and private-land-only licenses left out). A nonresident deer or elk permit shows its own draw, as if the combination is drawn.',
+  ctlOdds: 'Best projected next-draw odds at your saved Montana bonus points of any buck / bull permit or antelope license touching the district (B licenses and private-land-only licenses left out). A nonresident deer or elk permit shows its own draw, as if the combination is drawn.',
   ctlFill: 'Your chance of drawing (for a nonresident deer or elk permit, both the combination and the permit) × FWP district success. Best buck / bull license touching the district.',
   ctlSuccess: 'FWP district harvest ÷ hunters over the surveyed seasons, buck / bull drawn licenses touching the district together; mule-buck permits use mule bucks per permit. At least 50 hunters.',
   ctlQuality: 'Highest DrawOdds Quality of a buck / bull drawn license touching the district.',

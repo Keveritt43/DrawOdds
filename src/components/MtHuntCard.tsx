@@ -56,7 +56,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
           <span className="k">{otc ? 'License · no draw' : general && !nr ? 'License' : general ? `Combination draw · ${points ?? 0} pref. pts` : withCombo ? `Permit draw · NR · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}` : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${notBuying ? 'no point bought' : `${points ?? 0} bonus pts`}`}</span>
           <b>{pctOdds(shown)}</b>
           <span className={`verdict ${shown === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{shown === null ? 'No draw data' : CHANCE_LABEL[chance]}</span>
-          <span className="sub">{otc ? `Over the counter from ${po?.onSale ?? 'June 15'}${po?.fee ? ` · $${nr ? po.fee.nr : po.fee.res} ${nr ? 'nonresident' : 'resident'}` : ''}` : general && !nr ? 'Resident general license' : parts ? `${po?.year ?? 'Latest'} draw, if you draw the combination` : `${po?.combo?.year ?? po?.year ?? 'Latest'} draw · last draw, not a forecast`}</span>
+          <span className="sub">{otc ? `Over the counter from ${po?.onSale ?? 'June 15'}${po?.fee ? ` · $${nr ? po.fee.nr : po.fee.res} ${nr ? 'nonresident' : 'resident'}` : ''}` : general && !nr ? 'Resident general license' : parts ? `${basis?.startsWith('Next draw') ? 'Next draw, projected' : `${po?.year ?? 'Latest'} draw`}, if you draw the combination` : basis?.startsWith('Next draw') ? `Next draw, projected from ${po?.year ?? 'the last draw'}` : `${po?.combo?.year ?? po?.year ?? 'Latest'} draw · last draw`}</span>
           {parts && <span className="sub">Your {parts.comboName} draw: <b>{pctOdds(parts.combo)}</b></span>}
         </div>
         <div>

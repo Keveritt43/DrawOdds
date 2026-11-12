@@ -685,3 +685,32 @@ The three menu pages that showed "does not cover Montana yet" now have Montana v
 - **What Changed:** quota and first-choice applicant changes from each hunt's draw history (2026 vs 2025), codes new since 2021, codes gone from 2025 (from `draws.json`), and districts whose 2026 outline overlaps the 2024 one by less than 98% (`district-history.json`): deer/elk 123, 311, 320, 413, 432 (new), 622, 630, 652, 700; antelope 413, 485 (new), 430, 480.
 - **Planner:** the nonresident combination licence (odds at saved points from the combination report, with the dead-zone note) plus six bonus-point applications, three choices each. A nonresident permit shows the permit draw and the both-draws chance. Saved in the browser, or to the account as `_plan_MT` (`/api/mt-plan`).
 - **Not done:** costs per plan (FWP doesn't say what is charged at application vs refunded, §7), 2027 dates, surplus licences.
+
+## 19. Forecast backtest — 2026-11-11
+
+`scripts/mt_backtest.py` (offline, `python3 -I scripts/mt_backtest.py`). Scored like Colorado and Wyoming: Brier over first-choice applicants, weighted by applicants, each draw predicted from earlier draws only, against the baseline "next draw = the last draw's odds" (what the app showed).
+
+**Bonus-point draws (permits, antelope, B licences): a projection ships.** Test draws 2024–2026; 2023 is the first year the points column means points used (§3.2).
+
+| Test draw | Last draw (baseline) | Weighted draw, last applicants and licences (**ships**) | Weighted draw with the drawn year's quota | Cohort roll-forward |
+|---|---|---|---|---|
+| 2024 | 0.1088 | **0.1068** | 0.1039 | – |
+| 2025 | 0.1099 | **0.1078** | 0.1001 | 0.1011 |
+| 2026 | 0.1072 | **0.1048** | 0.0939 | 0.0970 |
+
+- **The model:** FWP's rule, level² + 1 chances (1 for no point bought), re-run on the last draw's own applicants by level and the pool's first-choice licences, via the successive-sampling approximation p(L) = 1 − exp(−w(L)·t). It wins because the printed rates are noisy where a level had few applicants (Elk Permit 380-20 nonresident: one lucky drawer printed 14.3% at 16 points; the model says 1%) and stop at the last level anyone held.
+- **It beat the baseline in all 12 licence type × pool cells,** e.g. Antelope B nonresident 0.197 vs 0.218, Elk Permit nonresident 0.077 vs 0.089, Elk Permit resident 0.0483 vs 0.0494 (the smallest margin).
+- **What ships is the version without the drawn year's quota** (`src/lib/mtProj.ts`), because the next draw's quotas aren't published when a hunter is deciding. Using the drawn year's quota helps much more (third column): when FWP posts 2027 quotas, scaling each pool by quota_new / quota_last is the next step, and the column above is its backtest.
+- **Rejected:** the cohort roll-forward (unsuccessful applicants return a point higher at the measured rate) beat the static model only for Deer B and resident antelope; not overall.
+- **The app:** every Montana permit, antelope and B licence defaults to "Next draw (projected)", with "2026 actual" one click away on the hunt page (`?odds=last`), the finder's last-draw switch, and both columns in the ladder.
+
+**Nonresident combination draws: no forecast ships.** Test draws 2023–2026.
+
+| | Last draw (baseline) | Mean of earlier draws | Cohort roll-forward + FWP's 75/25 rule |
+|---|---|---|---|
+| Big Game / Elk, mean | **0.1100** | 0.1159 | 0.2460 |
+| Deer, mean | 0.1570 | **0.1539** | 0.2989 |
+
+- Big Game / Elk: the last draw won every year.
+- Deer: the multi-year mean won on average (2023, 2026) and lost in 2024 and 2025. It is **not shipped**: the commission's withheld licences make 2026 the first year of a new quota that holds through 2027, and averaging in the larger pre-cut draws would overstate 2027 odds. Revisit after the 2027 draw.
+- The cohort roll-forward fails badly. The 2.2–3 band each year holds far more applicants than the previous year's unsuccessful 2-point holders could supply (4,138 in 2023 from 238 who failed at 2 in 2022), so the "return rate" is meaningless. Our guess is outfitter clients, who may buy a second point a year, but that is not checked.

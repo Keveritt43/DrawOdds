@@ -72,7 +72,7 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     // unsaved settings: 0 points, buying, nonresident (src/lib/mtPoints.ts readMtPoints defaults)
     const mt = settings.MT ?? { res: 'NONRESIDENT', combo: 0, comboType: 'BIG_GAME' as const, bonus: { DEER_PERMIT: 0, ELK_PERMIT: 0, ANTELOPE: 0, DEER_B: 0, ELK_B: 0, ANTELOPE_B: 0 },
       buying: { DEER_PERMIT: true, ELK_PERMIT: true, ANTELOPE: true, DEER_B: true, ELK_B: true, ANTELOPE_B: true }, set: false } as MtPoints;
-    const m = mtPersonal(r, mt, nr);
+    const m = mtPersonal(r, mt, nr, mode);
     const opp = opportunity(r.scoreQuality, m.odds);
     return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: m.points, basis: m.basis, mtParts: m.parts };
   }
