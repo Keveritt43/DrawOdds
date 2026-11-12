@@ -21,7 +21,7 @@ import { unitKey } from "@/lib/states";
 import { useStateConfig } from './StateContext';
 
 /** Odds as a percent; a real but tiny chance prints as <0.1%, not 0.0% */
-const oddsPct = (o: number) => (o > 0 && o < 0.001 ? '<0.1%' : `${(o * 100).toFixed(o < 0.1 ? 1 : 0)}%`);
+const oddsPct = (o: number) => (o > 0 && o < 0.0005 ? '<0.1%' : `${(o * 100).toFixed(o < 0.1 ? 1 : 0)}%`);
 
 type Props = Record<string, string | number | boolean | null | undefined> & { name: string };
 
