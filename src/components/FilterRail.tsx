@@ -101,9 +101,10 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
   return (
     <aside className={`f-rail ${open ? 'open' : ''}`} aria-label="Filters">
       <div className="mobile-switch">
-        <button className="btn" type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+        <button className="btn primary" type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
           {open ? 'Hide Filters' : 'Show Filters'}
         </button>
+        <p className="small muted">Fine-tune results by dates, land, odds and more.</p>
       </div>
       {[...sp.keys()].some((k) => !['sort', 'view', 'page', 'state', 'restore', 'states', 'draw'].includes(k)) && (
         <div className="rail-reset"><a href={resetHref}>Reset all filters</a></div>
@@ -149,6 +150,10 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           {checks("antler", msg ? SEX_MSG : ANTLER)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take an antlered or an antlerless animal on them.</p>
         </Section>
+        {states && <Section title="Public & Accessible Land" value={get('minAccessLand') ? `${get('minAccessLand')}%+` : 'Any'} set={!!get('minAccessLand')}>
+          <Slider value={Number(get('minAccessLand') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minAccessLand: v ? String(v) : null })} />
+          <p className="small muted">Includes Idaho Access Yes! and Montana Type 1 Block Management (2026–27) where available. Other states use public-land data only; their private-access programs are not yet included. Area estimates do not guarantee access; check property rules.</p>
+        </Section>}
         <Section title="Land Access" value={get('minPublic') ? `${get('minPublic')}%+ public` : 'Any'} set={!!get('minPublic')}>
           <label>Public Land</label>
           {sharedNote}

@@ -1,5 +1,5 @@
 import { HomeStatePicker } from '@/components/HomeStatePicker';
-import { MultiQuickStart } from '@/components/MultiQuickStart';
+import { MultiQuickStart, QuickSeasonDates } from '@/components/MultiQuickStart';
 import { MtQuickStart } from '@/components/MtHome';
 import { searchStates } from '@/lib/searchStates';
 import { CoQuickStart } from '@/components/CoQuickStart';
@@ -167,10 +167,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             <label>What Are You After?</label>
             <div className="opts">
               {opt('antler', 'ANTLERED', msg ? 'Antlered (Bull Or Ram)' : 'A Buck Or Bull (Incl. Either-Sex Hunts)', true)}
+              {opt('antler', 'ANTLERLESS', 'Antlerless (Incl. Either-Sex Hunts)')}
               {opt('antler', '', msg ? 'Any (Incl. Cows / Ewes)' : 'Any Animal (Incl. Does / Cows)')}
             </div>
             <label>Weapon</label>
             <div className="opts">{opt('weapon', '', 'Any', true)}{opt('weapon', 'ANY', 'Rifle')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
+            <QuickSeasonDates />
+            <p className="hint">On the results page, use Show Filters to fine-tune hunts by dates, land, odds and more.</p>
             <label>I Want</label>
             <div className="opts">
               {opt('sort', 'odds', 'Best Chance To Get A Tag', true)}

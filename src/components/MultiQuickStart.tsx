@@ -1,3 +1,7 @@
+'use client';
+import { useState } from 'react';
+import { DateRange } from './FilterRail';
+import { DAY_MIN, DAY_MAX, toMonthDay } from '@/lib/seasonDays';
 import Link from 'next/link';
 import { HomeStatePicker } from './HomeStatePicker';
 import { STATES, type StateCode } from '@/lib/states';
@@ -5,7 +9,16 @@ import type { SpeciesKey } from '@/lib/species';
 
 const SPECIES: [SpeciesKey, string][] = [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn sheep'], ['GOAT', 'Mountain goat'], ['BISON', 'Bison']];
 
+export function QuickSeasonDates() {
+  const [dates, setDates] = useState<{from: number; to: number; mode: 'open' | 'end'}>({ from: DAY_MIN, to: DAY_MAX, mode: 'open' });
+  const active = dates.from !== DAY_MIN || dates.to !== DAY_MAX;
+  return <><label>Season dates</label><DateRange {...dates} onCommit={(from, to, mode) => setDates({ from, to, mode })} />{active && <><input type="hidden" name="from" value={toMonthDay(dates.from)} /><input type="hidden" name="to" value={toMonthDay(dates.to)} />{dates.mode === 'end' && <input type="hidden" name="dmode" value="end" />}</>}</>;
+}
+
 export function SharedQuickStartForm({ states }: { states: StateCode[] }) {
+  const [limits, setLimits] = useState({ minOdds: 0, minSuccess: 0, minAccessLand: 0, density: 0 });
+  const densities = [0, 8, 5, 3, 2, 1.5, 1, 0.5, 0.25];
+  const slider = (id: string, key: keyof typeof limits, label: string, max: number, step: number, display: string) => <div><label htmlFor={id}>{label}: {display}</label><input id={id} type="range" min="0" max={max} step={step} value={limits[key]} onChange={e => setLimits({ ...limits, [key]: Number(e.target.value) })} /></div>;
   const available = new Set(states.flatMap(state => STATES[state].species));
   return <form className="quick" action="/hunts" method="get">
     <input type="hidden" name="states" value={states.join(',')} /><input type="hidden" name="minScore" value="0" />
@@ -14,8 +27,21 @@ export function SharedQuickStartForm({ states }: { states: StateCode[] }) {
     <label htmlFor="multi-type">Hunt type</label><select id="multi-type" name="type"><option value="">Any</option><option value="CONTROLLED">Limited / controlled draw</option><option value="GENERAL">General season (draw or OTC)</option></select>
     <p className="hint">General does not always mean over the counter: nonresident general deer and elk tags can require a draw.{states.includes('UT') ? ' Utah general buck deer is drawn.' : ''}</p>
     <label htmlFor="multi-weapon">Weapon</label><select id="multi-weapon" name="weapon"><option value="">Any</option><option value="ANY">Any weapon / rifle</option><option value="ARCHERY">Archery</option><option value="MUZZLELOADER">Muzzleloader</option><option value="SHORT_RANGE">Short range</option></select>
+    <label htmlFor="multi-antler">Antler class</label><select id="multi-antler" name="antler" defaultValue="ALL"><option value="ALL">Any</option><option value="ANTLERED">Antlered</option><option value="ANTLERLESS">Antlerless</option></select>
+    <QuickSeasonDates />
     <label htmlFor="multi-sort">What matters most?</label><select id="multi-sort" name="sort"><option value="opp">Best overall opportunity</option><option value="score">Hunt quality</option><option value="odds">Draw odds</option><option value="success">Harvest rate</option><option value="public">Public land</option><option value="densityLow">Fewest hunters per square mile</option></select>
-    <details><summary>Optional minimums and maximums</summary><label htmlFor="multi-odds">Minimum draw odds (%)</label><input id="multi-odds" name="minOdds" type="number" min="0" max="100" /><label htmlFor="multi-success">Minimum harvest rate (%)</label><input id="multi-success" name="minSuccess" type="number" min="0" max="100" /><label htmlFor="multi-public">Minimum public land (%)</label><input id="multi-public" name="minPublic" type="number" min="0" max="100" /><label htmlFor="multi-density">Maximum hunters per square mile</label><input id="multi-density" name="maxDensity" type="number" min="0" max="100" step="0.1" /></details><p className="hint">Odds and other measures depend on each state’s data and your hunting preferences. Missing data is shown as unavailable.</p>
+    <details><summary>Optional minimums and maximums</summary>
+      {slider('multi-odds', 'minOdds', 'Minimum draw odds', 100, 1, limits.minOdds ? `${limits.minOdds}%` : 'Any')}
+      {slider('multi-success', 'minSuccess', 'Minimum harvest rate', 100, 5, limits.minSuccess ? `${limits.minSuccess}%` : 'Any')}
+      {slider('multi-public', 'minAccessLand', 'Minimum public and accessible land', 100, 5, limits.minAccessLand ? `${limits.minAccessLand}%` : 'Any')}
+      <p className="hint">Includes Idaho Access Yes! and Montana Type 1 Block Management (2026–27) where data is available. Other states use public-land data only; their private-access programs are not yet included. This is an area estimate, not a guarantee of access. Check property rules.</p>
+      {slider('multi-density', 'density', 'Maximum hunters per square mile', 8, 1, limits.density ? String(densities[limits.density]) : 'Any')}
+      {limits.minOdds > 0 && <input type="hidden" name="minOdds" value={limits.minOdds} />}
+      {limits.minSuccess > 0 && <input type="hidden" name="minSuccess" value={limits.minSuccess} />}
+      {limits.minAccessLand > 0 && <input type="hidden" name="minAccessLand" value={limits.minAccessLand} />}
+      {limits.density > 0 && <input type="hidden" name="maxDensity" value={densities[limits.density]} />}
+    </details><p className="hint">Odds and other measures depend on each state’s data and your hunting preferences. Missing data is shown as unavailable.</p>
+    <p className="hint">On the results page, use Show Filters to fine-tune hunts by dates, land, odds and more.</p>
     <button className="btn primary" type="submit">Show hunts in selected states</button>
   </form>;
 }

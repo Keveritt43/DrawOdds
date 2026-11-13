@@ -73,6 +73,12 @@ test('shared species, weapon and dates constrain both states', () => {
   assert.equal(runSearch(data, { states: 'ID,CO', from: '11-1', to: '11-3' }, 'ID', settings).length, 0);
 });
 
+test('accessible land minimum uses Idaho Access Yes and preserves unknowns', () => {
+  const data = [row(), colorado(), row({ id: 'unknown', huntablePct: null })];
+  assert.deepEqual(runSearch(data, { states: 'ID,CO', minAccessLand: '61' }, 'ID', settings).map(x => x.r.id), ['id:deer39']);
+  assert.equal(runSearch(data, { states: 'ID,CO', minPublic: '61' }, 'ID', settings).length, 0);
+});
+
 test('qualified map clicks select only the correct state; bare unit search spans states', () => {
   const data = [row(), colorado()];
   assert.deepEqual(runSearch(data, { states: 'ID,CO', unit: 'CO:39' }, 'ID', settings).map(x => x.r.state), ['CO']);
