@@ -34,7 +34,7 @@ export function SharedQuickStartForm({ states }: { states: StateCode[] }) {
       {slider('multi-odds', 'minOdds', 'Minimum draw odds', 100, 1, limits.minOdds ? `${limits.minOdds}%` : 'Any')}
       {slider('multi-success', 'minSuccess', 'Minimum harvest rate', 100, 5, limits.minSuccess ? `${limits.minSuccess}%` : 'Any')}
       {slider('multi-public', 'minAccessLand', 'Minimum public and accessible land', 100, 5, limits.minAccessLand ? `${limits.minAccessLand}%` : 'Any')}
-      <p className="hint">Includes Idaho Access Yes! and Montana Type 1 Block Management where data is available. Other states use available public-land data. Access rules still apply.</p>
+      <p className="hint">Includes Idaho Access Yes! and Montana Type 1 Block Management (2026–27) where data is available. Other states use public-land data only; their private-access programs are not yet included. This is an area estimate, not a guarantee of access. Check property rules.</p>
       {slider('multi-density', 'density', 'Maximum hunters per square mile', 8, 1, limits.density ? String(densities[limits.density]) : 'Any')}
       {limits.minOdds > 0 && <input type="hidden" name="minOdds" value={limits.minOdds} />}
       {limits.minSuccess > 0 && <input type="hidden" name="minSuccess" value={limits.minSuccess} />}

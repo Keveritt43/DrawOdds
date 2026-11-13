@@ -152,7 +152,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
         </Section>
         {states && <Section title="Public & Accessible Land" value={get('minAccessLand') ? `${get('minAccessLand')}%+` : 'Any'} set={!!get('minAccessLand')}>
           <Slider value={Number(get('minAccessLand') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minAccessLand: v ? String(v) : null })} />
-          <p className="small muted">Includes Idaho Access Yes! and Montana Type 1 Block Management where available; other states use available public-land data. Access rules still apply.</p>
+          <p className="small muted">Includes Idaho Access Yes! and Montana Type 1 Block Management (2026–27) where available. Other states use public-land data only; their private-access programs are not yet included. Area estimates do not guarantee access; check property rules.</p>
         </Section>}
         <Section title="Land Access" value={get('minPublic') ? `${get('minPublic')}%+ public` : 'Any'} set={!!get('minPublic')}>
           <label>Public Land</label>
