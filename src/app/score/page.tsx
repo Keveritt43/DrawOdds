@@ -19,12 +19,12 @@ export default async function ScorePage() {
         </p>
 
         <h2>Quality</h2>
-        <p>Quality combines harvest success (65%), access (20%) and elbow room (15%). Trophy evidence can adjust that grade by up to 5 points in either direction. Scores use fixed benchmarks rather than peer ranks.</p>
+        <p>Quality combines harvest success (65%), access (20%) and elbow room (15%). Recognized trophy tiers can add up to 5 points; unclassified hunts receive no penalty. Scores use fixed benchmarks rather than peer ranks.</p>
         <ul>
           <li><b>Success ({SCORE_WEIGHTS.success}%):</b> harvest divided by hunters across the available five-year window. For general elk, 10% scores 30, 20% scores 75 and 50% scores 100. For controlled elk, those benchmarks are 20%, 50% and 80%. All weapons use the same species benchmarks. For pronghorn, 35% scores 30, 60% scores 75 and 85% scores 100. For deer, those benchmarks are 35%, 55% and 75%; for moose, sheep and goat, 50%, 70% and 90%. These are Success index values before sample adjustment, not harvest probabilities. Small samples are pulled toward the low benchmark using 50 prior hunter-seasons (10 for moose, sheep and goat).</li>
           <li><b>Access ({SCORE_WEIGHTS.access}%):</b> public land plus Access Yes! land. 50% scores 80; above that it climbs slowly to 100, below it drops fast (25% scores 40). Most Idaho units are mostly public, so this mostly marks down the private-land units.</li>
           <li><b>Elbow room ({SCORE_WEIGHTS.crowd}%):</b> hunters per square mile: 0.25 scores 85, 0.5 scores 70, 1 scores 50, 1.5 scores 38, 3 scores 18.</li>
-          <li><b>Trophy (up to ±5 points):</b> share of harvested bucks or bulls that were 4+ point mule deer or 6+ point bulls. The bar maps 25% to 45, 50% to 75 and 75% to 100; 50 on the bar is neutral. The adjustment is reduced for small harvest samples. Antlerless hunts, whitetail units, 2-point-only seasons and species without a supported trophy metric receive no adjustment. No trophy weight is redistributed.</li>
+          <li><b>Trophy (up to +5 points):</b> Unicorn 100 (+5), Trophy 80 (+3), Trophy County 65 (+1.5), Unclassified 50 (neutral). Unclassified does not mean poor trophy potential. Antlerless hunts are N/A and excluded. The former 4+ point harvest-share calculation does not affect the score. County tiers require validated unit mappings.</li>
         </ul>
         <p>Hunts with fewer than 30 hunter-seasons (10 for moose, sheep and goat), invalid harvest counts, or missing access or density data receive no overall score. Quality cannot exceed the lower of observed and sample-adjusted Success plus 20 points. Below the low harvest benchmark, Quality is capped at 49. Thus, controlled elk below 20% success cannot reach Quality 50, even with perfect access and low density.</p>
 
