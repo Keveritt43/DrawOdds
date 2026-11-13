@@ -181,7 +181,17 @@ Not built yet: a projection (needs the §5.2 backtest), waiting-period tracking 
   - Manti boundary tile: general bull elk 13% from DWR elk unit 16B.
   - Account page: collapses state by state.
   - Fixed then: the boundary page's hunt-type row hid its CWMU button at 390 px (#123).
-- **Walk-in Access, data found (not built):**
+- **Walk-in Access: built (Nov 12).**
+  - `scripts/ut_build_walkin.py` → `data/ut/walkin.json`, from `data/ut/source/walkin-access-2026.geojson` (the public layer below) and BLM SMA (`ut-guidebooks-and-sma.json` on the owner's PC).
+  - Counts leases whose purpose names big game (typos like "gig game" included) and drops "no hunting". Purpose just "hunting" (3 leases) is ambiguous and isn't counted. "No elk hunting" drops a lease for elk; muzzleloader-only leases are flagged.
+  - Public land inside a lease is subtracted, so it isn't counted twice.
+  - Result: 60 big-game leases, 72,203 ac, of which 70,695 ac aren't already public. 34 of the 243 hunt boundaries contain some, nearly all in the north; the most is Cache, East Rich at 9.1%.
+  - The layer's total (84,666 ac measured vs 84,606 in the layer) matches, which checks the projection.
+  - The gap to DWR's 49,597 ac for 2025 is mostly 2026 enrolment: Prohibition Springs, Double Cone and Cotton Thomas add about 25,000 ac.
+  - DWR's own WIA service (`ram_WIA_PROD_v2`) needs a token, so it isn't used.
+  - App: the Unit Map's "Public + Walk-in Access %" shading and map panel rows, and a Walk-in Access section on boundary pages.
+  - Not changed: Quality scores (an import would be needed) and the finder map.
+- **Walk-in Access, data found Nov 12 (before the build):**
   - Source: DWR's public property layer `https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/ULTRA_Properties_3_view/FeatureServer/0`, the layer behind the map on DWR's Walk-in Access page.
   - `type_ = 'Walk In Access'`: 112 polygons, 84,606 ac.
   - `purpose` says what each lease allows: 57 allow big game (66,109 ac), mostly the Northern region. Fishing-only and "No hunting" leases have to be left out.
