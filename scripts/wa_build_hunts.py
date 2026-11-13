@@ -463,10 +463,11 @@ def main() -> None:
     # harvest only supplies success. (Before Nov 13 the legal animal was guessed from the harvest mix and was wrong
     # for ~30 GMUs: WDFW's general harvest rows include Master Hunter and youth kills.)
     regs = collections.defaultdict(list)
+    youth_regs = collections.defaultdict(list)   # youth-only general days (2026: GMU 124 and 127-142 modern deer)
     for s in json.load(open(ROOT / "data" / "wa" / "general-seasons-2026.json"))["rows"]:
-        if s["adult"] and s["dates"]:
+        if s["dates"] and (s["adult"] or s["youth"]):
             for g in s["gmus"]:
-                regs[(s["species"], g, s["weapon"])].append(s)
+                (regs if s["adult"] else youth_regs)[(s["species"], g, s["weapon"])].append(s)
     by_weapon = {}
     for (sp, gmu, meth), yrs in gen.items():
         if meth in METHOD:
@@ -518,6 +519,15 @@ def main() -> None:
         legal = " · ".join(dict.fromkeys(
             (f"{who(x)}: " if who(x) else "") + law(x)
             + " (" + ", ".join(span(o, c) for o, c in x["dates"]) + ")" for x in seasons))
+        # Youth general days: a youth on the same general tag can also hunt these. They go in tagSeasons (marked youth,
+        # so the shared Youth Hunts filter decides whether they count) and in the legal line, but not in the hunt's
+        # dates or legal animal, which are what an adult gets.
+        youth = sorted(youth_regs.get(key, []), key=lambda x: x["dates"][0][0])
+        ts += [{"weapon": w, "sex": x["sex"], "dates": [{"open": o, "close": c} for o, c in x["dates"]],
+                "notes": "Youth (under 16)" + (", " + who(x).lower() if who(x) else "")} for x in youth]
+        if youth:
+            legal += " · " + " · ".join(f"Youth only{', ' + who(x).lower() if who(x) else ''}: " + law(x)
+                                        + " (" + ", ".join(span(o, c) for o, c in x["dates"]) + ")" for x in youth)
         datestr = " · ".join(dict.fromkeys(span(o, c) for x in seasons for o, c in x["dates"]))
         hunts.append({
             "id": f"WA:G{sp[0]}-{gmu}-{w}", "slug": f"wa-g{sp[0].lower()}-{gmu}-{w.lower()}", "state": "WA", "species": sp,

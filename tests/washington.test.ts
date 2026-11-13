@@ -119,3 +119,22 @@ test('Washington youth permits: own category, own points, hidden unless asked fo
   // no adult hunt is flagged youth
   assert.ok(data.hunts.filter((h) => !h.youthOnly && /Youth/.test(String((h.pointOdds as { category?: string }).category))).length === 0);
 });
+
+test('Washington youth general days count only when the Youth Hunts filter lets them', async () => {
+  const { matchesHuntSeason } = await import('../src/lib/huntSeasonFilter');
+  const h = by('WA:GD-127-ANY');
+  const r = { ...h, openDate: new Date(String(h.openDate)), closeDate: new Date(String(h.closeDate)) } as never;
+  const f = (youth: 'exclude' | 'include' | 'only', antler: string[]) => ({ youth, antler, weapon: [], months: [], dayFrom: null, dayTo: null, dayMode: 'open' as const });
+  assert.equal(h.antlerClass, 'ANTLERED');                         // adults: bucks only
+  assert.match(String(h.takeMethod), /Youth only, white-tailed deer: Buck, 3 pt\. min\. or antlerless \(Oct 24–27\)/);
+  assert.equal(matchesHuntSeason(r, f('exclude', ['ANTLERLESS']), true), false); // youth hidden: no antlerless day
+  assert.equal(matchesHuntSeason(r, f('include', ['ANTLERLESS']), true), true);  // youth included: the youth day counts
+  assert.equal(matchesHuntSeason(r, f('only', []), true), true);                // youth only: it has a youth season
+  assert.equal(matchesHuntSeason(r, f('exclude', ['ANTLERED']), true), true);
+  // a youth special permit is hidden by default and shown with include/only
+  const y = data.hunts.find((x) => x.youthOnly)!;
+  const yr = { ...y, openDate: y.openDate ? new Date(String(y.openDate)) : null, closeDate: y.closeDate ? new Date(String(y.closeDate)) : null } as never;
+  assert.equal(matchesHuntSeason(yr, f('exclude', []), true), false);
+  assert.equal(matchesHuntSeason(yr, f('include', []), true), true);
+  assert.equal(matchesHuntSeason(yr, f('only', []), true), true);
+});
