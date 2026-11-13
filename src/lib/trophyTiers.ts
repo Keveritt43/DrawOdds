@@ -56,7 +56,7 @@ const matchesCondition = (condition: Rule['condition'], hunt: TrophyHunt) => {
   return condition === 'late' ? /late|3rd|4th|third|fourth|rut/.test(s) : /early|rut/.test(s);
 };
 export function classifyTrophy(hunt:TrophyHunt): TrophyResult {
-  if (antlerless(hunt.antlerClass) || !['ELK','DEER'].includes(hunt.species.toUpperCase()) || hunt.deerType?.toUpperCase()==='WHITETAIL')
+  if (hunt.twoPoint || antlerless(hunt.antlerClass) || !['ELK','DEER'].includes(hunt.species.toUpperCase()) || hunt.deerType?.toUpperCase()==='WHITETAIL')
     return {score:null,tier:null,reason:'Trophy classification not applicable'};
   const units = new Set(hunt.units.map(normalize));
   const state = hunt.state.toUpperCase(), species = hunt.species.toUpperCase();
