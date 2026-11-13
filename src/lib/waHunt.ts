@@ -26,6 +26,10 @@ export interface WaPointOdds {
   seed?: 'own' | 'category';
   seedYear?: number;
   multiSeason?: boolean;
+  /** 65+, hunters with disabilities or Master Hunter: limited eligibility, hidden unless the category is picked */
+  restricted?: boolean;
+  /** 65+: WDFW has never published results by point level, so no odds table */
+  noPointData?: boolean;
   category: string;
   tag?: string;
   side?: 'EAST' | 'WEST' | null;
@@ -61,7 +65,7 @@ export function waPersonal(r: Row, pts: WaPoints, mode: 'proj' | 'last' = 'proj'
   const odds = waTableOdds(t, points, projected ? 'proj' : 'last');
   const label = type ? WA_POINT_TYPES.find((x) => x.key === type)!.label.toLowerCase() : 'category';
   const when = projected ? `${po?.projYear ?? 2027} projected` : `${po?.year ?? 2025} drawing`;
-  const basis = odds === null ? 'No published applications' : `${when}, estimated, at ${points} ${label} point${points === 1 ? '' : 's'} (${(points + 1) ** 2} entr${points === 0 ? 'y' : 'ies'})`;
+  const basis = po?.noPointData ? 'No estimate at your points: WDFW has never published 65+ results by point level' : odds === null ? 'No published applications' : `${when}, estimated, at ${points} ${label} point${points === 1 ? '' : 's'} (${(points + 1) ** 2} entr${points === 0 ? 'y' : 'ies'})`;
   return { odds, points, type, basis, projected, tagOk: waTagAllows(po?.tag, r.species, pts) };
 }
 
@@ -72,3 +76,10 @@ export function waLicense(r: Row): 'general' | 'special' | 'multi' {
 }
 
 export const WA_WEAPON_LABEL: Record<string, string> = { ANY: 'Modern firearm', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
+
+/** Who may apply, for the eligibility categories (pamphlet p. 18). */
+export const WA_WHO: Record<string, string> = {
+  'Deer - 65 Years or Over': '65 or older only', 'Elk - 65 and Over': '65 or older only',
+  'Deer - Hunters with Disabilities': 'Registered hunters with disabilities only', 'Elk - Hunters with Disabilities': 'Registered hunters with disabilities only',
+  'Deer - Master Hunter': 'Master Hunters only', 'Elk - Master Hunter': 'Master Hunters only',
+};

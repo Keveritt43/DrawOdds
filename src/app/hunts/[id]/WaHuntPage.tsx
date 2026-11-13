@@ -12,7 +12,7 @@ import { int, pct as pct0, density } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
-import { waPersonal, waLicense, waPo, WA_WEAPON_LABEL, type WaOddsTable } from '@/lib/waHunt';
+import { waPersonal, waLicense, waPo, WA_WEAPON_LABEL, WA_WHO, type WaOddsTable } from '@/lib/waHunt';
 import { LandBar } from '@/components/LandBar';
 import { SuccessChart, HarvestChart } from '@/components/Charts';
 import { WaOddsPointsChart, WaDrawHistory } from '@/components/WaCharts';
@@ -72,6 +72,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <h1 className="star-head">Washington {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></h1>
       <p className="muted" style={{ marginTop: 0 }}>
         {s.youthOnly && <b>Youth only (under 16) · </b>}
+        {po?.restricted && <b>{WA_WHO[po.category ?? ''] ?? 'Limited eligibility'} · </b>}
         {gen ? `General season · ${WA_WEAPON_LABEL[s.weapon] ?? s.weapon}` : `${po?.category ?? 'Special permit'} · hunt ${s.tagCode}`}
         {!gen && s.tags !== null ? ` · ${int(s.tags)} ${lic === 'multi' ? 'tags' : 'permits'} (2026)` : ''}
         {po?.tag && !gen ? ` · tag: ${po.tag}` : ''}
@@ -87,6 +88,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="co-big">{pct(mine.odds)} {mine.odds !== null && !gen && <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span>}</div>
           <div className="small muted">
             {gen ? <>Buy a general {spLabel} tag over the counter{s.species === 'ELK' ? ' (Eastern or Western Washington, one weapon)' : ' (one weapon)'} and hunt this GMU&apos;s general season. This GMU&apos;s 2026 dates and legal {spLabel} for your weapon are under Season, from WDFW&apos;s 2026 pamphlet.</>
+              : po?.noPointData ? <>{mine.basis}. Points still count (squared, like every category), so more points help, but how much can&apos;t be estimated. The permits ÷ applications at right is the only published guide.</>
               : <>{mine.basis}. {mine.projected ? <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {lastYear} estimate</HuntLink> : <HuntLink href={q({ odds: null })} scroll={false}>See the {projYear} projection</HuntLink>}</>}
             {!pts.set && !gen && <> <Link href="/account#hunting-preferences">Set your Washington points</Link> for your own odds.</>}
           </div>
@@ -110,7 +112,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <ScoreRow r={{ ...s, scoreOppRes: nr ? null : opportunity(s.scoreQuality, mine.odds), scoreOppNr: nr ? opportunity(s.scoreQuality, mine.odds) : null }} nr={nr} open />
 
       {/* 3. The charts */}
-      {!gen && table && <>
+      {!gen && projArr.length > 0 && <>
         <h2 id="odds">Odds At Every Point Level</h2>
         <div className="co-oddsbar"><span className="seg light" role="group" aria-label="Which drawing">
           <HuntLink className="seg-link" href={q({ odds: null })} aria-pressed={mine.projected} scroll={false}>Next drawing ({projYear}, projected)</HuntLink>

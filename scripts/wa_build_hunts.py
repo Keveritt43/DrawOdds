@@ -38,9 +38,22 @@ YEAR = 2026
 LAST = 2025          # latest drawing with published applications
 PROJ = YEAR + 1
 HARVEST_YEARS = list(range(2021, 2026))
-MAIN = {"DEER": {"Quality Deer", "Buck Deer", "Antlerless Deer", "Second Deer", "Deer - Youth"},
-        "ELK": {"Quality Elk", "Bull Elk", "Antlerless Elk", "Elk - Youth"}}
+MAIN = {"DEER": {"Quality Deer", "Buck Deer", "Antlerless Deer", "Second Deer", "Deer - Youth",
+                 "Deer - 65 Years or Over", "Deer - Hunters with Disabilities", "Deer - Master Hunter"},
+        "ELK": {"Quality Elk", "Bull Elk", "Antlerless Elk", "Elk - Youth",
+                "Elk - 65 and Over", "Elk - Hunters with Disabilities", "Elk - Master Hunter"}}
 YOUTH = {"Deer - Youth", "Elk - Youth"}
+# Eligibility categories: who may apply is limited (65 or older, registered hunters with disabilities, certified
+# Master Hunters). Hidden in Find Hunts unless the category is picked.
+RESTRICTED = {"Deer - 65 Years or Over", "Elk - 65 and Over", "Deer - Hunters with Disabilities",
+              "Elk - Hunters with Disabilities", "Deer - Master Hunter", "Elk - Master Hunter"}
+# WDFW has never published 65+ results by point level (no table 2017-2020), and borrowing another category's mix
+# scored worse than a flat permits/applications guess when tested on the categories that do have tables
+# (scripts/wa_backtest_no_table.py, docs §7: flat 0.07549, antlerless mix 0.07684). So 65+ hunts get no odds by point level.
+NO_POINT_DATA = {"Deer - 65 Years or Over", "Elk - 65 and Over"}
+SHORT = {"Deer - 65 Years or Over": "65+", "Elk - 65 and Over": "65+", "Deer - Hunters with Disabilities": "Hunters with Disabilities",
+         "Elk - Hunters with Disabilities": "Hunters with Disabilities", "Deer - Master Hunter": "Master Hunter",
+         "Elk - Master Hunter": "Master Hunter", "Deer - Youth": "Youth", "Elk - Youth": "Youth"}
 # Share of unselected applications that come back next year. 1.0 for the main categories (backtest, §5). Youth
 # applicants age out at 16, and the youth backtest picked 0.7 on 2019 (Brier 0.11126 vs 0.11278 at 1.0, last-year
 # 0.11690) and it held on 2020 (0.10418 vs 0.10445, last-year 0.11656).
@@ -51,7 +64,10 @@ PTS_CAT = {("Deer", "Quality Deer"): "Quality Deer", ("Deer", "Quality"): "Quali
            ("Deer", "Second Deer"): "Second Deer", ("Elk", "Quality Elk"): "Quality Elk", ("Elk", "Bull Elk"): "Bull Elk",
            ("Elk", "Antlerless Elk"): "Antlerless Elk", ("Elk", "Antlerless"): "Antlerless Elk",
            ("Deer", "Youth"): "Deer - Youth", ("Deer", "Deer Youth"): "Deer - Youth",
-           ("Elk", "Youth"): "Elk - Youth", ("Elk", "Elk Youth"): "Elk - Youth"}
+           ("Elk", "Youth"): "Elk - Youth", ("Elk", "Elk Youth"): "Elk - Youth",
+           ("Deer", "Deer Disabled"): "Deer - Hunters with Disabilities", ("Elk", "Elk Disabled"): "Elk - Hunters with Disabilities",
+           ("Deer", "Deer Master Hunter"): "Deer - Master Hunter", ("Deer", "Master Hunter"): "Deer - Master Hunter",
+           ("Elk", "Elk Master Hunter"): "Elk - Master Hunter"}
 MAXP = 40   # account input allows 40; Entiat, Desert and Colockum applicants already pass 30
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 
@@ -123,7 +139,15 @@ def area_units(area: str, known: set[str]):
     gm = []
     for m in re.finditer(r"GMUs?\s*([\d,\s and-]+)", a):
         gm += re.findall(r"\d{3}", m.group(1))
-    return [g for g in dict.fromkeys(gm) if g in known]
+    out = [g for g in dict.fromkeys(gm) if g in known]
+    if not out:
+        # Master Hunter hunts name a WDFW region ("Region 3", "Designated Areas in Region 6"; Region 4 North/South by
+        # name). WDFW numbers GMUs by region (1xx Eastern ... 6xx Coastal), so the region's GMUs stand in for its
+        # designated areas, which WDFW announces to selected hunters and doesn't map.
+        m = re.search(r"Region\s*(\d)", a)
+        if m:
+            out = sorted((g for g in known if g.isdigit() and g[0] == m.group(1)), key=int)
+    return out
 
 
 def permit_only_gmus() -> dict[str, set[str]]:
@@ -232,6 +256,18 @@ def main() -> None:
         if k[0] == 2020:
             for p, n in d.items():
                 catmix[(k[1], pcat[k])][p] += n
+    # Deer - Hunters with Disabilities and Elk - Master Hunter have tables for 2018-2019 only: roll the 2019 pool one
+    # year (unselected gain a point, the total refilled at P = 1) to stand in for 2020.
+    late = collections.defaultdict(collections.Counter); late_sel = collections.defaultdict(collections.Counter)
+    for k, d in pts.items():
+        if k[0] == 2019 and (k[1], pcat.get(k)) not in catmix:
+            for p, n in d.items():
+                late[(k[1], pcat[k])][p] += n
+                late_sel[(k[1], pcat[k])][p] += ptsel[k].get(p, 0)
+    for key, d in late.items():
+        nxt = collections.Counter({p + 1: n - late_sel[key][p] for p, n in d.items()})
+        nxt[1] += sum(d.values()) - sum(nxt.values())
+        catmix[key] = nxt
 
     # pamphlet rows by year
     by_year = collections.defaultdict(list)
@@ -283,7 +319,7 @@ def main() -> None:
         if r["category"] not in MAIN[sp]:
             continue
         hid = f"WA:{r['choice']}"
-        us = area_units(r["area"], known)
+        us = area_units(r["area"] + " | " + r["name"], known)
         if not us:
             problems.append(f"{hid} {r['name']}: no unit in '{r['area']}'")
             continue
@@ -324,6 +360,9 @@ def main() -> None:
             if best:
                 k = best[1]
                 seed, seed_year, seed_kind, seed_sel = dict(pts[k]), 2020, "own", sum(ptsel[k].values())
+        if seed is None and r["category"] in NO_POINT_DATA:
+            # placeholder so the demand and permit fields get built; the odds tables are dropped below
+            catmix[(sp, r["category"])] = collections.Counter({1: 1})
         if seed is None:
             mix = catmix.get((sp, r["category"]))
             if not mix:
@@ -377,7 +416,7 @@ def main() -> None:
         priv = bool(re.search(r"\bJ\b", r["notes"])) or bool(re.search(r"private lands? only", r["area"] + " " + legal, re.I))
         h = {
             "id": hid, "slug": f"wa-{r['choice']}", "state": "WA", "species": sp, "type": "CONTROLLED", "tagCode": str(r["choice"]),
-            "name": (f"{r['name']} Youth {sp.title()}" if r["category"] in YOUTH
+            "name": (f"{r['name']} {SHORT[r['category']]} {sp.title()}" if r["category"] in SHORT
                      else f"{r['name']} {r['category'].replace(' Deer', '').replace(' Elk', '')} {sp.title()}".replace("  ", " ")),
             "areaName": r["area"], "description": r["category"], "huntCategory": r["category"], "units": us,
             "weapon": weapon, "antlerClass": antler, "takeMethod": legal, "tagRequired": tag, "notes": r["notes"],
@@ -408,6 +447,12 @@ def main() -> None:
         }
         if h["publicPct"] is None:
             problems.append(f"{hid}: no land for {us}")
+        if r["category"] in NO_POINT_DATA:
+            h["oddsByPts"] = {"proj": {}, "last": {}}
+            h["pointOdds"].update({"projected": False, "estimated": False, "seed": None, "seedYear": None, "cutoff": None, "noPointData": True})
+            seeds["category"] -= 1; seeds["none"] += 1
+        h["restricted"] = r["category"] in RESTRICTED
+        h["pointOdds"]["restricted"] = h["restricted"]
         hunts.append(h)
 
     # ---- multi-season (harvest-report hunts 1999 deer, 2999 elk carry Total Applicants every year)

@@ -13,6 +13,7 @@ import { WaOddsPointsChart } from './WaCharts';
  * Fees: WDFW's big-game license page, checked Nov 12, 2026 (no season year on the page).
  */
 
+const LIMITED = new Set(['SENIOR_DEER', 'SENIOR_ELK', 'DISABLED_DEER', 'DISABLED_ELK', 'MASTER_DEER', 'MASTER_ELK']);
 const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.001 ? '<0.1%' : o < 0.01 ? `${(o * 100).toFixed(1)}%` : `${Math.round(o * 100)}%`);
 type Row = { id: string; slug: string; name: string; species: string; type: string; tagCode: string | null; tags: number | null; privateOnly: boolean; youthOnly: boolean;
   pointOdds: unknown; oddsByPts: unknown; success5: number | null; smallSample: boolean };
@@ -55,8 +56,9 @@ const permitsIn = (po: WaPointOdds | null, y: string) => po?.demand?.[y]?.permit
 
 export async function WaGuide() {
   const rows = (await db.huntSummary.findMany({ where: { state: 'WA' }, select: SELECT })) as unknown as Row[];
-  const special = rows.filter((r) => waLicense(r) === 'special' && !r.youthOnly);
+  const special = rows.filter((r) => waLicense(r) === 'special' && !r.youthOnly && !waPo(r)?.restricted);
   const youth = rows.filter((r) => waLicense(r) === 'special' && r.youthOnly);
+  const restricted = (k: string) => rows.filter((r) => waPo(r)?.restricted && (waPo(r)?.category ?? '').includes(k));
   const multi = rows.filter((r) => waLicense(r) === 'multi');
   const general = rows.filter((r) => waLicense(r) === 'general');
   const permits = special.reduce((a, r) => a + (r.tags ?? 0), 0);
@@ -96,6 +98,10 @@ export async function WaGuide() {
       <h2>Youth Permits (Under 16)</h2>
       <p>Hunters <b>under 16 when they buy the license and application</b>, resident or nonresident, can apply in the <b>Deer - Youth</b> and <b>Elk - Youth</b> categories as well as the adult ones. Youth permits are drawn the same way, points squared, but each youth category has its own points. {int(youth.length)} youth hunts in 2026 ({int(youth.reduce((a, r) => a + (r.tags ?? 0), 0))} permits), many of them antlerless or any-deer hunts with far better odds than the adult categories. Youth license and application fees are a fraction of adult prices (below). Youth hunts are hidden in Find Hunts until you pick a youth category or set Youth Hunts to Include.</p>
       <p className="small muted">The youth odds are rolled forward the same way, except that only about 70% of youth who don&apos;t draw are assumed to apply again, since applicants age out at 16. That share was picked on WDFW&apos;s 2019 youth results and held on 2020&apos;s; it beat repeating last year&apos;s odds both years. Many youth also hunt general seasons with extra antlerless days; those youth general seasons are in the pamphlet.</p>
+
+      <h2>65 And Over, Hunters With Disabilities, Master Hunters</h2>
+      <p>Three more categories, each with its own points and the same squared drawing, are open only to some hunters: <b>65 or older</b> at some time during the license year ({int(restricted('65').length)} hunts in 2026), hunters <b>registered with WDFW as hunters with disabilities</b> ({int(restricted('Disabilities').length)}), and certified <b>Master Hunters</b> ({int(restricted('Master').length)}). Most are antlerless or any-deer hunts with a handful of permits. Master Hunter permits are mostly damage hunts in designated areas WDFW announces to the hunters drawn; this site shows the whole WDFW region for those. In Find Hunts these show only when you pick their category.</p>
+      <p className="small muted">WDFW has never published 65+ results by point level, so 65+ hunts show applications and permits but no odds at your points (borrowing another category&apos;s point mix tested worse than not estimating). Hunters-with-disabilities and Master Hunter odds start from WDFW&apos;s 2018–2020 tables for those categories and are rolled forward like the others; that beat repeating last year&apos;s odds on 2019 and 2020.</p>
 
       <h2>Multi-Season Tags</h2>
       <p>A multi-season tag lets you hunt <b>every general season for that species, any weapon, either side of the state</b>, and apply for special permits with any weapon. It is drawn once a year with its own points, squared the same way. Deer: {msLine('DEER')}. Elk: {msLine('ELK')}. Winners must buy the tag, and every year thousands of drawn deer tags go unbought and are then sold to applicants who didn&apos;t draw, so a deer applicant&apos;s real chance is higher than the drawn odds.</p>
@@ -176,7 +182,7 @@ export async function WaPlannerPage() {
       <p className="muted">Your estimated odds at your saved points, the 2027 projection. Residents and nonresidents draw together, so residency changes the cost, not the odds. {pts.set ? (tagNote ? `Hunts your saved ${tagNote} can't apply for are left out.` : 'Save your general tags to leave out hunts you can\'t apply for.') : <><Link href="/account#hunting-preferences">Set your Washington points and tags</Link> first: these assume zero points.</>}</p>
       <Timeline />
       <p className="small">Each category is its own application: list up to <b>four</b> hunts (<b>two</b> for Quality), and you earn one point in that category whether or not you draw. Odds here assume the hunt is your first choice; WDFW tries your later choices only if the earlier ones don&apos;t draw you, so put the hunt you most want first and safer hunts after it.</p>
-      {groups.filter((g) => g.n > 0).map((g) => (
+      {groups.filter((g) => g.n > 0 && (!LIMITED.has(g.t.key) || g.points > 0)).map((g) => (
         <section key={g.t.key}>
           <h2>{g.t.label} · {g.points} point{g.points === 1 ? '' : 's'} <span className="small muted">({int((g.points + 1) ** 2)} entries)</span></h2>
           {g.n === 1 ? (
@@ -197,6 +203,7 @@ export async function WaPlannerPage() {
           {g.blocked > 0 && <p className="small muted">{g.blocked} more hunt{g.blocked === 1 ? '' : 's'} in this category need a different weapon or side than your saved tag.</p>}
         </section>
       ))}
+      <p className="small muted">65+, hunters-with-disabilities and Master Hunter categories show here once you save points in them. 65+ hunts have no estimate at any point level: WDFW has never published 65+ results by point level.</p>
       <h2>General Seasons</h2>
       <p>No application: buy your license and general tag (one weapon; elk also Eastern or Western) and hunt that weapon&apos;s seasons. <Link href="/hunts?states=WA&waLic=general">General season hunts →</Link></p>
       <p className="small muted">2026 pamphlet dates and permits; odds estimated from WDFW&apos;s 2018–2020 point tables and 2021–2025 applications. <Link href="/guide">How the Washington draw works</Link> · <Link href="/changes">What changed since last year</Link></p>

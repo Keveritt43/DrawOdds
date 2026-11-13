@@ -26,6 +26,12 @@ export const WA_POINT_TYPES = [
   { key: 'MS_ELK', label: 'Multi-season elk', species: 'ELK' },
   { key: 'YOUTH_DEER', label: 'Youth deer (under 16)', species: 'DEER' },
   { key: 'YOUTH_ELK', label: 'Youth elk (under 16)', species: 'ELK' },
+  { key: 'SENIOR_DEER', label: '65+ deer', species: 'DEER' },
+  { key: 'SENIOR_ELK', label: '65+ elk', species: 'ELK' },
+  { key: 'DISABLED_DEER', label: 'Hunters with disabilities deer', species: 'DEER' },
+  { key: 'DISABLED_ELK', label: 'Hunters with disabilities elk', species: 'ELK' },
+  { key: 'MASTER_DEER', label: 'Master Hunter deer', species: 'DEER' },
+  { key: 'MASTER_ELK', label: 'Master Hunter elk', species: 'ELK' },
 ] as const;
 export type WaPointType = (typeof WA_POINT_TYPES)[number]['key'];
 
@@ -63,6 +69,9 @@ const CATEGORY_TYPE: Record<string, WaPointType> = {
   'Quality Deer': 'QUALITY_DEER', 'Buck Deer': 'BUCK_DEER', 'Antlerless Deer': 'ANTLERLESS_DEER', 'Second Deer': 'SECOND_DEER',
   'Quality Elk': 'QUALITY_ELK', 'Bull Elk': 'BULL_ELK', 'Antlerless Elk': 'ANTLERLESS_ELK', 'Multi-season Deer': 'MS_DEER', 'Multi-season Elk': 'MS_ELK',
   'Deer - Youth': 'YOUTH_DEER', 'Elk - Youth': 'YOUTH_ELK',
+  'Deer - 65 Years or Over': 'SENIOR_DEER', 'Elk - 65 and Over': 'SENIOR_ELK',
+  'Deer - Hunters with Disabilities': 'DISABLED_DEER', 'Elk - Hunters with Disabilities': 'DISABLED_ELK',
+  'Deer - Master Hunter': 'MASTER_DEER', 'Elk - Master Hunter': 'MASTER_ELK',
 };
 /** Which balance a Washington hunt draws on, from WDFW's category (null for a general-season, no-draw hunt). */
 export const waPointType = (category: string | null | undefined): WaPointType | null => (category ? CATEGORY_TYPE[category] ?? null : null);
