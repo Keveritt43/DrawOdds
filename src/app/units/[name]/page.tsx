@@ -1,3 +1,4 @@
+import { SyncState } from '@/components/SyncState';
 import { listStudies, type MigClass } from '@/lib/migrations';
 import Link from 'next/link';
 import { recentBoundaryChanges } from '@/lib/boundaries';
@@ -50,11 +51,11 @@ const FILTERS = {
 export default async function UnitPage({ params, searchParams }: { params: Promise<{ name: string }>; searchParams: Promise<SP> }) {
   const sp = await searchParams;
   const ref = parseUnitKey(decodeURIComponent((await params).name));
-  if (ref.state === 'CO') return <CoUnitPage name={ref.name.toUpperCase()} />;
-  if (ref.state === 'WY') return <WyUnitPage name={ref.name.toUpperCase()} />;
-  if (ref.state === 'WA') return <WaUnitPage name={ref.name} sp={{ species: sp.species, type: sp.type }} />;
-  if (ref.state === 'UT') return <UtUnitPage name={ref.name} sp={{ species: sp.species, type: sp.type }} />;
-  if (ref.state === 'MT') return <MtUnitPage name={ref.name.toUpperCase()} sp={{ species: sp.species, type: sp.type }} />;
+  if (ref.state === 'CO') return <><SyncState code="CO" /><CoUnitPage name={ref.name.toUpperCase()} /></>;
+  if (ref.state === 'WY') return <><SyncState code="WY" /><WyUnitPage name={ref.name.toUpperCase()} /></>;
+  if (ref.state === 'WA') return <><SyncState code="WA" /><WaUnitPage name={ref.name} sp={{ species: sp.species, type: sp.type }} /></>;
+  if (ref.state === 'UT') return <><SyncState code="UT" /><UtUnitPage name={ref.name} sp={{ species: sp.species, type: sp.type }} /></>;
+  if (ref.state === 'MT') return <><SyncState code="MT" /><MtUnitPage name={ref.name.toUpperCase()} sp={{ species: sp.species, type: sp.type }} /></>;
   if (ref.state !== 'ID') notFound();
   const name = ref.name.toUpperCase();
   const unit = await db.unit.findUnique({ where: { state_name: { state: 'ID', name } } });
@@ -98,6 +99,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
+      <SyncState code="ID" />
       <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?states=ID&unit=ID:${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>

@@ -32,6 +32,7 @@ import { WyHuntPage } from './WyHuntPage';
 import { MtHuntPage } from './MtHuntPage';
 import { UtHuntPage } from './UtHuntPage';
 import { WaHuntPage } from './WaHuntPage';
+import { SyncState } from '@/components/SyncState';
 
 export const dynamic = 'force-dynamic';
 
@@ -55,11 +56,11 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
     for (const k of ['as', 'odds', 'pool'] as const) if (typeof sp[k] === 'string') q.set(k, sp[k]!);
     permanentRedirect(withFinderReturn(huntHref(s) + (q.size ? '?' + q : ''), sp.returnTo));
   }
-  if (s.state === 'CO') return <CoHuntPage s={s} sp={sp} />;
-  if (s.state === 'WY') return <WyHuntPage s={s} sp={sp} />;
-  if (s.state === 'MT') return <MtHuntPage s={s} sp={sp} />;
-  if (s.state === 'UT') return <UtHuntPage s={s} sp={sp} />;
-  if (s.state === 'WA') return <WaHuntPage s={s} sp={sp} />;
+  if (s.state === 'CO') return <><SyncState code="CO" /><CoHuntPage s={s} sp={sp} /></>;
+  if (s.state === 'WY') return <><SyncState code="WY" /><WyHuntPage s={s} sp={sp} /></>;
+  if (s.state === 'MT') return <><SyncState code="MT" /><MtHuntPage s={s} sp={sp} /></>;
+  if (s.state === 'UT') return <><SyncState code="UT" /><UtHuntPage s={s} sp={sp} /></>;
+  if (s.state === 'WA') return <><SyncState code="WA" /><WaHuntPage s={s} sp={sp} /></>;
   const { residency } = await getResidency(sp.as, s.state);
   const session = await auth();
   const rf = residencyFields(residency);
@@ -131,6 +132,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
 
   return (
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
+      <SyncState code="ID" />
       <p className="small"><BackLink state={s.state} /></p>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
