@@ -341,7 +341,8 @@ def main() -> None:
             "tagSeasons": {"year": YEAR, "seasons": [{"weapon": weapon, "sex": legal,
                            "dates": [{"open": a, "close": b} for a, b in dates], "notes": r["notes"]}]},
             "pointOdds": {"state": "WA", "kind": "squared", "year": LAST, "projected": True, "projYear": PROJ,
-                          "estimated": True, "seed": seed_kind,
+                          "estimated": True, "seed": seed_kind, "category": r["category"], "tag": tag, "notes": r["notes"],
+                          "dates": r["dates"], "legal": legal, "area": r["area"],
                           "seedYear": seed_year,
                           "pointsMeaning": "Points you hold before applying. You draw with your points plus this year's, squared: "
                                            "4 banked points = 5 = 25 entries.",
@@ -390,7 +391,7 @@ def main() -> None:
                           "last": {"res": odds_by_banked(last_u), "nr": odds_by_banked(last_u)}},
             "tagSeasons": {"year": YEAR, "seasons": []},
             "pointOdds": {"state": "WA", "kind": "squared", "year": LAST, "projected": True, "projYear": PROJ, "estimated": True,
-                          "seed": "own", "seedYear": seed_k[0], "multiSeason": True,
+                          "seed": "own", "seedYear": seed_k[0], "multiSeason": True, "category": f"Multi-season {sp.title()}", "tag": "Multi-season",
                           "pointsMeaning": "Points you hold before applying. You draw with your points plus this year's, squared.",
                           "demand": {str(y): {"apps": v.get("apps"), "permits": v.get("permits")} for y, v in sorted(yrs.items())},
                           "cutoff": {"last": last_u, "y2026": u26, "proj": u27}},
@@ -423,7 +424,7 @@ def main() -> None:
             "acres": lf["acres"] if lf else None, "publicPct": lf["publicPct"] if lf else None, "privatePct": lf["privatePct"] if lf else None,
             "oddsByPts": {"proj": {}, "last": {}},
             "tagSeasons": {"year": YEAR, "seasons": []},
-            "pointOdds": {"state": "WA", "kind": "otc", "year": YEAR, "projected": False, "pools": {},
+            "pointOdds": {"state": "WA", "kind": "otc", "year": YEAR, "projected": False, "pools": {}, "category": "General", "tag": tagc, "side": side if sp == "ELK" else None,
                           "harvest": [{"year": y, "hunters": v["hunters"], "harvest": v["harvest"]} for y, v in sorted(yrs.items()) if v.get("hunters")]},
         })
 

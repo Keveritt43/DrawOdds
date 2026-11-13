@@ -10,6 +10,7 @@ import { SPECIES_LABEL } from '@/lib/format';
 import Link from 'next/link';
 import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, MT_COMBO_TYPES, type MtComboType, type MtPoints } from '@/lib/mtPoints';
 import { UT_POINTS_MAX, UT_POINT_TYPES, type UtPoints } from '@/lib/utPoints';
+import { WA_POINTS_MAX, WA_POINT_TYPES, WA_DEER_TAGS, WA_ELK_TAGS, type WaPoints } from '@/lib/waPoints';
 
 const resLabel = (r: Residency) => (r === 'RESIDENT' ? 'Resident' : 'Nonresident');
 
@@ -24,7 +25,7 @@ function StateBox({ name, line, open, children }: { name: string; line: string; 
 }
 
 /** `openState`: the state the site is set to starts expanded; the others are one line each. */
-export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; openState?: string }) {
+export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, washington, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; washington?: WaPoints; openState?: string }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
@@ -41,6 +42,10 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, op
   const [mtBuying, setMtBuying] = useState(Object.fromEntries(MT_BONUS_TYPES.map(t => [t.key, montana?.buying[t.key] ?? true])));
   const [utResidency, setUtResidency] = useState<Residency>(utah?.res ?? 'NONRESIDENT');
   const [utPts, setUtPts] = useState(Object.fromEntries(UT_POINT_TYPES.map(t => [t.key, String(utah?.points[t.key] ?? 0)])));
+  const [waResidency, setWaResidency] = useState<Residency>(washington?.res ?? 'NONRESIDENT');
+  const [waPts, setWaPts] = useState(Object.fromEntries(WA_POINT_TYPES.map(t => [t.key, String(washington?.points[t.key] ?? 0)])));
+  const [waDeerTag, setWaDeerTag] = useState<string>(washington?.deerTag ?? '');
+  const [waElkTag, setWaElkTag] = useState<string>(washington?.elkTag ?? '');
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
   const n = (v: string) => (v === '' ? '?' : v);
   const lines = {
@@ -49,6 +54,7 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, op
     WY: `${resLabel(wyResidency)}${wyResidency === 'NONRESIDENT' ? ` · deer ${n(wyPoints.DEER)}, elk ${n(wyPoints.ELK)}, antelope ${n(wyPoints.PRONGHORN)} pts${wySpecial ? ' · special pool' : ''}` : ''}`,
     MT: `${resLabel(mtResidency)}${mtResidency === 'NONRESIDENT' ? ` · combination ${n(mtCombo)} pts` : ''} · ${MT_BONUS_TYPES.filter((t) => Number(mtBonus[t.key]) > 0).length} bonus balances`,
     UT: `${resLabel(utResidency)} · ${UT_POINT_TYPES.filter((t) => Number(utPts[t.key]) > 0).map((t) => `${t.key === 'LE_DEER' ? 'LE deer' : t.key === 'LE_ELK' ? 'LE elk' : t.key === 'GEN_DEER' ? 'general deer' : t.key === 'LE_PRONGHORN' ? 'pronghorn' : 'bison'} ${utPts[t.key]}`).join(', ') || 'no points'}`,
+    WA: `${resLabel(waResidency)} · ${WA_POINT_TYPES.filter((t) => Number(waPts[t.key]) > 0).map((t) => `${t.label.toLowerCase()} ${waPts[t.key]}`).join(', ') || 'no points'}`,
   };
   return (
     <form className="card account-preferences" action={save} id="hunting-preferences"
@@ -187,6 +193,40 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, op
             <input type="number" name={'utPts_' + key} min={0} max={UT_POINTS_MAX} step={1} required value={utPts[key]}
               onChange={e => setUtPts({ ...utPts, [key]: e.target.value })} />
           </label>)}
+        </div>
+      </StateBox>}
+      {washington && <StateBox name="Washington" line={lines.WA} open={openState === 'WA'}>
+        <label>Residency
+          <select name="waResidency" value={waResidency} onChange={e => setWaResidency(e.target.value as Residency)}>
+            <option value="RESIDENT">Resident</option>
+            <option value="NONRESIDENT">Nonresident</option>
+          </select>
+        </label>
+        <p className="small muted">
+          Special permits and multi-season tags are one <b>weighted drawing</b> per category: you get your points plus this
+          year&apos;s, squared, in entries (2 points held = 9 entries), so zero points can still draw. Points are kept per
+          category and reset when you draw. Residents and nonresidents are in the same drawing. Enter the points you hold now.
+        </p>
+        <div className="account-points">
+          {WA_POINT_TYPES.map(({ key, label }) => <label key={key}>{label} points
+            <input type="number" name={'waPts_' + key} min={0} max={WA_POINTS_MAX} step={1} required value={waPts[key]}
+              onChange={e => setWaPts({ ...waPts, [key]: e.target.value })} />
+          </label>)}
+        </div>
+        <p className="small muted">Your general tag decides which special permits you can apply for (weapon, and for elk the side of the state).</p>
+        <div className="account-points">
+          <label>Deer tag
+            <select name="waDeerTag" value={waDeerTag} onChange={e => setWaDeerTag(e.target.value)}>
+              <option value="">Not chosen</option>
+              {WA_DEER_TAGS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+            </select>
+          </label>
+          <label>Elk tag
+            <select name="waElkTag" value={waElkTag} onChange={e => setWaElkTag(e.target.value)}>
+              <option value="">Not chosen</option>
+              {WA_ELK_TAGS.map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+            </select>
+          </label>
         </div>
       </StateBox>}
       <div className="account-save">

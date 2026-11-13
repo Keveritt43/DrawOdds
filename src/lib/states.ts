@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -138,6 +138,26 @@ export const STATES: Record<StateCode, StateConfig> = {
     species: ['DEER', 'ELK', 'PRONGHORN', 'BISON'],
     bounds: [[-114.06, 36.99], [-109.04, 42.0]],
     // hunts are drawn on DWR hunt boundaries (unit keys are BoundaryIDs), several per hunt, overlapping across species
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  WA: {
+    code: 'WA',
+    name: 'Washington',
+    slug: 'washington',
+    // Deer and elk (WA-1) from scripts/wa-import.ts; docs/states/wa-onboarding.md. Off until imported and checked live.
+    enabled: false,
+    agency: { short: 'WDFW', name: 'Washington Department of Fish and Wildlife', url: 'https://wdfw.wa.gov/hunting/special-hunts' },
+    // WDFW private-lands access (Feel Free to Hunt, Register to Hunt, Hunt by Written Permission, Hunt by Reservation)
+    // is measured per unit in data/wa/land.json; the Access Yes! slot isn't wired to it yet, so it stays empty
+    accessProgram: null,
+    privateLandOnly: 'Special permits WDFW limits to private land: hunt note J ("these hunts only occur on private lands") or a unit/area cell reading "Private Lands Only" (HuntSummary.privateOnly set by scripts/wa_build_hunts.py from the 2026 pamphlet).',
+    // special permits and multi-season tags: one weighted drawing per category, (points + 1)² entries; general
+    // seasons: over the counter
+    points: 'bonus',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-124.85, 45.54], [-116.91, 49.01]],
+    // GMUs for general seasons and most permits; 4-digit Deer and Elk Areas for some permits (unit keys DA3071, EA3911)
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };
