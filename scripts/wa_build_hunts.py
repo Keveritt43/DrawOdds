@@ -410,14 +410,27 @@ def main() -> None:
         w = METHOD[meth]
         side = gmu_side.get(gmu)
         lf = land_for([gmu])
-        hv = harvest_fields(yrs, sp)
         tagc = (("E" if side == "EAST" else "W") + {"ANY": "F", "ARCHERY": "A", "MUZZLELOADER": "M"}[w]) if sp == "ELK" else WNAME[w]
+        # The legal animal differs by GMU and isn't parsed from the pamphlet yet, so classify from what general hunters
+        # of this weapon actually took 2021-2025. Under 15% antlerless is youth/senior/disabled allowances or a short
+        # antlerless window: an adult hunter is hunting antlered, so it's antlered and success counts antlered kills only.
+        # 15% or more is a real either-sex season (total success). No antlered harvest at all is antlerless-only.
+        antlerless_taken = sum((yrs[y].get("harvest") or 0) - (yrs[y].get("antlered") or 0) for y in HARVEST_YEARS if y in yrs)
+        antlered_taken = sum((yrs[y].get("antlered") or 0) for y in HARVEST_YEARS if y in yrs)
+        taken = antlerless_taken + antlered_taken
+        share = antlerless_taken / taken if taken else 0.0
+        antler = "ANTLERLESS" if taken and antlered_taken <= 0 else ("EITHER" if share >= 0.15 else "ANTLERED")
+        if antler == "ANTLERED":
+            yrs = {y: {**v, "harvest": v.get("antlered") if v.get("antlered") is not None else v.get("harvest")} for y, v in yrs.items()}
+        hv = harvest_fields(yrs, sp)
         hunts.append({
             "id": f"WA:G{sp[0]}-{gmu}-{w}", "slug": f"wa-g{sp[0].lower()}-{gmu}-{w.lower()}", "state": "WA", "species": sp,
             "type": "GENERAL", "tagCode": tagc,
             "name": f"{units[gmu]['label']} ({gmu}) General {WNAME[w]} {sp.title()}", "areaName": f"GMU {gmu} {units[gmu]['label']}",
-            "description": "General season", "huntCategory": "General", "units": [gmu], "weapon": w, "antlerClass": "ANTLERED",
-            "takeMethod": "See the 2026 pamphlet for this GMU's legal animal", "tagRequired": tagc, "notes": "",
+            "description": "General season", "huntCategory": "General", "units": [gmu], "weapon": w, "antlerClass": antler,
+            "takeMethod": {"EITHER": "Antlered or antlerless depending on season (success includes antlerless kills)",
+                           "ANTLERLESS": "Antlerless only in the harvest record (no antlered harvest here 2021-2025)",
+                           "ANTLERED": "Antlered (success counts antlered kills only)"}[antler] + "; see the 2026 pamphlet for this GMU's legal animal", "tagRequired": tagc, "notes": "",
             "elkSide": side if sp == "ELK" else None,
             "openDate": None, "closeDate": None, "tags": None, "privateOnly": False, "youthOnly": False,
             "oddsLastYear": None, "oddsYears": 0, **hv,
