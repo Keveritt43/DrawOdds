@@ -135,6 +135,9 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
   - **Fixed Nov 12 (was 344 own / 155 pooled).** Three faults put famous hunts on the pooled mix, which badly understates how many high-point applicants they have. (1) Hunts sharing name, tag, area and legal animal (Desert's two modern Quality hunts, Colockum's) broke the year-to-year chain; now ties break on dates, then the closest permit count. (2) Continuation rows of split 2020 PDF tables have no hunt name, so the name check failed (Pearrygin); the name now carries over. (3) Archery tables hold 70–80% of the printed applications and failed the 85% test. Desert (4 permits), Colockum (1 permit), Pearrygin and the Entiat/Desert archery hunts now use their own tables.
   - **Point tables now run to 40 banked points (was 25).** Entiat, Desert and Colockum had applicants at 30–36 points in 2020, so anyone past 25 was shown the 25-point odds. The roll no longer caps points at 30.
   - One 2021 demand cell lost its slash in the PDF ("44505" for Prescott archery elk, 14–26 applications in other years); slashless cells are treated as unknown.
+- **New hunts (Nov 13):** WDFW prints NEW, or 0/0 (17 cells in 2026, e.g. the rebuilt Alkali antlerless hunts), for a hunt with no drawing last year. Both now mean "no applications yet": the hunt isn't chained to last year's hunt of the same name and is left out (no odds to estimate). Three Alkali antlerless hunts had been live with 0% odds at every point level because 0/0 was read as zero applications.
+- **Odds floor:** a weighted lottery with permits is never 0, so stored odds keep a floor of 0.0001% instead of rounding to 0 (it was showing "No chance" at 0 points for hunts like Desert Quality Deer).
+- **Menu pages (#136, #137):** How The Draw Works, What Changed and Application Planner for Washington (`src/components/WaPages.tsx`).
 - **Permit-only GMUs:** the 2026 pamphlet lists deer as permit only in 290, 329, 371 and 485, and elk in 157, 418, 437, 485, 522, 556, 621, 636 and 653 (490 closed). The harvest report still shows "general" hunters in some (653 White River elk, ~45 a year), so the builder reads those lists from the pamphlet and drops general rows there. White River general archery, modern and muzzleloader elk were live by mistake until Nov 12.
   - Chains walk pamphlets back by category + name, then tag, area and legal animal when several hunts share a name.
 - **Multi-season applications:** WDFW's harvest reports list multi-season as hunts 1999 (deer) and 2999 (elk), with Total Applicants from 2021. 2025: 28,274 deer and 26,768 elk applications for 8,500 and 1,000 tags. Thousands of deer tags still go unsold each year because winners don't buy, so the drawn odds understate a deer applicant's real chance of getting a tag. The page must say so.
@@ -147,12 +150,10 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
 
 - **Scores:** 490 hunts have no Quality score. Most are special permits with under 30 hunters across their harvest years (`smallSample`), the same rule as other states.
 - **Unit Map:** shows GMUs only; Deer/Elk Area permits count in the GMUs they list. Multi-season tags aren't shaded.
-- **Menu pages:** Planner, What Changed and How The Draw Works have no Washington version yet (Montana's #91 is the pattern).
 
 ## 9. Next steps
 
-1. Washington Planner, What Changed and How The Draw Works.
-2. WA-2: Youth, 65+, Hunters with Disabilities and Master Hunter categories.
+1. WA-2: Youth, 65+, Hunters with Disabilities and Master Hunter categories.
 
 ## Files
 
