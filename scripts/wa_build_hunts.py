@@ -38,13 +38,20 @@ YEAR = 2026
 LAST = 2025          # latest drawing with published applications
 PROJ = YEAR + 1
 HARVEST_YEARS = list(range(2021, 2026))
-MAIN = {"DEER": {"Quality Deer", "Buck Deer", "Antlerless Deer", "Second Deer"},
-        "ELK": {"Quality Elk", "Bull Elk", "Antlerless Elk"}}
+MAIN = {"DEER": {"Quality Deer", "Buck Deer", "Antlerless Deer", "Second Deer", "Deer - Youth"},
+        "ELK": {"Quality Elk", "Bull Elk", "Antlerless Elk", "Elk - Youth"}}
+YOUTH = {"Deer - Youth", "Elk - Youth"}
+# Share of unselected applications that come back next year. 1.0 for the main categories (backtest, §5). Youth
+# applicants age out at 16, and the youth backtest picked 0.7 on 2019 (Brier 0.11126 vs 0.11278 at 1.0, last-year
+# 0.11690) and it held on 2020 (0.10418 vs 0.10445, last-year 0.11656).
+RETURN = {"Deer - Youth": 0.7, "Elk - Youth": 0.7}
 # 2018-2020 point-file category labels -> pamphlet categories
 PTS_CAT = {("Deer", "Quality Deer"): "Quality Deer", ("Deer", "Quality"): "Quality Deer", ("Deer", "Buck Deer"): "Buck Deer",
            ("Deer", "Buck deer"): "Buck Deer", ("Deer", "Antlerless Deer"): "Antlerless Deer", ("Deer", "Antlerless"): "Antlerless Deer",
            ("Deer", "Second Deer"): "Second Deer", ("Elk", "Quality Elk"): "Quality Elk", ("Elk", "Bull Elk"): "Bull Elk",
-           ("Elk", "Antlerless Elk"): "Antlerless Elk", ("Elk", "Antlerless"): "Antlerless Elk"}
+           ("Elk", "Antlerless Elk"): "Antlerless Elk", ("Elk", "Antlerless"): "Antlerless Elk",
+           ("Deer", "Youth"): "Deer - Youth", ("Deer", "Deer Youth"): "Deer - Youth",
+           ("Elk", "Youth"): "Elk - Youth", ("Elk", "Elk Youth"): "Elk - Youth"}
 MAXP = 40   # account input allows 40; Entiat, Desert and Colockum applicants already pass 30
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 
@@ -67,10 +74,10 @@ def cutoff(dist: dict[int, float], target: float) -> float:
     return (lo + hi) / 2
 
 
-def roll(dist: dict[int, float], u: float, total: float) -> dict[int, float]:
+def roll(dist: dict[int, float], u: float, total: float, r: float = 1.0) -> dict[int, float]:
     nxt: dict[int, float] = collections.Counter()
     for p, n in dist.items():
-        nxt[p + 1] += n * (1 - u) ** (p * p)   # unselected keep applying (r = 1, the backtest's best)
+        nxt[p + 1] += r * n * (1 - u) ** (p * p)   # unselected come back with a point (r = 1, the backtest's best; youth 0.7)
     kept = sum(nxt.values())
     if total > kept:
         nxt[1] += total - kept
@@ -346,16 +353,17 @@ def main() -> None:
                 apps = sum(dist.values())          # no published count that year: carry the last one
             if permits is None:
                 permits = r["permits"]
-            dist = roll(dist, u, apps)
+            dist = roll(dist, u, apps, RETURN.get(r["category"], 1.0))
             u = cutoff(dist, permits)
             last_u, last_apps, last_permits = u, apps, permits
         if last_u is None:
             problems.append(f"{hid}: nothing to roll")
             continue
         # projection: 2026 (permits known, apps = 2025's), then 2027 (same)
-        d26 = roll(dist, u, last_apps)
+        rr = RETURN.get(r["category"], 1.0)
+        d26 = roll(dist, u, last_apps, rr)
         u26 = cutoff(d26, r["permits"] or 0)
-        d27 = roll(d26, u26, last_apps)
+        d27 = roll(d26, u26, last_apps, rr)
         u27 = cutoff(d27, r["permits"] or 0)
         units_land = land_for(us)
         hv = harvest_fields({y: v for y, v in ind.get((sp, r["choice"]), {}).items()
@@ -369,11 +377,12 @@ def main() -> None:
         priv = bool(re.search(r"\bJ\b", r["notes"])) or bool(re.search(r"private lands? only", r["area"] + " " + legal, re.I))
         h = {
             "id": hid, "slug": f"wa-{r['choice']}", "state": "WA", "species": sp, "type": "CONTROLLED", "tagCode": str(r["choice"]),
-            "name": f"{r['name']} {r['category'].replace(' Deer', '').replace(' Elk', '')} {sp.title()}".replace("  ", " "),
+            "name": (f"{r['name']} Youth {sp.title()}" if r["category"] in YOUTH
+                     else f"{r['name']} {r['category'].replace(' Deer', '').replace(' Elk', '')} {sp.title()}".replace("  ", " ")),
             "areaName": r["area"], "description": r["category"], "huntCategory": r["category"], "units": us,
             "weapon": weapon, "antlerClass": antler, "takeMethod": legal, "tagRequired": tag, "notes": r["notes"],
             "openDate": dates[0][0] if dates else None, "closeDate": dates[-1][1] if dates else None,
-            "tags": r["permits"], "privateOnly": priv, "youthOnly": False,
+            "tags": r["permits"], "privateOnly": priv, "youthOnly": r["category"] in YOUTH,
             "oddsLastYear": LAST, "oddsYears": len([y for y in demand if y <= LAST]),
             "appsLast": last_apps, "permitsLast": last_permits,
             "resOddsLast": (last_permits / last_apps) if last_apps else None, "nrOddsLast": (last_permits / last_apps) if last_apps else None,

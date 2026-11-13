@@ -24,6 +24,8 @@ export const WA_POINT_TYPES = [
   { key: 'ANTLERLESS_ELK', label: 'Antlerless elk', species: 'ELK' },
   { key: 'MS_DEER', label: 'Multi-season deer', species: 'DEER' },
   { key: 'MS_ELK', label: 'Multi-season elk', species: 'ELK' },
+  { key: 'YOUTH_DEER', label: 'Youth deer (under 16)', species: 'DEER' },
+  { key: 'YOUTH_ELK', label: 'Youth elk (under 16)', species: 'ELK' },
 ] as const;
 export type WaPointType = (typeof WA_POINT_TYPES)[number]['key'];
 
@@ -60,6 +62,7 @@ export function readWaPoints(store: Record<string, unknown> | null | undefined):
 const CATEGORY_TYPE: Record<string, WaPointType> = {
   'Quality Deer': 'QUALITY_DEER', 'Buck Deer': 'BUCK_DEER', 'Antlerless Deer': 'ANTLERLESS_DEER', 'Second Deer': 'SECOND_DEER',
   'Quality Elk': 'QUALITY_ELK', 'Bull Elk': 'BULL_ELK', 'Antlerless Elk': 'ANTLERLESS_ELK', 'Multi-season Deer': 'MS_DEER', 'Multi-season Elk': 'MS_ELK',
+  'Deer - Youth': 'YOUTH_DEER', 'Elk - Youth': 'YOUTH_ELK',
 };
 /** Which balance a Washington hunt draws on, from WDFW's category (null for a general-season, no-draw hunt). */
 export const waPointType = (category: string | null | undefined): WaPointType | null => (category ? CATEGORY_TYPE[category] ?? null : null);

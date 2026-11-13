@@ -18,16 +18,16 @@ type Row = { id: string; slug: string; name: string; species: string; type: stri
   pointOdds: unknown; oddsByPts: unknown; success5: number | null; smallSample: boolean };
 const SELECT = { id: true, slug: true, name: true, species: true, type: true, tagCode: true, tags: true, privateOnly: true, youthOnly: true, pointOdds: true, oddsByPts: true, success5: true, smallSample: true } as const;
 
-const FEES: [string, string, string][] = [
-  ['Deer license (includes the general tag)', '$61.70', '$599.07'],
-  ['Elk license (includes the general tag)', '$69.29', '$685.60'],
-  ['Deer + elk license', '$116.85', '$1,020.06'],
-  ['Special permit application, per category', '$9.61', '$152.30'],
-  ['Quality special permit application, per category', '$18.72', '$152.30'],
-  ['Multi-season deer or elk application', '$9.61', '$152.30'],
-  ['Multi-season deer tag, if drawn', '$191.77', '$191.77'],
-  ['Multi-season elk tag, if drawn', '$250.97', '$250.97'],
-  ['Second deer tag (second-deer permits)', '$68.48', '$356.90'],
+const FEES: [string, string, string, string][] = [
+  ['Deer license (includes the general tag)', '$61.70', '$599.07', '$29.82'],
+  ['Elk license (includes the general tag)', '$69.29', '$685.60', '$29.82'],
+  ['Deer + elk license', '$116.85', '$1,020.06', '$56.13'],
+  ['Special permit application, per category', '$9.61', '$152.30', '$5.05'],
+  ['Quality special permit application, per category', '$18.72', '$152.30', '$5.05'],
+  ['Multi-season deer or elk application', '$9.61', '$152.30', '$5.05'],
+  ['Multi-season deer tag, if drawn', '$191.77', '$191.77', '$191.77'],
+  ['Multi-season elk tag, if drawn', '$250.97', '$250.97', '$250.97'],
+  ['Second deer tag (second-deer permits)', '$68.48', '$356.90', '$30.86'],
 ];
 
 function Timeline() {
@@ -55,7 +55,8 @@ const permitsIn = (po: WaPointOdds | null, y: string) => po?.demand?.[y]?.permit
 
 export async function WaGuide() {
   const rows = (await db.huntSummary.findMany({ where: { state: 'WA' }, select: SELECT })) as unknown as Row[];
-  const special = rows.filter((r) => waLicense(r) === 'special');
+  const special = rows.filter((r) => waLicense(r) === 'special' && !r.youthOnly);
+  const youth = rows.filter((r) => waLicense(r) === 'special' && r.youthOnly);
   const multi = rows.filter((r) => waLicense(r) === 'multi');
   const general = rows.filter((r) => waLicense(r) === 'general');
   const permits = special.reduce((a, r) => a + (r.tags ?? 0), 0);
@@ -92,13 +93,17 @@ export async function WaGuide() {
       </>}
       <p className="small muted"><b>These odds are estimates.</b> WDFW stopped publishing results by point level after 2020. Each hunt starts from WDFW&apos;s 2020 table of applicants at every point level (or its category&apos;s pooled table when the hunt has none) and is rolled forward a year at a time: everyone who didn&apos;t draw comes back with one more point, winners leave, and new applicants make up the count each year&apos;s pamphlet prints. Tested on WDFW&apos;s 2018, 2019 and 2020 results, this beat simply repeating last year&apos;s odds every year. Choices after the first are not modelled: a hunt&apos;s odds assume you list it first.</p>
 
+      <h2>Youth Permits (Under 16)</h2>
+      <p>Hunters <b>under 16 when they buy the license and application</b>, resident or nonresident, can apply in the <b>Deer - Youth</b> and <b>Elk - Youth</b> categories as well as the adult ones. Youth permits are drawn the same way, points squared, but each youth category has its own points. {int(youth.length)} youth hunts in 2026 ({int(youth.reduce((a, r) => a + (r.tags ?? 0), 0))} permits), many of them antlerless or any-deer hunts with far better odds than the adult categories. Youth license and application fees are a fraction of adult prices (below). Youth hunts are hidden in Find Hunts until you pick a youth category or set Youth Hunts to Include.</p>
+      <p className="small muted">The youth odds are rolled forward the same way, except that only about 70% of youth who don&apos;t draw are assumed to apply again, since applicants age out at 16. That share was picked on WDFW&apos;s 2019 youth results and held on 2020&apos;s; it beat repeating last year&apos;s odds both years. Many youth also hunt general seasons with extra antlerless days; those youth general seasons are in the pamphlet.</p>
+
       <h2>Multi-Season Tags</h2>
       <p>A multi-season tag lets you hunt <b>every general season for that species, any weapon, either side of the state</b>, and apply for special permits with any weapon. It is drawn once a year with its own points, squared the same way. Deer: {msLine('DEER')}. Elk: {msLine('ELK')}. Winners must buy the tag, and every year thousands of drawn deer tags go unbought and are then sold to applicants who didn&apos;t draw, so a deer applicant&apos;s real chance is higher than the drawn odds.</p>
 
       <h2>What It Costs</h2>
-      <div className="cmp-wrap"><table className="cmp-table"><thead><tr><th>Item</th><th>Resident</th><th>Nonresident</th></tr></thead>
-        <tbody>{FEES.map(([k, r, n]) => <tr key={k}><td>{k}</td><td>{r}</td><td>{n}</td></tr>)}</tbody></table></div>
-      <p className="small muted">WDFW&apos;s big game license page, checked Nov 12, 2026 (it carries no season year). Applying requires the matching license and tag. Confirm with WDFW before you apply.</p>
+      <div className="cmp-wrap"><table className="cmp-table"><thead><tr><th>Item</th><th>Resident</th><th>Nonresident</th><th>Youth (under 16)</th></tr></thead>
+        <tbody>{FEES.map(([k, r, n, y]) => <tr key={k}><td>{k}</td><td>{r}</td><td>{n}</td><td>{y}</td></tr>)}</tbody></table></div>
+      <p className="small muted">Youth prices are the same for residents and nonresidents. WDFW&apos;s big game license page, checked Nov 12, 2026 (it carries no season year). Applying requires the matching license and tag. Confirm with WDFW before you apply.</p>
       <p><Link href="/hunts?states=WA">Find Washington hunts →</Link> · <Link href="/changes">What changed since last year</Link> · <Link href="/account#hunting-preferences">Set your Washington points</Link></p>
     </main>
   );
@@ -155,7 +160,7 @@ export async function WaPlannerPage() {
   const { getPointsStore } = await import('@/lib/points');
   const { readWaPoints, WA_POINT_TYPES } = await import('@/lib/waPoints');
   const pts = readWaPoints((await getPointsStore()).store as Record<string, unknown>);
-  const rows = (await db.huntSummary.findMany({ where: { state: 'WA', type: 'CONTROLLED', privateOnly: false, youthOnly: false }, select: SELECT })) as unknown as Row[];
+  const rows = (await db.huntSummary.findMany({ where: { state: 'WA', type: 'CONTROLLED', privateOnly: false }, select: SELECT })) as unknown as Row[];
   const scored = rows.map((r) => ({ r, ...waPersonal(r, pts) })).filter((x) => x.odds !== null && x.type !== null);
   const groups = WA_POINT_TYPES.map((t) => {
     const all = scored.filter((x) => x.type === t.key);

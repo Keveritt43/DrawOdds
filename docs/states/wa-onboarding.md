@@ -137,6 +137,7 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
   - One 2021 demand cell lost its slash in the PDF ("44505" for Prescott archery elk, 14–26 applications in other years); slashless cells are treated as unknown.
 - **New hunts (Nov 13):** WDFW prints NEW, or 0/0 (17 cells in 2026, e.g. the rebuilt Alkali antlerless hunts), for a hunt with no drawing last year. Both now mean "no applications yet": the hunt isn't chained to last year's hunt of the same name and is left out (no odds to estimate). Three Alkali antlerless hunts had been live with 0% odds at every point level because 0/0 was read as zero applications.
 - **Odds floor:** a weighted lottery with permits is never 0, so stored odds keep a floor of 0.0001% instead of rounding to 0 (it was showing "No chance" at 0 points for hunts like Desert Quality Deer).
+- **Youth permits (Nov 13).** Deer - Youth and Elk - Youth are built like the main categories: 110 hunts (12 more are new in 2026 with no applications yet and left out), 99 seeded from their own 2020 youth table. Youth is under 16 at purchase, resident or nonresident; each youth category has its own points (`YOUTH_DEER`, `YOUTH_ELK` on the account page). Backtest on WDFW's 2018-2020 youth tables (`wa_backtest.run` with the youth categories): last-year odds 0.11690 (2019) / 0.11656 (2020); roll r = 1.0 0.11278 / 0.10445; r = 0.7 0.11126 / 0.10418. r = 0.7 was picked on 2019 and held on 2020, so youth roll forward with 70% of unsuccessful applicants returning (they age out at 16). Youth hunts are `youthOnly`, hidden in Find Hunts unless the Youth filter is set or a youth category is picked. Youth general seasons (parsed, flagged `youth`) are not shown on general hunts yet.
 - **Menu pages (#136, #137):** How The Draw Works, What Changed and Application Planner for Washington (`src/components/WaPages.tsx`).
 - **Permit-only GMUs:** the 2026 pamphlet lists deer as permit only in 290, 329, 371 and 485, and elk in 157, 418, 437, 485, 522, 556, 621, 636 and 653 (490 closed). The harvest report still shows "general" hunters in some (653 White River elk, ~45 a year), so the builder reads those lists from the pamphlet and drops general rows there. White River general archery, modern and muzzleloader elk were live by mistake until Nov 12.
   - Chains walk pamphlets back by category + name, then tag, area and legal animal when several hunts share a name.
@@ -153,7 +154,7 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
 
 ## 9. Next steps
 
-1. WA-2: Youth, 65+, Hunters with Disabilities and Master Hunter categories.
+1. WA-2: 65+, Hunters with Disabilities and Master Hunter categories (youth done Nov 13).
 
 ## Files
 
