@@ -23,6 +23,7 @@ const FILTERS = {
 } as const;
 type LandRec = { accessAcres?: number; accessPrograms?: Record<string, number>; tribalPct?: number };
 const kindOf = (name: string) => (/^DA/.test(name) ? 'Deer Area' : /^EA/.test(name) ? 'Elk Area' : 'GMU');
+const lower = (kind: string) => (kind === 'GMU' ? 'GMU' : kind.toLowerCase());
 
 /**
  * A WDFW game management unit (or Deer / Elk Area), laid out like Idaho's unit page: land, the unit on the map,
@@ -63,7 +64,7 @@ export async function WaUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
       <p className="small"><Link href="/hunts?states=WA">← Find Hunts</Link> · <Link href={`/hunts?states=WA&unit=WA:${name}`}>Filter Hunts In This {kind}</Link></p>
       <h1 className="star-head">Washington {title} <Star kind="unit" id={key} saved={fav.units.has(key)} signedIn={fav.signedIn} label /></h1>
-      <div className="muted">WDFW {kind.toLowerCase()} {name.replace(/^(DA|EA)/, '')}{unit.acres ? ` · ${int(unit.acres)} acres` : ''}{side ? ` · ${side === 'EAST' ? 'Eastern' : 'Western'} Washington elk tag` : ''}{kind !== 'GMU' ? ' · special-permit area inside one or more GMUs' : ''}</div>
+      <div className="muted">WDFW {lower(kind)} {name.replace(/^(DA|EA)/, '')}{unit.acres ? ` · ${int(unit.acres)} acres` : ''}{side ? ` · ${side === 'EAST' ? 'Eastern' : 'Western'} Washington elk tag` : ''}{kind !== 'GMU' ? ' · special-permit area inside one or more GMUs' : ''}</div>
 
       <div className="stats">
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(unit.publicPct)}</div></div>
@@ -77,7 +78,7 @@ export async function WaUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
       <div className="card" style={{ margin: '14px 0' }}>
         <h3 style={{ marginTop: 0 }}>Who manages the land</h3>
         <LandBar shares={unit.landOwnership as { manager: string; pct: number }[] | null} />
-        <p className="small muted" style={{ marginBottom: 0 }}>Surface manager from BLM&apos;s Surface Management Agency map, measured over this {kind.toLowerCase()}. Public ownership is not permission to cross private land. DNR trust land counts as state land; much of western Washington&apos;s private land is industrial timberland, often open only with a paid access permit.</p>
+        <p className="small muted" style={{ marginBottom: 0 }}>Surface manager from BLM&apos;s Surface Management Agency map, measured over this {lower(kind)}. Public ownership is not permission to cross private land. DNR trust land counts as state land; much of western Washington&apos;s private land is industrial timberland, often open only with a paid access permit.</p>
       </div>
       {kind === 'GMU' && <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 480 }}>
         <StateProvider code="WA">

@@ -14,7 +14,8 @@ const units = new Set((JSON.parse(readFileSync('data/wa/units.json', 'utf8')) as
 const by = (id: string) => data.hunts.find((h) => h.id === id)!;
 const row = (h: H) => ({ ...h, scoreQuality: 50, success5: (h.success5 as number | null) ?? null }) as unknown as CoScored;
 
-test('Washington is registered (off until imported) with a private-land-only rule', () => {
+test('Washington is listed, with a private-land-only rule', () => {
+  assert.equal(STATES.WA.enabled, true);
   assert.equal(STATES.WA.code, 'WA');
   assert.ok(STATES.WA.privateLandOnly.includes('Private Lands Only'));
   assert.deepEqual(STATES.WA.species, ['DEER', 'ELK']);

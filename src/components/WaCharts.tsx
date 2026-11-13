@@ -1,5 +1,5 @@
 'use client';
-import { XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine, LineChart, Line, Legend } from 'recharts';
+import { XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine, LineChart, Line, Legend, BarChart, Bar } from 'recharts';
 import { Frame } from './Charts';
 
 const grid = 'rgba(128,128,128,.2)';
@@ -32,4 +32,33 @@ export function WaOddsPointsChart({ main, other, myPoints, year, otherYear, proj
       <p className="small muted">Points held before applying; you draw with that plus this year&apos;s point, squared. {myPoints !== null ? `Dashed line: your ${myPoints} points. ` : ''}Residents and nonresidents are in the same drawing.</p>
     </div>
   );
+}
+
+/** Washington draw history: WDFW's any-choice applications and permits per year, and permits ÷ applications.
+ *  One pool, and applications count every choice, so there is no resident/nonresident or first-choice split. */
+export function WaDrawHistory({ data }: { data: { year: number; apps: number | null; permits: number | null }[] }) {
+  const rows = data.map((d) => ({ ...d, ratio: d.apps && d.permits !== null ? Math.min(1, d.permits / d.apps) : null }));
+  const tip = (v: unknown, n: string) => [typeof v === 'number' ? (n === 'Permits ÷ applications' ? `${(v * 100).toFixed(1)}%` : Math.round(v).toLocaleString('en-US')) : '–', n];
+  return <div className="grid2">
+    <Frame title="Permits ÷ applications (any choice)">
+      <LineChart data={rows} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+        <CartesianGrid stroke={grid} vertical={false} />
+        <XAxis dataKey="year" tickLine={false} />
+        <YAxis width={44} tickLine={false} tickFormatter={pctAxis} />
+        <Tooltip formatter={tip} />
+        <Line name="Permits ÷ applications" dataKey="ratio" stroke="#2a78d6" strokeWidth={3} dot={{ r: 3 }} connectNulls />
+      </LineChart>
+    </Frame>
+    <Frame title="Applications vs permits">
+      <BarChart data={rows} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+        <CartesianGrid stroke={grid} vertical={false} />
+        <XAxis dataKey="year" tickLine={false} />
+        <YAxis width={44} tickLine={false} />
+        <Tooltip formatter={tip} />
+        <Legend />
+        <Bar name="Applications" dataKey="apps" fill="#2a78d6" />
+        <Bar name="Permits" dataKey="permits" fill="#1baf7a" />
+      </BarChart>
+    </Frame>
+  </div>;
 }
