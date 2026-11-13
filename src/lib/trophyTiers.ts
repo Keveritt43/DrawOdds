@@ -12,6 +12,7 @@ export interface TrophyHunt {
   weapon?: string | null;
   season?: string | null;
   deerType?: string | null;
+  twoPoint?: boolean;
 }
 export interface TrophyResult { score: TrophyScore | null; tier: TrophyTier | null; reason: string }
 type Rule = { species: 'ELK' | 'DEER'; state: string; units: string[]; tier: 'unicorn' | 'trophy'; condition?: 'late' | 'early' };
