@@ -40,7 +40,7 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
   const key = unitKey('UT', name);
   const fSpecies = FILTERS.species.some(([v]) => v && v === sp.species) ? sp.species! : '';
   const fType = FILTERS.type.some(([v]) => v && v === sp.type) ? sp.type! : '';
-  const evaluated = rows.map((h) => evaluateHunt(h as unknown as CoScored, settings, 'last'));
+  const evaluated = rows.map((h) => evaluateHunt(h as unknown as CoScored, settings, 'proj'));
   evaluated.sort((a, b) => (b.opportunity ?? -1) - (a.opportunity ?? -1));
   const shown = evaluated.filter((x) => (!fSpecies || x.r.species === fSpecies) && (!fType || utLicense(x.r) === fType));
   const href = (patch: SP) => {

@@ -49,7 +49,15 @@ test('points map to the right balance', () => {
 test('personal odds read the table at the hunter\'s points; over-the-counter elk needs no draw', () => {
   const pts = { ...readUtPoints(null), points: { LE_DEER: 10, LE_ELK: 0, GEN_DEER: 0, LE_PRONGHORN: 0, BISON: 0 } };
   const le = by('DB1001');
-  assert.equal(utPersonal(le as never, pts, true).odds, le.oddsByPts.last.nr[Math.min(10, le.oddsByPts.last.nr.length - 1)]);
+  assert.equal(utPersonal(le as never, pts, true, 'last').odds, le.oddsByPts.last.nr[Math.min(10, le.oddsByPts.last.nr.length - 1)]);
+  // nonresident limited-entry deer passed the projection rule; resident limited-entry deer did not
+  const proj = (le.oddsByPts as unknown as { proj: Record<string, number[]> }).proj.nr;
+  assert.equal(utPersonal(le as never, pts, true).odds, proj[Math.min(10, proj.length - 1)]);
+  assert.equal(utPersonal(le as never, pts, true).projected, true);
+  const res = { ...pts, res: 'RESIDENT' as const };
+  assert.equal(utPersonal(le as never, res, false).projected, false);
+  assert.equal(utPersonal(le as never, res, false).odds, utPersonal(le as never, res, false, 'last').odds);
+  assert.equal(utPersonal(le as never, pts, true, 'last').projected, false);
   assert.equal(utPersonal(le as never, pts, true).points, 10);
   const otc = by('EB1001');
   assert.equal(utKind(otc as never), 'otc');

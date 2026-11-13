@@ -1,0 +1,748 @@
+{
+ "method": "last    the site's current \"last draw\": the reproducing model run on T-1's applicants and permits.\n  cohort  roll T-1's applicants forward: everyone who didn't draw comes back one point higher, scaled by a\n          return rate; new applicants enter at 0 points, scaled by a growth rate. Both rates are pooled per species\n          and pool from year pairs strictly before T (none before 2022, so T starts at 2023). Permits as in T-1.\n          Bonus hunts: the same reproducing model on the projected applicants. General deer: the strict queue.",
+ "years": {
+  "2023": {
+   "DEER": {
+    "last": 0.02231,
+    "cohort": 0.02189,
+    "shape": 0.02086,
+    "blend": 0.02128,
+    "applicants": 50965
+   },
+   "ALL": {
+    "last": 0.04275,
+    "cohort": 0.04405,
+    "shape": 0.04018,
+    "blend": 0.04167,
+    "applicants": 342725
+   },
+   "DEER:res": {
+    "last": 0.02878,
+    "cohort": 0.02859,
+    "shape": 0.02737,
+    "blend": 0.02767,
+    "applicants": 34391
+   },
+   "DEER:nr": {
+    "last": 0.0089,
+    "cohort": 0.008,
+    "shape": 0.00735,
+    "blend": 0.00803,
+    "applicants": 16574
+   },
+   "ELK": {
+    "last": 0.03391,
+    "cohort": 0.03745,
+    "shape": 0.03695,
+    "blend": 0.03421,
+    "applicants": 62651
+   },
+   "ELK:res": {
+    "last": 0.0393,
+    "cohort": 0.0442,
+    "shape": 0.04347,
+    "blend": 0.04001,
+    "applicants": 46162
+   },
+   "ELK:nr": {
+    "last": 0.01883,
+    "cohort": 0.01855,
+    "shape": 0.01871,
+    "blend": 0.01796,
+    "applicants": 16489
+   },
+   "PRONGHORN": {
+    "last": 0.06477,
+    "cohort": 0.05627,
+    "shape": 0.05429,
+    "blend": 0.05653,
+    "applicants": 13264
+   },
+   "PRONGHORN:res": {
+    "last": 0.08435,
+    "cohort": 0.08577,
+    "shape": 0.08215,
+    "blend": 0.0817,
+    "applicants": 7358
+   },
+   "PRONGHORN:nr": {
+    "last": 0.04037,
+    "cohort": 0.01951,
+    "shape": 0.01957,
+    "blend": 0.02517,
+    "applicants": 5906
+   },
+   "BISON": {
+    "last": 0.00627,
+    "cohort": 0.0063,
+    "shape": 0.0063,
+    "blend": 0.00589,
+    "applicants": 21785
+   },
+   "BISON:res": {
+    "last": 0.00798,
+    "cohort": 0.00826,
+    "shape": 0.00825,
+    "blend": 0.00755,
+    "applicants": 14347
+   },
+   "BISON:nr": {
+    "last": 0.00296,
+    "cohort": 0.00252,
+    "shape": 0.00252,
+    "blend": 0.00269,
+    "applicants": 7438
+   },
+   "OTHER": {
+    "last": 0.00506,
+    "cohort": 0.00324,
+    "shape": 0.00325,
+    "blend": 0.00378,
+    "applicants": 85240
+   },
+   "OTHER:res": {
+    "last": 0.00873,
+    "cohort": 0.00549,
+    "shape": 0.00551,
+    "blend": 0.00645,
+    "applicants": 46528
+   },
+   "OTHER:nr": {
+    "last": 0.00066,
+    "cohort": 0.00053,
+    "shape": 0.00053,
+    "blend": 0.00057,
+    "applicants": 38712
+   },
+   "GEN_DEER": {
+    "last": 0.09153,
+    "cohort": 0.09628,
+    "shape": 0.08506,
+    "blend": 0.09053,
+    "applicants": 108820
+   },
+   "GEN_DEER:res": {
+    "last": 0.09185,
+    "cohort": 0.09775,
+    "shape": 0.08617,
+    "blend": 0.09145,
+    "applicants": 99778
+   },
+   "GEN_DEER:nr": {
+    "last": 0.08807,
+    "cohort": 0.08005,
+    "shape": 0.0728,
+    "blend": 0.08041,
+    "applicants": 9042
+   }
+  },
+  "2024": {
+   "DEER": {
+    "last": 0.02331,
+    "cohort": 0.02078,
+    "shape": 0.02013,
+    "blend": 0.0214,
+    "applicants": 51798
+   },
+   "ALL": {
+    "last": 0.04316,
+    "cohort": 0.04277,
+    "shape": 0.04293,
+    "blend": 0.0414,
+    "applicants": 366207
+   },
+   "DEER:res": {
+    "last": 0.03103,
+    "cohort": 0.02727,
+    "shape": 0.02635,
+    "blend": 0.02833,
+    "applicants": 34560
+   },
+   "DEER:nr": {
+    "last": 0.00783,
+    "cohort": 0.00778,
+    "shape": 0.00764,
+    "blend": 0.0075,
+    "applicants": 17238
+   },
+   "ELK": {
+    "last": 0.02961,
+    "cohort": 0.03553,
+    "shape": 0.03441,
+    "blend": 0.03057,
+    "applicants": 73610
+   },
+   "ELK:res": {
+    "last": 0.03439,
+    "cohort": 0.04187,
+    "shape": 0.04046,
+    "blend": 0.03562,
+    "applicants": 53890
+   },
+   "ELK:nr": {
+    "last": 0.01655,
+    "cohort": 0.01821,
+    "shape": 0.01788,
+    "blend": 0.01676,
+    "applicants": 19720
+   },
+   "PRONGHORN": {
+    "last": 0.06814,
+    "cohort": 0.06377,
+    "shape": 0.06173,
+    "blend": 0.0624,
+    "applicants": 14780
+   },
+   "PRONGHORN:res": {
+    "last": 0.09097,
+    "cohort": 0.09605,
+    "shape": 0.09241,
+    "blend": 0.09019,
+    "applicants": 8154
+   },
+   "PRONGHORN:nr": {
+    "last": 0.04004,
+    "cohort": 0.02404,
+    "shape": 0.02398,
+    "blend": 0.0282,
+    "applicants": 6626
+   },
+   "BISON": {
+    "last": 0.0058,
+    "cohort": 0.00618,
+    "shape": 0.00619,
+    "blend": 0.00557,
+    "applicants": 23021
+   },
+   "BISON:res": {
+    "last": 0.00765,
+    "cohort": 0.00834,
+    "shape": 0.00835,
+    "blend": 0.00734,
+    "applicants": 14578
+   },
+   "BISON:nr": {
+    "last": 0.0026,
+    "cohort": 0.00246,
+    "shape": 0.00244,
+    "blend": 0.00252,
+    "applicants": 8443
+   },
+   "OTHER": {
+    "last": 0.00531,
+    "cohort": 0.00337,
+    "shape": 0.00337,
+    "blend": 0.00397,
+    "applicants": 91906
+   },
+   "OTHER:res": {
+    "last": 0.00949,
+    "cohort": 0.00592,
+    "shape": 0.00593,
+    "blend": 0.00703,
+    "applicants": 47780
+   },
+   "OTHER:nr": {
+    "last": 0.00079,
+    "cohort": 0.00059,
+    "shape": 0.0006,
+    "blend": 0.00065,
+    "applicants": 44126
+   },
+   "GEN_DEER": {
+    "last": 0.09713,
+    "cohort": 0.0952,
+    "shape": 0.09706,
+    "blend": 0.09349,
+    "applicants": 111092
+   },
+   "GEN_DEER:res": {
+    "last": 0.09852,
+    "cohort": 0.09627,
+    "shape": 0.09827,
+    "blend": 0.09481,
+    "applicants": 102324
+   },
+   "GEN_DEER:nr": {
+    "last": 0.08096,
+    "cohort": 0.08273,
+    "shape": 0.08294,
+    "blend": 0.07803,
+    "applicants": 8768
+   }
+  },
+  "2025": {
+   "DEER": {
+    "last": 0.02513,
+    "cohort": 0.02517,
+    "shape": 0.02394,
+    "blend": 0.02422,
+    "applicants": 48215
+   },
+   "ALL": {
+    "last": 0.0407,
+    "cohort": 0.0423,
+    "shape": 0.04002,
+    "blend": 0.0389,
+    "applicants": 335525
+   },
+   "DEER:res": {
+    "last": 0.03208,
+    "cohort": 0.03266,
+    "shape": 0.03095,
+    "blend": 0.03126,
+    "applicants": 32916
+   },
+   "DEER:nr": {
+    "last": 0.01017,
+    "cohort": 0.00906,
+    "shape": 0.00886,
+    "blend": 0.00907,
+    "applicants": 15299
+   },
+   "ELK": {
+    "last": 0.03093,
+    "cohort": 0.03546,
+    "shape": 0.03424,
+    "blend": 0.03139,
+    "applicants": 72767
+   },
+   "ELK:res": {
+    "last": 0.03536,
+    "cohort": 0.04129,
+    "shape": 0.03967,
+    "blend": 0.03611,
+    "applicants": 53744
+   },
+   "ELK:nr": {
+    "last": 0.01842,
+    "cohort": 0.01899,
+    "shape": 0.0189,
+    "blend": 0.01804,
+    "applicants": 19023
+   },
+   "PRONGHORN": {
+    "last": 0.07662,
+    "cohort": 0.07076,
+    "shape": 0.06923,
+    "blend": 0.06968,
+    "applicants": 15389
+   },
+   "PRONGHORN:res": {
+    "last": 0.09549,
+    "cohort": 0.10049,
+    "shape": 0.09751,
+    "blend": 0.09456,
+    "applicants": 8683
+   },
+   "PRONGHORN:nr": {
+    "last": 0.05219,
+    "cohort": 0.03226,
+    "shape": 0.03261,
+    "blend": 0.03745,
+    "applicants": 6706
+   },
+   "OTHER": {
+    "last": 0.0049,
+    "cohort": 0.00338,
+    "shape": 0.0034,
+    "blend": 0.00381,
+    "applicants": 87708
+   },
+   "OTHER:res": {
+    "last": 0.00798,
+    "cohort": 0.00545,
+    "shape": 0.00548,
+    "blend": 0.00616,
+    "applicants": 48718
+   },
+   "OTHER:nr": {
+    "last": 0.00105,
+    "cohort": 0.0008,
+    "shape": 0.0008,
+    "blend": 0.00087,
+    "applicants": 38990
+   },
+   "BISON": {
+    "last": 0.00594,
+    "cohort": 0.00514,
+    "shape": 0.00514,
+    "blend": 0.00526,
+    "applicants": 23373
+   },
+   "BISON:res": {
+    "last": 0.0084,
+    "cohort": 0.00716,
+    "shape": 0.00716,
+    "blend": 0.00734,
+    "applicants": 15115
+   },
+   "BISON:nr": {
+    "last": 0.00144,
+    "cohort": 0.00144,
+    "shape": 0.00144,
+    "blend": 0.00144,
+    "applicants": 8258
+   },
+   "GEN_DEER": {
+    "last": 0.09588,
+    "cohort": 0.10096,
+    "shape": 0.09423,
+    "blend": 0.09163,
+    "applicants": 88073
+   },
+   "GEN_DEER:res": {
+    "last": 0.09551,
+    "cohort": 0.09687,
+    "shape": 0.092,
+    "blend": 0.08981,
+    "applicants": 80990
+   },
+   "GEN_DEER:nr": {
+    "last": 0.10011,
+    "cohort": 0.14764,
+    "shape": 0.11973,
+    "blend": 0.11244,
+    "applicants": 7083
+   }
+  },
+  "2026": {
+   "DEER": {
+    "last": 0.02527,
+    "cohort": 0.02606,
+    "shape": 0.0252,
+    "blend": 0.02461,
+    "applicants": 51457
+   },
+   "ALL": {
+    "last": 0.05995,
+    "cohort": 0.06309,
+    "shape": 0.05906,
+    "blend": 0.05679,
+    "applicants": 269756
+   },
+   "DEER:res": {
+    "last": 0.03283,
+    "cohort": 0.03428,
+    "shape": 0.03302,
+    "blend": 0.0322,
+    "applicants": 34942
+   },
+   "DEER:nr": {
+    "last": 0.00926,
+    "cohort": 0.00866,
+    "shape": 0.00867,
+    "blend": 0.00856,
+    "applicants": 16515
+   },
+   "ELK": {
+    "last": 0.0303,
+    "cohort": 0.03832,
+    "shape": 0.03664,
+    "blend": 0.03207,
+    "applicants": 73458
+   },
+   "ELK:res": {
+    "last": 0.03492,
+    "cohort": 0.04539,
+    "shape": 0.04324,
+    "blend": 0.03731,
+    "applicants": 55089
+   },
+   "ELK:nr": {
+    "last": 0.01643,
+    "cohort": 0.0171,
+    "shape": 0.01686,
+    "blend": 0.01633,
+    "applicants": 18369
+   },
+   "PRONGHORN": {
+    "last": 0.07779,
+    "cohort": 0.07766,
+    "shape": 0.07486,
+    "blend": 0.07384,
+    "applicants": 15210
+   },
+   "PRONGHORN:res": {
+    "last": 0.10519,
+    "cohort": 0.11388,
+    "shape": 0.10917,
+    "blend": 0.10541,
+    "applicants": 8752
+   },
+   "PRONGHORN:nr": {
+    "last": 0.04067,
+    "cohort": 0.02857,
+    "shape": 0.02836,
+    "blend": 0.03106,
+    "applicants": 6458
+   },
+   "BISON": {
+    "last": 0.00579,
+    "cohort": 0.00561,
+    "shape": 0.00556,
+    "blend": 0.00524,
+    "applicants": 23381
+   },
+   "BISON:res": {
+    "last": 0.0078,
+    "cohort": 0.00774,
+    "shape": 0.00764,
+    "blend": 0.00714,
+    "applicants": 15678
+   },
+   "BISON:nr": {
+    "last": 0.0017,
+    "cohort": 0.0013,
+    "shape": 0.00132,
+    "blend": 0.00137,
+    "applicants": 7703
+   },
+   "GEN_DEER": {
+    "last": 0.10662,
+    "cohort": 0.10872,
+    "shape": 0.10048,
+    "blend": 0.09838,
+    "applicants": 106250
+   },
+   "GEN_DEER:res": {
+    "last": 0.10574,
+    "cohort": 0.10902,
+    "shape": 0.10057,
+    "blend": 0.09866,
+    "applicants": 99159
+   },
+   "GEN_DEER:nr": {
+    "last": 0.11893,
+    "cohort": 0.10455,
+    "shape": 0.09916,
+    "blend": 0.09455,
+    "applicants": 7091
+   }
+  }
+ },
+ "bySpecies": {
+  "DEER": {
+   "last": 0.02399,
+   "cohort": 0.02345,
+   "shape": 0.02251,
+   "blend": 0.02286,
+   "applicants": 202435,
+   "permitError_last": 5472,
+   "permitError_cohort": 5294,
+   "permitError_shape": 5009,
+   "permitError_blend": 5297
+  },
+  "ALL": {
+   "last": 0.04587,
+   "cohort": 0.04716,
+   "shape": 0.04478,
+   "blend": 0.04399,
+   "applicants": 1314213,
+   "permitError_last": 52979,
+   "permitError_cohort": 53607,
+   "permitError_shape": 48685,
+   "permitError_blend": 48560
+  },
+  "DEER:res": {
+   "last": 0.03118,
+   "cohort": 0.03069,
+   "shape": 0.02942,
+   "blend": 0.02986,
+   "applicants": 136809,
+   "permitError_last": 4632,
+   "permitError_cohort": 4509,
+   "permitError_shape": 4247,
+   "permitError_blend": 4489
+  },
+  "DEER:nr": {
+   "last": 0.00901,
+   "cohort": 0.00835,
+   "shape": 0.00811,
+   "blend": 0.00827,
+   "applicants": 65626,
+   "permitError_last": 840,
+   "permitError_cohort": 786,
+   "permitError_shape": 761,
+   "permitError_blend": 808
+  },
+  "ELK": {
+   "last": 0.03108,
+   "cohort": 0.03666,
+   "shape": 0.03551,
+   "blend": 0.03198,
+   "applicants": 282486,
+   "permitError_last": 8526,
+   "permitError_cohort": 10562,
+   "permitError_shape": 10034,
+   "permitError_blend": 9296
+  },
+  "ELK:res": {
+   "last": 0.03586,
+   "cohort": 0.04316,
+   "shape": 0.04166,
+   "blend": 0.03716,
+   "applicants": 208885,
+   "permitError_last": 6747,
+   "permitError_cohort": 8718,
+   "permitError_shape": 8211,
+   "permitError_blend": 7495
+  },
+  "ELK:nr": {
+   "last": 0.01751,
+   "cohort": 0.01821,
+   "shape": 0.01808,
+   "blend": 0.01725,
+   "applicants": 73601,
+   "permitError_last": 1779,
+   "permitError_cohort": 1844,
+   "permitError_shape": 1823,
+   "permitError_blend": 1800
+  },
+  "PRONGHORN": {
+   "last": 0.07211,
+   "cohort": 0.06751,
+   "shape": 0.06542,
+   "blend": 0.06595,
+   "applicants": 58643,
+   "permitError_last": 3740,
+   "permitError_cohort": 3485,
+   "permitError_shape": 3313,
+   "permitError_blend": 3508
+  },
+  "PRONGHORN:res": {
+   "last": 0.09446,
+   "cohort": 0.09966,
+   "shape": 0.09591,
+   "blend": 0.09349,
+   "applicants": 32947,
+   "permitError_last": 2351,
+   "permitError_cohort": 2600,
+   "permitError_shape": 2426,
+   "permitError_blend": 2383
+  },
+  "PRONGHORN:nr": {
+   "last": 0.04344,
+   "cohort": 0.02629,
+   "shape": 0.02632,
+   "blend": 0.03064,
+   "applicants": 25696,
+   "permitError_last": 1389,
+   "permitError_cohort": 885,
+   "permitError_shape": 886,
+   "permitError_blend": 1125
+  },
+  "BISON": {
+   "last": 0.00594,
+   "cohort": 0.0058,
+   "shape": 0.00578,
+   "blend": 0.00548,
+   "applicants": 91560,
+   "permitError_last": 754,
+   "permitError_cohort": 719,
+   "permitError_shape": 717,
+   "permitError_blend": 727
+  },
+  "BISON:res": {
+   "last": 0.00796,
+   "cohort": 0.00786,
+   "shape": 0.00784,
+   "blend": 0.00734,
+   "applicants": 59718,
+   "permitError_last": 643,
+   "permitError_cohort": 617,
+   "permitError_shape": 615,
+   "permitError_blend": 621
+  },
+  "BISON:nr": {
+   "last": 0.00217,
+   "cohort": 0.00193,
+   "shape": 0.00193,
+   "blend": 0.002,
+   "applicants": 31842,
+   "permitError_last": 110,
+   "permitError_cohort": 102,
+   "permitError_shape": 102,
+   "permitError_blend": 106
+  },
+  "OTHER": {
+   "last": 0.0051,
+   "cohort": 0.00333,
+   "shape": 0.00334,
+   "blend": 0.00386,
+   "applicants": 264854,
+   "permitError_last": 1948,
+   "permitError_cohort": 1264,
+   "permitError_shape": 1278,
+   "permitError_blend": 1588
+  },
+  "OTHER:res": {
+   "last": 0.00873,
+   "cohort": 0.00562,
+   "shape": 0.00564,
+   "blend": 0.00655,
+   "applicants": 143026,
+   "permitError_last": 1785,
+   "permitError_cohort": 1133,
+   "permitError_shape": 1143,
+   "permitError_blend": 1442
+  },
+  "OTHER:nr": {
+   "last": 0.00083,
+   "cohort": 0.00064,
+   "shape": 0.00064,
+   "blend": 0.0007,
+   "applicants": 121828,
+   "permitError_last": 163,
+   "permitError_cohort": 131,
+   "permitError_shape": 134,
+   "permitError_blend": 146
+  },
+  "GEN_DEER": {
+   "last": 0.09783,
+   "cohort": 0.10018,
+   "shape": 0.09418,
+   "blend": 0.09357,
+   "applicants": 414235,
+   "permitError_last": 32539,
+   "permitError_cohort": 32283,
+   "permitError_shape": 28335,
+   "permitError_blend": 28144
+  },
+  "GEN_DEER:res": {
+   "last": 0.09801,
+   "cohort": 0.10009,
+   "shape": 0.09438,
+   "blend": 0.09387,
+   "applicants": 382251,
+   "permitError_last": 29411,
+   "permitError_cohort": 28969,
+   "permitError_shape": 25450,
+   "permitError_blend": 25156
+  },
+  "GEN_DEER:nr": {
+   "last": 0.09563,
+   "cohort": 0.10118,
+   "shape": 0.09182,
+   "blend": 0.08999,
+   "applicants": 31984,
+   "permitError_last": 3128,
+   "permitError_cohort": 3313,
+   "permitError_shape": 2885,
+   "permitError_blend": 2989
+  }
+ },
+ "rule": "The rule, fixed before looking at 2026: per species and residency pool, take the method with the lowest mean\nBrier over 2023-2025; ship it only if it also beats \"last\" on 2026 (held out) and over all four years.\nReturns {\"SPECIES:pool\": method or None}.",
+ "chosen": {
+  "DEER:res": null,
+  "DEER:nr": "shape",
+  "ELK:res": null,
+  "ELK:nr": "blend",
+  "PRONGHORN:res": null,
+  "PRONGHORN:nr": "cohort",
+  "BISON:res": "blend",
+  "BISON:nr": "shape",
+  "GEN_DEER:res": "blend",
+  "GEN_DEER:nr": "blend"
+ }
+}

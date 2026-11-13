@@ -7,17 +7,19 @@ import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/format';
 import { dateRange } from '@/lib/coDisplay';
 import { seasonsSummary } from '@/lib/tagSeasons';
-import { utKind, type UtPointOdds } from '@/lib/utHunt';
+import { utKind, utProjects, type UtPointOdds } from '@/lib/utHunt';
 
 const PILL = { le: 'Limited entry', oial: 'Once in a lifetime', cwmu: 'CWMU', general: 'General draw', otc: 'Over the counter' } as const;
 
 /** Utah result card: Idaho's card structure, with Utah's three kinds of deer and elk hunt (bonus-point limited
  *  entry and CWMU, the general buck deer preference draw, over-the-counter general elk). */
-export function UtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
-  r: CoScored; odds: number | null; points: number | null; nr: boolean; basis: string; saved: boolean; signedIn: boolean;
+export function UtHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, signedIn }: {
+  r: CoScored; odds: number | null; points: number | null; nr: boolean; basis: string; mode?: 'proj' | 'last'; saved: boolean; signedIn: boolean;
 }) {
   const po = r.pointOdds as unknown as UtPointOdds | null;
   const kind = utKind(r);
+  // the odds above came from the projection only where Utah's passed its backtest (elk shows the last draw)
+  const projected = mode === 'proj' && utProjects(po, nr ? 'nr' : 'res');
   const lic = kind === 'otc' ? 'otc' : r.type === 'GENERAL' ? 'general' : r.privateOnly ? 'cwmu' : r.species === 'BISON' ? 'oial' : 'le';
   const chance = chanceOf(odds, 0, odds ?? 0);
   const years = r.harvestYears;
@@ -44,7 +46,7 @@ export function UtHuntCard({ r, odds, points, nr, basis, saved, signedIn }: {
           <span className="k">{kind === 'otc' ? 'Permit · no draw' : `Draw odds · ${nr ? 'NR' : 'Resident'} · ${points ?? 0} ${kind === 'bonus' ? 'bonus' : 'pref.'} pts`}</span>
           <b>{pctOdds(odds)}</b>
           <span className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{odds === null ? (nr ? 'No NR permits' : 'No draw data') : CHANCE_LABEL[chance]}</span>
-          <span className="sub">{kind === 'otc' ? 'Over the counter, statewide cap' : `${po?.year ?? 2026} draw · last draw`}</span>
+          <span className="sub">{kind === 'otc' ? 'Over the counter, statewide cap' : projected ? `${po?.projYear ?? (po?.year ?? 2026) + 1} projected · from the ${po?.year ?? 2026} draw` : `${po?.year ?? 2026} draw · last draw`}</span>
         </div>
         <div>
           <span className="k">Success {years ? `${years} seasons` : ''}</span>

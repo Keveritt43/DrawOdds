@@ -8,8 +8,8 @@ const NR = '#eb6834';
 const pctAxis = (v: number) => `${Math.round(v * 100)}%`;
 
 /** Utah: odds at each point level, resident and nonresident, from the last draw (no projection is backtested). */
-export function UtOddsPointsChart({ res, nr, myPoints, mine, year, kind }: {
-  res: number[]; nr: number[]; myPoints: number | null; mine: 'res' | 'nr'; year: number; kind: 'bonus' | 'preference';
+export function UtOddsPointsChart({ res, nr, myPoints, mine, year, kind, projected = false }: {
+  res: number[]; nr: number[]; myPoints: number | null; mine: 'res' | 'nr'; year: number; kind: 'bonus' | 'preference'; projected?: boolean;
 }) {
   const len = Math.max(res.length, nr.length);
   if (!len) return null;
@@ -19,7 +19,7 @@ export function UtOddsPointsChart({ res, nr, myPoints, mine, year, kind }: {
   const word = kind === 'bonus' ? 'bonus' : 'preference';
   return (
     <div>
-      <Frame title={`${year} draw: odds at each ${word} point level`}>
+      <Frame title={`${year} ${projected ? 'projected' : 'draw'}: odds at each ${word} point level`}>
         <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
           <CartesianGrid stroke={grid} vertical={false} />
           <XAxis dataKey="points" tickLine={false} />
