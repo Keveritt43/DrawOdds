@@ -9,7 +9,7 @@ test('Colorado Quality matches Idaho fixed model for identical validated inputs'
  const r=row(),land=withCoLand(r),actual=withCoScores(r);
  const expected=scoreHunts([{...land,nrTag:false,resOdds5:null,nrOdds5:null}]).get(r.id)!;
  assert.equal(actual.scoreQuality,expected.scoreQuality);
- assert.equal(actual.scoreTrophy,null);
+ assert.equal(actual.scoreTrophy,50);
  assert.equal(actual.scoreOppNr,null);
  assert.ok(actual.scoreQuality!==null);
  assert.equal(withCoOpportunity(actual,.25,true).scoreOppNr,Math.round(actual.scoreQuality!*.5));

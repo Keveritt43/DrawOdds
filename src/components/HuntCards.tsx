@@ -17,6 +17,7 @@ import { CompareToggle } from './Compare';
 import { Term } from './Term';
 import { SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { SCORE_PART_LABEL, type ScorePart } from '@/lib/score';
+import { trophyPresentation } from '@/lib/trophyDisplay';
 import { RYG7 } from '@/lib/mapMetrics';
 import { objectiveSummary, OBJ_COLOR, type ObjStatus } from '@/lib/elkObjectives';
 
@@ -176,6 +177,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
           <HuntLink href={huntHref(r)}>{title}</HuntLink>
           <span className={`pill ${r.type === 'GENERAL' && !r.nrTag ? '' : 'ctl'}`}>{r.nrTag ? (c.nr ? 'NR Tag Draw' : 'Zone Tag') : r.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
           <CompareToggle id={r.id} label={title} />
+          <TrophyMark score={r.scoreTrophy} />
         </span>
         {tagsLine && <span className="small muted tags">{tagsLine}</span>}
       </div>
@@ -222,6 +224,12 @@ export function ScoreBadge({ v, label }: { v: number; label: string }) {
 const hasDraw = (r: HuntSummary, nr: boolean) => r.type === 'CONTROLLED' || (nr && (r.nrTag || r.type === 'GENERAL')) || (!nr && r.nrTag && r.capped);
 
 /** DrawOdds Score: Quality (+ Opportunity when there's a draw); tap for the four parts. */
+export function TrophyMark({ score, showNeutral = false }: { score: number | null; showNeutral?: boolean }) {
+  const info = trophyPresentation(score);
+  if (score === 50 && !showNeutral) return null;
+  return <span className="pill" title={info.description} style={{ color: info.color, borderColor: info.color, background: 'transparent' }}>{info.icon ? '🏆 ' : ''}{info.label}{score === null ? '' : ` ${score}`}</span>;
+}
+
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
   if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data<CoPressureNote r={r}/></div>;
   const opp = nr ? r.scoreOppNr : r.scoreOppRes;
@@ -239,10 +247,10 @@ export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; op
           <div key={k} className="sbar">
             <span>{SCORE_PART_LABEL[k]}</span>
             <i><em style={{ width: `${v ?? 0}%`, background: v === null ? 'transparent' : scoreColor(v) }} /></i>
-            <small>{v ?? '—'}</small>
+            <small>{k === 'trophy' && v === null ? 'N/A' : v ?? '—'}</small>
           </div>
         ))}
-        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adjusts it by up to ±5 points when applicable. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
+        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; unclassified is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
       </div>
     </details>
   );

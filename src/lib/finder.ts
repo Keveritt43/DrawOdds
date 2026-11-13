@@ -14,8 +14,8 @@ function dayWindow(from?: string, to?: string): { dayFrom: number | null; dayTo:
 }
 import { unitsWithObjective, type ObjStatus } from './elkObjectives';
 
-export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
-export const SORTS: readonly Sort[] = ['score', 'opp', 'leftover', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
+export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow' | 'trophy';
+export const SORTS: readonly Sort[] = ['score', 'opp', 'leftover', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow', 'trophy'];
 
 export interface Filters {
   species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | 'BISON' | '';
@@ -204,6 +204,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
       return [{ smallSample: 'asc' }, desc('success5'), desc(rf.odds5)];
     case 'public':
       return [desc('publicPct'), desc('success5')];
+    case 'trophy':
+      return [desc('scoreTrophy'), desc('success5')];
     case 'big':
       // deer / elk: trophy share; moose / sheep / goat: average antler spread or horn length
       return [desc('bigPct5'), desc('avgSize5'), desc('success5')];
