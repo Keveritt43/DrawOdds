@@ -15,6 +15,7 @@ import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { CoFinder } from './CoFinder';
 import { MultiStateFinder } from './MultiStateFinder';
+import { SyncState } from '@/components/SyncState';
 import { searchDraw, combinedFinderRedirect } from '@/lib/searchStates';
 import { SearchStates } from '@/components/SearchStates';
 import { DRAW_SPECIES, AREA_SPECIES, SIZE_LABEL, type SpeciesKey } from '@/lib/species';
@@ -82,7 +83,10 @@ type Group = { key: string; title: string; kind: 'unit' | 'area'; name: string; 
 
 export default async function Filtering({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
-  if (sp.states !== undefined) return <MultiStateFinder sp={sp} />;
+  if (sp.states !== undefined) {
+    const picked = String(Array.isArray(sp.states) ? sp.states[0] : sp.states).split(',').filter(Boolean);
+    return <>{picked.length === 1 && <SyncState code={picked[0]} />}<MultiStateFinder sp={sp} /></>;
+  }
   const state = (await getState(sp.state)).code;
   // Wyoming and Montana live only in the combined finder
   const combined = combinedFinderRedirect(state, sp);
