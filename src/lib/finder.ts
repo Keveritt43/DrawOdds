@@ -204,6 +204,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
       return [{ smallSample: 'asc' }, desc('success5'), desc(rf.odds5)];
     case 'public':
       return [desc('publicPct'), desc('success5')];
+    case 'trophy':
+      return [desc('scoreTrophy'), desc('success5')];
     case 'big':
       // deer / elk: trophy share; moose / sheep / goat: average antler spread or horn length
       return [desc('bigPct5'), desc('avgSize5'), desc('success5')];
