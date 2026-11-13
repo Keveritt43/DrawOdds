@@ -102,7 +102,7 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
               const pl = po.pools[p];
               if (!pl) return <div key={p} className="co-need-row"><span>{UT_POOL_LABEL[p]}</span><b>–</b><span className="small muted">no {p === 'nr' ? 'nonresident' : 'resident'} permits</span></div>;
               const apps = pl.levels.reduce((a, l) => a + l[1], 0), drew = pl.levels.reduce((a, l) => a + l[2], 0);
-              return <div key={p} className="co-need-row"><span>{UT_POOL_LABEL[p]}</span><b>{pct(apps ? drew / apps : null)}</b><span className="small muted">{int(drew)} of {int(apps)} drew · {int(pl.quota)} reported quota{kind === 'bonus' && pl.maxPointQuota !== null ? ` (${int(pl.maxPointQuota)} to the most points)` : ''}{drew > pl.quota ? ' · first-choice successes exceed the listed quota; DWR reporting basis needs verification' : ''}</span></div>;
+              return <div key={p} className="co-need-row"><span>{UT_POOL_LABEL[p]}</span><b>{pct(apps ? drew / apps : null)}</b><span className="small muted">{int(drew)} of {int(apps)} drew · {int(pl.quota)} reported quota{kind === 'bonus' && pl.maxPointQuota !== null ? ` (${int(pl.maxPointQuota)} to the most points)` : ''}{drew > pl.quota ? <> · first-choice successes exceed the initial quota; <a href="https://wildlife.utah.gov/en-us/rules/r657-62">DWR rules allow some unused reserved permits to return or cross pools</a>, but this report&apos;s specific difference is not verified.</> : ''}</span></div>;
             })}
           </div>
         )}
