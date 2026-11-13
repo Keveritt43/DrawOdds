@@ -257,7 +257,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
         {!decorated.length && (
           <div className="ucard">
             <h2>No Hunts Match</h2>
-            {species === 'DEER' && one(sp.type) === 'GENERAL' && <p>Colorado offers over-the-counter white-tailed deer licenses, but those licenses are not currently represented in these results. Check the applicable units, season and current availability with <a href="https://cpw.state.co.us/activities/hunting/nonresidents">Colorado Parks and Wildlife</a>.</p>}
+            {species === 'DEER' && one(sp.type) === 'GENERAL' && <p>Colorado&apos;s 2026 OTC white-tailed deer license <b>D-E-048-U6-R</b> is not yet included in these results. It is an either-sex, late-season license for selected units, December 1–31, 2026; it is sold at CPW offices and participating state parks. Whitetails are scarce and mostly on private land in this area. GMU 512 has separate access and weapon restrictions. <a href="https://cpw.state.co.us/sites/default/files/dam/erjzbk48be/colorado-big-game-hunting-brochure.pdf">See the CPW brochure for the valid units, eligibility and restrictions</a>.</p>}
             <p className="muted">
               Loosen a filter or remove a chip on the map. <Link href={withPresetEdit(sp.editPreset ? '/hunts?state=CO&restore=1&antler=ANTLERED' : '/hunts?reset=1', sp.editPreset)}>Clear all filters</Link>.
             </p>
