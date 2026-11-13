@@ -12,7 +12,7 @@ import { int, pct as pct0, density } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
-import { utKind, utPersonal, UT_POOL_LABEL, type UtOddsTable, type UtPointOdds, type UtPool } from '@/lib/utHunt';
+import { utKind, utPersonal, utProjects, UT_POOL_LABEL, type UtOddsTable, type UtPointOdds, type UtPool } from '@/lib/utHunt';
 import { LandBar } from '@/components/LandBar';
 import { OddsChart, ApplicantsChart, SuccessChart, HarvestChart } from '@/components/Charts';
 import { UtOddsPointsChart } from '@/components/UtCharts';
@@ -23,7 +23,7 @@ const WEAPON_LABEL: Record<string, string> = { ANY: 'Any legal weapon', ARCHERY:
 
 /** A Utah deer or elk hunt: limited entry / CWMU (bonus points), general buck deer (preference points), or general
  *  bull elk (over the counter). Laid out like Idaho's and Montana's hunt pages. */
-export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: string } }) {
+export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: string; odds?: string } }) {
   const po = s.pointOdds as unknown as UtPointOdds | null;
   const table = s.oddsByPts as unknown as UtOddsTable | null;
   const spLabel = ({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', BISON: 'bison' } as Record<string, string>)[s.species] ?? 'big game';
@@ -33,13 +33,16 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
   const nr = pts.res === 'NONRESIDENT';
   const kind = utKind(s);
   const otc = kind === 'otc';
-  const mine = utPersonal(s, pts, nr);
+  const mode = sp.odds === 'last' ? 'last' : 'proj';
+  const mine = utPersonal(s, pts, nr, mode);
+  const canProject = !!po?.projected; // some pool of this hunt is projected
+  const projYear = po?.projYear ?? (po?.year ?? 2026) + 1;
   const chance = chanceOf(mine.odds, 0, mine.odds ?? 0);
   const myPool: UtPool = nr ? 'nr' : 'res';
   const pool: UtPool = sp.pool === 'res' || sp.pool === 'nr' ? sp.pool : myPool;
   const year = po?.year ?? 2026;
   const q = (patch: Record<string, string | null>) => {
-    const u = new URLSearchParams(Object.entries({ pool: sp.pool ?? '' }).filter(([, v]) => v));
+    const u = new URLSearchParams(Object.entries({ pool: sp.pool ?? '', odds: sp.odds === 'last' ? 'last' : '' }).filter(([, v]) => v));
     for (const [k, v] of Object.entries(patch)) v === null ? u.delete(k) : u.set(k, v);
     return `/hunts/${s.slug}${u.size ? `?${u}` : ''}#odds`;
   };
@@ -84,10 +87,10 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       {/* 1. Can I draw it? */}
       <div className="co-top">
         <div className="card co-mine">
-          <div className="k">{otc ? 'Your permit' : `Your ${year} odds · ${UT_POOL_LABEL[myPool]}`}</div>
+          <div className="k">{otc ? 'Your permit' : `Your ${mine.projected ? `${projYear} projected` : year} odds · ${UT_POOL_LABEL[myPool]}`}</div>
           <div className="co-big">{pct(mine.odds)} {mine.odds !== null && <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span>}</div>
           <div className="small muted">
-            {otc ? 'Sold over the counter until the statewide cap is reached (any bull and spike permits go on sale in July).' : <>{mine.basis}. Shown as it last drew: no forecast of Utah&apos;s draw has been tested yet.</>}
+            {otc ? 'Sold over the counter until the statewide cap is reached (any bull and spike permits go on sale in July).' : <>{mine.basis}.{' '}{!utProjects(po, myPool) ? <>Shown as it last drew: no forecast of Utah&apos;s {nr ? 'nonresident' : 'resident'} {spLabel} draw tested better than repeating the last one.</> : mine.projected ? <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {year} draw</HuntLink> : <HuntLink href={q({ odds: null })} scroll={false}>See the {projYear} projection</HuntLink>}</>}
             {!pts.set && !otc && <> <Link href="/account#hunting-preferences">Set your Utah points</Link> for your own odds.</>}
           </div>
         </div>
@@ -116,7 +119,14 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       {/* 3. The charts */}
       {!otc && table && <>
         <h2 id="odds">Odds At Every {kind === 'bonus' ? 'Bonus' : 'Preference'} Point Level</h2>
-        <UtOddsPointsChart res={table.last.res ?? []} nr={table.last.nr ?? []} myPoints={mine.points} mine={myPool} year={year} kind={kind === 'bonus' ? 'bonus' : 'preference'} />
+        {canProject && <div className="co-oddsbar"><span className="seg light" role="group" aria-label="Which draw">
+          <HuntLink className="seg-link" href={q({ odds: null })} aria-pressed={mine.projected} scroll={false}>Next draw (projected)</HuntLink>
+          <HuntLink className="seg-link" href={q({ odds: 'last' })} aria-pressed={!mine.projected} scroll={false}>{year} actual</HuntLink>
+        </span></div>}
+        {mine.projected
+          ? <UtOddsPointsChart res={table.proj.res ?? []} nr={table.proj.nr ?? []} myPoints={mine.points} mine={myPool} year={projYear} kind={kind === 'bonus' ? 'bonus' : 'preference'} projected />
+          : <UtOddsPointsChart res={table.last.res ?? []} nr={table.last.nr ?? []} myPoints={mine.points} mine={myPool} year={year} kind={kind === 'bonus' ? 'bonus' : 'preference'} />}
+        {mine.projected && <p className="small muted">The {projYear} projection rolls the {year} applicants forward: everyone who didn&apos;t draw comes back with one more point, new applicants start at 0, and drawing resets a hunter&apos;s points; permits as in {year}. Each pool is projected only where that beat repeating the last draw in the 2026 test (predicted from earlier years only) and over 2023–2026 together.{(['res', 'nr'] as UtPool[]).filter((p) => po?.pools?.[p] && !utProjects(po, p)).map((p) => ` The ${UT_POOL_LABEL[p].toLowerCase()} line repeats the ${year} draw: no ${UT_POOL_LABEL[p].toLowerCase()} projection passed.`).join('')}</p>}
       </>}
       <h2>Hunter Success</h2>
       {harvestSeries.length > 0 ? <div className="grid2"><SuccessChart data={harvestSeries} /><HarvestChart data={harvestSeries} /></div> : <p className="muted">No DWR harvest estimate for this hunt number.</p>}

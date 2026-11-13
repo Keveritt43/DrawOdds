@@ -29,8 +29,10 @@ Left out (labelled in the doc): dedicated hunter, landowner, antlerless, conserv
 and EB1012 (Uinta Basin private-lands-only any bull: DWR's hunt planner gives it no boundary).
 
 Points: DWR's tables are by the points an applicant held when applying ("Point" in the 2026 data). Index N of
-oddsByPts is a hunter applying with N points. Last draw only: no projection has been backtested (§5.2), so
-proj = last and pointOdds.projected = false.
+oddsByPts is a hunter applying with N points. last = the reproducing model on 2026's applicants and permits.
+proj = the next (2027) draw, per species and residency pool, by the method scripts/ut_backtest.py's rule chose
+(data/ut/backtest.json "chosen"): 2026's applicants rolled forward one point, permits as in 2026. A pool whose
+projection failed the rule keeps the last draw in proj (pointOdds.projPools lists the projected pools).
 
 Harvest: DWR's per-hunt estimates (hunters afield, harvest), 2021-2025 with 2025 preliminary. Success = harvest /
 hunters over those seasons. DWR's own printed success is computed from raw survey answers, so it can differ.
@@ -38,6 +40,7 @@ hunters over those seasons. DWR's own printed success is computed from raw surve
 from __future__ import annotations
 
 import json
+import sys
 import math
 import re
 from datetime import date
@@ -229,6 +232,10 @@ def main() -> None:
                 "daysPerHunter5": (sum(d * n for d, n in days) / sum(n for _, n in days)) if days else None,
                 "smallSample": hu < 30}
 
+    sys.path.insert(0, str(Path(__file__).resolve().parent))  # -I drops the script's folder
+    import ut_backtest as bt  # the backtested projection code itself (imports this module's bonus_odds)
+    bt_years = bt.load()
+    bt_rates = {k: bt.rates(bt_years, k, YEAR + 1) for k in ("bonus", "pref")}
     out = []
     for sid, species, kind in (("8", "DEER", "bonus"), ("9", "ELK", "bonus"), ("5", "DEER", "pref"), ("6", "ELK", "bonus"),
                                 ("10", "PRONGHORN", "bonus"), ("12", "BISON", "bonus")):
@@ -244,7 +251,8 @@ def main() -> None:
                     problems.append(f"{code}: no hunt boundary")
                 continue
             rows = [dict(zip(F, r)) for r in h["odds"]]
-            pools, odds = {}, {}
+            pools, odds, proj = {}, {}, {}
+            pick = bt.chosen()  # per species and pool, from the backtest (None: show the last draw)
             for k, rt in (("res", 1), ("nr", 2)):
                 lv = {}
                 for r in rows:
@@ -260,6 +268,11 @@ def main() -> None:
                     odds[k] = trim(bonus_odds({p: a for p, (a, _) in lv.items() if a}, M or 0, Rq or 0))
                 else:
                     odds[k] = trim(pref_odds(lv))
+                method = pick.get(f"{bt.species_of(kind, code)}:{k}") if sid != "6" else None  # youth elk: elk
+                if method:
+                    ret, grow = bt_rates[kind].get((bt.species_of(kind, code), k), (1.0, 1.0))
+                    pm, pr = (M or 0, Rq or 0) if kind == "bonus" else (Q, 0)
+                    proj[k] = trim([round(v, 4) for v in bt.variants(kind, {p: [a, d] for p, (a, d) in lv.items() if a}, pm, pr, ret, grow)[method]])
                 pools[k] = {"quota": Q, "maxPointQuota": M, "randomQuota": Rq,
                             "levels": [[p, a, d] for p, (a, d) in sorted(lv.items())]}
             if not odds:
@@ -302,9 +315,11 @@ def main() -> None:
                 "resAppsLast": apps.get("res"), "nrAppsLast": apps.get("nr"), "appsLast": sum(apps.values()),
                 "nrPermitsLast": h["NonResidentQuotaQuantity"], "permitsLast": h["QuotaQuantity"],
                 **harvest_fields(code), **ln,
-                "oddsByPts": {"proj": odds, "last": odds},
+                "oddsByPts": {"proj": {k: proj.get(k, v) for k, v in odds.items()}, "last": odds},
                 "tagSeasons": {"year": YEAR, "seasons": seasons},
-                "pointOdds": {"state": "UT", "kind": "bonus" if kind == "bonus" else "preference", "year": YEAR, "projected": False,
+                "pointOdds": {"state": "UT", "kind": "bonus" if kind == "bonus" else "preference", "year": YEAR, "projected": bool(proj),
+                              "projYear": YEAR + 1 if proj else None,
+                              "projPools": sorted(proj), "projMethod": {k: pick.get(f"{bt.species_of(kind, code)}:{k}") for k in sorted(proj)},
                               "pointsMeaning": "Points held when applying (DWR's table). " + (
                                   "Half of each pool's permits (rounded up; a one-permit pool none) go to the most points in order; the rest are drawn with points + 1 entries each."
                                   if kind == "bonus" else "A strict queue: the most points draw first, unit by unit."),

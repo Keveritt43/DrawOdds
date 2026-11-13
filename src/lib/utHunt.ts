@@ -5,7 +5,10 @@
  * oddsByPts.last.res / .nr: index N = odds for a hunter applying with N points (DWR's tables are by points held
  * when applying). Bonus hunts: the model that reproduces DWR's draw (half the permits to the most points, the rest
  * drawn with points + 1 entries), run on the 2026 applicants. General buck deer: DWR's printed first-choice rate,
- * filled upward. No projection has been backtested, so there is no "next draw" table: pages say "2026 draw".
+ * filled upward.
+ * oddsByPts.proj: the next (2027) draw, 2026's applicants rolled forward one point (scripts/ut_backtest.py), only in
+ * the pools listed in pointOdds.projPools: per species and residency, a projection ships only if it beat the last
+ * draw on 2026 (held out) and over 2023-2026. Other pools show the last draw.
  */
 import type { UtPoints, UtPointType } from './utPoints';
 import { utPointType, UT_POINT_TYPES } from './utPoints';
@@ -20,6 +23,9 @@ export interface UtPointOdds {
   kind: 'bonus' | 'preference' | 'otc';
   year: number;
   projected: boolean;
+  projYear?: number | null;
+  projPools?: UtPool[];
+  projMethod?: Partial<Record<UtPool, string | null>>;
   pointsMeaning: string;
   pools: Partial<Record<UtPool, UtPoolInfo>>;
   /** DWR's estimates for this hunt number; 2025 is preliminary */
@@ -35,25 +41,32 @@ export function utKind(r: Row): 'otc' | 'bonus' | 'preference' {
   return po?.kind ?? 'otc';
 }
 
-export const utTableOdds = (t: UtOddsTable | null, pool: UtPool, points: number): number | null => {
-  const a = t?.last?.[pool];
+/** Whether this pool's odds are a projection (it passed the backtest rule for its species and residency). */
+export const utProjects = (po: UtPointOdds | null | undefined, pool: UtPool) => !!po?.projected && (po.projPools ?? []).includes(pool);
+
+export const utTableOdds = (t: UtOddsTable | null, pool: UtPool, points: number, which: 'proj' | 'last' = 'last'): number | null => {
+  const a = t?.[which]?.[pool];
   if (!a?.length) return null;
   return a[Math.min(Math.max(0, points), a.length - 1)];
 };
 
-export function utPersonal(r: Row, pts: UtPoints, nr: boolean): { odds: number | null; points: number | null; type: UtPointType | null; basis: string } {
+/** The hunter's odds. mode 'proj' (the default everywhere) gives the next draw where Utah's projection passed its
+ *  backtest; otherwise, and with 'last', the last draw. `projected` says which one came back. */
+export function utPersonal(r: Row, pts: UtPoints, nr: boolean, mode: 'proj' | 'last' = 'proj'): { odds: number | null; points: number | null; type: UtPointType | null; basis: string; projected: boolean } {
   const kind = utKind(r);
   const pool: UtPool = nr ? 'nr' : 'res';
-  if (kind === 'otc') return { odds: 1, points: null, type: null, basis: 'Over the counter (statewide permit cap)' };
+  if (kind === 'otc') return { odds: 1, points: null, type: null, basis: 'Over the counter (statewide permit cap)', projected: false };
   const type = r.youthOnly ? null : utPointType(r.tagCode, r.species, r.type);
   const points = type ? pts.points[type] : 0;
   const t = r.oddsByPts as UtOddsTable | null;
-  const odds = utTableOdds(t, pool, points);
   const po = r.pointOdds as UtPointOdds | null;
+  const projected = mode === 'proj' && utProjects(po, pool) && !!t?.proj?.[pool]?.length;
+  const odds = utTableOdds(t, pool, points, projected ? 'proj' : 'last');
+  const when = projected ? `${po?.projYear ?? (po?.year ?? 2026) + 1} projected` : `${po?.year ?? 2026} draw`;
   const label = type ? UT_POINT_TYPES.find((x) => x.key === type)!.label.toLowerCase() : null;
   const basis = odds === null ? `No ${nr ? 'nonresident' : 'resident'} permits in the ${po?.year ?? 2026} draw`
-    : `${po?.year ?? 2026} draw at ${points} ${kind === 'bonus' ? 'bonus' : 'preference'} point${points === 1 ? '' : 's'}${label ? ` (${label})` : ''}`;
-  return { odds, points: type ? points : null, type, basis };
+    : `${when} at ${points} ${kind === 'bonus' ? 'bonus' : 'preference'} point${points === 1 ? '' : 's'}${label ? ` (${label})` : ''}`;
+  return { odds, points: type ? points : null, type, basis, projected };
 }
 
 /** Boundary label for a unit key ("685" -> the boundary's DWR name, when the caller has it). */

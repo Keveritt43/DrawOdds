@@ -115,6 +115,37 @@ All built offline from files saved in Claude in Chrome; raw GIS inputs too big f
 - **Regulations** `data/ut/source/guidebooks-2026.json`: text of the 2026 application and field regulations guidebooks. Season dates come from the 2026 draw data per hunt; general elk dates from field regs p. 8.
 - **Hunts** `scripts/ut_build_hunts.py` → `data/ut/hunts.json`: 515 deer and elk hunts: LE deer 69, premium LE deer 9, management buck 4, LE elk 145, CWMU deer 110 and elk 64 (private-land-only; residents only in the public draw), general buck deer 106 (preference queue), the draw-only youth any bull elk hunt, and 7 over-the-counter general elk hunts. The bonus model run on 2026's own applicants expects 6,114 permits drawn against DWR's 6,119. Left out: dedicated hunter, antlerless, landowner, conservation/expo, EB1012 (private-lands any bull, no boundary). Pronghorn and bison: UT-2 and UT-3.
 
+## 5c. Projection backtest (Nov 12, 2026)
+
+`scripts/ut_backtest.py` → `data/ut/backtest.json`. Every bonus-point hunt (limited-entry deer, elk, pronghorn; bison) and every general buck deer unit, 2023–2026, each year predicted only from the years before it and scored with Brier against what DWR drew (first choice, youth rows out, weighted by applicants at each point level).
+
+Methods, all using the previous draw's permits:
+- **last**: the reproducing model on the previous draw (what the site showed until now).
+- **cohort**: everyone who didn't draw comes back one point higher, scaled by a return rate; new applicants enter at 0, scaled by a growth rate. Both rates are pooled per species and residency from earlier year pairs only.
+- **shape**: the cohort's point mix, scaled back to the previous total applicants (flat demand).
+- **blend**: the average of last and cohort.
+
+**The rule, fixed before 2026 was looked at:** for each species and residency, pick the method with the lowest Brier over 2023–2025. Ship it only if it also beats last on 2026 (held out) and over all four years. Otherwise show the last draw.
+
+| Species | Pool | Picked on 2023–25 | 2026 last | 2026 picked | 2023–26 last | 2023–26 picked | Shipped |
+|---|---|---|---|---|---|---|---|
+| Limited-entry buck deer | Resident | shape | 0.0328 | 0.0330 | 0.0312 | 0.0294 | last draw |
+| Limited-entry buck deer | Nonresident | shape | 0.0093 | 0.0087 | 0.0090 | 0.0081 | **projected** |
+| Limited-entry bull elk | Resident | blend | 0.0349 | 0.0373 | 0.0359 | 0.0372 | last draw |
+| Limited-entry bull elk | Nonresident | blend | 0.0164 | 0.0163 | 0.0175 | 0.0173 | **projected** |
+| Pronghorn | Resident | blend | 0.1052 | 0.1054 | 0.0945 | 0.0935 | last draw |
+| Pronghorn | Nonresident | cohort | 0.0407 | 0.0286 | 0.0434 | 0.0263 | **projected** |
+| Bison | Resident | blend | 0.0078 | 0.0071 | 0.0080 | 0.0073 | **projected** |
+| Bison | Nonresident | shape | 0.0017 | 0.0013 | 0.0022 | 0.0019 | **projected** |
+| General buck deer | Resident | blend | 0.1057 | 0.0987 | 0.0980 | 0.0939 | **projected** |
+| General buck deer | Nonresident | blend | 0.1189 | 0.0945 | 0.0956 | 0.0900 | **projected** |
+
+**What this changed:** my first pass scored residents and nonresidents together and said pronghorn "wins 4/4". That was wrong for residents: the whole gain was nonresident, and resident pronghorn loses in 3 of 4 years. The guide requires a win for each residency, so the decision is now made per pool. Resident limited-entry deer's chosen method lost 2026 by 0.6%, so it shows the last draw too.
+
+**Why it can move odds up:** in small hunts the top-point holders who just drew lose their points, so next year's queue is thinner at the top (PB5000: 6 of 23 resident applicants drew at 3+ points). Point creep can run backwards; the projection sees that and the last draw can't.
+
+**Not modelled:** next year's permits (the Wildlife Board sets them after applications close), hunt switching between years (points are per species, not per hunt), and group applications.
+
 ## 6. App work
 
 - **Schema (UT-3 only, needs the owner's yes):** add `BISON` to the `Species` enum (`ALTER TYPE "Species" ADD VALUE 'BISON'`, additive, no rows change). Then `SpeciesKey`, labels, colours, icons, filters, the drawing grouping (`drawOf` must not put bison in Deer/Elk/Pronghorn), a bison score benchmark in `score.ts` (success is near 100% on some hunts, so the deer/elk curve would overrate it), and Montana's later bison can reuse it.

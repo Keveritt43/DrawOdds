@@ -80,7 +80,7 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
   }
   if (r.state === 'UT') {
     // unsaved settings: nonresident, 0 points (src/lib/utPoints.ts readUtPoints defaults)
-    const u = utPersonal(r, settings.UT ?? readUtPoints(null), nr);
+    const u = utPersonal(r, settings.UT ?? readUtPoints(null), nr, mode);
     const opp = opportunity(r.scoreQuality, u.odds);
     return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: u.odds, opportunity: opp, nr, points: u.points, basis: u.basis };
   }

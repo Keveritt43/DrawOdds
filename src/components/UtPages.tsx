@@ -101,7 +101,7 @@ export async function UtGuide() {
         <h3>Example: <Link href={`/hunts/${example.slug}`}>{example.name}</Link></h3>
         <UtOddsPointsChart res={ex.last.res ?? []} nr={ex.last.nr ?? []} myPoints={null} mine="nr" year={2026} kind="bonus" />
       </>}
-      <p className="small muted">These odds re-run DWR&apos;s draw on the 2026 applicants and permits. Checked against DWR&apos;s published results for 2021–2026 (every hunt, by point level), it reproduces them; giving everyone equal chances, or squaring points as Montana does, doesn&apos;t. Drawing costs all your bonus points for that species, and limited-entry buck deer and bull elk start a 5-year waiting period. You lose points only by drawing: there&apos;s no penalty for skipping a year in Utah&apos;s rule.</p>
+      <p className="small muted">The last-draw odds re-run DWR&apos;s draw on the 2026 applicants and permits; the 2027 projection rolls those applicants forward a point (everyone who didn&apos;t draw comes back one point higher, drawing resets points). It is shown only where it beat repeating the last draw, tested separately for each species and residency: bison and general buck deer for everyone, limited-entry deer, elk and pronghorn for nonresidents; resident limited-entry deer, elk and pronghorn show the 2026 draw. Checked against DWR&apos;s published results for 2021–2026 (every hunt, by point level), it reproduces them; giving everyone equal chances, or squaring points as Montana does, doesn&apos;t. Drawing costs all your bonus points for that species, and limited-entry buck deer and bull elk start a 5-year waiting period. You lose points only by drawing: there&apos;s no penalty for skipping a year in Utah&apos;s rule.</p>
 
       <h2>General Buck Deer: Preference Points</h2>
       <p>General-season buck deer permits are drawn unit by unit, <b>most preference points first</b>: a strict line, with no random share (20% of each unit&apos;s permits are held for youth). In 2026, {genRes0} of {genDeer.length} unit hunts drew every resident at zero points, and {genNr0} drew every nonresident at zero points. Drawing resets your general deer points to zero.</p>
@@ -181,7 +181,7 @@ export async function UtPlannerPage() {
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>Application Planner · Utah</h1>
-      <p className="muted">Your {nr ? 'nonresident' : 'resident'} odds at your saved points, from the 2026 draw. {pts.set ? '' : <><Link href="/account#hunting-preferences">Set your Utah points</Link> first: these assume zero points.</>}</p>
+      <p className="muted">Your {nr ? 'nonresident' : 'resident'} odds at your saved points: the 2027 projection where one beat the last draw in testing, otherwise the 2026 draw. {pts.set ? '' : <><Link href="/account#hunting-preferences">Set your Utah points</Link> first: these assume zero points.</>}</p>
       <Timeline />
       <p className="small">Only your <b>first choice</b> can win in the max-point round, so put the hunt you most want first. Later choices are drawn after everyone&apos;s first choices, from what is left. Not drawing adds a point; applying for points only (no hunt) also adds one.</p>
       {groups.map((g) => (
