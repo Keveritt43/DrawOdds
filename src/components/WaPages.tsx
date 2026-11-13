@@ -111,17 +111,20 @@ export async function WaChanges() {
     const po = waPo(r);
     return { r, p25: permitsIn(po, '2025'), p26: r.tags, a24: apps(po, '2024'), a25: apps(po, '2025') };
   });
-  const fresh = cmp.filter((c) => c.a25 === null && !c.r.privateOnly);
-  const permits = cmp.filter((c) => c.p25 !== null && c.p26 !== null && c.p25 !== c.p26)
+  // first drawing with published applications; WDFW prints NEW (or 0/0) for a hunt's first year, and the site
+  // leaves out hunts with no applications yet, since there's nothing to estimate odds from
+  const first = (r: Row) => Math.min(...Object.entries(waPo(r)?.demand ?? {}).filter(([, d]) => (d.apps ?? 0) > 0).map(([y]) => Number(y)));
+  const fresh = cmp.filter((c) => first(c.r) >= 2024 && !c.r.privateOnly).sort((a, b) => first(b.r) - first(a.r));
+  const permits = cmp.filter((c) => c.p25 !== null && c.p26 !== null && c.p25 !== c.p26 && (c.a25 ?? 0) > 0)
     .sort((a, b) => Math.abs(b.p26! - b.p25!) - Math.abs(a.p26! - a.p25!) || (b.a25 ?? 0) - (a.a25 ?? 0)).slice(0, 40);
-  const swings = cmp.filter((c) => c.a24 !== null && c.a25 !== null && c.a24 >= 100)
+  const swings = cmp.filter((c) => c.a24 !== null && c.a25 !== null && c.a24 >= 100 && c.a25 > 0)
     .sort((a, b) => Math.abs(b.a25! / b.a24! - 1) - Math.abs(a.a25! / a.a24! - 1)).slice(0, 40);
   const sp = (s: string) => (s === 'ELK' ? 'sp-elk' : 'sp-deer');
   const name = (r: Row) => <><span className={`pill ${sp(r.species)}`}>{r.tagCode}</span> <Link href={`/hunts/${r.slug}`}>{r.name}</Link></>;
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>What Changed · Washington</h1>
-      <p className="muted">Special permits in the 2026 pamphlet against the 2025 one: <a href="#permits">More or fewer permits ({permits.length})</a> · <a href="#apps">Application swings ({swings.length})</a> · <a href="#new">New or renamed ({fresh.length})</a></p>
+      <p className="muted">Special permits in the 2026 pamphlet against the 2025 one: <a href="#permits">More or fewer permits ({permits.length})</a> · <a href="#apps">Application swings ({swings.length})</a> · <a href="#new">New in 2024 or 2025 ({fresh.length})</a></p>
       <p className="small">WDFW prints each hunt&apos;s previous-year applications (every choice counted) beside its permits. It renumbers hunts between years, so hunts are matched by name, tag, area and legal animal; a hunt that looks new may be an old one under a new name.</p>
 
       <h2 id="permits">More Or Fewer Permits</h2>
@@ -133,9 +136,9 @@ export async function WaChanges() {
         <tbody>{swings.map((c) => <tr key={c.r.id}><td>{name(c.r)}</td><td>{int(c.a24!)}</td><td>{int(c.a25!)}</td><td>{c.a25! > c.a24! ? '+' : ''}{Math.round((c.a25! / c.a24! - 1) * 100)}%</td><td>{c.p25 ? pct(c.p25 / c.a25!) : '–'}</td></tr>)}</tbody></table></div>
       <p className="small muted">Hunts with at least 100 applications in 2024. 2026 applications are published in the 2027 pamphlet. Permits ÷ applications is a rough guide only: points decide who draws.</p>
 
-      <h2 id="new">New Or Renamed Hunts</h2>
-      <p className="small muted">In the 2026 pamphlet with no 2025 applications printed (WDFW marks them NEW); private-land-only hunts left out.</p>
-      <ul>{fresh.slice(0, 80).map((c) => <li key={c.r.id}>{name(c.r)} · {int(c.p26 ?? 0)} permits</li>)}</ul>
+      <h2 id="new">New In 2024 Or 2025</h2>
+      <p className="small muted">Hunts whose first published applications are for the 2024 or 2025 drawing, so they have only a year or two of history (private-land-only hunts left out). Hunts new in 2026 (WDFW prints NEW or 0/0, such as the rebuilt Alkali antlerless hunts) have no applications yet and no odds on this site; find them in the pamphlet.</p>
+      <ul>{fresh.slice(0, 80).map((c) => <li key={c.r.id}>{name(c.r)} · first drawn {first(c.r)} · {int(c.p26 ?? 0)} permits in 2026</li>)}</ul>
       <p className="small muted">General seasons: this site has the 2026 season tables only, so season changes from 2025 aren&apos;t listed yet.</p>
       <p><Link href="/guide">How the Washington draw works</Link> · <Link href="/hunts?states=WA">Find Washington hunts →</Link></p>
     </main>
@@ -179,7 +182,7 @@ export async function WaPlannerPage() {
                 <div key={title as string} className="card">
                   <h3 style={{ marginTop: 0 }}>{title as string}</h3>
                   <div className="cmp-wrap"><table className="cmp-table"><tbody>{(list as typeof g.byOdds).map((x) => (
-                    <tr key={x.r.id}><td><Link href={`/hunts/${x.r.slug}`}>{x.r.name}</Link><div className="small muted">Hunt {x.r.tagCode} · {int(x.r.tags ?? 0)} permits</div></td><td>{pct(x.odds)}</td><td className="small muted">{x.r.success5 !== null ? `${pct(x.r.success5)} success` : '–'}</td></tr>
+                    <tr key={x.r.id}><td><Link href={`/hunts/${x.r.slug}`}>{x.r.name}</Link><div className="small muted">Hunt {x.r.tagCode} · {int(x.r.tags ?? 0)} permits</div></td><td>{pct(x.odds)}</td><td className="small muted">{x.r.success5 !== null && !x.r.smallSample ? `${pct(x.r.success5)} success` : 'few hunters'}</td></tr>
                   ))}</tbody></table></div>
                   {!(list as typeof g.byOdds).length && <p className="small muted">No hunts with enough data.</p>}
                 </div>

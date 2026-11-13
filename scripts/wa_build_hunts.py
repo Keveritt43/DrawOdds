@@ -80,7 +80,13 @@ def roll(dist: dict[int, float], u: float, total: float) -> dict[int, float]:
 
 
 def odds_by_banked(u: float) -> list[float]:
-    return [round(1 - (1 - u) ** ((b + 1) ** 2), 4) for b in range(MAXP + 1)]
+    # A weighted lottery with permits left is never 0: keep a tiny floor so a long shot isn't shown as "No chance"
+    # (owner's rule: "No chance" only when nothing can draw).
+    out = []
+    for b in range(MAXP + 1):
+        v = 1 - (1 - u) ** ((b + 1) ** 2)
+        out.append(max(round(v, 6), 1e-6) if v > 0 else 0.0)
+    return out
 
 
 def parse_dates(s: str, year: int):
@@ -141,6 +147,11 @@ def main() -> None:
         # "APPS/AVG PTS" cells print as "1810/16". One 2021 cell lost its slash in the PDF text ("44505", Prescott
         # archery elk, a hunt with 14-26 applications every other year); treat any slashless cell as unknown.
         if r.get("prior_apps") is not None and "/" not in str(r.get("prior_raw") or ""):
+            r["prior_apps"] = None
+        # "NEW", and "0/0" (17 cells in 2026, e.g. the rebuilt Alkali antlerless hunts), mean the hunt had no drawing
+        # last year. Don't count 0 applications, and don't chain it to last year's hunt of the same name.
+        r["is_new"] = str(r.get("prior_raw") or "").strip() in ("NEW", "0/0")
+        if r["is_new"]:
             r["prior_apps"] = None
     H = json.load(open(SRC / "harvest-2013-2025.json"))["pages"]
     problems: list[str] = []
@@ -274,7 +285,7 @@ def main() -> None:
         cur_name, cur_num, like = r["name"], r["choice"], r
         for y in range(YEAR, 2020, -1):
             row = r if y == YEAR else find(y, sp, r["category"], cur_name, None, like)
-            if row is None:
+            if row is None or row.get("is_new"):
                 break
             like = row
             if row["prior_apps"] is not None:
