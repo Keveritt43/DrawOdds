@@ -670,7 +670,7 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .co-herd-now .up { color: var(--ok); font-weight: 600; } .co-herd-now .down { color: var(--warn); font-weight: 600; }
 .co-herd-table th, .co-herd-table td { padding: 3px 8px; font-size: .88rem; white-space: nowrap; }
 .co-herd-table tbody th { text-align: left; font-family: var(--font-body); font-weight: 600; font-size: .82rem; color: var(--muted); }
-.co-report-tabs{display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--line,#d9dfd2);margin-bottom:14px}.co-report-tabs button{flex-shrink:0;border:1px solid var(--line,#d9dfd2);padding:12px 15px;background:#102944;color:white;cursor:pointer;font:inherit}.co-report-tabs button[aria-selected=true]{background:var(--paper,#fff);color:var(--ink,#17232a);border-top:4px solid #e5b526}.co-report-tabs button:focus-visible{outline:3px solid var(--blaze,#f0641e);outline-offset:-4px}
+.co-report-tabs{display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--line,#d9dfd2);margin-bottom:14px}.co-report-tabs button{flex-shrink:0;border:1px solid var(--line,#d9dfd2);padding:12px 15px;background:#102944;color:white;cursor:pointer;font:inherit}.co-report-tabs button[aria-selected=true]{background:var(--card,#fff);color:var(--ink,#17232a);border-top:4px solid #e5b526}.co-report-tabs button:focus-visible{outline:3px solid var(--blaze,#f0641e);outline-offset:-4px}
 
 .co-graph-grid { margin:16px 0 24px; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); }
 .co-graph-grid > .card { min-width:0; }
@@ -721,6 +721,8 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .search-ranking { margin-top: 8px; }
 .search-result { margin: 12px 0; }
 .search-result-context { margin: 0; padding: 8px 12px; background: #f1eee7; border-radius: 6px 6px 0 0; }
+/* the cream strip read as a white bar above every combined-finder card in dark mode, with light text on it */
+@media (prefers-color-scheme: dark) { .search-result-context { background: var(--card); color: var(--ink); border-bottom: 1px solid var(--line); } }
 .search-result .ucard { margin-top: 0; }
 .search-pagination { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 20px 0; }
 
@@ -784,3 +786,17 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .fold > summary > span:first-child { flex: 1; }
 .fold > :not(summary) { margin-left: 16px; margin-right: 16px; }
 .fold > :last-child { margin-bottom: 14px; }
+
+/* Home page deadline banner (src/lib/drawDeadlines.ts): under the header, above the hero. */
+.draw-alerts { background: var(--charcoal); border-bottom: 1px solid #3a403c; color: #f4f5f0; }
+.draw-alerts .inner { max-width: var(--maxw); margin: 0 auto; padding: 8px 20px; display: grid; gap: 6px; }
+.draw-alert { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; padding: 8px 12px; border-radius: 8px; border: 1px solid #4a5048; border-left: 4px solid #e5b526; background: #262b27; font-size: .92rem; }
+.draw-alert.open { border-left-color: var(--blaze); }
+.draw-alert .da-lead { font: 700 1.05rem/1.2 var(--font-display); text-transform: uppercase; letter-spacing: .04em; color: #e5b526; white-space: nowrap; }
+.draw-alert.open .da-lead { color: #ff8a4c; }
+.draw-alert .da-what b { color: #fff; }
+.draw-alert .da-links { margin-left: auto; white-space: nowrap; }
+.draw-alert a { color: #ffb184; }
+@media (max-width: 600px) { .draw-alerts .inner { padding: 8px 10px; } .draw-alert .da-links { margin-left: 0; } }
+tr.mine-row > * { background: #fff0e8; }
+@media (prefers-color-scheme: dark) { tr.mine-row > * { background: #3a2617; } }

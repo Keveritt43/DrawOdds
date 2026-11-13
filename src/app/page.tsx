@@ -8,6 +8,7 @@ import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
 import { DrawSwitch } from '@/components/DrawSwitch';
 import { Suspense } from 'react';
+import { DrawAlertBanner } from '@/components/DrawAlertBanner';
 import { NR_GENERAL_DRAW, CONTROLLED_DRAW, MSG_DRAW, FEES, money, nextWindow, md } from '@/lib/applyInfo';
 
 export const dynamic = 'force-dynamic';
@@ -24,7 +25,12 @@ export async function generateMetadata() {
   return t ? { title: { absolute: t } } : {};
 }
 
-export default async function Home({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+// Every home page variant (Idaho, Colorado, Montana, multi-state) gets the deadline banner under the header.
+export default async function Home(props: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  return <><DrawAlertBanner /><HomeBody {...props} /></>;
+}
+
+async function HomeBody({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
   const current = (await getState()).code;
   const states = searchStates(params.states, current);
