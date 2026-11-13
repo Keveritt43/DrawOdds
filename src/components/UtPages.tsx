@@ -17,6 +17,7 @@ const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? 
 type Row = { id: string; slug: string; name: string; species: string; type: string; tagCode: string | null; tags: number | null; privateOnly: boolean; pointOdds: unknown; oddsByPts: unknown };
 
 const FEES_2026: [string, string, string][] = [
+  ['Hunting license, adult (required to apply; checked Nov 12, 2026, no season year on DWR\'s fee page)', '$40', '$120'],
   ['Application, per species (or point only)', '$10', '$21'],
   ['General-season buck deer permit', '$46', '$599'],
   ['Limited-entry buck deer permit', '$94', '$1,070'],
@@ -102,6 +103,7 @@ export async function UtGuide() {
         <UtOddsPointsChart res={ex.last.res ?? []} nr={ex.last.nr ?? []} myPoints={null} mine="nr" year={2026} kind="bonus" />
       </>}
       <p className="small muted">The last-draw odds re-run DWR&apos;s draw on the 2026 applicants and permits; the 2027 projection rolls those applicants forward a point (everyone who didn&apos;t draw comes back one point higher, drawing resets points). It is shown only where it beat repeating the last draw, tested separately for each species and residency: bison and general buck deer for everyone, limited-entry deer, elk and pronghorn for nonresidents; resident limited-entry deer, elk and pronghorn show the 2026 draw. Checked against DWR&apos;s published results for 2021–2026 (every hunt, by point level), it reproduces them; giving everyone equal chances, or squaring points as Montana does, doesn&apos;t. Drawing costs all your bonus points for that species, and limited-entry buck deer and bull elk start a 5-year waiting period. You lose points only by drawing: there&apos;s no penalty for skipping a year in Utah&apos;s rule.</p>
+      <p className="small muted">Second and later choices: in the 2026 draw they got 0.5% or less of limited-entry deer, elk and pronghorn permits and none of the bison permits, so first-choice odds tell the whole story there. General buck deer is different: 4,771 permits (6.4%), in 86 of 107 units, went to hunters on a later choice. The general deer odds shown are first-choice, so a unit you list second can still draw.</p>
 
       <h2>General Buck Deer: Preference Points</h2>
       <p>General-season buck deer permits are drawn unit by unit, <b>most preference points first</b>: a strict line, with no random share (20% of each unit&apos;s permits are held for youth). In 2026, {genRes0} of {genDeer.length} unit hunts drew every resident at zero points, and {genNr0} drew every nonresident at zero points. Drawing resets your general deer points to zero.</p>

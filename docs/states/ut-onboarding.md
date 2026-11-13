@@ -199,6 +199,11 @@ Not built yet: a projection (needs the §5.2 backtest), waiting-period tracking 
   - The same layer has 111 Wildlife Management Areas (493,828 ac). Check whether BLM SMA already counts them as state land before adding them, or they'd be counted twice.
   - Each hunter needs a free annual Walk-in Access authorization number.
 
+- **Open questions answered (Nov 12):**
+  - **Later choices:** the 2026 draw data has first-choice and all-choice success. Second and later choices got 10 of 1,866 limited-entry deer permits, 7 of 3,520 elk and 10 of 1,863 pronghorn (≤0.5%), and none of 133 bison: first-choice odds are the whole story there. General buck deer: 4,771 of 74,963 permits (6.4%), in 86 of 107 units, went to later choices; the pages now say the general deer odds are first-choice. The guidebook doesn't state a maximum number of choices.
+  - **Hunting license** (required to apply): resident $40, nonresident $120 (adult, 1 year), from DWR's fee page, which carries no season year, so it's labelled "checked Nov 12, 2026". Point-only and application fee: $10 resident, $21 nonresident per species (2026 guidebook).
+  - **R657-62 changes:** the rule text DWR serves shows last changed Feb 7, 2025. It still says 50% of permits go to the most bonus points, forfeit on drawing, 5/5/2-season waits, groups up to 4 (none for OIAL), group points averaged and rounded down. The July 2025 RAC document didn't load as a change list. Nothing found that contradicts the model, but the July 2025 proposals themselves are unread.
+
 ## 7. Steps, in order
 
 1. Fetch and archive every source in §3 (Chrome), including a sample of the 2026 tool's raw responses.
