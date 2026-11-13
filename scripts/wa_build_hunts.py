@@ -438,46 +438,82 @@ def main() -> None:
     latest = max(y for v in gen.values() for y in v)
     permit_only = permit_only_gmus()
     print("permit-only GMUs", {k: sorted(v) for k, v in permit_only.items()})
-    for (sp, gmu, meth), yrs in sorted(gen.items()):
-        if meth not in METHOD or gmu not in units:
+    # The 2026 pamphlet's general-season tables (scripts/wa_parse_general_seasons.py): the seasons an adult with a
+    # general tag can use, per species, weapon and GMU. These decide which general hunts exist and their legal animal;
+    # harvest only supplies success. (Before Nov 13 the legal animal was guessed from the harvest mix and was wrong
+    # for ~30 GMUs: WDFW's general harvest rows include Master Hunter and youth kills.)
+    regs = collections.defaultdict(list)
+    for s in json.load(open(ROOT / "data" / "wa" / "general-seasons-2026.json"))["rows"]:
+        if s["adult"] and s["dates"]:
+            for g in s["gmus"]:
+                regs[(s["species"], g, s["weapon"])].append(s)
+    by_weapon = {}
+    for (sp, gmu, meth), yrs in gen.items():
+        if meth in METHOD:
+            by_weapon[(sp, gmu, METHOD[meth])] = yrs
+    any_sex = re.compile(r"any (elk|deer)|either|spike or antlerless")
+    for key in sorted(set(by_weapon) | set(regs)):
+        sp, gmu, w = key
+        yrs = by_weapon.get(key, {})
+        if gmu not in units:
             continue
         if gmu in permit_only.get(sp, set()):
-            problems.append(f"general {sp.lower()} {meth} in GMU {gmu}: pamphlet says permit only; harvest row dropped")
+            problems.append(f"general {sp.lower()} {w} in GMU {gmu}: pamphlet says permit only; harvest row dropped")
             continue
-        rec = yrs.get(latest)
-        if not rec or not rec.get("hunters"):
+        seasons = regs.get(key)
+        if not seasons:
+            if yrs.get(latest, {}).get("hunters"):
+                problems.append(f"general {sp.lower()} {w} in GMU {gmu}: harvest shows general hunters but the 2026 tables list "
+                                "no adult general season (Master Hunter, youth or closed); dropped")
             continue
-        w = METHOD[meth]
+        sexes = [x["sex"] for x in seasons]
+        f = any(any_sex.search(x) or x.startswith("antlerless") for x in sexes)
+        m = any(any_sex.search(x) or not x.startswith("antlerless") for x in sexes)
+        antler = "EITHER" if f and m else "ANTLERLESS" if f else "ANTLERED"
+        # success counts only the animals an adult may take here
+        if antler == "ANTLERED":
+            yrs = {y: {**v, "harvest": v.get("antlered") if v.get("antlered") is not None else v.get("harvest")} for y, v in yrs.items()}
+        elif antler == "ANTLERLESS":
+            yrs = {y: {**v, "harvest": (v.get("harvest") or 0) - (v.get("antlered") or 0)} for y, v in yrs.items()}
         side = gmu_side.get(gmu)
         lf = land_for([gmu])
         tagc = (("E" if side == "EAST" else "W") + {"ANY": "F", "ARCHERY": "A", "MUZZLELOADER": "M"}[w]) if sp == "ELK" else WNAME[w]
-        # The legal animal differs by GMU and isn't parsed from the pamphlet yet, so classify from what general hunters
-        # of this weapon actually took 2021-2025. Under 15% antlerless is youth/senior/disabled allowances or a short
-        # antlerless window: an adult hunter is hunting antlered, so it's antlered and success counts antlered kills only.
-        # 15% or more is a real either-sex season (total success). No antlered harvest at all is antlerless-only.
-        antlerless_taken = sum((yrs[y].get("harvest") or 0) - (yrs[y].get("antlered") or 0) for y in HARVEST_YEARS if y in yrs)
-        antlered_taken = sum((yrs[y].get("antlered") or 0) for y in HARVEST_YEARS if y in yrs)
-        taken = antlerless_taken + antlered_taken
-        share = antlerless_taken / taken if taken else 0.0
-        antler = "ANTLERLESS" if taken and antlered_taken <= 0 else ("EITHER" if share >= 0.15 else "ANTLERED")
-        if antler == "ANTLERED":
-            yrs = {y: {**v, "harvest": v.get("antlered") if v.get("antlered") is not None else v.get("harvest")} for y, v in yrs.items()}
         hv = harvest_fields(yrs, sp)
+        MO = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        def span(o: str, c: str) -> str:
+            mo, mc = MO[int(o[5:7]) - 1], MO[int(c[5:7]) - 1]
+            return f"{mo} {int(o[8:])}–{int(c[8:])}" if mo == mc else f"{mo} {int(o[8:])}–{mc} {int(c[8:])}"
+        def who(x: dict) -> str:
+            t = {"Black-tailed": "Black-tailed deer", "White-tailed": "White-tailed deer", "Mule": "Mule deer"}.get(x["deer_type"] or "", "")
+            when = "Early" if "EARLY" in x["section"] else "Late" if "LATE" in x["section"] else ""
+            return ", ".join(v for v in (when, t.lower() if when else t) if v)
+        def law(x: dict) -> str:
+            t = re.sub(r"\s+", " ", x["legal"]).strip(" ,-")
+            t = re.sub(r"^3 pt\. min\.", ("Buck" if sp == "DEER" else "Bull") + ", 3 pt. min.", t)
+            return t[:1].upper() + t[1:]
+        seasons = sorted(seasons, key=lambda x: x["dates"][0][0])
+        ts = [{"weapon": w, "sex": x["sex"], "dates": [{"open": o, "close": c} for o, c in x["dates"]], "notes": who(x)} for x in seasons]
+        opens = [d["open"] for t in ts for d in t["dates"]]
+        closes = [d["close"] for t in ts for d in t["dates"]]
+        legal = " · ".join(dict.fromkeys(
+            (f"{who(x)}: " if who(x) else "") + law(x)
+            + " (" + ", ".join(span(o, c) for o, c in x["dates"]) + ")" for x in seasons))
+        datestr = " · ".join(dict.fromkeys(span(o, c) for x in seasons for o, c in x["dates"]))
         hunts.append({
             "id": f"WA:G{sp[0]}-{gmu}-{w}", "slug": f"wa-g{sp[0].lower()}-{gmu}-{w.lower()}", "state": "WA", "species": sp,
             "type": "GENERAL", "tagCode": tagc,
             "name": f"{units[gmu]['label']} ({gmu}) General {WNAME[w]} {sp.title()}", "areaName": f"GMU {gmu} {units[gmu]['label']}",
             "description": "General season", "huntCategory": "General", "units": [gmu], "weapon": w, "antlerClass": antler,
-            "takeMethod": {"EITHER": "Antlered or antlerless depending on season (success includes antlerless kills)",
-                           "ANTLERLESS": "Antlerless only in the harvest record (no antlered harvest here 2021-2025)",
-                           "ANTLERED": "Antlered (success counts antlered kills only)"}[antler] + "; see the 2026 pamphlet for this GMU's legal animal", "tagRequired": tagc, "notes": "",
+            "takeMethod": legal, "tagRequired": tagc, "notes": "",
             "elkSide": side if sp == "ELK" else None,
-            "openDate": None, "closeDate": None, "tags": None, "privateOnly": False, "youthOnly": False,
+            "openDate": min(opens), "closeDate": max(closes), "tags": None, "privateOnly": False, "youthOnly": False,
             "oddsLastYear": None, "oddsYears": 0, **hv,
             "acres": lf["acres"] if lf else None, "publicPct": lf["publicPct"] if lf else None, "privatePct": lf["privatePct"] if lf else None,
             "oddsByPts": {"proj": {}, "last": {}},
-            "tagSeasons": {"year": YEAR, "seasons": []},
-            "pointOdds": {"state": "WA", "kind": "otc", "year": YEAR, "projected": False, "pools": {}, "category": "General", "tag": tagc, "side": side if sp == "ELK" else None,
+            "tagSeasons": {"year": YEAR, "seasons": ts},
+            "pointOdds": {"state": "WA", "kind": "otc", "year": YEAR, "projected": False, "pools": {}, "category": "General", "tag": tagc,
+                          "side": side if sp == "ELK" else None, "legal": legal,
+                          "dates": datestr,
                           "harvest": [{"year": y, "hunters": v["hunters"], "harvest": v["harvest"]} for y, v in sorted(yrs.items()) if v.get("hunters")]},
         })
 

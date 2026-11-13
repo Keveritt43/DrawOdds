@@ -85,7 +85,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="k">{gen ? 'Your tag' : `Your ${mine.projected ? `${projYear} projected` : lastYear} odds · estimated`}</div>
           <div className="co-big">{pct(mine.odds)} {mine.odds !== null && !gen && <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span>}</div>
           <div className="small muted">
-            {gen ? <>Buy a general {spLabel} tag over the counter{s.species === 'ELK' ? ' (Eastern or Western Washington, one weapon)' : ' (one weapon)'} and hunt this GMU&apos;s general season. Seasons and the legal {spLabel} differ by GMU: check the 2026 pamphlet.</>
+            {gen ? <>Buy a general {spLabel} tag over the counter{s.species === 'ELK' ? ' (Eastern or Western Washington, one weapon)' : ' (one weapon)'} and hunt this GMU&apos;s general season. This GMU&apos;s 2026 dates and legal {spLabel} for your weapon are under Season, from WDFW&apos;s 2026 pamphlet.</>
               : <>{mine.basis}. {mine.projected ? <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {lastYear} estimate</HuntLink> : <HuntLink href={q({ odds: null })} scroll={false}>See the {projYear} projection</HuntLink>}</>}
             {!pts.set && !gen && <> <Link href="/account#hunting-preferences">Set your Washington points</Link> for your own odds.</>}
           </div>
@@ -156,14 +156,15 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <p className="small muted">Public ownership is not permission to cross private land. DNR trust land counts as state land. Much of western Washington&apos;s private land is industrial timberland, often open only with a paid access permit. Tribal land is closed unless the tribe permits. BLM Surface Management Agency, measured over WDFW&apos;s units.</p>
         </details>
       )}
-      {!gen && (po?.dates || po?.legal) && (
-        <details className="card fold">
+      {(po?.dates || po?.legal) && (
+        <details className="card fold" open={gen}>
           <summary><span>Season (2026)</span><span className="small muted">{po?.dates}</span></summary>
           <div className="htable-wrap"><table><tbody>
             <tr><th>Dates</th><td>{po?.dates || '–'}</td></tr>
             <tr><th>Legal animal</th><td>{po?.legal || '–'}</td></tr>
-            <tr><th>Area</th><td>{po?.area || '–'}</td></tr>
-            <tr><th>Hunt notes</th><td>{po?.notes || '–'} <span className="small muted">(letters are explained in the pamphlet&apos;s hunt-notes key)</span></td></tr>
+            <tr><th>Area</th><td>{gen ? s.areaName : po?.area || '–'}</td></tr>
+            {gen ? <tr><th>Not shown</th><td className="small muted">Youth, 65+, hunters-with-disabilities and Master Hunter seasons, and Deer/Elk Area rules: see the pamphlet.</td></tr>
+              : <tr><th>Hunt notes</th><td>{po?.notes || '–'} <span className="small muted">(letters are explained in the pamphlet&apos;s hunt-notes key)</span></td></tr>}
           </tbody></table></div>
         </details>
       )}

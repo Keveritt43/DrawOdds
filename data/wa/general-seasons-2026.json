@@ -1,0 +1,3929 @@
+{
+ "source": "WDFW 2026 Big Game Hunting Pamphlet, general season tables (pages 23-25, 44-46)",
+ "year": 2026,
+ "problems": [],
+ "rows": [
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "HIGH BUCK",
+   "side": null,
+   "deer_type": "",
+   "dates_raw": "Sept. 15-25",
+   "gmu_raw": "Alpine Lakes, Mount Baker, Glacier Peak, Pasayten, Olympic Peninsula**, Henry Jackson Wilderness Areas and Lake Chelan Recreation Area",
+   "legal": "3 pt. min.",
+   "page": 21,
+   "dates": [
+    [
+     "2026-09-15",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [],
+   "areas": [],
+   "master_only": false,
+   "high_buck": true,
+   "youth": false,
+   "adult": false,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Oct. 17-Nov. 1",
+   "gmu_raw": "407, 418, 426, 437, 448, 450, 454, 460, 466, 501 through 505, 506 , 510 through 520, 524, 530 , 550 through 560, 568, 572, 574, 601 through 621, 624 (except Deer Area 6020), 627 through 654, 658 through 699",
+   "legal": "Any buck",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-11-01"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "418",
+    "426",
+    "437",
+    "448",
+    "450",
+    "454",
+    "460",
+    "466",
+    "501",
+    "503",
+    "504",
+    "505",
+    "506",
+    "510",
+    "513",
+    "516",
+    "520",
+    "524",
+    "530",
+    "550",
+    "554",
+    "556",
+    "560",
+    "568",
+    "572",
+    "574",
+    "601",
+    "602",
+    "603",
+    "607",
+    "612",
+    "615",
+    "618",
+    "621",
+    "624",
+    "627",
+    "633",
+    "636",
+    "638",
+    "642",
+    "648",
+    "651",
+    "652",
+    "653",
+    "654",
+    "658",
+    "660",
+    "663",
+    "666",
+    "667",
+    "672",
+    "673",
+    "681",
+    "684",
+    "699"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Oct. 17-Nov. 1",
+   "gmu_raw": "410, 411, 412, 413, 414, 415, 416, 417, 419, 420, 421, 422, 423, 424, 564 *, 655 and Deer Area 6020",
+   "legal": "Any deer",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-11-01"
+    ]
+   ],
+   "gmus": [
+    "410",
+    "411",
+    "412",
+    "413",
+    "414",
+    "415",
+    "416",
+    "417",
+    "419",
+    "420",
+    "421",
+    "422",
+    "423",
+    "424",
+    "564",
+    "655"
+   ],
+   "areas": [
+    "6020"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Oct. 17-Nov. 1",
+   "gmu_raw": "578",
+   "legal": "3 pt. min.",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-11-01"
+    ]
+   ],
+   "gmus": [
+    "578"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Oct. 17-30",
+   "gmu_raw": "101, 105, 108, 111, 113, 117 , 121, 124",
+   "legal": "Any buck",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-10-30"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Oct. 17-27",
+   "gmu_raw": "203 through 284",
+   "legal": "Any buck",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-10-27"
+    ]
+   ],
+   "gmus": [
+    "203",
+    "204",
+    "209",
+    "215",
+    "218",
+    "224",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "249",
+    "250",
+    "251",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Oct. 17-27",
+   "gmu_raw": "127 through 145, 149 , 154, 162 through 186",
+   "legal": "3 pt. min.",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-10-27"
+    ]
+   ],
+   "gmus": [
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "145",
+    "149",
+    "154",
+    "162",
+    "163",
+    "166",
+    "169",
+    "172",
+    "175",
+    "178",
+    "181",
+    "186"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Oct. 17-27",
+   "gmu_raw": "373 , 379 , 381",
+   "legal": "Any deer",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-10-27"
+    ]
+   ],
+   "gmus": [
+    "373",
+    "379",
+    "381"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "GENERAL SEASON",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Oct. 17-27",
+   "gmu_raw": "101 through 145, 149 , 154, 162 through 186, 203 through 272, 278 , 284, 328, 330 through 368, 372*, 373 , 379 , 381, 382*, 388",
+   "legal": "3 pt. min.",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-17",
+     "2026-10-27"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124",
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "145",
+    "149",
+    "154",
+    "162",
+    "163",
+    "166",
+    "169",
+    "172",
+    "175",
+    "178",
+    "181",
+    "186",
+    "203",
+    "204",
+    "209",
+    "215",
+    "218",
+    "224",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "249",
+    "250",
+    "251",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284",
+    "328",
+    "330",
+    "334",
+    "335",
+    "336",
+    "340",
+    "342",
+    "346",
+    "352",
+    "356",
+    "360",
+    "364",
+    "368",
+    "372",
+    "373",
+    "379",
+    "381",
+    "382",
+    "388"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "LATE GENERAL SEASON",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Nov. 19-22",
+   "gmu_raw": "407, 454, 466, 501 through 505, 506 , 510 through 520, 524, 530 , 550 through 560, 568, 572, 601 through 621, 624 (except Deer Area 6020), 627 through 654, 658 through 684, 699",
+   "legal": "Any buck",
+   "page": 21,
+   "dates": [
+    [
+     "2026-11-19",
+     "2026-11-22"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "454",
+    "466",
+    "501",
+    "503",
+    "504",
+    "505",
+    "506",
+    "510",
+    "513",
+    "516",
+    "520",
+    "524",
+    "530",
+    "550",
+    "554",
+    "556",
+    "560",
+    "568",
+    "572",
+    "601",
+    "602",
+    "603",
+    "607",
+    "612",
+    "615",
+    "618",
+    "621",
+    "624",
+    "627",
+    "633",
+    "636",
+    "638",
+    "642",
+    "648",
+    "651",
+    "652",
+    "653",
+    "654",
+    "658",
+    "660",
+    "663",
+    "666",
+    "667",
+    "672",
+    "673",
+    "681",
+    "684",
+    "699"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "LATE GENERAL SEASON",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Nov. 19-22",
+   "gmu_raw": "410 through 417, 419 through 424, 564 *, 655, Deer Area 6020",
+   "legal": "Any deer",
+   "page": 21,
+   "dates": [
+    [
+     "2026-11-19",
+     "2026-11-22"
+    ]
+   ],
+   "gmus": [
+    "410",
+    "411",
+    "412",
+    "413",
+    "414",
+    "415",
+    "416",
+    "417",
+    "419",
+    "420",
+    "421",
+    "422",
+    "423",
+    "424",
+    "564",
+    "655"
+   ],
+   "areas": [
+    "6020"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "LATE GENERAL SEASON",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 7-19",
+   "gmu_raw": "105, 108, 111, 113, 117 , 121, 124",
+   "legal": "Any buck",
+   "page": 21,
+   "dates": [
+    [
+     "2026-11-07",
+     "2026-11-19"
+    ]
+   ],
+   "gmus": [
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "YOUTH GENERAL SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Oct. 24-30",
+   "gmu_raw": "124",
+   "legal": "Any deer",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-24",
+     "2026-10-30"
+    ]
+   ],
+   "gmus": [
+    "124"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": true,
+   "adult": false,
+   "sex": "youth any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ANY",
+   "section": "YOUTH GENERAL SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Oct. 24-27",
+   "gmu_raw": "127 through 142",
+   "legal": "3 pt. min. or antlerless",
+   "page": 21,
+   "dates": [
+    [
+     "2026-10-24",
+     "2026-10-27"
+    ]
+   ],
+   "gmus": [
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": true,
+   "adult": false,
+   "sex": "youth either sex (white-tailed 3 pt. min. buck or antlerless)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "407, 410, 411 , 412 , 413 , 414 , 415 , 416, 417, 418, 419, 420 421, 422 , 423, 424, 426, 437, 448, 450, 454, 466, 501, 504, 505, 554, 564 *, 568, 621 through 636, 648 through 652, 654 through 673, 684",
+   "legal": ", Any deer",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "410",
+    "411",
+    "412",
+    "413",
+    "414",
+    "415",
+    "416",
+    "417",
+    "418",
+    "419",
+    "420",
+    "421",
+    "422",
+    "423",
+    "424",
+    "426",
+    "437",
+    "448",
+    "450",
+    "454",
+    "466",
+    "501",
+    "504",
+    "505",
+    "554",
+    "564",
+    "568",
+    "621",
+    "624",
+    "627",
+    "633",
+    "636",
+    "648",
+    "651",
+    "652",
+    "654",
+    "655",
+    "658",
+    "660",
+    "663",
+    "666",
+    "667",
+    "672",
+    "673",
+    "684"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "460, 503, 574, 601 through 618, 638, 642, 653, 681 and 699",
+   "legal": "Any buck",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "460",
+    "503",
+    "574",
+    "601",
+    "602",
+    "603",
+    "607",
+    "612",
+    "615",
+    "618",
+    "638",
+    "642",
+    "653",
+    "681",
+    "699"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "578",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "578"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 1-20",
+   "gmu_raw": "510, 513, 516, 520, 524, 530 , 556",
+   "legal": "Any deer",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-20"
+    ]
+   ],
+   "gmus": [
+    "510",
+    "513",
+    "516",
+    "520",
+    "524",
+    "530",
+    "556"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 1-20",
+   "gmu_raw": "506 , 550, 560, 572",
+   "legal": "Any buck",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-20"
+    ]
+   ],
+   "gmus": [
+    "506",
+    "550",
+    "560",
+    "572"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "101 through 124",
+   "legal": "Any buck",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "204 through 250, 254 through 284 , 373 , 379 , 381",
+   "legal": "Any deer",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "204",
+    "209",
+    "215",
+    "218",
+    "224",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "249",
+    "250",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284",
+    "373",
+    "379",
+    "381"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "127 through 142, 145, 149 , 166, 169, 172, 175, 186",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "145",
+    "149",
+    "166",
+    "169",
+    "172",
+    "175",
+    "186"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Sept. 1-22",
+   "gmu_raw": "154, 162, 163, 178, 181",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-22"
+    ]
+   ],
+   "gmus": [
+    "154",
+    "162",
+    "163",
+    "178",
+    "181"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "101 through 136, 145, 149, 166 through 175, 186, 204 though 250, 254 through 278, 334, 382*, 388",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124",
+    "127",
+    "130",
+    "133",
+    "136",
+    "145",
+    "149",
+    "166",
+    "169",
+    "172",
+    "175",
+    "186",
+    "204",
+    "209",
+    "215",
+    "218",
+    "224",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "249",
+    "250",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "334",
+    "382",
+    "388"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Sept. 1-25",
+   "gmu_raw": "139, 142, 284, 372*, 373 , 379 , 381, Deer Area 3334",
+   "legal": "3 pt. min. or antlerless",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [
+    "139",
+    "142",
+    "284",
+    "372",
+    "373",
+    "379",
+    "381"
+   ],
+   "areas": [
+    "3334"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. buck or antlerless)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Sept. 1-20",
+   "gmu_raw": "154, 162, 163,178, 181, 251, 328, 335, 336, 340, 346, 352, 356, 360, 364, 368",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-09-01",
+     "2026-09-20"
+    ]
+   ],
+   "gmus": [
+    "154",
+    "162",
+    "163",
+    "178",
+    "181",
+    "251",
+    "328",
+    "335",
+    "336",
+    "340",
+    "346",
+    "352",
+    "356",
+    "360",
+    "364",
+    "368"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "437, 466, 510 through 520, 524",
+   "legal": "Any deer",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "437",
+    "466",
+    "510",
+    "513",
+    "516",
+    "520",
+    "524"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "448, 460, 506 , 530 , 560, 572, 601, 603 through 618, 638, 642, 681, 699",
+   "legal": "Any buck",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "448",
+    "460",
+    "506",
+    "530",
+    "560",
+    "572",
+    "601",
+    "603",
+    "607",
+    "612",
+    "615",
+    "618",
+    "638",
+    "642",
+    "681",
+    "699"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Nov. 25-Dec. 31",
+   "gmu_raw": "407, 410, 411 , 412 , 413 , 414 , 415 , 416, 417, 419, 420 , 421, 422 , 423, 424, 454, 505, 564 *, 624, 627, 636, 648, 652, 654, 655, 660 through 672",
+   "legal": "Any deer",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-31"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "410",
+    "411",
+    "412",
+    "413",
+    "414",
+    "415",
+    "416",
+    "417",
+    "419",
+    "420",
+    "421",
+    "422",
+    "423",
+    "424",
+    "454",
+    "505",
+    "564",
+    "624",
+    "627",
+    "636",
+    "648",
+    "652",
+    "654",
+    "655",
+    "660",
+    "663",
+    "666",
+    "667",
+    "672"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 10-Dec. 15",
+   "gmu_raw": "101",
+   "legal": "Any buck",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-10",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "101"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "105, 108, 117 , 121, 124",
+   "legal": "Any buck",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "105",
+    "108",
+    "117",
+    "121",
+    "124"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "127",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "127"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 20-Dec. 8",
+   "gmu_raw": "145, 163, 178, 272, 278",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-20",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "145",
+    "163",
+    "178",
+    "272",
+    "278"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 20-Dec. 8",
+   "gmu_raw": "373",
+   "legal": "Any deer",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-20",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "373"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "204, 209, 215, 233, 243",
+   "legal": "Any deer",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "204",
+    "209",
+    "215",
+    "233",
+    "243"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Nov. 21-30",
+   "gmu_raw": "209, 215, 233, 243, 250",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-21",
+     "2026-11-30"
+    ]
+   ],
+   "gmus": [
+    "209",
+    "215",
+    "233",
+    "243",
+    "250"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "336, 342, 346, 352, 364, 388, Deer Area 3682",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "336",
+    "342",
+    "346",
+    "352",
+    "364",
+    "388"
+   ],
+   "areas": [
+    "3682"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Nov. 20-Dec. 8",
+   "gmu_raw": "145, 163, 178, 272, 278",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-20",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "145",
+    "163",
+    "178",
+    "272",
+    "278"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Nov. 20-Dec. 8",
+   "gmu_raw": "373 , Deer Area 3372",
+   "legal": "3 pt. min. or antlerless",
+   "page": 22,
+   "dates": [
+    [
+     "2026-11-20",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "373"
+   ],
+   "areas": [
+    "3372"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. buck or antlerless)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Dec. 1-8",
+   "gmu_raw": "382*",
+   "legal": "3 pt. min.",
+   "page": 22,
+   "dates": [
+    [
+     "2026-12-01",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "382"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "HIGH BUCK",
+   "side": null,
+   "deer_type": "",
+   "dates_raw": "Sept. 15-25",
+   "gmu_raw": "Alpine Lakes, Glacier Peak, Pasayten, Mount Baker, Olympic Peninsula**, Henry Jackson Wilderness areas, and Lake Chelan Recreation Area",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-15",
+     "2026-09-25"
+    ]
+   ],
+   "gmus": [],
+   "areas": [],
+   "master_only": false,
+   "high_buck": true,
+   "youth": false,
+   "adult": false,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "407, 418, 426, 437, 448, 450, 501, 503, 504, 505, 506 , 510, 513, 516, 520, 530 , 550, 554, 560, 568, 572, 574, 603, 607, 612, 615, 621, 624 (except Deer Area 6020), 633 through 651, 660, 663, 672, 673",
+   "legal": "Any buck",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "418",
+    "426",
+    "437",
+    "448",
+    "450",
+    "501",
+    "503",
+    "504",
+    "505",
+    "506",
+    "510",
+    "513",
+    "516",
+    "520",
+    "530",
+    "550",
+    "554",
+    "560",
+    "568",
+    "572",
+    "574",
+    "603",
+    "607",
+    "612",
+    "615",
+    "621",
+    "624",
+    "633",
+    "636",
+    "638",
+    "642",
+    "648",
+    "651",
+    "660",
+    "663",
+    "672",
+    "673"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "410, 411 , 412 , 413 , 414 , 415 , 416, 417, 419, 420 , 421, 422 , 423, 424, 454, 564 *, 627, 652, 655, 666, 684 , Deer Area 6020",
+   "legal": "Any deer",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [
+    "410",
+    "411",
+    "412",
+    "413",
+    "414",
+    "415",
+    "416",
+    "417",
+    "419",
+    "420",
+    "421",
+    "422",
+    "423",
+    "424",
+    "454",
+    "564",
+    "627",
+    "652",
+    "655",
+    "666",
+    "684"
+   ],
+   "areas": [
+    "6020"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "578",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [
+    "578"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "101 through 124, 203, 204, 209, 215, 231, 233, 239, 242 through 246, 247, 248, 250, 251, 254, 260, 262, 266, 269, 272, 278 , 284",
+   "legal": "Any buck",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124",
+    "203",
+    "204",
+    "209",
+    "215",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "250",
+    "251",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "127, 130, 133, 136, 139, 142, 145, 149 , 175, 181, 186",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "145",
+    "149",
+    "175",
+    "181",
+    "186"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "373 379",
+   "legal": "Any deer",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [
+    "373",
+    "379"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "101 through 145, 149 , 175, 181, 186, 203, 204, 209, 215, 231, 233, 239, 242 through 246, 248, 250, 251, 254, 260, 262, 266, 269, 272, 278 , 284, 328, 330 through 342, 352 through 368, 373 , 379",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124",
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "145",
+    "149",
+    "175",
+    "181",
+    "186",
+    "203",
+    "204",
+    "209",
+    "215",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "248",
+    "250",
+    "251",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284",
+    "328",
+    "330",
+    "334",
+    "335",
+    "336",
+    "340",
+    "342",
+    "352",
+    "356",
+    "360",
+    "364",
+    "368",
+    "373",
+    "379"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Sept. 26-Oct. 4",
+   "gmu_raw": "Deer Areas 3334 and 3372",
+   "legal": "3 pt. min. or antlerless",
+   "page": 23,
+   "dates": [
+    [
+     "2026-09-26",
+     "2026-10-04"
+    ]
+   ],
+   "gmus": [],
+   "areas": [
+    "3334",
+    "3372"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. buck or antlerless)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "407, 410, 411 , 412 , 413 , 414 , 415 , 416, 417, 419, 420 , 421, 422 , 423, 424, 454, 504, 564 *, 633, 654, 666, 667, and 684",
+   "legal": "Any deer",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "410",
+    "411",
+    "412",
+    "413",
+    "414",
+    "415",
+    "416",
+    "417",
+    "419",
+    "420",
+    "421",
+    "422",
+    "423",
+    "424",
+    "454",
+    "504",
+    "564",
+    "633",
+    "654",
+    "666",
+    "667",
+    "684"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Black-tailed",
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "448, 460, 501, 602, 621, 651, 658, 673",
+   "legal": "Any buck",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "448",
+    "460",
+    "501",
+    "602",
+    "621",
+    "651",
+    "658",
+    "673"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "113",
+   "legal": "Any buck",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "113"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed any buck)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "130, 133, 136, 139, 142",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "130",
+    "133",
+    "136",
+    "139",
+    "142"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 20-Dec. 8",
+   "gmu_raw": "172, 181",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-20",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "172",
+    "181"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (white-tailed 3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "White-tailed",
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "379 , 381",
+   "legal": "Any deer",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "379",
+    "381"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any deer"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "379 , 381",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "379",
+    "381"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "DEER",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL DEER SEASONS",
+   "side": null,
+   "deer_type": "Mule",
+   "dates_raw": "Nov. 20-30",
+   "gmu_raw": "382*",
+   "legal": "3 pt. min.",
+   "page": 23,
+   "dates": [
+    [
+     "2026-11-20",
+     "2026-11-30"
+    ]
+   ],
+   "gmus": [
+    "382"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Aug. 1, 2026-Jan. 20, 2027",
+   "gmu_raw": "Master Hunters Only: Elk Areas 3911 and 3912. Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Antlerless only",
+   "page": 41,
+   "dates": [
+    [
+     "2026-08-01",
+     "2027-01-20"
+    ]
+   ],
+   "gmus": [],
+   "areas": [
+    "3911",
+    "3912"
+   ],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Sept. 12-27",
+   "gmu_raw": "Elk Area 3722*",
+   "legal": "Antlerless only",
+   "page": 41,
+   "dates": [
+    [
+     "2026-09-12",
+     "2026-09-27"
+    ]
+   ],
+   "gmus": [],
+   "areas": [
+    "3722"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 31-Nov. 8",
+   "gmu_raw": "101, 105, 108, 111, 113, 117 , 121, 204",
+   "legal": "Any bull",
+   "page": 41,
+   "dates": [
+    [
+     "2026-10-31",
+     "2026-11-08"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "204"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any bull)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 31-Nov. 8",
+   "gmu_raw": "145, 149 , 154, 162 through 186, 249, 336 through 368",
+   "legal": "Spike bull",
+   "page": 41,
+   "dates": [
+    [
+     "2026-10-31",
+     "2026-11-08"
+    ]
+   ],
+   "gmus": [
+    "145",
+    "149",
+    "154",
+    "162",
+    "163",
+    "166",
+    "169",
+    "172",
+    "175",
+    "178",
+    "181",
+    "186",
+    "249",
+    "336",
+    "340",
+    "342",
+    "346",
+    "352",
+    "356",
+    "360",
+    "364",
+    "368"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (spike only)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 31-Nov. 8",
+   "gmu_raw": "251, 328, 329, 334, 335",
+   "legal": "True spike bull",
+   "page": 41,
+   "dates": [
+    [
+     "2026-10-31",
+     "2026-11-08"
+    ]
+   ],
+   "gmus": [
+    "251",
+    "328",
+    "329",
+    "334",
+    "335"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (true spike only)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 31-Nov. 8",
+   "gmu_raw": "124 through 142, 372*, 382*, 388",
+   "legal": "Any elk",
+   "page": 41,
+   "dates": [
+    [
+     "2026-10-31",
+     "2026-11-08"
+    ]
+   ],
+   "gmus": [
+    "124",
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "372",
+    "382",
+    "388"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 31-Nov. 15",
+   "gmu_raw": "203, 209 through 248, 250, 254 through 272, 278 , 284, 290, 373 , 379 , 381",
+   "legal": "Any elk",
+   "page": 41,
+   "dates": [
+    [
+     "2026-10-31",
+     "2026-11-15"
+    ]
+   ],
+   "gmus": [
+    "203",
+    "209",
+    "215",
+    "218",
+    "224",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "250",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284",
+    "290",
+    "373",
+    "379",
+    "381"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Aug. 1-31, 2026 and Jan. 1-31, 2027",
+   "gmu_raw": "Master Hunters Only: 334 and 371. Must wear hunter orange and/or fuorescent hunter pink in August.",
+   "legal": "Antlerless only",
+   "page": 41,
+   "dates": [
+    [
+     "2026-08-01",
+     "2026-08-31"
+    ],
+    [
+     "2027-01-01",
+     "2027-01-31"
+    ]
+   ],
+   "gmus": [
+    "334",
+    "371"
+   ],
+   "areas": [],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Dec. 9-31",
+   "gmu_raw": "Master Hunters Only: 127 through 142",
+   "legal": "Antlerless only",
+   "page": 41,
+   "dates": [
+    [
+     "2026-12-09",
+     "2026-12-31"
+    ]
+   ],
+   "gmus": [
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142"
+   ],
+   "areas": [],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 7-18",
+   "gmu_raw": "564* , 666",
+   "legal": "Any elk",
+   "page": 41,
+   "dates": [
+    [
+     "2026-11-07",
+     "2026-11-18"
+    ]
+   ],
+   "gmus": [
+    "564",
+    "666"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 7-18",
+   "gmu_raw": "454",
+   "legal": "Any bull",
+   "page": 41,
+   "dates": [
+    [
+     "2026-11-07",
+     "2026-11-18"
+    ]
+   ],
+   "gmus": [
+    "454"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any bull)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 7-18",
+   "gmu_raw": "407, 460, 466, 448, 503, 505, 506 , 510 through 520, 524, (except Elk Area 5066), 530 , 550, 560, 568, 572, 574, 578 , 601 through 618, 624 (except Elk Area 6071), 627, 633, 638 (except Master Hunters Only in Elk Area 6064 portion of GMU 638), 642 through 651, 652 (except Elk Area 6014), 654, 658, 660, 667 through 681, 684 .",
+   "legal": "3 pt. min.",
+   "page": 41,
+   "dates": [
+    [
+     "2026-11-07",
+     "2026-11-18"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "448",
+    "460",
+    "466",
+    "503",
+    "505",
+    "506",
+    "510",
+    "513",
+    "516",
+    "520",
+    "524",
+    "530",
+    "550",
+    "560",
+    "568",
+    "572",
+    "574",
+    "578",
+    "601",
+    "602",
+    "603",
+    "607",
+    "612",
+    "615",
+    "618",
+    "624",
+    "627",
+    "633",
+    "638",
+    "642",
+    "648",
+    "651",
+    "652",
+    "654",
+    "658",
+    "660",
+    "667",
+    "672",
+    "673",
+    "681",
+    "684"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ANY",
+   "section": "",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 7-18",
+   "gmu_raw": "501, 504, 663, Elk Areas 4601* and 6014",
+   "legal": "3 pt. min. or antlerless",
+   "page": 41,
+   "dates": [
+    [
+     "2026-11-07",
+     "2026-11-18"
+    ]
+   ],
+   "gmus": [
+    "501",
+    "504",
+    "663"
+   ],
+   "areas": [
+    "4601"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. bull or antlerless)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Aug. 1-31",
+   "gmu_raw": "Master Hunters Only: 371. Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Antlerless only",
+   "page": 42,
+   "dates": [
+    [
+     "2026-08-01",
+     "2026-08-31"
+    ]
+   ],
+   "gmus": [
+    "371"
+   ],
+   "areas": [],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Sept. 12-24",
+   "gmu_raw": "101 through 142, 117 , 204, 243, 247, 249, 250, 272, 278, 284, 290, 373 , 379 , 381, 382*, 388",
+   "legal": "Any elk",
+   "page": 42,
+   "dates": [
+    [
+     "2026-09-12",
+     "2026-09-24"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "124",
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "204",
+    "243",
+    "247",
+    "249",
+    "250",
+    "272",
+    "278",
+    "284",
+    "290",
+    "373",
+    "379",
+    "381",
+    "382",
+    "388"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Sept. 12-24",
+   "gmu_raw": "145, 149 , 163, 178, 181, 334, 335, 371, Elk Area 1054",
+   "legal": "Spike bull or antlerless",
+   "page": 42,
+   "dates": [
+    [
+     "2026-09-12",
+     "2026-09-24"
+    ]
+   ],
+   "gmus": [
+    "145",
+    "149",
+    "163",
+    "178",
+    "181",
+    "334",
+    "335",
+    "371"
+   ],
+   "areas": [
+    "1054"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "spike or antlerless"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Sept. 12-24",
+   "gmu_raw": "154, 162, 166, 169, 172, 175, 186, 251, 328, 329, 336, 340, 352, 356, 364",
+   "legal": "Spike bull",
+   "page": 42,
+   "dates": [
+    [
+     "2026-09-12",
+     "2026-09-24"
+    ]
+   ],
+   "gmus": [
+    "154",
+    "162",
+    "166",
+    "169",
+    "172",
+    "175",
+    "186",
+    "251",
+    "328",
+    "329",
+    "336",
+    "340",
+    "352",
+    "356",
+    "364"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (spike only)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Sept. 12-24",
+   "gmu_raw": "454, 564* , 666, 684, Elk Area 6014",
+   "legal": "Any elk",
+   "page": 42,
+   "dates": [
+    [
+     "2026-09-12",
+     "2026-09-24"
+    ]
+   ],
+   "gmus": [
+    "454",
+    "564",
+    "666",
+    "684"
+   ],
+   "areas": [
+    "6014"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Sept. 12-24",
+   "gmu_raw": "407, 448, 460, 466, 506 through 520, 524, (except Elk Area 5066), 530 , 550, 560, 572, 601 through 618, 624 (except Elk Area 6071), 627, 633, 638 (except Master Hunters only in Elk Area 6064), 642 through 651, 658",
+   "legal": "3 pt. min.",
+   "page": 42,
+   "dates": [
+    [
+     "2026-09-12",
+     "2026-09-24"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "448",
+    "460",
+    "466",
+    "506",
+    "510",
+    "513",
+    "516",
+    "520",
+    "524",
+    "530",
+    "550",
+    "560",
+    "572",
+    "601",
+    "602",
+    "603",
+    "607",
+    "612",
+    "615",
+    "618",
+    "624",
+    "627",
+    "633",
+    "638",
+    "642",
+    "648",
+    "651",
+    "658"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "EARLY ARCHERY GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Sept. 12-24",
+   "gmu_raw": "Elk Area 4601***, 501 through 505, 554, 568, 574, 578 , Elk Area 6061, 652 (Except Elk Area 6013 closed to antlerless), 654, 660, 663, 667 through 673, 681, and 699",
+   "legal": "3 pt. min. or antlerless",
+   "page": 42,
+   "dates": [
+    [
+     "2026-09-12",
+     "2026-09-24"
+    ]
+   ],
+   "gmus": [
+    "501",
+    "503",
+    "504",
+    "505",
+    "554",
+    "568",
+    "574",
+    "578",
+    "652",
+    "654",
+    "660",
+    "663",
+    "667",
+    "672",
+    "673",
+    "681",
+    "699"
+   ],
+   "areas": [
+    "4601",
+    "6061"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. bull or antlerless)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Aug. 1, 2026-Jan. 20, 2027",
+   "gmu_raw": "Master Hunters Only: Elk Areas 3911 and 3912. Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Antlerless only",
+   "page": 42,
+   "dates": [
+    [
+     "2026-08-01",
+     "2027-01-20"
+    ]
+   ],
+   "gmus": [],
+   "areas": [
+    "3911",
+    "3912"
+   ],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 31-Nov. 15",
+   "gmu_raw": "203, 209 through 248, 250, 254 through 272, 278 , 284, 290, 379 , 381 Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Any elk",
+   "page": 42,
+   "dates": [
+    [
+     "2026-10-31",
+     "2026-11-15"
+    ]
+   ],
+   "gmus": [
+    "203",
+    "209",
+    "215",
+    "218",
+    "224",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "250",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284",
+    "290",
+    "379",
+    "381"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Nov. 20-Dec. 8",
+   "gmu_raw": "178",
+   "legal": "Antlerless only",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-20",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "178"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "101, 105, 108, 117, 204",
+   "legal": "Any bull",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "117",
+    "204"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any bull)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "121, 124, 127, 373 , 382*, 388",
+   "legal": "Any elk",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "121",
+    "124",
+    "127",
+    "373",
+    "382",
+    "388"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "334, 335",
+   "legal": "Spike bull or antlerless",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "334",
+    "335"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "spike or antlerless"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "249, 251, 336, 342, 346, 352, 364, Elk Area 3681",
+   "legal": "Spike Bull",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "249",
+    "251",
+    "336",
+    "342",
+    "346",
+    "352",
+    "364"
+   ],
+   "areas": [
+    "3681"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (spike only)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Dec. 9-31",
+   "gmu_raw": "Master Hunters Only: 127 through 142",
+   "legal": "Antlerless only",
+   "page": 42,
+   "dates": [
+    [
+     "2026-12-09",
+     "2026-12-31"
+    ]
+   ],
+   "gmus": [
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142"
+   ],
+   "areas": [],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Dec. 9, 2026-Jan. 20, 2027",
+   "gmu_raw": "163",
+   "legal": "Antlerless only",
+   "page": 42,
+   "dates": [
+    [
+     "2026-12-09",
+     "2027-01-20"
+    ]
+   ],
+   "gmus": [
+    "163"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "Elk Area 4601*, 503, 505, 652 (except Elk Area 6013 closed to antlerless), 663, 667, 672, 681, and 699 . Master hunters only in Elk Area 6064 portion of GMU 638.",
+   "legal": "3 pt. min. or antlerless",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "503",
+    "505",
+    "638",
+    "652",
+    "663",
+    "667",
+    "672",
+    "681",
+    "699"
+   ],
+   "areas": [
+    "4601",
+    "6064"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. bull or antlerless)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "454, 564* , 666, Elk Area 6014",
+   "legal": "Any elk",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "454",
+    "564",
+    "666"
+   ],
+   "areas": [
+    "6014"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "ARCHERY",
+   "section": "LATE ARCHERY GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "407, 448, 506, 530, 603, 612, 615, 638 (except for Elk Area 6064), 648",
+   "legal": "3 pt. min.",
+   "page": 42,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "448",
+    "506",
+    "530",
+    "603",
+    "612",
+    "615",
+    "638",
+    "648"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Aug. 1-31",
+   "gmu_raw": "Master Hunters Only: 371. Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Antlerless only",
+   "page": 43,
+   "dates": [
+    [
+     "2026-08-01",
+     "2026-08-31"
+    ]
+   ],
+   "gmus": [
+    "371"
+   ],
+   "areas": [],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 3-9",
+   "gmu_raw": "101 through 121, 117 , 204, 247",
+   "legal": "Any bull",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-03",
+     "2026-10-09"
+    ]
+   ],
+   "gmus": [
+    "101",
+    "105",
+    "108",
+    "111",
+    "113",
+    "117",
+    "121",
+    "204",
+    "247"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (any bull)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 3-9",
+   "gmu_raw": "124 through 142, 245, 250, 272, 278, 284, 290, 379",
+   "legal": "Any elk",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-03",
+     "2026-10-09"
+    ]
+   ],
+   "gmus": [
+    "124",
+    "127",
+    "130",
+    "133",
+    "136",
+    "139",
+    "142",
+    "245",
+    "250",
+    "272",
+    "278",
+    "284",
+    "290",
+    "379"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 3-9",
+   "gmu_raw": "145, 149, 154, 162, 163, 166, 172, 175, 178, 181, 249, 336 through 342, 352 through 368",
+   "legal": "Spike bull",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-03",
+     "2026-10-09"
+    ]
+   ],
+   "gmus": [
+    "145",
+    "149",
+    "154",
+    "162",
+    "163",
+    "166",
+    "172",
+    "175",
+    "178",
+    "181",
+    "249",
+    "336",
+    "340",
+    "342",
+    "352",
+    "356",
+    "360",
+    "364",
+    "368"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (spike only)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 3-9",
+   "gmu_raw": "251, 328, 329, 334, 335, Elk Area 2051",
+   "legal": "True spike bull",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-03",
+     "2026-10-09"
+    ]
+   ],
+   "gmus": [
+    "251",
+    "328",
+    "329",
+    "334",
+    "335"
+   ],
+   "areas": [
+    "2051"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (true spike only)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Oct. 3-9",
+   "gmu_raw": "454, 564* , 666, 684",
+   "legal": "Any elk",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-03",
+     "2026-10-09"
+    ]
+   ],
+   "gmus": [
+    "454",
+    "564",
+    "666",
+    "684"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Oct. 3-9",
+   "gmu_raw": "407, 448, 460, 466, 506 , 510, 513, 516, 520, 524, (except Elk Area 5066), 530 , 550, 554, 560, 568, 572, 574, 578 , 602, 603, 607, 612, 615, 624 (except Elk Area 6071), 627, 633, 638 (except Elk Area 6064), 642, 648, 660, 672, 673, 681",
+   "legal": "3 pt. min.",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-03",
+     "2026-10-09"
+    ]
+   ],
+   "gmus": [
+    "407",
+    "448",
+    "460",
+    "466",
+    "506",
+    "510",
+    "513",
+    "516",
+    "520",
+    "524",
+    "530",
+    "550",
+    "554",
+    "560",
+    "568",
+    "572",
+    "574",
+    "578",
+    "602",
+    "603",
+    "607",
+    "612",
+    "615",
+    "624",
+    "627",
+    "633",
+    "638",
+    "642",
+    "648",
+    "660",
+    "672",
+    "673",
+    "681"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "EARLY MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Oct. 3-9",
+   "gmu_raw": "501, 503, 504, 505, 652 (except Elk Area 6013 closed to antler- less), Elk Area 6014, 654, 663, 667, Elk Area 4601",
+   "legal": "3 pt. min. or antlerless",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-03",
+     "2026-10-09"
+    ]
+   ],
+   "gmus": [
+    "501",
+    "503",
+    "504",
+    "505",
+    "652",
+    "654",
+    "663",
+    "667"
+   ],
+   "areas": [
+    "6014",
+    "4601"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. bull or antlerless)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Aug. 1, 2026-Jan. 20, 2027",
+   "gmu_raw": "Master Hunters Only: Elk Areas 3911 and 3912. Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Antlerless only",
+   "page": 43,
+   "dates": [
+    [
+     "2026-08-01",
+     "2027-01-20"
+    ]
+   ],
+   "gmus": [],
+   "areas": [
+    "3911",
+    "3912"
+   ],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Oct. 31-Nov. 15",
+   "gmu_raw": "203, 209 through 248, 250, 254 through 272, 278 , 284, 290, 373 , 379 , 381. Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Any elk",
+   "page": 43,
+   "dates": [
+    [
+     "2026-10-31",
+     "2026-11-15"
+    ]
+   ],
+   "gmus": [
+    "203",
+    "209",
+    "215",
+    "218",
+    "224",
+    "231",
+    "233",
+    "239",
+    "242",
+    "243",
+    "244",
+    "245",
+    "246",
+    "247",
+    "248",
+    "250",
+    "254",
+    "260",
+    "262",
+    "266",
+    "269",
+    "272",
+    "278",
+    "284",
+    "290",
+    "373",
+    "379",
+    "381"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "130 through 142*",
+   "legal": "Any elk",
+   "page": 43,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "130",
+    "133",
+    "136",
+    "139",
+    "142"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "EAST",
+   "deer_type": null,
+   "dates_raw": "Dec. 9-31",
+   "gmu_raw": "Master Hunters Only: 127, through 142. Must wear hunter orange and/or fuorescent hunter pink.",
+   "legal": "Antlerless only",
+   "page": 43,
+   "dates": [
+    [
+     "2026-12-09",
+     "2026-12-31"
+    ]
+   ],
+   "gmus": [
+    "127",
+    "142"
+   ],
+   "areas": [],
+   "master_only": true,
+   "high_buck": false,
+   "youth": false,
+   "adult": false,
+   "sex": "antlerless only"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Dec. 16-31",
+   "gmu_raw": "407",
+   "legal": "3 pt. min.",
+   "page": 43,
+   "dates": [
+    [
+     "2026-12-16",
+     "2026-12-31"
+    ]
+   ],
+   "gmus": [
+    "407"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 8",
+   "gmu_raw": "Elk Area 4601*, 501, 503, 504, 505, 652 (except Elk Area 6013 closed to antlerless), 667",
+   "legal": "3 pt. min. or antlerless",
+   "page": 43,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-08"
+    ]
+   ],
+   "gmus": [
+    "501",
+    "503",
+    "504",
+    "505",
+    "652",
+    "667"
+   ],
+   "areas": [
+    "4601"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "either sex (3 pt. min. bull or antlerless)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "454, 564* , 666, 684 , Elk Area 6014",
+   "legal": "Any elk",
+   "page": 43,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "454",
+    "564",
+    "666",
+    "684"
+   ],
+   "areas": [
+    "6014"
+   ],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "any elk"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-30",
+   "gmu_raw": "568, 574, 578",
+   "legal": "3 pt. min.",
+   "page": 43,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-11-30"
+    ]
+   ],
+   "gmus": [
+    "568",
+    "574",
+    "578"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  },
+  {
+   "species": "ELK",
+   "weapon": "MUZZLELOADER",
+   "section": "LATE MUZZLELOADER GENERAL ELK SEASONS",
+   "side": "WEST",
+   "deer_type": null,
+   "dates_raw": "Nov. 25-Dec. 15",
+   "gmu_raw": "448, 601, 618, 651, 658",
+   "legal": "3 pt. min.",
+   "page": 43,
+   "dates": [
+    [
+     "2026-11-25",
+     "2026-12-15"
+    ]
+   ],
+   "gmus": [
+    "448",
+    "601",
+    "618",
+    "651",
+    "658"
+   ],
+   "areas": [],
+   "master_only": false,
+   "high_buck": false,
+   "youth": false,
+   "adult": true,
+   "sex": "antlered (3 pt. min.)"
+  }
+ ]
+}
