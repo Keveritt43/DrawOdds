@@ -174,6 +174,21 @@ Not built yet: a projection (needs the §5.2 backtest), waiting-period tracking 
   - Odds under 0.1% now print `<0.1%`. They used to print `0.0%`, which read as no chance. Bison odds for a nonresident at 0 points are about 0.01%.
   - **Open:** `chanceOf` (src/lib/coOdds.ts) labels any odds under 0.5% "No chance" in every state, although its own comment says "none only when no outcome draws". It needs an owner decision; it was not changed here.
 
+- **Live check, Nov 12 evening (Chrome, desktop and 390 px):**
+  - Hunt pages default to the 2027 projection where a pool passed, with a "Next draw (projected) / 2026 actual" toggle. Example: PB5000 nonresident shows "2027 projected"; its chart note says the resident line repeats the 2026 draw.
+  - Finder cards read "2027 projected · from the 2026 draw".
+  - Unit Map general elk: 50 of 53 boundaries shaded.
+  - Manti boundary tile: general bull elk 13% from DWR elk unit 16B.
+  - Account page: collapses state by state.
+  - Fixed then: the boundary page's hunt-type row hid its CWMU button at 390 px (#123).
+- **Walk-in Access, data found (not built):**
+  - Source: DWR's public property layer `https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/ULTRA_Properties_3_view/FeatureServer/0`, the layer behind the map on DWR's Walk-in Access page.
+  - `type_ = 'Walk In Access'`: 112 polygons, 84,606 ac.
+  - `purpose` says what each lease allows: 57 allow big game (66,109 ac), mostly the Northern region. Fishing-only and "No hunting" leases have to be left out.
+  - DWR reported 49,597 ac for 2025 (May 2026 news release). The layer's last edit was Oct 2026. So the layer may hold 2026 leases, or expired ones; settle that before shading anything.
+  - The same layer has 111 Wildlife Management Areas (493,828 ac). Check whether BLM SMA already counts them as state land before adding them, or they'd be counted twice.
+  - Each hunter needs a free annual Walk-in Access authorization number.
+
 ## 7. Steps, in order
 
 1. Fetch and archive every source in §3 (Chrome), including a sample of the 2026 tool's raw responses.
