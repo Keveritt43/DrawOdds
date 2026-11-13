@@ -26,6 +26,22 @@ const colorado = (patch: Partial<HuntSummary> = {}) => row({
   ptsNr: 2, ptsRes: 1, ...patch,
 });
 
+test('Wyoming deer unknown hunter overlap cannot drive success filters, scores or exports', () => {
+  const source = row({ id: 'wy:deer121', state: 'WY', species: 'DEER', scoreQuality: 80, success5: .62,
+    hunters5: 1366, harvest5: 849, huntersSqMi: .6, oddsByPts: { proj: { nr: [.95] }, last: { nr: [.9] } } });
+  const before = JSON.stringify(source);
+  const result = evaluateHunt(source, settings, 'proj');
+  assert.equal(result.odds, .95);
+  assert.equal(result.r.success5, null);
+  assert.equal(result.r.hunters5, null);
+  assert.equal(result.r.huntersSqMi, null);
+  assert.equal(result.r.scoreQuality, null);
+  assert.equal(result.opportunity, null);
+  assert.equal(JSON.stringify(source), before, 'stored source must remain unchanged');
+  assert.equal(runSearch([source], { states: 'WY', minSuccess: '20' }, 'WY', settings).length, 0);
+  assert.equal(evaluateHunt(row({ state: 'WY', species: 'ELK' }), settings, 'proj').r.success5, .5);
+});
+
 test('state selection validates, deduplicates and canonicalizes without losing header defaults', () => {
   assert.deepEqual(searchStates(undefined, 'CO'), ['CO']);
   assert.deepEqual(searchStates(['co,id', 'CO,XX'], 'ID'), ['CO', 'ID']);

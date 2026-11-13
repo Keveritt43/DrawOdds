@@ -118,14 +118,14 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             {/* The first UAT question nobody could answer from this page: what does it cost? Itemised, never totalled -
                 the licence is annual and covers every hunt that year. */}
             <p className="small">
-              <b>What it costs:</b> {msg
+              <b>What it costs ({nr ? 'nonresident' : 'resident'}; fee schedule checked {FEES.checked}):</b> {msg
                 ? <>licence {money(fees.license)} plus the {money(fees.accessFee)} access fee, {money(fees.msgApp)} to apply, and the full tag fee up front ({money(fees.tag.MOOSE)} for moose, sheep or goat alike), refunded if you don&apos;t draw.</>
                 : <>licence {money(fees.license)} plus the {money(fees.accessFee)} access fee, then {money(fees.controlledApp)} an application. Tags are extra{nr ? ' and only if you draw' : ''}: deer {money(fees.tag.DEER)}, elk {money(fees.tag.ELK)}, pronghorn {money(fees.tag.PRONGHORN)}.</>}
               {' '}<Link href="/guide">Fees and deadlines in full</Link>
             </p>
             {/* The one thing a hunter from a points state has to unlearn before the numbers here mean anything. */}
             <p className="small">
-              <b>Idaho has no preference or bonus points.</b> Every draw is a fresh random number, so a hunt&apos;s recent odds are your real odds.{' '}
+              <b>Idaho has no preference or bonus points.</b> Each draw is random; recent odds describe past results, not a guarantee of future odds.{' '}
               <Link href="/guide">How the Idaho draw works</Link>
             </p>
             <div className="ctas">
@@ -136,7 +136,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
           <form className="quick" action="/hunts" method="get">
             <h2>Quick Start</h2>
             <p className="small" style={{ color: '#a9b0a7', margin: 0 }}>Pick a few things. Refine everything else on the next page.</p>
-            <p className="hint"><Link href="/account#hunting-preferences">Edit your residency in Account</Link></p>
+            <p className="hint">Currently searching as <b>{nr ? 'nonresident' : 'resident'}</b>. <Link href="/account#hunting-preferences">Change residency in Account</Link> to see your prices and odds.</p>
             <label>Which Drawing</label>
             <Suspense fallback={null}><DrawSwitch value={draw} /></Suspense>
             <p className="hint">Idaho applicants pick one each year: deer, elk and pronghorn (May 1 – June 5), or one of moose, bighorn sheep or mountain goat (April 1 – 30).</p>
@@ -150,7 +150,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
                 </div>
                 <p className="hint">{nr
                   ? 'Controlled hunts: limited tags, separate odds. General: since 2026 nonresidents draw for general deer and elk tags too (elk by zone, deer by unit). Pronghorn are controlled only.'
-                  : 'Controlled hunts: limited tags by draw, often better hunting. General: buy a tag over the counter and hunt the open seasons. Pronghorn are controlled only.'}</p>
+                : 'Controlled hunts: limited tags by draw. Residents buy general tags over the counter; nonresidents apply in a separate general deer and elk draw. Pronghorn are controlled only.'}</p>
               </>
             )}
             <label>Species</label>
@@ -193,10 +193,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
           {!msg && (
             <Link className="tile tone-sage" href="/hunts?type=GENERAL&sort=odds">
               <span className="pill good">General</span>
-              <h3>Tags That Aren&apos;t A Lottery</h3>
+              <h3>General Deer And Elk Tags</h3>
               <p>{nr
                 ? <>General deer and elk tags. Nonresidents apply for these{nextNr ? ` (${md(nextNr.start.toISOString().slice(0, 10))} – ${md(nextNr.end.toISOString().slice(0, 10))})` : ''}, but plenty of them go to everyone who asks. Sorted by the best chance first.</>
-                : <>General deer and elk tags you buy over the counter. No draw, no deadline, hunt the open seasons.</>}</p>
+                : <>Residents buy general tags over the counter; nonresidents apply for a general tag in a separate draw. Availability can be limited.</>}</p>
               <span className="go">{nr ? 'Best general tag odds →' : 'See general tags →'}</span>
             </Link>
           )}

@@ -24,6 +24,7 @@ import { utPersonal, utKind } from './utHunt';
 import { readUtPoints, type UtPoints } from './utPoints';
 import { waPersonal, waLicense, waPo } from './waHunt';
 import { readWaPoints, type WaPoints } from './waPoints';
+import { withoutUnvalidatedWyDeerMetrics } from './wyDeerMetrics';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
 export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints };
@@ -73,6 +74,7 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
 export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
+  r = withoutUnvalidatedWyDeerMetrics(r);
   const nr = isNonresident(r.state, settings);
   if (r.state === 'MT') {
     // unsaved settings: 0 points, buying, nonresident (src/lib/mtPoints.ts readMtPoints defaults)

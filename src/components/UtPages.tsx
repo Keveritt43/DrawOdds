@@ -17,7 +17,7 @@ const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? 
 type Row = { id: string; slug: string; name: string; species: string; type: string; tagCode: string | null; tags: number | null; privateOnly: boolean; pointOdds: unknown; oddsByPts: unknown };
 
 const FEES_2026: [string, string, string][] = [
-  ['Hunting license, adult (required to apply; checked Nov 12, 2026, no season year on DWR\'s fee page)', '$40', '$120'],
+  ['Hunting license, adult (required to apply; checked Nov 12, 2026, no season year on DWR\'s fee page)', '$40', '$144'],
   ['Application, per species (or point only)', '$10', '$21'],
   ['General-season buck deer permit', '$46', '$599'],
   ['Limited-entry buck deer permit', '$94', '$1,070'],

@@ -27,7 +27,7 @@ export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: bool
               onClick={() => push({ wyPool: isSpecial === savedSpecial ? null : v })}>{label}</button>
           ))}
         </div>
-        <p className="small muted">Odds, points needed and Opportunity follow this pool. Special costs more and has its own quota. Your saved pool is {saved}: <Link href="/account#hunting-preferences">change it in Account</Link>.</p>
+        <p className="small muted">Odds, points needed and Opportunity follow this pool. For a nonresident full-price deer license, WGFD lists $374 regular or $1,200 special, plus a $15 application fee (fee schedule checked November 12, 2026). Other licenses and requirements have different costs. <a href="https://wgfd.wyo.gov/licenses-applications/license-fee-list">See WGFD prices</a>. Your saved pool is {saved}: <Link href="/account#hunting-preferences">change it in Account</Link>.</p>
       </> : <p className="small muted">Residents draw in the resident pool; regular and special are nonresident pools.</p>}
     </Section>
     <Section title="Wyoming: Points Needed (Nonresident)" value={get('wyMaxPts') ? `${get('wyMaxPts')} or fewer` : 'Any'} set={!!get('wyMaxPts')}>

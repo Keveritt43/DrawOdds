@@ -27,6 +27,7 @@ export function CoQuickStart() {
     <p className="hint"><Link href="/account#hunting-preferences">Edit your residency and points in Account</Link></p>
     <label>Species</label>{opts('species', [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']])}
     <label>Hunt Type</label>{opts('type', [['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General / OTC'], ['', 'Either']])}
+    <p className="hint">Colorado OTC white-tailed deer licenses are not currently included in these results. <a href="https://cpw.state.co.us/activities/hunting/nonresidents">Check eligibility and available licenses with CPW</a>.</p>
     <label>What Are You After?</label>{opts('antler', [['ANTLERED', 'A Buck Or Bull (Incl. Either-Sex Hunts)'], ['ALL', 'Any Animal (Incl. Does / Cows)']])}
     <label>Weapon (Select Any)</label>{opts('method', CO_METHODS, true)}
     <label>Season Type (Select Any)</label>{opts('season', CO_SEASONS, true)}

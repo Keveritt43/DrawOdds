@@ -16,6 +16,7 @@ import { opportunity } from '@/lib/score';
 import { fmtNeed, fmtCreep } from '@/lib/coDisplay';
 import { prefOdds, randomOdds } from '@/lib/wyOdds';
 import { wyAreaLabel, wyDates, wyPool, wyTableOdds, WY_POOL_LABEL, WY_POOL_SHORT, type WyOddsTable, type WyPointOdds, type WyPool, type WyNrPoolData } from '@/lib/wyHunt';
+import { withoutUnvalidatedWyDeerMetrics } from '@/lib/wyDeerMetrics';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 const need = (p: WyNrPoolData | undefined) => {
@@ -27,6 +28,7 @@ const need = (p: WyNrPoolData | undefined) => {
 
 /** A Wyoming limited quota license or nonresident region license: odds for your pool, points needed, history. */
 export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: string; pool?: string } }) {
+  s = withoutUnvalidatedWyDeerMetrics(s);
   const po = s.pointOdds as unknown as WyPointOdds | null;
   const table = s.oddsByPts as unknown as WyOddsTable | null;
   const species = s.species === 'PRONGHORN' ? 'PRONGHORN' : s.species === 'ELK' ? 'ELK' : 'DEER';
@@ -65,12 +67,13 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         Wyoming {spLabel[0].toUpperCase() + spLabel.slice(1)} {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
       </h1>
       <p className="muted" style={{ marginTop: 0 }}>
-        {s.takeMethod} · {s.tags !== null ? `${int(s.tags)} licenses (${po.regs?.year ?? po.year} quota)` : region ? 'Region quota set by WGFD' : 'Quota: see WGFD'}
+        {s.takeMethod && s.takeMethod.length >= 120 ? 'See season restrictions below and confirm with WGFD' : s.takeMethod} · {s.tags !== null ? `${int(s.tags)} licenses (${po.regs?.year ?? po.year} quota)` : region ? 'Region quota set by WGFD' : 'Quota: see WGFD'}
         {s.privateOnly ? ' · Valid on private land: you need landowner permission' : ''}
         {' · '}{s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('WY', u))}`}>{wyAreaLabel(u)}</HuntLink></span>)}
       </p>
 
       {!s.privateOnly && <WyWildernessNote units={s.units} nr={nr} />}
+      <div className="cost-lines"><h4>What It Costs</h4><p>{nr && species === 'DEER' && po.general ? <>For a nonresident general deer license, WGFD lists <b>$374 regular or $1,200 special</b>, plus a <b>$15 application fee</b> (fee schedule checked November 12, 2026). </> : <>Wyoming fees vary by species, license and residency{nr ? ', and the regular and special pools have different prices' : ''}. </>}WGFD charges the license price and application fee when you apply. A conservation stamp may also be required; check current prices and refund rules before applying. This is not a complete total.</p><p><a href="https://wgfd.wyo.gov/licenses-applications/license-fee-list">WGFD license fee schedule</a> · <a href="https://wgfd.wyo.gov/licenses-applications/application-process">Application and refund information</a></p></div>
       {po.general && (
         <div className="card" style={{ margin: '12px 0' }}>
           <b>General season.</b> Residents buy a general {spLabel} license over the counter. Nonresidents need the{' '}
@@ -121,11 +124,11 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <div className="grid2 co-graph-grid">
         <WyCreepChart po={po} />
         <WyOddsPointsChart table={table} po={po} pool={pool === 'res' ? 'nr' : pool} mode={mode} myPoints={nr ? p : null} />
-        {po.harvest.length ? <WyHarvestCharts rows={po.harvest} /> : null}
+        {species !== 'DEER' && po.harvest.length ? <WyHarvestCharts rows={po.harvest} /> : null}
       </div>
 
       <h2>Hunter Success</h2>
-      {po.harvest.length ? (
+      {species === 'DEER' ? <p className="muted">Combined deer success and hunter density are unavailable while we verify overlap between mule deer and white-tailed deer hunter counts in WGFD reports. Draw odds and land information remain available.</p> : po.harvest.length ? (
         <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th><th className="num">Days/hunter</th></tr></thead>
           <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{h.days !== null && h.hunters ? (h.days / h.hunters).toFixed(1) : '–'}</td></tr>)}</tbody></table>
           <p className="small muted">WGFD harvest survey estimates for this hunt area and license type.</p></div>
