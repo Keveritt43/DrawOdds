@@ -144,8 +144,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     code: 'WA',
     name: 'Washington',
     slug: 'washington',
-    // Deer and elk (WA-1) from scripts/wa-import.ts; docs/states/wa-onboarding.md. Off until imported and checked live.
-    enabled: false,
+    // Deer and elk (WA-1) from scripts/wa-import.ts (imported Nov 12, 2026); docs/states/wa-onboarding.md.
+    enabled: true,
     agency: { short: 'WDFW', name: 'Washington Department of Fish and Wildlife', url: 'https://wdfw.wa.gov/hunting/special-hunts' },
     // WDFW private-lands access (Feel Free to Hunt, Register to Hunt, Hunt by Written Permission, Hunt by Reservation)
     // is measured per unit in data/wa/land.json; the Access Yes! slot isn't wired to it yet, so it stays empty

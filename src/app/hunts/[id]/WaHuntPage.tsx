@@ -14,8 +14,8 @@ import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
 import { waPersonal, waLicense, waPo, WA_WEAPON_LABEL, type WaOddsTable } from '@/lib/waHunt';
 import { LandBar } from '@/components/LandBar';
-import { OddsChart, ApplicantsChart, SuccessChart, HarvestChart } from '@/components/Charts';
-import { WaOddsPointsChart } from '@/components/WaCharts';
+import { SuccessChart, HarvestChart } from '@/components/Charts';
+import { WaOddsPointsChart, WaDrawHistory } from '@/components/WaCharts';
 import type { YearPoint } from '@/lib/history';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.001 ? '<0.1%' : o < 0.01 ? `${(o * 100).toFixed(1)}%` : `${Math.round(o * 100)}%`);
@@ -122,7 +122,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       {harvestSeries.length > 0 ? <div className="grid2"><SuccessChart data={harvestSeries} /><HarvestChart data={harvestSeries} /></div> : <p className="muted">No WDFW harvest estimate for this {gen ? 'GMU and weapon' : 'hunt'}.</p>}
       {!gen && drawSeries.length > 1 && <>
         <h2>Draw History</h2>
-        <div className="grid2"><OddsChart data={drawSeries} nr={false} /><ApplicantsChart data={drawSeries} /></div>
+        <WaDrawHistory data={drawSeries.map((d) => ({ year: d.year, apps: d.resApps ?? null, permits: d.resPermits ?? null }))} />
         <p className="small muted">Permits ÷ every application that listed this hunt, at any choice: a rough guide only, since a hunt&apos;s winners are mostly high-point applicants.</p>
       </>}
 

@@ -1,6 +1,6 @@
 # Washington onboarding: plan for deer and elk
 
-Status (Nov 12, 2026): **rules researched, drawing weighting confirmed (§3), every source downloaded and in the repo or on the owner's PC (§4), odds method backtested (§5).** Nothing in the app yet; no production data has changed. Use with [state-adapter-guide.md](../state-adapter-guide.md) and [state-onboarding-checklist.md](../state-onboarding-checklist.md). Anything marked **verify** is not confirmed and must not reach the site until it is.
+Status (Nov 12, 2026): **live for deer and elk.** Imported Nov 12 22:28 PT and enabled. The build is PR #128: the import was gated on the dry run's digest `d9f29442d25da351` and on 0 live, 1,228 added, 0 removed, 0 changed. Result: 1,228 hunts, 188 units, 738 scored; ID, CO, WY, MT and UT unchanged. A re-run showed nothing left to change. The maintenance service is idle again. Use with [state-adapter-guide.md](../state-adapter-guide.md) and [state-onboarding-checklist.md](../state-onboarding-checklist.md). Anything marked **verify** is not confirmed and must not reach the site until it is.
 
 ## 0. What earlier material got wrong (including this doc's first version, PR #122)
 
@@ -136,9 +136,15 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
 - **Left out (16):** Buckrun and Blackrock Ranches (private ranch areas with no WDFW polygon); the Alkali and Blue Creek hunts (no published applications in any year); one 2026 area cell that parses as "GMU 37 1".
 - **Not yet:** general-season dates and legal animal per GMU (the pamphlet's general-season tables aren't parsed); general rows show neither until they are.
 
-## 8. Next steps
+## 8. Open items
 
-1. `scripts/wa-import.ts` and the app pieces (§6), then import, enable and check live at desktop and 390 px.
+- **Scores:** 490 hunts have no Quality score. Most are special permits with under 30 hunters across their harvest years (`smallSample`), the same rule as other states.
+- **Unit Map:** shows GMUs only; Deer/Elk Area permits count in the GMUs they list. Multi-season tags aren't shaded.
+- **Menu pages:** Planner, What Changed and How The Draw Works have no Washington version yet (Montana's #91 is the pattern).
+
+## 9. Next steps
+
+1. Washington Planner, What Changed and How The Draw Works.
 2. Parse the general-season tables (dates, legal animal per GMU and weapon).
 3. WA-2: Youth, 65+, Hunters with Disabilities and Master Hunter categories.
 
