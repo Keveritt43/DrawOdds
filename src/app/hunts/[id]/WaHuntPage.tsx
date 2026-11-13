@@ -134,7 +134,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         {gen && <p><b>Over the counter, no draw.</b> Washington sells general deer and elk tags over the counter to residents and nonresidents. A deer tag is for one weapon (modern firearm, archery or muzzleloader); an elk tag is for one weapon and one side of the state (Eastern: EF, EA, EM; Western: WF, WA, WM). This GMU{s.species === 'ELK' && po?.side ? ` is in ${po.side === 'EAST' ? 'Eastern' : 'Western'} Washington` : ''}.</p>}
         {!gen && <p><b>A weighted drawing.</b> You earn one point each year you apply in a category ({ptLabel ?? 'this category'}). Each application gets your points plus this year&apos;s, squared, in random numbers, and the best one ranks you in the whole category&apos;s queue: 0 banked points = 1 entry, 2 = 9, 4 = 25. WDFW then goes down the queue giving each applicant their highest hunt choice that still has permits (up to four choices; two for Quality). So zero points can still draw, more points help a lot, and drawing resets that category&apos;s points to zero. Residents and nonresidents are in the same drawing; groups of up to {lic === 'multi' ? '2' : '8'} average their points.</p>}
         {!gen && po?.tag && <p><b>Tag required to apply:</b> {po.tag}.{myTag ? ` Yours: ${myTag}.` : ' Save your general tag in Account to check.'} Multi-season tag holders can apply with any weapon{s.species === 'ELK' ? ' and either side' : ''}.</p>}
-        {s.youthOnly && <p><b>Youth only.</b> Applicants must be under 16 when they buy the application and license (youth license and application fees are lower). Youth permits are their own category with their own points, separate from adult categories.</p>}
+        {s.youthOnly && <p><b>Youth only.</b> Applicants must be under 16 when they buy the application and license (youth license and application fees are lower). Youth permits are their own category with their own points, separate from adult categories. WDFW requires an adult to accompany the youth during the hunt.</p>}
         {s.privateOnly && <p><b>Private land only.</b> WDFW limits this permit to private land; you need landowner permission before you apply. It counts as 0% public land.</p>}
         {po?.pointsMeaning && <p className="small muted">{po.pointsMeaning}</p>}
       </details>
@@ -165,7 +165,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
             <tr><th>Dates</th><td>{po?.dates || '–'}</td></tr>
             <tr><th>Legal animal</th><td>{po?.legal || '–'}</td></tr>
             <tr><th>Area</th><td>{gen ? s.areaName : po?.area || '–'}</td></tr>
-            {gen ? <tr><th>Not shown</th><td className="small muted">Youth, 65+, hunters-with-disabilities and Master Hunter seasons, and Deer/Elk Area rules: see the pamphlet.</td></tr>
+            {gen ? <tr><th>Not shown</th><td className="small muted">65+, hunters-with-disabilities and Master Hunter seasons, and Deer/Elk Area rules: see the pamphlet. Youth-only days, where there are any, are listed with the legal animal.</td></tr>
               : <tr><th>Hunt notes</th><td>{po?.notes || '–'} <span className="small muted">(letters are explained in the pamphlet&apos;s hunt-notes key)</span></td></tr>}
           </tbody></table></div>
         </details>
