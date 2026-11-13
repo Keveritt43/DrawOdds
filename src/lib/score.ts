@@ -1,3 +1,4 @@
+import { classifyTrophy, trophyQualityBonus } from './trophyTiers';
 /** Idaho model v3: absolute species benchmarks across weapons; no peer-dependent grades. */
 import { successBands } from './format';
 export const SCORE_VERSION = 'idaho-v3';
@@ -9,6 +10,9 @@ export const SCORE_PART_LABEL: Record<ScorePart, string> = { success: 'Success',
 const MSG = new Set(['MOOSE', 'BIGHORN', 'GOAT', 'BISON']);
 export interface ScoreInput {
   id: string;
+  state?: string;
+  units?: string[];
+  season?: string | null;
   species: string;
   type: string;
   nrTag?: boolean | null;
@@ -75,14 +79,12 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
     const access = accessScore(r.huntablePct ?? r.publicPct);
     const crowd = finite(r.huntersSqMi) && r.huntersSqMi >= 0
       ? curve(r.huntersSqMi, [[0, 100], [0.25, 85], [0.5, 70], [1, 50], [1.5, 38], [3, 18], [6, 0]]) : null;
-    const trophy = ['DEER', 'ELK'].includes(r.species) && finite(r.bigPct5) && r.bigPct5 >= 0 && r.bigPct5 <= 1 &&
-      r.antlerClass !== 'ANTLERLESS' && r.deerType !== 'WHITETAIL' && !r.twoPoint
-      ? curve(r.bigPct5, [[0, 0], [0.25, 45], [0.5, 75], [0.75, 100]]) : null;
+    const trophy = classifyTrophy({ species: r.species, state: r.state ?? 'ID', units: r.units ?? [], antlerClass: r.antlerClass, weapon: r.weapon, season: r.season, deerType: r.deerType }).score;
     Object.assign(o, { scoreSuccess: success, scoreAccess: access, scoreCrowd: crowd, scoreTrophy: trophy });
     // Missing land or density must not silently inflate the remaining weights.
     if (access === null || crowd === null) continue;
     // Small samples attenuate the trophy adjustment too; total harvest is an upper bound on its sample.
-    const trophyAdjustment = trophy === null ? 0 : (trophy - 50) * 0.1 * h / (h + 50);
+    const trophyAdjustment = trophyQualityBonus(trophy);
     const base = (success * SCORE_WEIGHTS.success + access * SCORE_WEIGHTS.access + crowd * SCORE_WEIGHTS.crowd) / 100;
     // Neither shrinkage nor perfect land/trophy can lift weak observed harvest into elite quality.
     const ceiling = Math.min(Math.min(rawSuccess, success) + 20, h / n < lo ? 49 : 100);
