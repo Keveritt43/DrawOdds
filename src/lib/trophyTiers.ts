@@ -31,7 +31,7 @@ const rules: Rule[] = [
   {species:'ELK',state:'NV',units:['111','112','113','114','115'],tier:'trophy'},
 ];
 /** Verified county-to-unit associations from the supplied analysis. Partial county overlap is not a whole-unit guarantee. */
-const countyUnits: Record<string, Record<string, string[]>> = {
+const provisionalCountyUnits: Record<string, Record<string, string[]>> = {
   'AZ:ELK': { Coconino:['5A','5B','6A','6B','7E','7W','8','9','11M','12A','12B','13A','13B'], Apache:['1','2A','2B','2C','3B','27'] },
   'AZ:DEER': { Coconino:['5A','5B','6A','6B','7E','7W','8','9','11M','12A','12B','13A','13B'], Mohave:['10','15A','15B','15C','15D','16A','17A','17B','18A','18B'] },
   'CO:DEER': { Eagle:['34','35','36','43','44','45','47'], Garfield:['21','22','23','24','25','26','30','31','32','33','42','43'], Mesa:['30','31','40','41','42'] },
@@ -64,7 +64,7 @@ export function classifyTrophy(hunt:TrophyHunt): TrophyResult {
     const match = rules.find(r => r.tier===tier && r.state===state && r.species===species && r.units.some(u=>units.has(u)) && matchesCondition(r.condition,hunt));
     if (match) return {score:scoreFor[tier],tier,reason:`Recognized ${tier} unit`};
   }
-  const counties = countyUnits[`${state}:${species}`] ?? {};
+  // County overlap alone is insufficient to assign a whole unit a trophy premium.\n  // Retain provisional mappings for future GIS validation; do not score from them.\n  const counties: Record<string, string[]> = {};\n  void provisionalCountyUnits;
   const county = Object.entries(counties).find(([,list])=>list.some(u=>units.has(u)));
   if (county) return {score:65,tier:'county',reason:`Mapped trophy county: ${county[0]} (unit overlap)`};
   return {score:50,tier:'unclassified',reason:'No designation in the current dataset; not evidence of low trophy potential'};
