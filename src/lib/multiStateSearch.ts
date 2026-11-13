@@ -194,6 +194,8 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     if (kinds.length && !kinds.includes(waLicense(r))) return false;
     const cats = list(sp, 'waCat');
     if (cats.length && !cats.includes(po?.category ?? '')) return false;
+    // 65+, hunters-with-disabilities and Master Hunter permits only show when their category is picked
+    if (po?.restricted && !cats.includes(po.category ?? '')) return false;
     const weapons = list(sp, 'waWeapon');
     if (weapons.length && !weapons.includes(r.weapon)) return false;
     const sides = list(sp, 'waSide');

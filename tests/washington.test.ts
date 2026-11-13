@@ -138,3 +138,25 @@ test('Washington youth general days count only when the Youth Hunts filter lets 
   assert.equal(matchesHuntSeason(yr, f('include', []), true), true);
   assert.equal(matchesHuntSeason(yr, f('only', []), true), true);
 });
+
+test('Washington 65+, hunters with disabilities and Master Hunter permits', async () => {
+  const { waPointType } = await import('../src/lib/waPoints');
+  const { waPersonal } = await import('../src/lib/waHunt');
+  const lim = data.hunts.filter((h) => (h.pointOdds as { restricted?: boolean }).restricted);
+  assert.ok(lim.length >= 140, `restricted hunts ${lim.length}`);
+  for (const h of lim) {
+    const po = h.pointOdds as { category: string; noPointData?: boolean };
+    assert.ok(waPointType(po.category), po.category);
+    assert.ok(!h.youthOnly);
+    // 65+ has no point tables anywhere, so no odds; the others do
+    const t = h.oddsByPts as { proj: { res?: number[] } };
+    if (/65/.test(po.category)) { assert.ok(po.noPointData && !t.proj.res, h.id); }
+    else assert.ok((t.proj.res ?? []).length > 0, h.id);
+  }
+  const senior = lim.find((h) => /65/.test((h.pointOdds as { category: string }).category))!;
+  const p = waPersonal(senior as never, { res: 'RESIDENT', points: {} as never, deerTag: null, elkTag: null, set: false });
+  assert.equal(p.odds, null);
+  assert.match(p.basis, /never published 65\+ results/);
+  // Master Hunter region hunts stand in with the region's GMUs (1xx = Region 1)
+  assert.ok(by('WA:1800').units.every((u: string) => u.startsWith('1')));
+});

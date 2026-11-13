@@ -6,7 +6,7 @@ import { ScoreRow } from './HuntCards';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict, antlerLabel } from '@/lib/format';
 import { dateRange } from '@/lib/coDisplay';
-import { waLicense, waPo, WA_WEAPON_LABEL } from '@/lib/waHunt';
+import { waLicense, waPo, WA_WEAPON_LABEL, WA_WHO } from '@/lib/waHunt';
 
 const PILL = { general: 'General season', special: 'Special permit', multi: 'Multi-season' } as const;
 
@@ -37,7 +37,7 @@ export function WaHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, s
       </div>
       <div className="dates">
         {[gen ? WA_WEAPON_LABEL[r.weapon] : po?.category, antlerLabel(r.species, r.antlerClass), r.tagCode && !gen ? `Hunt ${r.tagCode}` : '', where, side, po?.dates || dateRange(r.openDate, r.closeDate),
-          r.youthOnly ? 'Youth only (under 16)' : '', r.privateOnly ? 'Private land only' : '', tagOk === false ? 'Your saved tag can\'t apply' : '']
+          r.youthOnly ? 'Youth only (under 16)' : '', po?.restricted ? (WA_WHO[po.category ?? ''] ?? 'Limited eligibility') : '', po?.noPointData ? 'No point-level data (65+)' : '', r.privateOnly ? 'Private land only' : '', tagOk === false ? 'Your saved tag can\'t apply' : '']
           .filter(Boolean).join(' · ')}
       </div>
       <ScoreRow r={r} nr={nr} />
