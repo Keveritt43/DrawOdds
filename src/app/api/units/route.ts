@@ -16,6 +16,7 @@ import { readUtPoints } from '@/lib/utPoints';
 import { utPersonal, utKind } from '@/lib/utHunt';
 import utLabels from '../../../../data/ut/boundary-labels.json';
 import { utGenElk } from '@/lib/utGenElk';
+import { utWalkin } from '@/lib/utWalkin';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -296,6 +297,16 @@ export async function GET(req: Request) {
           a.harvest += r.harvest5;
         }
       }
+    }
+    // Walk-in Access big-game leases (private land, not already public) fill the Access Yes! slot, as Montana's
+    // Block Management Type 1 does (src/lib/utWalkin.ts)
+    for (const u of units) {
+      const w = utWalkin(u.name);
+      const m = by.get(u.name) ?? by.set(u.name, {}).get(u.name)!;
+      m.accessYesAcres = w?.acres ?? 0;
+      m.accessYesPct = w ? w.pct : 0;
+      m.huntablePct = u.publicPct !== null ? Math.min(100, u.publicPct + (w?.pct ?? 0)) : null;
+      if (w) m.walkinN = w.n;
     }
     // general bull elk: DWR's per-unit harvest, crosswalked to hunt boundaries (src/lib/utGenElk.ts)
     for (const [u, m] of by) {

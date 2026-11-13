@@ -14,6 +14,7 @@ import { LandBar } from '@/components/LandBar';
 import { UnitMap } from '@/components/UnitMap';
 import utLabels from '../../../../data/ut/boundary-labels.json';
 import { utGenElk } from '@/lib/utGenElk';
+import { utWalkin, UT_WALKIN_URL, UT_WALKIN_AUTH_URL } from '@/lib/utWalkin';
 import { StateProvider } from '@/components/StateContext';
 
 type SP = { species?: string; type?: string };
@@ -50,6 +51,7 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
   // the boundary's DWR name, from DWR's boundary layer (data/ut/boundary-labels.json)
   const label = (utLabels as Record<string, string>)[name] ?? rows.find((h) => h.units.length === 1)?.areaName ?? `Boundary ${name}`;
   // general bull elk on this ground: DWR's per-unit harvest, when the general elk hunts use this boundary
+  const walkin = utWalkin(name);
   const genElk = rows.some((h) => h.species === 'ELK' && h.type === 'GENERAL') ? utGenElk(name) : null;
   const tribal = (unit.landOwnership as { manager: string; pct: number }[] | null)?.find((o) => o.manager === 'TRIBAL')?.pct ?? 0;
 
@@ -80,6 +82,20 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
           <UnitMap nr={nr} focus={name} height="480px" bare savedUnits={[...fav.units]} signedIn={fav.signedIn} />
         </StateProvider>
       </div>
+
+      <section className="card" style={{ margin: '12px 0' }}>
+        <h3 style={{ marginTop: 0 }}>Walk-in Access</h3>
+        {walkin ? <>
+          <p className="small" style={{ margin: '0 0 6px' }}>{walkin.acres.toLocaleString('en-US')} acres of private land leased by DWR for big-game hunting ({walkin.pct < 0.1 ? '<0.1' : walkin.pct.toFixed(1)}% of the boundary), on {walkin.n} propert{walkin.n === 1 ? 'y' : 'ies'}. You need a free <a href={UT_WALKIN_AUTH_URL} target="_blank" rel="noreferrer">Walk-in Access authorization number</a>, and each lease has its own rules: <a href={UT_WALKIN_URL} target="_blank" rel="noreferrer">check DWR&apos;s map</a> before you go.</p>
+          <div className="cmp-wrap"><table className="small" style={{ width: '100%' }}><tbody>
+            {walkin.properties.slice(0, 12).map((p) => (
+              <tr key={p.id}><td>{p.name}</td><td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{p.acres.toLocaleString('en-US')} ac</td>
+                <td className="muted">{[p.muzzleloaderOnly && 'muzzleloader season only', p.noElk && 'no elk', p.closure && p.closure].filter(Boolean).join(' · ')}</td></tr>
+            ))}
+          </tbody></table></div>
+          {walkin.properties.length > 12 && <p className="small muted" style={{ margin: '4px 0 0' }}>And {walkin.properties.length - 12} smaller properties.</p>}
+        </> : <p className="small muted" style={{ margin: 0 }}>No Walk-in Access big-game leases in this boundary (2026 enrolment). Most of Utah&apos;s Walk-in Access land is in the north.</p>}
+      </section>
 
       <h2 id="hunts">Hunts On {label}</h2>
       {!pts.set && <p className="small"><Link href="/account#hunting-preferences">Set your Utah points</Link> for odds at your points.</p>}

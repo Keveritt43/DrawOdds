@@ -106,3 +106,10 @@ test('general elk: per-boundary harvest comes from the elk unit covering it; spl
   assert.equal(utGenElk('947'), null);
   assert.equal(utGenElk('925'), null);
 });
+
+test('walk-in access: big-game leases by boundary, northern Utah', async () => {
+  const { utWalkin } = await import('../src/lib/utWalkin');
+  const rich = utWalkin('639'); // Cache, East Rich
+  assert.ok(rich && rich.acres > 10000 && rich.n >= 5 && rich.pct > 1 && rich.pct < 100);
+  assert.equal(utWalkin('637'), null); // Henry Mtns: none
+});
