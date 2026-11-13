@@ -64,9 +64,8 @@ export function classifyTrophy(hunt:TrophyHunt): TrophyResult {
     const match = rules.find(r => r.tier===tier && r.state===state && r.species===species && r.units.some(u=>units.has(u)) && matchesCondition(r.condition,hunt));
     if (match) return {score:scoreFor[tier],tier,reason:`Recognized ${tier} unit`};
   }
-  // County overlap alone is insufficient to assign a whole unit a trophy premium.\n  // Retain provisional mappings for future GIS validation; do not score from them.\n  const counties: Record<string, string[]> = {};\n  void provisionalCountyUnits;
-  const county = Object.entries(counties).find(([,list])=>list.some(u=>units.has(u)));
-  if (county) return {score:65,tier:'county',reason:`Mapped trophy county: ${county[0]} (unit overlap)`};
+  // County-to-unit mappings are not verified; no county promotions until validated.
+  void provisionalCountyUnits;
   return {score:50,tier:'unclassified',reason:'No designation in the current dataset; not evidence of low trophy potential'};
 }
 /** Neutral at 50; maximum +5 points before the existing success ceiling. */
