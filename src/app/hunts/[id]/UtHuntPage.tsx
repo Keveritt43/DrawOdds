@@ -83,6 +83,7 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
         {' · '}{s.units.length > 6 ? `${s.units.length} hunt boundaries` : s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('UT', u))}`}>{s.units.length === 1 ? (s.areaName ?? `Boundary ${u}`) : `Boundary ${u}`}</HuntLink></span>)}
       </p>
       {notes.length > 0 && <p style={{ margin: '4px 0 8px' }}>{notes.map((n) => <span key={n} className="pill warn">{n}</span>)}</p>}
+      <div className="cost-lines"><h4>What It Costs</h4><p>Adult {nr ? 'nonresident' : 'resident'} hunting license: <b>{nr ? '$144' : '$40'}</b> (DWR fee schedule checked November 12, 2026). {otc ? 'The permit is purchased separately; availability may be capped.' : <>The 2026 application fee is <b>{nr ? '$21' : '$10'}</b> per species; the permit price depends on the hunt and is additional if drawn.</>} A 2.2% transaction fee may apply. These items are not a complete total.</p><p><Link href="/guide">See Utah draw and permit fees</Link> · <a href="https://wildlife.utah.gov/fees">Current DWR fee schedule</a></p></div>
 
       {/* 1. Can I draw it? */}
       <div className="co-top">
@@ -101,7 +102,7 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
               const pl = po.pools[p];
               if (!pl) return <div key={p} className="co-need-row"><span>{UT_POOL_LABEL[p]}</span><b>–</b><span className="small muted">no {p === 'nr' ? 'nonresident' : 'resident'} permits</span></div>;
               const apps = pl.levels.reduce((a, l) => a + l[1], 0), drew = pl.levels.reduce((a, l) => a + l[2], 0);
-              return <div key={p} className="co-need-row"><span>{UT_POOL_LABEL[p]}</span><b>{pct(apps ? drew / apps : null)}</b><span className="small muted">{int(drew)} of {int(apps)} drew · {int(pl.quota)} permits{kind === 'bonus' && pl.maxPointQuota !== null ? ` (${int(pl.maxPointQuota)} to the most points)` : ''}</span></div>;
+              return <div key={p} className="co-need-row"><span>{UT_POOL_LABEL[p]}</span><b>{pct(apps ? drew / apps : null)}</b><span className="small muted">{int(drew)} of {int(apps)} drew · {int(pl.quota)} reported quota{kind === 'bonus' && pl.maxPointQuota !== null ? ` (${int(pl.maxPointQuota)} to the most points)` : ''}{drew > pl.quota ? ' · first-choice successes exceed the listed quota; DWR reporting basis needs verification' : ''}</span></div>;
             })}
           </div>
         )}

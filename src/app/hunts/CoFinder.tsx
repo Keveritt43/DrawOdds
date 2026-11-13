@@ -257,6 +257,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
         {!decorated.length && (
           <div className="ucard">
             <h2>No Hunts Match</h2>
+            {species === 'DEER' && one(sp.type) === 'GENERAL' && <p>Colorado offers over-the-counter white-tailed deer licenses, but those licenses are not currently represented in these results. Check the applicable units, season and current availability with <a href="https://cpw.state.co.us/activities/hunting/nonresidents">Colorado Parks and Wildlife</a>.</p>}
             <p className="muted">
               Loosen a filter or remove a chip on the map. <Link href={withPresetEdit(sp.editPreset ? '/hunts?state=CO&restore=1&antler=ANTLERED' : '/hunts?reset=1', sp.editPreset)}>Clear all filters</Link>.
             </p>

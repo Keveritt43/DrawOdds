@@ -56,7 +56,8 @@ export async function GET(req: Request) {
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
-  const sums = state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums;
+  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(s =>
+    state === 'WY' && s.species === 'DEER' ? { ...s, success5: null, hunters5: null, harvest5: null, resTagAndFill: null, nrTagAndFill: null } : s);
   let coPoints: Awaited<ReturnType<typeof getPoints>> | null = null;
   const by = new Map<string, Record<string, number | string | null>>();
   const bump = (u: string, k: string, v: number | null, mode: 'max' | 'count' = 'max') => {

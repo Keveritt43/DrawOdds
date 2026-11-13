@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { HomeStatePicker } from './HomeStatePicker';
 import { mtComboOdds, mtCutoff, mtLatestYear, mtPointsToDraw } from '@/lib/mtOdds';
 import { db } from '@/lib/db';
+import { SharedQuickStartForm } from './MultiQuickStart';
 
 /**
  * Montana's home panel and its Find Hunts notice.
@@ -37,16 +38,15 @@ export async function MtQuickStart() {
             <h1>Find Your <HomeStatePicker selected={['MT']} /> Hunt. <em>Know Your Odds.</em></h1>
             <p className="small">Tap the state name above to search one state or several.</p>
             <p>
-              Montana works differently from the other states here. A nonresident cannot buy a deer or elk license
-              over the counter — you first have to draw a <b>combination license</b>, and that one draw decides
-              whether you hunt at all.
+              For a general deer or elk hunt, a nonresident first draws a <b>combination license</b>.
+              Some additional B licenses are sold over the counter; check their own eligibility and rules.
             </p>
             <DeadZoneLine />
             <p className="small">
-              <Link href="/montana">See the Montana combination draw, six years of it</Link>
+              <Link href="/montana">See the Montana combination draw, six years of it</Link> · <Link href="/guide">Draw rules and 2026 fees</Link> · <Link href="/map">Explore the district map</Link>
             </p>
           </div>
-          <div className="quick">
+          {hunts ? <SharedQuickStartForm states={['MT']} /> : <div className="quick">
             <h2>What Montana has here so far</h2>
             {hunts ? <ul>
               <li><b>Deer, elk and antelope in every hunting district</b> — general licenses, permits, antelope licenses and B licenses ({hunts} in all), with seasons and restrictions from the 2026 regulations.</li>
@@ -62,7 +62,7 @@ export async function MtQuickStart() {
             <p className="hint">Permits, antelope and B licenses default to a next-draw projection (FWP&apos;s weighted draw re-run on the last draw, tested on 2024–2026); the combination draw is shown as it last drew.</p>
             {hunts ? <Link className="btn primary" href="/hunts?states=MT&antler=ANTLERED&sort=opp">Find Montana hunts</Link> : null}{' '}
             <Link className={`btn${hunts ? '' : ' primary'}`} href="/montana">Open the Montana draw</Link>
-          </div>
+          </div>}
         </div>
       </section>
     </main>

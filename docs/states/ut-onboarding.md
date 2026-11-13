@@ -201,7 +201,7 @@ Not built yet: a projection (needs the §5.2 backtest), waiting-period tracking 
 
 - **Open questions answered (Nov 12):**
   - **Later choices:** the 2026 draw data has first-choice and all-choice success. Second and later choices got 10 of 1,866 limited-entry deer permits, 7 of 3,520 elk and 10 of 1,863 pronghorn (≤0.5%), and none of 133 bison: first-choice odds are the whole story there. General buck deer: 4,771 of 74,963 permits (6.4%), in 86 of 107 units, went to later choices; the pages now say the general deer odds are first-choice. The guidebook doesn't state a maximum number of choices.
-  - **Hunting license** (required to apply): resident $40, nonresident $120 (adult, 1 year), from DWR's fee page, which carries no season year, so it's labelled "checked Nov 12, 2026". Point-only and application fee: $10 resident, $21 nonresident per species (2026 guidebook).
+  - **Hunting license** (required to apply): resident $40, nonresident $144 (adult, 1 year), from DWR's fee page, which carries no season year, so it's labelled "checked Nov 12, 2026". The earlier $120 was the nonresident fishing license, not the hunting license. Point-only and application fee: $10 resident, $21 nonresident per species (2026 guidebook).
   - **R657-62 changes:** the rule text DWR serves shows last changed Feb 7, 2025. It still says 50% of permits go to the most bonus points, forfeit on drawing, 5/5/2-season waits, groups up to 4 (none for OIAL), group points averaged and rounded down. The July 2025 RAC document didn't load as a change list. Nothing found that contradicts the model, but the July 2025 proposals themselves are unread.
 
 ## 7. Steps, in order

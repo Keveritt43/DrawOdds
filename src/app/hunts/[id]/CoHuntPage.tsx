@@ -124,11 +124,13 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </h1>
       <p className="muted" style={{ marginTop: 0 }}>
         Hunt code <b>{s.tagCode}</b> · {s.tags !== null ? `${int(s.tags)} licenses in ${po.year}` : ''} · List {po.list ?? '–'}
-        {po.nrCapPct !== null ? ` · Nonresident cap ${po.nrCapPct}% (${po.nrCap})` : ''}
+        {po.nrCapPct !== null ? ` · Nonresident cap ${po.nrCapPct}%${po.nrCap !== null ? ` (CPW report: ${po.nrCap} licenses)` : ''}` : ''}
         {po.hybridCap ? ` · Hybrid draw up to ${po.hybridCap}` : ''}
         {s.privateOnly ? ' · Private land only' : ''} ·{' '}
         <HuntLink href={`/units/${encodeURIComponent(unitKey('CO', d.unit))}`}>Unit {d.unit}</HuntLink>
       </p>
+      {po.nrCapPct !== null && po.nrCap !== null && <p className="small muted">The cap count is taken from CPW&apos;s draw recap; it is not calculated from the total shown above, which can include other allocations.</p>}
+      <div className="cost-lines"><h4>What It Costs</h4><p>Applying for a Colorado big-game draw requires an eligible qualifying license, an application fee and, for most adults, a habitat stamp. The big-game license is an additional cost if drawn. Amounts vary by residency, age and license; the listed items are not a complete total.</p><p><a href="https://cpw.state.co.us/activities/hunting/big-game/qualifying-license">Qualifying licenses</a> · <a href="https://cpw.state.co.us/activities/hunting/big-game">Current CPW brochure and fees</a></p></div>
 
       <ScoreRow r={withCoOpportunity(s, myOdds(po.pools[myPool], p, mode, po.year, myPool)?.odds ?? null, nr)} nr={nr} open />
       <div className="co-top">

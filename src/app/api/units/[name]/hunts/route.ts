@@ -91,7 +91,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
             pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'],
           )
         : h.nrOdds5,
-      success5: h.success5,
+      success5: state === 'WY' && h.species === 'DEER' ? null : h.success5,
       };
     }),
     { headers: { 'Cache-Control': 'private, no-store' } }, // eligibility depends on current per-state settings

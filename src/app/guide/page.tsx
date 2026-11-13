@@ -13,12 +13,20 @@ export default async function GuidePage() {
   if ((await getState()).code === "CO") return <CoGuide />;
   if ((await getState()).code === "MT") return <MtGuide />;
   if ((await getState()).code === "UT") return <UtGuide />;
+  if ((await getState()).code === 'WY') return <main className="wrap" style={{ maxWidth: 860, margin: '24px auto 48px' }}>
+    <h1>How The Wyoming Draw Works</h1>
+    <p>For nonresident deer, elk and antelope, choose either the regular or the higher-priced special pool. Each has its own quota and draw odds. Wyoming awards most licenses by preference points and the remaining share in a random draw among eligible applicants who did not draw in the preference round.</p>
+    <p>Preference points apply to the first choice. General deer licenses are drawn by nonresidents for a region; residents buy a general license over the counter. Check the current seasons and area restrictions before applying.</p>
+    <p>DrawOdds labels the last draw and projections separately. An estimated chance is not a guarantee, and random-draw odds may be estimated when WGFD does not publish the necessary result.</p>
+    <h2>Costs And Next Steps</h2><p>Fees depend on species and the regular or special pool. WGFD charges the license price and application fee when you apply; check its refund rules and the conservation stamp requirement. Costs can change, so use the current agency schedule for the complete amount.</p>
+    <p><a href="https://wgfd.wyo.gov/licenses-applications/application-process">WGFD application process</a> · <a href="https://wgfd.wyo.gov/licenses-applications/license-fee-list">License fees</a> · <a href="https://wgfd.wyo.gov/licenses-applications/application-dates-deadlines">Application dates</a> · <Link href="/hunts?states=WY">Find Wyoming hunts</Link></p>
+  </main>;
   const g = NR_GENERAL_DRAW.windows;
   const c = CONTROLLED_DRAW.windows;
   return (
     <main className="wrap" style={{ maxWidth: 860, margin: '24px auto 48px' }}>
       <h1>How The Idaho Draw Works</h1>
-      <p className="lead-sum">The short version: <b>Idaho has no preference or bonus points.</b> Every draw is a fresh random number every year, so a hunt&apos;s recent odds are your real odds, and you lose nothing by skipping a year or applying for something different.</p>
+      <p className="lead-sum">The short version: <b>Idaho has no preference or bonus points.</b> Every draw is random. Recent odds describe past results and can change as applications and quotas change; skipping a year does not cost points.</p>
 
       <h2>The Three Drawings</h2>
       <ol>

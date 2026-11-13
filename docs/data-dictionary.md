@@ -12,6 +12,8 @@ This describes the current Idaho and Colorado implementation, not a universal de
 
 ## Harvest success
 
+**Wyoming deer:** The existing import combines mule and white-tailed deer harvest and uses the larger species-specific hunter count as a proxy for their unknown overlap. That ratio is an upper bound, not a verified combined success rate. Until a compatible denominator is established, Wyoming deer success, hunter density and dependent scores are suppressed at read time; the stored observations are preserved. The separate WGFD tables remain the source: https://wgfd.wyo.gov/media/33467/download.
+
 - **Meaning and units:** Harvested animals divided by hunters afield in compatible reported data; stored as a fraction and displayed as a percentage. `success5` generally reflects pooled available counts over up to five seasons: total harvest ÷ total hunters, not an unweighted average of annual percentages.
 - **Inputs:** Agency hunter and harvest estimates or counts, species, geography, season and available years. `hunters5`, `harvest5` and `harvestYears` describe the underlying window where available.
 - **Idaho:** Hunt or area summaries use the applicable IDFG data and historical boundary handling; inspect the summary and harvest implementations for the specific hunt.
