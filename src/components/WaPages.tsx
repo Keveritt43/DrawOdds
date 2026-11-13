@@ -15,8 +15,8 @@ import { WaOddsPointsChart } from './WaCharts';
 
 const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.001 ? '<0.1%' : o < 0.01 ? `${(o * 100).toFixed(1)}%` : `${Math.round(o * 100)}%`);
 type Row = { id: string; slug: string; name: string; species: string; type: string; tagCode: string | null; tags: number | null; privateOnly: boolean; youthOnly: boolean;
-  pointOdds: unknown; oddsByPts: unknown; success5: number | null; smallSample: boolean; huntCategory: string | null };
-const SELECT = { id: true, slug: true, name: true, species: true, type: true, tagCode: true, tags: true, privateOnly: true, youthOnly: true, pointOdds: true, oddsByPts: true, success5: true, smallSample: true, huntCategory: true } as const;
+  pointOdds: unknown; oddsByPts: unknown; success5: number | null; smallSample: boolean };
+const SELECT = { id: true, slug: true, name: true, species: true, type: true, tagCode: true, tags: true, privateOnly: true, youthOnly: true, pointOdds: true, oddsByPts: true, success5: true, smallSample: true } as const;
 
 const FEES: [string, string, string][] = [
   ['Deer license (includes the general tag)', '$61.70', '$599.07'],
