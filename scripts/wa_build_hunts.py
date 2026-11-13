@@ -27,7 +27,7 @@ from __future__ import annotations
 import collections
 import csv
 import datetime as dt
-import json
+import json, math
 import re
 import sys
 from pathlib import Path
@@ -45,7 +45,7 @@ PTS_CAT = {("Deer", "Quality Deer"): "Quality Deer", ("Deer", "Quality"): "Quali
            ("Deer", "Buck deer"): "Buck Deer", ("Deer", "Antlerless Deer"): "Antlerless Deer", ("Deer", "Antlerless"): "Antlerless Deer",
            ("Deer", "Second Deer"): "Second Deer", ("Elk", "Quality Elk"): "Quality Elk", ("Elk", "Bull Elk"): "Bull Elk",
            ("Elk", "Antlerless Elk"): "Antlerless Elk", ("Elk", "Antlerless"): "Antlerless Elk"}
-MAXP = 25
+MAXP = 40   # account input allows 40; Entiat, Desert and Colockum applicants already pass 30
 MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
 
 
@@ -70,7 +70,7 @@ def cutoff(dist: dict[int, float], target: float) -> float:
 def roll(dist: dict[int, float], u: float, total: float) -> dict[int, float]:
     nxt: dict[int, float] = collections.Counter()
     for p, n in dist.items():
-        nxt[min(p + 1, MAXP + 5)] += n * (1 - u) ** (p * p)   # unselected keep applying (r = 1, the backtest's best)
+        nxt[p + 1] += n * (1 - u) ** (p * p)   # unselected keep applying (r = 1, the backtest's best)
     kept = sum(nxt.values())
     if total > kept:
         nxt[1] += total - kept
@@ -113,10 +113,35 @@ def area_units(area: str, known: set[str]):
     return [g for g in dict.fromkeys(gm) if g in known]
 
 
+def permit_only_gmus() -> dict[str, set[str]]:
+    """GMUs where the 2026 pamphlet allows deer or elk only by special permit (or closes them). A general-season
+    harvest row in one of these is a reporting artifact, not a general hunt: GMU 653 White River elk shows ~45
+    "general" hunters a year in the harvest report, but the pamphlet lists it as permit only."""
+    pages = json.load(open(SRC / "regs-2026.json"))["pamphlet"]
+    pages = pages if isinstance(pages, list) else pages["pages"]
+    out = {"DEER": set(), "ELK": set()}
+    for pg in pages:
+        texts = [it[4] for it in pg["items"]]
+        joined = " ".join(texts)
+        for i, t in enumerate(texts):
+            if t.startswith("PERMIT ONLY UNITS"):          # deer page: "...to hunt deer: 290 Desert, 329 ..."
+                tail = " ".join(texts[i + 1:i + 4])
+                if "deer" in tail:
+                    out["DEER"] |= set(re.findall(r"\b(\d{3})\b", tail.split("deer", 1)[1]))
+            if t.replace(" ", "") in ("ONLYINGMUS:", "GMUSCLOSEDTOHUNTING:") and "elk" in joined.lower():
+                out["ELK"] |= set(re.findall(r"\b(\d{3})\b", texts[i + 1] if i + 1 < len(texts) else ""))
+    return out
+
+
 def main() -> None:
     units = {u["name"]: u for u in json.load(open(ROOT / "data" / "wa" / "units.json"))["units"]}
     land = json.load(open(ROOT / "data" / "wa" / "land.json"))["units"]
     rows = json.load(open(SRC / "permit-tables-2021-2026.json"))["rows"]
+    for r in rows:
+        # "APPS/AVG PTS" cells print as "1810/16". One 2021 cell lost its slash in the PDF text ("44505", Prescott
+        # archery elk, a hunt with 14-26 applications every other year); treat any slashless cell as unknown.
+        if r.get("prior_apps") is not None and "/" not in str(r.get("prior_raw") or ""):
+            r["prior_apps"] = None
     H = json.load(open(SRC / "harvest-2013-2025.json"))["pages"]
     problems: list[str] = []
 
@@ -183,7 +208,7 @@ def main() -> None:
         pts[k][int(r["point_total"])] += int(r["applications"])
         ptsel[k][int(r["point_total"])] += int(r["selected_applications"])
         pcat[k] = PTS_CAT.get((r["species"], r["category"]), r["category"])
-        pname[k] = r["hunt_name"]
+        pname[k] = r["hunt_name"] or pname.get(k, "")   # continuation rows of a split PDF table have no name
     catmix = collections.defaultdict(collections.Counter)
     for k, d in pts.items():
         if k[0] == 2020:
@@ -207,9 +232,16 @@ def main() -> None:
             if exact and (like is None or norm(exact[0]["tag"]) == norm(like["tag"])):
                 return exact[0]
         if like is not None:
-            score = lambda r: (norm(r["tag"]) == norm(like["tag"])) * 4 + (norm(r["area"]) == norm(like["area"])) * 2 + (norm(r["legal"]) == norm(like["legal"]))
-            best = sorted(cands, key=score, reverse=True)
-            if score(best[0]) >= 4 and (len(best) == 1 or score(best[0]) > score(best[1])):
+            # Several hunts can share name, tag, area and legal animal (Desert has two modern Quality hunts, Colockum
+            # several), differing only in season dates and permit count; hunt numbers move between years. Score the
+            # cheap identity fields, then break ties on dates, then on the closest permit count.
+            score = lambda r: ((norm(r["tag"]) == norm(like["tag"])) * 8 + (norm(r["area"]) == norm(like["area"])) * 4
+                               + (norm(r["legal"]) == norm(like["legal"])) * 2 + (norm(r.get("dates") or "") == norm(like.get("dates") or "")))
+            def tie(r):
+                pa, pb = r.get("permits") or 0, like.get("permits") or 0
+                return -abs(math.log((pa + 1) / (pb + 1)))
+            best = sorted(cands, key=lambda r: (score(r), tie(r)), reverse=True)
+            if score(best[0]) >= 8 and (len(best) == 1 or (score(best[0]), tie(best[0])) > (score(best[1]), tie(best[1]))):
                 return best[0]
         return None
 
@@ -263,9 +295,12 @@ def main() -> None:
                 if k[0] != 2020 or k[1] != sp or pcat.get(k) != r["category"]:
                     continue
                 ratio = sum(d.values()) / pub20[0]
-                if not 0.85 <= ratio <= 1.02:
-                    continue
                 agree = (k[2] == pub20[2]) * 2 + bool(words & set(re.findall(r"[a-z]{4,}", pname[k].lower())))
+                # Same number and name: the table is this hunt even when its count runs low (archery tables hold
+                # 70-80% of the printed applications). Otherwise demand the usual 85-102% fit.
+                lo, hi = (0.6, 1.1) if agree == 3 else (0.85, 1.02)
+                if not lo <= ratio <= hi:
+                    continue
                 if agree and (best is None or (agree, -abs(ratio - 0.95)) > best[0]):
                     best = ((agree, -abs(ratio - 0.95)), k)
             if best:
@@ -401,8 +436,13 @@ def main() -> None:
     METHOD = {"Archery": "ARCHERY", "Modern Firearm": "ANY", "Muzzleloader": "MUZZLELOADER"}
     WNAME = {"ARCHERY": "Archery", "ANY": "Modern Firearm", "MUZZLELOADER": "Muzzleloader"}
     latest = max(y for v in gen.values() for y in v)
+    permit_only = permit_only_gmus()
+    print("permit-only GMUs", {k: sorted(v) for k, v in permit_only.items()})
     for (sp, gmu, meth), yrs in sorted(gen.items()):
         if meth not in METHOD or gmu not in units:
+            continue
+        if gmu in permit_only.get(sp, set()):
+            problems.append(f"general {sp.lower()} {meth} in GMU {gmu}: pamphlet says permit only; harvest row dropped")
             continue
         rec = yrs.get(latest)
         if not rec or not rec.get("hunters"):
