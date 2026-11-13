@@ -76,7 +76,8 @@ export function waTagAllows(tagCell: string | null | undefined, species: string,
   if (/^any\b/i.test(cell)) return true;
   if (mine === 'MULTI') return true; // multi-season tag holders may apply with any weapon (and, for elk, either side)
   if (species === 'DEER') {
-    const want = { MODERN: /modern/i, ARCHERY: /archery/i, MUZZLELOADER: /muzzle/i }[mine];
+    const want = ({ MODERN: /modern/i, ARCHERY: /archery/i, MUZZLELOADER: /muzzle/i } as Record<string, RegExp>)[mine];
+    if (!want) return null;
     if (!/modern|archery|muzzle/i.test(cell)) return null;
     return want.test(cell);
   }
