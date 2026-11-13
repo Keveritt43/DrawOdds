@@ -128,7 +128,7 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
 **`scripts/wa_build_hunts.py` → `data/wa/hunts.json`.** 1,225 hunts:
 - 499 special permits: Quality, Buck, Antlerless and Second Deer; Quality, Bull and Antlerless Elk;
 - 2 multi-season tags;
-- 724 general-season GMU × weapon hunts (397 deer, 327 elk). A row exists only where the 2025 harvest report shows general hunters for that weapon in that GMU.
+- 771 general-season GMU × weapon hunts (413 deer, 358 elk), from the pamphlet's season tables. A row exists only where the 2025 harvest report shows general hunters for that weapon in that GMU.
 - **Odds per §5:**
   - 394 special hunts start from their own 2020 point table, linked through the 2021 pamphlet's application count; that table must hold 85–102% of it and agree on number or name (60–110% when both agree: archery tables run low).
   - The other 105 start from their category's pooled 2020 mix, labelled `seed: "category"`.
@@ -139,8 +139,9 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
   - Chains walk pamphlets back by category + name, then tag, area and legal animal when several hunts share a name.
 - **Multi-season applications:** WDFW's harvest reports list multi-season as hunts 1999 (deer) and 2999 (elk), with Total Applicants from 2021. 2025: 28,274 deer and 26,768 elk applications for 8,500 and 1,000 tags. Thousands of deer tags still go unsold each year because winners don't buy, so the drawn odds understate a deer applicant's real chance of getting a tag. The page must say so.
 - **Left out (16):** Buckrun and Blackrock Ranches (private ranch areas with no WDFW polygon); the Alkali and Blue Creek hunts (no published applications in any year); one 2026 area cell that parses as "GMU 37 1".
-- **General hunts' legal animal (fixed Nov 12, PR after #129).** The first build marked every general hunt antlered and counted total harvest. That put Alkali (371) General Modern Firearm Elk at the top of the elk finder (Quality 94, 47% success), but every elk it produced 2021–2025 was antlerless. Until the pamphlet's general-season tables are parsed, each GMU × weapon is classed from its own 2021–2025 harvest: no antlered harvest → antlerless; antlerless 15% or more of the harvest → either sex, total success; under 15% → antlered, and success counts antlered kills only (the small antlerless share is youth, 65+ and disabled allowances an adult can't use). 509 antlered, 213 either sex, 5 antlerless. The 15% cut is a judgement; replace it with the regulations when they're parsed.
-- **Not yet:** general-season dates and legal animal per GMU (the pamphlet's general-season tables aren't parsed); general rows show no dates until they are.
+- **General seasons from the pamphlet (Nov 13).** `scripts/wa_parse_general_seasons.py` → `data/wa/general-seasons-2026.json`: 106 rows from the six general-season tables (deer and elk × modern, archery, muzzleloader), each with dates, GMUs, legal animal and deer type (black-tailed, white-tailed, mule). Rows for Master Hunters only, high-buck wilderness hunts and youth are kept but flagged; an adult general-tag hunter can't use them. These tables now decide which general hunts exist, their dates and their legal animal; harvest only supplies success (antlered hunts count antlered kills, antlerless-only hunts count antlerless kills, either-sex hunts count all). 771 general hunts (413 deer, 358 elk): 47 new GMU × weapon hunts the harvest report had no 2025 row for, and 4 dropped that have no adult general season (deer muzzleloader 249 and 372, elk archery 368, Alkali 371 modern elk, which is Master Hunters only).
+  - **This replaced a guess that was wrong.** #130 classed each GMU's legal animal from the harvest mix (≥15% antlerless → either sex). Checked against the tables it was wrong for about 30 GMUs: WDFW's general harvest rows include Master Hunter, youth and other allowance kills, so antlered-only units such as 145, 334, 407 and the Colockum true-spike units looked either-sex.
+  - Deer Area and Elk Area rules (e.g. Deer Area 6020 any deer, Elk Area 3722) are parsed but not applied to GMU hunts.
 
 ## 8. Open items
 
@@ -151,8 +152,7 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
 ## 9. Next steps
 
 1. Washington Planner, What Changed and How The Draw Works.
-2. Parse the general-season tables (dates, legal animal per GMU and weapon).
-3. WA-2: Youth, 65+, Hunters with Disabilities and Master Hunter categories.
+2. WA-2: Youth, 65+, Hunters with Disabilities and Master Hunter categories.
 
 ## Files
 

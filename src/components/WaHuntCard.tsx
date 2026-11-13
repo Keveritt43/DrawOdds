@@ -36,7 +36,7 @@ export function WaHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, s
         <span className="small muted tags">{gen ? 'No draw' : r.tags === null ? '–' : `${int(r.tags)} ${lic === 'multi' ? 'tags' : 'permits'}`}</span>
       </div>
       <div className="dates">
-        {[gen ? WA_WEAPON_LABEL[r.weapon] : po?.category, antlerLabel(r.species, r.antlerClass), r.tagCode && !gen ? `Hunt ${r.tagCode}` : '', where, side, gen ? '' : (po?.dates || dateRange(r.openDate, r.closeDate)),
+        {[gen ? WA_WEAPON_LABEL[r.weapon] : po?.category, antlerLabel(r.species, r.antlerClass), r.tagCode && !gen ? `Hunt ${r.tagCode}` : '', where, side, po?.dates || dateRange(r.openDate, r.closeDate),
           r.privateOnly ? 'Private land only' : '', tagOk === false ? 'Your saved tag can\'t apply' : '']
           .filter(Boolean).join(' · ')}
       </div>

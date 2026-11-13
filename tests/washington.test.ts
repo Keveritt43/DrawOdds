@@ -87,3 +87,21 @@ test('Washington filters narrow only Washington rows', () => {
   const elkW = data.hunts.find((h) => h.type === 'GENERAL' && h.species === 'ELK' && (h.pointOdds as unknown as { side: string }).side === 'WEST')!;
   assert.equal(matchesSearch(evaluateHunt(row(elkW), settings, 'proj'), searchFilters({ waSide: 'EAST' }), { waSide: 'EAST' }), false);
 });
+
+test('Washington general hunts follow the 2026 season tables, not the harvest report', () => {
+  const ids = new Set(data.hunts.map((h) => h.id));
+  // permit only (653 White River elk) and Master-Hunter-only (371 Alkali modern elk) GMUs have no general hunt
+  for (const id of ['WA:GE-653-ANY', 'WA:GE-653-ARCHERY', 'WA:GE-371-ANY']) assert.ok(!ids.has(id), id);
+  const e101 = by('WA:GE-101-ANY');
+  assert.equal(e101.antlerClass, 'ANTLERED');
+  assert.equal(e101.openDate, '2026-10-31');
+  assert.equal(e101.closeDate, '2026-11-08');
+  assert.match(String(e101.takeMethod), /Any bull/);
+  // GMU 101 modern deer: white-tailed any buck, mule deer 3 pt. min.
+  assert.match(String(by('WA:GD-101-ANY').takeMethod), /White-tailed deer: Any buck.*Mule deer: Buck, 3 pt\. min\./);
+  assert.equal(by('WA:GE-334-ARCHERY').antlerClass, 'EITHER');   // spike bull or antlerless
+  for (const h of data.hunts.filter((x) => x.type === 'GENERAL')) {
+    const ts = h.tagSeasons as { seasons: { dates: { open: string; close: string }[] }[] };
+    assert.ok(ts.seasons.length > 0 && h.openDate && h.closeDate, h.id);
+  }
+});
