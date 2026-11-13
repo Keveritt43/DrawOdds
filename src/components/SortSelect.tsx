@@ -9,7 +9,7 @@ const SORTS: [string, string][] = [
   ['best', 'Best Chance (Odds x Success)'],
   ['odds', 'Draw Odds'],
   ['success', 'Harvest Success'],\n  ['trophy', 'Trophy Score (100 → 50)'],
-  ['big', 'Trophy Score (100 → 50)'],
+  ['big', 'Harvest Antler Share (legacy)'],
   ['harvest', 'Most Harvest (5-yr Total)'],
   ['hunters', 'Most Hunters (5-yr Total)'],
   ['huntersLow', 'Fewest Hunters (5-yr Total)'],
