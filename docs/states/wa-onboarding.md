@@ -134,7 +134,8 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
   - Chains walk pamphlets back by category + name, then tag, area and legal animal when several hunts share a name.
 - **Multi-season applications:** WDFW's harvest reports list multi-season as hunts 1999 (deer) and 2999 (elk), with Total Applicants from 2021. 2025: 28,274 deer and 26,768 elk applications for 8,500 and 1,000 tags. Thousands of deer tags still go unsold each year because winners don't buy, so the drawn odds understate a deer applicant's real chance of getting a tag. The page must say so.
 - **Left out (16):** Buckrun and Blackrock Ranches (private ranch areas with no WDFW polygon); the Alkali and Blue Creek hunts (no published applications in any year); one 2026 area cell that parses as "GMU 37 1".
-- **Not yet:** general-season dates and legal animal per GMU (the pamphlet's general-season tables aren't parsed); general rows show neither until they are.
+- **General hunts' legal animal (fixed Nov 12, PR after #129).** The first build marked every general hunt antlered and counted total harvest. That put Alkali (371) General Modern Firearm Elk at the top of the elk finder (Quality 94, 47% success), but every elk it produced 2021–2025 was antlerless. Until the pamphlet's general-season tables are parsed, each GMU × weapon is classed from its own 2021–2025 harvest: no antlered harvest → antlerless; antlerless 15% or more of the harvest → either sex, total success; under 15% → antlered, and success counts antlered kills only (the small antlerless share is youth, 65+ and disabled allowances an adult can't use). 509 antlered, 213 either sex, 5 antlerless. The 15% cut is a judgement; replace it with the regulations when they're parsed.
+- **Not yet:** general-season dates and legal animal per GMU (the pamphlet's general-season tables aren't parsed); general rows show no dates until they are.
 
 ## 8. Open items
 
