@@ -71,6 +71,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </p>
       <h1 className="star-head">Washington {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></h1>
       <p className="muted" style={{ marginTop: 0 }}>
+        {s.youthOnly && <b>Youth only (under 16) · </b>}
         {gen ? `General season · ${WA_WEAPON_LABEL[s.weapon] ?? s.weapon}` : `${po?.category ?? 'Special permit'} · hunt ${s.tagCode}`}
         {!gen && s.tags !== null ? ` · ${int(s.tags)} ${lic === 'multi' ? 'tags' : 'permits'} (2026)` : ''}
         {po?.tag && !gen ? ` · tag: ${po.tag}` : ''}
