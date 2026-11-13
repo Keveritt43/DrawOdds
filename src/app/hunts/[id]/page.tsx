@@ -31,6 +31,7 @@ import { CoHuntPage } from './CoHuntPage';
 import { WyHuntPage } from './WyHuntPage';
 import { MtHuntPage } from './MtHuntPage';
 import { UtHuntPage } from './UtHuntPage';
+import { WaHuntPage } from './WaHuntPage';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const s = (await db.huntSummary.findFirst({ where: { slug: key }, select: sel })) ?? (await db.huntSummary.findUnique({ where: { id: key }, select: sel }));
   if (!s) return { title: 'Hunt not found' };
   const t = s.state !== 'ID' ? s.name : s.huntNumber ? `${SPECIES_LABEL[s.species]} Hunt ${s.huntNumber} (Area ${s.areaName})` : s.nrTag ? s.name : `${s.name}${s.unit ? ` · Unit ${s.unit}` : ''}`;
-  return { title: t, description: `Draw odds, hunter success, crowding and land for ${s.state === 'CO' ? 'Colorado' : s.state === 'WY' ? 'Wyoming' : s.state === 'MT' ? 'Montana' : s.state === 'UT' ? 'Utah' : 'Idaho'} ${t}.` };
+  return { title: t, description: `Draw odds, hunter success, crowding and land for ${s.state === 'CO' ? 'Colorado' : s.state === 'WY' ? 'Wyoming' : s.state === 'MT' ? 'Montana' : s.state === 'UT' ? 'Utah' : s.state === 'WA' ? 'Washington' : 'Idaho'} ${t}.` };
 }
 
 export default async function HuntPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ as?: string; odds?: string; pool?: string; returnTo?: string }> }) {
@@ -58,6 +59,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   if (s.state === 'WY') return <WyHuntPage s={s} sp={sp} />;
   if (s.state === 'MT') return <MtHuntPage s={s} sp={sp} />;
   if (s.state === 'UT') return <UtHuntPage s={s} sp={sp} />;
+  if (s.state === 'WA') return <WaHuntPage s={s} sp={sp} />;
   const { residency } = await getResidency(sp.as, s.state);
   const session = await auth();
   const rf = residencyFields(residency);

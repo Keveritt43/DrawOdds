@@ -116,12 +116,31 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
 - **Account:** points per category (Quality/Buck/Antlerless/Second Deer, Quality/Bull/Antlerless Elk, Multi-season Deer/Elk), deer tag weapon, elk tag weapon + East/West. Show "you'll draw with N + 1 points = (N + 1)² entries".
 - **Finder, cards, hunt and unit pages, map, Planner, What Changed, How The Draw Works** as Idaho/Utah. Headline: *every application is a weighted lottery: your entries are your points squared, counting this year's.*
 
-## 7. Next steps
+## 7. Built data (Nov 12, 2026)
 
-1. `scripts/wa_build_units.py`: GMU, Deer Area and Elk Area outlines → `data/wa/units.json`; `scripts/wa_build_land.py` (Montana raster) → `data/wa/land.json`, checked against published federal/state shares.
-2. `scripts/wa_build_harvest.py`: general harvest per GMU × weapon and per special hunt.
-3. `scripts/wa_build_hunts.py`: 2026 special permits (main categories), general GMU × weapon hunts, multi-season; odds per §5.
-4. `scripts/wa-import.ts`, app pieces (§6), import, enable, check live at desktop and 390 px.
+**`scripts/wa_build_land.py` → `data/wa/units.json`, `data/wa/land.json`.** 152 GMUs, 19 Deer Areas, 37 Elk Areas, with outlines, acreage, ownership and WDFW private-lands access acres per unit.
+- **GMUs don't tile the state.** Olympic National Park, the Yakama and Colville reservations and other tribal land lie outside every GMU. GMU 2 is open water, and GMUs 51 and 53 are the North Cascades and Mount Rainier parks; none of those three becomes a unit. So across the GMUs: federal 28.5% (USFS 22.6%), state 9.1%, tribal 1.4%, private 60.9%.
+- **State land may be undercounted.** DNR's ~5.6M upland acres (~13% of the state) suggest SMA misses some DNR parcels. Check against DNR's own layer before trusting state shares in western WA.
+- **Private-lands access:** four programs measured per unit: Feel Free to Hunt, Register to Hunt, Hunt by Written Permission and Hunt by Reservation.
+- **Spot checks:** Alpine (249) 99.6% USFS; Horse Heaven (373) 90% private; Deschutes (666) 96% private, which is industrial timber.
+
+**`scripts/wa_build_hunts.py` → `data/wa/hunts.json`.** 1,225 hunts:
+- 496 special permits: Quality, Buck, Antlerless and Second Deer; Quality, Bull and Antlerless Elk;
+- 2 multi-season tags;
+- 727 general-season GMU × weapon hunts (397 deer, 330 elk). A row exists only where the 2025 harvest report shows general hunters for that weapon in that GMU.
+- **Odds per §5:**
+  - 344 special hunts start from their own 2020 point table, linked through the 2021 pamphlet's application count; that table must hold 85–102% of it and agree on number or name.
+  - The other 155 start from their category's pooled 2020 mix, labelled `seed: "category"`.
+  - Chains walk pamphlets back by category + name, then tag, area and legal animal when several hunts share a name.
+- **Multi-season applications:** WDFW's harvest reports list multi-season as hunts 1999 (deer) and 2999 (elk), with Total Applicants from 2021. 2025: 28,274 deer and 26,768 elk applications for 8,500 and 1,000 tags. Thousands of deer tags still go unsold each year because winners don't buy, so the drawn odds understate a deer applicant's real chance of getting a tag. The page must say so.
+- **Left out (16):** Buckrun and Blackrock Ranches (private ranch areas with no WDFW polygon); the Alkali and Blue Creek hunts (no published applications in any year); one 2026 area cell that parses as "GMU 37 1".
+- **Not yet:** general-season dates and legal animal per GMU (the pamphlet's general-season tables aren't parsed); general rows show neither until they are.
+
+## 8. Next steps
+
+1. `scripts/wa-import.ts` and the app pieces (§6), then import, enable and check live at desktop and 390 px.
+2. Parse the general-season tables (dates, legal animal per GMU and weapon).
+3. WA-2: Youth, 65+, Hunters with Disabilities and Master Hunter categories.
 
 ## Files
 

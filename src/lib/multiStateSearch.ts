@@ -7,7 +7,7 @@ import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
-export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS } from './searchStates';
+export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import { wyHuntWilderness } from './wyWilderness';
 import type { StatePoints } from './points';
@@ -22,9 +22,11 @@ import { mtBma, mtAccessPct } from './mtBma';
 import type { MtPoints } from './mtPoints';
 import { utPersonal, utKind } from './utHunt';
 import { readUtPoints, type UtPoints } from './utPoints';
+import { waPersonal, waLicense, waPo } from './waHunt';
+import { readWaPoints, type WaPoints } from './waPoints';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
-export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints };
+export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints };
 export interface SearchResult {
   r: CoScored;
   odds: number | null;
@@ -38,6 +40,8 @@ export interface SearchResult {
   applicants?: number;
   /** Wyoming nonresidents: points needed in the pool shown (regular or special). */
   need?: number | null;
+  /** Washington: whether the hunter's saved general tag can apply for this special permit (null: can't tell). */
+  waTagOk?: boolean | null;
 }
 export const param = (sp: SearchParams, k: string) => (Array.isArray(sp[k]) ? sp[k]!.join(',') : sp[k] ?? '') as string;
 const list = (sp: SearchParams, k: string) => param(sp, k).split(',').filter(Boolean);
@@ -55,7 +59,7 @@ export function searchFilters(sp: SearchParams): Filters {
 /** All personal values are derived on copies; the public cached rows are never modified. */
 /** Residency for a row's state: Idaho's profile residency, else that state's saved settings. */
 export const isNonresident = (state: string, settings: HunterSettings) =>
-  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
+  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : state === 'WA' ? settings.WA?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
 
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
   const nr = isNonresident(r.state, settings);
@@ -77,6 +81,12 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     const m = mtPersonal(r, mt, nr, mode);
     const opp = opportunity(r.scoreQuality, m.odds);
     return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: m.points, basis: m.basis, mtParts: m.parts };
+  }
+  if (r.state === 'WA') {
+    // one pool for residents and nonresidents; unsaved settings: 0 points, no tag (src/lib/waPoints.ts readWaPoints)
+    const w = waPersonal(r, settings.WA ?? readWaPoints(null), mode);
+    const opp = opportunity(r.scoreQuality, w.odds);
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: w.odds, opportunity: opp, nr, points: w.points, basis: w.basis, waTagOk: w.tagOk };
   }
   if (r.state === 'UT') {
     // unsaved settings: nonresident, 0 points (src/lib/utPoints.ts readUtPoints defaults)
@@ -174,6 +184,17 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   } else if (r.state === 'UT') {
     const kinds = list(sp, 'utLic');
     if (kinds.length && !kinds.includes(utLicense(r))) return false;
+  } else if (r.state === 'WA') {
+    const po = waPo(r);
+    const kinds = list(sp, 'waLic');
+    if (kinds.length && !kinds.includes(waLicense(r))) return false;
+    const cats = list(sp, 'waCat');
+    if (cats.length && !cats.includes(po?.category ?? '')) return false;
+    const weapons = list(sp, 'waWeapon');
+    if (weapons.length && !weapons.includes(r.weapon)) return false;
+    const sides = list(sp, 'waSide');
+    if (sides.length && r.species === 'ELK' && waLicense(r) === 'general' && !sides.includes(po?.side ?? '')) return false;
+    if (param(sp, 'waMyTag') === '1' && waLicense(r) === 'special' && x.waTagOk === false) return false;
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;

@@ -10,6 +10,8 @@ import { getPointsStore } from '@/lib/points';
 import { readMtPoints } from '@/lib/mtPoints';
 import { mtPersonal } from '@/lib/mtHunt';
 import { readUtPoints } from '@/lib/utPoints';
+import { readWaPoints } from '@/lib/waPoints';
+import { waPersonal } from '@/lib/waHunt';
 import { utPersonal } from '@/lib/utHunt';
 
 export const dynamic = 'force-dynamic';
@@ -30,6 +32,18 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
       id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
       open: h.openDate, close: h.closeDate, resOdds5: odds(h, false), nrOdds5: odds(h, true), success5: h.success5,
     })), { headers: { 'Cache-Control': 'private, no-store' } });
+  }
+  if (state === 'WA') {
+    // Washington: every deer and elk hunt on the GMU or area (multi-season tags are statewide, left out), odds at
+    // the hunter's saved points; one pool, so resident and nonresident odds are the same
+    const pts = readWaPoints((await getPointsStore()).store as Record<string, unknown>);
+    const rows = (await db.huntSummary.findMany({ where: { state: 'WA', units: { has: name } }, orderBy: [{ type: 'asc' }, { species: 'asc' }, { tagCode: 'asc' }] }))
+      .filter((h) => !(h.pointOdds as { multiSeason?: boolean } | null)?.multiSeason);
+    return Response.json(rows.map((h) => {
+      const o = waPersonal(h, pts).odds;
+      return { id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
+        open: h.openDate, close: h.closeDate, resOdds5: o, nrOdds5: o, success5: h.success5 };
+    }), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   if (state === 'UT') {
     // Utah: every deer, elk, pronghorn and bison hunt using the boundary, odds at the hunter's saved Utah points

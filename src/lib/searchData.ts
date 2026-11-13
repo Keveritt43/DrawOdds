@@ -5,6 +5,7 @@ import { otcElkOverlap } from './overlappingSeasons';
 import { getPointsStore, readState } from './points';
 import { readMtPoints } from './mtPoints';
 import { readUtPoints } from './utPoints';
+import { readWaPoints } from './waPoints';
 import { getResidency, getState } from './residency';
 import { param, runSearch, type SearchParams } from './multiStateSearch';
 import { searchStates, wySpecialView } from './searchStates';
@@ -48,7 +49,7 @@ export async function searchHunts(sp: SearchParams) {
   const wy = readState(store.store, 'WY');
   // a pool preview from the filter rail changes this search only, never the saved setting
   const settings = { ID: id.residency, CO: readState(store.store, 'CO'), WY: { ...wy, wySpecial: wySpecialView(param(sp, 'wyPool'), wy.wySpecial === true) },
-    MT: readMtPoints(store.store as Record<string, unknown>), UT: readUtPoints(store.store as Record<string, unknown>) };
+    MT: readMtPoints(store.store as Record<string, unknown>), UT: readUtPoints(store.store as Record<string, unknown>), WA: readWaPoints(store.store as Record<string, unknown>) };
   const migrations = Object.assign({}, ...data.map(d => d.migrations));
   const overlaps = Object.assign({}, ...data.map(d => d.overlaps));
   const results = runSearch(data.flatMap(d => d.rows), sp, header.code, settings, migrations, overlaps);
