@@ -266,6 +266,7 @@ export function compareSearch(a: SearchResult, b: SearchResult, sort: string): n
       case 'score': return r.scoreQuality;
       case 'success': return r.success5;
       case 'public': return r.publicPct;
+      case 'trophy': return r.scoreTrophy;
       case 'big': return r.bigPct5 ?? r.avgSize5;
       case 'harvest': return r.harvest5;
       case 'hunters': case 'huntersLow': return r.hunters5;

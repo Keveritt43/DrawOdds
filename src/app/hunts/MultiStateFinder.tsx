@@ -33,7 +33,7 @@ import { DRAW_LABEL } from '@/lib/species';
 import { CompareToggle } from '@/components/Compare';
 
 const PAGE_SIZE = 40;
-const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'], ['odds', 'My odds'], ['best', 'Draw and fill'], ['success', 'Harvest success'], ['public', 'Public land'], ['densityLow', 'Fewest hunters per sq mi'], ['open', 'Opening date'], ['alpha', 'State / unit'], ['big', 'Trophy potential'], ['harvest', 'Most harvest'], ['hunters', 'Most hunters'], ['huntersLow', 'Fewest hunters'], ['apps', 'Most applicants (my residency)'], ['appsLow', 'Fewest applicants (my residency)'], ['tags', 'Most tags'], ['leftover', 'Leftover tags (Idaho)'], ['pts', 'Points needed (Colorado, Wyoming NR)'], ['creep', 'Point creep (Colorado, Wyoming NR)'], ['unit', 'Unit']];
+const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'], ['odds', 'My odds'], ['best', 'Draw and fill'], ['success', 'Harvest success'], ['public', 'Public land'], ['densityLow', 'Fewest hunters per sq mi'], ['open', 'Opening date'], ['alpha', 'State / unit'], ['trophy', 'Trophy score'], ['big', 'Harvest antler share'], ['harvest', 'Most harvest'], ['hunters', 'Most hunters'], ['huntersLow', 'Fewest hunters'], ['apps', 'Most applicants (my residency)'], ['appsLow', 'Fewest applicants (my residency)'], ['tags', 'Most tags'], ['leftover', 'Leftover tags (Idaho)'], ['pts', 'Points needed (Colorado, Wyoming NR)'], ['creep', 'Point creep (Colorado, Wyoming NR)'], ['unit', 'Unit']];
 const max = (values: (number | null)[]) => { const finite = values.filter((v): v is number => v !== null && Number.isFinite(v)); return finite.length ? Math.max(...finite) : null; };
 
 export async function MultiStateFinder({ sp }: { sp: SearchParams }) {

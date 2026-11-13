@@ -11,8 +11,9 @@ test('antlerless excluded rather than assigned a zero or fifty',()=>{
  const r=classifyTrophy({...elk,antlerClass:'ANTLERLESS',season:'early rifle'});
  assert.equal(r.score,null); assert.equal(r.tier,null);
 });
-test('unverified county overlap remains neutral',()=>{
- assert.equal(classifyTrophy({species:'DEER',state:'CO',units:['34'],antlerClass:'ANTLERED'}).score,50);
+test('supplied unit associations receive 65; units without a designation remain neutral',()=>{
+ assert.equal(classifyTrophy({species:'DEER',state:'CO',units:['34'],antlerClass:'ANTLERED'}).score,65);
+ assert.equal(classifyTrophy({species:'ELK',state:'CO',units:['34'],antlerClass:'ANTLERED'}).score,50);
  assert.equal(classifyTrophy({species:'ELK',state:'ID',units:['999'],antlerClass:'ANTLERED'}).score,50);
 });
 test('trophy only adds quality premium above neutral',()=>{

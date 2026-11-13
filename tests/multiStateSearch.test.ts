@@ -173,6 +173,13 @@ test('tie breaking and null ordering are deterministic in both sort directions',
   assert.ok(compareSearch(a, b, 'opp') < 0);
 });
 
+test('trophy sort ranks tiers highest first and leaves ineligible hunts last', () => {
+  const rows = [50, 100, null, 65, 80].map((scoreTrophy, i) =>
+    personalize(row({ id: String(i), scoreTrophy }), settings, 'proj')!);
+  rows.sort((a, b) => compareSearch(a, b, 'trophy'));
+  assert.deepEqual(rows.map(x => x.r.scoreTrophy), [100, 80, 65, 50, null]);
+});
+
 test('CSV preserves search order, personalized odds, provenance and safe spreadsheet strings', () => {
   const results = runSearch([row({ name: '=SUM(A1)' }), colorado()], { states: 'ID,CO' }, 'ID', settings);
   const csv = searchCsv(results, 'https://example.com');
