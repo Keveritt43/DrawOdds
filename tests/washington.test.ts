@@ -105,3 +105,17 @@ test('Washington general hunts follow the 2026 season tables, not the harvest re
     assert.ok(ts.seasons.length > 0 && h.openDate && h.closeDate, h.id);
   }
 });
+
+test('Washington youth permits: own category, own points, hidden unless asked for', async () => {
+  const { waPointType } = await import('../src/lib/waPoints');
+  const youth = data.hunts.filter((h) => h.youthOnly);
+  assert.ok(youth.length >= 100, `youth hunts ${youth.length}`);
+  for (const h of youth) {
+    assert.equal(h.type, 'CONTROLLED');
+    assert.match(String(h.name), /Youth (Deer|Elk)$/);
+    const cat = (h.pointOdds as { category: string }).category;
+    assert.equal(waPointType(cat), h.species === 'DEER' ? 'YOUTH_DEER' : 'YOUTH_ELK');
+  }
+  // no adult hunt is flagged youth
+  assert.ok(data.hunts.filter((h) => !h.youthOnly && /Youth/.test(String((h.pointOdds as { category?: string }).category))).length === 0);
+});

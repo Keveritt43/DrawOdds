@@ -5,7 +5,8 @@ import { Section } from './FilterRail';
 
 const KINDS = [['special', 'Special permits (weighted points)'], ['multi', 'Multi-season tags (weighted points)'], ['general', 'General season (over the counter)']] as const;
 const CATS = [['Quality Deer', 'Quality deer'], ['Buck Deer', 'Buck deer'], ['Antlerless Deer', 'Antlerless deer'], ['Second Deer', 'Second deer'],
-  ['Quality Elk', 'Quality elk'], ['Bull Elk', 'Bull elk'], ['Antlerless Elk', 'Antlerless elk']] as const;
+  ['Quality Elk', 'Quality elk'], ['Bull Elk', 'Bull elk'], ['Antlerless Elk', 'Antlerless elk'],
+  ['Deer - Youth', 'Youth deer (under 16)'], ['Elk - Youth', 'Youth elk (under 16)']] as const;
 const WEAPONS = [['ANY', 'Modern firearm'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader']] as const;
 const SIDES = [['EAST', 'Eastern'], ['WEST', 'Western']] as const;
 

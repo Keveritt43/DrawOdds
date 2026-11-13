@@ -136,7 +136,9 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   const { r, odds } = x;
   if (f.species && r.species !== f.species) return false;
   if (f.type && r.type !== f.type) return false;
-  if (!matchesHuntSeason(r, f, true)) return false;
+  // Picking a Washington youth category is asking for youth hunts, even with the shared Youth Hunts filter on Hide.
+  const waYouth = r.state === 'WA' && f.youth === 'exclude' && list(sp, 'waCat').some((c) => c.endsWith('Youth'));
+  if (!matchesHuntSeason(r, waYouth ? { ...f, youth: 'include' } : f, true)) return false;
   if (!atLeast(odds, f.minOdds, 100) || !atLeast(r.success5, f.minSuccess, 100)
     || !atLeast(r.publicPct, f.minPublic)
     || !atLeast(r.scoreQuality, f.minScore || null) || !atLeast(x.opportunity, f.minOpp)) return false;
