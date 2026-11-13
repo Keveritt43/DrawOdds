@@ -79,7 +79,7 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
     const access = accessScore(r.huntablePct ?? r.publicPct);
     const crowd = finite(r.huntersSqMi) && r.huntersSqMi >= 0
       ? curve(r.huntersSqMi, [[0, 100], [0.25, 85], [0.5, 70], [1, 50], [1.5, 38], [3, 18], [6, 0]]) : null;
-    const trophy = classifyTrophy({ species: r.species, state: r.state ?? 'ID', units: r.units ?? [], antlerClass: r.antlerClass, weapon: r.weapon, season: r.season, deerType: r.deerType }).score;
+    const trophy = classifyTrophy({ species: r.species, state: r.state ?? 'ID', units: r.units ?? [], antlerClass: r.antlerClass, weapon: r.weapon, season: r.season, deerType: r.deerType, twoPoint: r.twoPoint }).score;
     Object.assign(o, { scoreSuccess: success, scoreAccess: access, scoreCrowd: crowd, scoreTrophy: trophy });
     // Missing land or density must not silently inflate the remaining weights.
     if (access === null || crowd === null) continue;
