@@ -14,8 +14,8 @@ function dayWindow(from?: string, to?: string): { dayFrom: number | null; dayTo:
 }
 import { unitsWithObjective, type ObjStatus } from './elkObjectives';
 
-export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow';
-export const SORTS: readonly Sort[] = ['score', 'opp', 'leftover', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow'];
+export type Sort = 'score' | 'opp' | 'leftover' | 'best' | 'odds' | 'success' | 'public' | 'big' | 'open' | 'alpha' | 'harvest' | 'hunters' | 'huntersLow' | 'apps' | 'appsLow' | 'densityLow' | 'trophy';
+export const SORTS: readonly Sort[] = ['score', 'opp', 'leftover', 'best', 'odds', 'success', 'public', 'big', 'open', 'alpha', 'harvest', 'hunters', 'huntersLow', 'apps', 'appsLow', 'densityLow', 'trophy'];
 
 export interface Filters {
   species: 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | 'BISON' | '';
