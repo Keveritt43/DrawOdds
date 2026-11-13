@@ -273,6 +273,8 @@ table.results.compact tr.total td { font-weight: 700; border-top: 2px solid var(
 .hrow-stats .sub { display: block; font-size: .74rem; color: var(--muted); text-transform: none; letter-spacing: 0; margin-top: 1px; }
 /* unit page hunt list */
 .uh-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+/* a filter row wider than the screen wraps instead of hiding its last choices */
+.uh-filters .seg { flex-wrap: wrap; max-width: 100%; }
 .seg .seg-link { padding: 6px 12px; font: 600 .82rem/1 var(--font-body); color: var(--ink); text-decoration: none; }
 .seg .seg-link[aria-pressed="true"] { background: var(--blaze); color: #fff; }
 .uh-list { display: grid; gap: 6px; }

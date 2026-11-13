@@ -86,14 +86,15 @@ export async function UtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
       <div className="uh-filters">
         {(Object.keys(FILTERS) as (keyof typeof FILTERS)[]).map((k) => (
           <div key={k} className="seg light" role="group" aria-label={k}>
-            {FILTERS[k].map(([v, l]) => {
+            {/* only the choices this boundary has hunts for (a phone fits about five) */}
+            {FILTERS[k].filter(([v]) => !v || { species: fSpecies, type: fType }[k] === v || evaluated.some((x) => (k === 'species' ? x.r.species : utLicense(x.r)) === v)).map(([v, l]) => {
               const cur = { species: fSpecies, type: fType }[k];
               return <Link key={v || 'all'} href={href({ [k]: v })} scroll={false} aria-pressed={cur === v} className="seg-link">{l}</Link>;
             })}
           </div>
         ))}
       </div>
-      <p className="small muted" style={{ margin: '4px 0 8px' }}>{shown.length} of {rows.length} hunts · odds are {nr ? 'nonresident' : 'resident'}, at your saved points, as the 2026 draw ran</p>
+      <p className="small muted" style={{ margin: '4px 0 8px' }}>{shown.length} of {rows.length} hunts · odds are {nr ? 'nonresident' : 'resident'}, at your saved points: the 2027 projection where one passed testing, otherwise the 2026 draw</p>
       <div className="uh-cards">
         {shown.map((x) => <UtHuntCard key={x.r.id} r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />)}
         {!shown.length && <p className="muted">{rows.length ? 'No hunts match these filters.' : 'No deer, elk, pronghorn or bison hunts use this boundary.'}</p>}
