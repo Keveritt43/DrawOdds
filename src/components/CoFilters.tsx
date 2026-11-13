@@ -82,9 +82,10 @@ export function CoFilters({ nr, points, speciesLabel, presets }: { nr: boolean; 
   return (
     <aside className={`f-rail ${open ? 'open' : ''}`} aria-label="Filters">
       <div className="mobile-switch">
-        <button className="btn" type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+        <button className="btn primary" type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
           {open ? 'Hide Filters' : 'Show Filters'}
         </button>
+        <p className="small muted">Fine-tune results by dates, land, odds and more.</p>
       </div>
       {[...sp.keys()].some((k) => !['sort', 'page', 'odds'].includes(k)) && (
         <div className="rail-reset">
