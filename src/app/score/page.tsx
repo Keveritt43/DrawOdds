@@ -19,7 +19,7 @@ export default async function ScorePage() {
         </p>
 
         <h2>Quality</h2>
-        <p>Quality combines harvest success (65%), access (20%) and elbow room (15%). Recognized trophy tiers can add up to 5 points; Standard hunts receive no penalty. Scores use fixed benchmarks rather than peer ranks.</p>
+        <p>Quality combines harvest success (65%), access (20%) and elbow room (15%). Recognized trophy tiers can add up to 5 points; Standard hunts receive no penalty. The Quality components use fixed benchmarks; the trophy evidence screen also compares draw rates with compatible peers.</p>
         <ul>
           <li><b>Success ({SCORE_WEIGHTS.success}%):</b> harvest divided by hunters across the available five-year window. For general elk, 10% scores 30, 20% scores 75 and 50% scores 100. For controlled elk, those benchmarks are 20%, 50% and 80%. All weapons use the same species benchmarks. For pronghorn, 35% scores 30, 60% scores 75 and 85% scores 100. For deer, those benchmarks are 35%, 55% and 75%; for moose, sheep and goat, 50%, 70% and 90%. These are Success index values before sample adjustment, not harvest probabilities. Small samples are pulled toward the low benchmark using 50 prior hunter-seasons (10 for moose, sheep and goat).</li>
           <li><b>Access ({SCORE_WEIGHTS.access}%):</b> public land plus Access Yes! land. 50% scores 80; above that it climbs slowly to 100, below it drops fast (25% scores 40). Most Idaho units are mostly public, so this mostly marks down the private-land units.</li>
@@ -37,7 +37,7 @@ export default async function ScorePage() {
 
         <h2>Reading It</h2>
         <ul>
-          <li>Quality and Opportunity are absolute grades: identical inputs give identical scores regardless of the other hunts listed.</li>
+          <li>Quality and Opportunity use fixed component benchmarks. Trophy tiers can also reflect a published peer-group draw benchmark; changing the hunts shown in your results does not recalculate that benchmark.</li>
           <li>The weights and benchmarks are explicit judgments, not validated predictions. Public acreage does not guarantee practical access; density averages conceal local crowding. General-hunt harvest can combine multiple sex classes and seasons. Inspect the underlying data before choosing a hunt.</li>
           <li>Tap a score on any hunt to see its four parts. Filter and sort by score in <Link href="/hunts?sort=score">Find A Hunt</Link>, or shade the map by it.</li>
         </ul>

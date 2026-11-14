@@ -133,3 +133,13 @@ test('low harvest and comparatively high draw are screened only with compatible 
  assert.equal(trophyForHunt({...wa,nrOddsLast:.02}),80,'hard-to-draw hunt does not trip a high-odds cap');
  assert.equal(trophyForHunt({...wa,pointOdds:{kind:'other',category:'Quality Deer'}}),80,'incompatible pools are not compared');
 });
+test('reported Entiat and Swakane quality hunts retain their demand ordering', async()=>{
+ const {readFile} = await import('node:fs/promises');
+ const data=JSON.parse(await readFile('data/wa/hunts.json','utf8'));
+ const entiat=data.hunts.find((h:any)=>h.id==='WA:1033');
+ const swakane=data.hunts.find((h:any)=>h.id==='WA:1034');
+ assert.ok(entiat && swakane);
+ assert.ok(entiat.pointOdds.harvest.find((r:any)=>r.year===2025).apps > swakane.pointOdds.harvest.find((r:any)=>r.year===2025).apps);
+ assert.equal(trophyForHunt(entiat),80);
+ assert.equal(trophyForHunt(swakane),65);
+});
