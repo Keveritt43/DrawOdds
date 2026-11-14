@@ -42,11 +42,18 @@ test('map tiers use each unit and only eligible Colorado late rifle hunts',()=>{
  const h={state:'CO',species:'DEER',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',tagCode:'DM044O3R'};
  assert.equal(trophyForUnit(h,'44').score,100);
  assert.equal(trophyForUnit(h,'34').score,65);
- assert.equal(trophyForUnit({...h,tagCode:'DM044O1R'},'44').score,65);
+ assert.equal(trophyForUnit({...h,tagCode:'DM044O1R'},'44').score,80);
  assert.equal(trophyForUnit({...h,antlerClass:'ANTLERLESS'},'44').score,null);
  assert.equal(trophyForUnit({...h,tagSeasons:{year:2026,seasons:[{weapon:'ANY',sex:'3 point deer or fewer',notes:'',dates:[]}]}},'44').score,null);
  assert.equal(trophyForUnit({...h,name:'White-tailed Buck'},'44').score,null);
  assert.deepEqual(trophyClasses([50,65,80,100]).counts,[1,1,1,1]);
+});
+test('reviewed demand upgrades controlled hunts while general hunts receive 65',()=>{
+ const h={species:'DEER',state:'WA',units:['290'],antlerClass:'ANTLERED'};
+ assert.equal(classifyTrophy({...h,type:'CONTROLLED'}).score,80);
+ assert.equal(classifyTrophy({...h,type:'GENERAL'}).score,65);
+ assert.equal(classifyTrophy({...h,type:'CONTROLLED',antlerClass:'ANTLERLESS'}).score,null);
+ assert.equal(classifyTrophy({...h,units:['250'],type:'CONTROLLED'}).score,65);
 });
 test('multi-unit hunt score uses its best unit while map retains each unit tier',()=>{
  const h={id:'co-multi',state:'CO',species:'DEER',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',tagCode:'DM044O3R',units:['44','34'],hunters5:100,harvest5:60,publicPct:70,huntersSqMi:1};

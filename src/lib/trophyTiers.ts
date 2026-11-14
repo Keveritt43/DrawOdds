@@ -35,6 +35,21 @@ const rules: Rule[] = [
   {species:'DEER',state:'NV',units:['231','6','10'],tier:'trophy'},
   {species:'ELK',state:'NV',units:['111','112','113','114','115'],tier:'trophy'},
 ];
+// Owner-reviewed demand screen; see scripts/trophy-demand-screen.mjs for the
+// state-specific application populations and observed point cutoffs.
+const demandUnits: Record<string,string[]> = {
+  'ID:DEER':['22','40','44','45','54','73'],
+  'ID:ELK':['40','43','44','54'],
+  'CO:DEER':['1','2','10','21','22','30','33','40','44','53','54','55','61','62','63','66','67','70','74','83','92','142','201','501','512','551','591','851'],
+  'CO:ELK':['1','2','10','20','40','49','55','61','62','66','67','76','201','521','851'],
+  'MT:DEER':['270'], 'MT:ELK':['270','380','410'],
+  'UT:DEER':['85','94','163','248','714'],
+  'UT:ELK':['51','175','183','222','629','634','685','870'],
+  'WA:DEER':['218','224','245','247','284','290','329'],
+  'WA:ELK':['251','335','346','360','364','368','418','653'],
+  'WY:DEER':['D101','D102','D119','D128','D141'],
+  'WY:ELK':['E1','E7','E16','E22','E24','E30','E31','E32','E38','E51','E54','E56','E58','E59','E100','E111','E113','E123','E124'],
+};
 /** Unit associations supplied in the owner's analysis. An association does not locate individual records. */
 const mappedCountyUnits: Record<string, Record<string, string[]>> = {
   'AZ:ELK': { Coconino:['5A','5B','6A','6B','7E','7W','8','9','11M','12A','12B','13A','13B'], Apache:['1','2A','2B','2C','3B','27'] },
@@ -76,6 +91,11 @@ export function classifyTrophy(hunt:TrophyHunt): TrophyResult {
         ? {score:80,tier:'trophy',reason:'General hunt in a recognized premium unit'}
         : {score:65,tier:'county',reason:'General hunt in a recognized premium unit'};
       return {score:scoreFor[tier],tier,reason:`Recognized ${tier} unit`};
+    }
+    if (tier === 'trophy' && demandUnits[`${state}:${species}`]?.some(unit => units.has(unit))) {
+      return hunt.type?.toUpperCase() === 'GENERAL'
+        ? {score:65,tier:'county',reason:'General hunt in a unit recognized for controlled-draw demand'}
+        : {score:80,tier:'trophy',reason:'Unit recognized for exceptional controlled-draw demand or observed points'};
     }
   }
   const associations = mappedCountyUnits[`${state}:${species}`];
