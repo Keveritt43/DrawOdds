@@ -83,7 +83,6 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
         {' · '}{s.units.length > 6 ? `${s.units.length} hunt boundaries` : s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('UT', u))}`}>{s.units.length === 1 ? (s.areaName ?? `Boundary ${u}`) : `Boundary ${u}`}</HuntLink></span>)}
       </p>
       {notes.length > 0 && <p style={{ margin: '4px 0 8px' }}>{notes.map((n) => <span key={n} className="pill warn">{n}</span>)}</p>}
-      <div className="cost-lines"><h4>What It Costs</h4><p>Adult {nr ? 'nonresident' : 'resident'} hunting license: <b>{nr ? '$144' : '$40'}</b> (DWR fee schedule checked November 12, 2026). {otc ? 'The permit is purchased separately; availability may be capped.' : <>The 2026 application fee is <b>{nr ? '$21' : '$10'}</b> per species; the permit price depends on the hunt and is additional if drawn.</>} A 2.2% transaction fee may apply. These items are not a complete total.</p><p><a href="/api/state?code=UT&amp;next=%2Fguide">See Utah draw and permit fees</a> · <a href="https://wildlife.utah.gov/fees">Current DWR fee schedule</a></p></div>
 
       {/* 1. Can I draw it? */}
       <div className="co-top">
@@ -184,6 +183,10 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           <p className="small muted">DWR&apos;s estimates for this hunt number. DWR&apos;s own success figure is computed from raw survey answers, so it can differ slightly from harvest ÷ hunters.</p>
         </details>
       )}
+      <details className="card fold">
+        <summary><span>What it costs</span></summary>
+        <div className="cost-lines"><p>Adult {nr ? 'nonresident' : 'resident'} hunting license: <b>{nr ? '$144' : '$40'}</b> (DWR fee schedule checked November 12, 2026). {otc ? 'The permit is purchased separately; availability may be capped.' : <>The 2026 application fee is <b>{nr ? '$21' : '$10'}</b> per species; the permit price depends on the hunt and is additional if drawn.</>} A 2.2% transaction fee may apply. These items are not a complete total.</p><p><a href="/api/state?code=UT&amp;next=%2Fguide">See Utah draw and permit fees</a> · <a href="https://wildlife.utah.gov/fees">Current DWR fee schedule</a></p></div>
+      </details>
       <p className="small muted">Source: Utah DWR {year} draw results (utahdraws.com), DWR drawing odds reports 2021–2025, DWR harvest reports (2025 preliminary), the {year} Big Game Application and Field Regulations guidebooks, DWR hunt boundaries. Land: BLM Surface Management Agency. Confirm dates and rules with DWR before you apply.</p>
     </main>
   );
