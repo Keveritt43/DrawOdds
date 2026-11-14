@@ -113,3 +113,19 @@ test('walk-in access: big-game leases by boundary, northern Utah', async () => {
   assert.ok(rich && rich.acres > 10000 && rich.n >= 5 && rich.pct > 1 && rich.pct < 100);
   assert.equal(utWalkin('637'), null); // Henry Mtns: none
 });
+
+test('Utah preference cutoff uses reported successful first-choice levels and the correct pool', async () => {
+  const { utPreferenceCutoff } = await import('../src/lib/utHunt');
+  const po = { kind: 'preference', pools: { res: { levels: [[0, 5, 0], [2, 3, 1]] }, nr: { levels: [[4, 8, 2], [6, 2, 2]] } } };
+  assert.equal(utPreferenceCutoff(po as never, false), 2);
+  assert.equal(utPreferenceCutoff(po as never, true), 4);
+  assert.equal(utPreferenceCutoff({ ...po, kind: 'bonus' } as never, true), null);
+  assert.equal(utPreferenceCutoff({ ...po, pools: {} } as never, true), null);
+  const settings = { ID: 'NONRESIDENT', CO: { res: 'NONRESIDENT' }, UT: readUtPoints(null) } as unknown as HunterSettings;
+  const row = { ...by('DB1502'), pointOdds: po } as unknown as CoScored;
+  const x = evaluateHunt(row, settings, 'last');
+  const sp = { states: 'UT', utMinPts: '4' };
+  assert.equal(matchesSearch(x, searchFilters(sp), sp), true);
+  assert.equal(matchesSearch(x, searchFilters(sp), { ...sp, utMinPts: '5' }), false);
+  assert.equal(matchesSearch(x, searchFilters(sp), { ...sp, utMaxPts: '3' }), false);
+});

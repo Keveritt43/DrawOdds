@@ -13,7 +13,7 @@ import { withPresetEdit } from '@/lib/filterPresets';
 import { showPrivate } from '@/lib/privateLand';
 
 /** URL keys that mark a state's own filter group as in use. Idaho's group is built in this file. */
-const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyMaxPts', 'wyPool', 'wyWild', 'wyDeer'], UT: ['utLic'], WA: ['waLic', 'waCat', 'waWeapon', 'waSide', 'waMyTag'] };
+const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyPool', 'wyWild', 'wyDeer'], UT: ['utLic'], WA: ['waLic', 'waCat', 'waWeapon', 'waSide', 'waMyTag'] };
 
 type Opt = [value: string, label: string];
 
@@ -194,7 +194,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             <p className="small muted" style={{ margin: '6px 0 0' }}>These licenses need landowner permission before you hunt. {states ? 'Applies to all selected states: ' : ''}{(states ?? [config.code]).map(s => `${STATES[s].name}: ${STATES[s].privateLandOnly}`).join('. ')}.</p>
           </Section>
         </FilterGroup>
-        <FilterGroup title="Draw Odds & Points" active={active('minOdds', ...(states?.includes('CO') ? ['chance', 'minPts', 'maxPts', 'odds'] : []))}>
+        <FilterGroup title="Draw Odds & Points" active={active('minOdds', ...(states?.includes('CO') ? ['chance', 'minPts', 'maxPts', 'odds'] : []), ...(states?.includes('WY') ? ['wyMinPts', 'wyMaxPts'] : []), ...(states?.includes('UT') ? ['utMinPts', 'utMaxPts'] : []))}>
           <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
             <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
             <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>

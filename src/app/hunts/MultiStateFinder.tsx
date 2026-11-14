@@ -15,7 +15,7 @@ import { trophyForUnit } from '@/lib/trophyHunt';
 import { HuntCard } from '@/components/HuntCards';
 import { CoHuntCard } from '@/components/CoHuntCard';
 import { WyHuntCard } from '@/components/WyHuntCard';
-import { WySearchFilters } from '@/components/WySearchFilters';
+import { WySearchFilters, WyPointFilters, UtPointFilter } from '@/components/WySearchFilters';
 import { MtHuntCard } from '@/components/MtHuntCard';
 import { MtSearchFilters } from '@/components/MtSearchFilters';
 import { UtHuntCard } from '@/components/UtHuntCard';
@@ -131,7 +131,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     </section>
     <FilterRail residency={settings.ID} states={states} draw={draw}
       presets={<FilterPresets key={fav.userId} owner={fav.userId} state={header.code} states={states} />}
-      drawFilters={!msg && states.includes('CO') && <CoSearchFilters part="points" />}
+      drawFilters={!msg && <>{states.includes('CO') && <CoSearchFilters part="points" />}{states.includes('WY') && <WyPointFilters nr={settings.WY?.res !== 'RESIDENT'} />}{states.includes('UT') && <UtPointFilter />}</>}
       stateFilters={msg ? {} : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters nr={settings.WY?.res !== 'RESIDENT'} savedSpecial={wySavedSpecial} />, MT: <MtSearchFilters nr={settings.MT?.res !== 'RESIDENT'} />, UT: <UtSearchFilters nr={settings.UT?.res !== 'RESIDENT'} />, WA: <WaSearchFilters /> }} />
   </main>;
 }

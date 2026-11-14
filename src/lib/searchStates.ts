@@ -3,9 +3,9 @@ import { enabledStates, STATES, type StateCode } from './states';
 
 export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable', 'deerType', 'minBig'];
 export const CO_RESTRICTIONS = ['season', 'chance', 'minPts', 'maxPts', 'second', 'hybrid', 'otcElk'];
-export const WY_RESTRICTIONS = ['wyMaxPts', 'wyPool', 'wyWild', 'wyDeer'];
+export const WY_RESTRICTIONS = ['wyMinPts', 'wyMaxPts', 'wyPool', 'wyWild', 'wyDeer'];
 export const MT_RESTRICTIONS = ['mtLic', 'mtDeer', 'mtMinBma', 'mtMinHuntable', 'mtHasBma', 'mtBma2'];
-export const UT_RESTRICTIONS = ['utLic'];
+export const UT_RESTRICTIONS = ['utMinPts', 'utMaxPts', 'utLic'];
 export const WA_RESTRICTIONS = ['waLic', 'waCat', 'waWeapon', 'waSide', 'waMyTag'];
 
 /** Wyoming nonresident pool to show in search: `wyPool=nr|nrs` previews the other pool without changing the saved
