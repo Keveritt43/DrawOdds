@@ -54,7 +54,7 @@ export function loadSearchUnits(state: string, draw = 'DEP', species = ''): Prom
  */
 export function loadUnits(state = 'ID', pointsKey = '', filters = ''): Promise<UnitData> {
   const cacheKey = state + pointsKey + filters;
-  cached[cacheKey] ??= fetch(state === 'ID' ? '/api/units?v=13' : `/api/units?v=13&state=${state}&pointsKey=${encodeURIComponent(pointsKey)}&${filters}`)
+  cached[cacheKey] ??= fetch(state === 'ID' ? '/api/units?v=14' : `/api/units?v=14&state=${state}&pointsKey=${encodeURIComponent(pointsKey)}&${filters}`)
     .then((r) => {
       if (!r.ok) throw new Error(`units ${r.status}`);
       return r.json();

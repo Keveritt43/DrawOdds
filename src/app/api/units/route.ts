@@ -54,7 +54,7 @@ export async function GET(req: Request) {
     db.unit.findMany({ where: { state, geometry: { not: undefined }, ...(state === 'CO' ? { NOT: [{ name: { startsWith: 'S' } }, { name: { startsWith: 'G' } }] } : {}) } }),
     db.huntSummary.findMany({
       where: { state },
-      select: { species: true, type: true, unit: true, units: true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
+      select: { species: true, type: true, unit: true, units: true, openDate:true, closeDate:true, bigPct5:true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);

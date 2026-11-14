@@ -102,6 +102,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
     )
     .filter(({ r }) => matchesCoSeason(r.tagCode ?? "", seasons))
     .filter(({ r }) => matchesHuntSeason(r, { ...common, weapon: [] }))
+    .filter(({ r }) => !common.trophy.length || (r.scoreTrophy!==null && common.trophy.includes(r.scoreTrophy)))
     .filter(({ ch }) => !chances.length || chances.includes(ch))
     .filter(({otcOverlap}) => species !== 'DEER' || (one(sp.otcElk) === '1' ? otcOverlap === true : one(sp.otcElk) === '0' ? otcOverlap === false : true));
   // a 100% from 3 hunters shouldn't top the list: pull small samples toward the middle (30 hunters' worth at 50%)

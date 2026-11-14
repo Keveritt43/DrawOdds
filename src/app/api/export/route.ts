@@ -27,7 +27,9 @@ const r3 = (v: number | null) => (v === null ? null : Math.round(v * 1000) / 10)
 
 /** The Filtering results as a CSV (same filters and sort), for spreadsheets. */
 export async function GET(req: Request) {
-  const sp = Object.fromEntries(new URL(req.url).searchParams);
+  const params = new URL(req.url).searchParams;
+  const sp = Object.fromEntries(params);
+  if (params.getAll('trophy').length>1) sp.trophy=params.getAll('trophy').join(',');
   if (sp.states !== undefined) {
     const { results, states } = await searchHunts(sp);
     const origin = process.env.NEXT_PUBLIC_SITE_URL || 'https://web-production-39e54.up.railway.app';
@@ -43,7 +45,8 @@ export async function GET(req: Request) {
     const all=await db.huntSummary.findMany({where:{state:'CO',species:sp.species==='PRONGHORN'?'PRONGHORN':sp.species==='ELK'?'ELK':'DEER'}});
     const context=await getCoScoringContext();
     const rows=all.map(r=>withCoScores(r,context)).filter(r=>matchesHuntSeason(r,{...f,weapon:[]})).filter(r=>!sp.unit||r.units.includes(sp.unit)).filter(r=>!sp.type||r.type===sp.type).filter(r=>sp.priv==='1'||!r.privateOnly).filter(r=>!sp.minPublic||(r.publicPct!==null&&r.publicPct>=Number(sp.minPublic))).filter(r=>!sp.minSucc||(r.success5!==null&&r.success5>=Number(sp.minSucc)/100)).filter(r=>{const p=pts.res==='NONRESIDENT'?r.ptsNr:r.ptsRes;return (range.min===null||(p!==null&&p>=range.min))&&(range.max===null||(p!==null&&p<=range.max))}).filter(r=>!sp.method||sp.method.split(',').includes(r.tagCode?.slice(-1)??'')).filter(r=>matchesCoSeason(r.tagCode??'',sp.season?sp.season.split(','):[])).filter(r=>sp.second!=='1'||r.secondChoice).filter(r=>sp.hybrid!=='1'||r.hybrid);
-    const mode=sp.odds==='last'?'last':'proj';const lines=[['Code','Hunt','Units','Draw odds at saved points','Harvest success','Hunters/year','Hunters/mi2','Public ownership %','Private ownership %','Quality','Elbow room score','General elk pressure status','Elk hunter-seasons/year'],...rows.map(r=>[r.tagCode,r.name,r.units.join(', '),tableOdds(r.oddsByPts as unknown as OddsTable,mode,pool,pts[r.species==='PRONGHORN'?'PRONGHORN':r.species==='ELK'?'ELK':'DEER']),r.success5,r.coPressure?.status==='missing'?null:r.harvestYears&&r.hunters5!==null?r.coPressure?.totalHuntersPerYear ?? r.hunters5/Math.min(5,r.harvestYears):null,r.huntersSqMi,r.publicPct,r.privatePct,r.scoreQuality,r.scoreCrowd,r.coPressure?.status,r.coPressure?.elkHuntersPerYear])];return new Response(lines.map(row=>row.map(cell).join(',')).join('\n')+'\n',{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="drawodds-colorado.csv"','Cache-Control':'private, no-store'}});
+    const matched=rows.filter(r=>!f.trophy.length || (r.scoreTrophy!==null && f.trophy.includes(r.scoreTrophy)));
+    const mode=sp.odds==='last'?'last':'proj';const lines=[['Code','Hunt','Units','Draw odds at saved points','Harvest success','Hunters/year','Hunters/mi2','Public ownership %','Private ownership %','Trophy score','Quality','Elbow room score','General elk pressure status','Elk hunter-seasons/year'],...matched.map(r=>[r.tagCode,r.name,r.units.join(', '),tableOdds(r.oddsByPts as unknown as OddsTable,mode,pool,pts[r.species==='PRONGHORN'?'PRONGHORN':r.species==='ELK'?'ELK':'DEER']),r.success5,r.coPressure?.status==='missing'?null:r.harvestYears&&r.hunters5!==null?r.coPressure?.totalHuntersPerYear ?? r.hunters5/Math.min(5,r.harvestYears):null,r.huntersSqMi,r.publicPct,r.privatePct,r.scoreTrophy,r.scoreQuality,r.scoreCrowd,r.coPressure?.status,r.coPressure?.elkHuntersPerYear])];return new Response(lines.map(row=>row.map(cell).join(',')).join('\n')+'\n',{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="drawodds-colorado.csv"','Cache-Control':'private, no-store'}});
   }
   const { residency } = await getResidency(sp.as);
   const draw = await getDraw(sp.draw);

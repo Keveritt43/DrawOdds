@@ -9,6 +9,10 @@ import type { SpeciesKey } from '@/lib/species';
 
 const SPECIES: [SpeciesKey, string][] = [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn sheep'], ['GOAT', 'Mountain goat'], ['BISON', 'Bison']];
 
+export function QuickTrophyChoices() {
+  return <><label>Trophy score (select any)</label><div className="opts">{[['100','Unicorn 100'],['80','Trophy 80'],['65','Recognized Unit 65'],['50','Unclassified 50']].map(([value,label])=><label key={value}><input type="checkbox" name="trophy" value={value}/><span>{label}</span></label>)}</div><p className="hint">Leave all unchecked to include every hunt. Selecting a tier excludes hunts without a trophy rating.</p></>;
+}
+
 export function QuickSeasonDates() {
   const [dates, setDates] = useState<{from: number; to: number; mode: 'open' | 'end'}>({ from: DAY_MIN, to: DAY_MAX, mode: 'open' });
   const active = dates.from !== DAY_MIN || dates.to !== DAY_MAX;
@@ -29,6 +33,7 @@ export function SharedQuickStartForm({ states }: { states: StateCode[] }) {
     <label htmlFor="multi-weapon">Weapon</label><select id="multi-weapon" name="weapon"><option value="">Any</option><option value="ANY">Any weapon / rifle</option><option value="ARCHERY">Archery</option><option value="MUZZLELOADER">Muzzleloader</option><option value="SHORT_RANGE">Short range</option></select>
     <label htmlFor="multi-antler">Antler class</label><select id="multi-antler" name="antler" defaultValue="ALL"><option value="ALL">Any</option><option value="ANTLERED">Antlered</option><option value="ANTLERLESS">Antlerless</option></select>
     <QuickSeasonDates />
+    <QuickTrophyChoices />
     <label htmlFor="multi-sort">What matters most?</label><select id="multi-sort" name="sort"><option value="opp">Best overall opportunity</option><option value="score">Hunt quality</option><option value="odds">Draw odds</option><option value="success">Harvest rate</option><option value="public">Public land</option><option value="densityLow">Fewest hunters per square mile</option></select>
     <details><summary>Optional minimums and maximums</summary>
       {slider('multi-odds', 'minOdds', 'Minimum draw odds', 100, 1, limits.minOdds ? `${limits.minOdds}%` : 'Any')}

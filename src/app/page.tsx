@@ -1,5 +1,5 @@
 import { HomeStatePicker } from '@/components/HomeStatePicker';
-import { MultiQuickStart, QuickSeasonDates } from '@/components/MultiQuickStart';
+import { MultiQuickStart, QuickSeasonDates, QuickTrophyChoices } from '@/components/MultiQuickStart';
 import { MtQuickStart } from '@/components/MtHome';
 import { searchStates } from '@/lib/searchStates';
 import { CoQuickStart } from '@/components/CoQuickStart';
@@ -173,6 +173,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             <label>Weapon</label>
             <div className="opts">{opt('weapon', '', 'Any', true)}{opt('weapon', 'ANY', 'Rifle')}{opt('weapon', 'ARCHERY', 'Archery')}{opt('weapon', 'MUZZLELOADER', 'Muzzleloader')}</div>
             <QuickSeasonDates />
+            {!msg && <QuickTrophyChoices />}
             <p className="hint">On the results page, use Show Filters to fine-tune hunts by dates, land, odds and more.</p>
             <label>I Want</label>
             <div className="opts">

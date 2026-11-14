@@ -8,7 +8,7 @@ if(!path)throw Error('Pass the path to an existing Idaho snapshot JSON');
 const raw=JSON.parse(readFileSync(path,'utf8')) as {rows:Record<string,any>[]};
 const fields=['scoreQuality','scoreSuccess','scoreAccess','scoreCrowd','scoreTrophy','scoreOppRes','scoreOppNr'] as const;
 const snapshot:ScoreSnapshot=raw.rows.map(r=>({
-  input:{id:r.id,state:'ID',units:r.units,species:r.species,type:r.type,nrTag:r.nrTag,weapon:r.weapon,antlerClass:r.antlerClass,
+  input:{id:r.id,state:'ID',units:r.units,openDate:r.openDate,closeDate:r.closeDate,species:r.species,type:r.type,nrTag:r.nrTag,weapon:r.weapon,antlerClass:r.antlerClass,
     hunters5:r.hunters5,harvest5:r.harvest5,huntersSqMi:r.huntersSqMi,...scoreLand({state:'ID',species:r.species,type:r.type,huntNumber:r.huntNumber,privateOnly:r.privateOnly,publicPct:r.publicPct,huntablePct:r.huntablePct}),
     bigPct5:r.bigPct5,deerType:r.deerType,tagSeasons:r.tagSeasons,twoPoint:seasonRules(r.tagSeasons,r.species).includes('2-point bucks only'),
     antlerMaximum:seasonRules(r.tagSeasons,r.species).includes('Spike bulls only'),resOdds5:r.resOdds5,nrOdds5:r.nrOdds5,capped:r.capped},

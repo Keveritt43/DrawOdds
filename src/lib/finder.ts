@@ -34,6 +34,7 @@ export interface Filters {
   minAccessYes: number | null; // percent of the area enrolled in Access Yes!
   minHuntable: number | null; // percent public + Access Yes!
   minBig: number | null; // trophy share: deer mule 4+, elk 6+ (percent of antlered)
+  trophy: number[]; // exact selected trophy tiers; empty means all
   minTags: number | null;
   /** elk only: units whose bull / cow numbers are below, within or above IDFG's objective */
   /** units with a migration study: 'yes' only those, 'no' only units without one */
@@ -87,6 +88,7 @@ export function parseFilters(sp: SP): Filters {
     minAccessYes: pct(sp.minAccessYes),
     minHuntable: pct(sp.minHuntable),
     minBig: pct(sp.minBig),
+    trophy: [...new Set(list(sp.trophy).map(Number).filter(n=>[50,65,80,100].includes(n)))],
     leftover: one(sp.leftover) === '1',
     migration: one(sp.migration) === 'yes' ? 'yes' : one(sp.migration) === 'no' ? 'no' : '',
     bullObj: pick(list(sp.bullObj), ['BELOW', 'WITHIN', 'ABOVE'] as const),
@@ -151,6 +153,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   if (f.minAccessYes !== null) and.push({ accessYesPct: { gte: f.minAccessYes } });
   if (f.minHuntable !== null) and.push({ huntablePct: { gte: f.minHuntable } });
   if (f.minBig !== null) and.push({ bigPct5: { gte: f.minBig / 100 } });
+  if (f.trophy.length) and.push({scoreTrophy:{in:f.trophy}});
   // elk population objectives: any of the picked statuses (bulls AND cows when both are set); elk hunts only
   if (f.bullObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('bull', f.bullObj) } });
   if (f.cowObj.length) and.push({ species: 'ELK', units: { hasSome: unitsWithObjective('cow', f.cowObj) } });
@@ -257,6 +260,7 @@ export function toQuery(f: Partial<Filters>, patch: Partial<Filters> = {}): stri
   set('minAccessYes', m.minAccessYes);
   set('minHuntable', m.minHuntable);
   set('minBig', m.minBig);
+  set('trophy', m.trophy);
   set('leftover', m.leftover);
   set('migration', m.migration);
   set('bullObj', m.bullObj);

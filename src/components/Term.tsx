@@ -7,7 +7,7 @@ export const DEFS = {
   success: 'Hunter success: the share of hunters who killed an animal, from IDFG harvest reports. The big number is the 5-year average (what sorting and the verdict use); the latest season is underneath.',
   crowd: 'Hunters per square mile: average hunters per year for this hunt or season, spread over its area. Under 0.5 is uncrowded; over 1.5 is busy.',
   drawfill: 'Draw and fill: your chance to draw the tag AND take an animal in one year (draw odds × success).',
-  trophy: 'Harvest antler share: of the antlered animals taken, the share that were 4+ point mule deer (deer) or 6+ point bulls (elk). Estimated from IDFG’s rounded percentages; it is not the Trophy score.',
+  trophy: 'Harvest antler share: of the antlered animals taken, the share that were 4+ point mule deer (deer) or 6+ point bulls (elk). Estimated from IDFG’s rounded percentages; it is not the Trophy score. For qualifying Idaho November deer hunts, the 4+ share helps determine the Trophy tier.',
   tag: 'Elk zones have an A tag and a B tag with different seasons and weapons. You buy (or, as a nonresident, draw) one of them; its seasons are the only ones you can hunt.',
   size: 'Average antler spread (moose) or horn length (bighorn sheep, mountain goat) of the animals hunters took, in inches, from IDFG harvest reports over the last 5 years.',
   smallSample: 'Fewer than 50 hunters over 5 years (10 for moose, sheep and goat): one or two animals swing the success rate a lot.',

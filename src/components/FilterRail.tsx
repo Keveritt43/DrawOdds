@@ -22,6 +22,7 @@ const SPECIES_MSG: Opt[] = [['', 'All Three'], ['MOOSE', 'Moose'], ['BIGHORN', '
 const SEX_MSG: Opt[] = [['ANTLERED', 'Antlered (bulls & rams)'], ['ANTLERLESS', 'Cows & ewes (female)'], ['EITHER', 'Either sex']];
 const OBJ: Opt[] = [['BELOW', 'Below objective'], ['WITHIN', 'Within objective'], ['ABOVE', 'Above objective']];
 const SCORE_STOPS: Opt[] = [['', 'Any'], ['50', '50+'], ['70', '70+'], ['85', '85+']];
+const TROPHY_TIERS: Opt[] = [['100','Unicorn 100'],['80','Trophy 80'],['65','Recognized Unit 65'],['50','Unclassified 50']];
 /** Opportunity sorting defaults Quality to 50+: its "Any" has to say so explicitly */
 const QUALITY_STOPS = (opp: boolean): Opt[] => (opp ? [['0', 'Any'], ['', '50+ (default)'], ['70', '70+'], ['85', '85+']] : SCORE_STOPS);
 const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons']];
@@ -142,6 +143,11 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           {radio('minOpp', SCORE_STOPS)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>0-100 on fixed scales, so general and controlled hunts compare directly. <a href="/score">How we score</a></p>
         </Section>
+        {!msg && <Section title="Trophy Score" value={many(TROPHY_TIERS,'trophy','Any')} set={list('trophy').length>0}>
+          {checks('trophy',TROPHY_TIERS)}
+          <p className="small muted">Choose any tiers; leave all unchecked for every hunt. Hunts without an eligible trophy score are excluded when a tier is selected.</p>
+          {sharedNote}
+        </Section>}
         <Section
           title="Antler Class"
           value={many(msg ? SEX_MSG : ANTLER, "antler", "Any")}

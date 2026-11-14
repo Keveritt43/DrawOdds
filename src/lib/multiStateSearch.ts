@@ -141,6 +141,7 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   // Picking a Washington youth category is asking for youth hunts, even with the shared Youth Hunts filter on Hide.
   const waYouth = r.state === 'WA' && f.youth === 'exclude' && list(sp, 'waCat').some((c) => c.endsWith('Youth'));
   if (!matchesHuntSeason(r, waYouth ? { ...f, youth: 'include' } : f, true)) return false;
+  if (f.trophy.length && (r.scoreTrophy===null || !f.trophy.includes(r.scoreTrophy))) return false;
   const accessMin = Number(param(sp, 'minAccessLand'));
   if (Number.isFinite(accessMin) && accessMin > 0) {
     const mtAccess = r.state === 'MT' ? mtAccessPct(mtBma(r.units, r.species), false) : null;
