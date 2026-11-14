@@ -2,6 +2,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Section } from './FilterRail';
+import { PointRangeSlider } from './CoFilters';
+import { pointRange } from '@/lib/pointRange';
 
 /** Wyoming-only filters; they narrow Wyoming results and leave other selected states unchanged. Private-land-only
  * hunts use the shared filter in FilterRail. */
@@ -37,12 +39,6 @@ export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: bool
         <p className="small muted">Odds, points needed and Opportunity follow this pool. For a nonresident full-price deer license, WGFD lists $374 regular or $1,200 special, plus a $15 application fee (fee schedule checked November 12, 2026). Other licenses and requirements have different costs. <a href="https://wgfd.wyo.gov/licenses-applications/license-fee-list">See WGFD prices</a>. Your saved pool is {saved}: <Link href="/account#hunting-preferences">change it in Account</Link>.</p>
       </> : <p className="small muted">Residents draw in the resident pool; regular and special are nonresident pools.</p>}
     </Section>
-    <Section title="Wyoming: Points Needed (Nonresident)" value={get('wyMaxPts') ? `${get('wyMaxPts')} or fewer` : 'Any'} set={!!get('wyMaxPts')}>
-      {note}<p className="small muted">Preference cutoff in the last draw, in the pool shown above. Hunts where everyone drew count as 0.</p>
-      <label>At most <select aria-label="Wyoming maximum points needed" value={get('wyMaxPts')} onChange={e => push({ wyMaxPts: e.target.value || null })}>
-        <option value="">Any</option>{Array.from({ length: 21 }, (_, i) => <option key={i} value={String(i)}>{i} points</option>)}
-      </select></label>
-    </Section>
     <Section title="Wyoming: Wilderness" value={get('wyWild') === 'none' ? 'No wilderness' : get('wyWild') === 'has' ? 'Has wilderness' : 'Any'} set={!!get('wyWild')}>
       {note}
       <p className="small muted">{nr
@@ -60,4 +56,38 @@ export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: bool
       <p className="small muted">Elk has no validated projection, so it shows the last draw either way.</p>
     </Section>}
   </>;
+}
+
+/** Last-draw preference cutoff, scoped to Wyoming's selected nonresident pool. */
+export function WyPointFilters({ nr }: { nr: boolean }) {
+  const sp = useSearchParams(), router = useRouter();
+  const min = sp.get('wyMinPts') ?? '', max = sp.get('wyMaxPts') ?? '';
+  const range = pointRange(min, max);
+  return <Section title="Wyoming: Points Needed (Nonresident)" value={min || max ? `${range.min ?? 0}–${range.max ?? 40}` : 'Any'} set={!!(min || max)}>
+    <p className="small muted">Applies to Wyoming nonresident hunts only. Other selected states and Wyoming resident hunts are unchanged. Last draw preference cutoff in the regular or special pool selected under Wyoming Filters; everyone drew counts as 0. Hunts without a known cutoff are excluded when set. A random draw may award a license at fewer points.</p>
+    {!nr && <p className="small muted">Your Wyoming residency is resident, so this filter does not narrow Wyoming results.</p>}
+    <PointRangeSlider min={range.min ?? 0} max={range.max ?? 40} onCommit={(low, high) => {
+      const p = new URLSearchParams(sp.toString());
+      low === 0 ? p.delete('wyMinPts') : p.set('wyMinPts', String(low));
+      high === 40 ? p.delete('wyMaxPts') : p.set('wyMaxPts', String(high));
+      p.delete('page');
+      router.push(`/hunts?${p}`, { scroll: false });
+    }} />
+  </Section>;
+}
+
+/** Utah's general deer preference draw has observed point-level results. */
+export function UtPointFilter() {
+  const sp = useSearchParams(), router = useRouter();
+  const min = sp.get('utMinPts') ?? '', max = sp.get('utMaxPts') ?? '';
+  const range = pointRange(min, max);
+  return <Section title="Utah: General Deer Points Needed" value={min || max ? `${range.min ?? 0}–${range.max ?? 40}` : 'Any'} set={!!(min || max)}>
+    <p className="small muted">Utah general buck deer only: lowest point level with a successful first-choice applicant in the last reported draw for your Utah residency. An active filter excludes other Utah hunts and hunts without a reported cutoff; other states are unchanged. The cutoff can change each year.</p>
+    <PointRangeSlider min={range.min ?? 0} max={range.max ?? 40} onCommit={(low, high) => {
+      const p = new URLSearchParams(sp.toString());
+      low === 0 ? p.delete('utMinPts') : p.set('utMinPts', String(low));
+      high === 40 ? p.delete('utMaxPts') : p.set('utMaxPts', String(high));
+      p.delete('page'); router.push(`/hunts?${p}`, { scroll: false });
+    }} />
+  </Section>;
 }

@@ -33,6 +33,14 @@ export interface UtPointOdds {
   /** 2021-2025 first-choice applicants and permits drawn, by pool (DWR's odds reports) */
   history?: Record<string, Partial<Record<UtPool, { apps: number; drew: number }>>>;
 }
+/** Lowest point level with a successful first-choice applicant, for general deer only. */
+export function utPreferenceCutoff(po: UtPointOdds | null, nr: boolean): number | null {
+  if (po?.kind !== 'preference') return null;
+  const levels = po.pools?.[nr ? 'nr' : 'res']?.levels;
+  const drawn = (levels ?? []).filter(([p, apps, successes]) => Number.isFinite(p) && apps > 0 && successes > 0).map(([p]) => p);
+  return drawn.length ? Math.min(...drawn) : null;
+}
+
 type Row = { tagCode: string | null; species: string; type: string; oddsByPts: unknown; pointOdds: unknown; youthOnly?: boolean | null };
 
 /** 'otc' for over-the-counter general elk, else the point system the hunt draws on. */

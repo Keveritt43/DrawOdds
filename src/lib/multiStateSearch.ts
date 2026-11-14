@@ -20,7 +20,7 @@ import { isPrivateOnly, showPrivate } from './privateLand';
 import { mtKind, mtPersonal, type MtPointOdds } from './mtHunt';
 import { mtBma, mtAccessPct } from './mtBma';
 import type { MtPoints } from './mtPoints';
-import { utPersonal, utKind } from './utHunt';
+import { utPersonal, utKind, utPreferenceCutoff, type UtPointOdds } from './utHunt';
 import { readUtPoints, type UtPoints } from './utPoints';
 import { waPersonal, waLicense, waPo } from './waHunt';
 import { readWaPoints, type WaPoints } from './waPoints';
@@ -180,9 +180,9 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   } else if (r.state === 'WY') {
     const deerMix = list(sp, 'wyDeer');
     if (deerMix.length && (r.species !== 'DEER' || !deerMix.includes(wyDeerMix(r.pointOdds) ?? ''))) return false;
-    if (param(sp, 'wyMaxPts') !== '') {
-      const n = Number(param(sp, 'wyMaxPts'));
-      if (Number.isFinite(n) && x.nr && (x.need === null || x.need === undefined || x.need > n)) return false;
+    for (const key of ['wyMinPts', 'wyMaxPts']) if (param(sp, key) !== '') {
+      const n = Number(param(sp, key));
+      if (Number.isFinite(n) && x.nr && (x.need == null || (key === 'wyMinPts' ? x.need < n : x.need > n))) return false;
     }
     // W.S. 23-2-401(a): a nonresident needs a guide inside designated wilderness. The rule follows the wilderness
     // boundary, not the hunt area, so this filters on whether an area contains any - never on how much of it.
@@ -199,6 +199,11 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     // Block Management: Type 1 (self sign-in) counts by default; Type 2 (landowner/FWP permission) only on request
     if (!matchesMtBma(r, sp)) return false;
   } else if (r.state === 'UT') {
+    for (const key of ['utMinPts', 'utMaxPts']) if (param(sp, key) !== '') {
+      const n = Number(param(sp, key));
+      const cutoff = utPreferenceCutoff(r.pointOdds as unknown as UtPointOdds | null, x.nr);
+      if (Number.isFinite(n) && (cutoff === null || (key === 'utMinPts' ? cutoff < n : cutoff > n))) return false;
+    }
     const kinds = list(sp, 'utLic');
     if (kinds.length && !kinds.includes(utLicense(r))) return false;
   } else if (r.state === 'WA') {

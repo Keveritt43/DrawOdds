@@ -150,3 +150,15 @@ test('the map reads wilderness by the same unit key the finder groups by', () =>
   // an area the build measured and found none in is a known zero, not missing data
   assert.equal(wyWilderness('A1'), null);
 });
+
+test('minimum points uses Wyoming pool cutoff and leaves other states and residents unchanged', () => {
+  const sp = { states: 'WY', antler: 'ALL', minScore: '0', wyMinPts: '3' };
+  assert.equal(runSearch([ant], sp, 'WY', wy({}), {}, {}).length, 1);
+  assert.equal(runSearch([ant], { ...sp, wyMinPts: '4' }, 'WY', wy({}), {}, {}).length, 0);
+  assert.equal(runSearch([ant], sp, 'WY', wy({ wySpecial: true }), {}, {}).length, 0);
+  assert.equal(runSearch([ant], sp, 'WY', wy({ res: 'RESIDENT' }), {}, {}).length, 1);
+  const unknown = { ...ant, pointOdds: null };
+  assert.equal(runSearch([unknown], sp, 'WY', wy({}), {}, {}).length, 0);
+  const id = { ...ant, id: 'ID:test', state: 'ID', type: 'CONTROLLED' };
+  assert.equal(runSearch([id], { ...sp, states: 'ID,WY' }, 'ID', wy({}), {}, {}).length, 1);
+});
