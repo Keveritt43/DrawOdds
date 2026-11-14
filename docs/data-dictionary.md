@@ -69,3 +69,5 @@ This describes the current Idaho and Colorado implementation, not a universal de
 ## Related metric: draw and fill
 
 Where supported, **draw and fill** is estimated as applicable draw odds × harvest success, displayed as a percentage. It is distinct from Opportunity and inherits both inputs' assumptions, years and geographic limitations. Use compatible populations and periods, explain it as an estimate, and never promise a harvested animal.
+
+Wyoming deer hunt-type reports count active licenses. Species-specific rates displayed on cards and detail pages pool reported harvest / active licenses for each species; they are not unique-hunter success rates. The harvest-mix filter applies Idaho's 40%/60% whitetail thresholds to years where both species have reported counts. It is not an eligibility filter. No species mix is inferred from missing records; region aggregates remain unavailable. Combined rates, density and scores remain suppressed. WGFD's 2025 report tables 7 and 8 show Area 1 general mule deer 323/774 and whitetail 347/934: https://wgfd.wyo.gov/media/33467/download?inline=.

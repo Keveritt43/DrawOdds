@@ -19,6 +19,13 @@ export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: bool
   const special = get('wyPool') === 'nrs' ? true : get('wyPool') === 'nr' ? false : savedSpecial;
   const saved = savedSpecial ? 'special' : 'regular';
   return <>
+    {(get('species') === '' || get('species').toUpperCase() === 'DEER') && <Section title="Wyoming: Deer Harvest Mix" value={get('wyDeer') || 'Any'} set={!!get('wyDeer')}>
+      {note}<p className="small muted">Based on reported harvest, not license eligibility: 60% or more whitetail = Whitetail, 40% or less = Mule Deer; between is Mixed. Only years with both species reported are counted. Unknown mixes do not match.</p>
+      <div className="checks2">{([['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED', 'Mixed']] as const).map(([value, label]) => {
+        const selected = get('wyDeer').split(',').filter(Boolean);
+        return <label key={value}><input type="checkbox" checked={selected.includes(value)} onChange={() => { const next = selected.includes(value) ? selected.filter(x => x !== value) : [...selected, value]; push({ wyDeer: next.join(',') || null }); }} /> {label}</label>;
+      })}</div>
+    </Section>}
     <Section title="Wyoming: Nonresident Pool" value={special ? 'Special' : 'Regular'} set={!!get('wyPool')} defaultOpen>
       {nr ? <>
         <div className="seg light" role="group" aria-label="Wyoming nonresident pool">

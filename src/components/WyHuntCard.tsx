@@ -8,6 +8,7 @@ import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/
 import { dateRange, fmtNeed, fmtCreep } from '@/lib/coDisplay';
 import { wyAreaLabel, WY_POOL_SHORT, wyPool, type WyPointOdds } from '@/lib/wyHunt';
 import { wyHuntWilderness, wildernessPctLabel } from '@/lib/wyWilderness';
+import { wyDeerSeries, wyDeerMix } from '@/lib/wyDeerMetrics';
 
 /** Wyoming result card: Idaho's card structure, with Wyoming's pools (resident random; nonresident regular or
  *  special preference + random) and points needed for nonresidents. */
@@ -24,6 +25,11 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
   const special_ = po?.pools.special;
   // the guide rule binds inside the wilderness boundary only, so the card reports the share and says who it binds
   const wild = wyHuntWilderness(r.units);
+  const deer = r.species === 'DEER' ? (['MULE', 'WHITETAIL'] as const).map(kind => {
+    const rows = wyDeerSeries(po, kind).slice(-5), hunters = rows.reduce((n, x) => n + x.hunters, 0), harvest = rows.reduce((n, x) => n + x.harvest, 0);
+    return { kind, rate: hunters ? harvest / hunters : null, years: rows.length };
+  }) : [];
+  const mix = r.species === 'DEER' ? wyDeerMix(po) : null;
   return (
     <article className="hrow co-row">
       <div className="hrow-top">
@@ -64,7 +70,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
         <div>
           <span className="k">Success {years ? `${years}-yr` : ''}</span>
           <b>{pct(r.success5)}</b>
-          <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
+          <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? (r.species === 'DEER' ? 'Combined rate unavailable' : 'No harvest data') : r.smallSample ? 'Small sample' : success.text}</span>
           <span className="sub">{r.species === 'DEER' && r.success5 === null ? 'Hunter overlap not verified' : po?.harvestBasis ? 'Region general seasons' : r.harvestLastYear ? `${r.harvestLastYear}: ${pct(r.successLast)}` : 'WGFD harvest survey'}</span>
         </div>
         <div>

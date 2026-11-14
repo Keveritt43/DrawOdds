@@ -17,7 +17,8 @@ import { opportunity } from '@/lib/score';
 import { fmtNeed, fmtCreep } from '@/lib/coDisplay';
 import { prefOdds, randomOdds } from '@/lib/wyOdds';
 import { wyAreaLabel, wyDates, wyPool, wyTableOdds, WY_POOL_LABEL, WY_POOL_SHORT, type WyOddsTable, type WyPointOdds, type WyPool, type WyNrPoolData } from '@/lib/wyHunt';
-import { withoutUnvalidatedWyDeerMetrics } from '@/lib/wyDeerMetrics';
+import { withoutUnvalidatedWyDeerMetrics, wyDeerSeries } from '@/lib/wyDeerMetrics';
+import { SuccessChart } from '@/components/Charts';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
 const need = (p: WyNrPoolData | undefined) => {
@@ -57,6 +58,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   const rnd = myP ? randomOdds(myP.random) : randomOdds(po.res?.last ?? undefined);
   const chance = chanceOf(mine, 0, mine ?? 0);
   const firstUnit = s.units[0];
+  const deerSeries = (['MULE', 'WHITETAIL'] as const).map(kind => ({ kind, rows: wyDeerSeries(po, kind) }));
 
   return (
     <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
@@ -129,7 +131,13 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </div>
 
       <h2>Hunter Success</h2>
-      {species === 'DEER' ? <p className="muted">Combined deer success and hunter density are unavailable while we verify overlap between mule deer and white-tailed deer hunter counts in WGFD reports. Draw odds and land information remain available.</p> : po.harvest.length ? (
+      {species === 'DEER' ? <>
+        <p className="small muted">WGFD survey estimates by hunt area and license type. The denominator is active licenses for each deer species, not unique people. A license holder may appear in both species. Combined success, density and dependent scores remain unavailable because that overlap is unknown. Region license aggregates and missing species records are not estimated. <a href="https://wgfd.wyo.gov/hunting-trapping/harvest-reports-surveys">WGFD reports</a></p>
+        {deerSeries.map(({kind, rows}) => <section key={kind}><h3>{kind === 'MULE' ? 'Mule deer' : 'Whitetail'} harvest</h3>{rows.length ? <>
+          <div className="grid2"><SuccessChart data={rows} title="Harvest per active license" /></div>
+          <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Active licenses</th><th className="num">Harvest</th><th className="num">Harvest / active license</th></tr></thead><tbody>{rows.slice().reverse().map(h => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.success)}</td></tr>)}</tbody></table></div>
+        </> : <p className="muted">No validated species-specific estimate for this license.</p>}</section>)}
+      </> : po.harvest.length ? (
         <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th><th className="num">Days/hunter</th></tr></thead>
           <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{h.days !== null && h.hunters ? (h.days / h.hunters).toFixed(1) : '–'}</td></tr>)}</tbody></table>
           <p className="small muted">WGFD harvest survey estimates for this hunt area and license type.</p></div>

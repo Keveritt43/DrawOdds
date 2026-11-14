@@ -73,10 +73,10 @@ export function HarvestChart({ data }: { data: YearPoint[] }) {
   );
 }
 
-export function SuccessChart({ data, compare }: { data: YearPoint[]; compare?: { label: string; data: YearPoint[] } }) {
+export function SuccessChart({ data, compare, title = 'Hunter success' }: { data: YearPoint[]; compare?: { label: string; data: YearPoint[] }; title?: string }) {
   const merged = data.map((d) => ({ ...d, other: compare?.data.find((c) => c.year === d.year)?.success ?? null }));
   return (
-    <Frame title="Hunter success">
+    <Frame title={title}>
       <LineChart data={merged} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
         <CartesianGrid stroke={GRID} vertical={false} />
         <XAxis dataKey="year" tickLine={false} />

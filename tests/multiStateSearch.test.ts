@@ -217,3 +217,10 @@ test('a Montana or Wyoming header never lands in Idaho\'s finder', async () => {
   assert.equal(combinedFinderRedirect('ID', {}), null);
   assert.equal(combinedFinderRedirect('CO', {}), null);
 });
+
+test('Wyoming harvest mix filter narrows only Wyoming and excludes unknown mix', () => {
+  const po = { pools: {}, harvest: [{year: 2025, basis: 'mule+whitetail', huntersMule: 100, huntersWhitetail: 100, mule: 70, whitetail: 30}] };
+  const rows = [row(), row({id:'wy:known', state:'WY', pointOdds:po}), row({id:'wy:unknown', state:'WY', pointOdds:null})];
+  assert.deepEqual(runSearch(rows, {states:'ID,WY', species:'DEER', wyDeer:'MULE', antler:'ALL'}, 'ID', settings).map(x => x.r.id).sort(), ['id:deer39','wy:known']);
+  assert.deepEqual(runSearch(rows, {states:'ID,WY', species:'DEER', wyDeer:'WHITETAIL', antler:'ALL'}, 'ID', settings).map(x => x.r.id), ['id:deer39']);
+});
