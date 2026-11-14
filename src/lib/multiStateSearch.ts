@@ -25,6 +25,7 @@ import { readUtPoints, type UtPoints } from './utPoints';
 import { waPersonal, waLicense, waPo } from './waHunt';
 import { readWaPoints, type WaPoints } from './waPoints';
 import { withoutUnvalidatedWyDeerMetrics } from './wyDeerMetrics';
+import { trophyForHunt } from './trophyHunt';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
 export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints };
@@ -75,6 +76,7 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
 export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
   r = withoutUnvalidatedWyDeerMetrics(r);
+  r = {...r,scoreTrophy:trophyForHunt(r)};
   const nr = isNonresident(r.state, settings);
   if (r.state === 'MT') {
     // unsaved settings: 0 points, buying, nonresident (src/lib/mtPoints.ts readMtPoints defaults)
@@ -266,6 +268,7 @@ export function compareSearch(a: SearchResult, b: SearchResult, sort: string): n
       case 'score': return r.scoreQuality;
       case 'success': return r.success5;
       case 'public': return r.publicPct;
+      case 'trophy': return r.scoreTrophy;
       case 'big': return r.bigPct5 ?? r.avgSize5;
       case 'harvest': return r.harvest5;
       case 'hunters': case 'huntersLow': return r.hunters5;

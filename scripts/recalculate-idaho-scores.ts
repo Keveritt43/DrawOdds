@@ -5,12 +5,12 @@ import { scorePlan, validateScorePlan, type ScoreSnapshot } from '../src/lib/sco
 import { seasonRules } from '../src/lib/tagSeasons';
 import { scoreLand } from '../src/lib/privateLand';
 const db=new PrismaClient();
-const select={id:true,species:true,type:true,nrTag:true,weapon:true,antlerClass:true,hunters5:true,harvest5:true,huntersSqMi:true,publicPct:true,huntablePct:true,bigPct5:true,deerType:true,tagSeasons:true,resOdds5:true,nrOdds5:true,capped:true,huntNumber:true,privateOnly:true,scoreQuality:true,scoreSuccess:true,scoreAccess:true,scoreCrowd:true,scoreTrophy:true,scoreOppRes:true,scoreOppNr:true} satisfies Prisma.HuntSummarySelect;
+const select={id:true,units:true,species:true,type:true,nrTag:true,weapon:true,antlerClass:true,hunters5:true,harvest5:true,huntersSqMi:true,publicPct:true,huntablePct:true,bigPct5:true,deerType:true,tagSeasons:true,resOdds5:true,nrOdds5:true,capped:true,huntNumber:true,privateOnly:true,scoreQuality:true,scoreSuccess:true,scoreAccess:true,scoreCrowd:true,scoreTrophy:true,scoreOppRes:true,scoreOppNr:true} satisfies Prisma.HuntSummarySelect;
 async function snapshot(tx:Prisma.TransactionClient):Promise<ScoreSnapshot> {
   const rows=await tx.huntSummary.findMany({where:{state:'ID'},select,orderBy:{id:'asc'}});
   return rows.map(({scoreQuality,scoreSuccess,scoreAccess,scoreCrowd,scoreTrophy,scoreOppRes,scoreOppNr,tagSeasons,huntNumber,privateOnly,...input})=>({
     // private-land-only hunts score with no public land (src/lib/privateLand.ts)
-    input:{...input,...scoreLand({...input,state:'ID',huntNumber,privateOnly}),twoPoint:seasonRules(tagSeasons,input.species).includes('2-point bucks only')},
+    input:{...input,state:'ID',tagSeasons,...scoreLand({...input,state:'ID',huntNumber,privateOnly}),twoPoint:seasonRules(tagSeasons,input.species).includes('2-point bucks only'),antlerMaximum:seasonRules(tagSeasons,input.species).includes('Spike bulls only')},
     before:{scoreQuality,scoreSuccess,scoreAccess,scoreCrowd,scoreTrophy,scoreOppRes,scoreOppNr},
   }));
 }

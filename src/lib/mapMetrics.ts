@@ -1,5 +1,5 @@
 import type { Classes, BreakMode } from './breaks';
-import { benchmarkClasses, divergingClasses } from './breaks';
+import { benchmarkClasses, divergingClasses, countClasses } from './breaks';
 /** Unit shading shared by every map: what each metric means, its color ramp and how to print it. */
 
 export type Sp = 'DEER' | 'ELK' | 'PRONGHORN' | 'MOOSE' | 'BIGHORN' | 'GOAT' | 'BISON';
@@ -44,8 +44,10 @@ const num = (v: number) => (v >= 10 ? String(Math.round(v)) : v >= 1 ? String(Nu
 const pctOf = (v: number) => `${num(v)}%`;
 export const fmtNum = num;
 
-export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow' | 'ctlQuality' | 'ctlPressure' | 'ctlPoints' | 'ctlCreep';
+export type Metric = 'public' | 'huntable' | 'success' | 'pressure' | 'ctlOdds' | 'ctlFill' | 'ctlSuccess' | 'objBull' | 'objCow' | 'ctlQuality' | 'ctlPressure' | 'ctlPoints' | 'ctlCreep' | 'genTrophy' | 'ctlTrophy';
 export const METRICS: Record<Metric, MetricDef> = {
+ genTrophy: {label:'Trophy Score (General Hunts)',kind:'general',bySpecies:true,ramp:GREEN,fmt:num,none:'No eligible hunt',field:sp=>`genTrophy${SPK(sp)}`,labels:['50 Unclassified','65 Recognized unit','80 Trophy','100 Unicorn'],note:'Highest eligible general-hunt tier for this unit. Geographic associations can cover a small part of a unit and do not locate individual records; an unclassified unit is not evidence of low trophy potential.'},
+ ctlTrophy: {label:'Trophy Score (Controlled Hunts)',kind:'controlled',bySpecies:true,ramp:GREEN,fmt:num,none:'No eligible hunt',field:sp=>`ctlTrophy${SPK(sp)}`,labels:['50 Unclassified','65 Recognized unit','80 Trophy','100 Unicorn'],note:'Highest eligible controlled-hunt tier for this unit, including applicable season restrictions. Geographic associations can cover a small part of a unit and do not locate individual records; unclassified is neutral.'},
  ctlQuality: {label:'Quality (Best Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:GREEN,fmt:num,none:'Insufficient validated inputs',field:sp=>`ctlQuality${SPK(sp)}`,note:'Highest Quality of an adult buck/bull hunt touching the unit. Same fixed scoring model as Idaho.'},
  ctlPressure: {label:'Hunters / Sq Mi (Least Crowded Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:PLUM,better:'low',fmt:num,none:'No density data',field:sp=>`ctlPressure${SPK(sp)}`,note:'Lowest annual hunter density among adult buck/bull hunts touching the unit. Colorado deer density includes overlapping general/OTC elk unit-season participation (all-license proxy). Multi-unit hunt averages are not local crowd counts.'},
  ctlPoints: {label:'Points Needed (Easiest Antlered Hunt)',kind:'controlled',bySpecies:true,ramp:ORANGE,better:'low',fmt:num,none:'No observed cutoff',field:(sp,nr)=>`ctlPoints${nr?'Nr':'Res'}${SPK(sp)}`,note:'Lowest latest-actual preference-point cutoff for your residency among adult buck/bull hunts touching the unit.'},
@@ -131,6 +133,7 @@ export const msgSuccessClasses = (values: number[], scale = 1) =>
   benchmarkClasses(values, MSG_SUCCESS_BREAKS.map((b) => b * scale), MSG_SUCCESS_IDX);
 /** The classes a unit-map field shades by. */
 export const classesFor = (field: string, values: number[]): Classes => {
+  if (/^(gen|ctl)Trophy/.test(field)) return trophyClasses(values);
   if (/^ctlQuality/.test(field)) return scoreClasses(values);
   if (isMsgSuccess(field)) return msgSuccessClasses(values);
   const fixed = fixedScale(field);
@@ -138,6 +141,9 @@ export const classesFor = (field: string, values: number[]): Classes => {
   // success (percent): spread around Idaho's average, but in 5-point steps
   return divergingClasses(values, fieldMode(field), /success/i.test(field) ? 5 : 0);
 };
+
+/** Stable tier colors; a missing tier never changes the meaning of another color. */
+export const trophyClasses = (values: number[]): Classes => ({breaks:[65,80,100], counts:countClasses(values,[65,80,100]), idx:[0,1,2,3], palette:['#aaa9a5','#b6d59c','#62ae61','#166b35']});
 
 /** DrawOdds Score (0-100) in the badges' 7 even steps, so the map and the cards agree. */
 export const scoreClasses = (values: number[]) =>

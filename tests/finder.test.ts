@@ -24,6 +24,7 @@ test('residency decides which odds column filters and sorts use', () => {
   // best bet: small samples last, then draw x fill for the user's residency
   assert.deepEqual(buildOrder(parseFilters({}), 'RESIDENT').map((o) => Object.keys(o)[0]).slice(0, 2), ['smallSample', 'resTagAndFill']);
   assert.deepEqual(buildOrder(parseFilters({ sort: 'success' }), 'RESIDENT').map((o) => Object.keys(o)[0]).slice(0, 2), ['smallSample', 'success5']);
+  assert.deepEqual(buildOrder(parseFilters({ sort: 'trophy' }), 'RESIDENT')[0], { scoreTrophy: { sort: 'desc', nulls: 'last' } });
 });
 
 test("season months mean open during that month", () => {

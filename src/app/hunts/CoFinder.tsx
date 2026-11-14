@@ -15,6 +15,7 @@ import { getPoints } from '@/lib/points';
 import { getFavorites } from '@/lib/favorites';
 import { CoFilters } from '@/components/CoFilters';
 import { HuntMap } from '@/components/HuntMap';
+import { trophyForUnit } from '@/lib/trophyHunt';
 import { Star } from '@/components/Star';
 import { decodeCode, poolFor, tableOdds, POOL_LABEL, type OddsTable } from '@/lib/coHunt';
 import { chanceOf, CHANCE_LABEL, RULE_CHANGE_YEAR, type Chance } from '@/lib/coOdds';
@@ -156,6 +157,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
                 return [
                   unit,
                   {
+                    trophy: hs.reduce<number|null>((best,x)=>{const v=trophyForUnit(x.r,unit).score;return v === null ? best : Math.max(best ?? 0,v);},null),
                     score: hs.reduce<number | null>((best,x) => x.r.scoreQuality === null ? best : Math.max(best ?? 0,x.r.scoreQuality),null),
                     odds: Math.max(...hs.map((x) => (x.odds ?? 0) * 100)),
                     fill: Math.max(

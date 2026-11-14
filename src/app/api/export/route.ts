@@ -55,7 +55,7 @@ export async function GET(req: Request) {
     'Species', 'Type', 'Hunt / tag', 'Code', 'Area', 'Units', 'Weapon', 'Sex', 'Open', 'Close', 'Tags',
     `${res} odds latest %`, 'Draw year', `${res} odds 5-yr %`, `${res} 1st-choice applicants`, 'All 1st-choice applicants', 'NR tags drawn latest', '2nd-choice tags latest',
     'Success latest %', 'Harvest year', 'Success 5-yr %', 'Hunters 5-yr', 'Harvest 5-yr', 'Hunters per sq mi', `Draw and fill ${res} %`,
-    'Trophy share %', 'Avg antler spread / horn length (in.)', 'Deer type', 'Public land %', 'Access Yes! %', 'Small sample', 'Link',
+    'Trophy score', 'Harvest antler share %', 'Avg antler spread / horn length (in.)', 'Deer type', 'Public land %', 'Access Yes! %', 'Small sample', 'Link',
   ];
   // behind Railway's proxy req.url is the internal address: build links from the public host
   const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host');
@@ -68,7 +68,7 @@ export async function GET(req: Request) {
       r.openDate, r.closeDate, r.nrTag ? r.quota : r.tags,
       r3(r[rf.oddsLast]), r.oddsLastYear, r3(r[rf.odds5]), r[rf.appsLast], r.appsLast, r.nrPermitsLast, r.secondDrewLast,
       r3(r.successLast), r.harvestLastYear, r3(r.success5), r.hunters5, r.harvest5, r.huntersSqMi === null ? null : Math.round(r.huntersSqMi * 100) / 100, r3(r[rf.tagAndFill]),
-      r3(r.bigPct5), r.avgSize5 === null ? null : Math.round(r.avgSize5 * 10) / 10, r.deerType, r.publicPct === null ? null : Math.round(r.publicPct), r.accessYesPct === null ? null : Math.round(r.accessYesPct * 10) / 10, r.smallSample ? 'yes' : '',
+      r.scoreTrophy, r3(r.bigPct5), r.avgSize5 === null ? null : Math.round(r.avgSize5 * 10) / 10, r.deerType, r.publicPct === null ? null : Math.round(r.publicPct), r.accessYesPct === null ? null : Math.round(r.accessYesPct * 10) / 10, r.smallSample ? 'yes' : '',
       `${origin}/hunts/${encodeURIComponent(r.slug ?? r.id)}`,
     ].map(cell).join(','));
   }

@@ -2,6 +2,7 @@ import { coDeerPressure, GENERAL_ELK_QUALITY_FACTOR, type CoPressureContext, typ
 import type { HuntSummary } from '@prisma/client';
 import { withCoLand, coLandUnit } from './coLand';
 import { opportunity, scoreHunts } from './score';
+import { seasonRules } from './tagSeasons';
 /** Read-time CO scoring leaves historical summaries and all Idaho rows untouched. */
 export type CoScored = HuntSummary & { coPressure?: CoPressure };
 export function withCoScores<T extends HuntSummary>(row: T, context?: CoPressureContext): T & {coPressure?:CoPressure} {
@@ -20,6 +21,8 @@ export function withCoScores<T extends HuntSummary>(row: T, context?: CoPressure
     r.hunters5 >= 0 && r.harvest5 >= 0 && r.harvest5 <= r.hunters5 &&
     r.success5 !== null && Math.abs(r.success5 - (r.hunters5 ? r.harvest5/r.hunters5 : 0)) < .001;
   const scores = scoreHunts([{...r, hunters5: countsValid ? r.hunters5 : null,
+    season: /^[DE][MFEP]\d{3}[A-Z][34]R$/i.test(r.tagCode ?? '') ? 'late' : null,
+    antlerMaximum: seasonRules(r.tagSeasons,r.species).some(x=>x==='2-point bucks only'||x==='Spike bulls only'),
     publicPct: landValid && !r.privateOnly ? r.publicPct : landValid ? 0 : null,
     huntablePct: null, bigPct5: null, nrTag: false,
     huntersSqMi: landValid ? r.huntersSqMi : null,

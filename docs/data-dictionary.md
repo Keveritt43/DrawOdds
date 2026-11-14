@@ -47,6 +47,8 @@ This describes the current Idaho and Colorado implementation, not a universal de
 
 ## Quality
 
+**Trophy tiers:** eligible deer and elk hunts use the highest eligible unit tier: Unicorn 100, Trophy 80, recognized unit 65, or unclassified 50. Trophy includes reviewed controlled-draw demand and observed point outliers; those indicators do not measure animal size. General hunts in demand-recognized units receive 65. Antlerless and maximum-antler-restricted hunts are excluded. A multi-unit hunt's top tier does not apply to every unit; map shading classifies each unit separately. Geographic associations are proxies and do not place individual records in a unit. Unmapped is not evidence of low trophy potential; empty unit identity is unknown. The bonus is `(tier − 50) / 10 × harvest / (harvest + 50)`, bounded above by 5 and subject to the existing Quality ceiling. Idaho stored scores require a coordinated scores-only rollout.
+
 - **Meaning and units:** A 0–100 decision index for hunt quality, not a probability of harvest. Current Idaho model v3 uses species-specific absolute success benchmarks and components for success, access and elbow room.
 - **Inputs and calculation:** The base is 65% Success, 20% Access and 15% Elbow room. A bounded, sample-adjusted trophy modifier applies only when suitable data exists; success-based ceilings prevent weak observed success from becoming elite through other factors. The model validates counts and minimum samples, and requires usable access and density for a Quality score.
 - **Idaho:** Uses the shared model with applicable huntable/public access and eligible trophy evidence.

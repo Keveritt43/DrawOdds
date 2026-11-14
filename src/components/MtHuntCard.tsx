@@ -3,7 +3,7 @@ import { HuntLink } from '@/components/HuntNavigation';
 import type { CoScored } from '@/lib/coScores';
 import { CompareToggle } from './Compare';
 import { Star } from './Star';
-import { ScoreRow } from './HuntCards';
+import { ScoreRow, TrophyMark } from './HuntCards';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/format';
 import { dateRange } from '@/lib/coDisplay';
@@ -41,6 +41,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
+          <TrophyMark score={r.scoreTrophy} />
           <span className={`pill ${general ? 'gen' : 'ctl'}`}>{pill}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />

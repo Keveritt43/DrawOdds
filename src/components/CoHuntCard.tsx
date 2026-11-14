@@ -8,7 +8,7 @@ import { seasonsSummary } from '@/lib/tagSeasons';
 import type { PointOdds } from '@/lib/coHunt';
 import type { HuntSummary } from '@prisma/client';
 import { Star } from './Star';
-import { ScoreRow } from './HuntCards';
+import { ScoreRow, TrophyMark } from './HuntCards';
 import { CHANCE_LABEL, type Chance } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/format';
 import { dateRange, fmtNeed, fmtCreep } from '@/lib/coDisplay';
@@ -48,6 +48,7 @@ export async function CoHuntCard({
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
+          <TrophyMark score={r.scoreTrophy} />
           <span className={r.type === "CONTROLLED" ? "pill ctl" : "pill"}>
             {r.type === "GENERAL" ? "General / OTC" : "Controlled Draw"}
           </span>
