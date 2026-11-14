@@ -1,8 +1,9 @@
-import { classifyTrophy, trophyQualityBonus } from './trophyTiers';
-/** Idaho model v3: absolute species benchmarks across weapons; no peer-dependent grades. */
+import { trophyQualityBonus } from './trophyTiers';
+import { trophyForHunt } from './trophyHunt';
+/** Absolute species benchmarks across weapons; no peer-dependent grades. */
 import { successBands } from './format';
-export const SCORE_VERSION = 'idaho-v3';
-// Trophy is a bounded +/-5 modifier around neutral, never redistributed.
+export const SCORE_VERSION = 'idaho-v4-trophy-tiers';
+// Trophy is a bounded positive modifier around neutral, never redistributed.
 export const SCORE_WEIGHTS = { success: 65, access: 20, crowd: 15, trophy: 10 } as const;
 export type ScorePart = keyof typeof SCORE_WEIGHTS;
 export const SCORE_PART_LABEL: Record<ScorePart, string> = { success: 'Success', access: 'Access', crowd: 'Elbow room', trophy: 'Trophy' };
@@ -13,6 +14,9 @@ export interface ScoreInput {
   state?: string;
   units?: string[];
   season?: string | null;
+  tagCode?:string|null;
+  tagSeasons?:unknown;
+  pointOdds?:unknown;
   species: string;
   type: string;
   nrTag?: boolean | null;
@@ -26,6 +30,7 @@ export interface ScoreInput {
   bigPct5?: number | null;
   deerType?: string | null;
   twoPoint?: boolean;
+  antlerMaximum?: boolean;
   resOdds5?: number | null;
   nrOdds5?: number | null;
   capped?: boolean | null;
@@ -68,6 +73,8 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
   for (const r of rows) {
     const o = { ...EMPTY };
     out.set(r.id, o);
+    const trophy = r.twoPoint || r.antlerMaximum ? null : trophyForHunt({...r,state:r.state ?? 'ID',units:r.units ?? []});
+    o.scoreTrophy = trophy;
     const n = r.hunters5, h = r.harvest5;
     if (!finite(n) || n < (MSG.has(r.species) ? 10 : 30) || !finite(h) || h < 0 || h > n) continue;
     const [hi, lo, top] = successBands(r.species, r.weapon, r.nrTag ? 'GENERAL' : r.type);
@@ -79,12 +86,11 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
     const access = accessScore(r.huntablePct ?? r.publicPct);
     const crowd = finite(r.huntersSqMi) && r.huntersSqMi >= 0
       ? curve(r.huntersSqMi, [[0, 100], [0.25, 85], [0.5, 70], [1, 50], [1.5, 38], [3, 18], [6, 0]]) : null;
-    const trophy = classifyTrophy({ species: r.species, state: r.state ?? 'ID', units: r.units ?? [], antlerClass: r.antlerClass, weapon: r.weapon, season: r.season, deerType: r.deerType, twoPoint: r.twoPoint }).score;
     Object.assign(o, { scoreSuccess: success, scoreAccess: access, scoreCrowd: crowd, scoreTrophy: trophy });
     // Missing land or density must not silently inflate the remaining weights.
     if (access === null || crowd === null) continue;
     // Small samples attenuate the trophy adjustment too; total harvest is an upper bound on its sample.
-    const trophyAdjustment = trophyQualityBonus(trophy);
+    const trophyAdjustment = trophyQualityBonus(trophy) * h / (h + 50);
     const base = (success * SCORE_WEIGHTS.success + access * SCORE_WEIGHTS.access + crowd * SCORE_WEIGHTS.crowd) / 100;
     // Neither shrinkage nor perfect land/trophy can lift weak observed harvest into elite quality.
     const ceiling = Math.min(Math.min(rawSuccess, success) + 20, h / n < lo ? 49 : 100);

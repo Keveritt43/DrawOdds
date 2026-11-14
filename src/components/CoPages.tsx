@@ -98,7 +98,7 @@ export function CoAbout() {
       <p>
         Colorado Quality uses the same fixed benchmarks as Idaho, with validated input gates. Deer/elk
         harvest sex counts and herd bull/cow ratios are not trophy-size
-        measurements. No trophy ranking is fabricated from them.
+        measurements. The separate unit-based trophy tier uses recognized unit designations and geographic associations.
       </p>
       <h2>Moose, Sheep And Goat</h2>
       <p>CPW reports historical first-choice results by residency and age group. Moose, Rocky Mountain bighorn sheep and mountain goat use weighted preference; desert bighorn sheep has a random draw. These results describe past applicants and do not predict personal odds at a given point level.</p>
@@ -190,7 +190,7 @@ export function CoScore() {
       <h1>Colorado DrawOdds Score</h1>
       <p>Deer hunts with a confirmed overlapping general/OTC elk season receive a 25% Quality reduction after the base calculation. Elbow room includes deer hunters plus estimated elk hunter-seasons in shared units and overlapping seasons. CPW unit-season elk counts include all license types: they are a pressure proxy, not an exact OTC-only count. Missing/ambiguous elk counts leave combined density and Quality unavailable. Units, seasons and report years are deduplicated, with up to five latest survey years averaged per unit/season.</p>
       <p>
-        Colorado uses the same fixed Quality benchmarks as Idaho: sample-adjusted harvest success (65%), public ownership (20%) and elbow room (15%). All weapons share species benchmarks: pronghorn uses 35% / 60% / 85% harvest for Success 30 / 75 / 100 before sample adjustment; deer uses 35% / 55% / 75%. Quality is capped at the lower of observed and adjusted Success plus 20; below the low success benchmark it cannot exceed 49. Trophy receives no adjustment because verified antler-size measurements are unavailable.
+        Colorado uses the same fixed Quality benchmarks as Idaho: sample-adjusted harvest success (65%), public ownership (20%) and elbow room (15%). All weapons share species benchmarks: pronghorn uses 35% / 60% / 85% harvest for Success 30 / 75 / 100 before sample adjustment; deer uses 35% / 55% / 75%. Quality is capped at the lower of observed and adjusted Success plus 20; below the low success benchmark it cannot exceed 49. Eligible deer and elk trophy tiers can add up to five points, reduced for small harvest samples. Recognized geographic associations may cover only part of a unit and do not locate individual records. A multi-unit hunt uses its best eligible unit; unclassified is neutral.
       </p>
       <p>
         Opportunity = Quality × √(your selected point-based draw odds), rounded to a whole number. It changes with your points, residency, youth pool and actual/projected draw selection. Draw-and-fill multiplies your selected draw probability by observed

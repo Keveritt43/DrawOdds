@@ -174,8 +174,10 @@ test('tie breaking and null ordering are deterministic in both sort directions',
 });
 
 test('trophy sort ranks tiers highest first and leaves ineligible hunts last', () => {
-  const rows = [50, 100, null, 65, 80].map((scoreTrophy, i) =>
-    personalize(row({ id: String(i), scoreTrophy }), settings, 'proj')!);
+  const rows = [50, 100, null, 65, 80].map((scoreTrophy, i) => {
+    const result=personalize(row({ id: String(i) }), settings, 'proj')!;
+    return {...result,r:{...result.r,scoreTrophy}};
+  });
   rows.sort((a, b) => compareSearch(a, b, 'trophy'));
   assert.deepEqual(rows.map(x => x.r.scoreTrophy), [100, 80, 65, 50, null]);
 });

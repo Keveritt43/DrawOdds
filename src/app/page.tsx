@@ -181,7 +181,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
               {opt('sort', 'best', 'Best Mix Of Both')}
               {opt('sort', 'score', 'Best Overall Hunt (DrawOdds Score)')}
               {opt('sort', 'densityLow', 'Fewer Hunters')}
-              {opt('sort', 'big', msg ? 'Biggest Antlers / Horns' : 'Trophy Potential')}
+              {opt('sort', msg ? 'big' : 'trophy', msg ? 'Biggest Antlers / Horns' : 'Trophy Score')}
             </div>
             <button className="btn primary" type="submit">Show Me Hunts</button>
           </form>

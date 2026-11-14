@@ -2,7 +2,7 @@ import { HuntLink } from '@/components/HuntNavigation';
 import type { CoScored } from '@/lib/coScores';
 import { CompareToggle } from './Compare';
 import { Star } from './Star';
-import { ScoreRow } from './HuntCards';
+import { ScoreRow, TrophyMark } from './HuntCards';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict } from '@/lib/format';
 import { dateRange, fmtNeed, fmtCreep } from '@/lib/coDisplay';
@@ -30,6 +30,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}${nr && (poolLink === 'nr' || poolLink === 'nrs') ? `?pool=${poolLink}` : ''}`}>{r.name}</HuntLink>
+          <TrophyMark score={r.scoreTrophy} />
           <span className={`pill ${r.type === 'GENERAL' ? 'gen' : 'ctl'}`}>{r.type === 'GENERAL' ? (nr ? `General · NR Region ${po?.nrRegion ?? '?'} license` : 'General · Over the counter') : r.tagCode?.includes('R-') ? 'Nonresident Region Draw' : 'Limited Quota Draw'}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />

@@ -35,7 +35,7 @@ export default async function About() {
         <li><b>2nd-choice tags:</b> tags IDFG gave to second-choice applicants in the latest drawing, meaning first choices didn&apos;t use them all. For nonresidents they only help when the nonresident limit wasn&apos;t already full.</li>
         <li><b>Residents and general seasons:</b> general tags are over the counter (no draw), so draw + fill is just the success rate. Elk zones that are capped are left out of that.</li>
         <li><b>Plain-English labels:</b> odds of 50%+ are &ldquo;good&rdquo;, 15-50% &ldquo;fair&rdquo;, 5-15% a &ldquo;long shot&rdquo;. Success is judged per species (general elk: 20%+ high, under 10% low; controlled elk: 50%+ high, under 20% low; deer: 55%+ high, under 35% low; pronghorn: 60%+ high, under 35% low). Under 0.5 hunters per square mile is uncrowded; over 1.5 is crowded.</li>
-        <li><b>Trophy share</b> is left blank when fewer than 20 antlered animals were reported over 5 years, and never shown over 100% (rounded source percentages can add up past it).</li>
+        <li><b>Harvest antler share</b> is left blank when fewer than 20 antlered animals were reported over 5 years, and never shown over 100% (rounded source percentages can add up past it). It is separate from the Trophy score.</li>
       </ul>
       <h2>Known Limits</h2>
       <ul>

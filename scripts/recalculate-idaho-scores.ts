@@ -10,7 +10,7 @@ async function snapshot(tx:Prisma.TransactionClient):Promise<ScoreSnapshot> {
   const rows=await tx.huntSummary.findMany({where:{state:'ID'},select,orderBy:{id:'asc'}});
   return rows.map(({scoreQuality,scoreSuccess,scoreAccess,scoreCrowd,scoreTrophy,scoreOppRes,scoreOppNr,tagSeasons,huntNumber,privateOnly,...input})=>({
     // private-land-only hunts score with no public land (src/lib/privateLand.ts)
-    input:{...input,state:'ID',...scoreLand({...input,state:'ID',huntNumber,privateOnly}),twoPoint:seasonRules(tagSeasons,input.species).includes('2-point bucks only')},
+    input:{...input,state:'ID',tagSeasons,...scoreLand({...input,state:'ID',huntNumber,privateOnly}),twoPoint:seasonRules(tagSeasons,input.species).includes('2-point bucks only'),antlerMaximum:seasonRules(tagSeasons,input.species).includes('Spike bulls only')},
     before:{scoreQuality,scoreSuccess,scoreAccess,scoreCrowd,scoreTrophy,scoreOppRes,scoreOppNr},
   }));
 }

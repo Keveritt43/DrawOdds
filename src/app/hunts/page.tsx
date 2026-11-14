@@ -1,4 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
+import { trophyForUnit } from '@/lib/trophyHunt';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { HuntLink } from '@/components/HuntNavigation';
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
@@ -52,7 +53,7 @@ function chips(f: Filters, query: (patch: Partial<Filters>) => string): { label:
   if (f.months.length) add(`Open: ${f.months.map((m) => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m - 1]).join(', ')}`, { months: [] });
   if (f.minOdds) add(`Odds ${f.minOdds}%-100%`, { minOdds: null });
   if (f.minSuccess) add(`Success ${f.minSuccess}%+`, { minSuccess: null });
-  if (f.minBig) add(`Trophy ${f.minBig}%+`, { minBig: null });
+  if (f.minBig) add(`Harvest antler share ${f.minBig}%+`, { minBig: null });
   if (f.minPublic) add(`Public ${f.minPublic}%+`, { minPublic: null });
   if (f.minAccessYes) add(`Access Yes! ${f.minAccessYes}%+`, { minAccessYes: null });
   if (f.minHuntable) add(`Huntable ${f.minHuntable}%+`, { minHuntable: null });
@@ -324,7 +325,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         )}
         <p className="small muted" style={{ padding: '12px 16px' }}>
           {f.view === 'table'
-            ? <>Odds are {nr ? 'nonresident' : 'resident'} first-choice odds: &quot;Odds 5-yr&quot; totals the last five drawings, &quot;Latest&quot; is the most recent one. Success, crowding and trophy share are 5-year numbers. Click a column header to sort.</>
+            ? <>Odds are {nr ? 'nonresident' : 'resident'} first-choice odds: &quot;Odds 5-yr&quot; totals the last five drawings, &quot;Latest&quot; is the most recent one. Success, crowding and harvest antler share are 5-year numbers. Click a column header to sort.</>
             : <>Big numbers are 5-year {nr ? 'nonresident' : 'resident'} first-choice odds and 5-year success; the small line under each shows the latest year, with an arrow against the year before (green is better for you) when the numbers are big enough to mean much. Filters and sorting use the 5-year numbers, which swing less. Tap any label with a ? for what it means.</>}
         </p>
       </section>
@@ -334,11 +335,11 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   );
 }
 
-type Stat = { objBull: number | null; objCow: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; wilderness: number | null };
+type Stat = { trophy:number|null; objBull: number | null; objCow: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; wilderness: number | null };
 
 /** Per-unit and per-hunt-area numbers of the matching hunts, for the map's "Shade" options. */
 async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeof residencyFields>, zu: string[] | null) {
-  const acc = new Map<string, { score: number | null; odds: number | null; fill: number | null; hunters: number; harvest: number; crowd: number | null; public: number | null; huntable: number | null }>();
+  const acc = new Map<string, { trophy:number|null; score: number | null; odds: number | null; fill: number | null; hunters: number; harvest: number; crowd: number | null; public: number | null; huntable: number | null }>();
   // elk zone tags carry the same general-season hunters as the general rows: don't count those twice
   const hasGeneral = new Set(rows.filter((r) => r.type === 'GENERAL' && !r.nrTag).map((r) => r.species));
   const oddsOf = (r: HuntSummary): number | null => {
@@ -347,7 +348,11 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     return r.nrTag && r.capped ? null : 1; // residents: over the counter
   };
   const add = (key: string, r: HuntSummary, land: boolean) => {
-    const a = acc.get(key) ?? acc.set(key, { score: null, odds: null, fill: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
+    const a = acc.get(key) ?? acc.set(key, { trophy:null, score: null, odds: null, fill: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
+    if (key.startsWith('unit:')) {
+      const trophy = trophyForUnit(r,key.slice(5)).score;
+      if (trophy !== null && (a.trophy === null || trophy > a.trophy)) a.trophy = trophy;
+    }
     const o = oddsOf(r);
     if (o !== null && (a.odds === null || o > a.odds)) a.odds = o;
     if (r.scoreQuality !== null && (a.score === null || r.scoreQuality > a.score)) a.score = r.scoreQuality;
@@ -381,7 +386,7 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
     const st: Stat = {
       objBull: ob?.bull ? OBJ_NUM[ob.bull] : null,
       objCow: ob?.cow ? OBJ_NUM[ob.cow] : null,
-      score: a.score,
+      trophy:a.trophy, score: a.score,
       odds: a.odds,
       fill: a.fill,
       success: a.hunters >= minHunters ? a.harvest / a.hunters : null,

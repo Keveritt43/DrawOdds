@@ -1,0 +1,2075 @@
+{
+  "generated": "2026-11-13T21:56:26.208Z",
+  "source": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/7",
+  "method": "Geographic overlap; does not locate individual records.",
+  "states": {
+    "ID": {
+      "DEER": [
+        {
+          "unit": "20",
+          "overlap": 0.000098
+        },
+        {
+          "unit": "21",
+          "overlap": 0.998962
+        },
+        {
+          "unit": "23",
+          "overlap": 0.457288
+        },
+        {
+          "unit": "29",
+          "overlap": 0.999999
+        },
+        {
+          "unit": "32A",
+          "overlap": 0.585122
+        },
+        {
+          "unit": "35",
+          "overlap": 0.993653
+        },
+        {
+          "unit": "36B",
+          "overlap": 0.00039
+        },
+        {
+          "unit": "30A",
+          "overlap": 0.998087
+        },
+        {
+          "unit": "66",
+          "overlap": 1
+        },
+        {
+          "unit": "67",
+          "overlap": 0.835351
+        },
+        {
+          "unit": "69",
+          "overlap": 0.417799
+        },
+        {
+          "unit": "17",
+          "overlap": 0.000065
+        },
+        {
+          "unit": "18",
+          "overlap": 0.017577
+        },
+        {
+          "unit": "20A",
+          "overlap": 0.000184
+        },
+        {
+          "unit": "21A",
+          "overlap": 0.998959
+        },
+        {
+          "unit": "24",
+          "overlap": 0.000467
+        },
+        {
+          "unit": "27",
+          "overlap": 0.280952
+        },
+        {
+          "unit": "28",
+          "overlap": 0.991291
+        },
+        {
+          "unit": "30",
+          "overlap": 0.998988
+        },
+        {
+          "unit": "31",
+          "overlap": 0.000084
+        },
+        {
+          "unit": "32",
+          "overlap": 0.0716
+        },
+        {
+          "unit": "33",
+          "overlap": 0.681968
+        },
+        {
+          "unit": "34",
+          "overlap": 0.010799
+        },
+        {
+          "unit": "36",
+          "overlap": 0.000187
+        },
+        {
+          "unit": "37",
+          "overlap": 0.061011
+        },
+        {
+          "unit": "37A",
+          "overlap": 0.822615
+        },
+        {
+          "unit": "77",
+          "overlap": 0.990088
+        },
+        {
+          "unit": "58",
+          "overlap": 0.455574
+        },
+        {
+          "unit": "63A",
+          "overlap": 0.227174
+        },
+        {
+          "unit": "51",
+          "overlap": 0.090705
+        },
+        {
+          "unit": "74",
+          "overlap": 0.201585
+        },
+        {
+          "unit": "59A",
+          "overlap": 0.027844
+        },
+        {
+          "unit": "22",
+          "overlap": 0.738742
+        },
+        {
+          "unit": "39",
+          "overlap": 0.391684
+        },
+        {
+          "unit": "66A",
+          "overlap": 0.789157
+        },
+        {
+          "unit": "73",
+          "overlap": 0.167167
+        },
+        {
+          "unit": "78",
+          "overlap": 0.125078
+        },
+        {
+          "unit": "63",
+          "overlap": 0.153362
+        },
+        {
+          "unit": "75",
+          "overlap": 0.122537
+        },
+        {
+          "unit": "65",
+          "overlap": 0.000055
+        },
+        {
+          "unit": "68A",
+          "overlap": 0.018008
+        }
+      ],
+      "ELK": [
+        {
+          "unit": "3",
+          "overlap": 0.036019
+        },
+        {
+          "unit": "4",
+          "overlap": 0.803443
+        },
+        {
+          "unit": "6",
+          "overlap": 0.663179
+        },
+        {
+          "unit": "9",
+          "overlap": 0.997303
+        },
+        {
+          "unit": "10",
+          "overlap": 0.124623
+        },
+        {
+          "unit": "12",
+          "overlap": 0.956019
+        },
+        {
+          "unit": "14",
+          "overlap": 1
+        },
+        {
+          "unit": "19",
+          "overlap": 1
+        },
+        {
+          "unit": "20",
+          "overlap": 0.999902
+        },
+        {
+          "unit": "21",
+          "overlap": 0.000259
+        },
+        {
+          "unit": "23",
+          "overlap": 0.542452
+        },
+        {
+          "unit": "26",
+          "overlap": 0.79793
+        },
+        {
+          "unit": "7",
+          "overlap": 0.999197
+        },
+        {
+          "unit": "YNP",
+          "overlap": 0.998345
+        },
+        {
+          "unit": "15",
+          "overlap": 1
+        },
+        {
+          "unit": "32A",
+          "overlap": 0.585122
+        },
+        {
+          "unit": "35",
+          "overlap": 0.000131
+        },
+        {
+          "unit": "61",
+          "overlap": 0.578839
+        },
+        {
+          "unit": "10A",
+          "overlap": 0.166583
+        },
+        {
+          "unit": "11",
+          "overlap": 0.165441
+        },
+        {
+          "unit": "11A",
+          "overlap": 0.353826
+        },
+        {
+          "unit": "13",
+          "overlap": 0.999455
+        },
+        {
+          "unit": "16A",
+          "overlap": 1
+        },
+        {
+          "unit": "64",
+          "overlap": 0.000752
+        },
+        {
+          "unit": "17",
+          "overlap": 0.999664
+        },
+        {
+          "unit": "18",
+          "overlap": 0.982021
+        },
+        {
+          "unit": "19A",
+          "overlap": 0.773643
+        },
+        {
+          "unit": "20A",
+          "overlap": 0.876986
+        },
+        {
+          "unit": "24",
+          "overlap": 0.999317
+        },
+        {
+          "unit": "25",
+          "overlap": 1
+        },
+        {
+          "unit": "27",
+          "overlap": 0.362965
+        },
+        {
+          "unit": "31",
+          "overlap": 0.000084
+        },
+        {
+          "unit": "32",
+          "overlap": 0.028451
+        },
+        {
+          "unit": "33",
+          "overlap": 0.318032
+        },
+        {
+          "unit": "34",
+          "overlap": 0.989008
+        },
+        {
+          "unit": "36",
+          "overlap": 0.000037
+        },
+        {
+          "unit": "60",
+          "overlap": 0.88051
+        },
+        {
+          "unit": "60A",
+          "overlap": 0.456969
+        },
+        {
+          "unit": "62",
+          "overlap": 0.670199
+        },
+        {
+          "unit": "62A",
+          "overlap": 1
+        },
+        {
+          "unit": "22",
+          "overlap": 0.738742
+        },
+        {
+          "unit": "16",
+          "overlap": 1
+        },
+        {
+          "unit": "4A",
+          "overlap": 0.00022
+        }
+      ]
+    },
+    "CO": {
+      "DEER": [
+        {
+          "unit": "34",
+          "overlap": 0.963395
+        },
+        {
+          "unit": "31",
+          "overlap": 0.674852
+        },
+        {
+          "unit": "63",
+          "overlap": 0.458388
+        },
+        {
+          "unit": "64",
+          "overlap": 0.648554
+        },
+        {
+          "unit": "15",
+          "overlap": 0.041193
+        },
+        {
+          "unit": "12",
+          "overlap": 0.036681
+        },
+        {
+          "unit": "231",
+          "overlap": 0.126793
+        },
+        {
+          "unit": "22",
+          "overlap": 0.071579
+        },
+        {
+          "unit": "21",
+          "overlap": 0.102427
+        },
+        {
+          "unit": "23",
+          "overlap": 0.128422
+        },
+        {
+          "unit": "371",
+          "overlap": 0.000834
+        },
+        {
+          "unit": "33",
+          "overlap": 0.99338
+        },
+        {
+          "unit": "26",
+          "overlap": 0.199371
+        },
+        {
+          "unit": "24",
+          "overlap": 0.399654
+        },
+        {
+          "unit": "37",
+          "overlap": 0.000367
+        },
+        {
+          "unit": "25",
+          "overlap": 0.537464
+        },
+        {
+          "unit": "35",
+          "overlap": 1
+        },
+        {
+          "unit": "32",
+          "overlap": 0.999225
+        },
+        {
+          "unit": "44",
+          "overlap": 1
+        },
+        {
+          "unit": "30",
+          "overlap": 0.587843
+        },
+        {
+          "unit": "45",
+          "overlap": 0.959075
+        },
+        {
+          "unit": "444",
+          "overlap": 0.574515
+        },
+        {
+          "unit": "42",
+          "overlap": 0.649952
+        },
+        {
+          "unit": "43",
+          "overlap": 0.208036
+        },
+        {
+          "unit": "421",
+          "overlap": 0.994822
+        },
+        {
+          "unit": "47",
+          "overlap": 0.025572
+        },
+        {
+          "unit": "49",
+          "overlap": 0.000388
+        },
+        {
+          "unit": "48",
+          "overlap": 0.000286
+        },
+        {
+          "unit": "521",
+          "overlap": 0.598608
+        },
+        {
+          "unit": "40",
+          "overlap": 0.999958
+        },
+        {
+          "unit": "41",
+          "overlap": 0.999584
+        },
+        {
+          "unit": "471",
+          "overlap": 0.001251
+        },
+        {
+          "unit": "52",
+          "overlap": 0.000427
+        },
+        {
+          "unit": "411",
+          "overlap": 0.019801
+        },
+        {
+          "unit": "55",
+          "overlap": 0.999379
+        },
+        {
+          "unit": "62",
+          "overlap": 0.458652
+        },
+        {
+          "unit": "481",
+          "overlap": 0.000662
+        },
+        {
+          "unit": "53",
+          "overlap": 0.678613
+        },
+        {
+          "unit": "61",
+          "overlap": 0.591558
+        },
+        {
+          "unit": "54",
+          "overlap": 1
+        },
+        {
+          "unit": "60",
+          "overlap": 0.572809
+        },
+        {
+          "unit": "56",
+          "overlap": 0.000735
+        },
+        {
+          "unit": "551",
+          "overlap": 0.488253
+        },
+        {
+          "unit": "67",
+          "overlap": 0.293466
+        },
+        {
+          "unit": "561",
+          "overlap": 0.000298
+        },
+        {
+          "unit": "65",
+          "overlap": 0.262663
+        },
+        {
+          "unit": "66",
+          "overlap": 0.46022
+        },
+        {
+          "unit": "70",
+          "overlap": 0.271799
+        },
+        {
+          "unit": "361",
+          "overlap": 0.725884
+        },
+        {
+          "unit": "36",
+          "overlap": 0.998595
+        },
+        {
+          "unit": "431",
+          "overlap": 0.000889
+        }
+      ],
+      "ELK": [
+        {
+          "unit": "201",
+          "overlap": 0.999576
+        },
+        {
+          "unit": "2",
+          "overlap": 0.999838
+        },
+        {
+          "unit": "85",
+          "overlap": 0.459027
+        },
+        {
+          "unit": "134",
+          "overlap": 0.995217
+        },
+        {
+          "unit": "136",
+          "overlap": 0.919513
+        },
+        {
+          "unit": "4",
+          "overlap": 0.766529
+        },
+        {
+          "unit": "10",
+          "overlap": 0.731204
+        },
+        {
+          "unit": "31",
+          "overlap": 0.31382
+        },
+        {
+          "unit": "3",
+          "overlap": 0.999923
+        },
+        {
+          "unit": "161",
+          "overlap": 0.00053
+        },
+        {
+          "unit": "6",
+          "overlap": 0.001382
+        },
+        {
+          "unit": "87",
+          "overlap": 0.04365
+        },
+        {
+          "unit": "7",
+          "overlap": 0.998153
+        },
+        {
+          "unit": "8",
+          "overlap": 0.998724
+        },
+        {
+          "unit": "191",
+          "overlap": 0.999979
+        },
+        {
+          "unit": "9",
+          "overlap": 0.983391
+        },
+        {
+          "unit": "1",
+          "overlap": 0.999725
+        },
+        {
+          "unit": "441",
+          "overlap": 0.991469
+        },
+        {
+          "unit": "301",
+          "overlap": 1
+        },
+        {
+          "unit": "16",
+          "overlap": 0.000614
+        },
+        {
+          "unit": "171",
+          "overlap": 0.000203
+        },
+        {
+          "unit": "11",
+          "overlap": 0.637384
+        },
+        {
+          "unit": "20",
+          "overlap": 0.628897
+        },
+        {
+          "unit": "94",
+          "overlap": 0.055881
+        },
+        {
+          "unit": "211",
+          "overlap": 0.76231
+        },
+        {
+          "unit": "131",
+          "overlap": 0.997798
+        },
+        {
+          "unit": "18",
+          "overlap": 0.000286
+        },
+        {
+          "unit": "15",
+          "overlap": 0.785888
+        },
+        {
+          "unit": "27",
+          "overlap": 0.043747
+        },
+        {
+          "unit": "12",
+          "overlap": 0.327625
+        },
+        {
+          "unit": "231",
+          "overlap": 0.541599
+        },
+        {
+          "unit": "26",
+          "overlap": 0.670988
+        },
+        {
+          "unit": "30",
+          "overlap": 0.587843
+        },
+        {
+          "unit": "42",
+          "overlap": 0.349669
+        },
+        {
+          "unit": "43",
+          "overlap": 0.000201
+        },
+        {
+          "unit": "421",
+          "overlap": 0.994822
+        },
+        {
+          "unit": "521",
+          "overlap": 0.000345
+        },
+        {
+          "unit": "40",
+          "overlap": 0.999958
+        },
+        {
+          "unit": "41",
+          "overlap": 0.999584
+        },
+        {
+          "unit": "52",
+          "overlap": 0.000427
+        },
+        {
+          "unit": "411",
+          "overlap": 0.019801
+        },
+        {
+          "unit": "62",
+          "overlap": 0.286421
+        },
+        {
+          "unit": "61",
+          "overlap": 0.315005
+        },
+        {
+          "unit": "60",
+          "overlap": 0.427192
+        },
+        {
+          "unit": "133",
+          "overlap": 0.701923
+        },
+        {
+          "unit": "137",
+          "overlap": 0.63328
+        },
+        {
+          "unit": "83",
+          "overlap": 0.000027
+        },
+        {
+          "unit": "142",
+          "overlap": 0.999465
+        },
+        {
+          "unit": "147",
+          "overlap": 0.999977
+        },
+        {
+          "unit": "141",
+          "overlap": 1
+        },
+        {
+          "unit": "144",
+          "overlap": 0.000114
+        },
+        {
+          "unit": "143",
+          "overlap": 0.998568
+        },
+        {
+          "unit": "851",
+          "overlap": 0.921993
+        },
+        {
+          "unit": "140",
+          "overlap": 0.999107
+        },
+        {
+          "unit": "5",
+          "overlap": 0.926141
+        },
+        {
+          "unit": "214",
+          "overlap": 1
+        },
+        {
+          "unit": "19",
+          "overlap": 0.99988
+        },
+        {
+          "unit": "14",
+          "overlap": 0.986044
+        },
+        {
+          "unit": "13",
+          "overlap": 0.70452
+        },
+        {
+          "unit": "128",
+          "overlap": 0.005343
+        },
+        {
+          "unit": "135",
+          "overlap": 0.076801
+        },
+        {
+          "unit": "130",
+          "overlap": 0.000642
+        }
+      ]
+    },
+    "MT": {
+      "DEER": [
+        {
+          "unit": "202",
+          "overlap": 0.19103
+        },
+        {
+          "unit": "150",
+          "overlap": 0.54592
+        },
+        {
+          "unit": "103",
+          "overlap": 0.514877
+        },
+        {
+          "unit": "100",
+          "overlap": 0.999726
+        },
+        {
+          "unit": "282",
+          "overlap": 0.604068
+        },
+        {
+          "unit": "250",
+          "overlap": 0.999029
+        },
+        {
+          "unit": "319",
+          "overlap": 0
+        },
+        {
+          "unit": "535",
+          "overlap": 0.000099
+        },
+        {
+          "unit": "704",
+          "overlap": 0.090527
+        },
+        {
+          "unit": "441",
+          "overlap": 0.00028
+        },
+        {
+          "unit": "120",
+          "overlap": 0.848452
+        },
+        {
+          "unit": "104",
+          "overlap": 0.998127
+        },
+        {
+          "unit": "110",
+          "overlap": 0.96292
+        },
+        {
+          "unit": "130",
+          "overlap": 0.449275
+        },
+        {
+          "unit": "170",
+          "overlap": 0.933931
+        },
+        {
+          "unit": "121",
+          "overlap": 0.000658
+        },
+        {
+          "unit": "122",
+          "overlap": 0.034217
+        },
+        {
+          "unit": "141",
+          "overlap": 0.99957
+        },
+        {
+          "unit": "415",
+          "overlap": 0.001185
+        },
+        {
+          "unit": "701",
+          "overlap": 0.378034
+        },
+        {
+          "unit": "240",
+          "overlap": 0.987054
+        },
+        {
+          "unit": "292",
+          "overlap": 0.513235
+        },
+        {
+          "unit": "261",
+          "overlap": 0.999627
+        },
+        {
+          "unit": "210",
+          "overlap": 0.008099
+        },
+        {
+          "unit": "216",
+          "overlap": 0.000368
+        },
+        {
+          "unit": "260",
+          "overlap": 0.562097
+        },
+        {
+          "unit": "201",
+          "overlap": 0.758952
+        },
+        {
+          "unit": "101",
+          "overlap": 0.958676
+        },
+        {
+          "unit": "285",
+          "overlap": 0.784733
+        },
+        {
+          "unit": "204",
+          "overlap": 0.520379
+        },
+        {
+          "unit": "270",
+          "overlap": 0.999258
+        },
+        {
+          "unit": "321",
+          "overlap": 0.000417
+        },
+        {
+          "unit": "211",
+          "overlap": 0.003837
+        },
+        {
+          "unit": "262",
+          "overlap": 0.990644
+        },
+        {
+          "unit": "140",
+          "overlap": 0.977085
+        },
+        {
+          "unit": "442",
+          "overlap": 0.000082
+        },
+        {
+          "unit": "702",
+          "overlap": 0.515182
+        }
+      ],
+      "ELK": [
+        {
+          "unit": "690",
+          "overlap": 0.000102
+        },
+        {
+          "unit": "445",
+          "overlap": 0.132572
+        },
+        {
+          "unit": "150",
+          "overlap": 0.055131
+        },
+        {
+          "unit": "314",
+          "overlap": 0.864628
+        },
+        {
+          "unit": "313",
+          "overlap": 1
+        },
+        {
+          "unit": "361",
+          "overlap": 0.834287
+        },
+        {
+          "unit": "444",
+          "overlap": 0.366634
+        },
+        {
+          "unit": "343",
+          "overlap": 0.999796
+        },
+        {
+          "unit": "426",
+          "overlap": 0.999007
+        },
+        {
+          "unit": "312",
+          "overlap": 0.999443
+        },
+        {
+          "unit": "380",
+          "overlap": 0.032038
+        },
+        {
+          "unit": "418",
+          "overlap": 0.035807
+        },
+        {
+          "unit": "419",
+          "overlap": 0.382669
+        },
+        {
+          "unit": "293",
+          "overlap": 0.465549
+        },
+        {
+          "unit": "284",
+          "overlap": 1
+        },
+        {
+          "unit": "455",
+          "overlap": 0.823832
+        },
+        {
+          "unit": "446",
+          "overlap": 0.023064
+        },
+        {
+          "unit": "580",
+          "overlap": 0.042781
+        },
+        {
+          "unit": "535",
+          "overlap": 0.067493
+        },
+        {
+          "unit": "425",
+          "overlap": 0.997366
+        },
+        {
+          "unit": "424",
+          "overlap": 1
+        },
+        {
+          "unit": "471",
+          "overlap": 0.000876
+        },
+        {
+          "unit": "447",
+          "overlap": 0.001471
+        },
+        {
+          "unit": "704",
+          "overlap": 0.354283
+        },
+        {
+          "unit": "540",
+          "overlap": 0
+        },
+        {
+          "unit": "315",
+          "overlap": 0.860577
+        },
+        {
+          "unit": "316",
+          "overlap": 0.841032
+        },
+        {
+          "unit": "317",
+          "overlap": 1
+        },
+        {
+          "unit": "309",
+          "overlap": 1
+        },
+        {
+          "unit": "388",
+          "overlap": 0.940111
+        },
+        {
+          "unit": "705",
+          "overlap": 0.222581
+        },
+        {
+          "unit": "391",
+          "overlap": 0.012182
+        },
+        {
+          "unit": "392",
+          "overlap": 0.784923
+        },
+        {
+          "unit": "450",
+          "overlap": 0.000655
+        },
+        {
+          "unit": "339",
+          "overlap": 1
+        },
+        {
+          "unit": "304",
+          "overlap": 0.419626
+        },
+        {
+          "unit": "215",
+          "overlap": 0.00015
+        },
+        {
+          "unit": "421",
+          "overlap": 0.377887
+        },
+        {
+          "unit": "422",
+          "overlap": 1
+        },
+        {
+          "unit": "393",
+          "overlap": 0.500773
+        },
+        {
+          "unit": "335",
+          "overlap": 0.410798
+        },
+        {
+          "unit": "412",
+          "overlap": 1
+        },
+        {
+          "unit": "280",
+          "overlap": 0.684327
+        },
+        {
+          "unit": "525",
+          "overlap": 0.128253
+        },
+        {
+          "unit": "411",
+          "overlap": 0.840765
+        },
+        {
+          "unit": "390",
+          "overlap": 0.328473
+        },
+        {
+          "unit": "311",
+          "overlap": 0.542174
+        },
+        {
+          "unit": "410",
+          "overlap": 0.329745
+        },
+        {
+          "unit": "417",
+          "overlap": 0.999451
+        },
+        {
+          "unit": "621",
+          "overlap": 0.001458
+        },
+        {
+          "unit": "310",
+          "overlap": 0.884346
+        },
+        {
+          "unit": "565",
+          "overlap": 0.537997
+        },
+        {
+          "unit": "281",
+          "overlap": 0.513721
+        },
+        {
+          "unit": "301",
+          "overlap": 0.970381
+        },
+        {
+          "unit": "442",
+          "overlap": 0.213943
+        },
+        {
+          "unit": "360",
+          "overlap": 0.172687
+        }
+      ]
+    },
+    "UT": {
+      "DEER": [
+        {
+          "unit": "619",
+          "overlap": 0.057672
+        },
+        {
+          "unit": "455",
+          "overlap": 0.461875
+        },
+        {
+          "unit": "314",
+          "overlap": 0.659802
+        },
+        {
+          "unit": "185",
+          "overlap": 0.000087
+        },
+        {
+          "unit": "927",
+          "overlap": 0.410289
+        },
+        {
+          "unit": "613",
+          "overlap": 0.000982
+        },
+        {
+          "unit": "635",
+          "overlap": 0.368836
+        },
+        {
+          "unit": "621",
+          "overlap": 0.062207
+        },
+        {
+          "unit": "163",
+          "overlap": 0.832519
+        },
+        {
+          "unit": "616",
+          "overlap": 0.163022
+        },
+        {
+          "unit": "94",
+          "overlap": 0.773585
+        },
+        {
+          "unit": "612",
+          "overlap": 0.535937
+        },
+        {
+          "unit": "620",
+          "overlap": 0.525279
+        },
+        {
+          "unit": "929",
+          "overlap": 0.000263
+        },
+        {
+          "unit": "117",
+          "overlap": 0.372952
+        },
+        {
+          "unit": "634",
+          "overlap": 0.361713
+        },
+        {
+          "unit": "685",
+          "overlap": 0.106652
+        },
+        {
+          "unit": "312",
+          "overlap": 0.080901
+        },
+        {
+          "unit": "630",
+          "overlap": 0.939144
+        },
+        {
+          "unit": "609",
+          "overlap": 0.020651
+        },
+        {
+          "unit": "276",
+          "overlap": 0.397345
+        },
+        {
+          "unit": "69",
+          "overlap": 0.998333
+        },
+        {
+          "unit": "568",
+          "overlap": 0.323373
+        },
+        {
+          "unit": "611",
+          "overlap": 0.918063
+        },
+        {
+          "unit": "109",
+          "overlap": 0.999828
+        },
+        {
+          "unit": "280",
+          "overlap": 0.000029
+        },
+        {
+          "unit": "928",
+          "overlap": 0.96781
+        },
+        {
+          "unit": "106",
+          "overlap": 1
+        },
+        {
+          "unit": "522",
+          "overlap": 0.97208
+        },
+        {
+          "unit": "525",
+          "overlap": 1
+        },
+        {
+          "unit": "524",
+          "overlap": 1
+        },
+        {
+          "unit": "526",
+          "overlap": 0.951343
+        },
+        {
+          "unit": "732",
+          "overlap": 0.557249
+        },
+        {
+          "unit": "521",
+          "overlap": 0.999672
+        },
+        {
+          "unit": "578",
+          "overlap": 0.113877
+        },
+        {
+          "unit": "562",
+          "overlap": 0.002361
+        },
+        {
+          "unit": "735",
+          "overlap": 0.658485
+        },
+        {
+          "unit": "567",
+          "overlap": 1
+        },
+        {
+          "unit": "552",
+          "overlap": 0.822664
+        },
+        {
+          "unit": "101",
+          "overlap": 0.000397
+        },
+        {
+          "unit": "579",
+          "overlap": 0.999036
+        },
+        {
+          "unit": "577",
+          "overlap": 0.971713
+        },
+        {
+          "unit": "533",
+          "overlap": 1
+        },
+        {
+          "unit": "520",
+          "overlap": 1
+        },
+        {
+          "unit": "580",
+          "overlap": 0.95977
+        },
+        {
+          "unit": "539",
+          "overlap": 0.837054
+        },
+        {
+          "unit": "575",
+          "overlap": 0.694529
+        },
+        {
+          "unit": "559",
+          "overlap": 0.762057
+        },
+        {
+          "unit": "541",
+          "overlap": 0.328487
+        },
+        {
+          "unit": "569",
+          "overlap": 0.746635
+        },
+        {
+          "unit": "858",
+          "overlap": 1
+        },
+        {
+          "unit": "878",
+          "overlap": 0.671608
+        },
+        {
+          "unit": "573",
+          "overlap": 1
+        },
+        {
+          "unit": "572",
+          "overlap": 0.526321
+        },
+        {
+          "unit": "892",
+          "overlap": 1
+        },
+        {
+          "unit": "592",
+          "overlap": 1
+        },
+        {
+          "unit": "908",
+          "overlap": 1
+        },
+        {
+          "unit": "807",
+          "overlap": 1
+        }
+      ],
+      "ELK": [
+        {
+          "unit": "948",
+          "overlap": 0.311788
+        },
+        {
+          "unit": "455",
+          "overlap": 0.461875
+        },
+        {
+          "unit": "625",
+          "overlap": 0.461154
+        },
+        {
+          "unit": "183",
+          "overlap": 0.997676
+        },
+        {
+          "unit": "18",
+          "overlap": 0.976139
+        },
+        {
+          "unit": "751",
+          "overlap": 0.129962
+        },
+        {
+          "unit": "869",
+          "overlap": 0.387332
+        },
+        {
+          "unit": "872",
+          "overlap": 0.531364
+        },
+        {
+          "unit": "871",
+          "overlap": 0.886672
+        },
+        {
+          "unit": "617",
+          "overlap": 0.320087
+        },
+        {
+          "unit": "870",
+          "overlap": 0.619053
+        },
+        {
+          "unit": "163",
+          "overlap": 0.167288
+        },
+        {
+          "unit": "81",
+          "overlap": 0.920493
+        },
+        {
+          "unit": "682",
+          "overlap": 0.485526
+        },
+        {
+          "unit": "94",
+          "overlap": 0.773585
+        },
+        {
+          "unit": "672",
+          "overlap": 0.546628
+        },
+        {
+          "unit": "634",
+          "overlap": 0.361713
+        },
+        {
+          "unit": "867",
+          "overlap": 0.999759
+        },
+        {
+          "unit": "88",
+          "overlap": 0.630821
+        },
+        {
+          "unit": "685",
+          "overlap": 0.42449
+        },
+        {
+          "unit": "188",
+          "overlap": 0.999507
+        },
+        {
+          "unit": "630",
+          "overlap": 0.939144
+        },
+        {
+          "unit": "609",
+          "overlap": 0.108983
+        },
+        {
+          "unit": "304",
+          "overlap": 0.367773
+        },
+        {
+          "unit": "902",
+          "overlap": 0.147837
+        },
+        {
+          "unit": "868",
+          "overlap": 0.999995
+        },
+        {
+          "unit": "546",
+          "overlap": 0.999994
+        },
+        {
+          "unit": "826",
+          "overlap": 0.909191
+        },
+        {
+          "unit": "526",
+          "overlap": 0.048657
+        },
+        {
+          "unit": "589",
+          "overlap": 0.998623
+        },
+        {
+          "unit": "517",
+          "overlap": 0.999797
+        },
+        {
+          "unit": "492",
+          "overlap": 1
+        },
+        {
+          "unit": "547",
+          "overlap": 0.999605
+        },
+        {
+          "unit": "493",
+          "overlap": 1
+        },
+        {
+          "unit": "548",
+          "overlap": 0.913606
+        },
+        {
+          "unit": "491",
+          "overlap": 0.074307
+        },
+        {
+          "unit": "640",
+          "overlap": 1
+        },
+        {
+          "unit": "516",
+          "overlap": 0.997477
+        },
+        {
+          "unit": "549",
+          "overlap": 0.05899
+        }
+      ]
+    },
+    "WA": {
+      "DEER": [
+        {
+          "unit": "105",
+          "overlap": 0.004142
+        },
+        {
+          "unit": "251",
+          "overlap": 0.936255
+        },
+        {
+          "unit": "328",
+          "overlap": 0.000155
+        },
+        {
+          "unit": "426",
+          "overlap": 0.026846
+        },
+        {
+          "unit": "133",
+          "overlap": 0.00092
+        },
+        {
+          "unit": "233",
+          "overlap": 1
+        },
+        {
+          "unit": "239",
+          "overlap": 0.999836
+        },
+        {
+          "unit": "242",
+          "overlap": 0.983515
+        },
+        {
+          "unit": "244",
+          "overlap": 0.867827
+        },
+        {
+          "unit": "218",
+          "overlap": 0.982443
+        },
+        {
+          "unit": "269",
+          "overlap": 0.000093
+        },
+        {
+          "unit": "460",
+          "overlap": 0.001
+        },
+        {
+          "unit": "101",
+          "overlap": 0.94051
+        },
+        {
+          "unit": "121",
+          "overlap": 0.006636
+        },
+        {
+          "unit": "335",
+          "overlap": 0.002051
+        },
+        {
+          "unit": "448",
+          "overlap": 0.002167
+        },
+        {
+          "unit": "450",
+          "overlap": 0.156334
+        },
+        {
+          "unit": "246",
+          "overlap": 1
+        },
+        {
+          "unit": "247",
+          "overlap": 0.999398
+        },
+        {
+          "unit": "203",
+          "overlap": 0.781747
+        },
+        {
+          "unit": "204",
+          "overlap": 0.915689
+        },
+        {
+          "unit": "209",
+          "overlap": 1
+        },
+        {
+          "unit": "215",
+          "overlap": 1
+        },
+        {
+          "unit": "224",
+          "overlap": 1
+        },
+        {
+          "unit": "231",
+          "overlap": 0.958621
+        },
+        {
+          "unit": "243",
+          "overlap": 0.970021
+        },
+        {
+          "unit": "245",
+          "overlap": 0.995023
+        },
+        {
+          "unit": "248",
+          "overlap": 0.000363
+        },
+        {
+          "unit": "249",
+          "overlap": 0.763937
+        },
+        {
+          "unit": "250",
+          "overlap": 0.999463
+        },
+        {
+          "unit": "260",
+          "overlap": 0.002015
+        },
+        {
+          "unit": "262",
+          "overlap": 0.000701
+        },
+        {
+          "unit": "266",
+          "overlap": 0.000603
+        }
+      ],
+      "ELK": [
+        {
+          "unit": "251",
+          "overlap": 0.063005
+        },
+        {
+          "unit": "328",
+          "overlap": 0.999845
+        },
+        {
+          "unit": "340",
+          "overlap": 0.942336
+        },
+        {
+          "unit": "269",
+          "overlap": 0.000174
+        },
+        {
+          "unit": "272",
+          "overlap": 0.000069
+        },
+        {
+          "unit": "330",
+          "overlap": 0.991562
+        },
+        {
+          "unit": "329",
+          "overlap": 0.999534
+        },
+        {
+          "unit": "460",
+          "overlap": 0.038134
+        },
+        {
+          "unit": "490",
+          "overlap": 0.000468
+        },
+        {
+          "unit": "466",
+          "overlap": 0.034626
+        },
+        {
+          "unit": "335",
+          "overlap": 0.997562
+        },
+        {
+          "unit": "336",
+          "overlap": 0.991191
+        },
+        {
+          "unit": "342",
+          "overlap": 0.18611
+        },
+        {
+          "unit": "334",
+          "overlap": 1
+        },
+        {
+          "unit": "249",
+          "overlap": 0.22307
+        },
+        {
+          "unit": "278",
+          "overlap": 0.000097
+        },
+        {
+          "unit": "346",
+          "overlap": 0.483647
+        },
+        {
+          "unit": "371",
+          "overlap": 0.518381
+        },
+        {
+          "unit": "653",
+          "overlap": 0.00032
+        }
+      ]
+    },
+    "WY": {
+      "DEER": [
+        {
+          "unit": "D156",
+          "overlap": 0.000949
+        },
+        {
+          "unit": "D171",
+          "overlap": 0.000136
+        },
+        {
+          "unit": "D151",
+          "overlap": 0.370511
+        },
+        {
+          "unit": "D154",
+          "overlap": 0.996624
+        },
+        {
+          "unit": "D153",
+          "overlap": 0.908084
+        },
+        {
+          "unit": "D140",
+          "overlap": 1
+        },
+        {
+          "unit": "D144",
+          "overlap": 0.994874
+        },
+        {
+          "unit": "D145",
+          "overlap": 0.995804
+        },
+        {
+          "unit": "D139",
+          "overlap": 0.999575
+        },
+        {
+          "unit": "D142",
+          "overlap": 0.971974
+        },
+        {
+          "unit": "D138",
+          "overlap": 0.786228
+        },
+        {
+          "unit": "D92",
+          "overlap": 0.013507
+        },
+        {
+          "unit": "D143",
+          "overlap": 0.8499
+        },
+        {
+          "unit": "D130",
+          "overlap": 0.766099
+        },
+        {
+          "unit": "D135",
+          "overlap": 0.839673
+        },
+        {
+          "unit": "D87",
+          "overlap": 0.893921
+        },
+        {
+          "unit": "D96",
+          "overlap": 0.061087
+        },
+        {
+          "unit": "D64",
+          "overlap": 0.095579
+        },
+        {
+          "unit": "D131",
+          "overlap": 0.001027
+        },
+        {
+          "unit": "D98",
+          "overlap": 0.230775
+        },
+        {
+          "unit": "D74",
+          "overlap": 0.461237
+        },
+        {
+          "unit": "D79",
+          "overlap": 0.99836
+        },
+        {
+          "unit": "D100",
+          "overlap": 0.268308
+        },
+        {
+          "unit": "D75",
+          "overlap": 0.572475
+        },
+        {
+          "unit": "D80",
+          "overlap": 1
+        },
+        {
+          "unit": "D78",
+          "overlap": 0.765359
+        },
+        {
+          "unit": "D81",
+          "overlap": 0.999111
+        },
+        {
+          "unit": "D128",
+          "overlap": 0.005769
+        },
+        {
+          "unit": "D66",
+          "overlap": 0.112221
+        },
+        {
+          "unit": "D97",
+          "overlap": 0.036904
+        },
+        {
+          "unit": "D82",
+          "overlap": 0.999832
+        },
+        {
+          "unit": "D141",
+          "overlap": 0.984259
+        },
+        {
+          "unit": "D84",
+          "overlap": 0.876005
+        },
+        {
+          "unit": "D152",
+          "overlap": 0.162379
+        },
+        {
+          "unit": "D155",
+          "overlap": 0.04327
+        },
+        {
+          "unit": "D134",
+          "overlap": 0.595653
+        },
+        {
+          "unit": "D168",
+          "overlap": 0.000841
+        },
+        {
+          "unit": "D70",
+          "overlap": 0.997648
+        }
+      ],
+      "ELK": [
+        {
+          "unit": "E55",
+          "overlap": 1
+        },
+        {
+          "unit": "E56",
+          "overlap": 1
+        },
+        {
+          "unit": "E58",
+          "overlap": 1
+        },
+        {
+          "unit": "E66",
+          "overlap": 0.245223
+        },
+        {
+          "unit": "E59",
+          "overlap": 0.999655
+        },
+        {
+          "unit": "E60",
+          "overlap": 0.82853
+        },
+        {
+          "unit": "E61",
+          "overlap": 0.999901
+        },
+        {
+          "unit": "E63",
+          "overlap": 0.607778
+        },
+        {
+          "unit": "E70",
+          "overlap": 0.742347
+        },
+        {
+          "unit": "E71",
+          "overlap": 1
+        },
+        {
+          "unit": "E62",
+          "overlap": 0.999953
+        },
+        {
+          "unit": "E72",
+          "overlap": 1
+        },
+        {
+          "unit": "E79",
+          "overlap": 1
+        },
+        {
+          "unit": "E67",
+          "overlap": 0.000908
+        },
+        {
+          "unit": "E81",
+          "overlap": 0.999624
+        },
+        {
+          "unit": "E75",
+          "overlap": 1
+        },
+        {
+          "unit": "E68",
+          "overlap": 0.01733
+        },
+        {
+          "unit": "E78",
+          "overlap": 1
+        },
+        {
+          "unit": "E85",
+          "overlap": 0.623881
+        },
+        {
+          "unit": "E87",
+          "overlap": 0.005139
+        },
+        {
+          "unit": "E82",
+          "overlap": 0.934015
+        },
+        {
+          "unit": "E95",
+          "overlap": 0.010448
+        },
+        {
+          "unit": "E83",
+          "overlap": 0.741344
+        },
+        {
+          "unit": "E93",
+          "overlap": 0.000581
+        },
+        {
+          "unit": "E73",
+          "overlap": 0.995235
+        },
+        {
+          "unit": "E77",
+          "overlap": 1
+        },
+        {
+          "unit": "E84",
+          "overlap": 0.678268
+        },
+        {
+          "unit": "E80",
+          "overlap": 1
+        },
+        {
+          "unit": "E51",
+          "overlap": 0.996451
+        },
+        {
+          "unit": "E65",
+          "overlap": 0.554912
+        },
+        {
+          "unit": "E54",
+          "overlap": 0.998621
+        }
+      ]
+    }
+  }
+}

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { HuntLink } from '@/components/HuntNavigation';
 import { BackLink } from '@/components/BackLink';
-import { ScoreRow } from '@/components/HuntCards';
+import { ScoreRow, TrophyMark } from '@/components/HuntCards';
 import { Star } from '@/components/Star';
 import { db } from '@/lib/db';
 import { auth } from '@/auth';
@@ -90,7 +90,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
         {first ? <> · <Link href={`/hunts?states=MT&unit=MT:${first}&species=${s.species}`}>Montana {spLabel} hunts in {mtUnitLabel(first)}</Link></> : null}
       </p>
       <h1 className="star-head">
-        Montana {s.name.toLowerCase().startsWith(spLabel) ? '' : `${spLabel[0].toUpperCase() + spLabel.slice(1)} `}{s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
+        Montana {s.name.toLowerCase().startsWith(spLabel) ? '' : `${spLabel[0].toUpperCase() + spLabel.slice(1)} `}{s.name} <TrophyMark score={s.scoreTrophy} /> <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
       </h1>
       <p className="muted" style={{ marginTop: 0 }}>
         {s.takeMethod}

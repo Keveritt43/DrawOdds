@@ -20,6 +20,7 @@ import { utPersonal, utKind } from '@/lib/utHunt';
 import utLabels from '../../../../data/ut/boundary-labels.json';
 import { utGenElk } from '@/lib/utGenElk';
 import { utWalkin } from '@/lib/utWalkin';
+import { trophyForUnit } from '@/lib/trophyHunt';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -37,6 +38,7 @@ const SHADED = [
   'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat', 'ctlOddsResBison', 'ctlOddsNrBison', 'ctlSuccessBison', 'ctlQualityBison', 'ctlPressureBison',
   ...['Deer', 'Elk', 'Pronghorn', 'Moose', 'Bighorn', 'Goat', 'Bison'].flatMap((sp) => [`ctlFillRes${sp}`, `ctlFillNr${sp}`]),
   'objBull', 'objCow',
+  ...['Deer','Elk'].flatMap(sp=>[`genTrophy${sp}`,`ctlTrophy${sp}`]),
   ...['Deer','Elk','Pronghorn'].flatMap(sp=>[`ctlQuality${sp}`,`ctlPressure${sp}`,...['Res','Nr'].flatMap(pool=>[`ctlPoints${pool}${sp}`,`ctlCreep${pool}${sp}`])]),
 ];
 const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat', BISON: 'Bison' };
@@ -52,7 +54,7 @@ export async function GET(req: Request) {
     db.unit.findMany({ where: { state, geometry: { not: undefined }, ...(state === 'CO' ? { NOT: [{ name: { startsWith: 'S' } }, { name: { startsWith: 'G' } }] } : {}) } }),
     db.huntSummary.findMany({
       where: { state },
-      select: { species: true, type: true, unit: true, units: true, weapon: true, tagCode: true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
+      select: { species: true, type: true, unit: true, units: true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
@@ -395,6 +397,14 @@ export async function GET(req: Request) {
     for (const [k, a] of ctl) {
       const [sp, u] = k.split('|');
       by.get(u)![`ctlSuccess${sp}`] = a.hunters >= MIN_HUNTERS ? (a.harvest / a.hunters) * 100 : null;
+    }
+  }
+  // Classify each unit separately: a multi-unit hunt does not transfer a tier to its other units.
+  for (const s of sums) {
+    if (!['DEER','ELK'].includes(s.species) || (s.pointOdds as {multiSeason?:boolean}|null)?.multiSeason) continue;
+    for (const unit of s.units) {
+      const tier = trophyForUnit({...s,state},unit);
+      bump(unit, `${s.type === 'GENERAL' ? 'gen' : 'ctl'}Trophy${SP_KEY[s.species]}`, tier.score);
     }
   }
   if (state === "CO")

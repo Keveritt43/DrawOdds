@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { HuntLink } from '@/components/HuntNavigation';
 import { BackLink } from '@/components/BackLink';
-import { ScoreRow } from '@/components/HuntCards';
+import { ScoreRow, TrophyMark } from '@/components/HuntCards';
 import { Star } from '@/components/Star';
 import { db } from '@/lib/db';
 import { auth } from '@/auth';
@@ -69,7 +69,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <BackLink state="WA" />
         {s.units[0] && lic !== 'multi' ? <> · <Link href={`/hunts?states=WA&unit=WA:${s.units[0]}&species=${s.species}`}>Washington {spLabel} hunts in {unitLabel(s.units[0])}</Link></> : null}
       </p>
-      <h1 className="star-head">Washington {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></h1>
+      <h1 className="star-head">Washington {s.name} <TrophyMark score={s.scoreTrophy} /> <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></h1>
       <p className="muted" style={{ marginTop: 0 }}>
         {s.youthOnly && <b>Youth only (under 16) · </b>}
         {po?.restricted && <b>{WA_WHO[po.category ?? ''] ?? 'Limited eligibility'} · </b>}

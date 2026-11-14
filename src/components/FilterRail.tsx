@@ -230,7 +230,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             </div>
           </Section>
           {!msg && sp_ !== 'PRONGHORN' && (
-            <Section title="Trophy Potential" value={get('minBig') ? `${get('minBig')}%+` : 'Any'} set={!!get('minBig')}>
+            <Section title="Harvest Antler Share (Idaho)" value={get('minBig') ? `${get('minBig')}%+` : 'Any'} set={!!get('minBig')}>
               {idNote}
               <Slider value={Number(get('minBig') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minBig: v ? String(v) : null })} />
               <p className="small muted" style={{ margin: '6px 0 0' }}>Share of the antlered harvest that was 4+ point mule deer (deer) or 6+ point bulls (elk).</p>

@@ -20,7 +20,8 @@ import { pct, pct100, pctOdds, int, range, WEAPON, DEERTYPE, nrTags, antlerLabel
 import { BackLink } from '@/components/BackLink';
 import { SIZE_LABEL, drawOf, type SpeciesKey } from '@/lib/species';
 import { ApplyChecklist } from '@/components/ApplyChecklist';
-import { laterChoices, Rules, ScoreRow, ObjectivePills } from '@/components/HuntCards';
+import { laterChoices, Rules, ScoreRow, ObjectivePills, TrophyMark } from '@/components/HuntCards';
+import { trophyForHunt } from '@/lib/trophyHunt';
 import type { Metadata } from 'next';
 import type { Prisma } from '@prisma/client';
 import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart, ChoiceChart } from '@/components/Charts';
@@ -48,8 +49,9 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function HuntPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ as?: string; odds?: string; pool?: string; returnTo?: string }> }) {
   // readable slug ("deer-1016"); old id links ("c:-91071...") still work and move to the slug
   const key = decodeURIComponent((await params).id);
-  const s = (await db.huntSummary.findFirst({ where: { slug: key }, include: { hunt: true } })) ?? (await db.huntSummary.findUnique({ where: { id: key }, include: { hunt: true } }));
-  if (!s) notFound();
+  const raw = (await db.huntSummary.findFirst({ where: { slug: key }, include: { hunt: true } })) ?? (await db.huntSummary.findUnique({ where: { id: key }, include: { hunt: true } }));
+  if (!raw) notFound();
+  const s = {...raw,scoreTrophy:trophyForHunt(raw)};
   const sp = await searchParams;
   if (s.slug && key !== s.slug) {
     const q = new URLSearchParams();
@@ -136,7 +138,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       <p className="small"><BackLink state={s.state} /></p>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
-          <h1>{title}</h1>
+          <h1>{title} <TrophyMark score={s.scoreTrophy} /></h1>
           <p className="lead-sum">{summary}</p>
           <Rules r={s} />
           {isPrivateOnly(s) && <p className="small" style={{ margin: '6px 0' }}><span className="pill warn">Private land only</span> IDFG: valid only on private land. You need landowner permission before you hunt; the unit&apos;s public land doesn&apos;t count for this tag.</p>}

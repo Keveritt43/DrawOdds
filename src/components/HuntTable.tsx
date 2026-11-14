@@ -43,7 +43,8 @@ export function HuntTable({ rows, c, sortHref }: { rows: HuntSummary[]; c: CardC
             <H s="best" title="Draw odds × success: chance one application ends with an animal">Draw+fill</H>
             <H s="densityLow">Hunters/mi²</H>
             <H s="public">Public</H>
-            <H s="big">Trophy</H>
+            <H s="trophy">Trophy score</H>
+            <H s="big" title="Share of antlered harvest meeting the listed antler class, where reported">Harvest antlers</H>
             <H s="score">Quality</H>
             <H s="opp">Opp.</H>
           </tr>
@@ -67,6 +68,7 @@ export function HuntTable({ rows, c, sortHref }: { rows: HuntSummary[]; c: CardC
                 <td className="num">{pct(r[c.rf.tagAndFill], 1)}</td>
                 <td className="num">{density(r.huntersSqMi)}</td>
                 <td className="num">{r.publicPct === null ? '-' : `${Math.round(r.publicPct)}%`}</td>
+                <td className="num">{r.scoreTrophy ?? '—'}</td>
                 <td className="num">{pct(r.bigPct5)}</td>
                 <td className="num"><Score v={r.scoreQuality} /></td>
                 <td className="num"><Score v={opp(r)} /></td>

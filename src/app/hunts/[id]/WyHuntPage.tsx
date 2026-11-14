@@ -3,7 +3,8 @@ import { WyWildernessNote } from '@/components/WyWildernessNote';
 import type { HuntSummary } from '@prisma/client';
 import { HuntLink } from '@/components/HuntNavigation';
 import { BackLink } from '@/components/BackLink';
-import { ScoreRow } from '@/components/HuntCards';
+import { ScoreRow, TrophyMark } from '@/components/HuntCards';
+import { trophyForHunt } from '@/lib/trophyHunt';
 import { Star } from '@/components/Star';
 import { WyCreepChart, WyOddsPointsChart, WyHarvestCharts } from '@/components/WyCharts';
 import { db } from '@/lib/db';
@@ -64,7 +65,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         {firstUnit && !region ? <> · <Link href={`/hunts?states=WY&unit=WY:${firstUnit}&species=${species}`}>Wyoming {spLabel} hunts in {wyAreaLabel(firstUnit).toLowerCase()}</Link></> : null}
       </p>
       <h1 className="star-head">
-        Wyoming {spLabel[0].toUpperCase() + spLabel.slice(1)} {s.name} <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
+        Wyoming {spLabel[0].toUpperCase() + spLabel.slice(1)} {s.name} <TrophyMark score={trophyForHunt(s)} /> <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
       </h1>
       <p className="muted" style={{ marginTop: 0 }}>
         {s.takeMethod && s.takeMethod.length >= 120 ? 'See season restrictions below and confirm with WGFD' : s.takeMethod} · {s.tags !== null ? `${int(s.tags)} licenses (${po.regs?.year ?? po.year} quota)` : region ? 'Region quota set by WGFD' : 'Quota: see WGFD'}

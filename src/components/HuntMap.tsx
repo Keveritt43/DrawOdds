@@ -11,14 +11,15 @@ import { MapKey, type KeyItem } from './MapKey';
 import { LandToggles } from './LandLayers';
 import { divergingClasses, type BreakMode } from '@/lib/breaks';
 import { OBJ_SOURCE } from '@/lib/elkObjectives';
-import { colorsFor, msgSuccessClasses, scoreClasses, fixedClasses, FIXED_SCALES, OBJECTIVE_LABELS, type FixedScale, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
+import { colorsFor, msgSuccessClasses, scoreClasses, trophyClasses, fixedClasses, FIXED_SCALES, OBJECTIVE_LABELS, type FixedScale, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
 
-export type MatchStat = { score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null; wilderness: number | null };
+export type MatchStat = { trophy: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null; wilderness: number | null };
 type ShadeKey = 'match' | 'none' | keyof MatchStat;
 const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
-type Mode = BreakMode | "score" | FixedScale;
+type Mode = BreakMode | "score" | "trophy" | FixedScale;
 /** What the Filtering map can shade by: always the matching hunts' own numbers, never units without a match. */
 const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode: Mode; snap?: number; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string; labels?: string[]; scaleNote: string }> = {
+  trophy: {label:'Trophy Score (Best Matching Hunt)',mode:'trophy',better:'high',fmt:fmtNum,none:'No eligible trophy tier',labels:['50 Unclassified','65 Recognized unit','80 Trophy','100 Unicorn'],note:'Highest applicable tier among matching hunts for this unit. A geographic association can cover a small part of a unit and does not locate individual records.',scaleNote:'Fixed tiers; unclassified is neutral, not a low trophy estimate.'},
   score: { label: 'DrawOdds Score (Best Matching Hunt)', mode: 'score', better: 'high', fmt: (v) => String(Math.round(v)), none: 'Not enough hunters to score', note: 'Highest DrawOdds Score (quality: success, access, elbow room, trophy) among the matching hunts in each unit.', scaleNote: 'Same colors as the score badges.' },
   odds: { label: 'Draw Odds (Best Matching Hunt)', mode: 'odds', better: 'high', fmt: pct1, none: 'No draw data', note: 'Best 5-year first-choice odds, for your residency, among the matching hunts in each unit. Resident general seasons are over the counter (100%).', scaleNote: 'Fixed scale: under 2%, 2-5, 5-10, 10-15 (yellow), 15-30, 30-50, 50-80, 80%+.' },
   fill: { label: 'Draw And Fill (Best Matching Hunt)', mode: 'fill', better: 'high', fmt: pct1, none: 'No draw or too few hunters', note: 'Draw odds × 5-year hunter success: the chance one application ends with an animal, for your residency. Best matching hunt in each unit. Resident general seasons: just success.', scaleNote: 'Fixed scale: 20-30% is yellow.' },
@@ -79,7 +80,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // moose / sheep / goat success is judged against fixed standards (see MSG_SUCCESS_BREAKS), not against each other
   const msgSuccess = metric === 'success' && areaSpecies.split(',').some((x) => ['MOOSE', 'BIGHORN', 'GOAT'].includes(x));
-  const cls = useMemo(() => (flat || !S ? undefined : msgSuccess ? msgSuccessClasses(vals, 0.01) : S.mode === 'score' ? scoreClasses(vals) : S.mode in FIXED_SCALES ? fixedClasses(vals, S.mode as FixedScale) : divergingClasses(vals, S.mode as BreakMode, S.snap ?? 0)), [metric, statsKey, msgSuccess]);
+  const cls = useMemo(() => (flat || !S ? undefined : msgSuccess ? msgSuccessClasses(vals, 0.01) : S.mode === 'trophy' ? trophyClasses(vals) : S.mode === 'score' ? scoreClasses(vals) : S.mode in FIXED_SCALES ? fixedClasses(vals, S.mode as FixedScale) : divergingClasses(vals, S.mode as BreakMode, S.snap ?? 0)), [metric, statsKey, msgSuccess]);
   const colors = useMemo(() => (S && cls ? colorsFor(cls, S.better) : []), [S, cls]);
   const missingN = flat ? 0 : shownStats.length - vals.length + ((areaMode ? matchedAreas.length : matched.length) - shownStats.length);
 
@@ -89,7 +90,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     const { matched, selected, stats } = latestPaint.current;
     const m = map.current;
     if (!m || !loaded.current) return;
-    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null });
+    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, trophy: null, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null });
     for (const u of matched) m.setFeatureState({ source: 'units', id: u }, { match: true, ...(stats.units[u] ?? {}) });
     prevMatched.current = matched;
     if (prevSel.current) m.setFeatureState({ source: 'units', id: prevSel.current }, { sel: false });
@@ -336,7 +337,8 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     ...(Object.keys(SHADES) as (keyof typeof SHADES)[])
       .filter(
         (k) =>
-          !(areaMode && k.startsWith("obj")) &&
+          !(areaMode && (k.startsWith("obj") || k === 'trophy')) &&
+          (k !== 'trophy' || species === 'DEER' || species === 'ELK') &&
           // only Wyoming hunt areas are measured for wilderness, so the option appears only with Wyoming selected
           (k !== 'wilderness' ? true : !!states?.includes('WY')) &&
           (!states && stCode === "ID" ||

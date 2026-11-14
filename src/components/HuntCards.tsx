@@ -224,10 +224,11 @@ export function ScoreBadge({ v, label }: { v: number; label: string }) {
 const hasDraw = (r: HuntSummary, nr: boolean) => r.type === 'CONTROLLED' || (nr && (r.nrTag || r.type === 'GENERAL')) || (!nr && r.nrTag && r.capped);
 
 /** DrawOdds Score: Quality (+ Opportunity when there's a draw); tap for the four parts. */
-export function TrophyMark({ score, showNeutral = false }: { score: number | null; showNeutral?: boolean }) {
+export function TrophyMark({ score, showNeutral = true }: { score: number | null; showNeutral?: boolean }) {
   const info = trophyPresentation(score);
+  if (score === null || ![50,65,80,100].includes(score)) return null;
   if (score === 50 && !showNeutral) return null;
-  return <span className="pill" title={info.description} style={{ color: info.color, borderColor: info.color, background: 'transparent' }}>{info.icon ? '🏆 ' : ''}{info.label}{score === null ? '' : ` ${score}`}</span>;
+  return <span className="pill" title={info.description} style={{ color: info.color, borderColor: info.color, background: 'transparent' }}>{info.icon ? (score === 100 ? '🏆✨ ' : '🏆 ') : ''}{info.label} {score}</span>;
 }
 
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
@@ -250,7 +251,7 @@ export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; op
             <small>{k === 'trophy' && v === null ? 'N/A' : v ?? '—'}</small>
           </div>
         ))}
-        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; unclassified is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
+        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; unclassified is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{r.units.length > 1 && r.scoreTrophy !== null ? 'This hunt’s tier uses its best eligible unit; other units may differ. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
       </div>
     </details>
   );
@@ -360,6 +361,7 @@ export function choosePicks(
   const used = new Set<string>();
   const where = (r: HuntSummary) => (r.units.length ? ` · unit${r.units.length > 1 ? 's' : ''} ${r.units.slice(0, 4).join(', ')}${r.units.length > 4 ? '…' : ''}` : '');
   const nums = (r: HuntSummary) => `${pctOdds(odds(r))} odds, ${pct(r.success5)} success`;
+  const applicants = (r:HuntSummary) => r.appsLast ?? (r.resAppsLast !== null && r.nrAppsLast !== null ? r.resAppsLast + r.nrAppsLast : null);
   const take = (label: string, xs: HuntSummary[], why: (r: HuntSummary) => string): Pick | null => {
     const r = xs.find((x) => !used.has(x.id));
     if (!r) return null;
@@ -376,17 +378,15 @@ export function choosePicks(
           (r) =>
             r.type === "CONTROLLED" &&
             r.antlerClass !== "ANTLERLESS" &&
-            r.scoreTrophy !== null,
+            r.scoreTrophy !== null && r.scoreTrophy > 50,
         )
         .sort(
           (a, b) =>
             (b.scoreTrophy ?? 0) - (a.scoreTrophy ?? 0) ||
-            (b.resAppsLast ?? 0) +
-              (b.nrAppsLast ?? 0) -
-              ((a.resAppsLast ?? 0) + (a.nrAppsLast ?? 0)),
+            (applicants(b) ?? -1) - (applicants(a) ?? -1),
         ),
       (r) =>
-        `Trophy score ${r.scoreTrophy}/100 · ${int((r.resAppsLast ?? 0) + (r.nrAppsLast ?? 0))} applicants in the latest draw`,
+        `Trophy score ${r.scoreTrophy}/100 · ${applicants(r) === null ? 'applicant count unavailable' : `${int(applicants(r))} applicants in the latest draw`}`,
     ),
     take('Best chance to fill', ok.slice().sort(by((r) => r[c.rf.tagAndFill], 1)), (r) => `${nums(r)} → draw and fill ${drawFillLine(r[c.rf.tagAndFill]) ?? '-'} a year`),
     take('Easiest draw that still fills', ok.filter((r) => (r.success5 ?? 0) >= lo(r)).sort(by(odds, 1)), (r) => `${nums(r)}`),
