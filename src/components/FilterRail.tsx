@@ -156,32 +156,10 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           {checks("antler", msg ? SEX_MSG : ANTLER)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take an antlered or an antlerless animal on them.</p>
         </Section>
-        {states && <Section title="Public & Accessible Land" value={get('minAccessLand') ? `${get('minAccessLand')}%+` : 'Any'} set={!!get('minAccessLand')}>
-          <Slider value={Number(get('minAccessLand') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minAccessLand: v ? String(v) : null })} />
-          <p className="small muted">Includes Idaho Access Yes! and Montana Type 1 Block Management (2026–27) where available. Other states use public-land data only; their private-access programs are not yet included. Area estimates do not guarantee access; check property rules.</p>
-        </Section>}
-        <Section title="Land Access" value={get('minPublic') ? `${get('minPublic')}%+ public` : 'Any'} set={!!get('minPublic')}>
-          <label>Public Land</label>
-          {sharedNote}
-          <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
-        </Section>
-        <Section title="Private-Land-Only Hunts" value={showPrivate(get) ? 'Shown' : 'Hidden'} set={showPrivate(get)}>
-          <div className="checks2">
-            <label><input type="checkbox" checked={!showPrivate(get)} onChange={() => push(showPrivate(get) ? { priv: null, wyPriv: null } : { priv: '1' })} /> Hide hunts valid only on private land</label>
-          </div>
-          <p className="small muted" style={{ margin: '6px 0 0' }}>These licenses need landowner permission before you hunt. {states ? 'Applies to all selected states: ' : ''}{(states ?? [config.code]).map(s => `${STATES[s].name}: ${STATES[s].privateLandOnly}`).join('. ')}.</p>
-        </Section>
         <Section title="Harvest Success" value={get('minSuccess') ? `${get('minSuccess')}%+` : 'Any'} set={!!get('minSuccess')}>
           {sharedNote}
           <Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
         </Section>
-        <FilterGroup title="Draw Odds & Points" active={active('minOdds', ...(states?.includes('CO') ? ['chance', 'minPts', 'maxPts', 'odds'] : []))}>
-          <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
-            <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
-            <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>
-          </Section>
-          {drawFilters}
-        </FilterGroup>
         <Section title="Season Dates" value={[many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time'} set={list('month').length > 0 || !!get('from')}>
           {sharedNote}
           {checks('month', MONTHS)}
@@ -194,25 +172,28 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             onCommit={(a, b, mode) => push(a === DAY_MIN && b === DAY_MAX ? { from: null, to: null, dmode: null } : { from: toMonthDay(a), to: toMonthDay(b), dmode: mode === 'end' ? 'end' : null })}
           />
         </Section>
-        <FilterGroup title="Other Hunt Filters" active={active('maxDensity', 'minTags', 'youth', 'unit', 'q')}>
-          <Section title="Crowding (Hunters Per Sq Mi)" value={get('maxDensity') ? `${get('maxDensity')} or fewer` : 'Any'} set={!!get('maxDensity')}>
+        <FilterGroup title="Land Access" active={active('minAccessLand', 'minPublic', 'priv', 'wyPriv')}>
+          {states && <Section title="Public & Accessible Land" value={get('minAccessLand') ? `${get('minAccessLand')}%+` : 'Any'} set={!!get('minAccessLand')}>
+            <Slider value={Number(get('minAccessLand') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minAccessLand: v ? String(v) : null })} />
+            <p className="small muted">Includes Idaho Access Yes! and Montana Type 1 Block Management (2026–27) where available. Other states use public-land data only; their private-access programs are not yet included. Area estimates do not guarantee access; check property rules.</p>
+          </Section>}
+          <Section title="Public Land" value={get('minPublic') ? `${get('minPublic')}%+ public` : 'Any'} set={!!get('minPublic')}>
             {sharedNote}
-            <StopSlider stops={DENSITY} value={Number(get('maxDensity') || 0)} onCommit={(v) => push({ maxDensity: v ? String(v) : null })} />
-            <p className="small muted" style={{ margin: '6px 0 0' }}>Average hunters per year for the hunt or season, per square mile. Under 0.5 is uncrowded. Controlled hunts count only their own hunters.</p>
+            <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
           </Section>
-          <Section title="Tags" value={get('minTags') ? `${get('minTags')}+ tags` : 'Any'} set={!!get('minTags')}>
-            {sharedNote}
-            <Slider value={Number(get('minTags') || 0)} max={100} step={5} suffix="" onCommit={(v) => push({ minTags: v ? String(v) : null })} />
-            <p className="small muted" style={{ margin: '6px 0 0' }}>Hide tiny hunts: 2-3 tag hunts swing hard on one applicant.</p>
+          <Section title="Private-Land-Only Hunts" value={showPrivate(get) ? 'Shown' : 'Hidden'} set={showPrivate(get)}>
+            <div className="checks2">
+              <label><input type="checkbox" checked={!showPrivate(get)} onChange={() => push(showPrivate(get) ? { priv: null, wyPriv: null } : { priv: '1' })} /> Hide hunts valid only on private land</label>
+            </div>
+            <p className="small muted" style={{ margin: '6px 0 0' }}>These licenses need landowner permission before you hunt. {states ? 'Applies to all selected states: ' : ''}{(states ?? [config.code]).map(s => `${STATES[s].name}: ${STATES[s].privateLandOnly}`).join('. ')}.</p>
           </Section>
-          <Section title="Youth Hunts" value={{ exclude: 'Hidden', include: 'Included', only: 'Youth Only' }[(get('youth') || 'exclude') as 'exclude']} set={!!get('youth')}>
-            {sharedNote}
-            {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
+        </FilterGroup>
+        <FilterGroup title="Draw Odds & Points" active={active('minOdds', ...(states?.includes('CO') ? ['chance', 'minPts', 'maxPts', 'odds'] : []))}>
+          <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
+            <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
+            <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>
           </Section>
-          <Section title="Unit / Search" value={[get('unit') && `Unit ${searchUnitLabel(get('unit'))}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>
-            <TextField label="Unit" value={get('unit')} placeholder="e.g. 49 or 36A" onCommit={(v) => push({ unit: v.toUpperCase() || null })} />
-            <TextField label="Hunt # Or Name" value={get('q')} placeholder="e.g. 2029" onCommit={(v) => push({ q: v || null })} />
-          </Section>
+          {drawFilters}
         </FilterGroup>
         {(!states || states.includes('ID')) && <FilterGroup title="Idaho Filters" active={active(...ID_RESTRICTIONS)}>
           {idNote && <div className="filter-group-note">{idNote}</div>}
@@ -284,6 +265,26 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             {stateFilters[s]}
           </FilterGroup>
         ))}
+        <FilterGroup title="Other Hunt Filters" active={active('maxDensity', 'minTags', 'youth', 'unit', 'q')}>
+          <Section title="Crowding (Hunters Per Sq Mi)" value={get('maxDensity') ? `${get('maxDensity')} or fewer` : 'Any'} set={!!get('maxDensity')}>
+            {sharedNote}
+            <StopSlider stops={DENSITY} value={Number(get('maxDensity') || 0)} onCommit={(v) => push({ maxDensity: v ? String(v) : null })} />
+            <p className="small muted" style={{ margin: '6px 0 0' }}>Average hunters per year for the hunt or season, per square mile. Under 0.5 is uncrowded. Controlled hunts count only their own hunters.</p>
+          </Section>
+          <Section title="Tags" value={get('minTags') ? `${get('minTags')}+ tags` : 'Any'} set={!!get('minTags')}>
+            {sharedNote}
+            <Slider value={Number(get('minTags') || 0)} max={100} step={5} suffix="" onCommit={(v) => push({ minTags: v ? String(v) : null })} />
+            <p className="small muted" style={{ margin: '6px 0 0' }}>Hide tiny hunts: 2-3 tag hunts swing hard on one applicant.</p>
+          </Section>
+          <Section title="Youth Hunts" value={{ exclude: 'Hidden', include: 'Included', only: 'Youth Only' }[(get('youth') || 'exclude') as 'exclude']} set={!!get('youth')}>
+            {sharedNote}
+            {radio('youth', [['', 'Hide'], ['include', 'Include'], ['only', 'Youth Only']])}
+          </Section>
+          <Section title="Unit / Search" value={[get('unit') && `Unit ${searchUnitLabel(get('unit'))}`, get('q')].filter(Boolean).join(' · ') || 'Any'} set={!!(get('unit') || get('q'))}>
+            <TextField label="Unit" value={get('unit')} placeholder="e.g. 49 or 36A" onCommit={(v) => push({ unit: v.toUpperCase() || null })} />
+            <TextField label="Hunt # Or Name" value={get('q')} placeholder="e.g. 2029" onCommit={(v) => push({ q: v || null })} />
+          </Section>
+        </FilterGroup>
         <div style={{ padding: 16 }}>
           <a className="btn" href={resetHref} style={{ width: '100%', textAlign: 'center' }}>Clear All Filters</a>
         </div>
