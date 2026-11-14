@@ -5,7 +5,7 @@ import { searchStates, searchBounds, searchUnitKey } from '../src/lib/searchStat
 import { runSearch, personalize, evaluateHunt, compareSearch, type HunterSettings } from '../src/lib/multiStateSearch';
 import { searchCsv } from '../src/lib/searchCsv';
 import { matchesHuntSeason } from '../src/lib/huntSeasonFilter';
-import { parseFilters } from '../src/lib/finder';
+import { parseFilters, buildWhere, toQuery } from '../src/lib/finder';
 
 const settings: HunterSettings = { ID: 'RESIDENT', CO: { res: 'NONRESIDENT', DEER: 2, ELK: 0, PRONGHORN: 0, youth: false, set: true } };
 const row = (patch: Partial<HuntSummary> = {}) => ({
@@ -24,6 +24,19 @@ const colorado = (patch: Partial<HuntSummary> = {}) => row({
   id: 'co:deer39', state: 'CO', slug: 'co-dm039o3r', huntId: 2, tagCode: 'DM039O3R',
   oddsByPts: { proj: { nr: [.1, .3, .6], res: [.5, .7, .9], ynr: [.7, .8, .9] }, last: { nr: [.2, .4, .8] } },
   ptsNr: 2, ptsRes: 1, ...patch,
+});
+
+test('trophy tier checkboxes filter combined hunts and survive query round trips',()=>{
+ const id=row({units:['54'],openDate:new Date('2026-10-05'),closeDate:new Date('2026-10-31')});
+ const co=colorado({tagCode:'DM039O3R'});
+ const data=[id,co,row({id:'excluded',antlerClass:'ANTLERLESS'})];
+ const chosen=runSearch(data,{states:'ID,CO',trophy:['65','80'],antler:'ALL'},'ID',settings);
+ assert.deepEqual(chosen.map(x=>x.r.state).sort(),['CO','ID']);
+ assert.deepEqual(runSearch(data,{states:'ID,CO',trophy:'80',antler:'ALL'},'ID',settings).map(x=>x.r.state),['CO']);
+ const f=parseFilters({trophy:['65','80']});
+ assert.deepEqual(f.trophy,[65,80]);
+ assert.match(toQuery(f),/trophy=65%2C80/);
+ assert.match(JSON.stringify(buildWhere(f,'RESIDENT')),/"scoreTrophy":\{"in":\[65,80\]\}/);
 });
 
 test('Wyoming deer unknown hunter overlap cannot drive success filters, scores or exports', () => {

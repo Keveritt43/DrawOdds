@@ -297,7 +297,7 @@ export async function buildSummaries(): Promise<StepResult> {
 
   // DrawOdds Score: absolute grades computed after all summary inputs are built
   const scores = scoreHunts(out.map((r) => ({
-    id: r.id, state: 'ID', units: Array.isArray(r.units) ? r.units : [], season: r.openDate ? new Date(r.openDate).toISOString().slice(0,10) : null, species: r.species, type: r.type, nrTag: r.nrTag, weapon: r.weapon, antlerClass: r.antlerClass,
+    id: r.id, state: 'ID', units: Array.isArray(r.units) ? r.units : [], openDate:r.openDate ? new Date(r.openDate) : null, closeDate:r.closeDate ? new Date(r.closeDate) : null, season: r.openDate ? new Date(r.openDate).toISOString().slice(0,10) : null, species: r.species, type: r.type, nrTag: r.nrTag, weapon: r.weapon, antlerClass: r.antlerClass,
     hunters5: r.hunters5, harvest5: r.harvest5, huntersSqMi: r.huntersSqMi,
     ...scoreLand({ state: 'ID', privateOnly: false, species: r.species, type: r.type, huntNumber: r.huntNumber ?? null, publicPct: r.publicPct ?? null, huntablePct: r.huntablePct ?? null }),
     bigPct5: r.bigPct5, deerType: r.deerType, tagSeasons:r.tagSeasons, twoPoint: seasonRules(r.tagSeasons, r.species).includes('2-point bucks only'), antlerMaximum: seasonRules(r.tagSeasons, r.species).includes('Spike bulls only'),

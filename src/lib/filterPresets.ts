@@ -30,7 +30,7 @@ export function presetLabel(preset: FilterPreset): string {
 
 const filterKeys = new Set([
   'species', 'type', 'weapon', 'method', 'antler', 'sex', 'draw', 'sort', 'view',
-  'month', 'from', 'to', 'dmode', 'minScore', 'minOpp', 'minOdds', 'minPublic', 'minAccessLand',
+  'month', 'from', 'to', 'dmode', 'minScore', 'minOpp', 'minOdds', 'minPublic', 'minAccessLand', 'trophy',
   'minSuccess', 'minSucc', 'minTags', 'maxDensity', 'youth', 'unit', 'q', 'odds', 'priv',
   ...ID_RESTRICTIONS, ...CO_RESTRICTIONS, ...WY_RESTRICTIONS, ...MT_RESTRICTIONS, ...UT_RESTRICTIONS, ...WA_RESTRICTIONS,
 ]);

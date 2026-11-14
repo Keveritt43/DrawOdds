@@ -54,6 +54,7 @@ function chips(f: Filters, query: (patch: Partial<Filters>) => string): { label:
   if (f.minOdds) add(`Odds ${f.minOdds}%-100%`, { minOdds: null });
   if (f.minSuccess) add(`Success ${f.minSuccess}%+`, { minSuccess: null });
   if (f.minBig) add(`Harvest antler share ${f.minBig}%+`, { minBig: null });
+  f.trophy.forEach(t=>add(`Trophy ${t}`,{trophy:f.trophy.filter(x=>x!==t)}));
   if (f.minPublic) add(`Public ${f.minPublic}%+`, { minPublic: null });
   if (f.minAccessYes) add(`Access Yes! ${f.minAccessYes}%+`, { minAccessYes: null });
   if (f.minHuntable) add(`Huntable ${f.minHuntable}%+`, { minHuntable: null });
