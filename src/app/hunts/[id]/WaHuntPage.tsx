@@ -104,7 +104,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
 
       {/* 2. Do I want it? */}
       <div className="stats">
-        <div className="stat"><div className="k">Hunter success</div><div className="v">{pct0(s.success5)}</div><div className="small muted">{s.harvestYears ? `${s.harvestYears} season${s.harvestYears === 1 ? '' : 's'}${s.harvestLastYear ? `, to ${s.harvestLastYear}` : ''}` : 'no WDFW estimate'}</div></div>
+        <div className="stat"><div className="k">Hunter success</div><div className="v">{pct0(s.success5)}</div><div className="small muted">{s.harvestYears ? `${s.harvestYears} season${s.harvestYears === 1 ? '' : 's'}${s.harvestLastYear ? `, to ${s.harvestLastYear}` : ''}${s.hunters5 !== null ? ` · ${int(s.hunters5)} hunter-seasons` : ''}${s.smallSample ? ' · Small sample' : ''}` : 'no WDFW estimate'}</div></div>
         <div className="stat"><div className="k">Hunters / mi²</div><div className="v">{density(s.huntersSqMi)}</div><div className="small muted">{s.huntersSqMi === null ? 'no WDFW estimate' : gen ? 'this GMU and weapon' : 'this hunt'}</div></div>
         <div className="stat"><div className="k">Public land</div><div className="v">{s.privateOnly ? '0%' : s.publicPct === null ? '–' : `${Math.round(s.publicPct)}%`}</div><div className="small muted">{s.privateOnly ? 'private land only' : lic === 'multi' ? 'all GMUs' : s.units.length > 1 ? `${s.units.length} units` : `of ${unitLabel(s.units[0] ?? '')}`}</div></div>
         {!gen && <div className="stat"><div className="k">Draw and fill</div><div className="v">{fill === null ? '–' : pct(fill)}</div><div className="small muted">odds × success</div></div>}
