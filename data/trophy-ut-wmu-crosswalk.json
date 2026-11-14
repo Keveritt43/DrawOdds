@@ -1,0 +1,2608 @@
+{
+  "status": "geographic association; does not locate county records or establish trophy size",
+  "coverage": "At least 90% of hunt-boundary area in a single DWR species-specific management polygon; combined keys omitted",
+  "sources": {
+    "deer": "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/WMUs/FeatureServer/0",
+    "elk": "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Utah_WMUs_Elk/FeatureServer/27",
+    "pronghorn": "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Utah_WMUs_Pronghorn/FeatureServer/26"
+  },
+  "sourceSha256": {
+    "deer": "2e18b90448ce58e9d38e54032cce0636e238f2cbadb4ce1fe325aa2f32b14867",
+    "elk": "92587018628af8ba62212dcb3a967dee9e61768d824caaf704594decb7f33e8b",
+    "pronghorn": "6c3e6cdc0cc79e5129527e0349ce6b89591a5b1e9e0320be40fcc814675eb01d"
+  },
+  "links": [
+    {
+      "species": "DEER",
+      "huntBoundary": "101",
+      "managementUnit": "18",
+      "managementKey": "18B",
+      "managementName": "Oquirrh/Tintic",
+      "huntBoundaryName": "Herriman South Valley Extended Archery Area",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "106",
+      "managementUnit": "17",
+      "managementKey": "17A",
+      "managementName": "Wasatch Mtns, West",
+      "huntBoundaryName": "South Wasatch Front Extended Archery Area",
+      "portion": 0.9989
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "108",
+      "managementUnit": "13",
+      "managementKey": "13B",
+      "managementName": "La Sal, Dolores Triangle",
+      "huntBoundaryName": "Dolores Triangle",
+      "portion": 0.9979
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "109",
+      "managementUnit": "18",
+      "managementKey": "18B",
+      "managementName": "Oquirrh/Tintic",
+      "huntBoundaryName": "Utah Lake Extended Archery Area",
+      "portion": 0.9997
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "117",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Morgan-South Rich",
+      "portion": 0.9993
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "15",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "Book Cliffs, South",
+      "portion": 0.9997
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "163",
+      "managementUnit": "27",
+      "managementKey": "27",
+      "managementName": "Paunsaugunt",
+      "huntBoundaryName": "Paunsaugunt",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "185",
+      "managementUnit": "14",
+      "managementKey": "14B",
+      "managementName": "San Juan, Elk Ridge",
+      "huntBoundaryName": "San Juan, Elk Ridge",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "206",
+      "managementUnit": "9",
+      "managementKey": "9C",
+      "managementName": "Diamond Mtn",
+      "huntBoundaryName": "Diamond Mtn",
+      "portion": 0.9993
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "248",
+      "managementUnit": "19",
+      "managementKey": "19B",
+      "managementName": "West Desert, Vernon",
+      "huntBoundaryName": "West Desert, Vernon",
+      "portion": 0.9997
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "276",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "East Canyon",
+      "portion": 0.9992
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "29",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "Cache",
+      "portion": 0.9996
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "301",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "Book Cliffs, Floy Canyon",
+      "portion": 0.9996
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "32",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "Cache, Crawford Mtn",
+      "portion": 0.9995
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "484",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Little Red Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "485",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Moon Ranch",
+      "portion": 0.9464
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "488",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "White's Valley",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "489",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Green Canyon",
+      "portion": 0.9999
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "490",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Sharp Mountain",
+      "portion": 0.9999
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "491",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "South Canyon",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "492",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "North Peaks",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "493",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Ingham Peak",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "494",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Clear Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "495",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Indian Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "496",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Rattlesnake Pass",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "497",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Golden Spike",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "499",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Washakie",
+      "portion": 0.9335
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "500",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Blind Springs",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "501",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Pocatello Valley",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "502",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Promontory Point",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "503",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Nucor West",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "504",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Park Valley Hereford",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "505",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Coldwater Ranch",
+      "portion": 0.9295
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "509",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "The Rose of Snowville",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "510",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Blue Spring Hills",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "511",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "West Hills",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "512",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Dove Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "513",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "North Promontory",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "514",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Fort Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "516",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Double Cone",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "518",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Mountain Meadow",
+      "portion": 0.9952
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "519",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Engineer Springs",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "520",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "East Fork Chalk Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "521",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Two Bear",
+      "portion": 0.9998
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "524",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Weber Florence Creek",
+      "portion": 0.9646
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "525",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Grass Valley/Clark Canyon",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "526",
+      "managementUnit": "27",
+      "managementKey": "27",
+      "managementName": "Paunsaugunt",
+      "huntBoundaryName": "Alton",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "527",
+      "managementUnit": "25",
+      "managementKey": "25A",
+      "managementName": "Fishlake",
+      "huntBoundaryName": "Bar J Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "529",
+      "managementUnit": "25",
+      "managementKey": "25A",
+      "managementName": "Fishlake",
+      "huntBoundaryName": "Boobe Hole",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "530",
+      "managementUnit": "25",
+      "managementKey": "25A",
+      "managementName": "Fishlake",
+      "huntBoundaryName": "Grazing Pasture",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "531",
+      "managementUnit": "25",
+      "managementKey": "25A",
+      "managementName": "Fishlake",
+      "huntBoundaryName": "Johnson Mountain Ranch",
+      "portion": 0.9997
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "533",
+      "managementUnit": "29",
+      "managementKey": "29",
+      "managementName": "Zion",
+      "huntBoundaryName": "Mt Carmel",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "535",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Manti",
+      "huntBoundaryName": "Old Woman Plateau",
+      "portion": 0.9876
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "539",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Manti",
+      "huntBoundaryName": "Scofield Canyons",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "541",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Manti",
+      "huntBoundaryName": "Scofield West",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "542",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Preston Nutter Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "543",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Roan Cliffs",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "546",
+      "managementUnit": "14",
+      "managementKey": "14A",
+      "managementName": "San Juan, Abajo Mtns",
+      "huntBoundaryName": "Spring Creek/Dodge",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "547",
+      "managementUnit": "14",
+      "managementKey": "14A",
+      "managementName": "San Juan, Abajo Mtns",
+      "huntBoundaryName": "Summit Point",
+      "portion": 0.9999
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "548",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "Redd Ranches",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "549",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "Circle E Ranch",
+      "portion": 0.997
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "550",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Manti",
+      "huntBoundaryName": "Hiawatha",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "551",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Minnie Maud Ridge",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "553",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Three C",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "554",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Double R Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "555",
+      "managementUnit": "18",
+      "managementKey": "18B",
+      "managementName": "Oquirrh/Tintic",
+      "huntBoundaryName": "Heaston East",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "556",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Little Pole Canyon",
+      "portion": 0.9874
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "559",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Bally Watts",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "560",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Causey Spring",
+      "portion": 0.9915
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "565",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Middle Ridge",
+      "portion": 0.998
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "567",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Durst Mountain",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "568",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Deseret",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "569",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "Tunnel Hollow",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "571",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Woodruff Creek South",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "572",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "Mountain Top",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "573",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Guildersleeve",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "577",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "Hardscrabble",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "578",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Skull Crack",
+      "portion": 0.9988
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "579",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Folley Ridge",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "580",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "Jacob's Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "581",
+      "managementUnit": "11",
+      "managementKey": "11A",
+      "managementName": "Nine Mile, Anthro",
+      "huntBoundaryName": "Antelope Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "582",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Manti",
+      "huntBoundaryName": "Bear Mountain",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "585",
+      "managementUnit": "18",
+      "managementKey": "18A",
+      "managementName": "Cedar/Stansbury",
+      "huntBoundaryName": "Skull Valley South",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "586",
+      "managementUnit": "17",
+      "managementKey": "17A",
+      "managementName": "Wasatch Mtns, West",
+      "huntBoundaryName": "Wallsburg",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "589",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Junction Valley",
+      "portion": 0.9984
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "592",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Pine Canyon",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "598",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Buckhorn Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "599",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Avintaquin Canyon",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "602",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Thatcher Mountain",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "604",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Bluebell",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "606",
+      "managementUnit": "14",
+      "managementKey": "14A",
+      "managementName": "San Juan, Abajo Mtns",
+      "huntBoundaryName": "Deer Haven",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "607",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Box Elder",
+      "portion": 0.9998
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "609",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Ogden",
+      "portion": 0.9992
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "611",
+      "managementUnit": "7",
+      "managementKey": "7",
+      "managementName": "Kamas",
+      "huntBoundaryName": "Kamas",
+      "portion": 0.9984
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "613",
+      "managementUnit": "9",
+      "managementKey": "9A",
+      "managementName": "Yellowstone",
+      "huntBoundaryName": "Yellowstone",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "614",
+      "managementUnit": "9",
+      "managementKey": "9B",
+      "managementName": "Vernal/Bonanza",
+      "huntBoundaryName": "Vernal/Bonanza",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "616",
+      "managementUnit": "16",
+      "managementKey": "16A",
+      "managementName": "Nebo",
+      "huntBoundaryName": "Nebo",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "617",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "La Sal Mtns",
+      "portion": 0.9992
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "618",
+      "managementUnit": "14",
+      "managementKey": "14A",
+      "managementName": "San Juan, Abajo Mtns",
+      "huntBoundaryName": "San Juan, Abajo Mtns",
+      "portion": 0.9989
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "620",
+      "managementUnit": "17",
+      "managementKey": "17A",
+      "managementName": "Wasatch Mtns, West",
+      "huntBoundaryName": "Wasatch Mtns, West",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "621",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Wasatch Mtns, East",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "625",
+      "managementUnit": "20",
+      "managementKey": "20",
+      "managementName": "Southwest Desert",
+      "huntBoundaryName": "Southwest Desert",
+      "portion": 0.9998
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "629",
+      "managementUnit": "23",
+      "managementKey": "23",
+      "managementName": "Monroe",
+      "huntBoundaryName": "Monroe",
+      "portion": 0.9993
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "630",
+      "managementUnit": "24",
+      "managementKey": "24",
+      "managementName": "Mt Dutton",
+      "huntBoundaryName": "Mt Dutton",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "632",
+      "managementUnit": "25",
+      "managementKey": "25B",
+      "managementName": "Thousand Lakes",
+      "huntBoundaryName": "Thousand Lakes",
+      "portion": 0.9988
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "633",
+      "managementUnit": "25",
+      "managementKey": "25A",
+      "managementName": "Fishlake",
+      "huntBoundaryName": "Fishlake",
+      "portion": 0.9992
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "634",
+      "managementUnit": "28",
+      "managementKey": "28",
+      "managementName": "Panguitch Lake",
+      "huntBoundaryName": "Panguitch Lake",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "635",
+      "managementUnit": "29",
+      "managementKey": "29",
+      "managementName": "Zion",
+      "huntBoundaryName": "Zion",
+      "portion": 0.9996
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "636",
+      "managementUnit": "30",
+      "managementKey": "30",
+      "managementName": "Pine Valley",
+      "huntBoundaryName": "Pine Valley",
+      "portion": 0.9997
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "640",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Cotton Thomas",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "672",
+      "managementUnit": "22",
+      "managementKey": "22",
+      "managementName": "Beaver",
+      "huntBoundaryName": "Beaver, West",
+      "portion": 0.9995
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "685",
+      "managementUnit": "22",
+      "managementKey": "22",
+      "managementName": "Beaver",
+      "huntBoundaryName": "Beaver, East",
+      "portion": 0.9994
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "69",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Chalk Creek",
+      "portion": 0.9992
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "7",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "Book Cliffs",
+      "portion": 0.9996
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "714",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "Book Cliffs, North",
+      "portion": 0.9996
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "731",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "West Cache Extended Archery Area",
+      "portion": 0.9317
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "732",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Chimney Rock",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "733",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Dilly Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "735",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Indian Head",
+      "portion": 0.9996
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "736",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Patmos Ridge",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "740",
+      "managementUnit": "17",
+      "managementKey": "17BC",
+      "managementName": "Wasatch Mtns, East",
+      "huntBoundaryName": "Sand Creek",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "741",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Spring Creek Acres",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "802",
+      "managementUnit": "21",
+      "managementKey": "21AB",
+      "managementName": "Fillmore",
+      "huntBoundaryName": "Fillmore B",
+      "portion": 0.9995
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "805",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "West Willow Creek Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "806",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "George Creek",
+      "portion": 0.9999
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "807",
+      "managementUnit": "29",
+      "managementKey": "29",
+      "managementName": "Zion",
+      "huntBoundaryName": "East Zion",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "826",
+      "managementUnit": "21",
+      "managementKey": "21AB",
+      "managementName": "Fillmore",
+      "huntBoundaryName": "Pahvant Ensign",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "827",
+      "managementUnit": "18",
+      "managementKey": "18B",
+      "managementName": "Oquirrh/Tintic",
+      "huntBoundaryName": "Rock House",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "85",
+      "managementUnit": "21",
+      "managementKey": "21C",
+      "managementName": "Fillmore, Oak Creek LE",
+      "huntBoundaryName": "Fillmore, Oak Creek LE",
+      "portion": 0.9989
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "856",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Rosette",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "858",
+      "managementUnit": "16",
+      "managementKey": "16A",
+      "managementName": "Nebo",
+      "huntBoundaryName": "Mountain Sky Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "874",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "West Ridge",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "875",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Raft River",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "876",
+      "managementUnit": "30",
+      "managementKey": "30",
+      "managementName": "Pine Valley",
+      "huntBoundaryName": "Iron Spring",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "878",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "5S",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "890",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "First Light",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "892",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Big Piney Ranch",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "905",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Faust Valley",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "908",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Dry Creek",
+      "portion": 0.9998
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "923",
+      "managementUnit": "9",
+      "managementKey": "9C",
+      "managementName": "Diamond Mtn",
+      "huntBoundaryName": "The Dirty Dozen",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "925",
+      "managementUnit": "18",
+      "managementKey": "18A",
+      "managementName": "Cedar/Stansbury",
+      "huntBoundaryName": "Cedar/Stansbury",
+      "portion": 0.9997
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "926",
+      "managementUnit": "19",
+      "managementKey": "19D",
+      "managementName": "West Desert, Swasey",
+      "huntBoundaryName": "West Desert, Swasey",
+      "portion": 0.9998
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "927",
+      "managementUnit": "18",
+      "managementKey": "18B",
+      "managementName": "Oquirrh/Tintic",
+      "huntBoundaryName": "Oquirrh/Tintic",
+      "portion": 0.9996
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "928",
+      "managementUnit": "15",
+      "managementKey": "15",
+      "managementName": "Henry Mtns",
+      "huntBoundaryName": "Little Rockies",
+      "portion": 0.9995
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "929",
+      "managementUnit": "14",
+      "managementKey": "14B",
+      "managementName": "San Juan, Elk Ridge",
+      "huntBoundaryName": "San Juan, Mancos Mesa",
+      "portion": 0.9992
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "930",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "Moab Valley",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "932",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "Castle Valley",
+      "portion": 1
+    },
+    {
+      "species": "DEER",
+      "huntBoundary": "94",
+      "managementUnit": "15",
+      "managementKey": "15",
+      "managementName": "Henry Mtns",
+      "huntBoundaryName": "Henry Mtns",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "107",
+      "managementUnit": "16",
+      "managementKey": "16A",
+      "managementName": "Central Mtns, Nebo",
+      "huntBoundaryName": "Nebo, Moroni Hills",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "108",
+      "managementUnit": "13",
+      "managementKey": "13B",
+      "managementName": "La Sal, Dolores Triangle",
+      "huntBoundaryName": "Dolores Triangle",
+      "portion": 0.9979
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "117",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Morgan-South Rich",
+      "portion": 0.9993
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "12",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "Book Cliffs, Little Creek Roadless",
+      "portion": 0.998
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "129",
+      "managementUnit": "11",
+      "managementKey": "11A",
+      "managementName": "Nine Mile, Anthro",
+      "huntBoundaryName": "Nine Mile, Anthro-Myton Bench",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "138",
+      "managementUnit": "8",
+      "managementKey": "8A",
+      "managementName": "North Slope, Summit",
+      "huntBoundaryName": "North Slope, Summit",
+      "portion": 0.999
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "140",
+      "managementUnit": "8",
+      "managementKey": "8C",
+      "managementName": "North Slope, Three Corners",
+      "huntBoundaryName": "North Slope, Three Corners",
+      "portion": 0.9979
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "142",
+      "managementUnit": "8",
+      "managementKey": "8B",
+      "managementName": "North Slope, West Daggett",
+      "huntBoundaryName": "North Slope, West Daggett",
+      "portion": 0.9982
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "163",
+      "managementUnit": "27",
+      "managementKey": "27",
+      "managementName": "Paunsaugunt",
+      "huntBoundaryName": "Paunsaugunt",
+      "portion": 0.9993
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "175",
+      "managementUnit": "25",
+      "managementKey": "25AB",
+      "managementName": "Plateau, Fishlake/Thousand Lakes",
+      "huntBoundaryName": "Fishlake/Thousand Lakes",
+      "portion": 0.9993
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "18",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Box Elder, Hansel Mtn",
+      "portion": 0.9998
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "188",
+      "managementUnit": "14",
+      "managementKey": "14",
+      "managementName": "San Juan",
+      "huntBoundaryName": "San Juan, Montezuma Canyon",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "194",
+      "managementUnit": "12",
+      "managementKey": "12",
+      "managementName": "San Rafael",
+      "huntBoundaryName": "San Rafael, North",
+      "portion": 0.9998
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "206",
+      "managementUnit": "9",
+      "managementKey": "9C",
+      "managementName": "South Slope, Diamond Mtn",
+      "huntBoundaryName": "Diamond Mtn",
+      "portion": 0.9993
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "241",
+      "managementUnit": "19",
+      "managementKey": "19",
+      "managementName": "West Desert",
+      "huntBoundaryName": "West Desert, Deep Creek",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "276",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "East Canyon",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "277",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Nine Mile, Range Creek",
+      "portion": 0.9993
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "301",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "Book Cliffs, Floy Canyon",
+      "portion": 0.9996
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "302",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "Cache, North",
+      "portion": 0.9987
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "303",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "Cache, South",
+      "portion": 0.9989
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "304",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "Cache, Wellsville",
+      "portion": 0.9988
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "33",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "Cache, Meadowville",
+      "portion": 0.9989
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "484",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Little Red Creek",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "485",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Moon Ranch",
+      "portion": 0.9464
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "490",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Sharp Mountain",
+      "portion": 0.9999
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "491",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "South Canyon",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "492",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "North Peaks",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "493",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Ingham Peak",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "505",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Coldwater Ranch",
+      "portion": 0.9295
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "51",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Manti",
+      "portion": 0.9996
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "516",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Double Cone",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "517",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Cactus Ranch LLC",
+      "portion": 0.9998
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "520",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "East Fork Chalk Creek",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "524",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Weber Florence Creek",
+      "portion": 0.9646
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "525",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Grass Valley/Clark Canyon",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "526",
+      "managementUnit": "27",
+      "managementKey": "27",
+      "managementName": "Paunsaugunt",
+      "huntBoundaryName": "Alton",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "527",
+      "managementUnit": "25",
+      "managementKey": "25AB",
+      "managementName": "Plateau, Fishlake/Thousand Lakes",
+      "huntBoundaryName": "Bar J Ranch",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "529",
+      "managementUnit": "25",
+      "managementKey": "25AB",
+      "managementName": "Plateau, Fishlake/Thousand Lakes",
+      "huntBoundaryName": "Boobe Hole",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "530",
+      "managementUnit": "25",
+      "managementKey": "25AB",
+      "managementName": "Plateau, Fishlake/Thousand Lakes",
+      "huntBoundaryName": "Grazing Pasture",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "531",
+      "managementUnit": "25",
+      "managementKey": "25AB",
+      "managementName": "Plateau, Fishlake/Thousand Lakes",
+      "huntBoundaryName": "Johnson Mountain Ranch",
+      "portion": 0.9997
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "535",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Old Woman Plateau",
+      "portion": 0.9876
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "539",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Scofield Canyons",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "540",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Scofield East",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "541",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Scofield West",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "542",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Preston Nutter Ranch",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "543",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Roan Cliffs",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "546",
+      "managementUnit": "14",
+      "managementKey": "14",
+      "managementName": "San Juan",
+      "huntBoundaryName": "Spring Creek/Dodge",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "547",
+      "managementUnit": "14",
+      "managementKey": "14",
+      "managementName": "San Juan",
+      "huntBoundaryName": "Summit Point",
+      "portion": 0.9999
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "548",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "Redd Ranches",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "549",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "Circle E Ranch",
+      "portion": 0.997
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "550",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Hiawatha",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "551",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Minnie Maud Ridge",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "553",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Three C",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "555",
+      "managementUnit": "18",
+      "managementKey": "18",
+      "managementName": "Oquirrh-Stansbury",
+      "huntBoundaryName": "Heaston East",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "556",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Little Pole Canyon",
+      "portion": 0.9874
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "560",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Causey Spring",
+      "portion": 0.9915
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "567",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Durst Mountain",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "568",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Deseret",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "569",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "Tunnel Hollow",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "571",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Woodruff Creek South",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "573",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Guildersleeve",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "576",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "SJ Ranch",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "577",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "Hardscrabble",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "578",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Skull Crack",
+      "portion": 0.9988
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "579",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Folley Ridge",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "580",
+      "managementUnit": "5",
+      "managementKey": "5",
+      "managementName": "East Canyon",
+      "huntBoundaryName": "Jacob's Creek",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "582",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Bear Mountain",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "586",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Wallsburg",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "589",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Junction Valley",
+      "portion": 0.9984
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "599",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Avintaquin Canyon",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "609",
+      "managementUnit": "3",
+      "managementKey": "3",
+      "managementName": "Ogden",
+      "huntBoundaryName": "Ogden",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "611",
+      "managementUnit": "7",
+      "managementKey": "7",
+      "managementName": "Kamas",
+      "huntBoundaryName": "Kamas",
+      "portion": 0.9984
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "613",
+      "managementUnit": "9",
+      "managementKey": "9A",
+      "managementName": "South Slope, Yellowstone",
+      "huntBoundaryName": "Yellowstone",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "614",
+      "managementUnit": "9",
+      "managementKey": "9B",
+      "managementName": "South Slope, Bonanza/Vernal",
+      "huntBoundaryName": "Vernal/Bonanza",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "617",
+      "managementUnit": "13",
+      "managementKey": "13A",
+      "managementName": "La Sal, La Sal Mtns",
+      "huntBoundaryName": "La Sal Mtns",
+      "portion": 0.999
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "629",
+      "managementUnit": "23",
+      "managementKey": "23",
+      "managementName": "Monroe",
+      "huntBoundaryName": "Monroe",
+      "portion": 0.9993
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "630",
+      "managementUnit": "24",
+      "managementKey": "24",
+      "managementName": "Mt Dutton",
+      "huntBoundaryName": "Mt Dutton",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "634",
+      "managementUnit": "28",
+      "managementKey": "28",
+      "managementName": "Panguitch Lake",
+      "huntBoundaryName": "Panguitch Lake",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "635",
+      "managementUnit": "29",
+      "managementKey": "29",
+      "managementName": "Zion",
+      "huntBoundaryName": "Zion",
+      "portion": 0.9996
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "636",
+      "managementUnit": "30",
+      "managementKey": "30",
+      "managementName": "Pine Valley",
+      "huntBoundaryName": "Pine Valley",
+      "portion": 0.9997
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "639",
+      "managementUnit": "2",
+      "managementKey": "2",
+      "managementName": "Cache",
+      "huntBoundaryName": "Cache, East Rich",
+      "portion": 0.9995
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "640",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Cotton Thomas",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "672",
+      "managementUnit": "22",
+      "managementKey": "22",
+      "managementName": "Beaver",
+      "huntBoundaryName": "Beaver, West",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "682",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Box Elder, Pilot Mtn",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "685",
+      "managementUnit": "22",
+      "managementKey": "22",
+      "managementName": "Beaver",
+      "huntBoundaryName": "Beaver, East",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "69",
+      "managementUnit": "6",
+      "managementKey": "6",
+      "managementName": "Chalk Creek",
+      "huntBoundaryName": "Chalk Creek",
+      "portion": 0.9992
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "732",
+      "managementUnit": "4",
+      "managementKey": "4",
+      "managementName": "Morgan-South Rich",
+      "huntBoundaryName": "Chimney Rock",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "734",
+      "managementUnit": "16",
+      "managementKey": "16B",
+      "managementName": "Central Mtns, Manti",
+      "huntBoundaryName": "Jump Creek",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "735",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Indian Head",
+      "portion": 0.9996
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "736",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Patmos Ridge",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "740",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Sand Creek",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "742",
+      "managementUnit": "17",
+      "managementKey": "17",
+      "managementName": "Wasatch Mtns",
+      "huntBoundaryName": "Wasatch Mtns, North",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "751",
+      "managementUnit": "12",
+      "managementKey": "12",
+      "managementName": "San Rafael",
+      "huntBoundaryName": "San Rafael, South-Dirty Devil",
+      "portion": 0.9984
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "805",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "West Willow Creek Ranch",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "81",
+      "managementUnit": "21",
+      "managementKey": "21",
+      "managementName": "Fillmore",
+      "huntBoundaryName": "Fillmore, Oak Creek South",
+      "portion": 0.9995
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "858",
+      "managementUnit": "16",
+      "managementKey": "16A",
+      "managementName": "Central Mtns, Nebo",
+      "huntBoundaryName": "Mountain Sky Ranch",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "867",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Box Elder, Grouse Creek",
+      "portion": 0.9994
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "868",
+      "managementUnit": "1",
+      "managementKey": "1",
+      "managementName": "Box Elder",
+      "huntBoundaryName": "Box Elder, Sawtooth",
+      "portion": 0.9995
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "871",
+      "managementUnit": "20",
+      "managementKey": "20",
+      "managementName": "Southwest Desert",
+      "huntBoundaryName": "Southwest Desert, North",
+      "portion": 0.9998
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "872",
+      "managementUnit": "20",
+      "managementKey": "20",
+      "managementName": "Southwest Desert",
+      "huntBoundaryName": "Southwest Desert, South",
+      "portion": 0.9996
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "874",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "West Ridge",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "88",
+      "managementUnit": "21",
+      "managementKey": "21",
+      "managementName": "Fillmore",
+      "huntBoundaryName": "Fillmore, Pahvant",
+      "portion": 0.9991
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "899",
+      "managementUnit": "10",
+      "managementKey": "10",
+      "managementName": "Book Cliffs",
+      "huntBoundaryName": "Book Cliffs, Bitter Creek/East",
+      "portion": 0.9995
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "901",
+      "managementUnit": "16",
+      "managementKey": "16A",
+      "managementName": "Central Mtns, Nebo",
+      "huntBoundaryName": "Nebo/San Pitch Mtns",
+      "portion": 0.9995
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "902",
+      "managementUnit": "16",
+      "managementKey": "16A",
+      "managementName": "Central Mtns, Nebo",
+      "huntBoundaryName": "Valley Mtns",
+      "portion": 0.9991
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "923",
+      "managementUnit": "9",
+      "managementKey": "9C",
+      "managementName": "South Slope, Diamond Mtn",
+      "huntBoundaryName": "The Dirty Dozen",
+      "portion": 1
+    },
+    {
+      "species": "ELK",
+      "huntBoundary": "94",
+      "managementUnit": "15",
+      "managementKey": "15",
+      "managementName": "Henry Mtns",
+      "huntBoundaryName": "Henry Mtns",
+      "portion": 0.9992
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "129",
+      "managementUnit": "11",
+      "managementKey": "11A",
+      "managementName": "Nine Mile, Anthro",
+      "huntBoundaryName": "Nine Mile, Anthro-Myton Bench",
+      "portion": 0.9992
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "15",
+      "managementUnit": "10",
+      "managementKey": "10B",
+      "managementName": "Book Cliffs, South",
+      "huntBoundaryName": "Book Cliffs, South",
+      "portion": 0.9995
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "171",
+      "managementUnit": "25",
+      "managementKey": "25C",
+      "managementName": "Plateau, Parker Mtn",
+      "huntBoundaryName": "Plateau",
+      "portion": 0.9996
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "186",
+      "managementUnit": "14",
+      "managementKey": "14",
+      "managementName": "San Juan, Hatch Point",
+      "huntBoundaryName": "San Juan, Hatch Point",
+      "portion": 0.9992
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "201",
+      "managementUnit": "20",
+      "managementKey": "20",
+      "managementName": "Southwest Desert",
+      "huntBoundaryName": "Heist",
+      "portion": 1
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "208",
+      "managementUnit": "9",
+      "managementKey": "9B",
+      "managementName": "South Slope, Vernal",
+      "huntBoundaryName": "Vernal",
+      "portion": 0.999
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "24",
+      "managementUnit": "1",
+      "managementKey": "1PROM",
+      "managementName": "Box Elder, Promontory",
+      "huntBoundaryName": "Box Elder, Promontory",
+      "portion": 0.9995
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "244",
+      "managementUnit": "19",
+      "managementKey": "19RIVER",
+      "managementName": "West Desert, Riverbed",
+      "huntBoundaryName": "West Desert, Riverbed",
+      "portion": 0.9996
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "245",
+      "managementUnit": "19",
+      "managementKey": "19RUSH",
+      "managementName": "West Desert, Rush Valley",
+      "huntBoundaryName": "West Desert, Rush Valley",
+      "portion": 0.9993
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "246",
+      "managementUnit": "19",
+      "managementKey": "19SNAKE",
+      "managementName": "West Desert, Snake Valley",
+      "huntBoundaryName": "West Desert, Snake Valley",
+      "portion": 0.9996
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "25",
+      "managementUnit": "1",
+      "managementKey": "1PUDDLE",
+      "managementName": "Box Elder, Puddle Valley",
+      "huntBoundaryName": "Box Elder, Puddle Valley",
+      "portion": 0.9997
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "27",
+      "managementUnit": "1",
+      "managementKey": "1SNOW",
+      "managementName": "Box Elder, Snowville",
+      "huntBoundaryName": "Box Elder, Snowville",
+      "portion": 0.997
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "277",
+      "managementUnit": "11",
+      "managementKey": "11B",
+      "managementName": "Nine Mile, Range Creek",
+      "huntBoundaryName": "Nine Mile, Range Creek",
+      "portion": 0.9993
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "443",
+      "managementUnit": "12",
+      "managementKey": "12B",
+      "managementName": "San Rafael, Desert",
+      "huntBoundaryName": "San Rafael, Desert",
+      "portion": 0.9996
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "461",
+      "managementUnit": "9",
+      "managementKey": "9CD",
+      "managementName": "South Slope, Bonanza/Diamond Mtn",
+      "huntBoundaryName": "Diamond Mtn/Bonanza",
+      "portion": 0.9992
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "509",
+      "managementUnit": "1",
+      "managementKey": "1SNOW",
+      "managementName": "Box Elder, Snowville",
+      "huntBoundaryName": "The Rose of Snowville",
+      "portion": 0.9997
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "557",
+      "managementUnit": "19",
+      "managementKey": "19RUSH",
+      "managementName": "West Desert, Rush Valley",
+      "huntBoundaryName": "Allen Ranch",
+      "portion": 1
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "558",
+      "managementUnit": "19",
+      "managementKey": "19RUSH",
+      "managementName": "West Desert, Rush Valley",
+      "huntBoundaryName": "Westlake",
+      "portion": 1
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "581",
+      "managementUnit": "11",
+      "managementKey": "11A",
+      "managementName": "Nine Mile, Anthro",
+      "huntBoundaryName": "Antelope Creek",
+      "portion": 1
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "585",
+      "managementUnit": "19",
+      "managementKey": "19RIVER",
+      "managementName": "West Desert, Riverbed",
+      "huntBoundaryName": "Skull Valley South",
+      "portion": 1
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "589",
+      "managementUnit": "1",
+      "managementKey": "1WEST",
+      "managementName": "Box Elder, West",
+      "huntBoundaryName": "Junction Valley",
+      "portion": 0.9984
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "603",
+      "managementUnit": "1",
+      "managementKey": "1SNOW",
+      "managementName": "Box Elder, Snowville",
+      "huntBoundaryName": "Park Valley",
+      "portion": 1
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "625",
+      "managementUnit": "20",
+      "managementKey": "20",
+      "managementName": "Southwest Desert",
+      "huntBoundaryName": "Southwest Desert",
+      "portion": 0.9998
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "628",
+      "managementUnit": "22",
+      "managementKey": "22",
+      "managementName": "Beaver",
+      "huntBoundaryName": "Beaver",
+      "portion": 0.9995
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "667",
+      "managementUnit": "10",
+      "managementKey": "10A",
+      "managementName": "Book Cliffs, Bitter Creek",
+      "huntBoundaryName": "Book Cliffs, Bitter Creek (pronghorn)",
+      "portion": 0.9987
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "688",
+      "managementUnit": "13",
+      "managementKey": "13",
+      "managementName": "La Sal, Potash/South Cisco",
+      "huntBoundaryName": "La Sal, Potash/South Cisco",
+      "portion": 0.9986
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "721",
+      "managementUnit": "1",
+      "managementKey": "1WEST",
+      "managementName": "Box Elder, West",
+      "huntBoundaryName": "TL Bar Ranch",
+      "portion": 1
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "755",
+      "managementUnit": "1",
+      "managementKey": "1WEST",
+      "managementName": "Box Elder, West",
+      "huntBoundaryName": "Box Elder, West",
+      "portion": 0.9989
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "806",
+      "managementUnit": "1",
+      "managementKey": "1WEST",
+      "managementName": "Box Elder, West",
+      "huntBoundaryName": "George Creek",
+      "portion": 0.9999
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "824",
+      "managementUnit": "11",
+      "managementKey": "11A",
+      "managementName": "Nine Mile, Anthro",
+      "huntBoundaryName": "Cottonwood Ridge",
+      "portion": 0.9982
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "906",
+      "managementUnit": "1",
+      "managementKey": "1PROM",
+      "managementName": "Box Elder, Promontory",
+      "huntBoundaryName": "Salt Wells",
+      "portion": 0.9837
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "918",
+      "managementUnit": "10",
+      "managementKey": "10B",
+      "managementName": "Book Cliffs, South",
+      "huntBoundaryName": "Green River Flat",
+      "portion": 0.9784
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "97",
+      "managementUnit": "26",
+      "managementKey": "26",
+      "managementName": "Kaiparowits",
+      "huntBoundaryName": "Kaiparowits",
+      "portion": 0.9995
+    }
+  ]
+}
