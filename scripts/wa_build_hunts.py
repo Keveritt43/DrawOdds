@@ -114,6 +114,8 @@ def odds_by_banked(u: float) -> list[float]:
 
 def parse_dates(s: str, year: int):
     """'Oct. 31-Nov. 8', 'Nov. 20-24', 'Sept. 21-25, Oct. 1-5' -> list of (open, close) ISO dates."""
+    # Some PDF extraction splits a two-digit day ("Sept. 2 5 -2 9").
+    s = re.sub(r'(?<=\d) (?=\d(?:\s*[-,]|$))', '', s)
     out, month = [], None
     for part in re.split(r",\s*(?=[A-Z][a-z]{2,4}\.?\s*\d)", s.replace("–", "-")):
         m = re.match(r"\s*([A-Z][a-z]{2,4})\.?\s*(\d{1,2})\s*-\s*(?:([A-Z][a-z]{2,4})\.?\s*)?(\d{1,2})", part)
@@ -405,8 +407,10 @@ def main() -> None:
         d27 = roll(d26, u26, last_apps, rr)
         u27 = cutoff(d27, r["permits"] or 0)
         units_land = land_for(us)
-        hv = harvest_fields({y: v for y, v in ind.get((sp, r["choice"]), {}).items()
-                             if norm(v["name"]) == norm(r["name"])}, sp)
+        # Colockum 2016 was the later Oct/Nov hunt before the 2023 code reassignment.
+        same_hunt = {y: v for y, v in ind.get((sp, r["choice"]), {}).items()
+                     if norm(v["name"]) == norm(r["name"]) and not (sp == 'ELK' and r['choice'] == 2016 and norm(r['name']) == 'colockum' and y < 2023)}
+        hv = harvest_fields(same_hunt, sp)
         dates = parse_dates(r["dates"], YEAR)
         tag = r["tag"]
         weapon = "ARCHERY" if "Archery" in tag or tag in ("EA", "WA") else "MUZZLELOADER" if "Muzzle" in tag or tag in ("EM", "WM") else "ANY"
@@ -443,10 +447,16 @@ def main() -> None:
                           "demand": {str(y): {"apps": a, "permits": p} for y, (a, p, _) in sorted(demand.items())},
                           "cutoff": {"last": last_u, "y2026": u26, "proj": u27},
                           "harvest": [{"year": y, **{k: v for k, v in rec.items() if k in ("hunters", "harvest", "apps", "permits")}}
-                                      for y, rec in sorted(ind.get((sp, r["choice"]), {}).items()) if norm(rec["name"]) == norm(r["name"])]},
+                                      for y, rec in sorted(same_hunt.items())]},
         }
         if h["publicPct"] is None:
             problems.append(f"{hid}: no land for {us}")
+        if r['dates'] == 'Sept. 2 5 -2 9' and sp == 'ELK' and r['choice'] in (2015, 2016, 2018, 2019, 2020, 2022, 2023, 2024, 2025):
+            h['pointOdds']['dates'] = 'Sept. 25–29'  # WDFW April 22, 2026 corrections
+        if sp == 'ELK' and r['choice'] == 2016 and norm(r['name']) == 'colockum':
+            h['oddsByPts'] = {'proj': {}, 'last': {}}
+            h['pointOdds']['demand'] = {year: v for year, v in h['pointOdds']['demand'].items() if int(year) >= 2023}
+            h['pointOdds']['oddsUnavailableReason'] = 'Point-level estimates are unavailable because this hunt number previously identified a different season.'
         if r["category"] in NO_POINT_DATA:
             h["oddsByPts"] = {"proj": {}, "last": {}}
             h["pointOdds"].update({"projected": False, "estimated": False, "seed": None, "seedYear": None, "cutoff": None, "noPointData": True})

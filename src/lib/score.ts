@@ -39,6 +39,7 @@ export interface ScoreInput {
   resOddsLast?: number | null;
   nrOddsLast?: number | null;
   oddsLastYear?: number | null;
+  appsLast?: number | null;
   harvestYears?: number | null;
   youthOnly?: boolean;
   privateOnly?: boolean;

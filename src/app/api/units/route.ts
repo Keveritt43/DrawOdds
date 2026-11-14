@@ -22,6 +22,7 @@ import { utGenElk } from '@/lib/utGenElk';
 import { utWalkin } from '@/lib/utWalkin';
 import { trophyForUnit } from '@/lib/trophyHunt';
 import { withStateTrophyScores } from '@/lib/stateTrophyScores';
+import { withWaVerifiedDates } from '@/lib/waHuntCorrections';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -55,11 +56,11 @@ export async function GET(req: Request) {
     db.unit.findMany({ where: { state, geometry: { not: undefined }, ...(state === 'CO' ? { NOT: [{ name: { startsWith: 'S' } }, { name: { startsWith: 'G' } }] } : {}) } }),
     db.huntSummary.findMany({
       where: { state },
-      select: { species: true, type: true, unit: true, units: true, openDate:true, closeDate:true, bigPct5:true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, resOddsLast:true, nrOddsLast:true, oddsLastYear:true, deerType: true, antlerClass: true, youthOnly: true, privateOnly:true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
+      select: { id:true, state:true, species: true, type: true, unit: true, units: true, openDate:true, closeDate:true, bigPct5:true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, resOddsLast:true, nrOddsLast:true, oddsLastYear:true, appsLast:true, deerType: true, antlerClass: true, youthOnly: true, privateOnly:true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
-  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(s =>
+  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(withWaVerifiedDates).map(s =>
     state === 'WY' && s.species === 'DEER' ? { ...s, success5: null, hunters5: null, harvest5: null, resTagAndFill: null, nrTagAndFill: null } : s);
   let coPoints: Awaited<ReturnType<typeof getPoints>> | null = null;
   const by = new Map<string, Record<string, number | string | null>>();
