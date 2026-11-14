@@ -172,15 +172,21 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             onCommit={(a, b, mode) => push(a === DAY_MIN && b === DAY_MAX ? { from: null, to: null, dmode: null } : { from: toMonthDay(a), to: toMonthDay(b), dmode: mode === 'end' ? 'end' : null })}
           />
         </Section>
-        <FilterGroup title="Land Access" active={active('minAccessLand', 'minPublic', 'priv', 'wyPriv')}>
-          {states && <Section title="Public & Accessible Land" value={get('minAccessLand') ? `${get('minAccessLand')}%+` : 'Any'} set={!!get('minAccessLand')}>
-            <Slider value={Number(get('minAccessLand') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minAccessLand: v ? String(v) : null })} />
-            <p className="small muted">Includes Idaho Access Yes! and Montana Type 1 Block Management (2026–27) where available. Other states use public-land data only; their private-access programs are not yet included. Area estimates do not guarantee access; check property rules.</p>
-          </Section>}
-          <Section title="Public Land" value={get('minPublic') ? `${get('minPublic')}%+ public` : 'Any'} set={!!get('minPublic')}>
-            {sharedNote}
-            <Slider value={Number(get('minPublic') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minPublic: v ? String(v) : null })} />
-          </Section>
+        <FilterGroup title="Land Access" active={active('minAccessLand', 'minPublic', 'pubOnly', 'priv', 'wyPriv')}>
+          {(() => {
+            // One slider. Counting access programs (default in multi-state search) filters on minAccessLand; unticked, on minPublic.
+            const counting = !!states && get('pubOnly') !== '1';
+            const key = counting ? 'minAccessLand' : 'minPublic';
+            const v = get('minAccessLand') || get('minPublic');
+            return <Section title={counting ? 'Public & Accessible Land' : 'Public Land'} value={v ? `${v}%+` : 'Any'} set={!!v}>
+              {sharedNote}
+              <Slider value={Number(v || 0)} max={100} step={5} suffix="%" onCommit={(n) => push({ minAccessLand: null, minPublic: null, [key]: n ? String(n) : null })} />
+              {states && <div className="checks2" style={{ marginTop: 10 }}>
+                <label><input type="checkbox" checked={counting} onChange={() => push(counting ? { pubOnly: '1', minAccessLand: null, minPublic: v || null } : { pubOnly: null, minPublic: null, minAccessLand: v || null })} /> Count private land open to hunting</label>
+              </div>}
+              {states && <p className="small muted" style={{ margin: '6px 0 0' }}>{counting ? 'Adds Idaho Access Yes! and Montana Type 1 Block Management (2026–27). Other states have no access program in our data yet, so they count public land only. Area estimates do not guarantee access; check property rules.' : 'Federal and state public land only.'}</p>}
+            </Section>;
+          })()}
           <Section title="Private-Land-Only Hunts" value={showPrivate(get) ? 'Shown' : 'Hidden'} set={showPrivate(get)}>
             <div className="checks2">
               <label><input type="checkbox" checked={!showPrivate(get)} onChange={() => push(showPrivate(get) ? { priv: null, wyPriv: null } : { priv: '1' })} /> Hide hunts valid only on private land</label>
