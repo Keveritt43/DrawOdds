@@ -311,7 +311,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       m.setPaintProperty('units-line', 'line-opacity', on ? 0.35 : 0.85);
       m.setLayoutProperty('units-label', 'visibility', on ? 'none' : 'visible');
       if (on) {
-        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null });
+        for (const a of prevAreas.current) m.setFeatureState({ source: 'areas', id: a }, { match: false, sel: false, trophy: null, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null });
         for (const a of matchedAreas) m.setFeatureState({ source: 'areas', id: a }, { match: true, sel: a === selectedArea, ...(stats.areas[a] ?? {}) });
         prevAreas.current = matchedAreas;
       }
@@ -320,7 +320,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     m.on('ready', apply);
     return () => void m.off('ready', apply);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [areaSpecies, matchedAreas.join(','), selectedArea, JSON.stringify(stats.areas).length]);
+  }, [areaSpecies, matchedAreas.join(','), selectedArea, JSON.stringify(stats.areas)]);
 
   const matchItems: KeyItem[] = areaMode
     ? [{ color: AREA, label: 'Hunt area with a match' }, { color: '#0b4f3e', label: 'Other hunt areas', line: true }]
@@ -337,8 +337,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     ...(Object.keys(SHADES) as (keyof typeof SHADES)[])
       .filter(
         (k) =>
-          !(areaMode && (k.startsWith("obj") || k === 'trophy')) &&
-          (k !== 'trophy' || species === 'DEER' || species === 'ELK') &&
+          !(areaMode && k.startsWith("obj")) &&
           // only Wyoming hunt areas are measured for wilderness, so the option appears only with Wyoming selected
           (k !== 'wilderness' ? true : !!states?.includes('WY')) &&
           (!states && stCode === "ID" ||
