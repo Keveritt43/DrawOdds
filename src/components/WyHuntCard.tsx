@@ -80,6 +80,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
           <span className="sub">{r.hunters5 !== null && years ? `${int(r.hunters5 / years)} hunters/yr` : 'No density data'}</span>
         </div>
       </div>
+      {deer.some(d => d.rate !== null) && <p className="small muted">WGFD harvest per active license: {deer.filter(d => d.rate !== null).map(d => (d.kind === 'MULE' ? 'Mule deer ' : 'Whitetail ') + pct(d.rate) + ' (' + d.years + ' seasons)').join(' · ')}{mix ? ' · Harvest mix: ' + (mix === 'MULE' ? 'Mule Deer' : mix === 'WHITETAIL' ? 'Whitetail' : 'Mixed') : ''}. Species counts may overlap; see hunt details.</p>}
       <div className="small muted" style={{ marginTop: 8 }}>
         Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land:{' '}
         {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
