@@ -26,6 +26,7 @@ import { waPersonal, waLicense, waPo } from './waHunt';
 import { readWaPoints, type WaPoints } from './waPoints';
 import { withoutUnvalidatedWyDeerMetrics, wyDeerMix } from './wyDeerMetrics';
 import { trophyForHunt } from './trophyHunt';
+import { withStateTrophyScores } from './stateTrophyScores';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
 export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints };
@@ -75,6 +76,7 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
 export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
+  r = withStateTrophyScores(r);
   r = withoutUnvalidatedWyDeerMetrics(r);
   r = {...r,scoreTrophy:trophyForHunt(r)};
   const nr = isNonresident(r.state, settings);

@@ -10,7 +10,7 @@ import type { SpeciesKey } from '@/lib/species';
 const SPECIES: [SpeciesKey, string][] = [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn sheep'], ['GOAT', 'Mountain goat'], ['BISON', 'Bison']];
 
 export function QuickTrophyChoices() {
-  return <><label>Trophy score (select any)</label><div className="opts">{[['100','Unicorn 100'],['80','Trophy 80'],['65','Recognized Unit 65'],['50','Unclassified 50']].map(([value,label])=><label key={value}><input type="checkbox" name="trophy" value={value}/><span>{label}</span></label>)}</div><p className="hint">Leave all unchecked to include every hunt. Selecting a tier excludes hunts without a trophy rating.</p></>;
+  return <><label>Trophy score (select any)</label><div className="opts">{[['100','Elite'],['80','Excellent'],['65','Good'],['50','Standard']].map(([value,label])=><label key={value}><input type="checkbox" name="trophy" value={value}/><span>{label}</span></label>)}</div><p className="hint">Leave all unchecked to include every hunt. Selecting a tier excludes hunts without a trophy rating.</p></>;
 }
 
 export function QuickSeasonDates() {

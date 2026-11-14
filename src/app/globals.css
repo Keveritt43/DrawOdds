@@ -99,6 +99,7 @@ input[type=range] { width: 100%; accent-color: var(--blaze); }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; }
 .stat .k { font-size: .82rem; color: var(--muted); } .stat .v { font: 700 1.9rem/1.1 var(--font-display); }
 .pill { display: inline-block; font-size: .74rem; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); margin: 2px 3px 2px 0; white-space: nowrap; text-decoration: none; }
+.pill.trophy-badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 5px; background: transparent; color: var(--ink); }
 .pill.good { background: rgba(111,154,106,.15); border-color: var(--sage); color: var(--sage-ink); }
 .pill.warn { background: var(--warn-bg); border-color: transparent; color: var(--warn-ink); }
 .pill.blaze { background: var(--blaze); border-color: var(--blaze); color: #fff; }

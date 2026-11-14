@@ -69,7 +69,7 @@ test('Idaho deer ranks qualifying November hunts above October and keeps early U
  assert.equal(trophyForHunt(november),80);
  assert.equal(trophyForHunt(october),65);
  assert.equal(trophyForHunt({...october,units:['55'],openDate:'2026-08-15',closeDate:'2026-09-24'}),80);
- assert.equal(trophyForHunt({...october,type:'GENERAL'}),65);
+ assert.equal(trophyForHunt({...october,type:'GENERAL'}),50);
  assert.equal(trophyForHunt({...november,bigPct5:.7,units:['999']}),50);
  assert.equal(trophyForHunt({...november,resOdds5:.05,units:['999']}),50);
  assert.equal(trophyForHunt({...november,nrOdds5:.05,units:['999']}),50);
@@ -87,7 +87,7 @@ test('Idaho seasonal trophy uses actual separate dates and the same map tier',()
 test('Colorado numbered rifle seasons use 50/65/80/100 with a recognized-unit floor',()=>{
  for(const [species,code] of [['DEER','DM'],['ELK','EM']] as const) {
   const h={state:'CO',species,type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',units:['999']};
-  for(const [season,expected] of [[1,50],[2,65],[3,80],[4,100]] as const)
+  for(const [season,expected] of [[1,50],[2,65],[3,80],[4,species==='DEER'?80:100]] as const)
     assert.equal(trophyForHunt({...h,tagCode:`${code}999O${species==='ELK'?5-season:season}R`}),expected);
   assert.equal(trophyForHunt({...h,units:['40'],tagCode:`${code}040O${species==='ELK'?4:1}R`}),65);
   assert.equal(trophyForHunt({...h,tagCode:`${code}999U${species==='ELK'?2:3}R`}),80);
@@ -95,4 +95,51 @@ test('Colorado numbered rifle seasons use 50/65/80/100 with a recognized-unit fl
   assert.equal(trophyForHunt({...h,tagCode:`${code}999E3R`}),50);
   assert.equal(trophyForHunt({...h,tagCode:`${code}999O4R`,antlerClass:'ANTLERLESS'}),null);
  }
+});
+test('Colorado late deer Elite requires an actual observed nonresident cutoff of at least 20 points',()=>{
+ const h={state:'CO',species:'DEER',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',units:['70'],tagCode:'DM070O4R'};
+ const cut=(points:number,drawnAtLevel:number)=>({pools:{nr:{cut:{points,drawnAtLevel}}}});
+ assert.equal(trophyForHunt({...h,pointOdds:cut(14,2)}),80);
+ assert.equal(trophyForHunt({...h,pointOdds:cut(20,2)}),100);
+ assert.equal(trophyForHunt({...h,pointOdds:cut(20,0)}),80);
+ assert.equal(trophyForHunt({...h,pointOdds:null}),80);
+});
+test('Blue Mountains elk recognition follows actual early season windows',()=>{
+ const h={state:'WA',species:'ELK',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ARCHERY',units:['EA1008'],openDate:'2026-09-07',closeDate:'2026-09-24'};
+ assert.equal(trophyForHunt(h),65);
+ assert.equal(trophyForUnit(h,'EA1008').score,65);
+ assert.equal(trophyForHunt({...h,antlerClass:'ANTLERLESS'}),null);
+ assert.equal(trophyForHunt({...h,openDate:'2026-10-26',closeDate:'2026-11-08'}),50);
+ assert.equal(trophyForHunt({...h,units:['172'],openDate:'2026-10-26',closeDate:'2026-11-08',hunters5:28,harvest5:21,resOddsLast:.009}),65);
+ assert.equal(trophyForHunt({...h,units:['172'],openDate:'2026-10-26',closeDate:'2026-11-08',hunters5:3,harvest5:3,resOddsLast:.009}),50);
+});
+test('off-season reduction uses actual dates and preserves the early Idaho 55 exception',()=>{
+ const general={state:'ID',species:'DEER',type:'GENERAL',antlerClass:'ANTLERED',weapon:'ANY',units:['39'],openDate:'2026-10-10',closeDate:'2026-10-31'};
+ assert.equal(trophyForHunt(general),50);
+ assert.equal(trophyForHunt({...general,openDate:null,closeDate:null}),65);
+ assert.equal(trophyForHunt({...general,units:['55'],type:'CONTROLLED',openDate:'2026-08-15',closeDate:'2026-09-24'}),80);
+});
+test('low harvest and comparatively high draw are screened only with compatible enough data',()=>{
+ const h={state:'ID',species:'DEER',type:'GENERAL',antlerClass:'ANTLERED',weapon:'ANY',units:['39'],openDate:'2026-11-01',closeDate:'2026-11-30',hunters5:1000,harvest5:190,harvestYears:5,nrOddsLast:.824,oddsLastYear:2026};
+ assert.equal(trophyForHunt(h),50);
+ assert.equal(trophyForHunt({...h,nrOddsLast:.1}),65);
+ assert.equal(trophyForHunt({...h,harvest5:600}),65);
+ assert.equal(trophyForHunt({...h,hunters5:2,harvest5:0}),65);
+ assert.equal(trophyForHunt({...h,oddsLastYear:2024}),65);
+ assert.equal(trophyForHunt({...h,nrOddsLast:null}),65);
+ const wa={...h,state:'WA',type:'CONTROLLED',units:['247'],pointOdds:{kind:'squared',category:'Quality Deer'},oddsLastYear:2025,nrOddsLast:.05,hunters5:100,harvest5:49};
+ assert.equal(trophyForHunt(wa),65,'uncertain below-50% harvest caps at Good');
+ assert.equal(trophyForHunt({...wa,harvest5:20}),50,'supported low success becomes Standard');
+ assert.equal(trophyForHunt({...wa,nrOddsLast:.02}),80,'hard-to-draw hunt does not trip a high-odds cap');
+ assert.equal(trophyForHunt({...wa,pointOdds:{kind:'other',category:'Quality Deer'}}),80,'incompatible pools are not compared');
+});
+test('reported Entiat and Swakane quality hunts retain their demand ordering', async()=>{
+ const {readFile} = await import('node:fs/promises');
+ const data=JSON.parse(await readFile('data/wa/hunts.json','utf8'));
+ const entiat=data.hunts.find((h:any)=>h.id==='WA:1033');
+ const swakane=data.hunts.find((h:any)=>h.id==='WA:1034');
+ assert.ok(entiat && swakane);
+ assert.ok(entiat.pointOdds.harvest.find((r:any)=>r.year===2025).apps > swakane.pointOdds.harvest.find((r:any)=>r.year===2025).apps);
+ assert.equal(trophyForHunt(entiat),80);
+ assert.equal(trophyForHunt(swakane),65);
 });

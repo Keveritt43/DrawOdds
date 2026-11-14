@@ -22,6 +22,7 @@ import { SIZE_LABEL, drawOf, type SpeciesKey } from '@/lib/species';
 import { ApplyChecklist } from '@/components/ApplyChecklist';
 import { laterChoices, Rules, ScoreRow, ObjectivePills, TrophyMark } from '@/components/HuntCards';
 import { trophyForHunt } from '@/lib/trophyHunt';
+import { withStateTrophyScores } from '@/lib/stateTrophyScores';
 import type { Metadata } from 'next';
 import type { Prisma } from '@prisma/client';
 import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart, ChoiceChart } from '@/components/Charts';
@@ -51,7 +52,8 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const key = decodeURIComponent((await params).id);
   const raw = (await db.huntSummary.findFirst({ where: { slug: key }, include: { hunt: true } })) ?? (await db.huntSummary.findUnique({ where: { id: key }, include: { hunt: true } }));
   if (!raw) notFound();
-  const s = {...raw,scoreTrophy:trophyForHunt(raw)};
+  const scored=withStateTrophyScores(raw);
+  const s = {...scored,scoreTrophy:trophyForHunt(scored)};
   const sp = await searchParams;
   if (s.slug && key !== s.slug) {
     const q = new URLSearchParams();

@@ -28,7 +28,7 @@ const colorado = (patch: Partial<HuntSummary> = {}) => row({
 
 test('trophy tier checkboxes filter combined hunts and survive query round trips',()=>{
  const id=row({units:['54'],openDate:new Date('2026-10-05'),closeDate:new Date('2026-10-31')});
- const co=colorado({tagCode:'DM039O3R'});
+ const co=colorado({tagCode:'DM039O3R',openDate:new Date('2027-11-06'),closeDate:new Date('2027-11-14')});
  const data=[id,co,row({id:'excluded',antlerClass:'ANTLERLESS'})];
  const chosen=runSearch(data,{states:'ID,CO',trophy:['65','80'],antler:'ALL'},'ID',settings);
  assert.deepEqual(chosen.map(x=>x.r.state).sort(),['CO','ID']);

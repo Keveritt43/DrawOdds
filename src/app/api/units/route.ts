@@ -21,6 +21,7 @@ import utLabels from '../../../../data/ut/boundary-labels.json';
 import { utGenElk } from '@/lib/utGenElk';
 import { utWalkin } from '@/lib/utWalkin';
 import { trophyForUnit } from '@/lib/trophyHunt';
+import { withStateTrophyScores } from '@/lib/stateTrophyScores';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -54,7 +55,7 @@ export async function GET(req: Request) {
     db.unit.findMany({ where: { state, geometry: { not: undefined }, ...(state === 'CO' ? { NOT: [{ name: { startsWith: 'S' } }, { name: { startsWith: 'G' } }] } : {}) } }),
     db.huntSummary.findMany({
       where: { state },
-      select: { species: true, type: true, unit: true, units: true, openDate:true, closeDate:true, bigPct5:true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, deerType: true, antlerClass: true, youthOnly: true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
+      select: { species: true, type: true, unit: true, units: true, openDate:true, closeDate:true, bigPct5:true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, resOddsLast:true, nrOddsLast:true, oddsLastYear:true, deerType: true, antlerClass: true, youthOnly: true, privateOnly:true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
@@ -195,7 +196,7 @@ export async function GET(req: Request) {
     // combination is drawn, as the cards show); draw and fill multiplies in the combination draw.
     const pts = readMtPoints((await getPointsStore()).store as Record<string, unknown>);
     by.clear();
-    const rows = await db.huntSummary.findMany({ where: { state: 'MT' } });
+    const rows = (await db.huntSummary.findMany({ where: { state: 'MT' } })).map(withStateTrophyScores);
     const pool = new Map<string, { hunters: number; harvest: number }>();
     for (const r of rows) {
       const sp = SP_KEY[r.species];
@@ -255,7 +256,7 @@ export async function GET(req: Request) {
     // its success and crowding come from DWR's per-unit harvest tables (src/lib/utGenElk.ts).
     const pts = readUtPoints((await getPointsStore()).store as Record<string, unknown>);
     by.clear();
-    const rows = await db.huntSummary.findMany({ where: { state: 'UT' } });
+    const rows = (await db.huntSummary.findMany({ where: { state: 'UT' } })).map(withStateTrophyScores);
     const pool = new Map<string, { hunters: number; harvest: number }>();
     const m0 = (u: string) => by.get(u) ?? by.set(u, {}).get(u)!;
     for (const r of rows) {
@@ -338,7 +339,7 @@ export async function GET(req: Request) {
     // the estimated 2027 projection (src/lib/waHunt.ts); residents and nonresidents share one pool.
     const pts = readWaPoints((await getPointsStore()).store as Record<string, unknown>);
     by.clear();
-    const rows = await db.huntSummary.findMany({ where: { state: 'WA' } });
+    const rows = (await db.huntSummary.findMany({ where: { state: 'WA' } })).map(withStateTrophyScores);
     const gen = new Map<string, { hunters: number; harvest: number; years: number }>();
     const ctl = new Map<string, { hunters: number; harvest: number }>();
     const m0 = (u: string) => by.get(u) ?? by.set(u, {}).get(u)!;
