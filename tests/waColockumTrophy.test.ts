@@ -6,6 +6,7 @@ import {withStateTrophyScores} from '../src/lib/stateTrophyScores';
 import {trophyForUnit} from '../src/lib/trophyHunt';
 import {runSearch, type HunterSettings} from '../src/lib/multiStateSearch';
 import type {CoScored} from '../src/lib/coScores';
+import {searchCsv} from '../src/lib/searchCsv';
 const data=JSON.parse(readFileSync('data/wa/hunts.json','utf8'));
 const row=(id:string)=>data.hunts.find((h:{id:string})=>h.id===id) as HuntSummary;
 test('Washington quality elk peer threshold is reproduced from comparable 2025 hunts',()=>{
@@ -38,4 +39,7 @@ test('finder applies corrected dates and Excellent filter to the same hunt',()=>
  const settings={ID:'RESIDENT',CO:{res:'NONRESIDENT',DEER:0,ELK:0,PRONGHORN:0,youth:false,set:true}} as HunterSettings;
  const results=runSearch([row('WA:2016') as CoScored],{states:'WA',species:'ELK',antler:'ALL',trophy:'80',from:'09-25',to:'09-29'},'WA',settings);
  assert.equal(results.length,1);assert.equal(results[0].r.id,'WA:2016');assert.equal(results[0].odds,null);
+ const csv=searchCsv(results,'https://example.test');
+ assert.match(csv,/Hunter-seasons,Harvest small sample/);
+ assert.match(csv,/,100,3,Yes,/);
 });
