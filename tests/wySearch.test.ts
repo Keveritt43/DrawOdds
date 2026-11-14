@@ -159,6 +159,6 @@ test('minimum points uses Wyoming pool cutoff and leaves other states and reside
   assert.equal(runSearch([ant], sp, 'WY', wy({ res: 'RESIDENT' }), {}, {}).length, 1);
   const unknown = { ...ant, pointOdds: null };
   assert.equal(runSearch([unknown], sp, 'WY', wy({}), {}, {}).length, 0);
-  const id = { ...ant, id: 'ID:test', state: 'ID', type: 'CONTROLLED' };
+  const id = { ...ant, id: 'ID:test', state: 'ID', type: 'CONTROLLED' as const };
   assert.equal(runSearch([id], { ...sp, states: 'ID,WY' }, 'ID', wy({}), {}, {}).length, 1);
 });
