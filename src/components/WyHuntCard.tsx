@@ -67,12 +67,16 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
             {r.type === 'GENERAL' && !nr ? 'General license, over the counter' : <>{projected ? `${po!.projYear} projected` : `${r.oddsLastYear ?? 'Latest'} draw`} · {nr ? 'NR' : 'resident, estimated'}</>}
           </span>
         </div>
-        <div>
+        {r.species === 'DEER' ? <div>
+          <span className="k">Harvest per active license</span>
+          {deer.some(d => d.rate !== null) ? deer.filter(d => d.rate !== null).map(d => <span key={d.kind}><b>{d.kind === 'MULE' ? 'Mule deer' : 'Whitetail'}: {pct(d.rate)}</b><span className="sub">{d.years} reported season{d.years === 1 ? '' : 's'}</span></span>) : <><b>–</b><span className="sub">No species estimates available</span></>}
+          <span className="sub">WGFD survey · active licenses, not unique hunters</span>
+        </div> : <div>
           <span className="k">Success {years ? `${years}-yr` : ''}</span>
           <b>{pct(r.success5)}</b>
-          <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? (r.species === 'DEER' ? 'Combined rate unavailable' : 'No harvest data') : r.smallSample ? 'Small sample' : success.text}</span>
-          <span className="sub">{r.species === 'DEER' && r.success5 === null ? 'Hunter overlap not verified' : po?.harvestBasis ? 'Region general seasons' : r.harvestLastYear ? `${r.harvestLastYear}: ${pct(r.successLast)}` : 'WGFD harvest survey'}</span>
-        </div>
+          <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
+          <span className="sub">{po?.harvestBasis ? 'Region general seasons' : r.harvestLastYear ? `${r.harvestLastYear}: ${pct(r.successLast)}` : 'WGFD harvest survey'}</span>
+        </div>}
         <div>
           <span className="k">Hunters/mi²</span>
           <b>{density(r.huntersSqMi)}</b>
@@ -80,7 +84,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
           <span className="sub">{r.hunters5 !== null && years ? `${int(r.hunters5 / years)} hunters/yr` : 'No density data'}</span>
         </div>
       </div>
-      {deer.some(d => d.rate !== null) && <p className="small muted">WGFD harvest per active license: {deer.filter(d => d.rate !== null).map(d => (d.kind === 'MULE' ? 'Mule deer ' : 'Whitetail ') + pct(d.rate) + ' (' + d.years + ' seasons)').join(' · ')}{mix ? ' · Harvest mix: ' + (mix === 'MULE' ? 'Mule Deer' : mix === 'WHITETAIL' ? 'Whitetail' : 'Mixed') : ''}. Species counts may overlap; see hunt details.</p>}
+      {r.species === 'DEER' && <p className="small muted">{mix ? 'Harvest mix: ' + (mix === 'MULE' ? 'Mule Deer' : mix === 'WHITETAIL' ? 'Whitetail' : 'Mixed') + '. ' : ''}Combined success and hunter density are unavailable because species counts may overlap. See hunt details.</p>}
       <div className="small muted" style={{ marginTop: 8 }}>
         Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land:{' '}
         {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}
