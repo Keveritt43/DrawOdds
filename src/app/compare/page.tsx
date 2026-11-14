@@ -3,6 +3,7 @@ import { getCoScoringContext } from '@/lib/coScoringContext';
 import type { CoScored } from '@/lib/coScores';
 import { getPoints } from '@/lib/points';
 import { withCoScores } from '@/lib/coScores';
+import { withStateTrophyScores } from '@/lib/stateTrophyScores';
 import { huntHref } from '@/lib/huntSlug';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
@@ -30,7 +31,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
   const nrFor = (r: HuntSummary) => (r.state === 'CO' ? coPoints.res : residency) === 'NONRESIDENT';
   const raw=await db.huntSummary.findMany({ where: { id: { in: ids } } });
   const context=raw.some(r=>r.state==='CO') ? await getCoScoringContext() : undefined;
-  const found=raw.map(r=>r.state==='CO'?withCoScores(r,context):r);
+  const found=raw.map(r=>r.state==='CO'?withCoScores(r,context):withStateTrophyScores(r));
   const coPoints=await getPoints('CO');
   const settings = { ID: residency, CO: coPoints };
   const coOdds=(r:HuntSummary,mode:'proj'|'last')=>evaluateHunt(r,settings,mode).odds;

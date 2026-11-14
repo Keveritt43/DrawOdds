@@ -22,7 +22,7 @@ const SPECIES_MSG: Opt[] = [['', 'All Three'], ['MOOSE', 'Moose'], ['BIGHORN', '
 const SEX_MSG: Opt[] = [['ANTLERED', 'Antlered (bulls & rams)'], ['ANTLERLESS', 'Cows & ewes (female)'], ['EITHER', 'Either sex']];
 const OBJ: Opt[] = [['BELOW', 'Below objective'], ['WITHIN', 'Within objective'], ['ABOVE', 'Above objective']];
 const SCORE_STOPS: Opt[] = [['', 'Any'], ['50', '50+'], ['70', '70+'], ['85', '85+']];
-const TROPHY_TIERS: Opt[] = [['100','Unicorn 100'],['80','Trophy 80'],['65','Recognized Unit 65'],['50','Unclassified 50']];
+const TROPHY_TIERS: Opt[] = [['100','Elite'],['80','Excellent'],['65','Good'],['50','Standard']];
 /** Opportunity sorting defaults Quality to 50+: its "Any" has to say so explicitly */
 const QUALITY_STOPS = (opp: boolean): Opt[] => (opp ? [['0', 'Any'], ['', '50+ (default)'], ['70', '70+'], ['85', '85+']] : SCORE_STOPS);
 const TYPES: Opt[] = [['', 'All Hunts'], ['CONTROLLED', 'Controlled Draw'], ['GENERAL', 'General Seasons']];

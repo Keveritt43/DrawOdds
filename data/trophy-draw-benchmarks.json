@@ -1,0 +1,16 @@
+{
+  "note": "Descriptive 75th percentiles of last observed adult nonresident overall draw rates among eligible same-state, species, year and draw-system peers. General tags are deduplicated by unit set. They are not personal odds, a significance test or a guarantee. No matching group means unknown.",
+  "groups": {
+    "ID|ELK|2026|random|random": {"n":190,"p75":0.4317862165963432},
+    "ID|DEER|2026|random|random": {"n":201,"p75":0.6923076923076923},
+    "WA|DEER|2025|squared|Quality Deer": {"n":98,"p75":0.04132231404958678},
+    "WA|DEER|2025|squared|Buck Deer": {"n":46,"p75":0.09803921568627451},
+    "WA|ELK|2025|squared|Quality Elk": {"n":93,"p75":0.016877637130801686},
+    "WA|ELK|2025|squared|Bull Elk": {"n":41,"p75":0.012464046021093002},
+    "MT|DEER|2026|bonus|Deer Permit": {"n":36,"p75":0.35714285714285715},
+    "MT|ELK|2026|bonus|Elk Permit": {"n":38,"p75":0.2608695652173913},
+    "UT|DEER|2026|bonus|bonus": {"n":70,"p75":0.13333333333333333},
+    "UT|ELK|2026|bonus|bonus": {"n":122,"p75":0.06569343065693431},
+    "UT|DEER|2026|preference|preference": {"n":32,"p75":1}
+  }
+}

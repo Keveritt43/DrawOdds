@@ -228,7 +228,10 @@ export function TrophyMark({ score, showNeutral = true }: { score: number | null
   const info = trophyPresentation(score);
   if (score === null || ![50,65,80,100].includes(score)) return null;
   if (score === 50 && !showNeutral) return null;
-  return <span className="pill" title={info.description} style={{ color: info.color, borderColor: info.color, background: 'transparent' }}>{info.icon ? (score === 100 ? '🏆✨ ' : '🏆 ') : ''}{info.label} {score}</span>;
+  return <span className="pill trophy-badge" title={info.description}>
+    {info.icon && <svg aria-hidden="true" viewBox="0 0 28 28" width={score===100?23:19} height={score===100?23:19} style={{color:score===65?'#8b999d':'#bd831f',flex:'none'}}><path fill="currentColor" d="M7 4h14l-1 7c-.4 4-2.3 6.4-5 7.3V21h4v2H9v-2h4v-2.7c-2.7-.9-4.6-3.3-5-7.3L7 4Z"/><path d="M8 6H4v2c0 4 2.4 6 5 6M20 6h4v2c0 4-2.4 6-5 6" fill="none" stroke="currentColor" strokeWidth="1.7"/><path d="M10 8h8M10.5 11h7" stroke="#fff" opacity=".5" strokeWidth=".8"/><path d="M9 24h10" stroke="currentColor" strokeWidth="2"/></svg>}
+    {score===100 && <span aria-hidden="true" style={{color:'#bd831f'}}>✦</span>}{info.label}
+  </span>;
 }
 
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
@@ -251,7 +254,7 @@ export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; op
             <small>{k === 'trophy' && v === null ? 'N/A' : v ?? '—'}</small>
           </div>
         ))}
-        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; unclassified is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{r.units.length > 1 && r.scoreTrophy !== null ? 'This hunt’s tier uses its best eligible unit; other units may differ. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
+        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; Standard is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{r.units.length > 1 && r.scoreTrophy !== null ? 'This hunt’s tier uses its best eligible unit; other units may differ. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
       </div>
     </details>
   );

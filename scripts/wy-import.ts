@@ -63,7 +63,8 @@ async function main() {
   const errors = validate();
   if (errors.length) throw Error(`Wyoming data failed validation:\n${errors.slice(0, 30).join('\n')}`);
   const scores = scoreHunts(hunts.hunts.map((h) => ({
-    id: h.id, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
+    id: h.id, state: 'WY', units:h.units, name:h.name, tagCode:h.tagCode, takeMethod:typeof h.takeMethod==='string'?h.takeMethod:null, openDate:date(h.openDate), closeDate:date(h.closeDate), tagSeasons:h.tagSeasons, pointOdds:h.pointOdds, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
+    harvestYears:num(h.harvestYears), nrOddsLast:num(h.nrOddsLast), resOddsLast:num(h.resOddsLast), oddsLastYear:num(h.oddsLastYear), youthOnly:h.youthOnly===true, privateOnly:h.privateOnly===true,
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
     publicPct: h.privateOnly ? (num(h.publicPct) === null ? null : 0) : num(h.publicPct),
     huntablePct: null, bigPct5: null, resOdds5: null, nrOdds5: null,

@@ -70,7 +70,8 @@ async function main() {
   // (0% for private-land-only permits)
   const huntable = (h: Rec) => (h.privateOnly ? 0 : num(h.publicPct));
   const scores = scoreHunts(hunts.hunts.map((h) => ({
-    id: h.id, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
+    id: h.id, state: 'WA', units:h.units, name:h.name, tagCode:h.tagCode, takeMethod:typeof h.takeMethod==='string'?h.takeMethod:null, openDate:date(h.openDate), closeDate:date(h.closeDate), tagSeasons:h.tagSeasons, pointOdds:h.pointOdds, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
+    harvestYears:num(h.harvestYears), nrOddsLast:num(h.nrOddsLast), resOddsLast:num(h.resOddsLast), oddsLastYear:num(h.oddsLastYear), youthOnly:h.youthOnly===true, privateOnly:h.privateOnly===true,
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
     // Wyoming's rule: a licence valid on private land only scores as 0% public, whatever the district holds
     publicPct: h.privateOnly ? (num(h.publicPct) === null ? null : 0) : num(h.publicPct), huntablePct: huntable(h), bigPct5: num(h.bigPct5), deerType: typeof h.deerType === 'string' ? h.deerType : null,
