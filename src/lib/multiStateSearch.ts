@@ -24,7 +24,7 @@ import { utPersonal, utKind } from './utHunt';
 import { readUtPoints, type UtPoints } from './utPoints';
 import { waPersonal, waLicense, waPo } from './waHunt';
 import { readWaPoints, type WaPoints } from './waPoints';
-import { withoutUnvalidatedWyDeerMetrics } from './wyDeerMetrics';
+import { withoutUnvalidatedWyDeerMetrics, wyDeerMix } from './wyDeerMetrics';
 import { trophyForHunt } from './trophyHunt';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
@@ -178,6 +178,8 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
       if (has !== (f.migration === 'yes')) return false;
     }
   } else if (r.state === 'WY') {
+    const deerMix = list(sp, 'wyDeer');
+    if (deerMix.length && (r.species !== 'DEER' || !deerMix.includes(wyDeerMix(r.pointOdds) ?? ''))) return false;
     if (param(sp, 'wyMaxPts') !== '') {
       const n = Number(param(sp, 'wyMaxPts'));
       if (Number.isFinite(n) && x.nr && (x.need === null || x.need === undefined || x.need > n)) return false;
