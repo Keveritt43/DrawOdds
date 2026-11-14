@@ -31,7 +31,7 @@ function overlapsRut(open:Date|string|null|undefined,close:Date|string|null|unde
 /** Score a single unit within a hunt; a multi-unit hunt does not confer one unit's tier on another. */
 export function trophyForUnit(hunt: {
   state:string; species:string; type:string; antlerClass:string; weapon:string;
-  openDate?:Date|string|null; closeDate?:Date|string|null; bigPct5?:number|null; resOdds5?:number|null; nrOdds5?:number|null; resOddsLast?:number|null; nrOddsLast?:number|null; oddsLastYear?:number|null; hunters5?:number|null; harvest5?:number|null; harvestYears?:number|null; youthOnly?:boolean; privateOnly?:boolean;
+  openDate?:Date|string|null; closeDate?:Date|string|null; bigPct5?:number|null; resOdds5?:number|null; nrOdds5?:number|null; resOddsLast?:number|null; nrOddsLast?:number|null; oddsLastYear?:number|null; appsLast?:number|null; hunters5?:number|null; harvest5?:number|null; harvestYears?:number|null; youthOnly?:boolean; privateOnly?:boolean;
   deerType?:string|null; tagCode?:string|null; tagSeasons?:unknown; name?:string|null; takeMethod?:string|null; pointOdds?:unknown; season?:string|null;
 }, unit:string) {
   if ((hunt.pointOdds as {multiSeason?:boolean}|null)?.multiSeason)
@@ -68,6 +68,10 @@ export function trophyForUnit(hunt: {
     if(upper<.5) return {score:50 as const,tier:'unclassified' as const,reason:'Low observed harvest with high overall draw rate compared with the same-year peer group'};
     if(p<.5 && result.score>65) return seasonal({score:65,tier:'county',reason:'Below-50% observed harvest with high overall draw rate; uncertainty remains'});
   }
+  // 2025 Quality Elk application counts, 95th percentile (93 eligible hunts, nearest rank).
+  // Demand is a descriptive signal and the pooled award rate is not personal odds.
+  if(result.score!==null && result.score<80 && state==='WA' && hunt.species.toUpperCase()==='ELK' && hunt.type.toUpperCase()==='CONTROLLED' && !hunt.youthOnly && !hunt.privateOnly && hunt.oddsLastYear===2025 && po?.kind==='squared' && po.category==='Quality Elk' && typeof hunt.appsLast==='number' && hunt.appsLast>=1242 && typeof hunt.resOddsLast==='number' && hunt.resOddsLast>0 && hunt.resOddsLast<.02 && spans.some(s=>overlapsRut(s.open,s.close)))
+    return seasonal({score:80,tier:'trophy',reason:'Exceptional same-category applications and low overall award rate for an early-season quality elk permit; demand does not establish trophy size'});
   if(result.score!==null && hunt.state.toUpperCase()==='WA' && hunt.species.toUpperCase()==='ELK' && ['157','162','169','172','EA1008','EA1009'].includes(unit.trim().toUpperCase())) {
     const n=hunt.hunters5, k=hunt.harvest5, p=typeof n==='number' && n>=20 && typeof k==='number' && k>=0 && k<=n ? k/n : null;
     // Approximate 95% Wilson lower bound; a screening aid, not proof of trophy size.

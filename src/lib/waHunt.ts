@@ -30,6 +30,7 @@ export interface WaPointOdds {
   restricted?: boolean;
   /** 65+: WDFW has never published results by point level, so no odds table */
   noPointData?: boolean;
+  oddsUnavailableReason?: string;
   category: string;
   tag?: string;
   side?: 'EAST' | 'WEST' | null;
@@ -43,7 +44,7 @@ export interface WaPointOdds {
   cutoff?: { last: number; y2026: number; proj: number };
   harvest?: { year: number; hunters: number | null; harvest: number | null; apps?: number | null; permits?: number | null }[];
 }
-type Row = { species: string; type: string; oddsByPts: unknown; pointOdds: unknown };
+type Row = { id?:string; species: string; type: string; oddsByPts: unknown; pointOdds: unknown };
 
 export const waPo = (r: Row) => r.pointOdds as WaPointOdds | null;
 export const waIsGeneral = (r: Row) => (waPo(r)?.kind ?? 'otc') === 'otc';
@@ -61,11 +62,12 @@ export function waPersonal(r: Row, pts: WaPoints, mode: 'proj' | 'last' = 'proj'
   const type = waPointType(po?.category);
   const points = type ? pts.points[type] : 0;
   const t = r.oddsByPts as WaOddsTable | null;
-  const projected = mode === 'proj' && !!po?.projected && !!t?.proj?.res?.length;
-  const odds = waTableOdds(t, points, projected ? 'proj' : 'last');
+  const unavailable = po?.oddsUnavailableReason ?? (r.id==='WA:2016' && po?.category==='Quality Elk' && po.dates==='Sept. 2 5 -2 9' ? 'Point-level estimates are unavailable because this hunt number previously identified a different season.' : undefined);
+  const projected = !unavailable && mode === 'proj' && !!po?.projected && !!t?.proj?.res?.length;
+  const odds = unavailable ? null : waTableOdds(t, points, projected ? 'proj' : 'last');
   const label = type ? WA_POINT_TYPES.find((x) => x.key === type)!.label.toLowerCase() : 'category';
   const when = projected ? `${po?.projYear ?? 2027} projected` : `${po?.year ?? 2025} drawing`;
-  const basis = po?.noPointData ? 'No estimate at your points: WDFW has never published 65+ results by point level' : odds === null ? 'No published applications' : `${when}, estimated, at ${points} ${label} point${points === 1 ? '' : 's'} (${(points + 1) ** 2} entr${points === 0 ? 'y' : 'ies'})`;
+  const basis = unavailable ?? (po?.noPointData ? 'No estimate at your points: WDFW has never published 65+ results by point level' : odds === null ? 'No published applications' : `${when}, estimated, at ${points} ${label} point${points === 1 ? '' : 's'} (${(points + 1) ** 2} entr${points === 0 ? 'y' : 'ies'})`);
   return { odds, points, type, basis, projected, tagOk: waTagAllows(po?.tag, r.species, pts) };
 }
 

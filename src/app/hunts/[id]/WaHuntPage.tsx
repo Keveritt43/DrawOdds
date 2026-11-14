@@ -84,11 +84,11 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       {/* 1. Can I get it? */}
       <div className="co-top">
         <div className="card co-mine">
-          <div className="k">{gen ? 'Your tag' : `Your ${mine.projected ? `${projYear} projected` : lastYear} odds · estimated`}</div>
+          <div className="k">{gen ? 'Your tag' : po?.oddsUnavailableReason ? 'Your draw odds' : `Your ${mine.projected ? `${projYear} projected` : lastYear} odds · estimated`}</div>
           <div className="co-big">{pct(mine.odds)} {mine.odds !== null && !gen && <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span>}</div>
           <div className="small muted">
             {gen ? <>Buy a general {spLabel} tag over the counter{s.species === 'ELK' ? ' (Eastern or Western Washington, one weapon)' : ' (one weapon)'} and hunt this GMU&apos;s general season. This GMU&apos;s 2026 dates and legal {spLabel} for your weapon are under Season, from WDFW&apos;s 2026 pamphlet.</>
-              : po?.noPointData ? <>{mine.basis}. Points still count (squared, like every category), so more points help, but how much can&apos;t be estimated. The permits ÷ applications at right is the only published guide.</>
+              : po?.noPointData || po?.oddsUnavailableReason ? <>{mine.basis} Points still count (squared, like every category), so more points help, but how much can&apos;t be estimated. The permits ÷ applications at right is an overall guide.</>
               : <>{mine.basis}. {mine.projected ? <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {lastYear} estimate</HuntLink> : <HuntLink href={q({ odds: null })} scroll={false}>See the {projYear} projection</HuntLink>}</>}
             {!pts.set && !gen && <> <Link href="/account#hunting-preferences">Set your Washington points</Link> for your own odds.</>}
           </div>
