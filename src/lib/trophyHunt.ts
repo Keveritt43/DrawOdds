@@ -83,7 +83,7 @@ export function trophyForUnit(hunt: {
   const rawCandidate=resolveTrophyCandidate({state,species:hunt.species,unit,huntCode:code,drawYear:hunt.oddsLastYear,applications:apps,deerType:whitetailOnly?'WHITETAIL':hunt.deerType,...huntEvidence});
   if (code && rawCandidate.sourceIds.length===0 && !/No verified|multiple subspecies|conditional or inactive/.test(rawCandidate.reason) &&
       unlistedExceptionalHunt({state,species:hunt.species.toUpperCase(),code,year:hunt.oddsLastYear??null,applications:apps??null,units:[unit],sourceCoverage:'absent'}))
-    return {score:65 as const,tier:'county' as const,reason:'Exceptional comparable hunt demand; no source-list entry'};
+    return {score:65 as const,tier:'county' as const,reason:'Exceptional comparable hunt demand; no source-list entry; provisional'};
   const tiers:Record<TrophyScore,TrophyTier>={50:'unclassified',65:'county',80:'trophy',100:'unicorn'};
   const result:{score:TrophyScore|null;tier:TrophyTier|null;reason:string}={score:candidate.score,tier:tiers[candidate.score],reason:`${candidate.reason}${candidate.provisional?'; provisional':''}`};
   // A county-only lead cannot be upgraded by a generic geographic or season override.
@@ -108,10 +108,10 @@ export function trophyForUnit(hunt: {
   const category=state==='ID'?'random':state==='WA'?po?.category:state==='MT'?po?.license:kind;
   const benchmark=(drawBenchmarks.groups as Record<string,{n:number;p75:number}>)[`${state}|${hunt.species.toUpperCase()}|${hunt.oddsLastYear}|${kind}|${category}`];
   const n=hunt.hunters5,k=hunt.harvest5;
-  if(!earlyId55 && !hunt.youthOnly && !hunt.privateOnly && result.score!==null && benchmark && benchmark.n>=20 && typeof hunt.nrOddsLast==='number' && Number.isFinite(hunt.nrOddsLast) && hunt.nrOddsLast>=benchmark.p75 && hunt.nrOddsLast<=1 && typeof n==='number' && Number.isFinite(n) && n>=50 && typeof k==='number' && Number.isFinite(k) && k>=0 && k<=n && typeof hunt.harvestYears==='number' && hunt.harvestYears>=3) {
+  if(!earlyId55 && !hunt.youthOnly && !hunt.privateOnly && result.score!==null && benchmark && typeof hunt.nrOddsLast==='number' && Number.isFinite(hunt.nrOddsLast) && hunt.nrOddsLast>=benchmark.p75 && hunt.nrOddsLast<=1 && typeof n==='number' && Number.isFinite(n) && n>=50 && typeof k==='number' && Number.isFinite(k) && k>=0 && k<=n && typeof hunt.harvestYears==='number' && hunt.harvestYears>=3) {
     const p=k/n,z=1.96,z2=z*z,upper=(p+z2/(2*n)+z*Math.sqrt(p*(1-p)/n+z2/(4*n*n)))/(1+z2/n);
-    if(upper<.5) return {score:50 as const,tier:'unclassified' as const,reason:'Low observed harvest with high overall draw rate compared with the same-year peer group'};
-    if(p<.5 && result.score>65) return seasonal({score:65,tier:'county',reason:'Below-50% observed harvest with high overall draw rate; uncertainty remains'});
+    if(upper<.5) return {score:50 as const,tier:'unclassified' as const,reason:`Low observed harvest with high overall draw rate compared with the same-year peer group${benchmark.n<30?'; provisional (small comparison group)':''}`};
+    if(p<.5 && result.score>65) return seasonal({score:65,tier:'county',reason:'Below-50% observed harvest with high overall draw rate; provisional (uncertainty remains)'});
   }
   // These two previously reviewed Washington hunt comparisons remain hunt-specific.
   // A unit-wide source designation must not erase their documented demand distinction.
@@ -190,7 +190,7 @@ export function trophyHuntEvidence(hunt: Parameters<typeof trophyForHunt>[0], sc
     return {provisional:true,reason:'The hunt covers units with different evidence; its conservative tier is provisional and applications apply to the entire hunt.'};
   const matches=(hunt.units??[]).map(unit=>trophyForUnit(hunt,unit)).filter(r=>r.score===score);
   if (!matches.length) return score===65 && trophyForHunt(hunt)===65
-    ? {provisional:false,reason:'Exceptional comparable demand belongs to the hunt, not every unit.'}
+    ? {provisional:true,reason:'Exceptional comparable demand belongs to the hunt, not every unit; small comparison groups can be unstable.'}
     : {provisional:true,reason:'Stored tier does not match current unit evidence; score review is needed.'};
   const known=matches.find(r=>!r.reason.includes('provisional'));
   return {provisional:!known,reason:(known??matches[0]).reason};

@@ -38,10 +38,14 @@ export function reviewTrophyPeerBenchmark(input:PeerLookup) {
   const row=rows.get(key(input));
   if (!row || row.value !== input.value) return null;
   const group=groups.get(groupKey(row));
-  if (!group || group.n<10 || group.p90===null || group.p75===null) return null;
+  if (!group) return null;
   const values=distributions.get(groupKey(row))??[];
+  if (!values.length) return null;
+  const sorted=[...values].sort((a,b)=>a-b);
+  const p75=group.p75??sorted[Math.ceil(sorted.length*.75)-1];
+  const p90=group.p90??sorted[Math.ceil(sorted.length*.9)-1];
   const percentile=100*(values.filter(value=>value<input.value).length+values.filter(value=>value===input.value).length/2)/values.length;
-  return { cohort:group.cohort, peers:group.n, p75:group.p75, p90:group.p90,
-    high:input.value>=group.p75, exceptional:input.value>=group.p90,
+  return { cohort:group.cohort, peers:group.n, p75, p90,
+    high:input.value>=p75, exceptional:input.value>=p90,
     percentile,provisional:group.n<30, year:group.year };
 }

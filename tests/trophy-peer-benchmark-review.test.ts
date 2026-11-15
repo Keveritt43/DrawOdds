@@ -31,3 +31,10 @@ test('Wyoming regular preference points are compared within their own pool',()=>
   assert.equal(r?.peers,64);assert.equal(r?.p90,20);assert.equal(r?.exceptional,true);
   assert.equal(reviewTrophyPeerBenchmark({...h,pool:'Resident'}),null);
 });
+
+test('Utah premium hunts use small matched peer groups and remain provisional',()=>{
+  const result=reviewTrophyPeerBenchmark({state:'UT',species:'DEER',year:2026,code:'DB1003',pool:'Combined',measure:'Applications',value:6155});
+  assert.equal(result?.peers,3);
+  assert.equal(result?.provisional,true);
+  assert.ok(result?.p90);
+});

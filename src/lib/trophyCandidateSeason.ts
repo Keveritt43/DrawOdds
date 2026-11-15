@@ -25,6 +25,6 @@ export function resolveSeasonCandidate(h: CandidateHunt): CandidateTier & { sour
   if (!observation)
     return {...base, score:capGood(base.score), provisional:true, reason:'No matching comparable weapon/season demand observation'};
   if (!observation.high)
-    return {...base, score:lower[base.score], reason:`Below the top quartile among ${observation.peers} same-season peers; demand does not measure animal size`};
-  return {...base, reason:`Top quartile among ${observation.peers} same-season peers; source-list unit tier retained`};
+    return {...base, score:lower[base.score], provisional:base.provisional || observation.peers<30, reason:`Below the top quartile among ${observation.peers} same-season peers; demand does not measure animal size`};
+  return {...base, provisional:base.provisional || observation.peers<30, reason:`Top quartile among ${observation.peers} same-season peers; source-list unit tier retained`};
 }

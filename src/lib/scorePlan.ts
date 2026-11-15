@@ -4,7 +4,7 @@ export type ScoreSnapshot = { input: ScoreInput; before: ScoreOutput }[];
 export const scoreDigest = (rows: ScoreSnapshot) => createHash('sha256').update(JSON.stringify(rows.slice().sort((a,b)=>a.input.id.localeCompare(b.input.id)))).digest('hex');
 export function scorePlan(rows: ScoreSnapshot) {
   const scores=scoreHunts(rows.map(r=>r.input));
-  return { version:SCORE_VERSION, state:'ID', digest:scoreDigest(rows), rows:rows.map(r=>({id:r.input.id,before:r.before,after:scores.get(r.input.id)!})) };
+  return { version:SCORE_VERSION, state:'ID', digest:scoreDigest(rows), rows:rows.map(r=>({id:r.input.id,before:r.before,after:scores.get(r.input.id)!})).sort((a,b)=>a.id.localeCompare(b.id)) };
 }
 export function validateScorePlan(saved: unknown, current: ScoreSnapshot) {
   const fresh=scorePlan(current);

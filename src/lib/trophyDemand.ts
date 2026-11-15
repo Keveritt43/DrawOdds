@@ -37,14 +37,14 @@ export function exceptionalDemandThreshold(peers: DemandPeer[]): DemandThreshold
     observations.set(p.id, value);
   }
   const values = [...observations.values()].sort((a, b) => a - b);
-  if (values.length < 20) return null;
+  if (!values.length) return null;
   return { state: first.state, species: first.species, year: first.year, peerGroup: first.peerGroup,
     sampleSize: values.length, threshold: values[Math.ceil(values.length * 0.95) - 1] };
 }
 
 /** Unknown and mismatched populations are not evidence of exceptional demand. */
 export function hasExceptionalDemand(hunt: DemandPeer, benchmark: DemandThreshold | null): boolean {
-  return !!benchmark && valid(hunt) && benchmark.sampleSize >= 20 && Number.isSafeInteger(benchmark.threshold) &&
+  return !!benchmark && valid(hunt) && benchmark.sampleSize > 0 && Number.isSafeInteger(benchmark.threshold) &&
     benchmark.threshold > 0 && hunt.state === benchmark.state && hunt.species === benchmark.species &&
     hunt.year === benchmark.year && hunt.peerGroup === benchmark.peerGroup &&
     (hunt.applications as number) >= benchmark.threshold;

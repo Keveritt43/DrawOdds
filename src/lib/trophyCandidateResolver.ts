@@ -65,7 +65,7 @@ export function resolveTrophyCandidate(h: CandidateHunt): CandidateTier & { sour
     overallPast10Tier: singleTier(rows.map(r => r.overallPast10Tier)), statePast10Tier: singleTier(rows.map(r => r.statePast10Tier)),
     highUnitDemand: high, exceptionalHuntDemand: exceptional ? true : null, topDecileHuntDemand:h.huntDemandExceptional });
   const parentPortion = state === 'MT' && species === 'PRONGHORN' && /^A\d+[NS]$/.test(boundary);
-  return { ...result, provisional: result.provisional || parentPortion || h.huntDemandProvisional === true,
+  return { ...result, provisional: result.provisional || parentPortion || h.huntDemandProvisional === true || (!!measured && measured.peerUnits < 30) || (!!exceptional && exceptional.peers < 30),
     reason: parentPortion ? `${result.reason}; source describes the parent district, not this portion` : result.reason,
     sourceIds: rows.map(r => r.id) };
 }

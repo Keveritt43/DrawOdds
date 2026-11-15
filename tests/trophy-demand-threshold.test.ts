@@ -16,9 +16,10 @@ test('95th percentile uses distinct comparable hunts and detects an exceptional 
   assert.equal(hasExceptionalDemand(data[17], threshold), false);
 });
 
-test('missing data, conflicting duplicates and small groups cannot establish demand', () => {
+test('small groups are evaluated while missing or conflicting data remains unknown', () => {
   const data = peers();
-  assert.equal(exceptionalDemandThreshold(data.slice(0, 19)), null);
+  assert.equal(exceptionalDemandThreshold(data.slice(0, 1))?.sampleSize, 1);
+  assert.equal(hasExceptionalDemand(data[0],exceptionalDemandThreshold(data.slice(0,1))),true);
   assert.equal(exceptionalDemandThreshold([...data, { ...data[0], applications: 99 }]), null);
   const benchmark = exceptionalDemandThreshold(data);
   assert.equal(hasExceptionalDemand({ ...data[19], applications: null }, benchmark), false);
