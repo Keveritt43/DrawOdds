@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import type { HuntSummary } from '@prisma/client';
 import { searchStates, searchBounds, searchUnitKey, matchesSelectedUnit } from '../src/lib/searchStates';
-import { runSearch, personalize, evaluateHunt, compareSearch, type HunterSettings } from '../src/lib/multiStateSearch';
+import { runSearch, personalize, evaluateHunt, compareSearch, matchesSearch, searchFilters, type HunterSettings } from '../src/lib/multiStateSearch';
 import { searchCsv } from '../src/lib/searchCsv';
 import { matchesHuntSeason } from '../src/lib/huntSeasonFilter';
 import { parseFilters, buildWhere, toQuery } from '../src/lib/finder';
@@ -230,4 +230,27 @@ test('Wyoming harvest mix filter narrows only Wyoming and excludes unknown mix',
   const rows = [row(), row({id:'wy:known', state:'WY', pointOdds:po}), row({id:'wy:unknown', state:'WY', pointOdds:null})];
   assert.deepEqual(runSearch(rows, {states:'ID,WY', species:'DEER', wyDeer:'MULE', antler:'ALL'}, 'ID', settings).map(x => x.r.id).sort(), ['id:deer39','wy:known']);
   assert.deepEqual(runSearch(rows, {states:'ID,WY', species:'DEER', wyDeer:'WHITETAIL', antler:'ALL'}, 'ID', settings).map(x => x.r.id), ['id:deer39']);
+});
+
+
+test('preset alternatives combine with the shared filters without treating missing evidence as zero', () => {
+  const x = personalize(row({ publicPct: 65, success5: .6 }), settings, 'proj')!;
+  x.r.scoreTrophy = 50;
+  const q = { states:'ID,CO', huntPreset:'max-trophy,tag-filler', minPublic:'60' };
+  assert.equal(matchesSearch(x, searchFilters(q), q), true);
+  assert.equal(matchesSearch(x, searchFilters({...q,minPublic:'70'}), {...q,minPublic:'70'}), false);
+  x.r.publicPct = null;
+  assert.equal(matchesSearch(x, searchFilters(q), q), false);
+  x.r.scoreTrophy = 100; x.r.publicPct = 65;
+  assert.equal(matchesSearch(x, searchFilters(q), q), true);
+});
+
+
+test('sleeper cutoff uses the saved Colorado pool and requires an observed award', () => {
+  const hunt = colorado({pointOdds: {pools:{nr:{cut:{points:2},levels:[[2,10,1]]},res:{cut:{points:5},levels:[[5,5,1]]}}} as never});
+  assert.equal(evaluateHunt(hunt,settings,'proj').meetsObservedCutoff,true);
+  assert.equal(evaluateHunt(hunt,{...settings,CO:{...settings.CO,set:false}},'proj').meetsObservedCutoff,false);
+  assert.equal(evaluateHunt(hunt,{...settings,CO:{...settings.CO,res:'RESIDENT'}},'proj').meetsObservedCutoff,false);
+  const noAward = colorado({pointOdds:{pools:{nr:{cut:{points:2},levels:[[2,10,0]]}}} as never});
+  assert.equal(evaluateHunt(noAward,settings,'proj').meetsObservedCutoff,false);
 });

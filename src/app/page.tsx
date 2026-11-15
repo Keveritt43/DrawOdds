@@ -1,3 +1,4 @@
+import { QuickHuntPresets } from '@/components/HuntPresetChoices';
 import { HomeStatePicker } from '@/components/HomeStatePicker';
 import { MultiQuickStart, QuickSeasonDates, QuickTrophyChoices } from '@/components/MultiQuickStart';
 import { MtQuickStart } from '@/components/MtHome';
@@ -175,11 +176,12 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
             <QuickSeasonDates />
             {!msg && <QuickTrophyChoices />}
             <p className="hint">On the results page, use Show Filters to fine-tune hunts by dates, land, odds and more.</p>
-            <label>I Want</label>
+            <QuickHuntPresets /><label>I Want</label>
             <div className="opts">
               {opt('sort', 'odds', 'Best Chance To Get A Tag', true)}
               {opt('sort', 'success', 'Highest Harvest Rate')}
               {opt('sort', 'best', 'Best Mix Of Both')}
+              {opt('sort', 'opp', 'Best Opportunity')}
               {opt('sort', 'score', 'Best Overall Hunt (DrawOdds Score)')}
               {opt('sort', 'densityLow', 'Fewer Hunters')}
               {opt('sort', msg ? 'big' : 'trophy', msg ? 'Biggest Antlers / Horns' : 'Trophy Score')}
