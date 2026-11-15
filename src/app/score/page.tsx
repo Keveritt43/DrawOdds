@@ -38,7 +38,7 @@ export default async function ScorePage() {
 
         <h2>Reading It</h2>
         <ul>
-          <li>Quality and Opportunity use fixed component benchmarks. Trophy tiers can also reflect a published peer-group draw benchmark; changing the hunts shown in your results does not recalculate that benchmark.</li>
+          <li>Quality and Opportunity use fixed component benchmarks. Trophy tiers can also reflect comparable hunt demand or draw benchmarks; there is no minimum group size. Small groups are provisional and a percentile based on one or a few hunts is unstable. Changing the hunts shown in your results does not recalculate those benchmarks.</li>
           <li>The weights and benchmarks are explicit judgments, not validated predictions. Public acreage does not guarantee practical access; density averages conceal local crowding. General-hunt harvest can combine multiple sex classes and seasons. Inspect the underlying data before choosing a hunt.</li>
           <li>Tap a score on any hunt to see its four parts. Filter and sort by score in <Link href="/hunts?sort=score">Find A Hunt</Link>, or shade the map by it.</li>
         </ul>

@@ -1,6 +1,6 @@
 {
   "status": "review only; not wired into production",
-  "method": "95th percentile nearest rank; minimum 20 distinct eligible comparable hunts; unit demand uses direct single-unit hunts only",
+  "method": "95th percentile nearest rank; no peer-count minimum; unit demand uses direct single-unit hunts only",
   "sources": {
     "ID": {
       "file": "idaho-production-after.json",
@@ -895,6 +895,21 @@
       "state": "ID",
       "species": "DEER",
       "year": 2026,
+      "group": "Controlled / ARCHERY",
+      "peers": 13,
+      "threshold": 360,
+      "code": "1076",
+      "unit": "44",
+      "units": [
+        "44"
+      ],
+      "apps": 360,
+      "basis": "ID resident + nonresident first-choice applications"
+    },
+    {
+      "state": "ID",
+      "species": "DEER",
+      "year": 2026,
       "group": "Controlled / MUZZLELOADER",
       "peers": 26,
       "threshold": 420,
@@ -921,6 +936,21 @@
         "54"
       ],
       "apps": 626,
+      "basis": "ID resident + nonresident first-choice applications"
+    },
+    {
+      "state": "ID",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Controlled / SHORT_RANGE",
+      "peers": 1,
+      "threshold": 47,
+      "code": "1029",
+      "unit": "38",
+      "units": [
+        "38"
+      ],
+      "apps": 47,
       "basis": "ID resident + nonresident first-choice applications"
     },
     {
@@ -971,6 +1001,36 @@
     },
     {
       "state": "ID",
+      "species": "ELK",
+      "year": 2026,
+      "group": "Controlled / ARCHERY",
+      "peers": 7,
+      "threshold": 1253,
+      "code": "2127",
+      "unit": "54",
+      "units": [
+        "54"
+      ],
+      "apps": 1253,
+      "basis": "ID resident + nonresident first-choice applications"
+    },
+    {
+      "state": "ID",
+      "species": "ELK",
+      "year": 2026,
+      "group": "Controlled / MUZZLELOADER",
+      "peers": 13,
+      "threshold": 1020,
+      "code": "2140",
+      "unit": "54",
+      "units": [
+        "54"
+      ],
+      "apps": 1020,
+      "basis": "ID resident + nonresident first-choice applications"
+    },
+    {
+      "state": "ID",
       "species": "PRONGHORN",
       "year": 2026,
       "group": "Controlled / ANY",
@@ -999,6 +1059,71 @@
       ],
       "apps": 2981,
       "basis": "ID resident + nonresident first-choice applications"
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "Controlled / ARCHERY",
+      "peers": 16,
+      "threshold": 519,
+      "code": "4031",
+      "unit": null,
+      "units": [
+        "40",
+        "41",
+        "42"
+      ],
+      "apps": 519,
+      "basis": "ID resident + nonresident first-choice applications"
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "Controlled / MUZZLELOADER",
+      "peers": 7,
+      "threshold": 442,
+      "code": "4049",
+      "unit": null,
+      "units": [
+        "36",
+        "36A"
+      ],
+      "apps": 442,
+      "basis": "ID resident + nonresident first-choice applications"
+    },
+    {
+      "state": "MT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Deer B License / ANY",
+      "peers": 1,
+      "threshold": 969,
+      "code": "199-20",
+      "unit": null,
+      "units": [
+        "100",
+        "103",
+        "104"
+      ],
+      "apps": 969,
+      "basis": "MT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "MT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Deer B License / ARCHERY",
+      "peers": 2,
+      "threshold": 736,
+      "code": "260-20",
+      "unit": "260",
+      "units": [
+        "260"
+      ],
+      "apps": 736,
+      "basis": "MT resident + nonresident first-choice applications"
     },
     {
       "state": "MT",
@@ -1062,6 +1187,23 @@
     },
     {
       "state": "MT",
+      "species": "ELK",
+      "year": 2026,
+      "group": "Elk Permit / ARCHERY",
+      "peers": 11,
+      "threshold": 2131,
+      "code": "799-21",
+      "unit": null,
+      "units": [
+        "702",
+        "704",
+        "705"
+      ],
+      "apps": 2131,
+      "basis": "MT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "MT",
       "species": "PRONGHORN",
       "year": 2026,
       "group": "Antelope License / ANY",
@@ -1109,6 +1251,59 @@
         "A322"
       ],
       "apps": 4003,
+      "basis": "MT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "MT",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "Antelope License / ARCHERY",
+      "peers": 2,
+      "threshold": 5847,
+      "code": "900-20",
+      "unit": null,
+      "units": [
+        "A401",
+        "A404",
+        "A413",
+        "A420",
+        "A430",
+        "A440",
+        "A441",
+        "A444",
+        "A450",
+        "A455",
+        "A471",
+        "A480",
+        "A481",
+        "A485",
+        "A490",
+        "A506",
+        "A516",
+        "A526",
+        "A536",
+        "A546",
+        "A556",
+        "A576",
+        "A586",
+        "A596",
+        "A600",
+        "A620",
+        "A630",
+        "A640",
+        "A650",
+        "A670",
+        "A690",
+        "A700",
+        "A702",
+        "A704",
+        "A705",
+        "A701N",
+        "A701S",
+        "A703N",
+        "A703S"
+      ],
+      "apps": 5847,
       "basis": "MT resident + nonresident first-choice applications"
     },
     {
@@ -1220,6 +1415,36 @@
       "state": "UT",
       "species": "DEER",
       "year": 2026,
+      "group": "Limited-Entry / ANY",
+      "peers": 19,
+      "threshold": 3334,
+      "code": "DB1019",
+      "unit": "85",
+      "units": [
+        "85"
+      ],
+      "apps": 3334,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Limited-Entry / ARCHERY",
+      "peers": 5,
+      "threshold": 1089,
+      "code": "DB1011",
+      "unit": "7",
+      "units": [
+        "7"
+      ],
+      "apps": 1089,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
       "group": "Limited-Entry / MUZZLELOADER",
       "peers": 38,
       "threshold": 398,
@@ -1244,6 +1469,96 @@
         "85"
       ],
       "apps": 398,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Management / ANY",
+      "peers": 2,
+      "threshold": 938,
+      "code": "DB1010",
+      "unit": "163",
+      "units": [
+        "163"
+      ],
+      "apps": 938,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Management / ARCHERY",
+      "peers": 1,
+      "threshold": 131,
+      "code": "DB1073",
+      "unit": "163",
+      "units": [
+        "163"
+      ],
+      "apps": 131,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Management / MUZZLELOADER",
+      "peers": 1,
+      "threshold": 124,
+      "code": "DB1074",
+      "unit": "163",
+      "units": [
+        "163"
+      ],
+      "apps": 124,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Premium / ANY",
+      "peers": 3,
+      "threshold": 8685,
+      "code": "DB1004",
+      "unit": "163",
+      "units": [
+        "163"
+      ],
+      "apps": 8685,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Premium / ARCHERY",
+      "peers": 2,
+      "threshold": 1670,
+      "code": "DB1001",
+      "unit": "163",
+      "units": [
+        "163"
+      ],
+      "apps": 1670,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "DEER",
+      "year": 2026,
+      "group": "Premium / MUZZLELOADER",
+      "peers": 2,
+      "threshold": 857,
+      "code": "DB1006",
+      "unit": "163",
+      "units": [
+        "163"
+      ],
+      "apps": 857,
       "basis": "UT resident + nonresident first-choice applications"
     },
     {
@@ -1323,6 +1638,36 @@
     },
     {
       "state": "UT",
+      "species": "ELK",
+      "year": 2026,
+      "group": "Limited-Entry / ARCHERY",
+      "peers": 18,
+      "threshold": 1272,
+      "code": "EB3000",
+      "unit": "685",
+      "units": [
+        "685"
+      ],
+      "apps": 1272,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
+      "species": "ELK",
+      "year": 2026,
+      "group": "Limited-Entry / MUZZLELOADER",
+      "peers": 18,
+      "threshold": 943,
+      "code": "EB3084",
+      "unit": "51",
+      "units": [
+        "51"
+      ],
+      "apps": 943,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "UT",
       "species": "PRONGHORN",
       "year": 2026,
       "group": "Limited-Entry / ANY",
@@ -1382,6 +1727,66 @@
       "basis": "UT resident + nonresident first-choice applications"
     },
     {
+      "state": "UT",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "Limited-Entry / MUZZLELOADER",
+      "peers": 12,
+      "threshold": 114,
+      "code": "PB5078",
+      "unit": "171",
+      "units": [
+        "171"
+      ],
+      "apps": 114,
+      "basis": "UT resident + nonresident first-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "DEER",
+      "year": 2025,
+      "group": "Buck Deer / Archery",
+      "peers": 2,
+      "threshold": 226,
+      "code": "1223",
+      "unit": "248",
+      "units": [
+        "248"
+      ],
+      "apps": 226,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "DEER",
+      "year": 2025,
+      "group": "Buck Deer / Modern",
+      "peers": 6,
+      "threshold": 633,
+      "code": "1222",
+      "unit": "254",
+      "units": [
+        "254"
+      ],
+      "apps": 633,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "DEER",
+      "year": 2025,
+      "group": "Quality Deer / Archery",
+      "peers": 1,
+      "threshold": 600,
+      "code": "1080",
+      "unit": "290",
+      "units": [
+        "290"
+      ],
+      "apps": 600,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
       "state": "WA",
       "species": "DEER",
       "year": 2025,
@@ -1430,6 +1835,99 @@
       "state": "WA",
       "species": "ELK",
       "year": 2025,
+      "group": "Bull Elk / EF",
+      "peers": 11,
+      "threshold": 4373,
+      "code": "2806",
+      "unit": null,
+      "units": [
+        "336",
+        "346"
+      ],
+      "apps": 4373,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Elk - 65 and Over / WF, WM, WA",
+      "peers": 1,
+      "threshold": 201,
+      "code": "2516",
+      "unit": "437",
+      "units": [
+        "437"
+      ],
+      "apps": 201,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Elk - Hunters with Disabilities / EF, EM, EA",
+      "peers": 1,
+      "threshold": 33,
+      "code": "2614",
+      "unit": "EA3721",
+      "units": [
+        "EA3721"
+      ],
+      "apps": 33,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Elk - Hunters with Disabilities / WF, WM, WA",
+      "peers": 1,
+      "threshold": 119,
+      "code": "2615",
+      "unit": "437",
+      "units": [
+        "437"
+      ],
+      "apps": 119,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Quality Elk / EA",
+      "peers": 18,
+      "threshold": 1242,
+      "code": "2056",
+      "unit": null,
+      "units": [
+        "328",
+        "329",
+        "334"
+      ],
+      "apps": 1242,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Quality Elk / EA, EF, EM",
+      "peers": 2,
+      "threshold": 512,
+      "code": "2004",
+      "unit": "157",
+      "units": [
+        "157"
+      ],
+      "apps": 512,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
       "group": "Quality Elk / EF",
       "peers": 23,
       "threshold": 2681,
@@ -1459,6 +1957,113 @@
       ],
       "apps": 3591,
       "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Quality Elk / EM",
+      "peers": 19,
+      "threshold": 1558,
+      "code": "2080",
+      "unit": null,
+      "units": [
+        "328",
+        "329",
+        "334"
+      ],
+      "apps": 1558,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Quality Elk / WA",
+      "peers": 3,
+      "threshold": 713,
+      "code": "2068",
+      "unit": "653",
+      "units": [
+        "653"
+      ],
+      "apps": 713,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Quality Elk / WA, WF, WM",
+      "peers": 1,
+      "threshold": 969,
+      "code": "2027",
+      "unit": "485",
+      "units": [
+        "485"
+      ],
+      "apps": 969,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Quality Elk / WF",
+      "peers": 16,
+      "threshold": 889,
+      "code": "2034",
+      "unit": "556",
+      "units": [
+        "556"
+      ],
+      "apps": 889,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WA",
+      "species": "ELK",
+      "year": 2025,
+      "group": "Quality Elk / WM",
+      "peers": 5,
+      "threshold": 801,
+      "code": "2094",
+      "unit": "653",
+      "units": [
+        "653"
+      ],
+      "apps": 801,
+      "basis": "WDFW combined all-choice applications"
+    },
+    {
+      "state": "WY",
+      "species": "DEER",
+      "year": 2026,
+      "group": "ANTLERED DEER / ANY",
+      "peers": 2,
+      "threshold": 1190,
+      "code": "D89-1",
+      "unit": "D89",
+      "units": [
+        "D89"
+      ],
+      "apps": 1190,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "DEER",
+      "year": 2026,
+      "group": "ANTLERED MULE DEER F / ANY",
+      "peers": 2,
+      "threshold": 1223,
+      "code": "D141-1",
+      "unit": "D141",
+      "units": [
+        "D141"
+      ],
+      "apps": 1223,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
     },
     {
       "state": "WY",
@@ -1494,6 +2099,52 @@
       "state": "WY",
       "species": "DEER",
       "year": 2026,
+      "group": "ANY DEER / ANY",
+      "peers": 6,
+      "threshold": 5770,
+      "code": "D128-1",
+      "unit": "D128",
+      "units": [
+        "D128"
+      ],
+      "apps": 5770,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "DEER",
+      "year": 2026,
+      "group": "ANY DEER OFF NATIONA / ANY",
+      "peers": 1,
+      "threshold": 200,
+      "code": "D60-2",
+      "unit": "D60",
+      "units": [
+        "D60"
+      ],
+      "apps": 200,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "DEER",
+      "year": 2026,
+      "group": "ANY WHITE-TAILED / ANY",
+      "peers": 1,
+      "threshold": 46,
+      "code": "D82-3",
+      "unit": null,
+      "units": [
+        "D82",
+        "D100"
+      ],
+      "apps": 46,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "DEER",
+      "year": 2026,
       "group": "ANY WHITE-TAILED DEE / ANY",
       "peers": 34,
       "threshold": 320,
@@ -1518,6 +2169,51 @@
         "D65"
       ],
       "apps": 320,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "ANTELERED ELK FIVE / ANY",
+      "peers": 1,
+      "threshold": 66,
+      "code": "E111-2",
+      "unit": "E111",
+      "units": [
+        "E111"
+      ],
+      "apps": 66,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "ANTLERED ELK / ANY",
+      "peers": 4,
+      "threshold": 281,
+      "code": "E118-1",
+      "unit": "E118",
+      "units": [
+        "E118"
+      ],
+      "apps": 281,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "ANTLERED ELK FIVE (5 / ANY",
+      "peers": 1,
+      "threshold": 57,
+      "code": "E122-2",
+      "unit": "E122",
+      "units": [
+        "E122"
+      ],
+      "apps": 57,
       "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
     },
     {
@@ -1578,6 +2274,81 @@
         "E124"
       ],
       "apps": 1785,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "ANY ELK ARCHERY / ARCHERY",
+      "peers": 1,
+      "threshold": 88,
+      "code": "E23-9",
+      "unit": "E23",
+      "units": [
+        "E23"
+      ],
+      "apps": 88,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "ANY ELK NORTH AND EA / ANY",
+      "peers": 1,
+      "threshold": 112,
+      "code": "E51-2",
+      "unit": "E51",
+      "units": [
+        "E51"
+      ],
+      "apps": 112,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "ANY ELK SOUTH AND WE / ANY",
+      "peers": 1,
+      "threshold": 712,
+      "code": "E51-1",
+      "unit": "E51",
+      "units": [
+        "E51"
+      ],
+      "apps": 712,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "ANY ELK, ARCHERY ONL / ARCHERY",
+      "peers": 17,
+      "threshold": 1635,
+      "code": "E38-9",
+      "unit": "E38",
+      "units": [
+        "E38"
+      ],
+      "apps": 1635,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "ELK",
+      "year": 2026,
+      "group": "LIMITED QUOTA, ANY E / ANY",
+      "peers": 1,
+      "threshold": 221,
+      "code": "E11-2",
+      "unit": "E11",
+      "units": [
+        "E11"
+      ],
+      "apps": 221,
       "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
     },
     {
@@ -1668,6 +2439,81 @@
         "A95"
       ],
       "apps": 1751,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "ANY ANTELOPE / MUZZLELOADER",
+      "peers": 1,
+      "threshold": 97,
+      "code": "A79-0",
+      "unit": "A79",
+      "units": [
+        "A79"
+      ],
+      "apps": 97,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "ANY ANTELOPE SOUTH O / ANY",
+      "peers": 1,
+      "threshold": 492,
+      "code": "A38-2",
+      "unit": "A38",
+      "units": [
+        "A38"
+      ],
+      "apps": 492,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "ANY ANTELOPE, ARCHER / ARCHERY",
+      "peers": 1,
+      "threshold": 188,
+      "code": "A79-9",
+      "unit": "A79",
+      "units": [
+        "A79"
+      ],
+      "apps": 188,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "ANY ANTELOPE, HANDGU / MUZZLELOADER",
+      "peers": 1,
+      "threshold": 120,
+      "code": "A107-0",
+      "unit": "A107",
+      "units": [
+        "A107"
+      ],
+      "apps": 120,
+      "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
+    },
+    {
+      "state": "WY",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "group": "ANY ANTELOPE, MUZZLE / MUZZLELOADER",
+      "peers": 1,
+      "threshold": 79,
+      "code": "A50-0",
+      "unit": "A50",
+      "units": [
+        "A50"
+      ],
+      "apps": 79,
       "basis": "WGFD first-choice applicants: resident + nonresident regular + special; random phase not added"
     }
   ],
@@ -4200,6 +5046,193 @@
       "huntCode": "2110",
       "cutoff": 1056.0,
       "peerUnits": 28,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "46",
+      "apps": 2675,
+      "huntCode": "4012",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": true
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "49",
+      "apps": 324,
+      "huntCode": "4013",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "45",
+      "apps": 429,
+      "huntCode": "4011",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "39",
+      "apps": 1794,
+      "huntCode": "4007",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": true
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "50",
+      "apps": 1784,
+      "huntCode": "4014",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": true
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "38",
+      "apps": 217,
+      "huntCode": "4006",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "51",
+      "apps": 2337,
+      "huntCode": "4015",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": true
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "29",
+      "apps": 1093,
+      "huntCode": "4001",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "54",
+      "apps": 1635,
+      "huntCode": "4018",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "40",
+      "apps": 2981,
+      "huntCode": "4008",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": true
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "76",
+      "apps": 235,
+      "huntCode": "4024",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "68",
+      "apps": 1010,
+      "huntCode": "4023",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "63",
+      "apps": 1221,
+      "huntCode": "4022",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "58",
+      "apps": 1642,
+      "huntCode": "4020",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "30A",
+      "apps": 221,
+      "huntCode": "4043",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "47",
+      "apps": 251,
+      "huntCode": "4045",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
+      "high": false
+    },
+    {
+      "state": "ID",
+      "species": "PRONGHORN",
+      "year": 2026,
+      "unit": "41",
+      "apps": 225,
+      "huntCode": "4044",
+      "cutoff": 1784.0,
+      "peerUnits": 17,
       "high": false
     },
     {

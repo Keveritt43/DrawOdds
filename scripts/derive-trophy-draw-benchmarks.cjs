@@ -17,5 +17,5 @@ for(const [state,path] of Object.entries(inputs)){
   const identity=h.type==='GENERAL'?`GENERAL:${(h.units??[]).join(',')}`:`CONTROLLED:${h.id}`;
   if(!group.has(identity))group.set(identity,h.nrOddsLast);
  }
- for(const [key,values] of groups){const a=[...values.values()].sort((a,b)=>a-b);if(a.length>=20)console.log(JSON.stringify({key,n:a.length,p75:a[Math.ceil(.75*a.length)-1]}));}
+ for(const [key,values] of groups){const a=[...values.values()].sort((a,b)=>a-b);if(a.length)console.log(JSON.stringify({key,n:a.length,p75:a[Math.ceil(.75*a.length)-1]}));}
 }

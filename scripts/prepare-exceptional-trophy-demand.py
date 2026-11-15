@@ -115,14 +115,14 @@ for (state,sp,year,group), rows in sorted(groups.items()):
     if state == 'CO':
         single = [r for r in rows if r['unit'] is not None]
         singles = sorted(r['apps'] for r in single)
-        if len(singles) >= 20:
+        if singles:
             pos = (len(singles)-1)*.75
             lower = int(pos)
             q75 = singles[lower] + (singles[min(lower+1,len(singles)-1)]-singles[lower])*(pos-lower)
             season_evidence.extend({'state':state,'species':sp,'year':year,'group':group,'peers':len(single),
                                 'threshold':q75,'code':r['code'],'unit':r['unit'],'apps':r['apps'],'high':r['apps']>=q75}
                                for r in single)
-    if len(rows) < 20:
+    if not rows:
         continue
     counts = sorted(row['apps'] for row in rows)
     cutoff = counts[math.ceil(len(counts)*.95)-1]
@@ -134,7 +134,7 @@ for (state,sp,year,group), rows in sorted(groups.items()):
 unit_evidence = []
 for (state, sp, year), by_unit in sorted(unit_groups.items()):
     values = sorted(row['apps'] for row in by_unit.values())
-    if len(values) < 20:
+    if not values:
         continue
     p = (len(values)-1)*.75
     lo = int(p)
@@ -144,7 +144,7 @@ for (state, sp, year), by_unit in sorted(unit_groups.items()):
                          for unit,row in by_unit.items())
 target=root/'out/trophy-tier-review/exceptional-demand-candidates.json'
 target.parent.mkdir(parents=True,exist_ok=True)
-target.write_text(json.dumps({'status':'review only; not wired into production','method':'95th percentile nearest rank; minimum 20 distinct eligible comparable hunts; unit demand uses direct single-unit hunts only',
+target.write_text(json.dumps({'status':'review only; not wired into production','method':'95th percentile nearest rank; no peer-count minimum; unit demand uses direct single-unit hunts only',
     'sources':{**{s:{'file':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for s,p in sources.items()},
                'WA_PERMIT_TABLES':{'file':wa_file.name,'sha256':hashlib.sha256(wa_file.read_bytes()).hexdigest()},
                'WY_DRAWS':{'file':wy_file.name,'sha256':hashlib.sha256(wy_file.read_bytes()).hexdigest()}},
