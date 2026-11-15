@@ -708,6 +708,12 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .account-special-points .account-points { align-items: flex-start; }
 .account-special-points label { font-size: .85rem; max-width: 145px; }
 .account-state { margin-top: 18px; }
+.account-state > summary, .account-hunt-group > summary, .account-weapon-group > summary { cursor: pointer; }
+.account-state > summary { border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.account-state > summary h2 { display: inline; border: 0; padding: 0; }
+.account-hunt-group { margin: 12px 0; border: 1px solid var(--line); border-radius: 8px; padding: 10px; }
+.account-weapon-group { margin: 10px 0 0 12px; }
+.account-weapon-group .htable-wrap { margin-top: 8px; }
 .account-state h2 { margin-top: 0; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
 .account-unit-list { display: flex; gap: 10px; flex-wrap: wrap; }
 .account-unit { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; }
