@@ -1,3 +1,4 @@
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import Link from 'next/link';
 import { HuntLink } from '@/components/HuntNavigation';
 import type { CoScored } from '@/lib/coScores';
@@ -48,7 +49,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
         <span className="small muted tags">{otc ? (r.tags === null ? 'Unlimited' : `${int(r.tags)} ${kind}`) : general ? (nr ? 'Statewide combination quota' : 'No quota') : r.tags === null ? 'Unlimited' : `${int(r.tags)} ${kind}`}</span>
       </div>
       <div className="dates">
-        {[general ? r.areaName : mtDistricts(r.units), r.takeMethod, seasonsSummary(r.tagSeasons) || dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land only' : '']
+        {[huntWeaponLabel(r), general ? r.areaName : mtDistricts(r.units), r.takeMethod, seasonsSummary(r.tagSeasons) || dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land only' : '']
           .filter(Boolean).join(' · ')}
       </div>
       <ScoreRow r={r} nr={nr} />

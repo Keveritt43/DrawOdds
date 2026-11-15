@@ -1,3 +1,4 @@
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { HuntLink } from '@/components/HuntNavigation';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import type { CoScored } from '@/lib/coScores';
@@ -63,6 +64,7 @@ export async function CoHuntCard({
       {hasOtcElk && <span className="pill">Overlapping OTC elk season</span>}
       <div className="dates">
         {[
+          huntWeaponLabel(r),
           r.tagCode,
           r.units.length > 1 ? `Units ${r.units.join(', ')}` : '',
           special ? seasonsSummary(r.tagSeasons) : dateRange(r.openDate, r.closeDate),

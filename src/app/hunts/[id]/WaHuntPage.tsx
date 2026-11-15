@@ -1,3 +1,4 @@
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { HuntLink } from '@/components/HuntNavigation';
@@ -73,7 +74,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <p className="muted" style={{ marginTop: 0 }}>
         {s.youthOnly && <b>Youth only (under 16) · </b>}
         {po?.restricted && <b>{WA_WHO[po.category ?? ''] ?? 'Limited eligibility'} · </b>}
-        {gen ? `General season · ${WA_WEAPON_LABEL[s.weapon] ?? s.weapon}` : `${po?.category ?? 'Special permit'} · hunt ${s.tagCode}`}
+        {gen ? `General season · ${WA_WEAPON_LABEL[s.weapon] ?? s.weapon}` : `${po?.category ?? 'Special permit'} · hunt ${s.tagCode} · ${huntWeaponLabel(s)}`}
         {!gen && s.tags !== null ? ` · ${int(s.tags)} ${lic === 'multi' ? 'tags' : 'permits'} (2026)` : ''}
         {po?.tag && !gen ? ` · tag: ${po.tag}` : ''}
         {gen && po?.side ? ` · ${po.side === 'EAST' ? 'Eastern' : 'Western'} Washington elk tag (${s.tagCode})` : ''}
