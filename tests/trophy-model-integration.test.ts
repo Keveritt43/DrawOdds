@@ -26,3 +26,14 @@ test('the retained Idaho Unit 55 early-season exception is consistent in hunt an
   assert.equal(trophyForUnit(h,'57').score,null);
   assert.notEqual(trophyForHunt({...h,huntNumber:9999}),80);
 });
+
+test('Idaho unit 40 November deer can reach provisional Elite without tier-one B&C', () => {
+  const h={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['40'],huntNumber:1031,
+    oddsLastYear:2026,resAppsLast:5008,nrAppsLast:1174,openDate:'2026-11-01',closeDate:'2026-11-24',
+    bigPct5:.7647,resOdds5:.039,nrOdds5:.024};
+  assert.equal(trophyForHunt(h),100);
+  assert.equal(trophyForUnit(h,'40').score,100);
+  assert.equal(trophyHuntEvidence(h,100).provisional,true);
+  assert.notEqual(trophyForHunt({...h,resAppsLast:5007}),100,'mismatched observations are unknown');
+  assert.equal(trophyForHunt({...h,openDate:'2026-10-01',closeDate:'2026-10-20'}),80,'non-prime season is adjusted');
+});

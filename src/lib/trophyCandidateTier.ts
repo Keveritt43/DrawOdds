@@ -12,6 +12,8 @@ export interface TrophyCandidateEvidence {
   highUnitDemand: boolean | null;
   /** Same-category 95th percentile or above, with a valid sample; null means unknown. */
   exceptionalHuntDemand: boolean | null;
+  /** Top decile of matched hunt-category applications, distinct from unit demand. */
+  topDecileHuntDemand?: boolean | null;
 }
 export interface CandidateTier {
   score: CandidateScore;
@@ -33,6 +35,8 @@ export function candidateTier(e: TrophyCandidateEvidence): CandidateTier {
   if(e.bcOnly) return {score:e.overallPast10Tier===1 && e.statePast10Tier===1?80:65,provisional,
     reason:'B&C-only association with high comparable demand; county evidence does not establish unit harvest'};
   const named=e.namedSourceCount??e.sourceCount;
+  if (named >= 2 && e.topDecileHuntDemand === true)
+    return {score:100, provisional:true, reason:'Multiple named sources and top-decile comparable hunt applications; source claims and trophy size require review'};
   // Both ten-year B&C tiers describe the same county records: use one context signal.
   const countyStrong=e.overallPast10Tier===1 && e.statePast10Tier===1;
   const signals=Number(named>=2)+Number(countyStrong)+Number(e.highUnitDemand===true);

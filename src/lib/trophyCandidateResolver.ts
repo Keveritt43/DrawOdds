@@ -23,6 +23,7 @@ export interface CandidateHunt {
   drawYear?: number | null;
   applications?: number | null;
   huntDemandHigh?: boolean | null;
+  huntDemandExceptional?: boolean | null;
   huntDemandProvisional?: boolean;
   deerType?: string | null;
 }
@@ -62,7 +63,7 @@ export function resolveTrophyCandidate(h: CandidateHunt): CandidateTier & { sour
     r.year === h.drawYear && r.code === h.huntCode && r.apps === h.applications);
   const result = candidateTier({ listed: rows.length > 0, sourceCount: named.length + Number(bc), namedSourceCount:named.length, bcOnly: bc && !named.length,
     overallPast10Tier: singleTier(rows.map(r => r.overallPast10Tier)), statePast10Tier: singleTier(rows.map(r => r.statePast10Tier)),
-    highUnitDemand: high, exceptionalHuntDemand: exceptional ? true : null });
+    highUnitDemand: high, exceptionalHuntDemand: exceptional ? true : null, topDecileHuntDemand:h.huntDemandExceptional });
   const parentPortion = state === 'MT' && species === 'PRONGHORN' && /^A\d+[NS]$/.test(boundary);
   return { ...result, provisional: result.provisional || parentPortion || h.huntDemandProvisional === true,
     reason: parentPortion ? `${result.reason}; source describes the parent district, not this portion` : result.reason,

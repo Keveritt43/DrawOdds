@@ -27,3 +27,12 @@ test('an unlisted hunt with exceptional comparable demand receives Good', () => 
   assert.equal(candidateTier({ ...absent, exceptionalHuntDemand: false }).score, 50);
   assert.equal(candidateTier({ ...absent, exceptionalHuntDemand: null }).provisional, true);
 });
+
+test('top-decile hunt demand and multiple named sources can establish provisional Elite without B&C tier one', () => {
+  const evidence={...all, overallPast10Tier:3 as const,statePast10Tier:2 as const,namedSourceCount:2,topDecileHuntDemand:true};
+  assert.equal(candidateTier(evidence).score,100);
+  assert.equal(candidateTier(evidence).provisional,true);
+  assert.equal(candidateTier({...evidence,namedSourceCount:1}).score,65);
+  assert.equal(candidateTier({...evidence,topDecileHuntDemand:null}).score,80);
+  assert.equal(candidateTier({...evidence,bcOnly:true,highUnitDemand:false}).score,50);
+});

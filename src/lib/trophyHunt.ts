@@ -69,7 +69,7 @@ export function trophyForUnit(hunt: {
   const peerStates=['WA','WY','UT','MT','ID'];
   const peerDemand=peerStates.includes(state) && code && typeof hunt.oddsLastYear==='number' && typeof apps==='number' && hunt.units?.length===1
     ? reviewTrophyPeerBenchmark({state,species:hunt.species,year:hunt.oddsLastYear,code,pool:'Combined',measure:'Applications',value:apps}) : null;
-  const huntEvidence=peerStates.includes(state) && code ? {huntDemandHigh:peerDemand ? peerDemand.percentile>=75 : null,huntDemandProvisional:peerDemand?.provisional??true} : {};
+  const huntEvidence=peerStates.includes(state) && code ? {huntDemandHigh:peerDemand ? peerDemand.percentile>=75 : null,huntDemandExceptional:peerDemand?.exceptional??null,huntDemandProvisional:peerDemand?.provisional??true} : {};
   const candidate=resolveSeasonCandidate({state,species:hunt.species,unit,huntCode:code,drawYear:hunt.oddsLastYear,applications:apps,deerType:whitetailOnly?'WHITETAIL':hunt.deerType,...huntEvidence});
   const rawCandidate=resolveTrophyCandidate({state,species:hunt.species,unit,huntCode:code,drawYear:hunt.oddsLastYear,applications:apps,deerType:whitetailOnly?'WHITETAIL':hunt.deerType,...huntEvidence});
   if (code && rawCandidate.sourceIds.length===0 && !/No verified|multiple subspecies|conditional or inactive/.test(rawCandidate.reason) &&
@@ -106,6 +106,8 @@ export function trophyForUnit(hunt: {
   }
   // These two previously reviewed Washington hunt comparisons remain hunt-specific.
   // A unit-wide source designation must not erase their documented demand distinction.
+  if (!bcLow && state==='WA' && hunt.species.toUpperCase()==='DEER' && String(hunt.tagCode)==='1033' && result.score!==null && result.score>80)
+    Object.assign(result,{score:80,tier:'trophy',reason:'Reviewed Entiat demand comparison; provisional'});
   if (!bcLow && state==='WA' && hunt.species.toUpperCase()==='DEER' && String(hunt.tagCode)==='1034' && result.score!==null && result.score>65)
     Object.assign(result,{score:65,tier:'county',reason:'Reviewed Swakane demand comparison'});
   if (!bcLow && state==='WA' && hunt.species.toUpperCase()==='ELK' && String(hunt.tagCode)==='2016' && result.score!==null && result.score>65 &&
@@ -151,7 +153,7 @@ export function trophyForUnit(hunt: {
     return {score:80 as const,tier:'trophy' as const,reason:'Reviewed 2026 Idaho Unit 55 early controlled hunt 1044; provisional'};
   // Require both public five-year draw populations; never infer missing odds.
   const lowOdds=(odds:number|null|undefined)=>typeof odds==='number' && Number.isFinite(odds) && odds>=0 && odds<0.05;
-  if (!bcLow && !whitetailOnly && hunt.type.toUpperCase()==='CONTROLLED' && inMonth(11) && typeof hunt.bigPct5==='number' && Number.isFinite(hunt.bigPct5) && hunt.bigPct5>0.7 && hunt.bigPct5<=1 && lowOdds(hunt.resOdds5) && lowOdds(hunt.nrOdds5))
+  if (!bcLow && result.score<100 && !whitetailOnly && hunt.type.toUpperCase()==='CONTROLLED' && inMonth(11) && typeof hunt.bigPct5==='number' && Number.isFinite(hunt.bigPct5) && hunt.bigPct5>0.7 && hunt.bigPct5<=1 && lowOdds(hunt.resOdds5) && lowOdds(hunt.nrOdds5))
     return {score:80 as const,tier:'trophy' as const,reason:'November hunt with over 70% estimated 4-point bucks and both five-year draw odds below 5%'};
   return seasonal(result);
 }
