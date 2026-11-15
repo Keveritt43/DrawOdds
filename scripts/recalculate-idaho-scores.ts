@@ -32,8 +32,11 @@ async function main(){
       let changed=0;
       for(const row of fresh.rows){
         if(JSON.stringify(row.before)===JSON.stringify(row.after))continue;
-        const result=await tx.huntSummary.updateMany({where:{id:row.id,state:'ID'},data:row.after});
-        if(result.count!==1)throw new Error(`Missing Idaho row ${row.id}; rolling back`);
+        // Prisma updateMany also writes @updatedAt; the authorized rollout must
+        // preserve every non-score field, including the timestamp.
+        const s=row.after;
+        const count=await tx.$executeRaw`UPDATE "HuntSummary" SET "scoreQuality"=${s.scoreQuality}, "scoreSuccess"=${s.scoreSuccess}, "scoreAccess"=${s.scoreAccess}, "scoreCrowd"=${s.scoreCrowd}, "scoreTrophy"=${s.scoreTrophy}, "scoreOppRes"=${s.scoreOppRes}, "scoreOppNr"=${s.scoreOppNr} WHERE "id"=${row.id} AND "state"='ID'`;
+        if(count!==1)throw new Error(`Missing Idaho row ${row.id}; rolling back`);
         changed++;
       }
       return changed;
