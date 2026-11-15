@@ -11,6 +11,7 @@ import { STATES, type StateCode } from '@/lib/states';
 import { ID_RESTRICTIONS, searchUnitLabel } from '@/lib/searchStates';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { showPrivate } from '@/lib/privateLand';
+import { selectedValues } from '@/lib/selectedValues';
 
 /** URL keys that mark a state's own filter group as in use. Idaho's group is built in this file. */
 const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyPool', 'wyWild', 'wyDeer'], UT: ['utLic'], WA: ['waLic', 'waCat', 'waWeapon', 'waSide', 'waMyTag'] };
@@ -69,7 +70,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
     router.push(`/hunts${p.size ? `?${p}` : ''}`, { scroll: false });
   };
   const get = (k: string) => sp.get(k) ?? '';
-  const list = (k: string) => (sp.get(k) ?? (k === "antler" && (!states || !msg) ? "ANTLERED" : "")).split(',').filter((x) => !!x && x !== "ALL");
+  const list = (k: string) => selectedValues(sp, k, k === "antler" && (!states || !msg) ? "ANTLERED" : "");
   const toggle = (k: string, v: string) => {
     const cur = list(k);
     const next = cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v];
