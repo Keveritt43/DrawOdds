@@ -1,5 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
-import { trophyForUnit } from '@/lib/trophyHunt';
+import { trophyForUnit, trophyForHunt } from '@/lib/trophyHunt';
 import { trophyPresentation } from '@/lib/trophyDisplay';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { HuntLink } from '@/components/HuntNavigation';
@@ -351,10 +351,8 @@ async function matchStats(rows: HuntSummary[], nr: boolean, rf: ReturnType<typeo
   };
   const add = (key: string, r: HuntSummary, land: boolean) => {
     const a = acc.get(key) ?? acc.set(key, { trophy:null, score: null, odds: null, fill: null, hunters: 0, harvest: 0, crowd: null, public: null, huntable: null }).get(key)!;
-    if (key.startsWith('unit:')) {
-      const trophy = trophyForUnit(r,key.slice(5)).score;
-      if (trophy !== null && (a.trophy === null || trophy > a.trophy)) a.trophy = trophy;
-    }
+    const trophy = key.startsWith('unit:') ? trophyForUnit(r,key.slice(5)).score : trophyForHunt(r);
+    if (trophy !== null && (a.trophy === null || trophy > a.trophy)) a.trophy = trophy;
     const o = oddsOf(r);
     if (o !== null && (a.odds === null || o > a.odds)) a.odds = o;
     if (r.scoreQuality !== null && (a.score === null || r.scoreQuality > a.score)) a.score = r.scoreQuality;

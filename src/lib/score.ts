@@ -2,7 +2,7 @@ import { trophyQualityBonus } from './trophyTiers';
 import { trophyForHunt } from './trophyHunt';
 /** Absolute species benchmarks across weapons; no peer-dependent grades. */
 import { successBands } from './format';
-export const SCORE_VERSION = 'idaho-v6-evidence-trophy';
+export const SCORE_VERSION = 'idaho-v8-hunt-demand-trophy';
 // Trophy is a bounded positive modifier around neutral, never redistributed.
 export const SCORE_WEIGHTS = { success: 65, access: 20, crowd: 15, trophy: 10 } as const;
 export type ScorePart = keyof typeof SCORE_WEIGHTS;
@@ -17,6 +17,7 @@ export interface ScoreInput {
   openDate?: Date | string | null;
   closeDate?: Date | string | null;
   tagCode?:string|null;
+  huntNumber?:number|null;
   name?:string|null;
   takeMethod?:string|null;
   tagSeasons?:unknown;
@@ -40,6 +41,8 @@ export interface ScoreInput {
   nrOddsLast?: number | null;
   oddsLastYear?: number | null;
   appsLast?: number | null;
+  resAppsLast?: number | null;
+  nrAppsLast?: number | null;
   harvestYears?: number | null;
   youthOnly?: boolean;
   privateOnly?: boolean;

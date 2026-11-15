@@ -57,7 +57,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     { label: 'Tags to 2nd choices', v: (r) => r.secondDrewLast, show: (r) => (r.secondDrewLast ? int(r.secondDrewLast) : '-') },
     { label: 'Public land', v: (r) => r.publicPct, show: (r) => (r.publicPct === null ? '-' : `${Math.round(r.publicPct)}%`), better: 'high' },
     { label: 'Public + Access Yes!', v: (r) => r.huntablePct, show: (r) => (r.huntablePct === null ? '-' : `${Math.round(r.huntablePct)}%`), better: 'high' },
-    { label: 'Trophy score', v: (r) => r.scoreTrophy, show: (r) => r.scoreTrophy===null ? '—' : <TrophyMark score={r.scoreTrophy} />, better: 'high' },
+    { label: 'Trophy score', v: (r) => r.scoreTrophy, show: (r) => r.scoreTrophy===null ? '—' : <TrophyMark score={r.scoreTrophy} hunt={r} />, better: 'high' },
     { label: 'Harvest antler share', v: (r) => r.bigPct5, show: (r) => (TROPHY_LABEL[r.species] ? `${pct(r.bigPct5)} ${TROPHY_LABEL[r.species]}` : '-'), better: 'high' },
   ];
   const best = (row: Row) => {

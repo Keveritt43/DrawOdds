@@ -1,4 +1,5 @@
 import type { HuntSummary } from '@prisma/client';
+import { trophyForHunt } from './trophyHunt';
 
 /** Species hunter counts overlap by an unknown amount; the stored upper bound is not a measured rate. */
 export function withoutUnvalidatedWyDeerMetrics<T extends HuntSummary>(row: T): T {
@@ -6,7 +7,7 @@ export function withoutUnvalidatedWyDeerMetrics<T extends HuntSummary>(row: T): 
   return { ...row, success5: null, successLast: null, hunters5: null, harvest5: null,
     huntersSqMi: null, daysPerHunter5: null, daysPerHarvest5: null, resTagAndFill: null, nrTagAndFill: null,
     scoreQuality: null, scoreSuccess: null, scoreAccess: null, scoreCrowd: null,
-    scoreTrophy: null, scoreOppRes: null, scoreOppNr: null };
+    scoreTrophy: trophyForHunt(row), scoreOppRes: null, scoreOppNr: null };
 }
 
 export type WyDeerKind = 'MULE' | 'WHITETAIL';

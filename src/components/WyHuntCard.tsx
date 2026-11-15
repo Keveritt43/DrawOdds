@@ -36,7 +36,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}${nr && (poolLink === 'nr' || poolLink === 'nrs') ? `?pool=${poolLink}` : ''}`}>{r.name}</HuntLink>
-          <TrophyMark score={r.scoreTrophy} />
+          <TrophyMark score={r.scoreTrophy} hunt={r} />
           <span className={`pill ${r.type === 'GENERAL' ? 'gen' : 'ctl'}`}>{r.type === 'GENERAL' ? (nr ? `General · NR Region ${po?.nrRegion ?? '?'} license` : 'General · Over the counter') : r.tagCode?.includes('R-') ? 'Nonresident Region Draw' : 'Limited Quota Draw'}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />

@@ -41,7 +41,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
-          <TrophyMark score={r.scoreTrophy} />
+          <TrophyMark score={r.scoreTrophy} hunt={r} />
           <span className={`pill ${general ? 'gen' : 'ctl'}`}>{pill}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />

@@ -60,7 +60,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
     return (
       <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
         <p className="small"><BackLink state="CO" /></p>
-        <h1>{s.name} <TrophyMark score={s.scoreTrophy} /></h1>
+        <h1>{s.name} <TrophyMark score={s.scoreTrophy} hunt={s} /></h1>
         <p>
           <b>General / over-the-counter {spLabel} license</b> · {s.tagCode}
         </p>
@@ -98,7 +98,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
     return (
       <main className="wrap" style={{ margin: '24px auto' }}>
         <p className="small"><BackLink state="CO" /></p>
-        <h1>{s.name} <TrophyMark score={s.scoreTrophy} /></h1>
+        <h1>{s.name} <TrophyMark score={s.scoreTrophy} hunt={s} /></h1>
         <p className="muted">No draw data for this hunt code yet.</p>
       </main>
     );
@@ -120,7 +120,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         <BackLink state="CO" /> · <Link href={`/hunts?states=CO&unit=CO:${d.unit}&species=${species}`}>Colorado hunts in unit {d.unit}</Link>
       </p>
       <h1 className="star-head">
-        {s.name} <TrophyMark score={s.scoreTrophy} /> <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
+        {s.name} <TrophyMark score={s.scoreTrophy} hunt={s} /> <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label />
       </h1>
       <p className="muted" style={{ marginTop: 0 }}>
         Hunt code <b>{s.tagCode}</b> · {s.tags !== null ? `${int(s.tags)} licenses in ${po.year}` : ''} · List {po.list ?? '–'}

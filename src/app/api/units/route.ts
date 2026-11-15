@@ -40,7 +40,7 @@ const SHADED = [
   'ctlOddsResGoat', 'ctlOddsNrGoat', 'ctlSuccessGoat', 'ctlOddsResBison', 'ctlOddsNrBison', 'ctlSuccessBison', 'ctlQualityBison', 'ctlPressureBison',
   ...['Deer', 'Elk', 'Pronghorn', 'Moose', 'Bighorn', 'Goat', 'Bison'].flatMap((sp) => [`ctlFillRes${sp}`, `ctlFillNr${sp}`]),
   'objBull', 'objCow',
-  ...['Deer','Elk'].flatMap(sp=>[`genTrophy${sp}`,`ctlTrophy${sp}`]),
+  ...['Deer','Elk','Pronghorn'].flatMap(sp=>[`genTrophy${sp}`,`ctlTrophy${sp}`]),
   ...['Deer','Elk','Pronghorn'].flatMap(sp=>[`ctlQuality${sp}`,`ctlPressure${sp}`,...['Res','Nr'].flatMap(pool=>[`ctlPoints${pool}${sp}`,`ctlCreep${pool}${sp}`])]),
 ];
 const SP_KEY: Record<string, string> = { DEER: 'Deer', ELK: 'Elk', PRONGHORN: 'Pronghorn', MOOSE: 'Moose', BIGHORN: 'Bighorn', GOAT: 'Goat', BISON: 'Bison' };
@@ -56,7 +56,7 @@ export async function GET(req: Request) {
     db.unit.findMany({ where: { state, geometry: { not: undefined }, ...(state === 'CO' ? { NOT: [{ name: { startsWith: 'S' } }, { name: { startsWith: 'G' } }] } : {}) } }),
     db.huntSummary.findMany({
       where: { state },
-      select: { id:true, state:true, species: true, type: true, unit: true, units: true, openDate:true, closeDate:true, bigPct5:true, weapon: true, tagCode: true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, resOddsLast:true, nrOddsLast:true, oddsLastYear:true, appsLast:true, deerType: true, antlerClass: true, youthOnly: true, privateOnly:true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
+      select: { id:true, state:true, species: true, type: true, unit: true, units: true, openDate:true, closeDate:true, bigPct5:true, weapon: true, tagCode: true, huntNumber:true, tagSeasons:true, name:true, takeMethod:true, pointOdds:true, success5: true, resOdds5: true, nrOdds5: true, resOddsLast:true, nrOddsLast:true, oddsLastYear:true, appsLast:true, resAppsLast:true, nrAppsLast:true, deerType: true, antlerClass: true, youthOnly: true, privateOnly:true, hunters5: true, harvest5: true, resTagAndFill: true, nrTagAndFill: true, smallSample: true, harvestYears: true },
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
@@ -403,7 +403,7 @@ export async function GET(req: Request) {
   }
   // Classify each unit separately: a multi-unit hunt does not transfer a tier to its other units.
   for (const s of sums) {
-    if (!['DEER','ELK'].includes(s.species) || (s.pointOdds as {multiSeason?:boolean}|null)?.multiSeason) continue;
+    if (!['DEER','ELK','PRONGHORN'].includes(s.species) || (s.pointOdds as {multiSeason?:boolean}|null)?.multiSeason) continue;
     for (const unit of s.units) {
       const tier = trophyForUnit({...s,state},unit);
       bump(unit, `${s.type === 'GENERAL' ? 'gen' : 'ctl'}Trophy${SP_KEY[s.species]}`, tier.score);
