@@ -26,6 +26,22 @@ test('updated Utah evidence produces consistent hunt and unit tiers for a repres
   assert.equal(trophyForUnit(hunt, hunt.units[0]).score, 100);
 });
 
+test('DWR premium buck deer permits are Elite across weapons and multiseason hunts', () => {
+  for (const code of ['DB1000','DB1001','DB1002','DB1003','DB1004','DB1005','DB1006','DB1007','DB1008']) {
+    const hunt=utahHunts.hunts.find(h=>h.tagCode===code);
+    assert.ok(hunt,code);
+    assert.equal(trophyForHunt(hunt),100,code);
+    assert.equal(trophyForUnit(hunt,hunt.units[0]).score,100,code);
+    assert.match(trophyHuntEvidence(hunt,100).reason,/DWR premium/);
+  }
+  const henry=utahHunts.hunts.find(h=>h.tagCode==='DB1003')!;
+  assert.notEqual(trophyForUnit(henry,'163').score,100);
+  assert.equal(trophyForHunt({...henry,antlerClass:'ANTLERLESS'}),null);
+  const management=utahHunts.hunts.find(h=>h.tagCode==='DB1009')!;
+  assert.notEqual(trophyForHunt(management),100);
+  assert.notEqual(trophyForHunt({...henry,tagCode:'DB9999'}),100);
+});
+
 test('the retained Idaho Unit 55 early-season exception is consistent in hunt and map', () => {
   const h={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['55'],
     huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'};
