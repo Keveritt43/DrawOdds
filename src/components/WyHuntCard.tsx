@@ -1,3 +1,4 @@
+import { wyLicenseSeries } from '@/lib/wyLicenseMetrics';
 import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { HuntLink } from '@/components/HuntNavigation';
 import type { CoScored } from '@/lib/coScores';
@@ -30,6 +31,9 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
     const rows = wyDeerSeries(po, kind).slice(-5), hunters = rows.reduce((n, x) => n + x.hunters, 0), harvest = rows.reduce((n, x) => n + x.harvest, 0);
     return { kind, rate: hunters ? harvest / hunters : null, years: rows.length };
   }) : [];
+  const licenseRows = wyLicenseSeries(po);
+  const licenseCount = licenseRows.reduce((n,h)=>n+h.hunters,0);
+  const licenseHarvest = licenseRows.reduce((n,h)=>n+h.harvest,0);
   const mix = r.species === 'DEER' ? wyDeerMix(po) : null;
   return (
     <article className="hrow co-row">
@@ -73,10 +77,10 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
           {deer.some(d => d.rate !== null) ? deer.filter(d => d.rate !== null).map(d => <span key={d.kind}><b>{d.kind === 'MULE' ? 'Mule deer' : 'Whitetail'}: {pct(d.rate)}</b><span className="sub">{d.years} reported season{d.years === 1 ? '' : 's'}</span></span>) : <><b>–</b><span className="sub">No species estimates available</span></>}
           <span className="sub">WGFD survey · active licenses, not unique hunters</span>
         </div> : <div>
-          <span className="k">Success {years ? `${years}-yr` : ''}</span>
-          <b>{pct(r.success5)}</b>
-          <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
-          <span className="sub">{po?.harvestBasis ? 'Region general seasons' : r.harvestLastYear ? `${r.harvestLastYear}: ${pct(r.successLast)}` : 'WGFD harvest survey'}</span>
+          <span className="k">Harvest per active license</span>
+          <b>{pct(licenseCount ? licenseHarvest / licenseCount : null)}</b>
+          <span className="sub">{licenseRows.length ? licenseRows.length + ' reported seasons' : 'No comparable data'}</span>
+          <span className="sub">{po?.harvestBasis ? 'Area-license reports; holders may overlap' : 'WGFD survey · active licenses'}</span>
         </div>}
         <div>
           <span className="k">Hunters/mi²</span>

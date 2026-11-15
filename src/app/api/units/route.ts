@@ -1,3 +1,4 @@
+import { withoutUnvalidatedWyLicenseMetrics } from '@/lib/wyLicenseMetrics';
 import { matchesCoMapFilters } from '@/lib/coMapFilters';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import { getPoints } from '@/lib/points';
@@ -62,7 +63,7 @@ export async function GET(req: Request) {
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
-  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(withWaVerifiedDates).map(withIdahoVerifiedArea).map(withWyElkBoundaryHistory).map(s =>
+  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(withWaVerifiedDates).map(withIdahoVerifiedArea).map(withWyElkBoundaryHistory).map(withoutUnvalidatedWyLicenseMetrics).map(s =>
     state === 'WY' && s.species === 'DEER' ? { ...s, success5: null, hunters5: null, harvest5: null, resTagAndFill: null, nrTagAndFill: null } : s);
   let coPoints: Awaited<ReturnType<typeof getPoints>> | null = null;
   const by = new Map<string, Record<string, number | string | null>>();
