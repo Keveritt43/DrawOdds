@@ -87,3 +87,19 @@ Colorado history, for reference: the original decile projection beat last year's
 ## 6. Data loading in production (current process)
 
 Web startup runs Next.js only. Agency fetches and summary rebuilds run as a reviewed, state-scoped one-off worker (Colorado: `scripts/co-maintenance.ts` with `railway.co-maintenance.json`, restart policy NEVER). It backs up first, checks that every other state's summaries are unchanged, and is removed afterwards. Automatic sync stays off. The `SYNC_ON_START` hook is still in `src/instrumentation.ts`, but it runs agency sync on web startup, which AGENTS.md forbids. Don't use it.
+
+## Application Planner (Nov 14, 2026)
+
+Every state needs a `/planner` branch in `src/app/planner/page.tsx`; a state without one falls through to Idaho's planner (Wyoming did until #164). New states use `StatePlanner` (`src/components/StatePlanner.tsx`), the Montana planner's shape: one card per application the hunter files, choices in order up to the agency's limit, first-choice odds at saved points, one-tap best draw-and-fill picks, and what applying costs (cheapest prerequisite licenses via `src/lib/planCost.ts`, plus prices charged only if drawn). Plans save under `_plan_<ST>` through `/api/state-plan` (add the state to its `STATES`).
+
+Source every number: deadlines, choice limit, fees, when each fee is charged, and how points are earned. Where the agency prints no choice limit, set `choicesKnown: false` (Utah: R657-62-18 and the 2026 guidebook are silent) and say what the draw data shows about later choices instead.
+
+| State | Planner | Choices | Notes |
+|---|---|---|---|
+| Idaho | `Planner.tsx` | 5 (NR general), per hunt otherwise | own component |
+| Colorado | `CoPlanner.tsx` | 4 per species (CPW) | not yet on StatePlanner: CPW's qualifying-license page (Nov 14) lists NR small game $93.78, the hunt pages say $104.86 for 2026; settle before adding costs. 2026 primary draw Mar 1 – Apr 7, 8 pm MT; license fee charged only if drawn. |
+| Montana | `MtPlanner.tsx` | 3 per application | combination license section |
+| Wyoming | StatePlanner (#164) | 3 (WGFD demand reports count 1st–3rd) | WGFD dates and fees checked Nov 14, 2026 (no year printed); NR points bought only Jul 1 – Nov 2 |
+| Utah | StatePlanner (#165) | not printed (page caps at 5) | permit charged only if drawn |
+| Washington | StatePlanner (#163) | 4, Quality 2, multi-season 1 | license + general tag needed to apply |
+
