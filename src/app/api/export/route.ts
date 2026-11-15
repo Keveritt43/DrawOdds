@@ -15,6 +15,8 @@ import { parseFilters, buildWhere, buildOrder, residencyFields } from '@/lib/fin
 import { antlerLabel, WEAPON, SPECIES_LABEL } from '@/lib/format';
 import { searchHunts } from '@/lib/searchData';
 import { searchCsv } from '@/lib/searchCsv';
+import { prepareIdahoExport } from '@/lib/idahoExport';
+import type { HuntSummary } from '@prisma/client';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,8 +53,10 @@ export async function GET(req: Request) {
   const { residency } = await getResidency(sp.as);
   const draw = await getDraw(sp.draw);
   const rf = residencyFields(residency);
-  const candidates = await db.huntSummary.findMany({ where: buildWhere(f, residency, draw, f.migration ? await migrationUnits() : {}), orderBy: buildOrder(f, residency), take: 2000 });
-  const rows = candidates.filter((r) => matchesHuntSeason(r, f));
+  const candidates = await db.huntSummary.findMany({ where: buildWhere({ ...f, trophy: [] }, residency, draw, f.migration ? await migrationUnits() : {}), orderBy: buildOrder(f, residency), take: 2000 });
+  const rows = candidates.map(r => prepareIdahoExport(r, f, residency === 'NONRESIDENT'))
+    .filter((r): r is HuntSummary => r !== null && matchesHuntSeason(r, f));
+  if (f.sort === 'trophy') rows.sort((a, b) => (b.scoreTrophy ?? -1) - (a.scoreTrophy ?? -1));
   const res = residency === "NONRESIDENT" ? "NR" : "Res";
   const head = [
     'Species', 'Type', 'Hunt / tag', 'Code', 'Area', 'Units', 'Weapon', 'Sex', 'Open', 'Close', 'Tags',

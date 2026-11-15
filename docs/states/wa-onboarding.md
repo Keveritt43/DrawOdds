@@ -180,3 +180,5 @@ Scripts: `wa_check_draw_weights.py` (§3), `wa_parse_permit_tables.py` (§4), `w
 ### Desert harvest history correction (2026-11-15)
 
 The 2026 Desert Quality Deer archery hunt 1079 and muzzleloader hunt 1091 were renumbered from earlier pamphlets. Their 2021–2025 harvest records are linked using the annual hunt's name, category, tag, area, legal animal and nearby season dates, requiring a unique match in both directions. Hunt 1079 has 10 harvests in 33 hunter-seasons; hunt 1091 has 5 in 10 (small sample). WDFW's individual-hunt reports are the source. These two lineages are individually reviewed; the remaining Washington histories and other states still require an audit for reused or changed hunt numbers. Do not interpret this targeted correction as completing that audit.
+
+The November 15 follow-up review also matched 2026 Desert late archery hunt 1080 to WDFW hunt 1081 in each of 2021–2025. Its pooled rate is 12 harvests / 44 hunter-seasons (27.3%). The former same-number join incorrectly assigned the September hunt's 10 / 33. The broader Washington identity audit remains open.
