@@ -1,8 +1,9 @@
 import { trophyQualityBonus } from './trophyTiers';
 import { trophyForHunt } from './trophyHunt';
+import { withIdahoVerifiedArea } from './idahoHuntCorrections';
 /** Absolute species benchmarks across weapons; no peer-dependent grades. */
 import { successBands } from './format';
-export const SCORE_VERSION = 'idaho-v8-hunt-demand-trophy';
+export const SCORE_VERSION = 'idaho-v9-verified-hunt-area';
 // Trophy is a bounded positive modifier around neutral, never redistributed.
 export const SCORE_WEIGHTS = { success: 65, access: 20, crowd: 15, trophy: 10 } as const;
 export type ScorePart = keyof typeof SCORE_WEIGHTS;
@@ -84,7 +85,8 @@ export const opportunity = (quality: number | null, odds: number | null | undefi
   !finite(quality) || !finite(odds) || odds < 0 || odds > 1 ? null : Math.round(clamp(quality, 0, 100) * Math.sqrt(odds));
 export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
   const out = new Map<string, ScoreOutput>();
-  for (const r of rows) {
+  for (const raw of rows) {
+    const r=withIdahoVerifiedArea(raw);
     const o = { ...EMPTY };
     out.set(r.id, o);
     const trophy = r.twoPoint || r.antlerMaximum ? null : trophyForHunt({...r,state:r.state ?? 'ID',units:r.units ?? []});
