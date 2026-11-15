@@ -18,6 +18,7 @@ import { Term } from './Term';
 import { SIZE_LABEL, type SpeciesKey } from '@/lib/species';
 import { SCORE_PART_LABEL, type ScorePart } from '@/lib/score';
 import { trophyPresentation } from '@/lib/trophyDisplay';
+import { trophyHuntEvidence, type trophyForHunt } from '@/lib/trophyHunt';
 import { RYG7 } from '@/lib/mapMetrics';
 import { objectiveSummary, OBJ_COLOR, type ObjStatus } from '@/lib/elkObjectives';
 
@@ -177,7 +178,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
           <HuntLink href={huntHref(r)}>{title}</HuntLink>
           <span className={`pill ${r.type === 'GENERAL' && !r.nrTag ? '' : 'ctl'}`}>{r.nrTag ? (c.nr ? 'NR Tag Draw' : 'Zone Tag') : r.type === 'GENERAL' ? 'General' : 'Controlled'}</span>
           <CompareToggle id={r.id} label={title} />
-          <TrophyMark score={r.scoreTrophy} />
+          <TrophyMark score={r.scoreTrophy} hunt={r} />
         </span>
         {tagsLine && <span className="small muted tags">{tagsLine}</span>}
       </div>
@@ -224,13 +225,14 @@ export function ScoreBadge({ v, label }: { v: number; label: string }) {
 const hasDraw = (r: HuntSummary, nr: boolean) => r.type === 'CONTROLLED' || (nr && (r.nrTag || r.type === 'GENERAL')) || (!nr && r.nrTag && r.capped);
 
 /** DrawOdds Score: Quality (+ Opportunity when there's a draw); tap for the four parts. */
-export function TrophyMark({ score, showNeutral = true }: { score: number | null; showNeutral?: boolean }) {
+export function TrophyMark({ score, showNeutral = true, hunt }: { score: number | null; showNeutral?: boolean; hunt?: Parameters<typeof trophyForHunt>[0] }) {
   const info = trophyPresentation(score);
   if (score === null || ![50,65,80,100].includes(score)) return null;
   if (score === 50 && !showNeutral) return null;
-  return <span className="pill trophy-badge" title={info.description}>
+  const evidence=hunt ? trophyHuntEvidence(hunt,score as 50|65|80|100) : null;
+  return <span className="pill trophy-badge" title={evidence ? `${info.description} ${evidence.reason}` : info.description}>
     {info.icon && <svg aria-hidden="true" viewBox="0 0 28 28" width={score===100?23:19} height={score===100?23:19} style={{color:score===65?'#8b999d':'#bd831f',flex:'none'}}><path fill="currentColor" d="M7 4h14l-1 7c-.4 4-2.3 6.4-5 7.3V21h4v2H9v-2h4v-2.7c-2.7-.9-4.6-3.3-5-7.3L7 4Z"/><path d="M8 6H4v2c0 4 2.4 6 5 6M20 6h4v2c0 4-2.4 6-5 6" fill="none" stroke="currentColor" strokeWidth="1.7"/><path d="M10 8h8M10.5 11h7" stroke="#fff" opacity=".5" strokeWidth=".8"/><path d="M9 24h10" stroke="currentColor" strokeWidth="2"/></svg>}
-    {score===100 && <span aria-hidden="true" style={{color:'#bd831f'}}>✦</span>}{info.label}
+    {score===100 && <span aria-hidden="true" style={{color:'#bd831f'}}>✦</span>}{info.label}{evidence?.provisional && ' (provisional)'}
   </span>;
 }
 

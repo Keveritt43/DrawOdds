@@ -1,6 +1,6 @@
 /** Offline model comparison on saved public hunt snapshots; no production connection or writes. */
 import {readFileSync, writeFileSync} from 'node:fs';
-import {trophyForHunt} from '../src/lib/trophyHunt';
+import {trophyForHunt} from './review-legacy-trophy';
 import {resolveSeasonCandidate} from '../src/lib/trophyCandidateSeason';
 
 const paths:Record<string,string>={ID:process.argv[2],CO:process.argv[3],MT:'data/mt/hunts.json',UT:'data/ut/hunts.json',WA:'data/wa/hunts.json',WY:'data/wy/hunts.json'};

@@ -22,6 +22,8 @@ export interface CandidateHunt {
   huntCode?: string | null;
   drawYear?: number | null;
   applications?: number | null;
+  huntDemandHigh?: boolean | null;
+  huntDemandProvisional?: boolean;
   deerType?: string | null;
 }
 
@@ -55,14 +57,14 @@ export function resolveTrophyCandidate(h: CandidateHunt): CandidateTier & { sour
     return nonNull.length === 1 && [1, 2, 3, 4].includes(nonNull[0]) ? nonNull[0] as 1|2|3|4 : null;
   };
   const measured = units.get(key(state, species, boundary));
-  const high = measured && h.drawYear === measured.year ? measured.high : null;
+  const high = h.huntDemandHigh !== undefined ? h.huntDemandHigh : measured && h.drawYear === measured.year ? measured.high : null;
   const exceptional = demand.candidates.find(r => r.state === state && r.species === species && r.unit === boundary &&
     r.year === h.drawYear && r.code === h.huntCode && r.apps === h.applications);
-  const result = candidateTier({ listed: rows.length > 0, sourceCount: named.length + Number(bc), bcOnly: bc && !named.length,
+  const result = candidateTier({ listed: rows.length > 0, sourceCount: named.length + Number(bc), namedSourceCount:named.length, bcOnly: bc && !named.length,
     overallPast10Tier: singleTier(rows.map(r => r.overallPast10Tier)), statePast10Tier: singleTier(rows.map(r => r.statePast10Tier)),
     highUnitDemand: high, exceptionalHuntDemand: exceptional ? true : null });
   const parentPortion = state === 'MT' && species === 'PRONGHORN' && /^A\d+[NS]$/.test(boundary);
-  return { ...result, provisional: result.provisional || parentPortion,
+  return { ...result, provisional: result.provisional || parentPortion || h.huntDemandProvisional === true,
     reason: parentPortion ? `${result.reason}; source describes the parent district, not this portion` : result.reason,
     sourceIds: rows.map(r => r.id) };
 }

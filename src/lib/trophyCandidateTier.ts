@@ -3,6 +3,8 @@ export type CandidateScore = 50 | 65 | 80 | 100;
 export interface TrophyCandidateEvidence {
   listed: boolean;
   sourceCount: number;
+  /** Named non-B&C providers, which may nevertheless share underlying data. */
+  namedSourceCount?: number;
   bcOnly: boolean;
   overallPast10Tier: 1 | 2 | 3 | 4 | null;
   statePast10Tier: 1 | 2 | 3 | 4 | null;
@@ -28,10 +30,13 @@ export function candidateTier(e: TrophyCandidateEvidence): CandidateTier {
   const provisional = e.overallPast10Tier === null || e.statePast10Tier === null || e.highUnitDemand === null;
   if (e.bcOnly && e.highUnitDemand !== true)
     return { score: 50, provisional, reason: e.highUnitDemand === null ? 'B&C-only association; demand unknown' : 'B&C-only association; demand below the high threshold' };
-  const signals = Number(e.sourceCount >= 2) + Number(e.overallPast10Tier === 1) +
-    Number(e.statePast10Tier === 1) + Number(e.highUnitDemand === true);
-  let score: CandidateScore = signals >= 4 ? 100 : signals >= 2 ? 80 :
-    signals >= 1 || e.overallPast10Tier === 2 || e.statePast10Tier === 2 ? 65 : 50;
-  if (e.bcOnly && score === 100) score = 80;
-  return { score, provisional, reason: `${signals} of 4 source, 10-year and demand signals; B&C evidence is county-wide` };
+  if(e.bcOnly) return {score:e.overallPast10Tier===1 && e.statePast10Tier===1?80:65,provisional,
+    reason:'B&C-only association with high comparable demand; county evidence does not establish unit harvest'};
+  const named=e.namedSourceCount??e.sourceCount;
+  // Both ten-year B&C tiers describe the same county records: use one context signal.
+  const countyStrong=e.overallPast10Tier===1 && e.statePast10Tier===1;
+  const signals=Number(named>=2)+Number(countyStrong)+Number(e.highUnitDemand===true);
+  const score: CandidateScore = signals===3 ? 100 : signals>=2 ? 80 :
+    signals>=1 || named>=1 || e.overallPast10Tier===2 || e.statePast10Tier===2 ? 65 : 50;
+  return {score,provisional,reason:`${signals} of 3 publication, county-context and demand signals; B&C evidence is county-wide`};
 }

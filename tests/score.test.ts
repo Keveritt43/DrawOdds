@@ -110,7 +110,7 @@ test('quality monotonic with success, access and elbow room; trophy bounded and 
 });
 test('a recognized trophy tier can be shown without enough harvest data for Quality', () => {
   const result = score({ state:'UT', units:['94'], species:'DEER', antlerClass:'ANTLERED', hunters5:0, harvest5:0 });
-  assert.equal(result.scoreTrophy, 100);
+  assert.equal(result.scoreTrophy, 50); // B&C-only without matched demand is provisionally Standard.
   assert.equal(result.scoreQuality, null);
 });
 import {readFileSync} from 'node:fs';

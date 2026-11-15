@@ -23,12 +23,20 @@ test('Colockum separates earlier late seasons, repairs verified dates and earns 
  assert.equal(h.scoreTrophy,80);assert.equal(trophyForUnit(h,'328').score,80);
  assert.equal(JSON.stringify(input),before);
 });
-test('only exceptionally high same-category demand and low overall award rate promote an early permit',()=>{
+test('high same-category demand promotes an early permit independently of the award rate',()=>{
  const input=withStateTrophyScores(row('WA:2016'));
  assert.equal(trophyForUnit({...input,appsLast:1200},'328').score,65);
- assert.equal(trophyForUnit({...input,resOddsLast:.04},'328').score,65);
+ assert.equal(trophyForUnit({...input,resOddsLast:.04},'328').score,80);
+ assert.equal(trophyForUnit({...input,resOddsLast:null},'328').score,80);
  assert.equal(trophyForUnit({...input,oddsLastYear:2024},'328').score,65);
  assert.equal(trophyForUnit({...input,antlerClass:'ANTLERLESS'},'328').score,null);
+});
+test('Teanaway single-unit demand is evaluated on that hunt, not the busiest hunt in the county',()=>{
+ const colockum=withStateTrophyScores(row('WA:2016'));
+ const teanaway=withStateTrophyScores(row('WA:2018'));
+ assert.equal(colockum.scoreTrophy,80);
+ assert.equal(teanaway.scoreTrophy,50);
+ assert.ok((teanaway.appsLast??0)<(colockum.appsLast??0));
 });
 test('date corrections are limited to verified hunts and do not override existing dates',()=>{
  const h=withStateTrophyScores(row('WA:2019'));assert.equal(h.openDate?.toISOString().slice(0,10),'2026-09-25');

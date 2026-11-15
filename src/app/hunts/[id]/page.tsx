@@ -140,7 +140,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       <p className="small"><BackLink state={s.state} /></p>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
-          <h1>{title} <TrophyMark score={s.scoreTrophy} /></h1>
+          <h1>{title} <TrophyMark score={s.scoreTrophy} hunt={s} /></h1>
           <p className="lead-sum">{summary}</p>
           <Rules r={s} />
           {isPrivateOnly(s) && <p className="small" style={{ margin: '6px 0' }}><span className="pill warn">Private land only</span> IDFG: valid only on private land. You need landowner permission before you hunt; the unit&apos;s public land doesn&apos;t count for this tag.</p>}

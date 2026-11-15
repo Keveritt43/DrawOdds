@@ -9,7 +9,8 @@ test('owner model distinguishes Elite, Excellent, Good and Standard', () => {
   assert.equal(candidateTier(all).score, 100);
   assert.equal(candidateTier({ ...all, statePast10Tier: 3 }).score, 80);
   assert.equal(candidateTier({ ...all, statePast10Tier: 3, overallPast10Tier: 3, highUnitDemand: false }).score, 65);
-  assert.equal(candidateTier({ ...all, sourceCount: 1, statePast10Tier: 4, overallPast10Tier: 4, highUnitDemand: false }).score, 50);
+  assert.equal(candidateTier({ ...all, sourceCount: 1, statePast10Tier: 4, overallPast10Tier: 4, highUnitDemand: false }).score, 65);
+  assert.equal(candidateTier({ ...all, sourceCount: 2, namedSourceCount:1 }).score, 80, 'one publication plus county data is not two independent publications');
 });
 
 test('B&C-only low or unknown demand is Standard; unknown remains provisional', () => {

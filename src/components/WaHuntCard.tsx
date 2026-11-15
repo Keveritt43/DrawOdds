@@ -30,7 +30,7 @@ export function WaHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, s
         <span className="star-head">
           <Star kind="hunt" id={r.huntId} saved={saved} signedIn={signedIn} />
           <HuntLink href={`/hunts/${r.slug}`}>{r.name}</HuntLink>
-          <TrophyMark score={r.scoreTrophy} />
+          <TrophyMark score={r.scoreTrophy} hunt={r} />
           <span className={`pill ${gen ? 'gen' : 'ctl'}`}>{PILL[lic]}</span>
         </span>
         <CompareToggle id={r.id} label={r.name} />
