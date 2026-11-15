@@ -31,6 +31,7 @@ export interface WaPointOdds {
   /** 65+: WDFW has never published results by point level, so no odds table */
   noPointData?: boolean;
   oddsUnavailableReason?: string;
+  harvestIdentityBasis?: string;
   category: string;
   tag?: string;
   side?: 'EAST' | 'WEST' | null;

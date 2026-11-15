@@ -3,7 +3,7 @@
  * Only the specific malformed 2026 OCR string is replaced. */
 const verified = new Map([['2015','Mission'],['2016','Colockum'],['2018','Teanaway'],['2019','Peaches Ridge'],['2020','Observatory'],['2022','Goose Prairie'],['2023','Bethel'],['2024','Rimrock'],['2025','Cowiche']]);
 export function withWaVerifiedDates<T extends {state:string;species:string;type:string;id:string;name?:string|null;openDate?:Date|null;closeDate?:Date|null;tagSeasons?:unknown;pointOdds?:unknown}>(r:T):T {
- const p=r.pointOdds as {dates?:string;category?:string;year?:number;demand?:Record<string,unknown>;harvest?:Array<{year:number;hunters?:number|null;harvest?:number|null}>}|null;
+ const p=r.pointOdds as {dates?:string;category?:string;year?:number;demand?:Record<string,unknown>;harvestIdentityBasis?:string;harvest?:Array<{year:number;hunters?:number|null;harvest?:number|null}>}|null;
  const seasons=r.tagSeasons as {year?:number;seasons?:Array<Record<string,unknown>>}|null;
  const code=r.id.startsWith('WA:')?r.id.slice(3):'';
  const name=verified.get(code);
@@ -13,6 +13,13 @@ export function withWaVerifiedDates<T extends {state:string;species:string;type:
  // Before 2023, choice 2016 was the later October/November Colockum hunt.
  // Do not attribute those hunters or harvests to the current September hunt.
  if(code==='2016' && Array.isArray(p.harvest)) {
+   // A reviewed annual identity crosswalk can establish that earlier years used
+   // a different choice number for this September season. Keep those linked
+   // records, but still withhold the separately unvalidated point projection.
+   if (p.harvestIdentityBasis) {
+     const demand=Object.fromEntries(Object.entries(p.demand??{}).filter(([year])=>Number(year)>=2023));
+     return {...corrected,pointOdds:{...p,dates:'Sept. 25–29',demand,oddsUnavailableReason:'Point-level estimates are unavailable because this hunt number previously identified a different season.'},oddsByPts:null,resTagAndFill:null,nrTagAndFill:null};
+   }
    const history=p.harvest.filter(h=>h.year>=2023), usable=history.filter(h=>typeof h.hunters==='number'&&h.hunters>0&&typeof h.harvest==='number'&&h.harvest>=0&&h.harvest<=h.hunters);
    const n=usable.reduce((a,h)=>a+(h.hunters??0),0),k=usable.reduce((a,h)=>a+(h.harvest??0),0);
    const acres=(r as T & {acres?:number|null}).acres;
