@@ -1,3 +1,4 @@
+import { matchesHuntPreset, parseHuntPresets } from './huntPresets';
 import type { Residency } from '@prisma/client';
 import { parseFilters, type Filters } from './finder';
 import { matchesHuntSeason } from './huntSeasonFilter';
@@ -45,6 +46,7 @@ export interface SearchResult {
   need?: number | null;
   /** Washington: whether the hunter's saved general tag can apply for this special permit (null: can't tell). */
   waTagOk?: boolean | null;
+  meetsObservedCutoff?: boolean;
 }
 export const param = (sp: SearchParams, k: string) => (Array.isArray(sp[k]) ? sp[k]!.join(',') : sp[k] ?? '') as string;
 const list = (sp: SearchParams, k: string) => param(sp, k).split(',').filter(Boolean);
@@ -98,7 +100,7 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     // unsaved settings: nonresident, 0 points (src/lib/utPoints.ts readUtPoints defaults)
     const u = utPersonal(r, settings.UT ?? readUtPoints(null), nr, mode);
     const opp = opportunity(r.scoreQuality, u.odds);
-    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: u.odds, opportunity: opp, nr, points: u.points, basis: u.basis };
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: u.odds, opportunity: opp, nr, points: u.points, basis: u.basis, meetsObservedCutoff: !!settings.UT?.set && utKind(r) === 'preference' && u.points !== null && utPreferenceCutoff(r.pointOdds as unknown as UtPointOdds | null, nr) !== null && utPreferenceCutoff(r.pointOdds as unknown as UtPointOdds | null, nr)! <= u.points };
   }
   if (r.state === 'WY') {
     const wy = settings.WY;
@@ -109,7 +111,9 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     const odds = wyTableOdds(table, mode, pool, points ?? 0);
     const basis = wyBasis(pool, mode, points ?? 0, r.pointOdds as unknown as WyPointOdds | null);
     const opp = opportunity(r.scoreQuality, odds);
-    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis, need: nr ? wyNeed(r.pointOdds as unknown as WyPointOdds | null, pool) : null };
+    const wyPo = r.pointOdds as unknown as WyPointOdds | null;
+    const observed = pool === 'nrs' ? wyPo?.pools?.special : pool === 'nr' ? wyPo?.pools?.regular : undefined;
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis, need: nr ? wyNeed(wyPo, pool) : null, meetsObservedCutoff: !!wy?.set && points !== null && !!observed?.pref?.rows?.some(row => typeof row[1] === 'number' && row[1] > 0 && (row[2] === 'e' || row[2] === 'p') && row[3] <= points) };
   }
   const special = coSpecial(r);
   const points = special ? settings.CO.specialSet ? specialPointSetting(special, settings.CO)?.weighted ?? null : null : r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
@@ -133,11 +137,18 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
   }
   const opp = opportunity(r.scoreQuality, odds);
   const applicants = special ? specialCounts(special.draws[0], nr, settings.CO.youth).apps : undefined;
-  return { applicants, r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis };
+  const coPool = r.state === 'CO' && !special ? (r.pointOdds as unknown as PointOdds | null)?.pools?.[poolFor(nr, settings.CO.youth)] : null;
+  const cutoff = coPool?.cut?.points;
+  const meetsObservedCutoff = !!settings.CO.set && points !== null && typeof cutoff === 'number' && cutoff <= points && !!coPool?.levels?.some(([p, , drawn]) => p === cutoff && drawn > 0);
+  return { applicants, r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds, opportunity: opp, nr, points, basis, meetsObservedCutoff };
 }
 
 export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, migrations: Partial<Record<string, string[]>> = {}): boolean {
   const { r, odds } = x;
+  const presets = parseHuntPresets(param(sp, 'huntPreset'));
+  // Past cutoffs describe observed draws and do not guarantee a future tag.
+  const cutoffAtOrBelowPoints = x.meetsObservedCutoff === true;
+  if (presets.length && !presets.some(p => matchesHuntPreset(p, r, odds, cutoffAtOrBelowPoints, f))) return false;
   if (f.species && r.species !== f.species) return false;
   if (f.type && r.type !== f.type) return false;
   // Picking a Washington youth category is asking for youth hunts, even with the shared Youth Hunts filter on Hide.

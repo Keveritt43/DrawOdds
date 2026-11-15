@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CO_METHODS, CO_SEASONS } from '@/lib/coMapFilters';
 import { CHANCES, PointRangeSlider } from './CoFilters';
 import { QuickSeasonDates, QuickTrophyChoices } from './MultiQuickStart';
+import { QuickHuntPresets } from './HuntPresetChoices';
 
 export function CoQuickStart() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export function CoQuickStart() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const query = new URLSearchParams({reset: '1', state: 'CO'});
-    for (const name of ['species', 'type', 'antler', 'method', 'season', 'chance', 'sort', 'from', 'to', 'dmode', 'trophy']) {
+    for (const name of ['species', 'type', 'antler', 'method', 'season', 'chance', 'sort', 'from', 'to', 'dmode', 'trophy', 'huntPreset']) {
       const value = data.getAll(name).map(String).filter(Boolean).join(',');
       if (value) query.set(name, value);
     }
@@ -37,7 +38,7 @@ export function CoQuickStart() {
     <label>Draw At My Points (Select Any)</label>{opts('chance', CHANCES, true)}
     <label>Points Needed (Last Draw)</label>
     <PointRangeSlider min={range[0]} max={range[1]} onCommit={(min, max) => setRange([min, max])} />
-    <label>I Want</label>{opts('sort', [['odds', 'Best Chance To Get A Tag'], ['success', 'Highest Harvest Rate'], ['score', 'Best Overall Hunt (Quality)'], ['opp', 'Best Opportunity At My Points'], ['pts', 'Fewest Points Needed']])}
+    <QuickHuntPresets /><label>I Want</label>{opts('sort', [['odds', 'Best Chance To Get A Tag'], ['success', 'Highest Harvest Rate'], ['score', 'Best Overall Hunt (Quality)'], ['opp', 'Best Opportunity At My Points'], ['pts', 'Fewest Points Needed']])}
     <p className="hint">Leave weapon, season or draw chance unchecked to include any.</p>
     <p className="hint">On the results page, use Show Filters to fine-tune hunts by dates, land, odds and more.</p>
     <button className="btn primary" type="submit" disabled={pending}>{pending ? 'Finding Hunts…' : 'Show Me Hunts'}</button>

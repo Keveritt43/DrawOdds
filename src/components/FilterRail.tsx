@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { HuntPresetFilters, HuntPresetNote } from './HuntPresetChoices';
 import { DAY_MIN, DAY_MAX, dayLabel, parseMonthDay, toMonthDay } from '@/lib/seasonDays';
 import { ELK_ZONES, ELK_ZONE_NAMES } from '@/lib/elkZones';
 import { useStateConfig } from './StateContext';
@@ -77,6 +78,11 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
     push({ [k]: k === "antler" && !next.length ? "ALL" : next });
   };
   const labelOf = (opts: Opt[], v: string) => opts.find((o) => o[0] === v)?.[1] ?? v;
+  const presetValues = sp.getAll('huntPreset').join(',').split(',');
+  const presetHas = (...ids: string[]) => ids.some(id => presetValues.includes(id));
+  const withPreset = (value: string, has: boolean) => has ? `${value} · preset` : value;
+  const trophyPreset = presetHas('max-trophy', 'trophy-sleepers', 'peak-rut', 'public-diy');
+  const landPreset = presetHas('public-diy', 'tag-filler');
   const sp_ = get('species');
   const active = (...keys: string[]) => keys.some(k => !!get(k));
   const many = (opts: Opt[], k: string, none: string) => (list(k).length ? list(k).map((v) => labelOf(opts, v)).join(', ') : none);
@@ -113,6 +119,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
       )}
       <div className="rsec-wrap">
         {presets}
+        <HuntPresetFilters states={states ?? [header.code]} />
         <Section title="Species" value={labelOf(speciesOptions, sp_)} set={!!sp_} defaultOpen={!sp_}>
           {radio('species', speciesOptions)}
           {states && <p className="small muted">Available species vary by state. Idaho drawing restrictions still apply to Idaho applications.</p>}
@@ -144,8 +151,8 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           {radio('minOpp', SCORE_STOPS)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>0-100 on fixed scales, so general and controlled hunts compare directly. <a href="/score">How we score</a></p>
         </Section>
-        {!msg && <Section title="Trophy Score" value={many(TROPHY_TIERS,'trophy','Any')} set={list('trophy').length>0}>
-          {checks('trophy',TROPHY_TIERS)}
+        {!msg && <Section title="Trophy Score" value={withPreset(many(TROPHY_TIERS,'trophy','Any'), trophyPreset)} set={list('trophy').length>0 || trophyPreset}>
+          <HuntPresetNote category="trophy" />{checks('trophy',TROPHY_TIERS)}
           <p className="small muted">Choose any tiers; leave all unchecked for every hunt. Hunts without an eligible trophy score are excluded when a tier is selected.</p>
           {sharedNote}
         </Section>}
@@ -157,13 +164,13 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           {checks("antler", msg ? SEX_MSG : ANTLER)}
           <p className="small muted" style={{ margin: '6px 0 0' }}>Either-sex hunts show under both, since you can take an antlered or an antlerless animal on them.</p>
         </Section>
-        <Section title="Harvest Success" value={get('minSuccess') ? `${get('minSuccess')}%+` : 'Any'} set={!!get('minSuccess')}>
+        <Section title="Harvest Success" value={withPreset(get('minSuccess') ? `${get('minSuccess')}%+` : 'Any', presetHas('tag-filler'))} set={!!get('minSuccess') || presetHas('tag-filler')}>
           {sharedNote}
-          <Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
+          <HuntPresetNote category="success" /><Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
         </Section>
-        <Section title="Season Dates" value={[many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time'} set={list('month').length > 0 || !!get('from')}>
+        <Section title="Season Dates" value={withPreset([many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time', presetHas('peak-rut'))} set={list('month').length > 0 || !!get('from') || presetHas('peak-rut')}>
           {sharedNote}
-          {checks('month', MONTHS)}
+          <HuntPresetNote category="timing" />{checks('month', MONTHS)}
           <p className="small muted" style={{ margin: '6px 0 10px' }}>Hunts open at some point in the months you pick.</p>
           <label>Or Pick Exact Dates</label>
           <DateRange
@@ -173,15 +180,15 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             onCommit={(a, b, mode) => push(a === DAY_MIN && b === DAY_MAX ? { from: null, to: null, dmode: null } : { from: toMonthDay(a), to: toMonthDay(b), dmode: mode === 'end' ? 'end' : null })}
           />
         </Section>
-        <FilterGroup title="Land Access" active={active('minAccessLand', 'minPublic', 'pubOnly', 'priv', 'wyPriv')}>
+        <FilterGroup title="Land Access" active={landPreset || active('minAccessLand', 'minPublic', 'pubOnly', 'priv', 'wyPriv')}>
           {(() => {
             // One slider. Counting access programs (default in multi-state search) filters on minAccessLand; unticked, on minPublic.
             const counting = !!states && get('pubOnly') !== '1';
             const key = counting ? 'minAccessLand' : 'minPublic';
             const v = get('minAccessLand') || get('minPublic');
-            return <Section title={counting ? 'Public & Accessible Land' : 'Public Land'} value={v ? `${v}%+` : 'Any'} set={!!v}>
+            return <Section title={counting ? 'Public & Accessible Land' : 'Public Land'} value={withPreset(v ? `${v}%+` : 'Any', landPreset)} set={!!v || landPreset}>
               {sharedNote}
-              <Slider value={Number(v || 0)} max={100} step={5} suffix="%" onCommit={(n) => push({ minAccessLand: null, minPublic: null, [key]: n ? String(n) : null })} />
+              <HuntPresetNote category="land" /><Slider value={Number(v || 0)} max={100} step={5} suffix="%" onCommit={(n) => push({ minAccessLand: null, minPublic: null, [key]: n ? String(n) : null })} />
               {states && <div className="checks2" style={{ marginTop: 10 }}>
                 <label><input type="checkbox" checked={counting} onChange={() => push(counting ? { pubOnly: '1', minAccessLand: null, minPublic: v || null } : { pubOnly: null, minPublic: null, minAccessLand: v || null })} /> Count private land open to hunting</label>
               </div>}
@@ -195,9 +202,9 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
             <p className="small muted" style={{ margin: '6px 0 0' }}>These licenses need landowner permission before you hunt. {states ? 'Applies to all selected states: ' : ''}{(states ?? [config.code]).map(s => `${STATES[s].name}: ${STATES[s].privateLandOnly}`).join('. ')}.</p>
           </Section>
         </FilterGroup>
-        <FilterGroup title="Draw Odds & Points" active={active('minOdds', ...(states?.includes('CO') ? ['chance', 'minPts', 'maxPts', 'odds'] : []), ...(states?.includes('WY') ? ['wyMinPts', 'wyMaxPts'] : []), ...(states?.includes('UT') ? ['utMinPts', 'utMaxPts'] : []))}>
-          <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any'} set={!!get('minOdds')}>
-            <Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
+        <FilterGroup title="Draw Odds & Points" active={presetHas('trophy-sleepers') || active('minOdds', ...(states?.includes('CO') ? ['chance', 'minPts', 'maxPts', 'odds'] : []), ...(states?.includes('WY') ? ['wyMinPts', 'wyMaxPts'] : []), ...(states?.includes('UT') ? ['utMinPts', 'utMaxPts'] : []))}>
+          <Section title={states ? 'Draw Odds (Your Settings Per State)' : `Draw Odds (${nr ? 'Nonresident' : 'Resident'})`} value={withPreset(get('minOdds') ? `${get('minOdds')}% to 100%` : 'Any', presetHas('trophy-sleepers'))} set={!!get('minOdds') || presetHas('trophy-sleepers')}>
+            <HuntPresetNote category="odds" /><Slider value={Number(get('minOdds') || 0)} max={100} step={1} suffix="%" onCommit={(v) => push({ minOdds: v ? String(v) : null })} />
             <p className="small muted" style={{ margin: '6px 0 0' }}>{states ? 'Idaho uses historical first-choice odds; Colorado uses your points and selected projected / historical mode. Unknown odds do not pass a minimum.' : 'First choice, 5-year total. Hunts with no draw (resident general seasons) always show.'}</p>
           </Section>
           {drawFilters}

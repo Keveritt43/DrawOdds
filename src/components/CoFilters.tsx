@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { HuntPresetFilters } from './HuntPresetChoices';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { pointRange } from '@/lib/pointRange';
 import { withPresetEdit } from '@/lib/filterPresets';
@@ -94,6 +95,7 @@ export function CoFilters({ nr, points, speciesLabel, presets }: { nr: boolean; 
       )}
       <div className="rsec-wrap">
         {presets}
+        <HuntPresetFilters states={['CO']} />
         <Section title="Species" value={SPECIES.find((s) => s[0] === sp_)?.[1] ?? 'Deer'} set={!!get('species')} defaultOpen>
           <div className="checks2">
             {SPECIES.map(([v, l]) => (

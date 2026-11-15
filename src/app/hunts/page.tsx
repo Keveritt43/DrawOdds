@@ -91,6 +91,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     return <>{picked.length === 1 && <SyncState code={picked[0]} />}<MultiStateFinder sp={sp} /></>;
   }
   const state = (await getState(sp.state)).code;
+  if (sp.huntPreset !== undefined) {
+    const q = new URLSearchParams(Object.entries({ ...sp, states: state }).flatMap(([k,v]) => v === undefined ? [] : [[k, Array.isArray(v) ? v.join(',') : v]]));
+    redirect('/hunts?' + q.toString());
+  }
   // Wyoming and Montana live only in the combined finder
   const combined = combinedFinderRedirect(state, sp);
   if (combined) redirect(combined);

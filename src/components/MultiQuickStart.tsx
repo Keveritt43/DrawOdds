@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { QuickHuntPresets } from './HuntPresetChoices';
 import { DateRange } from './FilterRail';
 import { DAY_MIN, DAY_MAX, toMonthDay } from '@/lib/seasonDays';
 import Link from 'next/link';
@@ -34,7 +35,7 @@ export function SharedQuickStartForm({ states }: { states: StateCode[] }) {
     <label htmlFor="multi-antler">Antler class</label><select id="multi-antler" name="antler" defaultValue="ALL"><option value="ALL">Any</option><option value="ANTLERED">Antlered</option><option value="ANTLERLESS">Antlerless</option></select>
     <QuickSeasonDates />
     <QuickTrophyChoices />
-    <label htmlFor="multi-sort">What matters most?</label><select id="multi-sort" name="sort"><option value="opp">Best overall opportunity</option><option value="score">Hunt quality</option><option value="odds">Draw odds</option><option value="success">Harvest rate</option><option value="public">Public land</option><option value="densityLow">Fewest hunters per square mile</option></select>
+    <QuickHuntPresets /><label htmlFor="multi-sort">What matters most?</label><select id="multi-sort" name="sort"><option value="opp">Best overall opportunity</option><option value="score">Hunt quality</option><option value="odds">Draw odds</option><option value="success">Harvest rate</option><option value="public">Public land</option><option value="densityLow">Fewest hunters per square mile</option></select>
     <details><summary>Optional minimums and maximums</summary>
       {slider('multi-odds', 'minOdds', 'Minimum draw odds', 100, 1, limits.minOdds ? `${limits.minOdds}%` : 'Any')}
       {slider('multi-success', 'minSuccess', 'Minimum harvest rate', 100, 5, limits.minSuccess ? `${limits.minSuccess}%` : 'Any')}
