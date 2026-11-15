@@ -130,6 +130,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </div>
 
       <h2>Hunter Success</h2>
+      {po.harvestBoundaryNote && <p className="small muted">{po.harvestBoundaryNote} Earlier records are retained but describe different boundaries. <a href="https://wgfd.wyo.gov/news-events/hunting-regulation-changes-sheridan-region">WGFD boundary changes</a>.</p>}
       {species === 'DEER' ? <>
         <p className="small muted">WGFD survey estimates by hunt area and license type. The denominator is active licenses for each deer species, not unique people. A license holder may appear in both species. Combined success, density and dependent scores remain unavailable because that overlap is unknown. Region license aggregates and missing species records are not estimated. <a href="https://wgfd.wyo.gov/hunting-trapping/harvest-reports-surveys">WGFD reports</a></p>
         {deerSeries.map(({kind, rows}) => <section key={kind}><h3>{kind === 'MULE' ? 'Mule deer' : 'Whitetail'} harvest</h3>{rows.length ? <>
