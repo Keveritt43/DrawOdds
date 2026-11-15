@@ -1,3 +1,4 @@
+import { withoutUnvalidatedWyLicenseMetrics } from '@/lib/wyLicenseMetrics';
 import { withWyElkBoundaryHistory } from '@/lib/wyElkBoundaryHistory';
 import { coSpecial } from '@/lib/coSpecial';
 import { specialPersonalOdds } from '@/lib/coSpecialPoints';
@@ -57,7 +58,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
     })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   const nr = (await getResidency(undefined, state)).residency === 'NONRESIDENT';
-  const all = sortUnitHunts((await db.huntSummary.findMany({ where: { state, units: { has: name }, youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).map(withWyElkBoundaryHistory).filter(h=>h.units.includes(name)));
+  const all = sortUnitHunts((await db.huntSummary.findMany({ where: { state, units: { has: name }, youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).map(withWyElkBoundaryHistory).map(withoutUnvalidatedWyLicenseMetrics).filter(h=>h.units.includes(name)));
   // same listing rules as Filtering: elk = zone A/B tags, deer = general seasons (+ White-tailed tag)
   const pts = state === "CO" ? await getPoints("CO") : null;
   const rows =

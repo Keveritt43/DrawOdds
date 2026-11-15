@@ -59,7 +59,8 @@ test('Wyoming deer unknown hunter overlap cannot drive success filters, scores o
   assert.equal(result.opportunity, null);
   assert.equal(JSON.stringify(source), before, 'stored source must remain unchanged');
   assert.equal(runSearch([source], { states: 'WY', minSuccess: '20' }, 'WY', settings).length, 0);
-  assert.equal(evaluateHunt(row({ state: 'WY', species: 'ELK' }), settings, 'proj').r.success5, .5);
+  assert.equal(evaluateHunt(row({ state: 'WY', species: 'ELK' }), settings, 'proj').r.success5, null);
+  assert.equal(evaluateHunt(row({ state: 'WY', species: 'PRONGHORN' }), settings, 'proj').r.success5, null);
 });
 
 test('state selection validates, deduplicates and canonicalizes without losing header defaults', () => {

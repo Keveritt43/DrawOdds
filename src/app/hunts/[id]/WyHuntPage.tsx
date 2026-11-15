@@ -6,7 +6,7 @@ import { BackLink } from '@/components/BackLink';
 import { ScoreRow, TrophyMark } from '@/components/HuntCards';
 import { trophyForHunt } from '@/lib/trophyHunt';
 import { Star } from '@/components/Star';
-import { WyCreepChart, WyOddsPointsChart, WyHarvestCharts } from '@/components/WyCharts';
+import { WyCreepChart, WyOddsPointsChart } from '@/components/WyCharts';
 import { db } from '@/lib/db';
 import { auth } from '@/auth';
 import { getPoints } from '@/lib/points';
@@ -82,7 +82,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           {po.nrRegionSlug ? <HuntLink href={`/hunts/${po.nrRegionSlug}`}>Region {po.nrRegion} nonresident general license</HuntLink> : `Region ${po.nrRegion ?? '?'} nonresident general license`}, which is drawn: the odds below are that region&apos;s.
         </div>
       )}
-      {po.harvestBasis && <p className="small muted">Harvest, success and crowding for this region license come from the {po.harvestBasis}.</p>}
+      {po.harvestBasis && <p className="small muted">Harvest records combine {po.harvestBasis}; license holders may appear in more than one area.</p>}
       <ScoreRow r={{ ...s, scoreOppRes: nr ? null : opportunity(s.scoreQuality, mine), scoreOppNr: nr ? opportunity(s.scoreQuality, mine) : null }} nr={nr} open />
       <div className="co-top">
         <div className="card co-mine">
@@ -126,10 +126,9 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <div className="grid2 co-graph-grid">
         <WyCreepChart po={po} />
         <WyOddsPointsChart table={table} po={po} pool={pool === 'res' ? 'nr' : pool} mode={mode} myPoints={nr ? p : null} />
-        {species !== 'DEER' && po.harvest.length ? <WyHarvestCharts rows={po.harvest} /> : null}
       </div>
 
-      <h2>Hunter Success</h2>
+      <h2>Harvest Reports</h2>
       {po.harvestBoundaryNote && <p className="small muted">{po.harvestBoundaryNote} Earlier records are retained but describe different boundaries. <a href="https://wgfd.wyo.gov/news-events/hunting-regulation-changes-sheridan-region">WGFD boundary changes</a>.</p>}
       {species === 'DEER' ? <>
         <p className="small muted">WGFD survey estimates by hunt area and license type. The denominator is active licenses for each deer species, not unique people. A license holder may appear in both species. Combined success, density and dependent scores remain unavailable because that overlap is unknown. Region license aggregates and missing species records are not estimated. <a href="https://wgfd.wyo.gov/hunting-trapping/harvest-reports-surveys">WGFD reports</a></p>
@@ -138,9 +137,9 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Active licenses</th><th className="num">Harvest</th><th className="num">Harvest / active license</th></tr></thead><tbody>{rows.slice().reverse().map(h => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.success)}</td></tr>)}</tbody></table></div>
         </> : <p className="muted">No validated species-specific estimate for this license.</p>}</section>)}
       </> : po.harvest.length ? (
-        <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Hunters</th><th className="num">Harvest</th><th className="num">Success</th><th className="num">Days/hunter</th></tr></thead>
-          <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{h.days !== null && h.hunters ? (h.days / h.hunters).toFixed(1) : '–'}</td></tr>)}</tbody></table>
-          <p className="small muted">WGFD harvest survey estimates for this hunt area and license type.</p></div>
+        <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Active licenses</th><th className="num">Harvest</th><th className="num">Harvest / active license</th></tr></thead>
+          <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td></tr>)}</tbody></table>
+          <p className="small muted">WGFD survey estimates count active licenses, not verified unique hunters. Hunter success, crowding and dependent scores are unavailable. Region totals combine area-license reports and can include the same holder more than once.</p></div>
       ) : <p className="muted">No WGFD harvest estimate matched to this license.</p>}
 
       <h2>Draw History</h2>
