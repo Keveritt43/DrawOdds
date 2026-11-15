@@ -6,7 +6,7 @@ import { searchHunts } from '@/lib/searchData';
 import { param, type SearchParams, type SearchResult } from '@/lib/multiStateSearch';
 import { STATES, unitKey } from '@/lib/states';
 import { MtFinderNotice } from '@/components/MtHome';
-import { searchDraw, searchUnitKey, searchUnitLabel } from '@/lib/searchStates';
+import { matchesSelectedUnit, searchDraw, searchUnitKey, searchUnitLabel } from '@/lib/searchStates';
 import { SearchStates } from '@/components/SearchStates';
 import { FilterRail } from '@/components/FilterRail';
 import { CoSearchFilters } from '@/components/CoSearchFilters';
@@ -54,8 +54,11 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     return `?${p}`;
   };
   const groups = new Map<string, SearchResult[]>();
+  const selectedUnit = param(sp, 'unit');
   for (const x of results) for (const unit of x.r.units) {
     const key = searchUnitKey(x.r.state, unit);
+    // A multi-unit hunt remains a result, but its other units are not selected results.
+    if (!matchesSelectedUnit(x.r.state, unit, selectedUnit)) continue;
     const rows = groups.get(key) ?? [];
     rows.push(x); groups.set(key, rows);
   }
@@ -89,7 +92,6 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   const page = Math.min(pages, Math.max(1, Math.floor(Number(param(sp, 'page')) || 1)));
   const shown = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const mode = param(sp, 'odds') === 'last' ? 'last' : 'proj';
-  const selectedUnit = param(sp, 'unit');
   const renderCard = (x: SearchResult, key: string, also: SearchResult['r'][] = []) => <div key={key} className="search-result">
     <details className="small search-result-context"><summary><b>{STATES[x.r.state as keyof typeof STATES].name}</b> · {x.nr ? 'Nonresident' : 'Resident'} · Opportunity {x.opportunity ?? '—'}</summary><p>{x.basis}{x.r.state === 'CO' && settings.CO.youth ? ' · Youth pool' : ''}{x.r.state === 'WY' && x.nr && settings.WY?.wySpecial ? ' · Special pool' : ''}{x.r.scoreQuality === null ? ' · Incomplete scoring data' : ''}</p></details>
     {x.r.state === 'MT' ? <MtHuntCard r={x.r} odds={x.odds} parts={x.mtParts} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />

@@ -1,11 +1,18 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import type { HuntSummary } from '@prisma/client';
-import { searchStates, searchBounds, searchUnitKey } from '../src/lib/searchStates';
+import { searchStates, searchBounds, searchUnitKey, matchesSelectedUnit } from '../src/lib/searchStates';
 import { runSearch, personalize, evaluateHunt, compareSearch, type HunterSettings } from '../src/lib/multiStateSearch';
 import { searchCsv } from '../src/lib/searchCsv';
 import { matchesHuntSeason } from '../src/lib/huntSeasonFilter';
 import { parseFilters, buildWhere, toQuery } from '../src/lib/finder';
+
+test('selected map unit excludes other units of matching multi-unit hunts', () => {
+  const units = [['UT', '94'], ['UT', '928'], ['ID', '94']];
+  assert.deepEqual(units.filter(([state, unit]) => matchesSelectedUnit(state, unit, 'UT:94')), [['UT', '94']]);
+  assert.deepEqual(units.filter(([state, unit]) => matchesSelectedUnit(state, unit, '94')), [['UT', '94'], ['ID', '94']]);
+  assert.equal(units.filter(([state, unit]) => matchesSelectedUnit(state, unit, '')).length, 3);
+});
 
 const settings: HunterSettings = { ID: 'RESIDENT', CO: { res: 'NONRESIDENT', DEER: 2, ELK: 0, PRONGHORN: 0, youth: false, set: true } };
 const row = (patch: Partial<HuntSummary> = {}) => ({

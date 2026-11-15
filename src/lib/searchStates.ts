@@ -38,6 +38,9 @@ export function searchStates(value: string | string[] | undefined, fallback: Sta
 }
 
 export const searchUnitKey = (state: string, unit: string) => `${state}:${unit}`;
+/** A selected unit limits map and by-unit groups, even when a matching hunt spans other units. */
+export const matchesSelectedUnit = (state: string, unit: string, selected: string) =>
+  !selected || (selected.includes(':') ? searchUnitKey(state, unit) === selected : unit === selected.toUpperCase());
 /** Keep state-qualified keys in filters; only the displayed unit label is bare. */
 // Montana antelope districts are keyed "A320" (deer/elk use the same numbers), but a hunter reads them as 320
 export const searchUnitLabel = (key: string) => key.replace(/^MT:A(?=\d)/, '').replace(/^[A-Z]{2}:/, '');
