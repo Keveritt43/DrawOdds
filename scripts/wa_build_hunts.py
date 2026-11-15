@@ -19,8 +19,8 @@ cutoff u solves expected selections = that year's permits; odds at P are 1 - (1 
   proj = 2027: two more roll steps with 2025's application count, 2026 permits (2027's aren't set yet).
 A hunt with no per-point table of its own starts from its category's pooled 2020 mix, flagged seed='category'.
 
-Three reviewed Desert hunts follow unique matching identities across annual pamphlets; WDFW reuses numbers.
-Other harvest histories retain the existing same-number matching pending a broader audit.
+Harvest follows unique annual permit identities and similar annual season dates; WDFW reuses hunt numbers.
+Ambiguous or materially changed seasons do not inherit unverified harvest.
 """
 from __future__ import annotations
 
@@ -133,23 +133,37 @@ def parse_dates(s: str, year: int):
 
 
 
-def harvest_predecessor(current: dict, candidates: list[dict]) -> dict | None:
+
+def identity_dates(value: str):
+    """Accept only fully parsed ranges; never ignore a second date or footnote."""
+    text = re.sub(r'(?<=\d) (?=\d(?:\s*[-,]|$))', '', value or '').replace('–', '-')
+    text = re.sub(r'\s+and\s+(?=[A-Za-z])', ', ', text, flags=re.I)
+    item = r'[A-Za-z]{3,9}\.?\s*\d{1,2}\s*-\s*(?:[A-Za-z]{3,9}\.?\s*)?\d{1,2}'
+    if not re.fullmatch(rf'\s*{item}(?:\s*,\s*{item})*\s*', text):
+        return []
+    return parse_dates(text, 2024)
+
+def harvest_predecessor(current: dict, candidates: list[dict], *, honor_new: bool = True) -> dict | None:
     """Match an annual permit only when identity and approximate season dates are unambiguous.
 
     Permit numbers are reused, and a name can have multiple seasons. Never use quota or
     number as a tie-breaker: an ambiguous or materially changed hunt is unknown.
     """
     fields = ("species", "category", "name", "tag", "area", "legal")
-    dates = parse_dates(current.get("dates") or "", 2024)
-    if not dates or current.get("is_new"):
+    dates = identity_dates(current.get("dates") or "")
+    if not dates or (honor_new and current.get("is_new")):
         return None
     def near(a, b):
-        return abs((dt.date.fromisoformat(a) - dt.date.fromisoformat(b)).days) <= 21
+        return abs((dt.date.fromisoformat(a) - dt.date.fromisoformat(b)).days) <= 10
+    def identity(row, key):
+        value = norm(row.get(key) or "")
+        # The 2024 and 2025 WDFW pamphlet extracts omit an l in "anterless".
+        return value.replace("anterless", "antlerless") if key == "legal" else value
     matches = []
     for candidate in candidates:
-        if candidate.get("is_new") or any(norm(candidate.get(k) or "") != norm(current.get(k) or "") for k in fields):
+        if any(identity(candidate, k) != identity(current, k) for k in fields):
             continue
-        other = parse_dates(candidate.get("dates") or "", 2024)
+        other = identity_dates(candidate.get("dates") or "")
         if len(dates) == len(other) and all(near(a, c) and near(b, d) for (a, b), (c, d) in zip(dates, other)):
             matches.append(candidate)
     return matches[0] if len(matches) == 1 else None
@@ -429,23 +443,19 @@ def main() -> None:
         d27 = roll(d26, u26, last_apps, rr)
         u27 = cutoff(d27, r["permits"] or 0)
         units_land = land_for(us)
-        # The Desert early/late archery and muzzleloader lineages are individually reviewed.
-        # Other hunts retain existing matching until their proposed histories are audited.
-        if sp == "DEER" and r["choice"] in (1079, 1080, 1091) and norm(r["name"]) == "desert":
-            same_hunt = {}
-            current = r
-            for y in range(YEAR - 1, min(HARVEST_YEARS) - 1, -1):
-                previous = harvest_predecessor(current, by_year[y])
-                if previous is None or harvest_predecessor(previous, by_year[y + 1]) is not current:
-                    break
-                rec = ind.get((sp, previous["choice"]), {}).get(y)
-                if rec and norm(rec["name"]) == norm(previous["name"]):
-                    same_hunt[y] = rec
-                current = previous
-        else:
-            # Colockum 2016 was the later Oct/Nov hunt before the 2023 code reassignment.
-            same_hunt = {y: v for y, v in ind.get((sp, r["choice"]), {}).items()
-                         if norm(v["name"]) == norm(r["name"]) and not (sp == 'ELK' and r['choice'] == 2016 and norm(r['name']) == 'colockum' and y < 2023)}
+        # Choice numbers are reused. A history must match the annual permit
+        # identity and comparable season dates uniquely in both directions. Stop
+        # rather than attach a different hunt when any year is ambiguous.
+        same_hunt = {}
+        current = r
+        for y in range(YEAR - 1, min(HARVEST_YEARS) - 1, -1):
+            previous = harvest_predecessor(current, by_year[y])
+            if previous is None or harvest_predecessor(previous, by_year[y + 1], honor_new=False) is not current:
+                break
+            rec = ind.get((sp, previous["choice"]), {}).get(y)
+            if rec and norm(rec["name"]) == norm(previous["name"]):
+                same_hunt[y] = rec
+            current = previous
         hv = harvest_fields(same_hunt, sp)
         dates = parse_dates(r["dates"], YEAR)
         tag = r["tag"]
@@ -483,7 +493,8 @@ def main() -> None:
                           "demand": {str(y): {"apps": a, "permits": p} for y, (a, p, _) in sorted(demand.items())},
                           "cutoff": {"last": last_u, "y2026": u26, "proj": u27},
                           "harvest": [{"year": y, **{k: v for k, v in rec.items() if k in ("hunters", "harvest", "apps", "permits")}}
-                                      for y, rec in sorted(same_hunt.items())]},
+                                      for y, rec in sorted(same_hunt.items())],
+                          "harvestIdentityBasis": "WDFW annual hunt name, category, area, tag, legal animal and similar annual season dates; unmatched years excluded."},
         }
         if h["publicPct"] is None:
             problems.append(f"{hid}: no land for {us}")
@@ -638,7 +649,19 @@ def main() -> None:
                           "harvest": [{"year": y, "hunters": v["hunters"], "harvest": v["harvest"]} for y, v in sorted(yrs.items()) if v.get("hunters")]},
         })
 
+    # Preserve the earlier attribution for audit even when it is no longer used
+    # for displayed harvest. Rebuilds keep any archive already in the file.
+    old_file = ROOT / "data" / "wa" / "hunts.json"
+    old_hunts = {h["id"]: h for h in json.loads(old_file.read_text(encoding="utf8")).get("hunts", [])} if old_file.exists() else {}
     for h in hunts:
+        po = h.get("pointOdds") or {}
+        old = (old_hunts.get(h["id"], {}).get("pointOdds") or {})
+        if po.get("harvestIdentityBasis"):
+            archive = old.get("harvestPriorToLineageAudit")
+            if archive is not None:
+                po["harvestPriorToLineageAudit"] = archive
+            elif old.get("harvest") is not None and old.get("harvest") != po.get("harvest"):
+                po["harvestPriorToLineageAudit"] = old["harvest"]
         sq = h["acres"] / 640 if h.get("acres") else None
         h["huntersSqMi"] = (h["hunters5"] / h["harvestYears"] / sq) if h.get("hunters5") and sq and h.get("harvestYears") else None
 

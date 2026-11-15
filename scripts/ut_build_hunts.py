@@ -46,6 +46,9 @@ import re
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ut_harvest_identity import index_harvest_records
+
 ROOT = Path(__file__).resolve().parent.parent
 D = ROOT / "data" / "ut"
 YEAR = 2026
@@ -170,11 +173,13 @@ def main() -> None:
 
     # harvest by hunt code and year
     H: dict[str, dict[int, dict]] = {}
-    for y in HARVEST_YEARS[:-1]:
-        for r in harv["limitedEntry"].get(str(y), []) + harv["generalBuckDeer"].get(str(y), []):
-            H.setdefault(r["code"], {}).setdefault(y, r)
-    for r in harv["prelim2025AllHunts"]:
-        H.setdefault(r["code"], {}).setdefault(2025, r)
+    for y in HARVEST_YEARS:
+        records = (harv["limitedEntry"].get(str(y), []) + harv["generalBuckDeer"].get(str(y), [])) if y < 2025 else harv["prelim2025AllHunts"]
+        selected, ambiguous = index_harvest_records(records)
+        for code, record in selected.items():
+            H.setdefault(code, {})[y] = record
+        for code in ambiguous:
+            problems.append(f"{code} ({y}): ambiguous harvest rows; year excluded")
     # general elk 2021-2024 from the annual report's statewide rows
     for y in HARVEST_YEARS[:-1]:
         for code, rx in GENERAL_ELK_TABLE.items():

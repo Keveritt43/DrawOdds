@@ -182,3 +182,10 @@ Scripts: `wa_check_draw_weights.py` (§3), `wa_parse_permit_tables.py` (§4), `w
 The 2026 Desert Quality Deer archery hunt 1079 and muzzleloader hunt 1091 were renumbered from earlier pamphlets. Their 2021–2025 harvest records are linked using the annual hunt's name, category, tag, area, legal animal and nearby season dates, requiring a unique match in both directions. Hunt 1079 has 10 harvests in 33 hunter-seasons; hunt 1091 has 5 in 10 (small sample). WDFW's individual-hunt reports are the source. These two lineages are individually reviewed; the remaining Washington histories and other states still require an audit for reused or changed hunt numbers. Do not interpret this targeted correction as completing that audit.
 
 The November 15 follow-up review also matched 2026 Desert late archery hunt 1080 to WDFW hunt 1081 in each of 2021–2025. Its pooled rate is 12 harvests / 44 hunter-seasons (27.3%). The former same-number join incorrectly assigned the September hunt's 10 / 33. The broader Washington identity audit remains open.
+
+
+### Washington special-permit harvest identity audit
+
+WDFW reuses and renumbers choices. The importer follows annual pamphlet rows only when species, category, name, tag, area and legal animal agree and the fully parsed annual season ranges have matching counts and endpoints within ten calendar days. Each match must also be unique in reverse. A documented `anterless` extraction typo is normalized; other legal-animal changes, unparsed dates, new hunts and ambiguous matches stop the lineage. The matched 2021–2025 records drive pooled success and density; prior attributed histories are retained separately as `harvestPriorToLineageAudit` and are not shown as verified hunt history. No historical source reports or other states are deleted.
+
+For Colockum 2016, the September season used choice 2015 in 2021 and 2022. The old choice 2016 represented the distinct late season. The corrected five hunter-seasons are still too few for Quality; point-level odds remain withheld because the drawing seed has not been revalidated. The change does not establish that unmatched histories do not exist.
