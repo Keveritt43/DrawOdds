@@ -1,5 +1,5 @@
 /** Review-only hunt-season illustration for the proposed Scenario A model. */
-import source from '../../data/trophy-source-western-v3.json';
+import source from '../../data/trophy-source-western-v4.json';
 import demand from '../../data/trophy-demand-review-2026.json';
 import { resolveTrophyCandidate, type CandidateHunt } from './trophyCandidateResolver';
 import type { CandidateScore, CandidateTier } from './trophyCandidateTier';

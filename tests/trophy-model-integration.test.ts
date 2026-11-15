@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {trophyForHunt, trophyForUnit, trophyHuntEvidence} from '../src/lib/trophyHunt';
+import utahHunts from '../data/ut/hunts.json';
 
 test('an unlisted exceptional pronghorn hunt receives Good with the same unit-map tier', () => {
   const h={state:'MT',species:'PRONGHORN',type:'CONTROLLED',weapon:'ANY',antlerClass:'EITHER',
@@ -10,12 +11,19 @@ test('an unlisted exceptional pronghorn hunt receives Good with the same unit-ma
   assert.equal(trophyForHunt({...h,oddsLastYear:2025}),50);
 });
 
-test('Utah county-only evidence without high demand stays Standard and is marked provisional when unknown', () => {
+test('Utah updated named sources are recognized and unknown demand remains provisional', () => {
   const h={state:'UT',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['607']};
-  assert.equal(trophyForHunt({...h,oddsLastYear:2026}),50);
+  assert.equal(trophyForHunt({...h,oddsLastYear:2026}),65);
   const unknown={...h,oddsLastYear:null};
-  assert.equal(trophyForHunt(unknown),50);
-  assert.equal(trophyHuntEvidence(unknown,50).provisional,true);
+  assert.equal(trophyForHunt(unknown),65);
+  assert.equal(trophyHuntEvidence(unknown,65).provisional,true);
+});
+
+test('updated Utah evidence produces consistent hunt and unit tiers for a representative elk hunt', () => {
+  const hunt = utahHunts.hunts.find(h => h.tagCode === 'EB3049');
+  assert.ok(hunt);
+  assert.equal(trophyForHunt(hunt), 100);
+  assert.equal(trophyForUnit(hunt, hunt.units[0]).score, 100);
 });
 
 test('the retained Idaho Unit 55 early-season exception is consistent in hunt and map', () => {

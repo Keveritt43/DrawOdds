@@ -13,7 +13,7 @@ if len(sys.argv) != 2:
 root = Path(__file__).resolve().parents[1]
 source = Path(sys.argv[1])
 records = json.loads((source/'ut-crosswalk-candidates.json').read_text(encoding='utf-8'))
-source_rows = json.loads((root/'data/trophy-source-western-v3.json').read_text(encoding='utf-8'))['records']
+source_rows = json.loads((root/'data/trophy-source-western-v4.json').read_text(encoding='utf-8'))['records']
 valid = {(r['species'], re.sub(r'^Unit\s+', '', r['unit'], flags=re.I)) for r in source_rows if r['state']=='UT'}
 links = []
 for r in records:

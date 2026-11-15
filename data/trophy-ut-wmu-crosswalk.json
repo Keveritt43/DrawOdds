@@ -2318,6 +2318,15 @@
     },
     {
       "species": "PRONGHORN",
+      "huntBoundary": "138",
+      "managementUnit": "8",
+      "managementKey": "8A",
+      "managementName": "North Slope, Summit",
+      "huntBoundaryName": "North Slope, Summit",
+      "portion": 0.999
+    },
+    {
+      "species": "PRONGHORN",
       "huntBoundary": "15",
       "managementUnit": "10",
       "managementKey": "10B",
@@ -2426,6 +2435,15 @@
     },
     {
       "species": "PRONGHORN",
+      "huntBoundary": "289",
+      "managementUnit": "8",
+      "managementKey": "8BC",
+      "managementName": "North Slope, Three Corners/West Daggett",
+      "huntBoundaryName": "North Slope, Three Corners/West Daggett",
+      "portion": 0.9991
+    },
+    {
+      "species": "PRONGHORN",
       "huntBoundary": "443",
       "managementUnit": "12",
       "managementKey": "12B",
@@ -2525,6 +2543,15 @@
     },
     {
       "species": "PRONGHORN",
+      "huntBoundary": "636",
+      "managementUnit": "30",
+      "managementKey": "30",
+      "managementName": "Pine Valley",
+      "huntBoundaryName": "Pine Valley",
+      "portion": 0.9997
+    },
+    {
+      "species": "PRONGHORN",
       "huntBoundary": "667",
       "managementUnit": "10",
       "managementKey": "10A",
@@ -2576,6 +2603,15 @@
       "managementName": "Nine Mile, Anthro",
       "huntBoundaryName": "Cottonwood Ridge",
       "portion": 0.9982
+    },
+    {
+      "species": "PRONGHORN",
+      "huntBoundary": "876",
+      "managementUnit": "30",
+      "managementKey": "30",
+      "managementName": "Pine Valley",
+      "huntBoundaryName": "Iron Spring",
+      "portion": 1
     },
     {
       "species": "PRONGHORN",
