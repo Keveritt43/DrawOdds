@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { StatePlanner, type PlanApp, type PlanOpt, type PlanPrereq } from './StatePlanner';
 import { db } from '@/lib/db';
 import { int } from '@/lib/format';
 import type { UtOddsTable, UtPointOdds, UtPool } from '@/lib/utHunt';
@@ -167,44 +168,61 @@ export async function UtChanges() {
  * the first choice per species (how many later choices DWR allows is still to be confirmed: ut-onboarding.md §8). This page lists, for each of the hunter's point balances, the hunts with the best odds at
  * those points and the best draw-and-fill, so the first choice can be picked deliberately.
  */
-export async function UtPlannerPage() {
+export async function UtPlannerPage({ signedIn }: { signedIn: boolean }) {
   const { getPointsStore } = await import('@/lib/points');
   const { readUtPoints, UT_POINT_TYPES, utPointType } = await import('@/lib/utPoints');
   const { utPersonal } = await import('@/lib/utHunt');
   const pts = readUtPoints((await getPointsStore()).store as Record<string, unknown>);
   const nr = pts.res === 'NONRESIDENT';
-  const rows = await db.huntSummary.findMany({ where: { state: 'UT', privateOnly: false, youthOnly: false } });
-  const groups = UT_POINT_TYPES.map((t) => {
-    const hunts = rows.filter((r) => utPointType(r.tagCode, r.species, r.type) === t.key).map((r) => ({ r, ...utPersonal(r, pts, nr) }))
-      .filter((x) => x.odds !== null);
-    const best = (f: (x: (typeof hunts)[number]) => number | null) => hunts.filter((x) => f(x) !== null).sort((a, b) => f(b)! - f(a)!).slice(0, 8);
-    return { t, points: pts.points[t.key], byOdds: best((x) => x.odds), byFill: best((x) => (x.odds !== null && x.r.success5 !== null && !x.r.smallSample ? x.odds * x.r.success5 : null)) };
+  const rows = await db.huntSummary.findMany({ where: { state: 'UT', privateOnly: false, youthOnly: false }, orderBy: [{ tagCode: 'asc' }] });
+  const opts: PlanOpt[] = [];
+  for (const r of rows) {
+    const app = utPointType(r.tagCode, r.species, r.type);
+    if (!app) continue;
+    const m = utPersonal(r, pts, nr);
+    if (m.odds === null) continue;
+    opts.push({ id: r.id, href: `/hunts/${r.slug}`, code: r.tagCode ?? r.id, where: r.name, app, odds: m.odds, basis: m.basis,
+      success: r.success5 !== null && !r.smallSample ? r.success5 : null });
+  }
+  const fee = (row: string) => Number(FEES_2026.find(([k]) => k.startsWith(row))![nr ? 2 : 1].replace(/[$,]/g, ''));
+  const PERMIT: Record<string, [string, string]> = {
+    LE_DEER: ['Limited-entry buck deer permit', 'standard limited-entry buck deer permit'], LE_ELK: ['Limited-entry bull elk permit', 'standard limited-entry bull elk permit'],
+    LE_PRONGHORN: ['Limited-entry buck pronghorn permit', 'limited-entry buck pronghorn permit'], BISON: ['Once-in-a-lifetime bison permit', 'bison permit'],
+    GEN_DEER: ['General-season buck deer permit', 'general-season buck deer permit'],
+  };
+  const apps: PlanApp[] = UT_POINT_TYPES.filter((t) => opts.some((o) => o.app === t.key)).map((t) => {
+    const n = pts.points[t.key];
+    const gen = t.key === 'GEN_DEER';
+    const mine = opts.filter((o) => o.app === t.key);
+    return {
+      key: t.key, label: t.label, when: 'Apply Mar 19 – Apr 23 (2026 dates) · results by May 31',
+      choices: 5, choicesKnown: false, price: fee('Application, per species'), needs: ['LICENSE'],
+      points: `Your ${t.label.toLowerCase()} ${t.kind} points: ${n}. Not drawing adds one`,
+      what: gen
+        ? 'Drawn unit by unit, most preference points first: a strict line with no random share.'
+        : `Half of each hunt's permits (rounded up) go to the most bonus points, on first choices only (a one-permit pool is all random); the rest are drawn at random, with points + 1 entries.${t.key === 'BISON' ? ' Drawing any bison permit ends your Utah bison applications for life.' : ''}`,
+      later: gen
+        ? 'Later choices do draw in general deer: in 2026, 6.4% of permits (in 86 of 107 units) went to hunters on a later choice.'
+        : 'In 2026, later choices got 0.5% or less of limited-entry deer, elk and pronghorn permits and none of the bison permits: plan as if only your first choice counts.',
+      suggest: mine.filter((o) => o.odds !== null && o.success !== null).sort((a, b) => b.odds! * b.success! - a.odds! * a.success!).slice(0, 4).map((o) => o.id),
+      ifDrawn: [{ label: PERMIT[t.key][1], amount: fee(PERMIT[t.key][0]) }],
+    };
   });
+  const prereq: PlanPrereq[] = [{ label: 'Adult hunting license', amount: fee('Hunting license, adult'), covers: ['LICENSE'] }];
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>Application Planner · Utah</h1>
-      <p className="muted">Your {nr ? 'nonresident' : 'resident'} odds at your saved points: the 2027 projection where one beat the last draw in testing, otherwise the 2026 draw. {pts.set ? '' : <><Link href="/account#hunting-preferences">Set your Utah points</Link> first: these assume zero points.</>}</p>
-      <Timeline />
-      <p className="small">Only your <b>first choice</b> can win in the max-point round, so put the hunt you most want first. Later choices are drawn after everyone&apos;s first choices, from what is left. Not drawing adds a point; applying for points only (no hunt) also adds one.</p>
-      {groups.map((g) => (
-        <section key={g.t.key}>
-          <h2>{g.t.label} · {g.points} {g.t.kind} point{g.points === 1 ? '' : 's'}</h2>
-          <div className="grid2">
-            {[['Best odds at your points', g.byOdds], ['Best draw and fill', g.byFill]].map(([title, list]) => (
-              <div key={title as string} className="card">
-                <h3 style={{ marginTop: 0 }}>{title as string}</h3>
-                <div className="cmp-wrap"><table className="cmp-table"><tbody>{(list as typeof g.byOdds).map((x) => (
-                  <tr key={x.r.id}><td><Link href={`/hunts/${x.r.slug}`}>{x.r.name}</Link><div className="small muted">{x.r.tagCode}</div></td><td>{pct(x.odds)}</td><td className="small muted">{x.r.success5 !== null ? `${pct(x.r.success5)} success` : '–'}</td></tr>
-                ))}</tbody></table></div>
-                {!(list as typeof g.byOdds).length && <p className="small muted">No {nr ? 'nonresident' : 'resident'} permits in this category.</p>}
-              </div>
-            ))}
-          </div>
-        </section>
-      ))}
+      <StatePlanner state="UT" apps={apps} opts={opts} prereq={prereq} signedIn={signedIn} set={pts.set} setLabel="Set your Utah points"
+        timeline={[
+          { when: 'Mar 19', what: 'Big game application opens (2026)' },
+          { when: 'Apr 23', what: 'Applications and bonus/preference point purchases close', tone: 'blaze' },
+          { when: 'By May 31', what: 'Draw results' },
+          { when: 'Jul 7 – 16', what: 'General elk permits on sale, no draw', tone: 'good' },
+        ]}
+        intro={<>One application per species, your hunts in order. Odds are your {nr ? 'nonresident' : 'resident'} first-choice odds at your saved points: the 2027 projection where one beat the last draw in testing, otherwise the 2026 draw. Only your <b>first choice</b> can win in the max-point round. You can apply for several limited-entry species, but you can draw only <b>one</b> limited-entry or once-in-a-lifetime permit a year, in DWR&apos;s drawing order (buck deer, then bull elk, then the rest). DWR&apos;s guidebook and rule don&apos;t print how many choices an application takes; its application form does, and this page lets you plan up to five.</>}
+        costNote={<>Utah charges the hunting license and the application fee when you apply; the permit is charged only if you draw (premium, multi-season and CWMU permits cost more than the standard price shown). A 2.2% transaction fee applies. 2026 Big Game Application Guidebook; the license price is from DWR&apos;s fee page, checked Nov 12, 2026. <Link href="/guide">How the Utah draw works</Link> · <Link href="/changes">What changed since last year</Link></>} />
       <h2>General Bull Elk</h2>
       <p>No application: buy an any bull, spike or archery permit over the counter from July (see the dates above). <Link href="/hunts?states=UT&species=ELK&utLic=otc">General elk hunts →</Link></p>
-      <p className="small muted">2026 draw and dates; DWR hasn&apos;t posted 2027 yet. <Link href="/guide">How the Utah draw works</Link> · <Link href="/changes">What changed since last year</Link></p>
     </main>
   );
 }
