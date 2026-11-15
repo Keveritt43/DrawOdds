@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { int } from '@/lib/format';
 import { waPo, waPersonal, waLicense, type WaOddsTable, type WaPointOdds } from '@/lib/waHunt';
 import { WaOddsPointsChart } from './WaCharts';
+import { StatePlanner, type PlanApp, type PlanOpt, type PlanPrereq, type PlanTimelineStep } from './StatePlanner';
 
 /**
  * Washington's How The Draw Works, What Changed and Application Planner: the same questions as the other states'
@@ -31,17 +32,18 @@ const FEES: [string, string, string, string][] = [
   ['Second deer tag (second-deer permits)', '$68.48', '$356.90', '$30.86'],
 ];
 
+const WA_TIMELINE: PlanTimelineStep[] = [
+  { when: 'Apr 20 – May 20', what: 'Special permit applications (2026). Each application buys a point.', tone: 'blaze' },
+  { when: 'By end of June', what: 'Special permit results' },
+  { when: 'Aug – Jan', what: 'General seasons (dates by weapon and GMU)', tone: 'good' },
+  { when: 'Dec 1 – Mar 31', what: 'Multi-season tag applications for the next year', tone: 'blaze' },
+  { when: 'April', what: 'Multi-season results; unbought tags go on sale' },
+];
+
 function Timeline() {
-  const steps: { when: string; what: string; tone?: 'blaze' | 'good' }[] = [
-    { when: 'Apr 20 – May 20', what: 'Special permit applications (2026). Each application buys a point.', tone: 'blaze' },
-    { when: 'By end of June', what: 'Special permit results' },
-    { when: 'Aug – Jan', what: 'General seasons (dates by weapon and GMU)', tone: 'good' },
-    { when: 'Dec 1 – Mar 31', what: 'Multi-season tag applications for the next year', tone: 'blaze' },
-    { when: 'April', what: 'Multi-season results; unbought tags go on sale' },
-  ];
   return (
     <div className="stats" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))' }}>
-      {steps.map((s) => (
+      {WA_TIMELINE.map((s) => (
         <div key={s.when} className="stat" style={s.tone === 'blaze' ? { borderColor: 'var(--blaze)', borderWidth: 2 } : s.tone === 'good' ? { borderColor: 'var(--sage)', borderWidth: 2 } : undefined}>
           <div className="k">{s.when}</div>
           <div style={{ fontWeight: 600, lineHeight: 1.3 }}>{s.what}</div>
@@ -162,51 +164,52 @@ export async function WaChanges() {
  * shows, at the hunter's saved points, the hunts with the best estimated odds and the best draw-and-fill, limited to
  * hunts the saved general tag can apply for.
  */
-export async function WaPlannerPage() {
+export async function WaPlannerPage({ signedIn }: { signedIn: boolean }) {
   const { getPointsStore } = await import('@/lib/points');
   const { readWaPoints, WA_POINT_TYPES } = await import('@/lib/waPoints');
   const pts = readWaPoints((await getPointsStore()).store as Record<string, unknown>);
+  const nr = pts.res === 'NONRESIDENT';
   const rows = (await db.huntSummary.findMany({ where: { state: 'WA', type: 'CONTROLLED', privateOnly: false }, select: SELECT })) as unknown as Row[];
-  const scored = rows.map((r) => ({ r, ...waPersonal(r, pts) })).filter((x) => x.odds !== null && x.type !== null);
-  const groups = WA_POINT_TYPES.map((t) => {
-    const all = scored.filter((x) => x.type === t.key);
-    const usable = all.filter((x) => x.tagOk !== false);
-    const best = (f: (x: (typeof all)[number]) => number | null) => usable.filter((x) => f(x) !== null).sort((a, b) => f(b)! - f(a)!).slice(0, 8);
-    return { t, points: pts.points[t.key], n: all.length, blocked: all.length - usable.length,
-      byOdds: best((x) => x.odds), byFill: best((x) => (x.odds !== null && x.r.success5 !== null && !x.r.smallSample ? x.odds * x.r.success5 : null)) };
+  const scored = rows.map((r) => ({ r, ...waPersonal(r, pts) })).filter((x) => x.type !== null && x.tagOk !== false);
+  const blocked = rows.map((r) => ({ r, ...waPersonal(r, pts) })).filter((x) => x.type !== null && x.tagOk === false).length;
+  const fee = (row: string, youth: boolean) => Number(FEES.find(([k]) => k === row)![youth ? 3 : nr ? 2 : 1].replace(/[$,]/g, ''));
+  const opts: PlanOpt[] = scored.map((x) => ({
+    id: x.r.id, href: `/hunts/${x.r.slug}`, code: x.r.tagCode ?? x.r.id.slice(3), where: x.r.name, app: x.type!,
+    odds: x.odds, basis: x.basis, success: x.r.success5 !== null && !x.r.smallSample ? x.r.success5 : null,
+  }));
+  const apps: PlanApp[] = WA_POINT_TYPES.filter((t) => opts.some((o) => o.app === t.key) && (!LIMITED.has(t.key) || pts.points[t.key] > 0)).map((t) => {
+    const youth = t.key.startsWith('YOUTH');
+    const ms = t.key === 'MS_DEER' || t.key === 'MS_ELK';
+    const quality = t.key.startsWith('QUALITY');
+    const mine = opts.filter((o) => o.app === t.key);
+    const n = pts.points[t.key];
+    return {
+      key: t.key, label: t.label, choices: ms ? 1 : quality ? 2 : 4,
+      when: ms ? 'Apply Dec 1 – Mar 31 for the next year · results in April' : 'Apply Apr 20 – May 20 (2026 dates) · results by end of June',
+      points: `Your ${t.label.toLowerCase()} points: ${n} (${int((n + 1) ** 2)} entr${n === 0 ? 'y' : 'ies'}); applying adds one whether or not you draw`,
+      price: fee(ms ? 'Multi-season deer or elk application' : quality ? 'Quality special permit application, per category' : 'Special permit application, per category', youth),
+      needs: ms ? [] : [t.species], group: youth ? 'youth' : undefined,
+      later: 'When your turn comes in the drawing, WDFW gives you your first choice that still has a permit, so a later choice only counts if every earlier one is gone by then.',
+      suggest: mine.filter((o) => o.odds !== null && o.success !== null).sort((a, b) => b.odds! * b.success! - a.odds! * a.success!).slice(0, 4).map((o) => o.id),
+      ifDrawn: t.key === 'MS_DEER' ? [{ label: 'multi-season deer tag', amount: fee('Multi-season deer tag, if drawn', false) }]
+        : t.key === 'MS_ELK' ? [{ label: 'multi-season elk tag', amount: fee('Multi-season elk tag, if drawn', false) }]
+        : t.key === 'SECOND_DEER' ? [{ label: 'second deer tag', amount: fee('Second deer tag (second-deer permits)', youth) }] : undefined,
+    };
   });
-  const tagNote = [pts.deerTag ? `deer tag ${pts.deerTag.toLowerCase()}` : null, pts.elkTag ? `elk tag ${pts.elkTag}` : null].filter(Boolean).join(', ');
+  const prereq: PlanPrereq[] = [false, true].flatMap((youth) => [
+    { label: 'Deer license and general tag', amount: fee('Deer license (includes the general tag)', youth), covers: ['DEER'], group: youth ? 'youth' : undefined },
+    { label: 'Elk license and general tag', amount: fee('Elk license (includes the general tag)', youth), covers: ['ELK'], group: youth ? 'youth' : undefined },
+    { label: 'Deer + elk license', amount: fee('Deer + elk license', youth), covers: ['DEER', 'ELK'], group: youth ? 'youth' : undefined },
+  ]);
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
       <h1>Application Planner · Washington</h1>
-      <p className="muted">Your estimated odds at your saved points, the 2027 projection. Residents and nonresidents draw together, so residency changes the cost, not the odds. {pts.set ? (tagNote ? `Hunts your saved ${tagNote} can't apply for are left out.` : 'Save your general tags to leave out hunts you can\'t apply for.') : <><Link href="/account#hunting-preferences">Set your Washington points and tags</Link> first: these assume zero points.</>}</p>
-      <Timeline />
-      <p className="small">Each category is its own application: list up to <b>four</b> hunts (<b>two</b> for Quality), and you earn one point in that category whether or not you draw. Odds here assume the hunt is your first choice; WDFW tries your later choices only if the earlier ones don&apos;t draw you, so put the hunt you most want first and safer hunts after it.</p>
-      {groups.filter((g) => g.n > 0 && (!LIMITED.has(g.t.key) || g.points > 0)).map((g) => (
-        <section key={g.t.key}>
-          <h2>{g.t.label} · {g.points} point{g.points === 1 ? '' : 's'} <span className="small muted">({int((g.points + 1) ** 2)} entries)</span></h2>
-          {g.n === 1 ? (
-            <p>{g.byOdds[0] ? <><Link href={`/hunts/${g.byOdds[0].r.slug}`}>{g.byOdds[0].r.name}</Link>: {pct(g.byOdds[0].odds)} at your points.</> : 'Your saved tag can\'t apply for this.'}</p>
-          ) : (
-            <div className="grid2">
-              {[['Best odds at your points', g.byOdds], ['Best draw and fill', g.byFill]].map(([title, list]) => (
-                <div key={title as string} className="card">
-                  <h3 style={{ marginTop: 0 }}>{title as string}</h3>
-                  <div className="cmp-wrap"><table className="cmp-table"><tbody>{(list as typeof g.byOdds).map((x) => (
-                    <tr key={x.r.id}><td><Link href={`/hunts/${x.r.slug}`}>{x.r.name}</Link><div className="small muted">Hunt {x.r.tagCode} · {int(x.r.tags ?? 0)} permits</div></td><td>{pct(x.odds)}</td><td className="small muted">{x.r.success5 !== null && !x.r.smallSample ? `${pct(x.r.success5)} success` : 'few hunters'}</td></tr>
-                  ))}</tbody></table></div>
-                  {!(list as typeof g.byOdds).length && <p className="small muted">No hunts with enough data.</p>}
-                </div>
-              ))}
-            </div>
-          )}
-          {g.blocked > 0 && <p className="small muted">{g.blocked} more hunt{g.blocked === 1 ? '' : 's'} in this category need a different weapon or side than your saved tag.</p>}
-        </section>
-      ))}
-      <p className="small muted">65+, hunters-with-disabilities and Master Hunter categories show here once you save points in them. 65+ hunts have no estimate at any point level: WDFW has never published 65+ results by point level.</p>
+      <StatePlanner state="WA" apps={apps} opts={opts} prereq={prereq} signedIn={signedIn} set={pts.set} setLabel="Set your Washington points and tags"
+        timeline={WA_TIMELINE}
+        intro={<>Each category is its own application, with its own points: list up to <b>four</b> hunts in each (<b>two</b> for Quality). Odds are WDFW-style estimates at your saved points, the 2027 projection, as a first choice. Residents and nonresidents draw together, so residency changes the cost, not the odds ({nr ? 'nonresident' : 'resident'} prices below). {blocked > 0 ? `${int(blocked)} hunts your saved general tag can't apply for are left out.` : pts.deerTag || pts.elkTag ? '' : 'Save your general tags to leave out hunts you can\'t apply for.'} 65+, hunters-with-disabilities and Master Hunter categories show once you save points in them.</>}
+        costNote={<>WDFW&apos;s big game license page, checked Nov 12, 2026 (it carries no season year). A special permit application needs the matching license and general tag first, and youth prices apply if you pick a youth category. The application fee buys your point and isn&apos;t refunded. This page doesn&apos;t say whether a multi-season application needs the license too; check with WDFW. Not a complete total: no transaction fees. <Link href="/guide">How the Washington draw works</Link> · <Link href="/changes">What changed since last year</Link></>} />
       <h2>General Seasons</h2>
       <p>No application: buy your license and general tag (one weapon; elk also Eastern or Western) and hunt that weapon&apos;s seasons. <Link href="/hunts?states=WA&waLic=general">General season hunts →</Link></p>
-      <p className="small muted">2026 pamphlet dates and permits; odds estimated from WDFW&apos;s 2018–2020 point tables and 2021–2025 applications. <Link href="/guide">How the Washington draw works</Link> · <Link href="/changes">What changed since last year</Link></p>
     </main>
   );
 }
