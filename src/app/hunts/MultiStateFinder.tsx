@@ -33,6 +33,7 @@ import { seasonsSummary } from '@/lib/tagSeasons';
 import { SortSelect } from '@/components/SortSelect';
 import { DRAW_LABEL } from '@/lib/species';
 import { CompareToggle } from '@/components/Compare';
+import { parseHuntPresets } from '@/lib/huntPresets';
 
 const PAGE_SIZE = 40;
 const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'], ['odds', 'My odds'], ['best', 'Draw and fill'], ['success', 'Harvest success'], ['public', 'Public land'], ['densityLow', 'Fewest hunters per sq mi'], ['open', 'Opening date'], ['alpha', 'State / unit'], ['trophy', 'Trophy score'], ['big', 'Harvest antler share'], ['harvest', 'Most harvest'], ['hunters', 'Most hunters'], ['huntersLow', 'Fewest hunters'], ['apps', 'Most applicants (my residency)'], ['appsLow', 'Fewest applicants (my residency)'], ['tags', 'Most tags'], ['leftover', 'Leftover tags (Idaho)'], ['pts', 'Points needed (Colorado, Wyoming NR)'], ['creep', 'Point creep (Colorado, Wyoming NR)'], ['unit', 'Unit']];
@@ -46,6 +47,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   const msg = draw === 'MSG';
   const stateCounts = states.map(state => ({ state, count: results.filter(x => x.r.state === state).length }));
   const sort = param(sp, 'sort') || 'opp';
+  const selectedPresets = parseHuntPresets(param(sp, 'huntPreset'));
   const view = param(sp, 'view');
   const q = (patch: Record<string, string | null>) => {
     const p = new URLSearchParams();
@@ -125,7 +127,8 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
         <div className="f-sub"><div className="seg light" role="group" aria-label="List by">{[['hunt', 'By hunt'], ['unit', 'By unit'], ['table', 'Table']].map(([value, label]) => <Link key={value} className="seg-link" aria-pressed={(view || 'hunt') === value} href={`/hunts${q({ view: value, page: null })}`} scroll={false}>{label}</Link>)}</div><a className="small" href={`/api/export${q({ page: null })}`}>Download CSV</a><Link className="small" href={withPresetEdit(`/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0`, sp.editPreset)}>Reset filters</Link></div>
       </div>
       {mtEmpty && <MtFinderNotice only={states.length === 1} />}
-      {!results.length && !(mtEmpty && states.length === 1) && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p></div>}
+      {states.includes('WY') && selectedPresets.includes('tag-filler') && <p className="small muted">Tag Filler cannot match Wyoming hunts: comparable hunter-success data is unavailable. Wyoming reports harvest per active license, which is a different measure. Other selected presets can still match Wyoming hunts.</p>}
+      {!results.length && !(mtEmpty && states.length === 1) && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p>{selectedPresets.length > 0 && <p><Link href={`/hunts${q({ huntPreset: null, page: null })}`} scroll={false}>Clear DrawOdds presets</Link> to see hunts matching your other filters.</p>}</div>}
       {states.includes('CO') && param(sp, 'species') === 'DEER' && param(sp, 'type') === 'GENERAL' && <p className="small muted">Colorado&apos;s 2026 OTC white-tailed deer license D-E-048-U6-R is not yet included in these results. It is valid December 1–31 in selected units and sold at CPW offices and participating state parks. GMU 512 has additional restrictions. <a href="https://cpw.state.co.us/sites/default/files/dam/erjzbk48be/colorado-big-game-hunting-brochure.pdf">See the CPW brochure for valid units and restrictions</a>.</p>}
       {view === 'table' ? <div className="htable-wrap"><table className="htable"><thead><tr><th aria-label="Compare" />{['State', 'Hunt', 'Species', 'Units', 'Weapon', 'Season dates', 'Your odds', 'Odds basis', 'Success', 'Public land', 'Quality', 'Opportunity', 'Trophy'].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{shown.map(x => <tr key={x.r.id}><td><CompareToggle id={x.r.id} label={x.r.name} compact /></td><td>{x.r.state}</td><td><HuntLink href={huntHref(x.r) + (x.r.state === 'WY' && param(sp, 'wyPool') ? `?pool=${param(sp, 'wyPool')}` : '')}>{x.r.name}</HuntLink></td><td>{SPECIES_LABEL[x.r.species]}</td><td>{x.r.units.join(', ')}</td><td>{huntWeaponLabel(x.r)}</td><td>{seasonsSummary(x.r.tagSeasons) || range(x.r.openDate, x.r.closeDate)}</td><td>{pct(x.odds)}</td><td>{x.basis}</td><td>{pct(x.r.success5)}</td><td>{x.r.publicPct === null ? '—' : `${Math.round(x.r.publicPct)}%`}</td><td>{x.r.scoreQuality ?? '—'}</td><td>{x.opportunity ?? '—'}</td><td>{x.r.scoreTrophy ?? '—'}</td></tr>)}</tbody></table></div>
         : view === 'unit' ? entries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(([key, rows]) => { const [state, unit] = key.split(':'); return <div key={key} className="ucard"><h2><HuntLink href={`/units/${unitKey(state, unit)}`}>{STATES[state as keyof typeof STATES].name} · Unit {unit}</HuntLink></h2>{rows.map(x => renderCard(x, x.r.id))}</div>; })
