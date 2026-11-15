@@ -1,3 +1,4 @@
+import { withWyElkBoundaryHistory } from '@/lib/wyElkBoundaryHistory';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -46,10 +47,10 @@ export async function WyUnitPage({ name }: { name: string }) {
       )}
       <h2>{hunts.length} {spLabel[0].toUpperCase() + spLabel.slice(1)} License{hunts.length === 1 ? '' : 's'}</h2>
       {!pts.set && nr && <p className="small"><Link href="/account#hunting-preferences">Set your Wyoming points</Link> for odds at your points.</p>}
-      <div className="htable-wrap"><table><thead><tr><th aria-label="Save" /><th>License</th><th>Limitations</th><th className="num">Quota</th><th className="num">Your odds ({nr ? `${WY_POOL_SHORT[pool]}, ${p} pts` : 'resident'})</th><th className="num">Success 5-yr</th></tr></thead>
-        <tbody>{hunts.map(withoutUnvalidatedWyDeerMetrics).map((h) => {
+      <div className="htable-wrap"><table><thead><tr><th aria-label="Save" /><th>License</th><th>Limitations</th><th className="num">Quota</th><th className="num">Your odds ({nr ? `${WY_POOL_SHORT[pool]}, ${p} pts` : 'resident'})</th><th className="num">Hunter success</th></tr></thead>
+        <tbody>{hunts.map(withoutUnvalidatedWyDeerMetrics).map(withWyElkBoundaryHistory).map((h) => {
           const o = wyTableOdds(h.oddsByPts as unknown as WyOddsTable, 'proj', pool, p);
-          return <tr key={h.id}><td><Star kind="hunt" id={h.huntId} saved={fav.hunts.has(h.huntId)} signedIn={fav.signedIn} /></td><td><Link href={`/hunts/${h.slug}`}>{h.name}</Link></td><td className="small">{h.takeMethod && h.takeMethod.length >= 120 ? 'See hunt details and WGFD regulations' : h.takeMethod}</td><td className="num">{h.tags === null ? '–' : int(h.tags)}</td><td className="num">{pct(o)} <span className="small muted">{o === null ? '' : CHANCE_LABEL[chanceOf(o, 0, o)]}</span></td><td className="num">{pct0(h.success5)}</td></tr>;
+          return <tr key={h.id}><td><Star kind="hunt" id={h.huntId} saved={fav.hunts.has(h.huntId)} signedIn={fav.signedIn} /></td><td><Link href={`/hunts/${h.slug}`}>{h.name}</Link></td><td className="small">{h.takeMethod && h.takeMethod.length >= 120 ? 'See hunt details and WGFD regulations' : h.takeMethod}</td><td className="num">{h.tags === null ? '–' : int(h.tags)}</td><td className="num">{pct(o)} <span className="small muted">{o === null ? '' : CHANCE_LABEL[chanceOf(o, 0, o)]}</span></td><td className="num">{pct0(h.success5)} {h.harvestYears > 0 && <span className="small muted">({h.harvestYears} season{h.harvestYears === 1 ? '' : 's'})</span>}</td></tr>;
         })}</tbody></table></div>
       <p className="small muted">Odds: next draw where a projection passed our backtest (antelope, deer), otherwise the last draw. Region general licenses for this area's nonresident region are listed with it. Source: WGFD draw reports, regulations and harvest surveys; confirm with WGFD before you apply.</p>
       {species === 'DEER' && <p className="small muted">Deer success is unavailable while we verify overlap between hunter counts in the species reports.</p>}
