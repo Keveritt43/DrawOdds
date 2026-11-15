@@ -96,7 +96,7 @@ Source every number: deadlines, choice limit, fees, when each fee is charged, an
 
 | State | Planner | Choices | Notes |
 |---|---|---|---|
-| Idaho | `Planner.tsx` | 5 (NR general), per hunt otherwise | own component |
+| Idaho | `Planner.tsx` | 5 on the NR general deer/elk application (see `/guide`) | own component |
 | Colorado | `CoPlanner.tsx` | 4 per species (CPW) | not yet on StatePlanner: CPW's qualifying-license page (Nov 14) lists NR small game $93.78, the hunt pages say $104.86 for 2026; settle before adding costs. 2026 primary draw Mar 1 – Apr 7, 8 pm MT; license fee charged only if drawn. |
 | Montana | `MtPlanner.tsx` | 3 per application | combination license section |
 | Wyoming | StatePlanner (#164) | 3 (WGFD demand reports count 1st–3rd) | WGFD dates and fees checked Nov 14, 2026 (no year printed); NR points bought only Jul 1 – Nov 2 |
