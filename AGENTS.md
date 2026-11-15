@@ -16,6 +16,7 @@ Services: web 250d9cb4-cbc7-45a2-ad97-1584e78014b3; sync 3d60c3e4-e872-4be6-b5c1
 | Colorado specifics | `docs/states/co.md`, `docs/colorado-rollout.md` |
 | Source leads for other states | `docs/western-state-research.md` |
 | New GIS / environmental metrics | `docs/advanced-metrics.md` |
+| Application Planner | `src/app/planner/page.tsx` (one branch per state), `src/components/StatePlanner.tsx` (shared: WA, UT, WY), `MtPlanner.tsx`, `CoPlanner.tsx`, `Planner.tsx` (Idaho) |
 
 ## How the owner wants work done
 
