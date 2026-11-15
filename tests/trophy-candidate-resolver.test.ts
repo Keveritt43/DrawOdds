@@ -11,10 +11,10 @@ test('CO Unit 40 uses both ten-year tiers and the corresponding unit demand', ()
 
 test('Utah uses an agency-geometry crosswalk, never the matching numeric boundary ID', () => {
   const mapped = resolveTrophyCandidate({state:'UT',species:'DEER',unit:'607',drawYear:2026});
-  assert.ok(mapped.sourceIds.includes('UT_DEER_MULEDEER_Unit1'));
-  assert.equal(mapped.score,50);
+  assert.ok(mapped.sourceIds.includes('UT_DEER_MULEDEER_1'));
+  assert.equal(mapped.score,65);
   const unrelated = resolveTrophyCandidate({state:'UT',species:'DEER',unit:'1',drawYear:2026});
-  assert.equal(unrelated.sourceIds.includes('UT_DEER_MULEDEER_Unit1'), false);
+  assert.equal(unrelated.sourceIds.includes('UT_DEER_MULEDEER_1'), false);
 });
 
 test('a changed reporting year makes unit demand unknown rather than low', () => {

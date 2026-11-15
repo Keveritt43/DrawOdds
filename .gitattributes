@@ -1,2 +1,3 @@
 # Keep the supplied evidence file byte-for-byte so its recorded digest is portable.
 data/trophy-source-western-v3.csv -text
+data/trophy-source-western-v4.csv -text

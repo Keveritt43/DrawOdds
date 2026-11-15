@@ -1,5 +1,5 @@
 /** Review-only resolver. Do not substitute this for stored or displayed scores until rollout. */
-import source from '../../data/trophy-source-western-v3.json';
+import source from '../../data/trophy-source-western-v4.json';
 import crosswalk from '../../data/trophy-ut-wmu-crosswalk.json';
 import demand from '../../data/trophy-demand-review-2026.json';
 import { candidateTier, type CandidateTier } from './trophyCandidateTier';
