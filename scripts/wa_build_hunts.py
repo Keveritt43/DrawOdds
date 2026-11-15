@@ -19,7 +19,7 @@ cutoff u solves expected selections = that year's permits; odds at P are 1 - (1 
   proj = 2027: two more roll steps with 2025's application count, 2026 permits (2027's aren't set yet).
 A hunt with no per-point table of its own starts from its category's pooled 2020 mix, flagged seed='category'.
 
-Two reviewed Desert hunts follow unique matching identities across annual pamphlets; WDFW reuses numbers.
+Three reviewed Desert hunts follow unique matching identities across annual pamphlets; WDFW reuses numbers.
 Other harvest histories retain the existing same-number matching pending a broader audit.
 """
 from __future__ import annotations
@@ -429,9 +429,9 @@ def main() -> None:
         d27 = roll(d26, u26, last_apps, rr)
         u27 = cutoff(d27, r["permits"] or 0)
         units_land = land_for(us)
-        # The Desert archery and muzzleloader lineages are individually reviewed.
+        # The Desert early/late archery and muzzleloader lineages are individually reviewed.
         # Other hunts retain existing matching until their proposed histories are audited.
-        if sp == "DEER" and r["choice"] in (1079, 1091) and norm(r["name"]) == "desert":
+        if sp == "DEER" and r["choice"] in (1079, 1080, 1091) and norm(r["name"]) == "desert":
             same_hunt = {}
             current = r
             for y in range(YEAR - 1, min(HARVEST_YEARS) - 1, -1):

@@ -21,7 +21,7 @@ class HarvestIdentityTest(unittest.TestCase):
         self.assertIsNone(wa.harvest_predecessor(dict(self.hunt, is_new=True), [self.hunt]))
     def test_desert_real_pamphlet_history(self):
         rows = json.loads((Path(__file__).parents[1] / 'data/wa/source/permit-tables-2021-2026.json').read_text(encoding='utf8'))['rows']
-        for number, expected in [(1079, [1080, 1080, 1080, 1080, 1080]), (1091, [1092, 1092, 1092, 1092, 1093])]:
+        for number, expected in [(1079, [1080, 1080, 1080, 1080, 1080]), (1080, [1081, 1081, 1081, 1081, 1081]), (1091, [1092, 1092, 1092, 1092, 1093])]:
             current = next(r for r in rows if r['year'] == 2026 and r['choice'] == number and r['species'] == 'Deer')
             for year, choice in zip(range(2025, 2020, -1), expected):
                 previous = wa.harvest_predecessor(current, [r for r in rows if r['year'] == year])
