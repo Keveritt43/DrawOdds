@@ -1,3 +1,4 @@
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { HuntLink } from '@/components/HuntNavigation';
 import { CoPressureNote } from './CoPressureNote';
 import type { CoScored } from '@/lib/coScores';
@@ -182,7 +183,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
         </span>
         {tagsLine && <span className="small muted tags">{tagsLine}</span>}
       </div>
-      <div className="dates">{[where, when, r.type === 'GENERAL' && !r.nrTag ? '' : r.nrTag ? '' : WEAPON[r.weapon]].filter(Boolean).join(' · ')}</div>
+      <div className="dates">{[where, r.nrTag ? huntWeaponLabel(r) : '', when, r.type === 'GENERAL' && !r.nrTag ? '' : r.nrTag ? '' : WEAPON[r.weapon]].filter(Boolean).join(' · ')}</div>
       <Rules r={r} />
       <ObjectivePills units={r.units} species={r.species} />
       <ScoreRow r={r} nr={c.nr} />
@@ -295,7 +296,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
                 {c.nr && r.tagCode && <span className="small muted">{r.tagCode}</span>}
                 <CompareToggle id={r.id} label={`${zone} ${tag} tag`} />
               </div>
-              <div className="ztag-seasons">{seasonsSummary(r.tagSeasons, 4) || 'Seasons: see the regulations'}</div>
+              <div className="ztag-seasons"><b>{huntWeaponLabel(r)}</b> · {seasonsSummary(r.tagSeasons, 4) || 'Seasons: see the regulations'}</div>
               <Rules r={r} />
               <ScoreRow r={r} nr={c.nr} />
               {c.nr ? (

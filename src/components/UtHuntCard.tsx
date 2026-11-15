@@ -1,3 +1,4 @@
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { HuntLink } from '@/components/HuntNavigation';
 import type { CoScored } from '@/lib/coScores';
 import { CompareToggle } from './Compare';
@@ -38,7 +39,7 @@ export function UtHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, s
         <span className="small muted tags">{kind === 'otc' ? 'Statewide cap' : r.tags === null ? '–' : `${int(r.tags)} permits`}</span>
       </div>
       <div className="dates">
-        {[r.tagCode, units, seasonsSummary(r.tagSeasons) || dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land only (CWMU)' : '', r.youthOnly ? 'Youth only' : '']
+        {[huntWeaponLabel(r), r.tagCode, units, seasonsSummary(r.tagSeasons) || dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land only (CWMU)' : '', r.youthOnly ? 'Youth only' : '']
           .filter(Boolean).join(' · ')}
       </div>
       <ScoreRow r={r} nr={nr} />
