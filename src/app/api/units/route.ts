@@ -23,6 +23,7 @@ import { utWalkin } from '@/lib/utWalkin';
 import { trophyForUnit } from '@/lib/trophyHunt';
 import { withStateTrophyScores } from '@/lib/stateTrophyScores';
 import { withWaVerifiedDates } from '@/lib/waHuntCorrections';
+import { withIdahoVerifiedArea } from '@/lib/idahoHuntCorrections';
 
 // rendered per request (the DB isn't reachable at build time on Railway); browsers cache it for 10 minutes (the map requests a versioned URL)
 export const dynamic = 'force-dynamic';
@@ -60,7 +61,7 @@ export async function GET(req: Request) {
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
-  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(withWaVerifiedDates).map(s =>
+  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(withWaVerifiedDates).map(withIdahoVerifiedArea).map(s =>
     state === 'WY' && s.species === 'DEER' ? { ...s, success5: null, hunters5: null, harvest5: null, resTagAndFill: null, nrTagAndFill: null } : s);
   let coPoints: Awaited<ReturnType<typeof getPoints>> | null = null;
   const by = new Map<string, Record<string, number | string | null>>();

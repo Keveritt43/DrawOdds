@@ -256,7 +256,7 @@ export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; op
             <small>{k === 'trophy' && v === null ? 'N/A' : v ?? '—'}</small>
           </div>
         ))}
-        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; Standard is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{r.units.length > 1 && r.scoreTrophy !== null ? 'This hunt’s tier uses its best eligible unit; other units may differ. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
+        <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; Standard is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{r.units.length > 1 && r.scoreTrophy !== null ? 'This hunt’s tier uses a conservative unit tier when evidence differs; other units may differ. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
       </div>
     </details>
   );
