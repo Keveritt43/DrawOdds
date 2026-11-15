@@ -61,7 +61,7 @@ export interface Filters {
 
 type SP = Record<string, string | string[] | undefined>;
 
-const list = (v: string | string[] | undefined) => (Array.isArray(v) ? v : v ? v.split(',') : []).filter(Boolean);
+const list = (v: string | string[] | undefined) => (Array.isArray(v) ? v : v ? [v] : []).flatMap(x => x.split(',')).filter(Boolean);
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? '';
 const pct = (v: string | string[] | undefined) => {
   const n = Number(one(v));
