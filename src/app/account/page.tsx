@@ -13,7 +13,10 @@ import { readPresets } from '@/lib/filterPresets';
 import { evaluateHunt } from '@/lib/multiStateSearch';
 import { withCoScores } from '@/lib/coScores';
 import { getCoScoringContext } from '@/lib/coScoringContext';
-import { pct, pctOdds, pct100, density } from '@/lib/format';
+import { pct, pctOdds, pct100, density, WEAPON, SPECIES_LABEL } from '@/lib/format';
+import { dateRange } from '@/lib/coDisplay';
+import { TrophyMark } from '@/components/HuntCards';
+import type { PointOdds } from '@/lib/coHunt';
 import { seasonsSummary } from '@/lib/tagSeasons';
 import { doSignOut } from '@/app/actions';
 import { HuntingPreferences } from '@/components/HuntingPreferences';
@@ -34,7 +37,7 @@ export default async function Account() {
     session?.user?db.application.findMany({where:{userId:session.user.id},orderBy:[{year:'desc'},{createdAt:'desc'}]}):[],
   ]);
   const context=hunts.some(h=>h.state==='CO')?await getCoScoringContext():undefined;
-  const settings={ID:residency,CO:colorado,WY:wyoming};
+  const settings={ID:residency,CO:colorado,WY:wyoming,MT:montana,UT:utah,WA:washington};
   return <main className="wrap account-page" style={{margin:'24px auto 48px',maxWidth:1000}}>
     <h1>Your account</h1>
     <p className="muted">{session?.user?.email ?? 'Testing without sign-in: preferences and favorite hunts/units are saved in this browser; named filters are saved on this device.'}</p>
@@ -50,8 +53,14 @@ export default async function Account() {
         const stateUnits=units.filter(u=>u.state===state.code).sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true}));
         const stateHunts=hunts.filter(h=>h.state===state.code);
         const compareIds=stateHunts.flatMap(h=>h.summaries[0]?[h.summaries[0].id]:[]).slice(0,4);
-        return <section className="card account-state" id={'saved-'+state.code.toLowerCase()} key={state.code}>
-          <h2>{state.name}</h2>
+        const entries=stateHunts.map(h=>{
+          const raw=h.summaries[0];
+          const result=raw?evaluateHunt(raw.state==='CO'?withCoScores(raw,context):raw,settings,'proj'):null;
+          return {h,raw,result};
+        });
+        const species=[...new Set(entries.map(({h})=>h.species))].sort((a,b)=>(SPECIES_LABEL[a]??a).localeCompare(SPECIES_LABEL[b]??b));
+        return <details className="card account-state" id={'saved-'+state.code.toLowerCase()} key={state.code} open>
+          <summary><h2>{state.name}</h2></summary>
           <p className="small"><Link href={'/hunts?states='+state.code}>Find {state.name} Hunts</Link> · <a href={'/api/state?code='+state.code+'&next=%2Fmap'}>{state.name} Unit Map</a></p>
           <h3>Saved Filters</h3>
           <AccountPresets state={state.code} owner={fav.userId} initial={presets}/>
@@ -68,19 +77,38 @@ export default async function Account() {
           <h3>Favorite Hunts</h3>
           {!stateHunts.length&&<p className="small muted">No favorite hunts yet. Tap the ☆ next to a hunt.</p>}
           {compareIds.length>1&&<p><Link href={'/compare?ids='+compareIds.map(encodeURIComponent).join(',')}>Compare saved {state.name} hunts</Link><span className="small muted"> (up to four)</span></p>}
-          {stateHunts.length>0&&<div className="htable-wrap"><table className="results compare">
-            <thead><tr><th>Hunt</th><th>Season</th><th>Your odds</th><th>Success</th><th>Hunters/mi²</th><th>Draw and fill</th></tr></thead>
-            <tbody>{stateHunts.map(h=>{
-              const raw=h.summaries[0];
-              const result=raw?evaluateHunt(raw.state==='CO'?withCoScores(raw,context):raw,settings,'proj'):null;
-              return <tr key={h.idfgId}><td><div className="star-head"><Star kind="hunt" id={h.idfgId} saved signedIn={fav.signedIn}/>{raw?<Link href={huntHref(raw)}>{raw.name}</Link>:h.name}</div>
-                {result&&<p className="small muted">{result.basis}</p>}</td>
-                <td>{raw?seasonsSummary(raw.tagSeasons,2):'Not offered this season'}</td>
-                <td>{pctOdds(result?.odds??null)}</td><td>{pct(raw?.success5??null)}</td><td>{density(raw?.huntersSqMi??null)}</td>
-                <td>{pct(result?.odds!=null&&raw?.success5!=null?result.odds*raw.success5:null)}</td></tr>;
-            })}</tbody>
-          </table></div>}
-        </section>;
+          {stateHunts.length>0&&<p className="small muted">Your odds use your saved settings and the next-draw projection where available. Historical results and over-the-counter availability are labeled below; projections are estimates. Hunts are sorted by your odds, highest first. Draw and fill multiplies those odds by historical success and assumes the two are applicable together.</p>}
+          {species.map(sp=>{
+            const speciesEntries=entries.filter(({h})=>h.species===sp);
+            const weapons=[...new Set(speciesEntries.map(({h})=>h.weapon))].sort((a,b)=>(WEAPON[a]??a).localeCompare(WEAPON[b]??b));
+            return <details className="account-hunt-group" key={sp} open><summary><b>{SPECIES_LABEL[sp]??sp}</b> <span className="small muted">({speciesEntries.length})</span></summary>
+              {weapons.map(weapon=>{
+                const rows=speciesEntries.filter(({h})=>h.weapon===weapon).sort((a,b)=>{
+                  const ao=a.result?.odds, bo=b.result?.odds;
+                  if (ao == null && bo != null) return 1;
+                  if (bo == null && ao != null) return -1;
+                  return (bo??0)-(ao??0) || a.h.name.localeCompare(b.h.name,undefined,{numeric:true});
+                });
+                return <details className="account-weapon-group" key={weapon} open><summary><b>{WEAPON[weapon]??weapon}</b> <span className="small muted">({rows.length})</span></summary>
+                  <div className="htable-wrap"><table className="results compare">
+                    <thead><tr><th>Hunt</th><th>Season</th><th>Your odds</th><th>Success</th><th>Hunters/mi²</th><th>Draw and fill estimate</th></tr></thead>
+                    <tbody>{rows.map(({h,raw,result})=>{
+                      const tagSeason=raw ? seasonsSummary(raw.tagSeasons,2) : '';
+                      const season=tagSeason || (raw ? dateRange(raw.openDate,raw.closeDate) : 'Not offered this season');
+                      const projectedYear=raw?.state==='CO' ? (raw.pointOdds as unknown as PointOdds | null)?.projYear : null;
+                      const basis=result?.basis.startsWith('Projected') && projectedYear ? `${projectedYear} ${result.basis.toLowerCase()}` : result?.basis;
+                      return <tr key={h.idfgId}><td><div className="star-head"><Star kind="hunt" id={h.idfgId} saved signedIn={fav.signedIn}/>{raw?<Link href={huntHref(raw)}>{raw.name}</Link>:h.name}{result&&<TrophyMark score={result.r.scoreTrophy} hunt={result.r}/>}</div>
+                        {basis&&<p className="small muted">{basis}</p>}</td>
+                        <td>{season || 'Dates unavailable'}{tagSeason && (raw?.tagSeasons as {year?:number})?.year ? <span className="small muted"> ({(raw?.tagSeasons as {year?:number}).year})</span> : null}</td>
+                        <td>{pctOdds(result?.odds??null)}</td><td>{pct(result?.r.success5??null)}</td><td>{density(result?.r.huntersSqMi??null)}</td>
+                        <td>{pct(result?.odds!=null&&result.r.success5!=null?result.odds*result.r.success5:null)}</td></tr>;
+                    })}</tbody>
+                  </table></div>
+                </details>;
+              })}
+            </details>;
+          })}
+        </details>;
       })}
     </section>
     {session?.user?<><MyApplications apps={apps}/><p className="small"><Link href="/planner">Plan this year&apos;s applications →</Link> · <a href="/api/calendar">Deadlines to your calendar</a></p><form action={doSignOut}><button className="btn" type="submit">Sign out</button></form></>:
