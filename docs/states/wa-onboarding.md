@@ -176,3 +176,7 @@ Per hunt: odds at P = 1 − (1 − u)^(P²), with u solved so the expected draws
 | `data/wa/source/multiseason-elk-2019.csv` | `d70c4eb146d0c7c3` |
 
 Scripts: `wa_check_draw_weights.py` (§3), `wa_parse_permit_tables.py` (§4), `wa_backtest.py` (§5).
+
+### Desert harvest history correction (2026-11-15)
+
+The 2026 Desert Quality Deer archery hunt 1079 and muzzleloader hunt 1091 were renumbered from earlier pamphlets. Their 2021–2025 harvest records are linked using the annual hunt's name, category, tag, area, legal animal and nearby season dates, requiring a unique match in both directions. Hunt 1079 has 10 harvests in 33 hunter-seasons; hunt 1091 has 5 in 10 (small sample). WDFW's individual-hunt reports are the source. These two lineages are individually reviewed; the remaining Washington histories and other states still require an audit for reused or changed hunt numbers. Do not interpret this targeted correction as completing that audit.
