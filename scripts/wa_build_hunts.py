@@ -19,8 +19,8 @@ cutoff u solves expected selections = that year's permits; odds at P are 1 - (1 
   proj = 2027: two more roll steps with 2025's application count, 2026 permits (2027's aren't set yet).
 A hunt with no per-point table of its own starts from its category's pooled 2020 mix, flagged seed='category'.
 
-Years are linked by hunt number AND name: WDFW reuses numbers for different hunts. The pamphlet for year Y+1
-prints year Y's applications under the Y+1 number, which is WDFW's own link; earlier years must keep the name.
+Two reviewed Desert hunts follow unique matching identities across annual pamphlets; WDFW reuses numbers.
+Other harvest histories retain the existing same-number matching pending a broader audit.
 """
 from __future__ import annotations
 
@@ -131,6 +131,28 @@ def parse_dates(s: str, year: int):
             continue
     return out
 
+
+
+def harvest_predecessor(current: dict, candidates: list[dict]) -> dict | None:
+    """Match an annual permit only when identity and approximate season dates are unambiguous.
+
+    Permit numbers are reused, and a name can have multiple seasons. Never use quota or
+    number as a tie-breaker: an ambiguous or materially changed hunt is unknown.
+    """
+    fields = ("species", "category", "name", "tag", "area", "legal")
+    dates = parse_dates(current.get("dates") or "", 2024)
+    if not dates or current.get("is_new"):
+        return None
+    def near(a, b):
+        return abs((dt.date.fromisoformat(a) - dt.date.fromisoformat(b)).days) <= 21
+    matches = []
+    for candidate in candidates:
+        if candidate.get("is_new") or any(norm(candidate.get(k) or "") != norm(current.get(k) or "") for k in fields):
+            continue
+        other = parse_dates(candidate.get("dates") or "", 2024)
+        if len(dates) == len(other) and all(near(a, c) and near(b, d) for (a, b), (c, d) in zip(dates, other)):
+            matches.append(candidate)
+    return matches[0] if len(matches) == 1 else None
 
 def area_units(area: str, known: set[str]):
     """'GMUs 101, 105, 204' / 'Deer Area 3071' / 'GMU 373 (except Elk Area 3722)' -> unit names."""
@@ -407,9 +429,23 @@ def main() -> None:
         d27 = roll(d26, u26, last_apps, rr)
         u27 = cutoff(d27, r["permits"] or 0)
         units_land = land_for(us)
-        # Colockum 2016 was the later Oct/Nov hunt before the 2023 code reassignment.
-        same_hunt = {y: v for y, v in ind.get((sp, r["choice"]), {}).items()
-                     if norm(v["name"]) == norm(r["name"]) and not (sp == 'ELK' and r['choice'] == 2016 and norm(r['name']) == 'colockum' and y < 2023)}
+        # The Desert archery and muzzleloader lineages are individually reviewed.
+        # Other hunts retain existing matching until their proposed histories are audited.
+        if sp == "DEER" and r["choice"] in (1079, 1091) and norm(r["name"]) == "desert":
+            same_hunt = {}
+            current = r
+            for y in range(YEAR - 1, min(HARVEST_YEARS) - 1, -1):
+                previous = harvest_predecessor(current, by_year[y])
+                if previous is None or harvest_predecessor(previous, by_year[y + 1]) is not current:
+                    break
+                rec = ind.get((sp, previous["choice"]), {}).get(y)
+                if rec and norm(rec["name"]) == norm(previous["name"]):
+                    same_hunt[y] = rec
+                current = previous
+        else:
+            # Colockum 2016 was the later Oct/Nov hunt before the 2023 code reassignment.
+            same_hunt = {y: v for y, v in ind.get((sp, r["choice"]), {}).items()
+                         if norm(v["name"]) == norm(r["name"]) and not (sp == 'ELK' and r['choice'] == 2016 and norm(r['name']) == 'colockum' and y < 2023)}
         hv = harvest_fields(same_hunt, sp)
         dates = parse_dates(r["dates"], YEAR)
         tag = r["tag"]
