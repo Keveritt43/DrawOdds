@@ -60,6 +60,15 @@ export function trophyForUnit(hunt: {
   if (antlerMaximum || !['DEER','ELK','PRONGHORN'].includes(hunt.species.toUpperCase()) || !['ANTLERED','EITHER'].includes(hunt.antlerClass.toUpperCase()))
     return {score:null,tier:null,reason:'Trophy classification not applicable'};
   const state=hunt.state.toUpperCase();
+  // Utah DWR's 2026 premium limited-entry buck deer table includes these
+  // distinct permits, including multiseason PLE. Match the actual hunt and
+  // boundary, not every hunt in a premium unit (e.g. management buck tags).
+  const premiumUtUnits:Record<string,string>={DB1000:'94',DB1001:'163',DB1002:'1',DB1003:'94',DB1004:'163',DB1005:'94',DB1006:'163',DB1007:'94',DB1008:'163'};
+  const premiumCode=(hunt.tagCode??'').toUpperCase();
+  const premiumUt=state==='UT' && hunt.species.toUpperCase()==='DEER' && hunt.type.toUpperCase()==='CONTROLLED' &&
+    premiumUtUnits[premiumCode]===unit.trim() && /\b(?:premium|ple)\b/i.test(`${hunt.name??''} ${hunt.takeMethod??''}`);
+  if(premiumUt)
+    return {score:100 as const,tier:'unicorn' as const,reason:'Utah DWR premium limited-entry buck deer permit; trophy potential is not guaranteed'};
   const apps=state==='CO'||state==='WA' ? hunt.appsLast : typeof hunt.resAppsLast==='number' && typeof hunt.nrAppsLast==='number' ? hunt.resAppsLast+hunt.nrAppsLast : null;
   const code=hunt.tagCode??(hunt.huntNumber===null||hunt.huntNumber===undefined?null:String(hunt.huntNumber));
   // Idaho's 2026 official Area 55 early hunt excludes Unit 57, despite a stale summary association.
