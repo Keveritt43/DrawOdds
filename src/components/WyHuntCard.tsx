@@ -1,3 +1,4 @@
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { HuntLink } from '@/components/HuntNavigation';
 import type { CoScored } from '@/lib/coScores';
 import { CompareToggle } from './Compare';
@@ -43,7 +44,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
         <span className="small muted tags">{r.type === 'GENERAL' ? (nr ? 'Region license quota' : 'No quota') : r.tags === null ? (r.tagCode?.includes('R-') ? 'Region quota: see details' : 'Quota: see WGFD') : `${int(r.tags)} licenses`}</span>
       </div>
       <div className="dates">
-        {[r.takeMethod && r.takeMethod.length >= 120 ? 'Restrictions: open hunt details and confirm with WGFD' : r.takeMethod, r.units.length > 1 ? r.units.map(wyAreaLabel).join(', ') : '', dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land' : '']
+        {[huntWeaponLabel(r), r.takeMethod && r.takeMethod.length >= 120 ? 'Restrictions: open hunt details and confirm with WGFD' : r.takeMethod, r.units.length > 1 ? r.units.map(wyAreaLabel).join(', ') : '', dateRange(r.openDate, r.closeDate), r.privateOnly ? 'Private land' : '']
           .filter(Boolean).join(' · ')}
       </div>
       <ScoreRow r={r} nr={nr} />
