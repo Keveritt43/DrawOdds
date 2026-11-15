@@ -11,3 +11,8 @@ test('score plans retain rollback values and reject stale or altered updates',()
  const oldModel=structuredClone(saved);oldModel.version='idaho-v2';assert.throws(()=>validateScorePlan(oldModel,rows));
  assert.throws(()=>validateScorePlan(saved,[]));
 });
+test('plan validation is independent of database collation order',()=>{
+ const second=structuredClone(rows[0]);second.input.id='c:-2';
+ const first=scorePlan([rows[0],second]);
+ assert.deepEqual(validateScorePlan(first,[second,rows[0]]),first);
+});
