@@ -76,7 +76,6 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </p>
 
       {!s.privateOnly && <WyWildernessNote units={s.units} nr={nr} />}
-      <div className="cost-lines"><h4>What It Costs</h4><p>{nr && species === 'DEER' && po.general ? <>For a nonresident general deer license, WGFD lists <b>$374 regular or $1,200 special</b>, plus a <b>$15 application fee</b> (fee schedule checked November 12, 2026). </> : <>Wyoming fees vary by species, license and residency{nr ? ', and the regular and special pools have different prices' : ''}. </>}WGFD charges the license price and application fee when you apply. A conservation stamp may also be required; check current prices and refund rules before applying. This is not a complete total.</p><p><a href="https://wgfd.wyo.gov/licenses-applications/license-fee-list">WGFD license fee schedule</a> · <a href="https://wgfd.wyo.gov/licenses-applications/application-process">Application and refund information</a></p></div>
       {po.general && (
         <div className="card" style={{ margin: '12px 0' }}>
           <b>General season.</b> Residents buy a general {spLabel} license over the counter. Nonresidents need the{' '}
@@ -168,6 +167,11 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           ? `${po.projYear} projection: last draw's cutoff moved by each of the year-to-year changes measured across Wyoming ${spLabel} hunts (never below the last draw); odds are the average over those outcomes. It beat last year's odds in a 2024–2026 backtest. Quotas, applicants and rule changes can move the result.`
           : `${po.year} draw: WGFD's printed first-choice preference odds by points, then the random draw estimated from its quota and first-choice applicants.`}</p>
       </>}
+      <h2>Details</h2>
+      <details className="card fold">
+        <summary><span>What it costs</span><span className="small muted">{nr && species === 'DEER' && po.general ? '$374 regular or $1,200 special, plus $15' : ''}</span></summary>
+        <div className="cost-lines"><p>{nr && species === 'DEER' && po.general ? <>For a nonresident general deer license, WGFD lists <b>$374 regular or $1,200 special</b>, plus a <b>$15 application fee</b> (fee schedule checked November 12, 2026). </> : <>Wyoming fees vary by species, license and residency{nr ? ', and the regular and special pools have different prices' : ''}. </>}WGFD charges the license price and application fee when you apply. A conservation stamp may also be required; check current prices and refund rules before applying. This is not a complete total.</p><p><a href="https://wgfd.wyo.gov/licenses-applications/license-fee-list">WGFD license fee schedule</a> · <a href="https://wgfd.wyo.gov/licenses-applications/application-process">Application and refund information</a></p></div>
+      </details>
       <p className="small muted">Source: WGFD draw demand reports {Math.min(...(po.pools.regular?.history ?? po.res?.history ?? [{ year: po.year }]).map((h) => h.year))}–{po.year} and the {po.regs?.year ?? po.year} antelope, deer and elk regulations. Confirm dates and rules with WGFD before you apply.</p>
     </main>
   );
