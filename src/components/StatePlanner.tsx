@@ -22,6 +22,8 @@ export interface PlanApp {
   /** "Your bull elk points: 3 (16 entries)" */
   points?: string;
   choices: number;
+  /** false: the agency prints no limit; `choices` is only this page's cap and isn't shown as the agency's */
+  choicesKnown?: boolean;
   /** charged when you apply; null = the agency prints none */
   price: number | null;
   /** prerequisite license coverage this application needs (see PlanPrereq.covers) */
@@ -115,7 +117,7 @@ export function StatePlanner({ state, apps, opts, prereq, timeline, intro, costN
         return (
           <section key={a.key} className="card plan-sec">
             <h2>{a.label}</h2>
-            <p className="small muted" style={{ marginTop: -6 }}>{a.when} · up to {a.choices} choice{a.choices === 1 ? '' : 's'}{a.price !== null ? ` · ${money(a.price)} to apply` : ''}</p>
+            <p className="small muted" style={{ marginTop: -6 }}>{a.when}{a.choicesKnown === false ? '' : ` · up to ${a.choices} choice${a.choices === 1 ? '' : 's'}`}{a.price !== null ? ` · ${money(a.price)} to apply` : ''}</p>
             {a.what && <p className="small">{a.what}</p>}
             {a.points && <p className="small">{a.points}. <Link href="/account#hunting-preferences">Change</Link></p>}
             {list.length > 0 && (
