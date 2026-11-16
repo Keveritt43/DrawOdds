@@ -58,8 +58,9 @@ HARVEST_YEARS = [2021, 2022, 2023, 2024, 2025]
 NO_BOUNDARY = {"PB5329"}
 
 WEAPON = {"Archery": "ARCHERY", "Any Legal Weapon": "ANY", "Muzzleloader": "MUZZLELOADER", "Restricted Muzzleloader": "MUZZLELOADER",
-          "Early Any Legal Weapon": "ANY", "Late Any Legal Weapon": "ANY", "Restricted Rifle": "ANY", "Extended Archery": "ARCHERY",
-          "Multiseason": "ANY", "HAMSS": "ANY", "Restricted Any Legal Weapon": "ANY"}
+          "Early Any Legal Weapon": "ANY", "Late Any Legal Weapon": "ANY", "Restricted Rifle": "OTHER", "Extended Archery": "ARCHERY",
+          "Multiseason": "ANY", "HAMSS": "ANY", "Restricted Any Legal Weapon": "ANY",
+          "Restricted Archery": "ARCHERY", "September Archery": "ARCHERY", "Late Archery": "ARCHERY", "H.A.M.S.S": "OTHER"}
 
 # 2026 general-season elk (field regulations guidebook p. 8; hunt numbers from DWR's 2025 preliminary harvest report)
 GENERAL_ELK = {
@@ -290,11 +291,21 @@ def main() -> None:
             sex = ("Antlerless (cow only)" if cow else "Either sex" if either else
                    "Antlered" if species in ("DEER", "PRONGHORN") else "Bull")
             seasons = [{"weapon": weapon_of(s["WeaponName"]), "sex": sex, "dates": [{"open": iso(s["SeasonStartDate"]), "close": iso(s["SeasonEndDate"])}],
-                        "notes": (s.get("SpecialInstruction") or "").strip()} for s in sw]
+                        "notes": (s.get("SpecialInstruction") or "").strip(),
+                        **({"uncertain": True} if s.get("UnCertainDateRange") else {}),
+                        **({"weaponLabel": "Restricted archery"} if s["WeaponName"] == "Restricted Archery" else {}),
+                        **({"weaponLabel": "Restricted muzzleloader"} if s["WeaponName"] == "Restricted Muzzleloader" else {}),
+                        **({"weaponLabel": "Restricted rifle"} if s["WeaponName"] == "Restricted Rifle" else {})} for s in sw]
+            if len(sw) == 1 and sw[0]["WeaponName"] == "H.A.M.S.S":
+                seasons = [{**seasons[0], "weapon": w, "weaponLabel": "HAMSS restricted weapons",
+                            "notes": "Restricted handgun, archery, muzzleloader, shotgun or straight-walled rifle; confirm DWR equipment rules."}
+                           for w in ("ARCHERY", "MUZZLELOADER", "OTHER")]
+            if len(sw) > 1 and any(s.get("UnCertainDateRange") for s in sw):
+                seasons = [{**s, "uncertain": True} for s in seasons]
             opens = [s["dates"][0]["open"] for s in seasons if s["dates"][0]["open"]]
             closes = [s["dates"][0]["close"] for s in seasons if s["dates"][0]["close"]]
             weapons = {s["weapon"] for s in seasons}
-            weapon = weapons.pop() if len(weapons) == 1 else "ANY"
+            weapon = "OTHER" if len(sw) == 1 and sw[0]["WeaponName"] == "H.A.M.S.S" else weapons.pop() if len(weapons) == 1 else "ANY"
             cat = h["HuntCategoryName"]
             ln = land_for(bids)
             if ln is None:

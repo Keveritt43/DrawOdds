@@ -238,6 +238,8 @@ export function TrophyMark({ score, showNeutral = true, hunt }: { score: number 
 }
 
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
+  const uncertainUtDates=r.state==='UT' && (r.tagSeasons as {seasons?:{uncertain?:boolean}[]}|null)?.seasons?.some(s=>s.uncertain);
+  if(r.scoreQuality===null && uncertainUtDates) return <div className="srow none small muted">DrawOdds Score unavailable: exact hunt dates vary within the published window.</div>;
   if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data<CoPressureNote r={r}/></div>;
   const opp = nr ? r.scoreOppNr : r.scoreOppRes;
   const parts: [ScorePart, number | null][] = [['success', r.scoreSuccess], ['access', r.scoreAccess], ['crowd', r.scoreCrowd], ['trophy', r.scoreTrophy]];

@@ -1,0 +1,2791 @@
+{
+  "source": "https://services3.arcgis.com/jZsUvKlJVFEJWsCV/ArcGIS/rest/services/Logan_s_Final_Project_WFL1/FeatureServer/4",
+  "attribution": "UDWR as stated by the third-party hosted copy; not an official DWR endpoint",
+  "crosscheck": "93 shared IDs independently match DWR public 2024 antlerless polygons at >=99.5% IoU; one shared geometry comparison failed",
+  "method": "Turf area intersection over union, coordinates simplified at 0.0005 degrees; four invalid comparisons repaired with zero-width buffer. Names and IDs are evidence, not proof of historic hunt assignments.",
+  "results": [
+    {
+      "id": "140",
+      "name": "North Slope, Three Corners",
+      "current": 0.9986354346308266
+    },
+    {
+      "id": "227",
+      "name": "Wasatch Mtns, Currant Creek",
+      "official": 0.9993989875963388,
+      "current": 0.9993769186029094
+    },
+    {
+      "id": "668",
+      "name": "Fillmore, Oak Creek (cougar)",
+      "current": 0.9995702798879235
+    },
+    {
+      "id": "632",
+      "name": "Thousand Lakes",
+      "current": 0.9992537036339673
+    },
+    {
+      "id": "79",
+      "name": "East Canyon, Morgan-Summit",
+      "current": 0.9987580790848852
+    },
+    {
+      "id": "607",
+      "name": "Box Elder",
+      "current": 0.9994670670626951
+    },
+    {
+      "id": "29",
+      "name": "Cache",
+      "official": 0.9999033851341071,
+      "current": 0.9987916131048679
+    },
+    {
+      "id": "609",
+      "name": "Ogden",
+      "official": 0.9998040227246684,
+      "current": 0.9992548985500518
+    },
+    {
+      "id": "611",
+      "name": "Kamas",
+      "official": 0.9992450711585038,
+      "current": 0.9987056017104983
+    },
+    {
+      "id": "613",
+      "name": "Yellowstone",
+      "official": 0.9995706461811693,
+      "current": 0.9995690846798339
+    },
+    {
+      "id": "612",
+      "name": "North Slope",
+      "current": 0.9995292192828628
+    },
+    {
+      "id": "615",
+      "name": "Nine Mile",
+      "current": 0.9996998406132064
+    },
+    {
+      "id": "618",
+      "name": "San Juan, Abajo Mtns",
+      "current": 0.9991351946707672
+    },
+    {
+      "id": "616",
+      "name": "Nebo",
+      "official": 0.9998366510844258,
+      "current": 0.9994201441151471
+    },
+    {
+      "id": "621",
+      "name": "Wasatch Mtns, East",
+      "current": 0.9996215872276882
+    },
+    {
+      "id": "620",
+      "name": "Wasatch Mtns, West",
+      "current": 0.9995705643867171
+    },
+    {
+      "id": "623",
+      "name": "West Desert, West",
+      "current": 0.9995255997802159,
+      "repair": "zero-width buffer"
+    },
+    {
+      "id": "625",
+      "name": "Southwest Desert",
+      "official": 0.9999638407813858,
+      "current": 0.9998552904481571
+    },
+    {
+      "id": "88",
+      "name": "Fillmore, Pahvant",
+      "official": 0.9998877112330129,
+      "current": 0.9996025111584708
+    },
+    {
+      "id": "628",
+      "name": "Beaver",
+      "current": 0.9995772323369633
+    },
+    {
+      "id": "629",
+      "name": "Monroe",
+      "current": 0.9995148436123271
+    },
+    {
+      "id": "630",
+      "name": "Mt Dutton",
+      "official": 0.999701576772367,
+      "current": 0.9997383823340458
+    },
+    {
+      "id": "633",
+      "name": "Fishlake",
+      "current": 0.9994875769979736
+    },
+    {
+      "id": "636",
+      "name": "Pine Valley",
+      "official": 0.9998543585655946,
+      "current": 0.9996960743389051
+    },
+    {
+      "id": "185",
+      "name": "San Juan, Elk Ridge",
+      "current": 0.9995495709947021
+    },
+    {
+      "id": "163",
+      "name": "Paunsaugunt",
+      "official": 0.9997473929588948,
+      "current": 0.9996573456031955
+    },
+    {
+      "id": "248",
+      "name": "West Desert, Vernon",
+      "current": 0.9998213482600671
+    },
+    {
+      "id": "33",
+      "name": "Cache, Meadowville",
+      "current": 0.999113550667509
+    },
+    {
+      "id": "51",
+      "name": "Manti",
+      "official": 0.9998324812004978,
+      "current": 0.9996831712390983
+    },
+    {
+      "id": "175",
+      "name": "Fishlake/Thousand Lakes",
+      "official": 0.9997787757978217,
+      "current": 0.9996437153529492
+    },
+    {
+      "id": "449",
+      "name": "Book Cliffs, Bitter Creek/South",
+      "official": 0.9998873869782761,
+      "current": 0.9994752656346919
+    },
+    {
+      "id": "685",
+      "name": "Beaver, East",
+      "official": 0.9996664324799568,
+      "current": 0.9993772265088668
+    },
+    {
+      "id": "171",
+      "name": "Plateau",
+      "official": 0.9998202951981289,
+      "current": 0.9996907635104569
+    },
+    {
+      "id": "241",
+      "name": "West Desert, Deep Creek",
+      "current": 0.9981984242698546
+    },
+    {
+      "id": "1",
+      "name": "Antelope Island",
+      "current": 0.9969730213064757
+    },
+    {
+      "id": "193",
+      "name": "San Rafael, Dirty Devil",
+      "current": 0.999628167695893
+    },
+    {
+      "id": "100",
+      "name": "Kaiparowits, West",
+      "current": 0.9994590978529101
+    },
+    {
+      "id": "688",
+      "name": "La Sal, Potash/South Cisco",
+      "current": 0.9993148210861269
+    },
+    {
+      "id": "15",
+      "name": "Book Cliffs, South",
+      "current": 0.9993804178964966
+    },
+    {
+      "id": "24",
+      "name": "Box Elder, Promontory",
+      "official": 0.9998396176566244,
+      "current": 0.9996463474266027
+    },
+    {
+      "id": "453",
+      "name": "Mt Dutton/Paunsaugunt",
+      "current": 0.9996851989063648
+    },
+    {
+      "id": "244",
+      "name": "West Desert, Riverbed",
+      "current": 0.9997977711568626
+    },
+    {
+      "id": "246",
+      "name": "West Desert, Snake Valley",
+      "current": 0.9994887921950667,
+      "repair": "zero-width buffer"
+    },
+    {
+      "id": "443",
+      "name": "San Rafael, Desert",
+      "current": 0.9997140531593969
+    },
+    {
+      "id": "117",
+      "name": "Morgan-South Rich",
+      "official": 0.9998261096423003,
+      "current": 0.9995803062379183
+    },
+    {
+      "id": "186",
+      "name": "San Juan, Hatch Point",
+      "current": 0.9992648164491182
+    },
+    {
+      "id": "20",
+      "name": "Box Elder, Newfoundland Mtn",
+      "official": 0.9999700568679302,
+      "current": 0.9998261518610889
+    },
+    {
+      "id": "683",
+      "name": "Box Elder, Pilot Mtn B",
+      "official": 0.9999852880019385,
+      "current": 0.9988379453305964
+    },
+    {
+      "id": "145",
+      "name": "High Uintas Central",
+      "current": 0.9990976165261564
+    },
+    {
+      "id": "146",
+      "name": "High Uintas East",
+      "current": 0.9992481323566117
+    },
+    {
+      "id": "157",
+      "name": "Ogden, Willard Peak",
+      "current": 0.9989274244850052
+    },
+    {
+      "id": "231",
+      "name": "Wasatch Mtns, Lone Peak",
+      "current": 0.999280372354494
+    },
+    {
+      "id": "148",
+      "name": "High Uintas West",
+      "current": 0.9992083401359941
+    },
+    {
+      "id": "147",
+      "name": "High Uintas Leidy Peak",
+      "current": 0.9990807470893976
+    },
+    {
+      "id": "233",
+      "name": "Wasatch Mtns, Provo Peak",
+      "current": 0.9989552356331381
+    },
+    {
+      "id": "225",
+      "name": "Wasatch Mtns, Box Elder Peak",
+      "current": 0.9978807042288346
+    },
+    {
+      "id": "667",
+      "name": "Book Cliffs, Bitter Creek (pronghorn)",
+      "current": 0.999468302212323
+    },
+    {
+      "id": "129",
+      "name": "Nine Mile, Anthro-Myton Bench",
+      "official": 0.9995667980090363,
+      "current": 0.9994531254520173
+    },
+    {
+      "id": "619",
+      "name": "Manti/San Rafael",
+      "current": 0.999798652107825
+    },
+    {
+      "id": "455",
+      "name": "Boulder/Kaiparowits",
+      "current": 0.9997655743491833
+    },
+    {
+      "id": "452",
+      "name": "Diamond Mtn/Vernal",
+      "current": 0.9994095601946024
+    },
+    {
+      "id": "98",
+      "name": "Kaiparowits, East",
+      "current": 0.9992352982501896
+    },
+    {
+      "id": "99",
+      "name": "Kaiparowits, Escalante",
+      "current": 0.9995263100697259
+    },
+    {
+      "id": "97",
+      "name": "Kaiparowits",
+      "current": 0.9996287006184946
+    },
+    {
+      "id": "183",
+      "name": "San Juan Bull Elk",
+      "current": 0.9995716443631261
+    },
+    {
+      "id": "634",
+      "name": "Panguitch Lake",
+      "official": 0.9996110122266472,
+      "current": 0.9997922873230798
+    },
+    {
+      "id": "635",
+      "name": "Zion",
+      "official": 0.9998454220857201,
+      "current": 0.9997393527133609
+    },
+    {
+      "id": "7",
+      "name": "Book Cliffs",
+      "current": 0.9995190284248009
+    },
+    {
+      "id": "32",
+      "name": "Cache, Crawford Mtn",
+      "current": 0.9986219566348938,
+      "repair": "zero-width buffer"
+    },
+    {
+      "id": "194",
+      "name": "San Rafael, North",
+      "official": 0.999960575227133,
+      "current": 0.9997812405185095
+    },
+    {
+      "id": "28",
+      "name": "Box Elder, West Bear River",
+      "official": 0.9994357252010186,
+      "current": 0.9990621653182055
+    },
+    {
+      "id": "45",
+      "name": "Ferron Canyon",
+      "official": 0.9991946804311644,
+      "current": 0.9988599141730854
+    },
+    {
+      "id": "104",
+      "name": "Kamas, Oakley",
+      "official": 0.9997483992044028,
+      "current": 0.9990151425308693
+    },
+    {
+      "id": "480",
+      "name": "Wasatch Mtns, Timpanogos B",
+      "official": 0.9992215455474374,
+      "current": 0.9977134877318072
+    },
+    {
+      "id": "238",
+      "name": "Wasatch Mtns, Wallsburg",
+      "official": 0.9988217621154717,
+      "current": 0.9984015003605959
+    },
+    {
+      "id": "240",
+      "name": "Wasatch Mtns, West Heber",
+      "officialError": "Error: invalid polygon, fewer than 4 points",
+      "currentError": "Error: invalid polygon, fewer than 4 points"
+    },
+    {
+      "id": "135",
+      "name": "North Slope, Henrys Fork-Burnt Fork",
+      "official": 0.9989254713409981,
+      "current": 0.9985991977174613
+    },
+    {
+      "id": "49",
+      "name": "Horn Mtn",
+      "official": 0.9992807797628865,
+      "current": 0.9987606777465945
+    },
+    {
+      "id": "134",
+      "name": "North Slope, Greendale",
+      "official": 0.9976043871986493,
+      "current": 0.9966887790076182
+    },
+    {
+      "id": "438",
+      "name": "Mt Dutton, Deep Creek",
+      "official": 0.9983223251783172,
+      "current": 0.9982151063354568
+    },
+    {
+      "id": "43",
+      "name": "Central Manti",
+      "official": 0.9993484481848514,
+      "current": 0.9992726123852952
+    },
+    {
+      "id": "38",
+      "name": "Cache, Rich",
+      "official": 0.9996828940288754,
+      "current": 0.9987021433303048
+    },
+    {
+      "id": "58",
+      "name": "North Manti",
+      "official": 0.9997170634290661,
+      "current": 0.9995471195594287
+    },
+    {
+      "id": "96",
+      "name": "Boulder-Circle Cliffs",
+      "official": 0.9995964081790474,
+      "current": 0.9986498387755272
+    },
+    {
+      "id": "39",
+      "name": "Cache, Richards Hollow",
+      "official": 0.9991226465595249,
+      "current": 0.9985155541502708
+    },
+    {
+      "id": "122",
+      "name": "Morgan-South Rich, South Rich",
+      "official": 0.999055496937794,
+      "current": 0.9992305970086777
+    },
+    {
+      "id": "699",
+      "name": "Fishlake/Thousand Lakes West",
+      "official": 0.9996426989055841,
+      "current": 0.9994370512841687
+    },
+    {
+      "id": "108",
+      "name": "La Sal, Dolores Triangle",
+      "official": 0.9993194462462734,
+      "current": 0.9987262977348965
+    },
+    {
+      "id": "617",
+      "name": "La Sal, La Sal Mtns",
+      "official": 0.9997712988224786,
+      "current": 0.9995031051380164
+    },
+    {
+      "id": "138",
+      "name": "North Slope, Summit",
+      "official": 0.9995388137932238,
+      "current": 0.999450889104069
+    },
+    {
+      "id": "277",
+      "name": "Nine Mile, Range Creek",
+      "official": 0.9996857508886418,
+      "current": 0.9995268513551513
+    },
+    {
+      "id": "132",
+      "name": "Nine Mile, West Anthro",
+      "official": 0.9994039453850215,
+      "current": 0.9992089922811813
+    },
+    {
+      "id": "12",
+      "name": "Book Cliffs, Little Creek Roadless",
+      "current": 0.9986794476531817
+    },
+    {
+      "id": "102",
+      "name": "High Uintas Kamas",
+      "current": 0.9993759205544467
+    },
+    {
+      "id": "710",
+      "name": "San Juan",
+      "official": 0.9998393193573527,
+      "current": 0.9996395161078832
+    },
+    {
+      "id": "280",
+      "name": "Ogden Extended Archery Area",
+      "current": 0.9988584908963257
+    },
+    {
+      "id": "718",
+      "name": "Panguitch Lake/Zion, North",
+      "current": 0.999730712086645
+    },
+    {
+      "id": "714",
+      "name": "Book Cliffs, North",
+      "current": 0.9994750210966599
+    },
+    {
+      "id": "224",
+      "name": "Wasatch Mtns, Avintaquin A",
+      "official": 0.9992884041828598,
+      "current": 0.9993174048457816
+    },
+    {
+      "id": "47",
+      "name": "Gordon Creek-Price Canyon",
+      "official": 0.9995132485478869,
+      "current": 0.9993275428078171
+    },
+    {
+      "id": "622",
+      "name": "Oquirrh-Stansbury",
+      "current": 0.9997786975769954
+    },
+    {
+      "id": "624",
+      "name": "West Desert, Tintic",
+      "current": 0.9996532502553646
+    },
+    {
+      "id": "222",
+      "name": "Wasatch Mtns",
+      "official": 0.9997815715884721,
+      "current": 0.9996961992786473
+    },
+    {
+      "id": "743",
+      "name": "Wasatch Mtns/Central Mtns",
+      "current": 0.9998142434714389
+    },
+    {
+      "id": "682",
+      "name": "Box Elder, Pilot Mtn",
+      "current": 0.999751500184864
+    },
+    {
+      "id": "245",
+      "name": "West Desert, Rush Valley",
+      "current": 0.9996823275530121
+    },
+    {
+      "id": "85",
+      "name": "Fillmore, Oak Creek LE",
+      "official": 0.9996717257143247,
+      "current": 0.9992359206774216
+    },
+    {
+      "id": "802",
+      "name": "Fillmore B",
+      "current": 0.9996190027835152
+    },
+    {
+      "id": "755",
+      "name": "Box Elder, West",
+      "official": 0.9999708706702859,
+      "current": 0.9989856023458322
+    },
+    {
+      "id": "27",
+      "name": "Box Elder, Snowville",
+      "official": 0.9999390547406131,
+      "current": 0.9967618838680292
+    },
+    {
+      "id": "756",
+      "name": "San Rafael, South",
+      "current": 0.999652516941558
+    },
+    {
+      "id": "723",
+      "name": "Monroe, Koosharem Valley",
+      "official": 0.9963333139600062,
+      "current": 0.9961571108270227
+    },
+    {
+      "id": "695",
+      "name": "Boulder East",
+      "official": 0.9996748861362117,
+      "current": 0.9994497613840357
+    },
+    {
+      "id": "697",
+      "name": "Boulder West",
+      "official": 0.999848975581086,
+      "current": 0.9996470087881386
+    },
+    {
+      "id": "814",
+      "name": "Mosby Mtn",
+      "official": 0.9990956280092965,
+      "current": 0.9989296568683842
+    },
+    {
+      "id": "698",
+      "name": "Fishlake/Thousand Lakes East",
+      "official": 0.9994165464236057,
+      "current": 0.9992578727452825
+    },
+    {
+      "id": "817",
+      "name": "Wasatch Mtns, Avintaquin-White River",
+      "official": 0.9992074692387563,
+      "current": 0.9990559503090226
+    },
+    {
+      "id": "208",
+      "name": "Vernal",
+      "current": 0.9991847606621481
+    },
+    {
+      "id": "461",
+      "name": "Diamond Mtn/Bonanza",
+      "current": 0.9993256137691682
+    },
+    {
+      "id": "614",
+      "name": "Vernal/Bonanza",
+      "official": 0.9995994751357452,
+      "current": 0.9995334129407133
+    },
+    {
+      "id": "206",
+      "name": "Diamond Mtn",
+      "official": 0.9997039164858196,
+      "current": 0.999496987327605
+    },
+    {
+      "id": "821",
+      "name": "Nine Mile, Gray Canyon",
+      "current": 0.9992461057595158
+    },
+    {
+      "id": "40",
+      "name": "Cache, Richmond-Hyde Park",
+      "official": 0.9999253653755663,
+      "current": 0.999573988539037
+    },
+    {
+      "id": "55",
+      "name": "Morhland Stump Flat",
+      "official": 0.9992742027650575,
+      "current": 0.9986182461992721
+    },
+    {
+      "id": "839",
+      "name": "Pine Valley, Enterprise",
+      "official": 0.9984522536928857,
+      "current": 0.9985222437188406
+    },
+    {
+      "id": "840",
+      "name": "Pine Valley, New Harmony",
+      "official": 0.9950361500729571,
+      "current": 0.9939945522926485
+    },
+    {
+      "id": "838",
+      "name": "Paunsaugunt, Hatch Bench",
+      "official": 0.9993041230340117,
+      "current": 0.9992747517652092
+    },
+    {
+      "id": "845",
+      "name": "Wasatch Mtns, West-Central",
+      "official": 0.9997145419552507,
+      "current": 0.9997005930674236
+    },
+    {
+      "id": "234",
+      "name": "Wasatch Mtns, Salt Lake",
+      "official": 0.9992780272928415,
+      "current": 0.9991797670101976
+    },
+    {
+      "id": "25",
+      "name": "Box Elder, Puddle Valley",
+      "current": 0.9994650432085594
+    },
+    {
+      "id": "21",
+      "name": "Oquirrh-Stansbury, Settlement Cyn",
+      "official": 0.9965723228094575,
+      "current": 0.9949363124529813
+    },
+    {
+      "id": "115",
+      "name": "Monroe/Plateau, Seveir Valley",
+      "official": 0.998285176041275,
+      "current": 0.9981404318228573
+    },
+    {
+      "id": "23",
+      "name": "San Juan, Monticello",
+      "official": 0.9963037358652979,
+      "current": 0.9977905416364099
+    },
+    {
+      "id": "11",
+      "name": "Nine Mile, Price River Valley",
+      "official": 0.9995782318115966,
+      "current": 0.9962976609605413
+    },
+    {
+      "id": "86",
+      "name": "Oquirrh-Stansbury, East",
+      "official": 0.9997505071073843,
+      "current": 0.9996991733384776
+    },
+    {
+      "id": "75",
+      "name": "Oquirrh-Stansbury, West",
+      "current": 0.9997944285796232
+    },
+    {
+      "id": "202",
+      "name": "San Rafael, North A",
+      "current": 0.999695645518174
+    },
+    {
+      "id": "200",
+      "name": "Wasatch Mtns, Timpanogos",
+      "current": 0.997829019162849
+    },
+    {
+      "id": "109",
+      "name": "Utah Lake Extended Archery Area",
+      "current": 0.9986743415707995
+    },
+    {
+      "id": "128",
+      "name": "Nine Mile, Anthro",
+      "official": 0.9995087538568828,
+      "current": 0.9993917900883015
+    },
+    {
+      "id": "637",
+      "name": "Henry Mtns (bison)",
+      "current": 0.9993466505823542
+    },
+    {
+      "id": "282",
+      "name": "Wasatch Front Extended Archery Area",
+      "current": 0.9992368748650109
+    },
+    {
+      "id": "218",
+      "name": "Uintah Basin Extended Archery Area",
+      "current": 0.9984297841768723
+    },
+    {
+      "id": "101",
+      "name": "Herriman South Valley Extended Archery Area",
+      "current": 0.996551330431866
+    },
+    {
+      "id": "106",
+      "name": "South Wasatch Front Extended Archery Area",
+      "current": 0.9977427196165106
+    },
+    {
+      "id": "820",
+      "name": "Nine Mile, Jack Creek",
+      "current": 0.9997705484545255
+    },
+    {
+      "id": "110",
+      "name": "Poison Springs Bench",
+      "official": 0.9996001063740262,
+      "current": 0.9978725627202971
+    },
+    {
+      "id": "6",
+      "name": "Nine Mile, Green River Valley",
+      "official": 0.999725274343841,
+      "current": 0.9991385399821491
+    },
+    {
+      "id": "107",
+      "name": "Moroni Hills",
+      "official": 0.9992201295217565,
+      "current": 0.9988643133733864
+    },
+    {
+      "id": "116",
+      "name": "West Desert, Tintic Valley",
+      "official": 0.9999184780134863,
+      "current": 0.9997438039718225
+    },
+    {
+      "id": "301",
+      "name": "Book Cliffs, Floy Canyon",
+      "current": 0.9995746281670614
+    },
+    {
+      "id": "309",
+      "name": "San Juan, San Juan River",
+      "current": 0.9991092303190195
+    },
+    {
+      "id": "306",
+      "name": "Pine Valley, Virgin River",
+      "current": 0.9991204090582577
+    },
+    {
+      "id": "303",
+      "name": "Cache, South",
+      "current": 0.9992241904130569
+    },
+    {
+      "id": "311",
+      "name": "Sanpete Valley Extended Archery Area",
+      "current": 0.9979462828381758
+    },
+    {
+      "id": "302",
+      "name": "Cache, North",
+      "current": 0.9993776010833239
+    },
+    {
+      "id": "313",
+      "name": "West Cache Extended Archery Area",
+      "current": 0.9993017019705495
+    },
+    {
+      "id": "307",
+      "name": "San Juan, Lockhart",
+      "current": 0.9993663136274916
+    },
+    {
+      "id": "314",
+      "name": "Kaiparowits (HAMS)",
+      "current": 0.9996464208232774
+    },
+    {
+      "id": "305",
+      "name": "Pine Valley, Beaver Dam",
+      "current": 0.9996684135069875
+    },
+    {
+      "id": "310",
+      "name": "San Juan, South",
+      "current": 0.9993477768058975
+    },
+    {
+      "id": "308",
+      "name": "San Juan, North",
+      "current": 0.9974260348426142,
+      "repair": "zero-width buffer"
+    },
+    {
+      "id": "859",
+      "name": "East Canyon, Davis-North Salt Lake",
+      "official": 0.9990563562263477,
+      "current": 0.9984460417923878
+    },
+    {
+      "id": "861",
+      "name": "West Manti",
+      "official": 0.9992739525783833,
+      "current": 0.9986330500623659
+    },
+    {
+      "id": "862",
+      "name": "South Manti",
+      "official": 0.9996666321143153,
+      "current": 0.9993740829767952
+    },
+    {
+      "id": "864",
+      "name": "Myton",
+      "official": 0.9989053937713319,
+      "current": 0.9988764659301268
+    },
+    {
+      "id": "142",
+      "name": "North Slope, West Daggett",
+      "official": 0.9982153371783624,
+      "current": 0.9981768999560362
+    },
+    {
+      "id": "143",
+      "name": "North Slope, Summit/West Daggett",
+      "current": 0.9992279332214576
+    },
+    {
+      "id": "289",
+      "name": "North Slope, Three Corners/West Daggett",
+      "current": 0.9987803339603677
+    },
+    {
+      "id": "867",
+      "name": "Box Elder, Grouse Creek",
+      "current": 0.9990489698355319
+    },
+    {
+      "id": "871",
+      "name": "Southwest Desert, North",
+      "current": 0.9998965070340784
+    },
+    {
+      "id": "869",
+      "name": "Barney Top/Kaiparowits",
+      "current": 0.9998204213051052
+    },
+    {
+      "id": "872",
+      "name": "Southwest Desert, South",
+      "current": 0.9995309887819405
+    },
+    {
+      "id": "870",
+      "name": "Boulder Elk",
+      "current": 0.9995684811845607
+    },
+    {
+      "id": "879",
+      "name": "LaSal, LaSal Mtns-North",
+      "official": 0.9998888599356737,
+      "current": 0.9992383426949293
+    },
+    {
+      "id": "880",
+      "name": "Buckskin Hills-Jensen",
+      "official": 0.9995975630073286,
+      "current": 0.9992705347679013
+    },
+    {
+      "id": "881",
+      "name": "Fillmore, Oak City (Archery Only)",
+      "official": 0.9991926435269712,
+      "current": 0.9904453523293555
+    },
+    {
+      "id": "882",
+      "name": "Nine Mile, Anthro Pleasant Valley",
+      "official": 0.9997276477508525,
+      "current": 0.9989933591372071
+    },
+    {
+      "id": "889",
+      "name": "Book Cliffs, Little Creek/South",
+      "current": 0.9994308477706112
+    },
+    {
+      "id": "893",
+      "name": "Southwest Desert, Burbank/Garrison",
+      "official": 0.9998567288594998,
+      "current": 0.9993439920478808
+    },
+    {
+      "id": "895",
+      "name": "Vernal-Ouray Valley",
+      "official": 0.9992762102762495,
+      "current": 0.9984754163476991
+    },
+    {
+      "id": "18",
+      "name": "Box Elder, Hansel Mtn",
+      "official": 0.9999791875717743,
+      "current": 0.9997809677685638
+    },
+    {
+      "id": "69",
+      "name": "Chalk Creek",
+      "official": 0.9997675074510065,
+      "current": 0.9991986759128701
+    },
+    {
+      "id": "81",
+      "name": "Fillmore, Oak Creek South",
+      "official": 0.9998285746285642,
+      "current": 0.9995794096014509
+    },
+    {
+      "id": "94",
+      "name": "Henry Mtns",
+      "official": 0.9997307481573354,
+      "current": 0.9995470365208651
+    },
+    {
+      "id": "276",
+      "name": "East Canyon",
+      "official": 0.9997288575760603,
+      "current": 0.9989585684490315
+    },
+    {
+      "id": "901",
+      "name": "Nebo/San Pitch Mtns",
+      "current": 0.9992995289215426
+    },
+    {
+      "id": "910",
+      "name": "Fillmore, Fillmore City",
+      "current": 0.9932796271296973
+    },
+    {
+      "id": "909",
+      "name": "Ashley Valley",
+      "current": 0.99874500414486
+    },
+    {
+      "id": "899",
+      "name": "Book Cliffs, Bitter Creek/East",
+      "current": 0.9993866387025387
+    },
+    {
+      "id": "920",
+      "name": "Wasatch Mtns, Tabby Mtn",
+      "current": 0.9991054037917991
+    },
+    {
+      "id": "921",
+      "name": "Wasatch Mtns, Rabbit Gulch",
+      "current": 0.999459455799701
+    },
+    {
+      "id": "924",
+      "name": "Ogden (excludes Hyrum)",
+      "current": 0.9992903782612785
+    },
+    {
+      "id": "10003",
+      "name": "Mineral Mountain",
+      "current": 0.9997982072693886
+    },
+    {
+      "id": "0",
+      "name": " "
+    },
+    {
+      "id": "0",
+      "name": " "
+    }
+  ],
+  "exactNameMatches": [
+    {
+      "id": "UT:DB1000",
+      "unit": "94",
+      "name": "Henry Mtns"
+    },
+    {
+      "id": "UT:DB1001",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1002",
+      "unit": "1",
+      "name": "Antelope Island"
+    },
+    {
+      "id": "UT:DB1003",
+      "unit": "94",
+      "name": "Henry Mtns"
+    },
+    {
+      "id": "UT:DB1004",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1005",
+      "unit": "94",
+      "name": "Henry Mtns"
+    },
+    {
+      "id": "UT:DB1006",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1007",
+      "unit": "94",
+      "name": "Henry Mtns"
+    },
+    {
+      "id": "UT:DB1008",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1010",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1011",
+      "unit": "7",
+      "name": "Book Cliffs"
+    },
+    {
+      "id": "UT:DB1012",
+      "unit": "85",
+      "name": "Fillmore, Oak Creek LE"
+    },
+    {
+      "id": "UT:DB1013",
+      "unit": "108",
+      "name": "La Sal, Dolores Triangle"
+    },
+    {
+      "id": "UT:DB1014",
+      "unit": "185",
+      "name": "San Juan, Elk Ridge"
+    },
+    {
+      "id": "UT:DB1015",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:DB1016",
+      "unit": "248",
+      "name": "West Desert, Vernon"
+    },
+    {
+      "id": "UT:DB1017",
+      "unit": "714",
+      "name": "Book Cliffs, North"
+    },
+    {
+      "id": "UT:DB1018",
+      "unit": "15",
+      "name": "Book Cliffs, South"
+    },
+    {
+      "id": "UT:DB1019",
+      "unit": "85",
+      "name": "Fillmore, Oak Creek LE"
+    },
+    {
+      "id": "UT:DB1020",
+      "unit": "108",
+      "name": "La Sal, Dolores Triangle"
+    },
+    {
+      "id": "UT:DB1022",
+      "unit": "185",
+      "name": "San Juan, Elk Ridge"
+    },
+    {
+      "id": "UT:DB1023",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:DB1024",
+      "unit": "248",
+      "name": "West Desert, Vernon"
+    },
+    {
+      "id": "UT:DB1025",
+      "unit": "7",
+      "name": "Book Cliffs"
+    },
+    {
+      "id": "UT:DB1026",
+      "unit": "32",
+      "name": "Cache, Crawford Mtn"
+    },
+    {
+      "id": "UT:DB1029",
+      "unit": "85",
+      "name": "Fillmore, Oak Creek LE"
+    },
+    {
+      "id": "UT:DB1030",
+      "unit": "611",
+      "name": "Kamas"
+    },
+    {
+      "id": "UT:DB1031",
+      "unit": "108",
+      "name": "La Sal, Dolores Triangle"
+    },
+    {
+      "id": "UT:DB1032",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:DB1033",
+      "unit": "615",
+      "name": "Nine Mile"
+    },
+    {
+      "id": "UT:DB1034",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:DB1037",
+      "unit": "185",
+      "name": "San Juan, Elk Ridge"
+    },
+    {
+      "id": "UT:DB1038",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:DB1039",
+      "unit": "613",
+      "name": "Yellowstone"
+    },
+    {
+      "id": "UT:DB1040",
+      "unit": "625",
+      "name": "Southwest Desert"
+    },
+    {
+      "id": "UT:DB1041",
+      "unit": "621",
+      "name": "Wasatch Mtns, East"
+    },
+    {
+      "id": "UT:DB1042",
+      "unit": "248",
+      "name": "West Desert, Vernon"
+    },
+    {
+      "id": "UT:DB1043",
+      "unit": "635",
+      "name": "Zion"
+    },
+    {
+      "id": "UT:DB1044",
+      "unit": "7",
+      "name": "Book Cliffs"
+    },
+    {
+      "id": "UT:DB1045",
+      "unit": "85",
+      "name": "Fillmore, Oak Creek LE"
+    },
+    {
+      "id": "UT:DB1046",
+      "unit": "185",
+      "name": "San Juan, Elk Ridge"
+    },
+    {
+      "id": "UT:DB1047",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:DB1048",
+      "unit": "248",
+      "name": "West Desert, Vernon"
+    },
+    {
+      "id": "UT:DB1053",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:DB1054",
+      "unit": "609",
+      "name": "Ogden"
+    },
+    {
+      "id": "UT:DB1055",
+      "unit": "633",
+      "name": "Fishlake"
+    },
+    {
+      "id": "UT:DB1058",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1065",
+      "unit": "612",
+      "name": "North Slope"
+    },
+    {
+      "id": "UT:DB1073",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1074",
+      "unit": "163",
+      "name": "Paunsaugunt"
+    },
+    {
+      "id": "UT:DB1077",
+      "unit": "607",
+      "name": "Box Elder"
+    },
+    {
+      "id": "UT:DB1078",
+      "unit": "29",
+      "name": "Cache"
+    },
+    {
+      "id": "UT:DB1079",
+      "unit": "619",
+      "name": "Manti/San Rafael"
+    },
+    {
+      "id": "UT:DB1080",
+      "unit": "616",
+      "name": "Nebo"
+    },
+    {
+      "id": "UT:DB1081",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:DB1083",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:DB1084",
+      "unit": "455",
+      "name": "Boulder/Kaiparowits"
+    },
+    {
+      "id": "UT:DB1085",
+      "unit": "618",
+      "name": "San Juan, Abajo Mtns"
+    },
+    {
+      "id": "UT:DB1086",
+      "unit": "614",
+      "name": "Vernal/Bonanza"
+    },
+    {
+      "id": "UT:DB1087",
+      "unit": "620",
+      "name": "Wasatch Mtns, West"
+    },
+    {
+      "id": "UT:DB1090",
+      "unit": "301",
+      "name": "Book Cliffs, Floy Canyon"
+    },
+    {
+      "id": "UT:DB1100",
+      "unit": "69",
+      "name": "Chalk Creek"
+    },
+    {
+      "id": "UT:DB1101",
+      "unit": "276",
+      "name": "East Canyon"
+    },
+    {
+      "id": "UT:DB1103",
+      "unit": "117",
+      "name": "Morgan-South Rich"
+    },
+    {
+      "id": "UT:DB1105",
+      "unit": "276",
+      "name": "East Canyon"
+    },
+    {
+      "id": "UT:EB3000",
+      "unit": "685",
+      "name": "Beaver, East"
+    },
+    {
+      "id": "UT:EB3002",
+      "unit": "12",
+      "name": "Book Cliffs, Little Creek Roadless"
+    },
+    {
+      "id": "UT:EB3003",
+      "unit": "33",
+      "name": "Cache, Meadowville"
+    },
+    {
+      "id": "UT:EB3005",
+      "unit": "303",
+      "name": "Cache, South"
+    },
+    {
+      "id": "UT:EB3006",
+      "unit": "51",
+      "name": "Manti"
+    },
+    {
+      "id": "UT:EB3008",
+      "unit": "88",
+      "name": "Fillmore, Pahvant"
+    },
+    {
+      "id": "UT:EB3009",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:EB3010",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:EB3011",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:EB3013",
+      "unit": "140",
+      "name": "North Slope, Three Corners"
+    },
+    {
+      "id": "UT:EB3015",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:EB3018",
+      "unit": "175",
+      "name": "Fishlake/Thousand Lakes"
+    },
+    {
+      "id": "UT:EB3019",
+      "unit": "183",
+      "name": "San Juan Bull Elk"
+    },
+    {
+      "id": "UT:EB3020",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:EB3022",
+      "unit": "222",
+      "name": "Wasatch Mtns"
+    },
+    {
+      "id": "UT:EB3024",
+      "unit": "685",
+      "name": "Beaver, East"
+    },
+    {
+      "id": "UT:EB3025",
+      "unit": "685",
+      "name": "Beaver, East"
+    },
+    {
+      "id": "UT:EB3028",
+      "unit": "12",
+      "name": "Book Cliffs, Little Creek Roadless"
+    },
+    {
+      "id": "UT:EB3031",
+      "unit": "682",
+      "name": "Box Elder, Pilot Mtn"
+    },
+    {
+      "id": "UT:EB3032",
+      "unit": "33",
+      "name": "Cache, Meadowville"
+    },
+    {
+      "id": "UT:EB3033",
+      "unit": "33",
+      "name": "Cache, Meadowville"
+    },
+    {
+      "id": "UT:EB3036",
+      "unit": "303",
+      "name": "Cache, South"
+    },
+    {
+      "id": "UT:EB3037",
+      "unit": "303",
+      "name": "Cache, South"
+    },
+    {
+      "id": "UT:EB3038",
+      "unit": "51",
+      "name": "Manti"
+    },
+    {
+      "id": "UT:EB3039",
+      "unit": "51",
+      "name": "Manti"
+    },
+    {
+      "id": "UT:EB3042",
+      "unit": "88",
+      "name": "Fillmore, Pahvant"
+    },
+    {
+      "id": "UT:EB3043",
+      "unit": "88",
+      "name": "Fillmore, Pahvant"
+    },
+    {
+      "id": "UT:EB3044",
+      "unit": "108",
+      "name": "La Sal, Dolores Triangle"
+    },
+    {
+      "id": "UT:EB3045",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:EB3046",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:EB3047",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:EB3048",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:EB3049",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:EB3050",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:EB3053",
+      "unit": "140",
+      "name": "North Slope, Three Corners"
+    },
+    {
+      "id": "UT:EB3056",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:EB3057",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:EB3063",
+      "unit": "175",
+      "name": "Fishlake/Thousand Lakes"
+    },
+    {
+      "id": "UT:EB3064",
+      "unit": "175",
+      "name": "Fishlake/Thousand Lakes"
+    },
+    {
+      "id": "UT:EB3065",
+      "unit": "175",
+      "name": "Fishlake/Thousand Lakes"
+    },
+    {
+      "id": "UT:EB3066",
+      "unit": "183",
+      "name": "San Juan Bull Elk"
+    },
+    {
+      "id": "UT:EB3067",
+      "unit": "183",
+      "name": "San Juan Bull Elk"
+    },
+    {
+      "id": "UT:EB3068",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:EB3069",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:EB3072",
+      "unit": "222",
+      "name": "Wasatch Mtns"
+    },
+    {
+      "id": "UT:EB3073",
+      "unit": "222",
+      "name": "Wasatch Mtns"
+    },
+    {
+      "id": "UT:EB3077",
+      "unit": "685",
+      "name": "Beaver, East"
+    },
+    {
+      "id": "UT:EB3079",
+      "unit": "12",
+      "name": "Book Cliffs, Little Creek Roadless"
+    },
+    {
+      "id": "UT:EB3081",
+      "unit": "33",
+      "name": "Cache, Meadowville"
+    },
+    {
+      "id": "UT:EB3083",
+      "unit": "303",
+      "name": "Cache, South"
+    },
+    {
+      "id": "UT:EB3084",
+      "unit": "51",
+      "name": "Manti"
+    },
+    {
+      "id": "UT:EB3086",
+      "unit": "88",
+      "name": "Fillmore, Pahvant"
+    },
+    {
+      "id": "UT:EB3087",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:EB3088",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:EB3089",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:EB3091",
+      "unit": "140",
+      "name": "North Slope, Three Corners"
+    },
+    {
+      "id": "UT:EB3093",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:EB3096",
+      "unit": "175",
+      "name": "Fishlake/Thousand Lakes"
+    },
+    {
+      "id": "UT:EB3097",
+      "unit": "183",
+      "name": "San Juan Bull Elk"
+    },
+    {
+      "id": "UT:EB3098",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:EB3100",
+      "unit": "222",
+      "name": "Wasatch Mtns"
+    },
+    {
+      "id": "UT:EB3102",
+      "unit": "685",
+      "name": "Beaver, East"
+    },
+    {
+      "id": "UT:EB3104",
+      "unit": "12",
+      "name": "Book Cliffs, Little Creek Roadless"
+    },
+    {
+      "id": "UT:EB3105",
+      "unit": "33",
+      "name": "Cache, Meadowville"
+    },
+    {
+      "id": "UT:EB3107",
+      "unit": "303",
+      "name": "Cache, South"
+    },
+    {
+      "id": "UT:EB3108",
+      "unit": "51",
+      "name": "Manti"
+    },
+    {
+      "id": "UT:EB3110",
+      "unit": "88",
+      "name": "Fillmore, Pahvant"
+    },
+    {
+      "id": "UT:EB3111",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:EB3112",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:EB3113",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:EB3115",
+      "unit": "140",
+      "name": "North Slope, Three Corners"
+    },
+    {
+      "id": "UT:EB3117",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:EB3120",
+      "unit": "175",
+      "name": "Fishlake/Thousand Lakes"
+    },
+    {
+      "id": "UT:EB3121",
+      "unit": "183",
+      "name": "San Juan Bull Elk"
+    },
+    {
+      "id": "UT:EB3122",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:EB3124",
+      "unit": "222",
+      "name": "Wasatch Mtns"
+    },
+    {
+      "id": "UT:EB3126",
+      "unit": "51",
+      "name": "Manti"
+    },
+    {
+      "id": "UT:EB3127",
+      "unit": "222",
+      "name": "Wasatch Mtns"
+    },
+    {
+      "id": "UT:EB3130",
+      "unit": "682",
+      "name": "Box Elder, Pilot Mtn"
+    },
+    {
+      "id": "UT:EB3132",
+      "unit": "302",
+      "name": "Cache, North"
+    },
+    {
+      "id": "UT:EB3135",
+      "unit": "869",
+      "name": "Barney Top/Kaiparowits"
+    },
+    {
+      "id": "UT:EB3136",
+      "unit": "871",
+      "name": "Southwest Desert, North"
+    },
+    {
+      "id": "UT:EB3137",
+      "unit": "241",
+      "name": "West Desert, Deep Creek"
+    },
+    {
+      "id": "UT:EB3139",
+      "unit": "302",
+      "name": "Cache, North"
+    },
+    {
+      "id": "UT:EB3142",
+      "unit": "869",
+      "name": "Barney Top/Kaiparowits"
+    },
+    {
+      "id": "UT:EB3143",
+      "unit": "871",
+      "name": "Southwest Desert, North"
+    },
+    {
+      "id": "UT:EB3144",
+      "unit": "241",
+      "name": "West Desert, Deep Creek"
+    },
+    {
+      "id": "UT:EB3146",
+      "unit": "872",
+      "name": "Southwest Desert, South"
+    },
+    {
+      "id": "UT:EB3147",
+      "unit": "867",
+      "name": "Box Elder, Grouse Creek"
+    },
+    {
+      "id": "UT:EB3149",
+      "unit": "872",
+      "name": "Southwest Desert, South"
+    },
+    {
+      "id": "UT:EB3150",
+      "unit": "867",
+      "name": "Box Elder, Grouse Creek"
+    },
+    {
+      "id": "UT:EB3152",
+      "unit": "872",
+      "name": "Southwest Desert, South"
+    },
+    {
+      "id": "UT:EB3153",
+      "unit": "867",
+      "name": "Box Elder, Grouse Creek"
+    },
+    {
+      "id": "UT:EB3155",
+      "unit": "872",
+      "name": "Southwest Desert, South"
+    },
+    {
+      "id": "UT:EB3157",
+      "unit": "872",
+      "name": "Southwest Desert, South"
+    },
+    {
+      "id": "UT:EB3158",
+      "unit": "685",
+      "name": "Beaver, East"
+    },
+    {
+      "id": "UT:EB3159",
+      "unit": "685",
+      "name": "Beaver, East"
+    },
+    {
+      "id": "UT:EB3160",
+      "unit": "899",
+      "name": "Book Cliffs, Bitter Creek/East"
+    },
+    {
+      "id": "UT:EB3161",
+      "unit": "899",
+      "name": "Book Cliffs, Bitter Creek/East"
+    },
+    {
+      "id": "UT:EB3162",
+      "unit": "899",
+      "name": "Book Cliffs, Bitter Creek/East"
+    },
+    {
+      "id": "UT:EB3163",
+      "unit": "899",
+      "name": "Book Cliffs, Bitter Creek/East"
+    },
+    {
+      "id": "UT:EB3164",
+      "unit": "899",
+      "name": "Book Cliffs, Bitter Creek/East"
+    },
+    {
+      "id": "UT:EB3165",
+      "unit": "899",
+      "name": "Book Cliffs, Bitter Creek/East"
+    },
+    {
+      "id": "UT:EB3166",
+      "unit": "899",
+      "name": "Book Cliffs, Bitter Creek/East"
+    },
+    {
+      "id": "UT:EB3167",
+      "unit": "12",
+      "name": "Book Cliffs, Little Creek Roadless"
+    },
+    {
+      "id": "UT:EB3168",
+      "unit": "33",
+      "name": "Cache, Meadowville"
+    },
+    {
+      "id": "UT:EB3169",
+      "unit": "33",
+      "name": "Cache, Meadowville"
+    },
+    {
+      "id": "UT:EB3170",
+      "unit": "303",
+      "name": "Cache, South"
+    },
+    {
+      "id": "UT:EB3171",
+      "unit": "303",
+      "name": "Cache, South"
+    },
+    {
+      "id": "UT:EB3172",
+      "unit": "51",
+      "name": "Manti"
+    },
+    {
+      "id": "UT:EB3173",
+      "unit": "901",
+      "name": "Nebo/San Pitch Mtns"
+    },
+    {
+      "id": "UT:EB3174",
+      "unit": "901",
+      "name": "Nebo/San Pitch Mtns"
+    },
+    {
+      "id": "UT:EB3175",
+      "unit": "901",
+      "name": "Nebo/San Pitch Mtns"
+    },
+    {
+      "id": "UT:EB3176",
+      "unit": "901",
+      "name": "Nebo/San Pitch Mtns"
+    },
+    {
+      "id": "UT:EB3177",
+      "unit": "901",
+      "name": "Nebo/San Pitch Mtns"
+    },
+    {
+      "id": "UT:EB3178",
+      "unit": "901",
+      "name": "Nebo/San Pitch Mtns"
+    },
+    {
+      "id": "UT:EB3179",
+      "unit": "901",
+      "name": "Nebo/San Pitch Mtns"
+    },
+    {
+      "id": "UT:EB3180",
+      "unit": "88",
+      "name": "Fillmore, Pahvant"
+    },
+    {
+      "id": "UT:EB3181",
+      "unit": "88",
+      "name": "Fillmore, Pahvant"
+    },
+    {
+      "id": "UT:EB3182",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:EB3183",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:EB3184",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:EB3185",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:EB3186",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:EB3187",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:EB3188",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:EB3189",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:EB3192",
+      "unit": "175",
+      "name": "Fishlake/Thousand Lakes"
+    },
+    {
+      "id": "UT:EB3193",
+      "unit": "183",
+      "name": "San Juan Bull Elk"
+    },
+    {
+      "id": "UT:EB3194",
+      "unit": "183",
+      "name": "San Juan Bull Elk"
+    },
+    {
+      "id": "UT:EB3195",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:EB3196",
+      "unit": "206",
+      "name": "Diamond Mtn"
+    },
+    {
+      "id": "UT:EB3197",
+      "unit": "872",
+      "name": "Southwest Desert, South"
+    },
+    {
+      "id": "UT:EB3198",
+      "unit": "872",
+      "name": "Southwest Desert, South"
+    },
+    {
+      "id": "UT:EB3199",
+      "unit": "222",
+      "name": "Wasatch Mtns"
+    },
+    {
+      "id": "UT:DB1501",
+      "unit": "607",
+      "name": "Box Elder"
+    },
+    {
+      "id": "UT:DB1502",
+      "unit": "29",
+      "name": "Cache"
+    },
+    {
+      "id": "UT:DB1503",
+      "unit": "619",
+      "name": "Manti/San Rafael"
+    },
+    {
+      "id": "UT:DB1504",
+      "unit": "616",
+      "name": "Nebo"
+    },
+    {
+      "id": "UT:DB1508",
+      "unit": "611",
+      "name": "Kamas"
+    },
+    {
+      "id": "UT:DB1509",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:DB1510",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:DB1511",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:DB1512",
+      "unit": "615",
+      "name": "Nine Mile"
+    },
+    {
+      "id": "UT:DB1513",
+      "unit": "612",
+      "name": "North Slope"
+    },
+    {
+      "id": "UT:DB1514",
+      "unit": "609",
+      "name": "Ogden"
+    },
+    {
+      "id": "UT:DB1516",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:DB1517",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:DB1518",
+      "unit": "455",
+      "name": "Boulder/Kaiparowits"
+    },
+    {
+      "id": "UT:DB1519",
+      "unit": "633",
+      "name": "Fishlake"
+    },
+    {
+      "id": "UT:DB1521",
+      "unit": "618",
+      "name": "San Juan, Abajo Mtns"
+    },
+    {
+      "id": "UT:DB1522",
+      "unit": "614",
+      "name": "Vernal/Bonanza"
+    },
+    {
+      "id": "UT:DB1523",
+      "unit": "613",
+      "name": "Yellowstone"
+    },
+    {
+      "id": "UT:DB1524",
+      "unit": "625",
+      "name": "Southwest Desert"
+    },
+    {
+      "id": "UT:DB1525",
+      "unit": "621",
+      "name": "Wasatch Mtns, East"
+    },
+    {
+      "id": "UT:DB1526",
+      "unit": "620",
+      "name": "Wasatch Mtns, West"
+    },
+    {
+      "id": "UT:DB1529",
+      "unit": "635",
+      "name": "Zion"
+    },
+    {
+      "id": "UT:DB1531",
+      "unit": "607",
+      "name": "Box Elder"
+    },
+    {
+      "id": "UT:DB1533",
+      "unit": "619",
+      "name": "Manti/San Rafael"
+    },
+    {
+      "id": "UT:DB1534",
+      "unit": "616",
+      "name": "Nebo"
+    },
+    {
+      "id": "UT:DB1538",
+      "unit": "611",
+      "name": "Kamas"
+    },
+    {
+      "id": "UT:DB1539",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:DB1540",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:DB1541",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:DB1542",
+      "unit": "615",
+      "name": "Nine Mile"
+    },
+    {
+      "id": "UT:DB1543",
+      "unit": "612",
+      "name": "North Slope"
+    },
+    {
+      "id": "UT:DB1544",
+      "unit": "609",
+      "name": "Ogden"
+    },
+    {
+      "id": "UT:DB1546",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:DB1547",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:DB1549",
+      "unit": "633",
+      "name": "Fishlake"
+    },
+    {
+      "id": "UT:DB1551",
+      "unit": "618",
+      "name": "San Juan, Abajo Mtns"
+    },
+    {
+      "id": "UT:DB1552",
+      "unit": "614",
+      "name": "Vernal/Bonanza"
+    },
+    {
+      "id": "UT:DB1553",
+      "unit": "613",
+      "name": "Yellowstone"
+    },
+    {
+      "id": "UT:DB1554",
+      "unit": "625",
+      "name": "Southwest Desert"
+    },
+    {
+      "id": "UT:DB1555",
+      "unit": "621",
+      "name": "Wasatch Mtns, East"
+    },
+    {
+      "id": "UT:DB1556",
+      "unit": "620",
+      "name": "Wasatch Mtns, West"
+    },
+    {
+      "id": "UT:DB1559",
+      "unit": "635",
+      "name": "Zion"
+    },
+    {
+      "id": "UT:DB1561",
+      "unit": "607",
+      "name": "Box Elder"
+    },
+    {
+      "id": "UT:DB1563",
+      "unit": "619",
+      "name": "Manti/San Rafael"
+    },
+    {
+      "id": "UT:DB1564",
+      "unit": "616",
+      "name": "Nebo"
+    },
+    {
+      "id": "UT:DB1568",
+      "unit": "611",
+      "name": "Kamas"
+    },
+    {
+      "id": "UT:DB1569",
+      "unit": "617",
+      "name": "La Sal, La Sal Mtns"
+    },
+    {
+      "id": "UT:DB1570",
+      "unit": "629",
+      "name": "Monroe"
+    },
+    {
+      "id": "UT:DB1571",
+      "unit": "630",
+      "name": "Mt Dutton"
+    },
+    {
+      "id": "UT:DB1572",
+      "unit": "615",
+      "name": "Nine Mile"
+    },
+    {
+      "id": "UT:DB1573",
+      "unit": "612",
+      "name": "North Slope"
+    },
+    {
+      "id": "UT:DB1574",
+      "unit": "609",
+      "name": "Ogden"
+    },
+    {
+      "id": "UT:DB1576",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:DB1577",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:DB1579",
+      "unit": "633",
+      "name": "Fishlake"
+    },
+    {
+      "id": "UT:DB1581",
+      "unit": "618",
+      "name": "San Juan, Abajo Mtns"
+    },
+    {
+      "id": "UT:DB1582",
+      "unit": "614",
+      "name": "Vernal/Bonanza"
+    },
+    {
+      "id": "UT:DB1583",
+      "unit": "613",
+      "name": "Yellowstone"
+    },
+    {
+      "id": "UT:DB1584",
+      "unit": "625",
+      "name": "Southwest Desert"
+    },
+    {
+      "id": "UT:DB1585",
+      "unit": "621",
+      "name": "Wasatch Mtns, East"
+    },
+    {
+      "id": "UT:DB1586",
+      "unit": "620",
+      "name": "Wasatch Mtns, West"
+    },
+    {
+      "id": "UT:DB1589",
+      "unit": "635",
+      "name": "Zion"
+    },
+    {
+      "id": "UT:DB1592",
+      "unit": "611",
+      "name": "Kamas"
+    },
+    {
+      "id": "UT:DB1593",
+      "unit": "615",
+      "name": "Nine Mile"
+    },
+    {
+      "id": "UT:DB1594",
+      "unit": "634",
+      "name": "Panguitch Lake"
+    },
+    {
+      "id": "UT:DB1595",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:DB1596",
+      "unit": "633",
+      "name": "Fishlake"
+    },
+    {
+      "id": "UT:DB1597",
+      "unit": "635",
+      "name": "Zion"
+    },
+    {
+      "id": "UT:DB1598",
+      "unit": "612",
+      "name": "North Slope"
+    },
+    {
+      "id": "UT:DB1599",
+      "unit": "69",
+      "name": "Chalk Creek"
+    },
+    {
+      "id": "UT:DB1600",
+      "unit": "69",
+      "name": "Chalk Creek"
+    },
+    {
+      "id": "UT:DB1601",
+      "unit": "69",
+      "name": "Chalk Creek"
+    },
+    {
+      "id": "UT:DB1602",
+      "unit": "69",
+      "name": "Chalk Creek"
+    },
+    {
+      "id": "UT:DB1603",
+      "unit": "276",
+      "name": "East Canyon"
+    },
+    {
+      "id": "UT:DB1604",
+      "unit": "276",
+      "name": "East Canyon"
+    },
+    {
+      "id": "UT:DB1605",
+      "unit": "276",
+      "name": "East Canyon"
+    },
+    {
+      "id": "UT:DB1606",
+      "unit": "276",
+      "name": "East Canyon"
+    },
+    {
+      "id": "UT:DB1607",
+      "unit": "117",
+      "name": "Morgan-South Rich"
+    },
+    {
+      "id": "UT:DB1608",
+      "unit": "117",
+      "name": "Morgan-South Rich"
+    },
+    {
+      "id": "UT:DB1609",
+      "unit": "117",
+      "name": "Morgan-South Rich"
+    },
+    {
+      "id": "UT:DB1610",
+      "unit": "117",
+      "name": "Morgan-South Rich"
+    },
+    {
+      "id": "UT:PB5000",
+      "unit": "628",
+      "name": "Beaver"
+    },
+    {
+      "id": "UT:PB5002",
+      "unit": "15",
+      "name": "Book Cliffs, South"
+    },
+    {
+      "id": "UT:PB5003",
+      "unit": "24",
+      "name": "Box Elder, Promontory"
+    },
+    {
+      "id": "UT:PB5004",
+      "unit": "25",
+      "name": "Box Elder, Puddle Valley"
+    },
+    {
+      "id": "UT:PB5005",
+      "unit": "27",
+      "name": "Box Elder, Snowville"
+    },
+    {
+      "id": "UT:PB5006",
+      "unit": "755",
+      "name": "Box Elder, West"
+    },
+    {
+      "id": "UT:PB5008",
+      "unit": "81",
+      "name": "Fillmore, Oak Creek South"
+    },
+    {
+      "id": "UT:PB5009",
+      "unit": "688",
+      "name": "La Sal, Potash/South Cisco"
+    },
+    {
+      "id": "UT:PB5011",
+      "unit": "129",
+      "name": "Nine Mile, Anthro-Myton Bench"
+    },
+    {
+      "id": "UT:PB5012",
+      "unit": "289",
+      "name": "North Slope, Three Corners/West Daggett"
+    },
+    {
+      "id": "UT:PB5013",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:PB5016",
+      "unit": "461",
+      "name": "Diamond Mtn/Bonanza"
+    },
+    {
+      "id": "UT:PB5017",
+      "unit": "208",
+      "name": "Vernal"
+    },
+    {
+      "id": "UT:PB5018",
+      "unit": "625",
+      "name": "Southwest Desert"
+    },
+    {
+      "id": "UT:PB5019",
+      "unit": "244",
+      "name": "West Desert, Riverbed"
+    },
+    {
+      "id": "UT:PB5020",
+      "unit": "245",
+      "name": "West Desert, Rush Valley"
+    },
+    {
+      "id": "UT:PB5021",
+      "unit": "246",
+      "name": "West Desert, Snake Valley"
+    },
+    {
+      "id": "UT:PB5024",
+      "unit": "625",
+      "name": "Southwest Desert"
+    },
+    {
+      "id": "UT:PB5025",
+      "unit": "628",
+      "name": "Beaver"
+    },
+    {
+      "id": "UT:PB5027",
+      "unit": "15",
+      "name": "Book Cliffs, South"
+    },
+    {
+      "id": "UT:PB5028",
+      "unit": "24",
+      "name": "Box Elder, Promontory"
+    },
+    {
+      "id": "UT:PB5029",
+      "unit": "25",
+      "name": "Box Elder, Puddle Valley"
+    },
+    {
+      "id": "UT:PB5030",
+      "unit": "27",
+      "name": "Box Elder, Snowville"
+    },
+    {
+      "id": "UT:PB5031",
+      "unit": "755",
+      "name": "Box Elder, West"
+    },
+    {
+      "id": "UT:PB5033",
+      "unit": "81",
+      "name": "Fillmore, Oak Creek South"
+    },
+    {
+      "id": "UT:PB5034",
+      "unit": "97",
+      "name": "Kaiparowits"
+    },
+    {
+      "id": "UT:PB5035",
+      "unit": "688",
+      "name": "La Sal, Potash/South Cisco"
+    },
+    {
+      "id": "UT:PB5037",
+      "unit": "129",
+      "name": "Nine Mile, Anthro-Myton Bench"
+    },
+    {
+      "id": "UT:PB5038",
+      "unit": "277",
+      "name": "Nine Mile, Range Creek"
+    },
+    {
+      "id": "UT:PB5039",
+      "unit": "138",
+      "name": "North Slope, Summit"
+    },
+    {
+      "id": "UT:PB5040",
+      "unit": "289",
+      "name": "North Slope, Three Corners/West Daggett"
+    },
+    {
+      "id": "UT:PB5041",
+      "unit": "718",
+      "name": "Panguitch Lake/Zion, North"
+    },
+    {
+      "id": "UT:PB5042",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:PB5044",
+      "unit": "186",
+      "name": "San Juan, Hatch Point"
+    },
+    {
+      "id": "UT:PB5045",
+      "unit": "443",
+      "name": "San Rafael, Desert"
+    },
+    {
+      "id": "UT:PB5047",
+      "unit": "461",
+      "name": "Diamond Mtn/Bonanza"
+    },
+    {
+      "id": "UT:PB5048",
+      "unit": "208",
+      "name": "Vernal"
+    },
+    {
+      "id": "UT:PB5049",
+      "unit": "625",
+      "name": "Southwest Desert"
+    },
+    {
+      "id": "UT:PB5050",
+      "unit": "244",
+      "name": "West Desert, Riverbed"
+    },
+    {
+      "id": "UT:PB5051",
+      "unit": "245",
+      "name": "West Desert, Rush Valley"
+    },
+    {
+      "id": "UT:PB5052",
+      "unit": "246",
+      "name": "West Desert, Snake Valley"
+    },
+    {
+      "id": "UT:PB5053",
+      "unit": "277",
+      "name": "Nine Mile, Range Creek"
+    },
+    {
+      "id": "UT:PB5054",
+      "unit": "718",
+      "name": "Panguitch Lake/Zion, North"
+    },
+    {
+      "id": "UT:PB5055",
+      "unit": "443",
+      "name": "San Rafael, Desert"
+    },
+    {
+      "id": "UT:PB5059",
+      "unit": "129",
+      "name": "Nine Mile, Anthro-Myton Bench"
+    },
+    {
+      "id": "UT:PB5060",
+      "unit": "461",
+      "name": "Diamond Mtn/Bonanza"
+    },
+    {
+      "id": "UT:PB5061",
+      "unit": "718",
+      "name": "Panguitch Lake/Zion, North"
+    },
+    {
+      "id": "UT:PB5062",
+      "unit": "636",
+      "name": "Pine Valley"
+    },
+    {
+      "id": "UT:PB5065",
+      "unit": "81",
+      "name": "Fillmore, Oak Creek South"
+    },
+    {
+      "id": "UT:PB5066",
+      "unit": "289",
+      "name": "North Slope, Three Corners/West Daggett"
+    },
+    {
+      "id": "UT:PB5072",
+      "unit": "208",
+      "name": "Vernal"
+    },
+    {
+      "id": "UT:PB5073",
+      "unit": "38",
+      "name": "Cache, Rich"
+    },
+    {
+      "id": "UT:PB5074",
+      "unit": "38",
+      "name": "Cache, Rich"
+    },
+    {
+      "id": "UT:PB5075",
+      "unit": "38",
+      "name": "Cache, Rich"
+    },
+    {
+      "id": "UT:PB5331",
+      "unit": "453",
+      "name": "Mt Dutton/Paunsaugunt"
+    },
+    {
+      "id": "UT:PB5332",
+      "unit": "453",
+      "name": "Mt Dutton/Paunsaugunt"
+    },
+    {
+      "id": "UT:BI6500",
+      "unit": "1",
+      "name": "Antelope Island"
+    },
+    {
+      "id": "UT:BI6528",
+      "unit": "889",
+      "name": "Book Cliffs, Little Creek/South"
+    },
+    {
+      "id": "UT:BI6529",
+      "unit": "889",
+      "name": "Book Cliffs, Little Creek/South"
+    },
+    {
+      "id": "UT:BI6537",
+      "unit": "889",
+      "name": "Book Cliffs, Little Creek/South"
+    }
+  ]
+}

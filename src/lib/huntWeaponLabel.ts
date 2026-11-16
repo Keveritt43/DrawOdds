@@ -31,9 +31,9 @@ export function huntWeaponLabel(r: HuntWeapon): string {
   }
   const tag = r.state === 'ID' && r.nrTag && r.species === 'ELK' ? r.id?.split(':')[3]?.toUpperCase() : '';
   const bucket = tag === 'A' ? 'A tag · archery group' : tag === 'B' ? 'B tag · rifle group' : '';
-  const seasons = (r.tagSeasons as { seasons?: { weapon?: string }[] } | null)?.seasons ?? [];
-  const weapons = [...new Set(seasons.map(s => s.weapon).filter((w): w is string => !!w && !!WEAPON[w]))];
-  if (weapons.length) return [bucket, weapons.map(w => WEAPON[w]).join(' / ')].filter(Boolean).join(' · ');
+  const seasons = (r.tagSeasons as { seasons?: { weapon?: string; weaponLabel?: string }[] } | null)?.seasons ?? [];
+  const weapons = [...new Set(seasons.map(s => s.weaponLabel ?? (s.weapon ? WEAPON[s.weapon] : null)).filter((w): w is string => !!w))];
+  if (weapons.length) return [bucket, weapons.join(' / ')].filter(Boolean).join(' · ');
   if (r.nrTag) return [bucket, 'Weapon: see tag seasons'].filter(Boolean).join(' · ');
   return WEAPON[r.weapon] ?? 'Weapon: see regulations';
 }

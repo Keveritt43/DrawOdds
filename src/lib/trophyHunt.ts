@@ -53,6 +53,8 @@ export function trophyForUnit(hunt: {
     return {score:null,tier:null,reason:'Statewide multi-season tag has no unit-specific classification'};
   const rules = seasonRules(hunt.tagSeasons, hunt.species);
   const seasons=sortedSeasons(hunt.tagSeasons).filter(s=>!/^(?:[AB] tag · )?(?:antlerless|cow|doe)/i.test(s.sex));
+  if(hunt.state.toUpperCase()==='UT' && seasons.some(s=>s.uncertain))
+    return {score:null,tier:null,reason:'Hunt dates vary within the published window; trophy season is unverified'};
   const antlerMaximum = rules.includes('2-point bucks only') || rules.includes('Spike bulls only') ||
     (seasons.length ? seasons.every(s=>maximumAntlerRule(`${s.sex} ${s.notes}`)) : maximumAntlerRule(hunt.takeMethod ?? ''));
   const speciesText=`${hunt.deerType ?? ''} ${hunt.name ?? ''} ${hunt.takeMethod ?? ''}`;

@@ -1,0 +1,1906 @@
+{
+  "DB0008": [
+    {
+      "start": "2026-09-12",
+      "end": "2026-10-15",
+      "weapon": "Archery",
+      "uncertain": false
+    },
+    {
+      "start": "2026-09-12",
+      "end": "2026-11-30",
+      "weapon": "Archery",
+      "uncertain": false
+    },
+    {
+      "start": "2026-09-12",
+      "end": "2026-11-30",
+      "weapon": "Archery",
+      "uncertain": true
+    }
+  ],
+  "DB1615": [
+    {
+      "start": "2026-09-23",
+      "end": "2026-10-01",
+      "weapon": "Restricted Muzzleloader",
+      "uncertain": false
+    }
+  ],
+  "DB1616": [
+    {
+      "start": "2026-10-17",
+      "end": "2026-10-25",
+      "weapon": "Restricted Rifle",
+      "uncertain": false
+    }
+  ],
+  "DB1627": [
+    {
+      "start": "2026-10-17",
+      "end": "2026-10-25",
+      "weapon": "Restricted Rifle",
+      "uncertain": false
+    }
+  ],
+  "DB1628": [
+    {
+      "start": "2026-09-23",
+      "end": "2026-10-01",
+      "weapon": "Restricted Muzzleloader",
+      "uncertain": false
+    }
+  ],
+  "DB1629": [
+    {
+      "start": "2026-10-17",
+      "end": "2026-10-25",
+      "weapon": "Restricted Rifle",
+      "uncertain": false
+    }
+  ],
+  "DB1630": [
+    {
+      "start": "2026-09-23",
+      "end": "2026-10-01",
+      "weapon": "Restricted Muzzleloader",
+      "uncertain": false
+    }
+  ],
+  "DB1090": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "DB1091": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "DB1105": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "DB1106": [
+    {
+      "start": "2026-08-15",
+      "end": "2026-09-11",
+      "weapon": "Restricted Archery",
+      "uncertain": false
+    }
+  ],
+  "DB1107": [
+    {
+      "start": "2026-09-23",
+      "end": "2026-10-01",
+      "weapon": "Restricted Muzzleloader",
+      "uncertain": false
+    }
+  ],
+  "DB1108": [
+    {
+      "start": "2026-10-17",
+      "end": "2026-10-25",
+      "weapon": "Restricted Rifle",
+      "uncertain": false
+    }
+  ],
+  "DB1109": [
+    {
+      "start": "2026-08-15",
+      "end": "2026-09-11",
+      "weapon": "Restricted Archery",
+      "uncertain": false
+    },
+    {
+      "start": "2026-09-23",
+      "end": "2026-10-01",
+      "weapon": "Restricted Muzzleloader",
+      "uncertain": false
+    },
+    {
+      "start": "2026-10-17",
+      "end": "2026-10-25",
+      "weapon": "Restricted Rifle",
+      "uncertain": false
+    }
+  ],
+  "DB1116": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "DB1200": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1201": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1202": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1203": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1204": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1205": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1206": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1207": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1208": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1209": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1211": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1212": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1213": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1215": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1216": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1217": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1219": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1222": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1224": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1227": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1228": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1229": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1230": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1231": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1232": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1233": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1234": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1236": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1237": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1238": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1239": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1240": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1241": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1242": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1243": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1244": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1245": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1246": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1248": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1249": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1250": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1251": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1252": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1253": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1255": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1256": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1258": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1259": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1260": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1261": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1263": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1264": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1265": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1266": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1269": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1270": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1271": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1272": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1273": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1274": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1275": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1277": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1279": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1280": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1281": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1282": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1283": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1285": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1286": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1287": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1288": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1289": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1290": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1291": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1292": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1293": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1294": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1295": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1298": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1299": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1300": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1301": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1303": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1304": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1305": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1306": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1308": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1309": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1310": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1312": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1317": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1322": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1323": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1325": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1326": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1327": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1328": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1330": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1331": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1332": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1333": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1334": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "Any Legal Weapon",
+      "uncertain": true
+    }
+  ],
+  "DB1335": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1336": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1337": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1341": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1342": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1347": [
+    {
+      "start": "2026-09-11",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1349": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "DB1351": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "Any Legal Weapon",
+      "uncertain": true
+    }
+  ],
+  "EB3132": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-09-30",
+      "weapon": "September Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3135": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-09-30",
+      "weapon": "September Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3136": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-09-30",
+      "weapon": "September Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3137": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-09-30",
+      "weapon": "September Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3139": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "EB3142": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "EB3143": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "EB3144": [
+    {
+      "start": "2026-11-07",
+      "end": "2026-11-30",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "EB3158": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3161": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3168": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3170": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3172": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3174": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3180": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3182": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3184": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3186": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3188": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3190": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3192": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3193": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3195": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3197": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3199": [
+    {
+      "start": "2026-11-28",
+      "end": "2026-12-13",
+      "weapon": "Late Archery",
+      "uncertain": false
+    }
+  ],
+  "EB3205": [
+    {
+      "start": "2026-12-19",
+      "end": "2026-12-27",
+      "weapon": "H.A.M.S.S",
+      "uncertain": false
+    }
+  ],
+  "EB3500": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3501": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3502": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3503": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3504": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-12-15",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3505": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-20",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3506": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3508": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-30",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3509": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3511": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3514": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-20",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3515": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3516": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3517": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-10",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3519": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-30",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3520": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3521": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-30",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3522": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3523": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3524": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3525": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-15",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3526": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-12-15",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3527": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3528": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3529": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3530": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3531": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3532": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3533": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3534": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3536": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3538": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3540": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-20",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3541": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3543": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3544": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3545": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3546": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3547": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3548": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3549": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3550": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3551": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3552": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3553": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3554": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3555": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3557": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-30",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3558": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3559": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3562": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3564": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3565": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3603": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3604": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3606": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3607": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3608": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3610": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3611": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3613": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3614": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3619": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-11-30",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "EB3620": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "Any Legal Weapon",
+      "uncertain": true
+    }
+  ],
+  "PB5300": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5302": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5305": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5306": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5309": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5311": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5312": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5314": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5315": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5325": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5326": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5327": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5328": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5330": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5337": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5338": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5339": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5342": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5345": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ],
+  "PB5346": [
+    {
+      "start": "2026-09-01",
+      "end": "2026-10-31",
+      "weapon": "CWMU",
+      "uncertain": true
+    }
+  ]
+}
