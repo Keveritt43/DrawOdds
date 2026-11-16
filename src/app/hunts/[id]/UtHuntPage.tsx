@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import type { HuntSummary } from '@prisma/client';
 import { HuntLink } from '@/components/HuntNavigation';
 import { BackLink } from '@/components/BackLink';
@@ -68,7 +69,8 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
   if (otc) notes.push('Over the counter, no draw');
   if (s.privateOnly && nr) notes.push('Residents only in the public draw');
   const ptLabel = mine.type ? UT_POINT_TYPES.find((t) => t.key === mine.type)!.label.toLowerCase() : null;
-  const seasons = ((s.tagSeasons as unknown as { seasons?: { weapon: string; dates: { open: string | null; close: string | null }[]; notes?: string }[] })?.seasons) ?? [];
+  const seasons = ((s.tagSeasons as unknown as { seasons?: { weapon: string; weaponLabel?:string; uncertain?:boolean; dates: { open: string | null; close: string | null }[]; notes?: string }[] })?.seasons) ?? [];
+  const displaySeasons=[...new Map(seasons.map(x=>[JSON.stringify([x.weaponLabel ?? x.weapon,x.dates,x.notes,x.uncertain]),x])).values()];
 
   return (
     <main className="wrap co-hunt" style={{ margin: '20px auto 48px' }}>
@@ -78,7 +80,7 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       </p>
       <h1 className="star-head">Utah {s.name} <TrophyMark score={s.scoreTrophy} hunt={s} /> <Star kind="hunt" id={s.huntId} saved={!!saved} signedIn={!!session?.user} label /></h1>
       <p className="muted" style={{ marginTop: 0 }}>
-        Hunt {s.tagCode} · {WEAPON_LABEL[s.weapon] ?? s.weapon}
+        Hunt {s.tagCode} · {huntWeaponLabel(s)}
         {otc ? ' · Statewide permit cap' : s.tags !== null ? ` · ${int(s.tags)} permits (${year} draw)` : ''}
         {' · '}{s.units.length > 6 ? `${s.units.length} hunt boundaries` : s.units.map((u, i) => <span key={u}>{i ? ', ' : ''}<HuntLink href={`/units/${encodeURIComponent(unitKey('UT', u))}`}>{s.units.length === 1 ? (s.areaName ?? `Boundary ${u}`) : `Boundary ${u}`}</HuntLink></span>)}
       </p>
@@ -171,9 +173,9 @@ export async function UtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
         <p className="small muted">{s.privateOnly ? 'This permit is valid on the CWMU\'s private land only. ' : ''}Public ownership is not permission to cross private land; Utah trust lands (SITLA) are counted as state land and have their own access rules. Tribal land is closed unless the tribe permits. BLM Surface Management Agency, measured over DWR&apos;s hunt boundaries.</p>
       </details>
       <details className="card fold">
-        <summary><span>Seasons ({year})</span><span className="small muted">{seasons.length} season{seasons.length === 1 ? '' : 's'}</span></summary>
+        <summary><span>Seasons ({year})</span><span className="small muted">{displaySeasons.length} season{displaySeasons.length === 1 ? '' : 's'}</span></summary>
         <div className="htable-wrap"><table><thead><tr><th>Weapon</th><th>Opens</th><th>Closes</th><th>Notes</th></tr></thead>
-          <tbody>{seasons.map((x, i) => <tr key={i}><td>{WEAPON_LABEL[x.weapon] ?? x.weapon}</td><td>{x.dates[0]?.open ?? '–'}</td><td>{x.dates[0]?.close ?? '–'}</td><td className="small">{x.notes || '–'}</td></tr>)}</tbody></table></div>
+          <tbody>{displaySeasons.map((x, i) => <tr key={i}><td>{x.weaponLabel ?? WEAPON_LABEL[x.weapon] ?? x.weapon}</td><td>{x.dates[0]?.open ?? '–'}{x.uncertain ? ' (window)' : ''}</td><td>{x.dates[0]?.close ?? '–'}{x.uncertain ? ' (window)' : ''}</td><td className="small">{x.notes || '–'}</td></tr>)}</tbody></table></div>
       </details>
       {harvestSeries.length > 0 && (
         <details className="card fold">

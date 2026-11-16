@@ -4,6 +4,8 @@ export interface TagSeason {
   sex: string;
   dates: { open: string; close: string }[];
   notes: string;
+  uncertain?: boolean;
+  weaponLabel?: string;
 }
 export interface TagSeasons {
   year: number;
@@ -15,7 +17,7 @@ const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct
 const day = (iso: string) => `${MON[Number(iso.slice(5, 7)) - 1]} ${Number(iso.slice(8, 10))}`;
 
 export const seasonDates = (s: TagSeason) => s.dates.map((d) => `${day(d.open)} - ${day(d.close)}`).join(', ');
-export const seasonTitle = (s: TagSeason) => `${W[s.weapon] ?? s.weapon}${s.sex ? ` · ${s.sex}` : ''}`;
+export const seasonTitle = (s: TagSeason) => `${s.weaponLabel ?? W[s.weapon] ?? s.weapon}${s.sex ? ` · ${s.sex}` : ''}`;
 
 /** Seasons in date order, with notes trimmed of the dates they repeat. */
 export function sortedSeasons(ts: unknown): TagSeason[] {
@@ -40,7 +42,7 @@ export function seasonsSummary(ts: unknown, max = 3): string {
   // antlered and antlerless seasons often share dates: one entry per weapon + dates. When one weapon has
   // different dates (unit 30: bucks Oct 10-24, youth antlerless Oct 10-31), say which is which.
   const split = new Set(s.map((x) => x.weapon).filter((w) => new Set(s.filter((x) => x.weapon === w).map(seasonDates)).size > 1));
-  const uniq = [...new Set(s.map((x) => `${W[x.weapon] ?? x.weapon}${split.has(x.weapon) && shortSex(x.sex) ? ` (${shortSex(x.sex)})` : ''} ${seasonDates(x)}`))];
+  const uniq = [...new Set(s.map((x) => `${x.weaponLabel ?? W[x.weapon] ?? x.weapon}${split.has(x.weapon) && shortSex(x.sex) ? ` (${shortSex(x.sex)})` : ''} ${x.uncertain ? 'window ' : ''}${seasonDates(x)}${x.uncertain ? ' (dates vary)' : ''}`))];
   return `${uniq.slice(0, max).join(' · ')}${uniq.length > max ? ` · +${uniq.length - max} more` : ''}`;
 }
 

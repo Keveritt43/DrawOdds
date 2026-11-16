@@ -48,6 +48,7 @@ export function matchesHuntSeason(
     return true;
   });
   return eligible.some((s) =>
+    !(s.uncertain && (f.months.length > 0 || f.dayFrom !== null || f.dayTo !== null)) &&
     dates(
       s.dates.map((d) => ({
         open: new Date(d.open),
