@@ -2,6 +2,7 @@ import type { SearchResult } from './multiStateSearch';
 import { WEAPON, SPECIES_LABEL, range } from './format';
 import { huntHref } from './huntSlug';
 import { seasonsSummary } from './tagSeasons';
+import { wyPresetHarvest } from './wyPresetHarvest';
 
 // Also prevent agency-supplied names from being interpreted as spreadsheet formulas.
 const cell = (value: unknown) => {
@@ -12,7 +13,10 @@ const cell = (value: unknown) => {
 };
 export function searchCsv(results: SearchResult[], origin: string) {
   const percent = (value: number | null) => value === null ? null : Math.round(value * 10000) / 100;
-  const rows: unknown[][] = [['State', 'Hunt', 'Code', 'Species', 'Units', 'Weapon', 'Season dates', 'Residency', 'Points', 'Your odds %', 'Odds basis', 'Draw report year', 'Harvest report year', 'Harvest success %', 'Hunter-seasons', 'Harvest small sample', 'Public land %', 'Quality', 'Opportunity', 'Trophy score', 'Link']];
-  for (const x of results) rows.push([x.r.state, x.r.name, x.r.tagCode ?? x.r.huntNumber, SPECIES_LABEL[x.r.species], x.r.units.join(' '), WEAPON[x.r.weapon], seasonsSummary(x.r.tagSeasons) || range(x.r.openDate, x.r.closeDate), x.nr ? 'Nonresident' : 'Resident', x.points, percent(x.odds), x.basis, x.r.oddsLastYear, x.r.harvestLastYear, percent(x.r.success5), x.r.hunters5, x.r.success5 === null ? null : x.r.smallSample ? 'Yes' : 'No', x.r.publicPct, x.r.scoreQuality, x.opportunity, x.r.scoreTrophy, origin + huntHref(x.r)]);
+  const rows: unknown[][] = [['State', 'Hunt', 'Code', 'Species', 'Units', 'Weapon', 'Season dates', 'Residency', 'Points', 'Your odds %', 'Odds basis', 'Draw report year', 'Harvest report year', 'Harvest success %', 'Hunter-seasons', 'Harvest small sample', 'WY harvest per active license (not hunter success)', 'Public land %', 'Quality', 'Opportunity', 'Trophy score', 'Link']];
+  for (const x of results) {
+    const wy = x.r.state === 'WY' ? wyPresetHarvest(x.r.pointOdds, x.r.species).map(r => `${r.label}: ${percent(r.rate)}% (${r.first === r.last ? r.first : `${r.first}–${r.last}`}; ${r.years} season${r.years === 1 ? '' : 's'})`).join('; ') : null;
+    rows.push([x.r.state, x.r.name, x.r.tagCode ?? x.r.huntNumber, SPECIES_LABEL[x.r.species], x.r.units.join(' '), WEAPON[x.r.weapon], seasonsSummary(x.r.tagSeasons) || range(x.r.openDate, x.r.closeDate), x.nr ? 'Nonresident' : 'Resident', x.points, percent(x.odds), x.basis, x.r.oddsLastYear, x.r.harvestLastYear, percent(x.r.success5), x.r.hunters5, x.r.success5 === null ? null : x.r.smallSample ? 'Yes' : 'No', wy, x.r.publicPct, x.r.scoreQuality, x.opportunity, x.r.scoreTrophy, origin + huntHref(x.r)]);
+  }
   return rows.map(row => row.map(cell).join(',')).join('\n') + '\n';
 }

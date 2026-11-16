@@ -6,6 +6,7 @@ import { runSearch, personalize, evaluateHunt, compareSearch, matchesSearch, sea
 import { searchCsv } from '../src/lib/searchCsv';
 import { matchesHuntSeason } from '../src/lib/huntSeasonFilter';
 import { parseFilters, buildWhere, toQuery } from '../src/lib/finder';
+import wyHarvest from '../data/wy/harvest.json';
 
 test('selected map unit excludes other units of matching multi-unit hunts', () => {
   const units = [['UT', '94'], ['UT', '928'], ['ID', '94']];
@@ -61,6 +62,22 @@ test('Wyoming deer unknown hunter overlap cannot drive success filters, scores o
   assert.equal(runSearch([source], { states: 'WY', minSuccess: '20' }, 'WY', settings).length, 0);
   assert.equal(evaluateHunt(row({ state: 'WY', species: 'ELK' }), settings, 'proj').r.success5, null);
   assert.equal(evaluateHunt(row({ state: 'WY', species: 'PRONGHORN' }), settings, 'proj').r.success5, null);
+});
+
+test('Wyoming Tag Filler uses license-based evidence without changing shared hunter success', () => {
+  const wy = row({ id:'wy:elk1', state:'WY', species:'ELK', units:['E1'], publicPct:87.9,
+    pointOdds:{state:'WY', pools:{}, harvest:wyHarvest.species.elk['1-1']} as never });
+  const q = { states:'WY', species:'ELK', antler:'ALL', huntPreset:'tag-filler' };
+  const found = runSearch([wy],q,'WY',settings);
+  assert.equal(found.length,1);
+  assert.equal(found[0].r.success5,null);
+  assert.equal(found[0].r.scoreQuality,null);
+  assert.equal(runSearch([wy],{...q,minSuccess:'1'},'WY',settings).length,0);
+  assert.equal(runSearch([wy],{...q,minPublic:'90'},'WY',settings).length,0);
+  assert.equal(runSearch([wy],{...q,huntPreset:'tag-filler,peak-rut'},'WY',settings).length,1);
+  const csv = searchCsv(found,'https://example.com');
+  assert.match(csv, /WY harvest per active license \(not hunter success\)/);
+  assert.match(csv, /Elk: 60\.31%/);
 });
 
 test('state selection validates, deduplicates and canonicalizes without losing header defaults', () => {

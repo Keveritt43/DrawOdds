@@ -29,7 +29,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
   const wild = wyHuntWilderness(r.units);
   const deer = r.species === 'DEER' ? (['MULE', 'WHITETAIL'] as const).map(kind => {
     const rows = wyDeerSeries(po, kind).slice(-5), hunters = rows.reduce((n, x) => n + x.hunters, 0), harvest = rows.reduce((n, x) => n + x.harvest, 0);
-    return { kind, rate: hunters ? harvest / hunters : null, years: rows.length };
+    return { kind, rate: hunters ? harvest / hunters : null, years: rows.length, first: rows[0]?.year, last: rows.at(-1)?.year };
   }) : [];
   const licenseRows = wyLicenseSeries(po);
   const licenseCount = licenseRows.reduce((n,h)=>n+h.hunters,0);
@@ -74,12 +74,12 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
         </div>
         {r.species === 'DEER' ? <div>
           <span className="k">Harvest per active license</span>
-          {deer.some(d => d.rate !== null) ? deer.filter(d => d.rate !== null).map(d => <span key={d.kind}><b>{d.kind === 'MULE' ? 'Mule deer' : 'Whitetail'}: {pct(d.rate)}</b><span className="sub">{d.years} reported season{d.years === 1 ? '' : 's'}</span></span>) : <><b>–</b><span className="sub">No species estimates available</span></>}
+          {deer.some(d => d.rate !== null) ? deer.filter(d => d.rate !== null).map(d => <span key={d.kind}><b>{d.kind === 'MULE' ? 'Mule deer' : 'Whitetail'}: {pct(d.rate)}</b><span className="sub">{d.first}–{d.last} · {d.years} reported season{d.years === 1 ? '' : 's'}</span></span>) : <><b>–</b><span className="sub">No species estimates available</span></>}
           <span className="sub">WGFD survey · active licenses, not unique hunters</span>
         </div> : <div>
           <span className="k">Harvest per active license</span>
           <b>{pct(licenseCount ? licenseHarvest / licenseCount : null)}</b>
-          <span className="sub">{licenseRows.length ? licenseRows.length + ' reported seasons' : 'No comparable data'}</span>
+          <span className="sub">{licenseRows.length ? `${licenseRows[0].year}–${licenseRows.at(-1)?.year} · ${licenseRows.length} reported seasons` : 'No comparable data'}</span>
           <span className="sub">{po?.harvestBasis ? 'Area-license reports; holders may overlap' : 'WGFD survey · active licenses'}</span>
         </div>}
         <div>

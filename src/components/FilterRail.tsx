@@ -167,6 +167,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
         <Section title="Harvest Success" value={withPreset(get('minSuccess') ? `${get('minSuccess')}%+` : 'Any', presetHas('tag-filler'))} set={!!get('minSuccess') || presetHas('tag-filler')}>
           {sharedNote}
           <HuntPresetNote category="success" /><Slider value={Number(get('minSuccess') || 0)} max={100} step={5} suffix="%" onCommit={(v) => push({ minSuccess: v ? String(v) : null })} />
+          {states?.includes('WY') && <p className="small muted">This manual filter requires hunter success, which is unavailable for Wyoming. Wyoming Tag Filler uses the separately reported harvest per active license.</p>}
         </Section>
         <Section title="Season Dates" value={withPreset([many(MONTHS, 'month', ''), get('from') && get('to') ? `${get('dmode') === 'end' ? 'ends' : 'open'} ${dayLabel(parseMonthDay(get('from')) ?? DAY_MIN)} – ${dayLabel(parseMonthDay(get('to')) ?? DAY_MAX)}` : ''].filter(Boolean).join(' · ') || 'Any Time', presetHas('peak-rut'))} set={list('month').length > 0 || !!get('from') || presetHas('peak-rut')}>
           {sharedNote}

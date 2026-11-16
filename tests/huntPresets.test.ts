@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import { strict as assert } from 'node:assert';
 import { matchesHuntPreset, parseHuntPresets } from '../src/lib/huntPresets';
+import { wyPresetHarvest } from '../src/lib/wyPresetHarvest';
+import wyHarvest from '../data/wy/harvest.json';
 const f = { youth:'exclude' as const, antler:['ANTLERED'], weapon:[], months:[], dayFrom:null, dayTo:null, dayMode:'open' as const };
 const h = { species:'ELK', weapon:'ARCHERY', openDate:new Date('2026-09-12'), closeDate:new Date('2026-09-24'), youthOnly:false, antlerClass:'ANTLERED', scoreTrophy:65, publicPct:65, success5:.6 };
 test('preset thresholds use measured values', () => {
@@ -26,4 +28,21 @@ test('timing applies to the same eligible season segment as weapon and dates', (
 import { presetHref } from '../src/lib/filterPresets';
 test('saved search retains all selected preset alternatives', () => {
   assert.match(presetHref('/hunts?states=ID,CO&huntPreset=peak-rut%2Ctag-filler') ?? '', /huntPreset=peak-rut%2Ctag-filler/);
+});
+test('Wyoming Tag Filler uses separately identified pooled active-license rates', () => {
+  const elk = { ...h, state:'WY', success5:null, pointOdds:{ harvest:wyHarvest.species.elk['1-1'] } };
+  const rates = wyPresetHarvest(elk.pointOdds, 'ELK');
+  assert.equal(rates[0].years, 4);
+  assert.ok(rates[0].rate > .6 && rates[0].rate < .61);
+  assert.equal(matchesHuntPreset('tag-filler',elk,null,false,f),true);
+  assert.equal(matchesHuntPreset('tag-filler',{...elk,publicPct:64},null,false,f),false);
+  assert.equal(matchesHuntPreset('tag-filler',{...elk,pointOdds:{...elk.pointOdds,harvestBasis:'region'}},null,false,f),false);
+  assert.equal(matchesHuntPreset('tag-filler',{...elk,pointOdds:{harvest:[{year:2025,hunters:0,harvest:0}]}},null,false,f),false);
+  assert.equal(matchesHuntPreset('tag-filler',{...elk,state:'ID'},null,false,f),false);
+});
+test('Wyoming deer species rates are independent and do not add overlapping licenses', () => {
+  const pointOdds={harvest:[{year:2025,basis:'mule+whitetail',huntersMule:100,mule:20,huntersWhitetail:100,whitetail:70}]};
+  assert.deepEqual(wyPresetHarvest(pointOdds,'DEER').map(r=>[r.label,r.rate]),[['Mule deer',.2],['Whitetail',.7]]);
+  assert.equal(matchesHuntPreset('tag-filler',{...h,state:'WY',species:'DEER',success5:null,pointOdds},null,false,f),true);
+  assert.deepEqual(wyPresetHarvest({harvest:[{year:2025,basis:'mule+whitetail',huntersMule:1,mule:2}]},'DEER'),[]);
 });
