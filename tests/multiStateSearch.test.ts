@@ -80,18 +80,6 @@ test('Wyoming Tag Filler uses license-based evidence without changing shared hun
   assert.match(csv, /Elk: 60\.31%/);
 });
 
-test('Montana permit Tag Filler preserves unknown hunter success and exports its basis', () => {
-  const mt = row({id:'mt:250-50',state:'MT',species:'DEER',units:['250'],publicPct:97.3,success5:.75,
-    pointOdds:{mulePermit:true,harvest:[{year:2023,hunters:25,harvest:21},{year:2025,hunters:25,harvest:18}]} as never});
-  const q={states:'MT',species:'DEER',antler:'ALL',huntPreset:'tag-filler'};
-  const found=runSearch([mt],q,'MT',settings);
-  assert.equal(found.length,1);
-  assert.equal(found[0].r.success5,null);
-  assert.equal(runSearch([mt],{...q,minSuccess:'1'},'MT',settings).length,0);
-  assert.match(searchCsv(found,'https://example.com'),/MT estimated mule bucks per issued permit % \(not hunter success\)/);
-  assert.match(searchCsv(found,'https://example.com'),/,78,/);
-});
-
 test('state selection validates, deduplicates and canonicalizes without losing header defaults', () => {
   assert.deepEqual(searchStates(undefined, 'CO'), ['CO']);
   assert.deepEqual(searchStates(['co,id', 'CO,XX'], 'ID'), ['CO', 'ID']);
@@ -283,4 +271,16 @@ test('sleeper cutoff uses the saved Colorado pool and requires an observed award
   assert.equal(evaluateHunt(hunt,{...settings,CO:{...settings.CO,res:'RESIDENT'}},'proj').meetsObservedCutoff,false);
   const noAward = colorado({pointOdds:{pools:{nr:{cut:{points:2},levels:[[2,10,0]]}}} as never});
   assert.equal(evaluateHunt(noAward,settings,'proj').meetsObservedCutoff,false);
+});
+
+test('Montana permit Tag Filler preserves unknown hunter success and exports its basis', () => {
+  const mt = row({id:'mt:250-50',state:'MT',species:'DEER',units:['250'],publicPct:97.3,success5:.75,
+    pointOdds:{mulePermit:true,harvest:[{year:2023,hunters:25,harvest:21},{year:2025,hunters:25,harvest:18}]} as never});
+  const q={states:'MT',species:'DEER',antler:'ALL',huntPreset:'tag-filler'};
+  const found=runSearch([mt],q,'MT',settings);
+  assert.equal(found.length,1);
+  assert.equal(found[0].r.success5,null);
+  assert.equal(runSearch([mt],{...q,minSuccess:'1'},'MT',settings).length,0);
+  assert.match(searchCsv(found,'https://example.com'),/MT estimated mule bucks per issued permit % \(not hunter success\)/);
+  assert.match(searchCsv(found,'https://example.com'),/,78,/);
 });
