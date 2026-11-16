@@ -52,6 +52,7 @@ test('Wyoming deer species rates are independent and do not add overlapping lice
   assert.equal(matchesHuntPreset('tag-filler',{...h,state:'WY',species:'DEER',success5:null,pointOdds},null,false,f),true);
   assert.deepEqual(wyPresetHarvest({harvest:[{year:2025,basis:'mule+whitetail',huntersMule:1,mule:2}]},'DEER'),[]);
 });
+
 test('Montana permit-based Tag Filler is a separate, explicitly identified proxy', () => {
   const p={...h,state:'MT',species:'DEER',success5:null,pointOdds:{mulePermit:true,harvest:[{year:2023,hunters:25,harvest:21},{year:2025,hunters:25,harvest:18}]}};
   assert.equal(matchesHuntPreset('tag-filler',p,null,false,f),true);
