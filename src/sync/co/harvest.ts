@@ -220,7 +220,7 @@ export function codeFromUnits(
   const rows = tot?.filter((r) => units.includes(r.unit)) ?? [];
   if (!units.length || new Set(rows.map(r => r.unit)).size !== new Set(units).size || rows.length !== new Set(units).size) return null;
   if (rows.some((r) => !validHarvestCounts(r.harvest ?? 0, r.hunters ?? 0))) return null;
-  const h = rows.reduce((a, r) => a + (sex === 'M' ? (r.male ?? 0) : sex === 'F' ? (r.female ?? 0) + (r.young ?? 0) : (r.harvest ?? 0)), 0);
+  const h = rows.reduce((a, r) => a + (r.harvest ?? 0), 0);
   const n = rows.reduce((a, r) => a + (r.hunters ?? 0), 0);
   const d = rows.reduce((a, r) => a + (r.days ?? 0), 0);
   return n ? { harvest: h, hunters: n, days: d, basis: 'totals' } : null;
