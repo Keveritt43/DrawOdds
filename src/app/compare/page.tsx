@@ -12,6 +12,7 @@ import { residencyFields } from '@/lib/finder';
 import { pct, pctOdds, int, range, antlerLabel, density, SPECIES_LABEL, TROPHY_LABEL } from '@/lib/format';
 import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { scoreEvidence } from '@/lib/scoreEvidence';
+import { landAccessNotice } from '@/lib/landAccessNotice';
 import { seasonsSummary, seasonRules } from '@/lib/tagSeasons';
 import { objectiveSummary, OBJ_LABEL } from '@/lib/elkObjectives';
 import { huntName } from '@/components/HuntTable';
@@ -92,6 +93,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
               <tr><th>Seasons</th>{hunts.map((h) => <td key={h.id}>{seasonsSummary(h.tagSeasons, 4) || range(h.openDate, h.closeDate)}</td>)}</tr>
               <tr><th>Rules</th>{hunts.map((h) => <td key={h.id}>{seasonRules(h.tagSeasons, h.species).join(' · ') || '-'}</td>)}</tr>
               <tr><th>Score evidence</th>{hunts.map((h) => { const e=scoreEvidence(h); return <td key={h.id}>{e ? `${e.label}: ${e.explanation}` : h.scoreQuality===null ? 'Insufficient harvest, access or density data' : 'See hunt details for sources and years'}</td>; })}</tr>
+              <tr><th>Land access note</th>{hunts.map(h=><td key={h.id}>{landAccessNotice(h) ?? '—'}</td>)}</tr>
               {rows.map((row) => {
                 const b = best(row);
                 return (
