@@ -1,3 +1,6 @@
+import { withoutMtProxySuccess } from '@/lib/mtHarvestProxy';
+import { withCoHarvestCoverage } from '@/lib/coHarvestCoverage';
+import { withWyElkRegion } from '@/lib/wyElkRegions';
 import { withoutUnvalidatedWyLicenseMetrics } from '@/lib/wyLicenseMetrics';
 import { withWyElkBoundaryHistory } from '@/lib/wyElkBoundaryHistory';
 import { coSpecial } from '@/lib/coSpecial';
@@ -31,7 +34,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
     const pts = readMtPoints((await getPointsStore()).store as Record<string, unknown>);
     const rows = await db.huntSummary.findMany({ where: { state: 'MT', units: { has: name } }, orderBy: [{ type: 'asc' }, { species: 'asc' }, { tagCode: 'asc' }] });
     const odds = (h: (typeof rows)[number], nr: boolean) => { const p = mtPersonal(h, { ...pts, res: nr ? 'NONRESIDENT' : 'RESIDENT' }, nr); return p.parts ? p.parts.permit : p.odds; };
-    return Response.json(rows.map((h) => ({
+    return Response.json(rows.map(withoutMtProxySuccess).map((h) => ({
       id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
       open: h.openDate, close: h.closeDate, resOdds5: odds(h, false), nrOdds5: odds(h, true), success5: h.success5,
     })), { headers: { 'Cache-Control': 'private, no-store' } });
@@ -58,7 +61,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
     })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   const nr = (await getResidency(undefined, state)).residency === 'NONRESIDENT';
-  const all = sortUnitHunts((await db.huntSummary.findMany({ where: { state, units: { has: name }, youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).map(withWyElkBoundaryHistory).map(withoutUnvalidatedWyLicenseMetrics).filter(h=>h.units.includes(name)));
+  const all = sortUnitHunts((await db.huntSummary.findMany({ where: { state, units: { has: name }, youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).map(withCoHarvestCoverage).map(withWyElkBoundaryHistory).map(withWyElkRegion).map(withoutUnvalidatedWyLicenseMetrics).filter(h=>h.units.includes(name)));
   // same listing rules as Filtering: elk = zone A/B tags, deer = general seasons (+ White-tailed tag)
   const pts = state === "CO" ? await getPoints("CO") : null;
   const rows =
@@ -94,7 +97,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
             pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'],
           )
         : h.nrOdds5,
-      success5: state === 'WY' && h.species === 'DEER' ? null : h.success5,
+      success5: state === 'WY' && (h.species === 'DEER' || h.tagCode?.startsWith('ER-')) ? null : h.success5,
       };
     }),
     { headers: { 'Cache-Control': 'private, no-store' } }, // eligibility depends on current per-state settings

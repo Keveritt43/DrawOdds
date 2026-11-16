@@ -1,3 +1,4 @@
+import { mtHarvestProxy, mtProxyRate } from '@/lib/mtHarvestProxy';
 import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { HuntLink } from '@/components/HuntNavigation';
@@ -31,6 +32,7 @@ const SEASON_LABEL: Record<string, string> = { early: 'Early', archery: 'Archery
 /** A Montana hunt: a general licence in one district, or a drawn permit / B licence (bonus points). */
 export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: string; odds?: string } }) {
   const po = s.pointOdds as unknown as MtPointOdds | null;
+  const proxy=mtHarvestProxy(po), proxyRate=mtProxyRate(po);
   const table = s.oddsByPts as unknown as MtOddsTable | null;
   const spLabel = s.species === 'ELK' ? 'elk' : s.species === 'PRONGHORN' ? 'antelope' : 'deer';
   const antelope = s.species === 'PRONGHORN';
@@ -121,7 +123,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
 
       {/* 2. Do I want it? */}
       <div className="stats">
-        <div className="stat"><div className="k">Hunter success</div><div className="v">{pct0(s.success5)}</div><div className="small muted">{s.harvestYears ? `${s.harvestYears} surveyed season${s.harvestYears === 1 ? '' : 's'}${po.mulePermit ? ', mule bucks per permit' : ', district'}` : 'no FWP estimate'}</div></div>
+        <div className="stat"><div className="k">{proxy === 'permit' ? 'Mule bucks / issued permit' : proxy === 'species' ? 'Species harvest / deer hunter' : 'Hunter success'}</div><div className="v">{pct0(proxy ? proxyRate : s.success5)}</div><div className="small muted">{s.harvestYears ? `${s.harvestYears} surveyed season${s.harvestYears === 1 ? '' : 's'}${po.mulePermit ? ', mule bucks per permit' : ', district'}` : 'no FWP estimate'}</div></div>
         <div className="stat"><div className="k">Hunters / mi²</div><div className="v">{s.huntersSqMi === null ? '–' : s.huntersSqMi.toFixed(1)}</div><div className="small muted">{s.huntersSqMi === null ? 'no FWP estimate' : 'district, all licenses'}</div></div>
         {bigLabel && <div className="stat"><div className="k">{bigLabel}</div><div className="v">{pct0(s.bigPct5)}</div><div className="small muted">of antlered harvest</div></div>}
         <div className="stat"><div className="k">Public land</div><div className="v">{s.privateOnly ? '0%' : s.publicPct === null ? '–' : `${Math.round(s.publicPct)}%`}</div><div className="small muted">{s.privateOnly ? 'private land only' : s.units.length > 1 ? `${s.units.length} districts` : 'of the district'}</div></div>
@@ -147,8 +149,8 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
           ? <MtOddsPointsChart res={(proj.res ?? []).slice(0, Math.max(table.last.res?.length ?? 0, table.last.nr?.length ?? 0, (mine.points ?? 0) + 2))} nr={(proj.nr ?? []).slice(0, Math.max(table.last.res?.length ?? 0, table.last.nr?.length ?? 0, (mine.points ?? 0) + 2))} noBuy={proj.noBuy} myPoints={mine.buying === false ? null : mine.points} mine={myPool} year={po.year} projected />
           : <MtOddsPointsChart res={table.last.res ?? []} nr={table.last.nr ?? []} noBuy={{ res: table.noBuy?.res ?? null, nr: table.noBuy?.nr ?? null }} myPoints={mine.buying === false ? null : mine.points} mine={myPool} year={po.year} />)}
       </>}
-      <h2>Hunter Success</h2>
-      {harvestSeries.length > 0 ? <div className="grid2">
+      <h2>{proxy ? 'District Harvest Context' : 'Hunter Success'}</h2>
+      {proxy ? <p className="small muted">{po.harvestBasis}. This is not a hunter success rate, so dependent scores are unavailable.</p> : harvestSeries.length > 0 ? <div className="grid2">
         <SuccessChart data={harvestSeries} />
         <HarvestChart data={harvestSeries} />
         {s.species === 'DEER' ? <MtDeerQualityChart data={harvestSeries} /> : s.species === 'ELK' ? <QualityChart data={harvestSeries} species="ELK" /> : null}
@@ -210,7 +212,7 @@ export async function MtHuntPage({ s, sp }: { s: HuntSummary; sp: { pool?: strin
       {po.harvest.length > 0 && (
         <details className="card fold">
           <summary><span>Harvest by season</span><span className="small muted">{po.harvest.length} surveyed season{po.harvest.length === 1 ? '' : 's'}</span></summary>
-          <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">{po.mulePermit ? 'Permits' : 'Hunters'}</th><th className="num">{po.mulePermit ? 'Mule bucks' : 'Harvest'}</th><th className="num">Success</th><th className="num">{s.species === 'ELK' ? '6+ pt bulls' : antelope ? 'Bucks' : '4+ pt bucks'}</th></tr></thead>
+          <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">{po.mulePermit ? 'Permits' : 'Hunters'}</th><th className="num">{po.mulePermit ? 'Mule bucks' : 'Harvest'}</th><th className="num">{proxy === 'permit' ? 'Harvest / permit' : proxy === 'species' ? 'Harvest / deer hunter' : 'Success'}</th><th className="num">{s.species === 'ELK' ? '6+ pt bulls' : antelope ? 'Bucks' : '4+ pt bucks'}</th></tr></thead>
             <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td><td className="num">{antelope ? (h.harvest ? `${Math.round((100 * h.antlered) / h.harvest)}% of harvest` : '–') : h.antlered ? `${Math.round((100 * h.big) / h.antlered)}% of ${int(h.antlered)}` : '–'}</td></tr>)}</tbody></table></div>
           <p className="small muted">FWP surveys {spLabel} hunters every other year ({s.species === 'DEER' ? 'odd' : 'even'} years); other seasons have no district hunter count and are left out rather than guessed. {po.harvestBasis}. They describe the district, not this license.</p>
         </details>

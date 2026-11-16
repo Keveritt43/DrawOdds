@@ -82,7 +82,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           {po.nrRegionSlug ? <HuntLink href={`/hunts/${po.nrRegionSlug}`}>Region {po.nrRegion} nonresident general license</HuntLink> : `Region ${po.nrRegion ?? '?'} nonresident general license`}, which is drawn: the odds below are that region&apos;s.
         </div>
       )}
-      {po.harvestBasis && <p className="small muted">Harvest records combine {po.harvestBasis}; license holders may appear in more than one area.</p>}
+      {po.harvestBasis && <p className="small muted">Harvest source: {po.harvestBasis}{po.verifiedRegionHarvest ? "." : "; license holders may appear in more than one area."}</p>}
       <ScoreRow r={{ ...s, scoreOppRes: nr ? null : opportunity(s.scoreQuality, mine), scoreOppNr: nr ? opportunity(s.scoreQuality, mine) : null }} nr={nr} open />
       <div className="co-top">
         <div className="card co-mine">
@@ -129,7 +129,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </div>
 
       <h2>Harvest Reports</h2>
-      {po.harvestBoundaryNote && <p className="small muted">{po.harvestBoundaryNote} Earlier records are retained but describe different boundaries. <a href="https://wgfd.wyo.gov/news-events/hunting-regulation-changes-sheridan-region">WGFD boundary changes</a>.</p>}
+      {po.harvestBoundaryNote && <p className="small muted">{po.harvestBoundaryNote} {po.verifiedRegionHarvest ? "Earlier area totals are retained but can repeat license holders." : "Earlier records are retained but describe different boundaries."} <a href={po.verifiedRegionHarvest ? "https://wgfd.wyo.gov/media/33482/download" : "https://wgfd.wyo.gov/news-events/hunting-regulation-changes-sheridan-region"}>{po.verifiedRegionHarvest ? "WGFD harvest report" : "WGFD boundary changes"}</a>.</p>}
       {species === 'DEER' ? <>
         <p className="small muted">WGFD survey estimates by hunt area and license type. The denominator is active licenses for each deer species, not unique people. A license holder may appear in both species. Combined success, density and dependent scores remain unavailable because that overlap is unknown. Region license aggregates and missing species records are not estimated. <a href="https://wgfd.wyo.gov/hunting-trapping/harvest-reports-surveys">WGFD reports</a></p>
         {deerSeries.map(({kind, rows}) => <section key={kind}><h3>{kind === 'MULE' ? 'Mule deer' : 'Whitetail'} harvest</h3>{rows.length ? <>
@@ -139,7 +139,7 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       </> : po.harvest.length ? (
         <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Active licenses</th><th className="num">Harvest</th><th className="num">Harvest / active license</th></tr></thead>
           <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td></tr>)}</tbody></table>
-          <p className="small muted">WGFD survey estimates count active licenses, not verified unique hunters. Hunter success, crowding and dependent scores are unavailable. Region totals combine area-license reports and can include the same holder more than once.</p></div>
+          <p className="small muted">{po.verifiedRegionHarvest ? "WGFD directly estimates active nonresident region licenses. One general elk license per person makes these unique license holders; crowding and Quality remain unavailable until the eligible area is calculated." : "WGFD survey estimates count active licenses, not verified unique hunters. Hunter success, crowding and dependent scores are unavailable."}</p></div>
       ) : <p className="muted">No WGFD harvest estimate matched to this license.</p>}
 
       <h2>Draw History</h2>

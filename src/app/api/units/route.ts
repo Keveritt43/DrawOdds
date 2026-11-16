@@ -1,3 +1,6 @@
+import { withoutMtProxySuccess } from '@/lib/mtHarvestProxy';
+import { withCoHarvestCoverage } from '@/lib/coHarvestCoverage';
+import { withWyElkRegion } from '@/lib/wyElkRegions';
 import { withoutUnvalidatedWyLicenseMetrics } from '@/lib/wyLicenseMetrics';
 import { matchesCoMapFilters } from '@/lib/coMapFilters';
 import { getCoScoringContext } from '@/lib/coScoringContext';
@@ -63,8 +66,8 @@ export async function GET(req: Request) {
     }),
     db.generalHarvest.findMany({ where: { state, takeMethod: ALL }, select: { species: true, unit: true, year: true, hunters: true, harvest: true } }),
   ]);
-  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(withWaVerifiedDates).map(withIdahoVerifiedArea).map(withWyElkBoundaryHistory).map(withoutUnvalidatedWyLicenseMetrics).map(s =>
-    state === 'WY' && s.species === 'DEER' ? { ...s, success5: null, hunters5: null, harvest5: null, resTagAndFill: null, nrTagAndFill: null } : s);
+  const sums = (state === 'CO' ? allSums.filter(s => matchesCoMapFilters(s.tagCode, methods, seasons)) : allSums).map(withWaVerifiedDates).map(withCoHarvestCoverage).map(withIdahoVerifiedArea).map(withWyElkBoundaryHistory).map(withWyElkRegion).map(withoutUnvalidatedWyLicenseMetrics).map(withoutMtProxySuccess).map(s =>
+    state === 'WY' && (s.species === 'DEER' || s.tagCode?.startsWith('ER-')) ? { ...s, success5: null, hunters5: null, harvest5: null, resTagAndFill: null, nrTagAndFill: null } : s);
   let coPoints: Awaited<ReturnType<typeof getPoints>> | null = null;
   const by = new Map<string, Record<string, number | string | null>>();
   const bump = (u: string, k: string, v: number | null, mode: 'max' | 'count' = 'max') => {
