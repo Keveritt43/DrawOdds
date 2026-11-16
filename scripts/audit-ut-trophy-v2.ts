@@ -46,8 +46,6 @@ for(const raw of hunts.hunts){
     const seasons=(h.tagSeasons as {seasons?:{uncertain?:boolean;weapon:string;dates:{open:string;close:string}[] }[]}|null)?.seasons??[];
     if(seasons.length!==1||seasons[0].uncertain||seasons[0].dates.length!==1){skip('multiple, missing or uncertain season segments');continue;}
     const season=seasons[0], span=season.dates[0];
-    // Existing preset timing does not implement the guide's pronghorn rubric.
-    if(h.species==='PRONGHORN'){skip('pronghorn v2 timing rubric not yet implemented');continue;}
     const timing=utV2ShadowTiming(h.species,season.weapon,span.open,span.close);
     if(timing===null){skip('timing rubric does not cover this exact segment');continue;}
     const named=ref.sourceTags.filter(t=>!['bc','bc_top_counties'].includes(t.toLowerCase())).length;
