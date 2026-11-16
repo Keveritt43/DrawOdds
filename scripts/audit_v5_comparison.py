@@ -16,9 +16,16 @@ from pathlib import Path
 STATES = {'ID', 'CO', 'MT', 'UT', 'WA', 'WY'}
 RANK = {'Standard': 50, 'Good': 65, 'Excellent': 80, 'Elite': 100}
 ROOT = Path(__file__).resolve().parent.parent
+# 2026 WDFW legal descriptions identify these deer areas as portions of GMUs.
+# This is review context only; it never establishes a whole-GMU hunt or historic boundary.
+# https://wdfw.wa.gov/sites/default/files/publications/02706/wdfw02706.pdf (pp. 95–96)
+WA_DEER_AREAS_2026 = {'DA1008':'169', 'DA1009':'169', 'DA1031':'117', 'DA1035':'121', 'DA2010':'284'}
 
 def norm(value):
-    return re.sub(r'^(UNIT|GMU|HD)\s*', '', value.strip().upper())
+    value = re.sub(r'^(UNIT|GMU|HD|ZONE)\s*', '', value.strip().upper())
+    # Normalize numeric identifiers only. Do not conflate alphanumeric units,
+    # partial boundaries, or separate management units such as 44 and 444.
+    return str(int(value)) if value.isdigit() else value
 
 def scope(reference, hunt):
     """Return a scope assessment, never inferring population from unit alone."""
@@ -55,8 +62,11 @@ def candidates(hunt, index, ut):
                 continue
             u = norm(str(link['managementUnit']))
             note = 'Utah hunt boundary associated with broader management unit; not identical geography'
+        elif state == 'WA' and species == 'DEER' and u in WA_DEER_AREAS_2026:
+            u = WA_DEER_AREAS_2026[u]
+            note = '2026 WDFW deer area is a portion of this GMU; not identical geography; verify other years'
         elif state == 'WY':
-            u = re.sub(r'^[DEA](?=\d)', '', u)
+            u = norm(re.sub(r'^[DEA](?=\d)', '', u))
         elif state == 'MT' and species == 'PRONGHORN':
             u = re.sub(r'^A(?=\d)', '', u)
             if re.search(r'\d[NS]$', u):
