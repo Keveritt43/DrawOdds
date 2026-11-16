@@ -85,7 +85,8 @@ def main():
     for h in hunts.values():
         found = candidates(h, index, ut)
         if not found:
-            detail.append({'state':h['State'], 'hunt':h['Hunt'], 'code':h['Code'], 'link':h['Link'], 'status':'no reference association', 'reason':'No established matching reference unit', 'units':h['Units']})
+            for u in h['Units'].split() or ['']:
+                detail.append({'state':h['State'], 'hunt':h['Hunt'], 'code':h['Code'], 'link':h['Link'], 'status':'no reference association', 'reason':'No established matching reference unit', 'units':h['Units'], 'matched_unit':u})
             continue
         per_unit = defaultdict(set)
         for u, ref, _ in found:
