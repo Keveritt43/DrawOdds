@@ -213,6 +213,9 @@ export function codeFromUnits(
     const n = rows.reduce((a, r) => a + ((sex === 'M' ? r.mHunters : r.fHunters) ?? 0), 0);
     return n ? { harvest: h, hunters: n, days: null, basis: 'split' } : null;
   }
+  // A total table's hunter count includes all legal sexes. A male- or
+  // female-only harvest numerator cannot use that denominator.
+  if (sex !== 'E') return null;
   const tot = t.totals[kind];
   const rows = tot?.filter((r) => units.includes(r.unit)) ?? [];
   if (!units.length || new Set(rows.map(r => r.unit)).size !== new Set(units).size || rows.length !== new Set(units).size) return null;
