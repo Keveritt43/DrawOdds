@@ -8,6 +8,7 @@ import { isPrivateOnly } from '@/lib/privateLand';
 import type { HuntSummary } from '@prisma/client';
 import { seasonsSummary, seasonRules, RULE_HELP } from '@/lib/tagSeasons';
 import { scoreEvidence } from '@/lib/scoreEvidence';
+import { trophyReferenceContext } from '@/lib/trophyReferenceContext';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import {
   pct, pctOdds, int, range, WEAPON, antlerLabel, controlledTags, density, oddsVerdict, successVerdict, crowdVerdict,
@@ -232,10 +233,11 @@ export function TrophyMark({ score, showNeutral = true, hunt }: { score: number 
   if (score === null || ![50,65,80,100].includes(score)) return null;
   if (score === 50 && !showNeutral) return null;
   const evidence=hunt ? trophyHuntEvidence(hunt,score as 50|65|80|100) : null;
-  return <span className="pill trophy-badge" title={evidence ? `${info.description} ${evidence.reason}` : info.description}>
+  const reference=hunt ? trophyReferenceContext(hunt) : null;
+  return <><span className="pill trophy-badge" title={evidence ? `${info.description} ${evidence.reason}` : info.description}>
     {info.icon && <svg aria-hidden="true" viewBox="0 0 28 28" width={score===100?23:19} height={score===100?23:19} style={{color:score===65?'#8b999d':'#bd831f',flex:'none'}}><path fill="currentColor" d="M7 4h14l-1 7c-.4 4-2.3 6.4-5 7.3V21h4v2H9v-2h4v-2.7c-2.7-.9-4.6-3.3-5-7.3L7 4Z"/><path d="M8 6H4v2c0 4 2.4 6 5 6M20 6h4v2c0 4-2.4 6-5 6" fill="none" stroke="currentColor" strokeWidth="1.7"/><path d="M10 8h8M10.5 11h7" stroke="#fff" opacity=".5" strokeWidth=".8"/><path d="M9 24h10" stroke="currentColor" strokeWidth="2"/></svg>}
-    {score===100 && <span aria-hidden="true" style={{color:'#bd831f'}}>✦</span>}{info.label}{evidence?.provisional && ' (provisional)'}
-  </span>;
+    {score===100 && <span aria-hidden="true" style={{color:'#bd831f'}}>✦</span>}{reference && 'Hunt: '}{info.label}{evidence?.provisional && ' (provisional)'}
+  </span>{reference && <span className="pill" title={reference.description}>Unit ref: {reference.tier} (unverified)</span>}</>;
 }
 
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
