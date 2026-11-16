@@ -27,11 +27,13 @@ import {runSearch,type HunterSettings} from '../src/lib/multiStateSearch';
 import type {CoScored} from '../src/lib/coScores';
 import {searchCsv} from '../src/lib/searchCsv';
 
-test('finder excludes unverified license rates from hunter filters and CSV',()=>{
+test('finder keeps license rates separate from hunter filters and CSV success',()=>{
  const settings={ID:'RESIDENT',CO:{res:'NONRESIDENT',DEER:0,ELK:0,PRONGHORN:0,youth:false,set:false}} as HunterSettings;
  const row117=row('WY:elk:117-1') as CoScored;
  assert.equal(runSearch([row117],{states:'WY',species:'ELK',antler:'ALL',minSucc:'60'},'WY',settings).length,0);
  const result=runSearch([row117],{states:'WY',species:'ELK',antler:'ALL'},'WY',settings);
  assert.equal(result.length,1);assert.equal(result[0].r.success5,null);assert.equal(result[0].r.scoreQuality,null);
- assert.doesNotMatch(searchCsv(result,'https://example.test'),/61\.01/);
+ const csv=searchCsv(result,'https://example.test');
+ assert.match(csv,/Harvest success %,Hunter-seasons,Harvest small sample,WY harvest per active license \(not hunter success\)/);
+ assert.match(csv,/2025,,,,Elk: 61\.01% \(2025; 1 season\)/);
 });
