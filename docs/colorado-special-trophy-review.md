@@ -1,0 +1,25 @@
+# Colorado special-season trophy review
+
+Reviewed 2026-11-15 Pacific. The inventory uses the retained Colorado production snapshot `out/colorado-production-after.json`, not a fresh full production snapshot. It evaluates the current `resolveSeasonCandidate` on eligible deer and elk unit associations and counts distinct hunt codes for which that resolver returns `Season or access restrictions require hunt-specific source review`. These are candidates for review, not all proven downgrades: the same reason covers private access, unusual hunt codes, and ordinary deer seasons outside a source's late-season scope. The actual per-hunt tier can also reflect other safeguards and reviewed exceptions.
+
+The snapshot contains 356 distinct fallback codes (235 deer, 121 elk; 679 unit associations). Classifying each code in precedence order as private, then youth, then multi-unit, then single-unit public gives 198 private, 2 youth, 52 multi-unit and 104 single-unit unrestricted codes. The classifications refer to that historical snapshot, not today’s inventory; the flags may overlap before precedence. Partial-area single-unit hunts are not necessarily valid throughout the named unit. More detailed source and area review is still required for most codes; this count does not establish errors.
+
+Comparing the before/after hunt functions on all 2,038 Colorado rows in that retained snapshot changes six hunt tiers: DM074E1R 50 to 80; DM055O1A, DM055O1M, EE002E1R, EE010E1R and EE201E1R each 65 to 80. This is a historical fixture impact check, not a fresh database comparison.
+
+On those same retained inputs, the Colorado scoring adapter changes Quality for DM055O1M from 84 to 85; DM055O1A, EE002E1R and EE010E1R keep their rounded Quality values of 53, 80 and 83. DM074E1R and EE201E1R remain without Quality scores because required inputs are unavailable. These figures can differ with later production inputs.
+
+## Independently reviewed candidates
+
+| Hunt | Decision | Evidence and scope |
+|---|---|---|
+| EE002E1R, EE010E1R, EE201E1R | Provisional Excellent, matching 2026 identity and October 1–11 2026/2027 dates only | [Eastmans 2024 elk table](https://eastmans.com/wp-content/uploads/2024/07/CO-Elk-2024.pdf) rates each exact early either-sex hunt Excellent; [CPW 2026 regulations](https://cpw.state.co.us/sites/default/files/dam/ygnjhbagll/item.30.3_ch-w2_final_consent_01.09.26.pdf) identify the hunt codes and dates. A forecast is not a measurement of antler size. |
+| DM074E1R | Provisional Excellent, matching 2026 identity, September 5–13 dates and verified area above 11,000 feet only | [Eastmans 2024 deer table](https://eastmans.com/wp-content/uploads/2024/07/CO-Deer-2024.pdf) rates the exact high-country hunt Excellent; [CPW's 2026 description](https://cpw.state.co.us/sites/default/files/dam/mndwjttylm/item.21_and_item.22.-ch-w-2.pdf) confirms the altitude restriction and dates. The rating must not be interpreted as applying to land below the boundary. |
+| DM055O1A, DM055O1M | Provisional Excellent for matching 2026 identity, unit and listed 2026 or projected 2027 dates | The 2024 deer table rates both exact early-season hunts Excellent. Unlike a source limited to later rifle seasons, this forecast explicitly names these hunt codes and weapons; it is not measured antler size. |
+| EE001E1R | Retain Good, provisional | Eastmans' 2021 table rates it Excellent, but the 2024 table rates it Good. Newer contradictory evidence does not justify promotion. |
+| EE061E1R | Retain Good, provisional | Eastmans' 2021 and 2024 tables rate the exact hunt Good. |
+| DM065E1R | Retain existing provisional rating | The 2021 forecast is Excellent but the 2024 forecast is Good; the area is restricted to above 11,000 feet. The disagreement does not establish current antler size. |
+| EM076E1R | Existing reviewed provisional Excellent preserved | [Earlier review](data-dictionary.md) matches the specific bull hunt and its October 1–7 season. |
+
+The Eastmans tables are expert forecasts, not observed hunt-level antler measurements; their labels are not automatically interchangeable with DrawOdds tiers. The 2024 source has not established whether its sources are independent of the existing unit-list evidence. The listed cases are reviewed exceptions, not a general upgrade for high demand, early seasons, or either-sex tags. All other hunts retain the existing scoring path and pending review. Eligibility, code, date, unit or partial-area changes do not inherit these exceptions. The general harvest/draw screen still precedes the reviews.
+
+The 2024 deer table also has Excellent forecasts for DM142L1R and DM512S1R. The retained summary lacks dates for DM142L1R; DM512S1R refers to an Air Force Academy area and its displayed projected season differs from the source's historical scope. Neither is upgraded without a separate verification of actual dates and applicable access boundaries. The 2024 table names many additional fallback codes, but an automated match is only a lead, not a verified score or sufficient evidence for a production change.

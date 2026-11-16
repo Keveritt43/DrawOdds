@@ -128,6 +128,32 @@ export function trophyForUnit(hunt: {
     spans.length===1 && ['2026','2027'].some(year=>calendarDay(spans[0].open)===`${year}-10-01` && calendarDay(spans[0].close)===`${year}-10-07`);
   if (reviewedEarly76)
     return {score:80 as const,tier:'trophy' as const,reason:'Reviewed Unit 76 early rifle forecast and herd context; historical sources do not measure current antler size; provisional'};
+  // The 2024 Eastmans table rates these exact early hunts Excellent. An earlier
+  // forecast for Unit 1 changed to Good in 2024, so it is intentionally absent.
+  const earlyElkUnits:Record<string,string>={EE002E1R:'2',EE010E1R:'10',EE201E1R:'201'};
+  const reviewedUnit=earlyElkUnits[code?.toUpperCase()??''];
+  const reviewedEarlyElk=state==='CO' && hunt.species.toUpperCase()==='ELK' && hunt.type.toUpperCase()==='CONTROLLED' &&
+    hunt.antlerClass.toUpperCase()==='EITHER' && hunt.privateOnly===false && hunt.youthOnly===false &&
+    hunt.oddsLastYear===2026 && reviewedUnit===unit.trim() && hunt.units?.length===1 && hunt.units[0].trim()===reviewedUnit &&
+    spans.length===1 && ['2026','2027'].some(year=>calendarDay(spans[0].open)===`${year}-10-01` && calendarDay(spans[0].close)===`${year}-10-11`);
+  if(reviewedEarlyElk)
+    return {score:80 as const,tier:'trophy' as const,reason:'Reviewed 2024 early rifle hunt forecast; historical forecast does not measure current antler size; provisional'};
+  const regs=(hunt.pointOdds as {regs?:{year?:number;partial?:boolean;unitText?:string}}|null)?.regs;
+  const reviewedHigh74=state==='CO' && hunt.species.toUpperCase()==='DEER' && hunt.type.toUpperCase()==='CONTROLLED' &&
+    hunt.antlerClass.toUpperCase()==='ANTLERED' && hunt.privateOnly===false && hunt.youthOnly===false &&
+    code?.toUpperCase()==='DM074E1R' && hunt.oddsLastYear===2026 && unit.trim()==='74' && hunt.units?.length===1 && hunt.units[0].trim()==='74' &&
+    regs?.year===2026 && regs.partial===true && /\b74\b.*\babove\s+11,?000\s+feet\b/i.test(regs.unitText??'') &&
+    spans.length===1 && calendarDay(spans[0].open)==='2026-09-05' && calendarDay(spans[0].close)==='2026-09-13';
+  if(reviewedHigh74)
+    return {score:80 as const,tier:'trophy' as const,reason:'Reviewed 2024 early high-country forecast for Unit 74 above 11,000 feet; historical forecast does not measure current antler size; provisional'};
+  const early55Dates:Record<string,string[][]>={DM055O1A:[['2026-09-02','2026-09-30'],['2027-09-02','2027-09-30']],DM055O1M:[['2026-09-12','2026-09-20'],['2027-09-11','2027-09-19']]};
+  const reviewedEarly55=state==='CO' && hunt.species.toUpperCase()==='DEER' && hunt.type.toUpperCase()==='CONTROLLED' &&
+    hunt.antlerClass.toUpperCase()==='ANTLERED' && hunt.privateOnly===false && hunt.youthOnly===false &&
+    hunt.oddsLastYear===2026 && unit.trim()==='55' && hunt.units?.length===1 && hunt.units[0].trim()==='55' &&
+    regs?.year===2026 && regs.partial===false && /^\s*55\s*$/.test(regs.unitText??'') && spans.length===1 &&
+    (early55Dates[code?.toUpperCase()??'']??[]).some(([open,close])=>calendarDay(spans[0].open)===open && calendarDay(spans[0].close)===close);
+  if(reviewedEarly55)
+    return {score:80 as const,tier:'trophy' as const,reason:'Reviewed 2024 Unit 55 hunt-specific forecast; historical forecast does not measure current antler size; provisional'};
   // These two previously reviewed Washington hunt comparisons remain hunt-specific.
   // A unit-wide source designation must not erase their documented demand distinction.
   if (!bcLow && state==='WA' && hunt.species.toUpperCase()==='DEER' && String(hunt.tagCode)==='1033' && result.score!==null && result.score>80)
