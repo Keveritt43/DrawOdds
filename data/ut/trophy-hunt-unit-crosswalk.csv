@@ -1,0 +1,265 @@
+state,species,subspecies,match_type,match_value,unit_id,unit_name,record_id,is_blue_chip,tier_classification,trophy_tier,trophy_score
+UT,Deer,Mule Deer,hunt_name_substring,Book Cliffs,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_DEER_MULEDEER_10,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,Bitter Creek,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_DEER_MULEDEER_10,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,Little Creek,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_DEER_MULEDEER_10,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,"Book Cliffs, North",10,Book Cliffs (Bitter Creek / Little Creek / South),UT_DEER_MULEDEER_10,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,"Book Cliffs, South",10,Book Cliffs (Bitter Creek / Little Creek / South),UT_DEER_MULEDEER_10,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,San Juan,14,San Juan (Elk Ridge / Abajo Mtns),UT_DEER_MULEDEER_14,True,Blue Chip / Max-Point Trophy,Elite,94.0
+UT,Deer,Mule Deer,hunt_name_substring,Elk Ridge,14,San Juan (Elk Ridge / Abajo Mtns),UT_DEER_MULEDEER_14,True,Blue Chip / Max-Point Trophy,Elite,94.0
+UT,Deer,Mule Deer,hunt_name_substring,Abajo Mtns,14,San Juan (Elk Ridge / Abajo Mtns),UT_DEER_MULEDEER_14,True,Blue Chip / Max-Point Trophy,Elite,94.0
+UT,Deer,Mule Deer,hunt_name_substring,Henry Mountains,15,Henry Mountains,UT_DEER_MULEDEER_15,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,Henry Mtns,15,Henry Mountains,UT_DEER_MULEDEER_15,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_code_exact,DB1000,15,Henry Mountains,UT_DEER_MULEDEER_15,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_code_exact,DB1003,15,Henry Mountains,UT_DEER_MULEDEER_15,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_code_exact,DB1005,15,Henry Mountains,UT_DEER_MULEDEER_15,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_code_exact,DB1007,15,Henry Mountains,UT_DEER_MULEDEER_15,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_code_exact,DB1009,15,Henry Mountains,UT_DEER_MULEDEER_15,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,Fillmore,21,Fillmore (Pahvant / Oak Creek),UT_DEER_MULEDEER_21,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,Pahvant,21,Fillmore (Pahvant / Oak Creek),UT_DEER_MULEDEER_21,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,Oak Creek,21,Fillmore (Pahvant / Oak Creek),UT_DEER_MULEDEER_21,True,Blue Chip / Max-Point Trophy,Elite,96.4
+UT,Deer,Mule Deer,hunt_name_substring,Paunsaugunt,27,Paunsaugunt,UT_DEER_MULEDEER_27,True,Blue Chip / Max-Point Trophy,Elite,97.8
+UT,Deer,Mule Deer,hunt_code_exact,DB1001,27,Paunsaugunt,UT_DEER_MULEDEER_27,True,Blue Chip / Max-Point Trophy,Elite,97.8
+UT,Deer,Mule Deer,hunt_code_exact,DB1004,27,Paunsaugunt,UT_DEER_MULEDEER_27,True,Blue Chip / Max-Point Trophy,Elite,97.8
+UT,Deer,Mule Deer,hunt_code_exact,DB1006,27,Paunsaugunt,UT_DEER_MULEDEER_27,True,Blue Chip / Max-Point Trophy,Elite,97.8
+UT,Deer,Mule Deer,hunt_code_exact,DB1008,27,Paunsaugunt,UT_DEER_MULEDEER_27,True,Blue Chip / Max-Point Trophy,Elite,97.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Book Cliffs,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_ELK_ROCKYMOUNTAIN_10,True,Blue Chip / Max-Point Trophy,Elite,85.0
+UT,Elk,Rocky Mountain,hunt_name_substring,Bitter Creek,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_ELK_ROCKYMOUNTAIN_10,True,Blue Chip / Max-Point Trophy,Elite,85.0
+UT,Elk,Rocky Mountain,hunt_name_substring,Little Creek,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_ELK_ROCKYMOUNTAIN_10,True,Blue Chip / Max-Point Trophy,Elite,85.0
+UT,Elk,Rocky Mountain,hunt_name_substring,"Book Cliffs, North",10,Book Cliffs (Bitter Creek / Little Creek / South),UT_ELK_ROCKYMOUNTAIN_10,True,Blue Chip / Max-Point Trophy,Elite,85.0
+UT,Elk,Rocky Mountain,hunt_name_substring,"Book Cliffs, South",10,Book Cliffs (Bitter Creek / Little Creek / South),UT_ELK_ROCKYMOUNTAIN_10,True,Blue Chip / Max-Point Trophy,Elite,85.0
+UT,Elk,Rocky Mountain,hunt_name_substring,San Juan,14,San Juan (Elk Ridge / Abajo Mtns),UT_ELK_ROCKYMOUNTAIN_14,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Elk Ridge,14,San Juan (Elk Ridge / Abajo Mtns),UT_ELK_ROCKYMOUNTAIN_14,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Abajo Mtns,14,San Juan (Elk Ridge / Abajo Mtns),UT_ELK_ROCKYMOUNTAIN_14,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Henry Mountains,15,Henry Mountains,UT_ELK_ROCKYMOUNTAIN_15,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Henry Mtns,15,Henry Mountains,UT_ELK_ROCKYMOUNTAIN_15,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Southwest Desert,20,Southwest Desert,UT_ELK_ROCKYMOUNTAIN_20,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,Fillmore,21,Fillmore (Pahvant / Oak Creek),UT_ELK_ROCKYMOUNTAIN_21,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,Pahvant,21,Fillmore (Pahvant / Oak Creek),UT_ELK_ROCKYMOUNTAIN_21,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,Oak Creek,21,Fillmore (Pahvant / Oak Creek),UT_ELK_ROCKYMOUNTAIN_21,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,Beaver,22,Beaver (East & West / Tushar Mtns),UT_ELK_ROCKYMOUNTAIN_22,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,East Beaver,22,Beaver (East & West / Tushar Mtns),UT_ELK_ROCKYMOUNTAIN_22,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,West Beaver,22,Beaver (East & West / Tushar Mtns),UT_ELK_ROCKYMOUNTAIN_22,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,Tushar Mtns,22,Beaver (East & West / Tushar Mtns),UT_ELK_ROCKYMOUNTAIN_22,True,Blue Chip / Max-Point Trophy,Elite,87.4
+UT,Elk,Rocky Mountain,hunt_name_substring,Monroe,23,Monroe,UT_ELK_ROCKYMOUNTAIN_23,True,Blue Chip / Max-Point Trophy,Excellent,82.6
+UT,Elk,Rocky Mountain,hunt_name_substring,Mt. Dutton,24,Mt. Dutton,UT_ELK_ROCKYMOUNTAIN_24,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Mount Dutton,24,Mt. Dutton,UT_ELK_ROCKYMOUNTAIN_24,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Dutton,24,Mt. Dutton,UT_ELK_ROCKYMOUNTAIN_24,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Plateau,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_ELK_ROCKYMOUNTAIN_25,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Boulder,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_ELK_ROCKYMOUNTAIN_25,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Kaiparowits Plateau,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_ELK_ROCKYMOUNTAIN_25,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Fishlake,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_ELK_ROCKYMOUNTAIN_25,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Parker Mtn,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_ELK_ROCKYMOUNTAIN_25,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Elk,Rocky Mountain,hunt_name_substring,Thousand Lakes,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_ELK_ROCKYMOUNTAIN_25,True,Blue Chip / Max-Point Trophy,Elite,88.8
+UT,Pronghorn,American,hunt_name_substring,Box Elder,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_PRONGHORN_AMERICAN_1,True,Blue Chip / Max-Point Trophy,Elite,94.6
+UT,Pronghorn,American,hunt_name_substring,Pilot Mtn,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_PRONGHORN_AMERICAN_1,True,Blue Chip / Max-Point Trophy,Elite,94.6
+UT,Pronghorn,American,hunt_name_substring,Grouse Creek,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_PRONGHORN_AMERICAN_1,True,Blue Chip / Max-Point Trophy,Elite,94.6
+UT,Pronghorn,American,hunt_name_substring,Raft River,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_PRONGHORN_AMERICAN_1,True,Blue Chip / Max-Point Trophy,Elite,94.6
+UT,Pronghorn,American,hunt_name_substring,San Rafael,12,San Rafael (Desert & North),UT_PRONGHORN_AMERICAN_12,True,Blue Chip / Max-Point Trophy,Elite,95.8
+UT,Pronghorn,American,hunt_name_substring,"San Rafael, Desert",12,San Rafael (Desert & North),UT_PRONGHORN_AMERICAN_12,True,Blue Chip / Max-Point Trophy,Elite,95.8
+UT,Pronghorn,American,hunt_name_substring,"San Rafael, North",12,San Rafael (Desert & North),UT_PRONGHORN_AMERICAN_12,True,Blue Chip / Max-Point Trophy,Elite,95.8
+UT,Pronghorn,American,hunt_name_substring,Southwest Desert,20,Southwest Desert,UT_PRONGHORN_AMERICAN_20,True,Blue Chip / Max-Point Trophy,Elite,92.0
+UT,Pronghorn,American,hunt_name_substring,Plateau,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_PRONGHORN_AMERICAN_25,True,Blue Chip / Max-Point Trophy,Elite,89.6
+UT,Pronghorn,American,hunt_name_substring,Boulder,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_PRONGHORN_AMERICAN_25,True,Blue Chip / Max-Point Trophy,Elite,89.6
+UT,Pronghorn,American,hunt_name_substring,Kaiparowits Plateau,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_PRONGHORN_AMERICAN_25,True,Blue Chip / Max-Point Trophy,Elite,89.6
+UT,Pronghorn,American,hunt_name_substring,Fishlake,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_PRONGHORN_AMERICAN_25,True,Blue Chip / Max-Point Trophy,Elite,89.6
+UT,Pronghorn,American,hunt_name_substring,Parker Mtn,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_PRONGHORN_AMERICAN_25,True,Blue Chip / Max-Point Trophy,Elite,89.6
+UT,Pronghorn,American,hunt_name_substring,Thousand Lakes,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_PRONGHORN_AMERICAN_25,True,Blue Chip / Max-Point Trophy,Elite,89.6
+UT,Deer,Mule Deer,hunt_name_substring,Box Elder,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_DEER_MULEDEER_1,False,Top-Tier Trophy (Secondary),Excellent,82.4
+UT,Deer,Mule Deer,hunt_name_substring,Pilot Mtn,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_DEER_MULEDEER_1,False,Top-Tier Trophy (Secondary),Excellent,82.4
+UT,Deer,Mule Deer,hunt_name_substring,Grouse Creek,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_DEER_MULEDEER_1,False,Top-Tier Trophy (Secondary),Excellent,82.4
+UT,Deer,Mule Deer,hunt_name_substring,Raft River,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_DEER_MULEDEER_1,False,Top-Tier Trophy (Secondary),Excellent,82.4
+UT,Deer,Mule Deer,hunt_name_substring,Cache,2,Cache (North / Crawford Mtn / Meadowville),UT_DEER_MULEDEER_2,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,Crawford Mtn,2,Cache (North / Crawford Mtn / Meadowville),UT_DEER_MULEDEER_2,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,Meadowville,2,Cache (North / Crawford Mtn / Meadowville),UT_DEER_MULEDEER_2,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,Rich,2,Cache (North / Crawford Mtn / Meadowville),UT_DEER_MULEDEER_2,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,South Slope,9,South Slope (Diamond Mtn / Vernal),UT_DEER_MULEDEER_9,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Diamond Mtn,9,South Slope (Diamond Mtn / Vernal),UT_DEER_MULEDEER_9,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Vernal,9,South Slope (Diamond Mtn / Vernal),UT_DEER_MULEDEER_9,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Yellowstone,9,South Slope (Diamond Mtn / Vernal),UT_DEER_MULEDEER_9,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Bonanza,9,South Slope (Diamond Mtn / Vernal),UT_DEER_MULEDEER_9,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Nine Mile,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_DEER_MULEDEER_11,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Anthro,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_DEER_MULEDEER_11,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Myton Bench,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_DEER_MULEDEER_11,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Range Creek,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_DEER_MULEDEER_11,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,La Sal,13,La Sal (La Sal Mtns / Dolores Triangle),UT_DEER_MULEDEER_13,False,Top-Tier Trophy (Secondary),Elite,85.7
+UT,Deer,Mule Deer,hunt_name_substring,La Sal Mtns,13,La Sal (La Sal Mtns / Dolores Triangle),UT_DEER_MULEDEER_13,False,Top-Tier Trophy (Secondary),Elite,85.7
+UT,Deer,Mule Deer,hunt_name_substring,Dolores Triangle,13,La Sal (La Sal Mtns / Dolores Triangle),UT_DEER_MULEDEER_13,False,Top-Tier Trophy (Secondary),Elite,85.7
+UT,Deer,Mule Deer,hunt_name_substring,Central Mountains,16,Central Mountains (Manti / Nebo / San Rafael),UT_DEER_MULEDEER_16,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Manti,16,Central Mountains (Manti / Nebo / San Rafael),UT_DEER_MULEDEER_16,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Nebo,16,Central Mountains (Manti / Nebo / San Rafael),UT_DEER_MULEDEER_16,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Central Mtns,16,Central Mountains (Manti / Nebo / San Rafael),UT_DEER_MULEDEER_16,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Wasatch Mountains,17,Wasatch Mountains,UT_DEER_MULEDEER_17,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Wasatch Mtns,17,Wasatch Mountains,UT_DEER_MULEDEER_17,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Currant Creek,17,Wasatch Mountains,UT_DEER_MULEDEER_17,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Avintaquin,17,Wasatch Mountains,UT_DEER_MULEDEER_17,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Timpanogos,17,Wasatch Mountains,UT_DEER_MULEDEER_17,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Heber,17,Wasatch Mountains,UT_DEER_MULEDEER_17,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,West Desert,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_DEER_MULEDEER_19,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Deep Creek,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_DEER_MULEDEER_19,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Vernon,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_DEER_MULEDEER_19,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Snake Valley,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_DEER_MULEDEER_19,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Tintic,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_DEER_MULEDEER_19,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Southwest Desert,20,Southwest Desert,UT_DEER_MULEDEER_20,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Beaver,22,Beaver (East & West / Tushar Mtns),UT_DEER_MULEDEER_22,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,East Beaver,22,Beaver (East & West / Tushar Mtns),UT_DEER_MULEDEER_22,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,West Beaver,22,Beaver (East & West / Tushar Mtns),UT_DEER_MULEDEER_22,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,Tushar Mtns,22,Beaver (East & West / Tushar Mtns),UT_DEER_MULEDEER_22,False,Top-Tier Trophy (Secondary),Excellent,81.7
+UT,Deer,Mule Deer,hunt_name_substring,Mt. Dutton,24,Mt. Dutton,UT_DEER_MULEDEER_24,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Mount Dutton,24,Mt. Dutton,UT_DEER_MULEDEER_24,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Dutton,24,Mt. Dutton,UT_DEER_MULEDEER_24,False,Top-Tier Trophy (Secondary),Excellent,84.1
+UT,Deer,Mule Deer,hunt_name_substring,Plateau,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_DEER_MULEDEER_25,False,Top-Tier Trophy (Secondary),Elite,88.1
+UT,Deer,Mule Deer,hunt_name_substring,Boulder,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_DEER_MULEDEER_25,False,Top-Tier Trophy (Secondary),Elite,88.1
+UT,Deer,Mule Deer,hunt_name_substring,Kaiparowits Plateau,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_DEER_MULEDEER_25,False,Top-Tier Trophy (Secondary),Elite,88.1
+UT,Deer,Mule Deer,hunt_name_substring,Fishlake,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_DEER_MULEDEER_25,False,Top-Tier Trophy (Secondary),Elite,88.1
+UT,Deer,Mule Deer,hunt_name_substring,Parker Mtn,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_DEER_MULEDEER_25,False,Top-Tier Trophy (Secondary),Elite,88.1
+UT,Deer,Mule Deer,hunt_name_substring,Thousand Lakes,25,Plateau (Boulder / Kaiparowits / Fishlake / Parker Mtn),UT_DEER_MULEDEER_25,False,Top-Tier Trophy (Secondary),Elite,88.1
+UT,Deer,Mule Deer,hunt_name_substring,Kaiparowits,26,Kaiparowits,UT_DEER_MULEDEER_26,False,Top-Tier Trophy (Secondary),Elite,90.5
+UT,Deer,Mule Deer,hunt_name_substring,Panguitch Lake,28,Panguitch Lake,UT_DEER_MULEDEER_28,False,Top-Tier Trophy (Secondary),Elite,90.5
+UT,Deer,Mule Deer,hunt_name_substring,Zion,29,Zion,UT_DEER_MULEDEER_29,False,Top-Tier Trophy (Secondary),Elite,90.5
+UT,Deer,Mule Deer,hunt_name_substring,Pine Valley,30,Pine Valley,UT_DEER_MULEDEER_30,False,Top-Tier Trophy (Secondary),Excellent,83.3
+UT,Elk,Rocky Mountain,hunt_name_substring,Box Elder,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_ELK_ROCKYMOUNTAIN_1,False,Top-Tier Trophy (Secondary),Excellent,78.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Pilot Mtn,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_ELK_ROCKYMOUNTAIN_1,False,Top-Tier Trophy (Secondary),Excellent,78.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Grouse Creek,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_ELK_ROCKYMOUNTAIN_1,False,Top-Tier Trophy (Secondary),Excellent,78.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Raft River,1,Box Elder (West / Pilot Mtn / Grouse Creek),UT_ELK_ROCKYMOUNTAIN_1,False,Top-Tier Trophy (Secondary),Excellent,78.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Cache,2,Cache (North / Crawford Mtn / Meadowville),UT_ELK_ROCKYMOUNTAIN_2,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Crawford Mtn,2,Cache (North / Crawford Mtn / Meadowville),UT_ELK_ROCKYMOUNTAIN_2,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Meadowville,2,Cache (North / Crawford Mtn / Meadowville),UT_ELK_ROCKYMOUNTAIN_2,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Rich,2,Cache (North / Crawford Mtn / Meadowville),UT_ELK_ROCKYMOUNTAIN_2,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,North Slope,8,North Slope (Three Corners / West Daggett),UT_ELK_ROCKYMOUNTAIN_8,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Three Corners,8,North Slope (Three Corners / West Daggett),UT_ELK_ROCKYMOUNTAIN_8,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,West Daggett,8,North Slope (Three Corners / West Daggett),UT_ELK_ROCKYMOUNTAIN_8,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,South Slope,9,South Slope (Diamond Mtn / Vernal),UT_ELK_ROCKYMOUNTAIN_9,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Diamond Mtn,9,South Slope (Diamond Mtn / Vernal),UT_ELK_ROCKYMOUNTAIN_9,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Vernal,9,South Slope (Diamond Mtn / Vernal),UT_ELK_ROCKYMOUNTAIN_9,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Yellowstone,9,South Slope (Diamond Mtn / Vernal),UT_ELK_ROCKYMOUNTAIN_9,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Bonanza,9,South Slope (Diamond Mtn / Vernal),UT_ELK_ROCKYMOUNTAIN_9,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Nine Mile,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_ELK_ROCKYMOUNTAIN_11,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Anthro,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_ELK_ROCKYMOUNTAIN_11,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Myton Bench,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_ELK_ROCKYMOUNTAIN_11,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Range Creek,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_ELK_ROCKYMOUNTAIN_11,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,La Sal,13,La Sal (La Sal Mtns / Dolores Triangle),UT_ELK_ROCKYMOUNTAIN_13,False,Top-Tier Trophy (Secondary),Excellent,82.9
+UT,Elk,Rocky Mountain,hunt_name_substring,La Sal Mtns,13,La Sal (La Sal Mtns / Dolores Triangle),UT_ELK_ROCKYMOUNTAIN_13,False,Top-Tier Trophy (Secondary),Excellent,82.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Dolores Triangle,13,La Sal (La Sal Mtns / Dolores Triangle),UT_ELK_ROCKYMOUNTAIN_13,False,Top-Tier Trophy (Secondary),Excellent,82.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Central Mountains,16,Central Mountains (Manti / Nebo / San Rafael),UT_ELK_ROCKYMOUNTAIN_16,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Manti,16,Central Mountains (Manti / Nebo / San Rafael),UT_ELK_ROCKYMOUNTAIN_16,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Nebo,16,Central Mountains (Manti / Nebo / San Rafael),UT_ELK_ROCKYMOUNTAIN_16,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Central Mtns,16,Central Mountains (Manti / Nebo / San Rafael),UT_ELK_ROCKYMOUNTAIN_16,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Wasatch Mountains,17,Wasatch Mountains,UT_ELK_ROCKYMOUNTAIN_17,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Wasatch Mtns,17,Wasatch Mountains,UT_ELK_ROCKYMOUNTAIN_17,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Currant Creek,17,Wasatch Mountains,UT_ELK_ROCKYMOUNTAIN_17,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Avintaquin,17,Wasatch Mountains,UT_ELK_ROCKYMOUNTAIN_17,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Timpanogos,17,Wasatch Mountains,UT_ELK_ROCKYMOUNTAIN_17,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Heber,17,Wasatch Mountains,UT_ELK_ROCKYMOUNTAIN_17,False,Top-Tier Trophy (Secondary),Excellent,75.7
+UT,Elk,Rocky Mountain,hunt_name_substring,West Desert,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_ELK_ROCKYMOUNTAIN_19,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Deep Creek,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_ELK_ROCKYMOUNTAIN_19,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Vernon,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_ELK_ROCKYMOUNTAIN_19,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Snake Valley,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_ELK_ROCKYMOUNTAIN_19,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Tintic,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_ELK_ROCKYMOUNTAIN_19,False,Top-Tier Trophy (Secondary),Excellent,78.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Kaiparowits,26,Kaiparowits,UT_ELK_ROCKYMOUNTAIN_26,False,Top-Tier Trophy (Secondary),Excellent,77.5
+UT,Elk,Rocky Mountain,hunt_name_substring,Paunsaugunt,27,Paunsaugunt,UT_ELK_ROCKYMOUNTAIN_27,False,Top-Tier Trophy (Secondary),Excellent,78.9
+UT,Pronghorn,American,hunt_name_substring,Cache,2,Cache (North / Crawford Mtn / Meadowville),UT_PRONGHORN_AMERICAN_2,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Crawford Mtn,2,Cache (North / Crawford Mtn / Meadowville),UT_PRONGHORN_AMERICAN_2,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Meadowville,2,Cache (North / Crawford Mtn / Meadowville),UT_PRONGHORN_AMERICAN_2,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Rich,2,Cache (North / Crawford Mtn / Meadowville),UT_PRONGHORN_AMERICAN_2,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,North Slope,8,North Slope (Three Corners / West Daggett),UT_PRONGHORN_AMERICAN_8,False,Top-Tier Trophy (Secondary),Excellent,76.9
+UT,Pronghorn,American,hunt_name_substring,Three Corners,8,North Slope (Three Corners / West Daggett),UT_PRONGHORN_AMERICAN_8,False,Top-Tier Trophy (Secondary),Excellent,76.9
+UT,Pronghorn,American,hunt_name_substring,West Daggett,8,North Slope (Three Corners / West Daggett),UT_PRONGHORN_AMERICAN_8,False,Top-Tier Trophy (Secondary),Excellent,76.9
+UT,Pronghorn,American,hunt_name_substring,South Slope,9,South Slope (Diamond Mtn / Vernal),UT_PRONGHORN_AMERICAN_9,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Diamond Mtn,9,South Slope (Diamond Mtn / Vernal),UT_PRONGHORN_AMERICAN_9,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Vernal,9,South Slope (Diamond Mtn / Vernal),UT_PRONGHORN_AMERICAN_9,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Yellowstone,9,South Slope (Diamond Mtn / Vernal),UT_PRONGHORN_AMERICAN_9,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Bonanza,9,South Slope (Diamond Mtn / Vernal),UT_PRONGHORN_AMERICAN_9,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Book Cliffs,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_PRONGHORN_AMERICAN_10,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Bitter Creek,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_PRONGHORN_AMERICAN_10,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Little Creek,10,Book Cliffs (Bitter Creek / Little Creek / South),UT_PRONGHORN_AMERICAN_10,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,"Book Cliffs, North",10,Book Cliffs (Bitter Creek / Little Creek / South),UT_PRONGHORN_AMERICAN_10,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,"Book Cliffs, South",10,Book Cliffs (Bitter Creek / Little Creek / South),UT_PRONGHORN_AMERICAN_10,False,Top-Tier Trophy (Secondary),Elite,85.1
+UT,Pronghorn,American,hunt_name_substring,Nine Mile,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_PRONGHORN_AMERICAN_11,False,Top-Tier Trophy (Secondary),Elite,89.9
+UT,Pronghorn,American,hunt_name_substring,Anthro,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_PRONGHORN_AMERICAN_11,False,Top-Tier Trophy (Secondary),Elite,89.9
+UT,Pronghorn,American,hunt_name_substring,Myton Bench,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_PRONGHORN_AMERICAN_11,False,Top-Tier Trophy (Secondary),Elite,89.9
+UT,Pronghorn,American,hunt_name_substring,Range Creek,11,Nine Mile (Anthro-Myton Bench / Range Creek),UT_PRONGHORN_AMERICAN_11,False,Top-Tier Trophy (Secondary),Elite,89.9
+UT,Pronghorn,American,hunt_name_substring,La Sal,13,La Sal (La Sal Mtns / Dolores Triangle),UT_PRONGHORN_AMERICAN_13,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,La Sal Mtns,13,La Sal (La Sal Mtns / Dolores Triangle),UT_PRONGHORN_AMERICAN_13,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Dolores Triangle,13,La Sal (La Sal Mtns / Dolores Triangle),UT_PRONGHORN_AMERICAN_13,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Henry Mountains,15,Henry Mountains,UT_PRONGHORN_AMERICAN_15,False,Top-Tier Trophy (Secondary),Excellent,76.9
+UT,Pronghorn,American,hunt_name_substring,Henry Mtns,15,Henry Mountains,UT_PRONGHORN_AMERICAN_15,False,Top-Tier Trophy (Secondary),Excellent,76.9
+UT,Pronghorn,American,hunt_name_substring,Central Mountains,16,Central Mountains (Manti / Nebo / San Rafael),UT_PRONGHORN_AMERICAN_16,False,Top-Tier Trophy (Secondary),Excellent,75.5
+UT,Pronghorn,American,hunt_name_substring,Manti,16,Central Mountains (Manti / Nebo / San Rafael),UT_PRONGHORN_AMERICAN_16,False,Top-Tier Trophy (Secondary),Excellent,75.5
+UT,Pronghorn,American,hunt_name_substring,Nebo,16,Central Mountains (Manti / Nebo / San Rafael),UT_PRONGHORN_AMERICAN_16,False,Top-Tier Trophy (Secondary),Excellent,75.5
+UT,Pronghorn,American,hunt_name_substring,Central Mtns,16,Central Mountains (Manti / Nebo / San Rafael),UT_PRONGHORN_AMERICAN_16,False,Top-Tier Trophy (Secondary),Excellent,75.5
+UT,Pronghorn,American,hunt_name_substring,West Desert,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_PRONGHORN_AMERICAN_19,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Deep Creek,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_PRONGHORN_AMERICAN_19,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Vernon,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_PRONGHORN_AMERICAN_19,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Snake Valley,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_PRONGHORN_AMERICAN_19,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Tintic,19,West Desert (Deep Creek / Vernon / Snake Valley),UT_PRONGHORN_AMERICAN_19,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Fillmore,21,Fillmore (Pahvant / Oak Creek),UT_PRONGHORN_AMERICAN_21,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Pahvant,21,Fillmore (Pahvant / Oak Creek),UT_PRONGHORN_AMERICAN_21,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Oak Creek,21,Fillmore (Pahvant / Oak Creek),UT_PRONGHORN_AMERICAN_21,False,Top-Tier Trophy (Secondary),Excellent,81.1
+UT,Pronghorn,American,hunt_name_substring,Beaver,22,Beaver (East & West / Tushar Mtns),UT_PRONGHORN_AMERICAN_22,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,East Beaver,22,Beaver (East & West / Tushar Mtns),UT_PRONGHORN_AMERICAN_22,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,West Beaver,22,Beaver (East & West / Tushar Mtns),UT_PRONGHORN_AMERICAN_22,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Tushar Mtns,22,Beaver (East & West / Tushar Mtns),UT_PRONGHORN_AMERICAN_22,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Mt. Dutton,24,Mt. Dutton,UT_PRONGHORN_AMERICAN_24,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Mount Dutton,24,Mt. Dutton,UT_PRONGHORN_AMERICAN_24,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Dutton,24,Mt. Dutton,UT_PRONGHORN_AMERICAN_24,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Kaiparowits,26,Kaiparowits,UT_PRONGHORN_AMERICAN_26,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Paunsaugunt,27,Paunsaugunt,UT_PRONGHORN_AMERICAN_27,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Panguitch Lake,28,Panguitch Lake,UT_PRONGHORN_AMERICAN_28,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Zion,29,Zion,UT_PRONGHORN_AMERICAN_29,False,Top-Tier Trophy (Secondary),Excellent,78.7
+UT,Pronghorn,American,hunt_name_substring,Pine Valley,30,Pine Valley,UT_PRONGHORN_AMERICAN_30,False,Top-Tier Trophy (Secondary),Excellent,76.9
+UT,Deer,Mule Deer,hunt_name_substring,Ogden,3,Morgan / Weber / Davis County B&C Unit,UT_DEER_MULEDEER_3,False,BC Record Book Unit,Standard,33.2
+UT,Deer,Mule Deer,hunt_name_substring,Morgan-South Rich,3,Morgan / Weber / Davis County B&C Unit,UT_DEER_MULEDEER_3,False,BC Record Book Unit,Standard,33.2
+UT,Deer,Mule Deer,hunt_name_substring,Morgan-South Rich,4,Summit / Morgan / Rich / Davis County B&C Unit,UT_DEER_MULEDEER_4,False,BC Record Book Unit,Standard,33.2
+UT,Deer,Mule Deer,hunt_name_substring,Morgan,4,Summit / Morgan / Rich / Davis County B&C Unit,UT_DEER_MULEDEER_4,False,BC Record Book Unit,Standard,33.2
+UT,Deer,Mule Deer,hunt_name_substring,South Rich,4,Summit / Morgan / Rich / Davis County B&C Unit,UT_DEER_MULEDEER_4,False,BC Record Book Unit,Standard,33.2
+UT,Deer,Mule Deer,hunt_name_substring,East Canyon,5,Summit / Morgan County B&C Unit,UT_DEER_MULEDEER_5,False,BC Record Book Unit,Standard,33.2
+UT,Deer,Mule Deer,hunt_name_substring,Chalk Creek,6,Summit County B&C Unit,UT_DEER_MULEDEER_6,False,BC Record Book Unit,Standard,33.2
+UT,Deer,Mule Deer,hunt_name_substring,Kamas,7,Summit / Wasatch County B&C Unit,UT_DEER_MULEDEER_7,False,BC Record Book Unit,Standard,35.0
+UT,Deer,Mule Deer,hunt_name_substring,North Slope,8,Summit / Uintah / Daggett County B&C Unit,UT_DEER_MULEDEER_8,False,BC Record Book Unit,Standard,46.0
+UT,Deer,Mule Deer,hunt_name_substring,Three Corners,8,Summit / Uintah / Daggett County B&C Unit,UT_DEER_MULEDEER_8,False,BC Record Book Unit,Standard,46.0
+UT,Deer,Mule Deer,hunt_name_substring,West Daggett,8,Summit / Uintah / Daggett County B&C Unit,UT_DEER_MULEDEER_8,False,BC Record Book Unit,Standard,46.0
+UT,Deer,Mule Deer,hunt_name_substring,San Rafael,12,Wayne / Emery County B&C Unit,UT_DEER_MULEDEER_12,False,BC Record Book Unit,Standard,35.0
+UT,Deer,Mule Deer,hunt_name_substring,"San Rafael, Desert",12,Wayne / Emery County B&C Unit,UT_DEER_MULEDEER_12,False,BC Record Book Unit,Standard,35.0
+UT,Deer,Mule Deer,hunt_name_substring,"San Rafael, North",12,Wayne / Emery County B&C Unit,UT_DEER_MULEDEER_12,False,BC Record Book Unit,Standard,35.0
+UT,Deer,Mule Deer,hunt_name_substring,Oquirrh-Stansbury,18,Utah / Tooele / Salt Lake / Juab County B&C Unit,UT_DEER_MULEDEER_18,False,BC Record Book Unit,Standard,46.0
+UT,Deer,Mule Deer,hunt_name_substring,Oquirrh,18,Utah / Tooele / Salt Lake / Juab County B&C Unit,UT_DEER_MULEDEER_18,False,BC Record Book Unit,Standard,46.0
+UT,Deer,Mule Deer,hunt_name_substring,Stansbury,18,Utah / Tooele / Salt Lake / Juab County B&C Unit,UT_DEER_MULEDEER_18,False,BC Record Book Unit,Standard,46.0
+UT,Deer,Mule Deer,hunt_name_substring,Monroe,23,Sevier County B&C Unit,UT_DEER_MULEDEER_23,False,BC Record Book Unit,Standard,27.1
+UT,Elk,Rocky Mountain,hunt_name_substring,Ogden,3,Weber / Morgan County B&C Unit,UT_ELK_ROCKYMOUNTAIN_3,False,BC Record Book Unit,Standard,24.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Morgan-South Rich,3,Weber / Morgan County B&C Unit,UT_ELK_ROCKYMOUNTAIN_3,False,BC Record Book Unit,Standard,24.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Morgan-South Rich,4,Rich / Morgan / Summit County B&C Unit,UT_ELK_ROCKYMOUNTAIN_4,False,BC Record Book Unit,Standard,24.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Morgan,4,Rich / Morgan / Summit County B&C Unit,UT_ELK_ROCKYMOUNTAIN_4,False,BC Record Book Unit,Standard,24.9
+UT,Elk,Rocky Mountain,hunt_name_substring,South Rich,4,Rich / Morgan / Summit County B&C Unit,UT_ELK_ROCKYMOUNTAIN_4,False,BC Record Book Unit,Standard,24.9
+UT,Elk,Rocky Mountain,hunt_name_substring,East Canyon,5,Morgan / Summit County B&C Unit,UT_ELK_ROCKYMOUNTAIN_5,False,BC Record Book Unit,Standard,24.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Chalk Creek,6,Summit County B&C Unit,UT_ELK_ROCKYMOUNTAIN_6,False,BC Record Book Unit,Standard,24.9
+UT,Elk,Rocky Mountain,hunt_name_substring,Kamas,7,Wasatch / Summit County B&C Unit,UT_ELK_ROCKYMOUNTAIN_7,False,BC Record Book Unit,Standard,25.7
+UT,Elk,Rocky Mountain,hunt_name_substring,San Rafael,12,Wayne / Emery County B&C Unit,UT_ELK_ROCKYMOUNTAIN_12,False,BC Record Book Unit,Standard,25.7
+UT,Elk,Rocky Mountain,hunt_name_substring,"San Rafael, Desert",12,Wayne / Emery County B&C Unit,UT_ELK_ROCKYMOUNTAIN_12,False,BC Record Book Unit,Standard,25.7
+UT,Elk,Rocky Mountain,hunt_name_substring,"San Rafael, North",12,Wayne / Emery County B&C Unit,UT_ELK_ROCKYMOUNTAIN_12,False,BC Record Book Unit,Standard,25.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Oquirrh-Stansbury,18,Juab / Tooele / Utah / Salt Lake County B&C Unit,UT_ELK_ROCKYMOUNTAIN_18,False,BC Record Book Unit,Standard,25.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Oquirrh,18,Juab / Tooele / Utah / Salt Lake County B&C Unit,UT_ELK_ROCKYMOUNTAIN_18,False,BC Record Book Unit,Standard,25.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Stansbury,18,Juab / Tooele / Utah / Salt Lake County B&C Unit,UT_ELK_ROCKYMOUNTAIN_18,False,BC Record Book Unit,Standard,25.7
+UT,Elk,Rocky Mountain,hunt_name_substring,Panguitch Lake,28,Garfield / Iron / Kane County B&C Unit,UT_ELK_ROCKYMOUNTAIN_28,False,BC Record Book Unit,Good,56.2
+UT,Elk,Rocky Mountain,hunt_name_substring,Zion,29,Iron / Kane County B&C Unit,UT_ELK_ROCKYMOUNTAIN_29,False,BC Record Book Unit,Standard,46.0
+UT,Elk,Rocky Mountain,hunt_name_substring,Pine Valley,30,Iron County B&C Unit,UT_ELK_ROCKYMOUNTAIN_30,False,BC Record Book Unit,Standard,46.0
+UT,Pronghorn,American,hunt_name_substring,Ogden,3,Ogden,UT_PRONGHORN_AMERICAN_3,False,BC Record Book Unit,Standard,24.9
+UT,Pronghorn,American,hunt_name_substring,Morgan-South Rich,3,Ogden,UT_PRONGHORN_AMERICAN_3,False,BC Record Book Unit,Standard,24.9
+UT,Pronghorn,American,hunt_name_substring,Morgan-South Rich,4,Morgan-South Rich,UT_PRONGHORN_AMERICAN_4,False,BC Record Book Unit,Standard,24.9
+UT,Pronghorn,American,hunt_name_substring,Morgan,4,Morgan-South Rich,UT_PRONGHORN_AMERICAN_4,False,BC Record Book Unit,Standard,24.9
+UT,Pronghorn,American,hunt_name_substring,South Rich,4,Morgan-South Rich,UT_PRONGHORN_AMERICAN_4,False,BC Record Book Unit,Standard,24.9
+UT,Pronghorn,American,hunt_name_substring,East Canyon,5,East Canyon,UT_PRONGHORN_AMERICAN_5,False,BC Record Book Unit,Standard,24.9
+UT,Pronghorn,American,hunt_name_substring,Chalk Creek,6,Chalk Creek,UT_PRONGHORN_AMERICAN_6,False,BC Record Book Unit,Standard,24.9
+UT,Pronghorn,American,hunt_name_substring,Kamas,7,Kamas,UT_PRONGHORN_AMERICAN_7,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,San Juan,14,San Juan County B&C Unit,UT_PRONGHORN_AMERICAN_14,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Elk Ridge,14,San Juan County B&C Unit,UT_PRONGHORN_AMERICAN_14,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Abajo Mtns,14,San Juan County B&C Unit,UT_PRONGHORN_AMERICAN_14,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Wasatch Mountains,17,Wasatch Mountains,UT_PRONGHORN_AMERICAN_17,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Wasatch Mtns,17,Wasatch Mountains,UT_PRONGHORN_AMERICAN_17,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Currant Creek,17,Wasatch Mountains,UT_PRONGHORN_AMERICAN_17,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Avintaquin,17,Wasatch Mountains,UT_PRONGHORN_AMERICAN_17,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Timpanogos,17,Wasatch Mountains,UT_PRONGHORN_AMERICAN_17,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Heber,17,Wasatch Mountains,UT_PRONGHORN_AMERICAN_17,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Oquirrh-Stansbury,18,Oquirrh-Stansbury,UT_PRONGHORN_AMERICAN_18,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Oquirrh,18,Oquirrh-Stansbury,UT_PRONGHORN_AMERICAN_18,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Stansbury,18,Oquirrh-Stansbury,UT_PRONGHORN_AMERICAN_18,False,BC Record Book Unit,Standard,25.7
+UT,Pronghorn,American,hunt_name_substring,Monroe,23,Monroe,UT_PRONGHORN_AMERICAN_23,False,BC Record Book Unit,Standard,27.1

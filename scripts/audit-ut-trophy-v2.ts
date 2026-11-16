@@ -1,19 +1,28 @@
-/** Offline sensitivity audit. No database access, writes, source fetches or live-score changes.
+/** Offline shadow audit. No database access, writes, source fetches or live-score changes.
  * Run: node --import tsx scripts/audit-ut-trophy-v2.ts out/ut-v2-shadow.json
  */
-import {writeFileSync} from 'node:fs';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import hunts from '../data/ut/hunts.json';
 import source from '../data/trophy-source-western-v4.json';
 import v5 from '../data/trophy-v5-reference-context.json';
+import peerData from '../data/trophy-peer-benchmarks-review.json';
+import crosswalk from '../data/ut/trophy-crosswalk-review.json';
 import {resolveTrophyCandidate} from '../src/lib/trophyCandidateResolver';
 import {reviewTrophyPeerBenchmark} from '../src/lib/trophyPeerBenchmarkReview';
 import {trophyForHunt} from '../src/lib/trophyHunt';
 import {withUtSeasonCorrections} from '../src/lib/utSeasonCorrections';
 import {trophyV2Shadow} from '../src/lib/trophyV2Shadow';
 import {utV2ShadowFloor,utV2ShadowTiming} from '../src/lib/trophyV2UtShadow';
+import {allWeaponBaseline} from '../src/lib/trophyV2PeerBaseline';
 
 const out=process.argv[2];if(!out)throw new Error('Provide an output path');
+const digest=(path:string)=>createHash('sha256').update(readFileSync(path)).digest('hex');
+const jsonDigest=(path:string)=>createHash('sha256').update(readFileSync(path,'utf8').replace(/\r\n/g,'\n')).digest('hex');
+if(jsonDigest('data/ut/hunts.json')!==crosswalk.huntsSha256||jsonDigest('data/trophy-ut-wmu-crosswalk.json')!==crosswalk.geometrySha256||digest('data/ut/trophy-hunt-unit-crosswalk.csv')!==crosswalk.sha256)
+  throw new Error('Crosswalk review is stale; regenerate it before auditing');
 const byId=new Map(source.records.map(x=>[x.id,x]));
+const byCode=new Map(crosswalk.hunts.map(x=>[x.code,x]));
 const results:Record<string,unknown>[]=[];
 for(const raw of hunts.hunts){
   const h=withUtSeasonCorrections(raw);
@@ -22,6 +31,8 @@ for(const raw of hunts.hunts){
     const skip=(reason:string)=>results.push({...base,status:'unscored',reason});
     if(!['DEER','ELK','PRONGHORN'].includes(h.species)||!['ANTLERED','EITHER'].includes(h.antlerClass)){skip('not an eligible antlered hunt');continue;}
     if(h.units.length!==1){skip('multi-unit aggregation is undefined');continue;}
+    const link=byCode.get(h.tagCode);
+    if(link?.status!=='agrees with geographic association'){skip(`supplied crosswalk: ${link?.status??'unreviewed'}`);continue;}
     const candidate=resolveTrophyCandidate({state:'UT',species:h.species,unit:h.units[0],deerType:(h as {deerType?:string|null}).deerType});
     const refs=candidate.sourceIds.map(id=>byId.get(id)).filter((v):v is NonNullable<typeof v>=>!!v);
     if(refs.length!==1||refs[0].activeStatus!=='Active'){skip('unit reference absent, ambiguous or inactive');continue;}
@@ -30,7 +41,8 @@ for(const raw of hunts.hunts){
     const value=pool==='Resident'?h.resAppsLast:h.nrAppsLast;
     const peer=typeof value==='number'&&typeof h.oddsLastYear==='number'&&h.tagCode?reviewTrophyPeerBenchmark({state:'UT',species:h.species,year:h.oddsLastYear,code:h.tagCode,pool,measure:'Applications',value}):null;
     if(!peer){skip('current pool applications do not match a comparable archived cohort');continue;}
-    if(peer.peers<10){skip('cohort has fewer than 10 hunts and weapon offset is unspecified');continue;}
+    const baseline=peer.peers<10 ? allWeaponBaseline(peerData.observations, {state:'UT',species:h.species,year:h.oddsLastYear!,pool,measure:'Applications',cohort:peer.cohort,code:h.tagCode!,value:value!}) : null;
+    if(peer.peers<10&&!baseline){skip('cohort has fewer than 10 hunts and comparable all-weapon baseline is not established');continue;}
     const seasons=(h.tagSeasons as {seasons?:{uncertain?:boolean;weapon:string;dates:{open:string;close:string}[] }[]}|null)?.seasons??[];
     if(seasons.length!==1||seasons[0].uncertain||seasons[0].dates.length!==1){skip('multiple, missing or uncertain season segments');continue;}
     const season=seasons[0], span=season.dates[0];
@@ -41,21 +53,19 @@ for(const raw of hunts.hunts){
     const named=ref.sourceTags.filter(t=>!['bc','bc_top_counties'].includes(t.toLowerCase())).length;
     const input={namedSources:named,independentNamedSources:0,verifiedAgencyAntlerOrAge:false,countyEvidenceKnown:true,
       countyTier:ref.overallPast10Tier as 1|2|3|4,boundaryVerified:false,rawDemandPercentile:peer.percentile/100,peerCount:peer.peers,
-      allWeaponPercentile:null,weaponOffset:null,timingPoints:timing,harvestPoints:null};
-    const noPenalty=trophyV2Shadow({...input,privateLandPenalty:0});
-    const fullPenalty=trophyV2Shadow({...input,privateLandPenalty:1});
-    if(!noPenalty||!fullPenalty){skip('score inputs failed validation');continue;}
+      allWeaponPercentile:baseline?.percentile??null,timingPoints:timing,harvestPoints:null};
+    const shadow=trophyV2Shadow(input);
+    if(!shadow){skip('score inputs failed validation');continue;}
     const record=(v5.records as Record<string,{tier:string}>)[ref.id];
     const floor=utV2ShadowFloor(h.huntCategory,h.tagCode,record?.tier);
     const applyFloor=(score:number)=>Math.max(score,floor);
     const tier=(score:number)=>score>=85?'Elite':score>=70?'Excellent':score>=55?'Good':'Standard';
-    const zero=applyFloor(noPenalty.score),full=applyFloor(fullPenalty.score);
-    results.push({...base,status:'scenario only',cohort:peer.cohort,peers:peer.peers,previousTier:trophyForHunt(h),
+    const score=applyFloor(shadow.score);
+    results.push({...base,status:'shadow score',cohort:peer.cohort,peers:peer.peers,allWeaponPeers:baseline?.peers??null,previousTier:trophyForHunt(h),
       countyTier:ref.overallPast10Tier,referenceIds:candidate.sourceIds,timing,floor,
-      scoreWithNoCountyDiscount:zero,tierWithNoCountyDiscount:tier(zero),
-      scoreWithFullCountyDiscount:full,tierWithFullCountyDiscount:tier(full)});
+      score,tier:tier(score)});
   }
 }
 const counts=results.reduce<Record<string,number>>((a,r)=>{const k=String(r.status==='unscored'?r.reason:r.status);a[k]=(a[k]??0)+1;return a},{});
-writeFileSync(out,JSON.stringify({notice:'Offline scenarios, not validated v2 ratings. Assumes no verified agency age evidence, no independently verified sources, and neutral harvest proxy; tests extremes of the undefined county discount. Utah only; retained 2026 source snapshot, not production.',counts,results},null,2)+'\n');
+writeFileSync(out,JSON.stringify({notice:'Offline shadow scores, not validated v2 ratings. Assumes no verified agency age evidence, no independently verified sources, and neutral harvest proxy. No private-land penalty or weapon offset. Utah only; retained 2026 source snapshot, not production.',counts,results},null,2)+'\n');
 console.log(JSON.stringify({rows:results.length,counts}));

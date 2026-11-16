@@ -8,6 +8,7 @@ import { isPrivateOnly } from '@/lib/privateLand';
 import type { HuntSummary } from '@prisma/client';
 import { seasonsSummary, seasonRules, RULE_HELP } from '@/lib/tagSeasons';
 import { scoreEvidence } from '@/lib/scoreEvidence';
+import { landAccessNotice } from '@/lib/landAccessNotice';
 import { trophyReferenceContext } from '@/lib/trophyReferenceContext';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import {
@@ -242,12 +243,14 @@ export function TrophyMark({ score, showNeutral = true, hunt }: { score: number 
 
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
   const evidence=scoreEvidence(r);
-  if(evidence) return <div className="srow none small muted"><b>{evidence.label}</b> · {evidence.explanation}</div>;
-  if (r.scoreQuality === null) return <div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data<CoPressureNote r={r}/></div>;
+  const access=landAccessNotice(r);
+  const warning=access ? <p className="small" role="note"><span className="pill warn">Land access</span> {access} Public ownership does not guarantee access.</p> : null;
+  if(evidence) return <>{warning}<div className="srow none small muted"><b>{evidence.label}</b> · {evidence.explanation}</div></>;
+  if (r.scoreQuality === null) return <>{warning}<div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data<CoPressureNote r={r}/></div></>;
   const opp = nr ? r.scoreOppNr : r.scoreOppRes;
   const parts: [ScorePart, number | null][] = [['success', r.scoreSuccess], ['access', r.scoreAccess], ['crowd', r.scoreCrowd], ['trophy', r.scoreTrophy]];
   return (
-    <details className="srow" open={open}>
+    <>{warning}<details className="srow" open={open}>
       <summary>
         <ScoreBadge v={r.scoreQuality} label="Quality" />
         {hasDraw(r, nr) && opp !== null && <ScoreBadge v={opp} label="Opportunity" />}
@@ -264,7 +267,7 @@ export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; op
         ))}
         <p className="small muted">Success drives 65% of Quality; access 20%, elbow room 15%. Quality is capped at Success + 20; trophy adds up to 5 points when recognized; Standard is neutral and antlerless is excluded. {r.scoreTrophy === null ? 'Trophy has no adjustment here. ' : ''}{r.units.length > 1 && r.scoreTrophy !== null ? 'This hunt’s tier uses a conservative unit tier when evidence differs; other units may differ. ' : ''}{hasDraw(r, nr) ? 'Opportunity = Quality × √(your draw odds), an absolute score. ' : ''}<Link href="/score">How we score</Link></p>
       </div>
-    </details>
+    </details></>
   );
 }
 
