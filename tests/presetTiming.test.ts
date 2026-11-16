@@ -10,7 +10,8 @@ test('scores actual season midpoints by species and weapon', () => {
 });
 test('unknown dates, species, weapons and gaps stay unknown', () => {
   assert.equal(timingScore('ELK','ANY',null,null), null);
-  assert.equal(timingScore('PRONGHORN','ANY','2026-09-01','2026-09-25'), null);
+  assert.equal(timingScore('PRONGHORN','ANY','2026-09-01','2026-09-25'), 13);
+  assert.equal(timingScore('MOOSE','ANY','2026-09-01','2026-09-25'), null);
   assert.equal(timingScore('DEER','SHORT_RANGE','2026-11-05','2026-11-25'), null);
   assert.equal(timingScore('DEER','ANY','2026-11-26','2026-11-30'), null);
   assert.equal(timingScore('DEER','ANY','2026-11-30','2026-11-26'), null);

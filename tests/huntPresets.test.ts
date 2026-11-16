@@ -16,6 +16,12 @@ test('preset thresholds use measured values', () => {
   assert.equal(matchesHuntPreset('tag-filler',{...h,success5:null},null,false,f),false);
   assert.deepEqual(parseHuntPresets('peak-rut,bogus,peak-rut,tag-filler'),['peak-rut','tag-filler']);
 });
+test('pronghorn peak-rut timing uses the September window', () => {
+  const p={...h,species:'PRONGHORN',openDate:new Date('2026-09-11T00:00:00Z'),closeDate:new Date('2026-09-30T00:00:00Z')};
+  assert.equal(matchesHuntPreset('peak-rut',p,null,false,f),true);
+  assert.equal(matchesHuntPreset('peak-rut',{...p,openDate:new Date('2026-10-11'),closeDate:new Date('2026-10-20')},null,false,f),false);
+  assert.equal(matchesHuntPreset('peak-rut',{...p,scoreTrophy:null},null,false,f),false);
+});
 import { matchesTiming } from '../src/lib/huntPresets';
 test('timing applies to the same eligible season segment as weapon and dates', () => {
   const segmented = { ...h, tagSeasons: { seasons: [
