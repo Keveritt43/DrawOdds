@@ -295,7 +295,7 @@ export function compareSearch(a: SearchResult, b: SearchResult, sort: string): n
       case 'hunters': case 'huntersLow': return r.hunters5;
       case 'densityLow': return r.huntersSqMi;
       case 'apps': case 'appsLow': return x.applicants ?? (x.nr ? r.nrAppsLast : r.resAppsLast);
-      case 'open': return r.openDate ? +r.openDate : null;
+      case 'open': return (r.tagSeasons as {seasons?:{uncertain?:boolean}[]}|null)?.seasons?.some(s=>s.uncertain) ? null : r.openDate ? +r.openDate : null;
       case 'pts': return r.state === 'WY' && x.nr ? x.need ?? null : x.nr ? r.ptsNr : r.ptsRes;
       case 'tags': return r.tags;
       case 'creep': return x.nr ? r.creepNr : r.creepRes;

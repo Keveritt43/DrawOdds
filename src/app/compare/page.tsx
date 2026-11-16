@@ -9,7 +9,8 @@ import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { getResidency } from '@/lib/residency';
 import { residencyFields } from '@/lib/finder';
-import { pct, pctOdds, int, range, WEAPON, antlerLabel, density, SPECIES_LABEL, TROPHY_LABEL } from '@/lib/format';
+import { pct, pctOdds, int, range, antlerLabel, density, SPECIES_LABEL, TROPHY_LABEL } from '@/lib/format';
+import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { seasonsSummary, seasonRules } from '@/lib/tagSeasons';
 import { objectiveSummary, OBJ_LABEL } from '@/lib/elkObjectives';
 import { huntName } from '@/components/HuntTable';
@@ -85,7 +86,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
               </tr>
             </thead>
             <tbody>
-              <tr><th>What</th>{hunts.map((h) => <td key={h.id}>{SPECIES_LABEL[h.species]} · {h.nrTag ? 'general tag' : h.type === 'CONTROLLED' ? 'controlled' : 'general season'} · {h.nrTag ? 'tag seasons' : WEAPON[h.weapon]} · {antlerLabel(h.species, h.antlerClass)}</td>)}</tr>
+              <tr><th>What</th>{hunts.map((h) => <td key={h.id}>{SPECIES_LABEL[h.species]} · {h.nrTag ? 'general tag' : h.type === 'CONTROLLED' ? 'controlled' : 'general season'} · {huntWeaponLabel(h)} · {antlerLabel(h.species, h.antlerClass)}</td>)}</tr>
               <tr><th>Where</th>{hunts.map((h) => <td key={h.id}>{h.type === 'CONTROLLED' && h.areaName ? `Area ${h.areaName} · ` : ''}Units {h.units.join(', ')}</td>)}</tr>
               <tr><th>Seasons</th>{hunts.map((h) => <td key={h.id}>{seasonsSummary(h.tagSeasons, 4) || range(h.openDate, h.closeDate)}</td>)}</tr>
               <tr><th>Rules</th>{hunts.map((h) => <td key={h.id}>{seasonRules(h.tagSeasons, h.species).join(' · ') || '-'}</td>)}</tr>

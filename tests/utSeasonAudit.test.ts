@@ -7,6 +7,8 @@ import {withStateTrophyScores} from '../src/lib/stateTrophyScores';
 import {matchesHuntSeason,type SeasonFilters} from '../src/lib/huntSeasonFilter';
 import {seasonsSummary} from '../src/lib/tagSeasons';
 import {otcElkOverlap} from '../src/lib/overlappingSeasons';
+import {compareSearch, type SearchResult} from '../src/lib/multiStateSearch';
+import {huntWeaponLabel} from '../src/lib/huntWeaponLabel';
 
 const hunts=JSON.parse(readFileSync('data/ut/hunts.json','utf8')).hunts as HuntSummary[];
 const get=(code:string)=>hunts.find(h=>h.tagCode===code)!;
@@ -42,4 +44,13 @@ test('Utah correction does not overwrite a changed source window',()=>{
  const raw=get('EB3132'), ts=structuredClone(raw.tagSeasons) as any;
  ts.seasons[0].dates[0].close='2026-09-29';const changed={...raw,tagSeasons:ts};
  assert.equal(withUtSeasonCorrections(changed),changed);
+});
+test('comparison weapon labels retain restrictions and opening-date sort puts uncertain windows last',()=>{
+ const restricted=withUtSeasonCorrections(get('DB1091'));
+ assert.equal(huntWeaponLabel(restricted),'HAMSS restricted weapons');
+ const uncertain=withUtSeasonCorrections(get('DB1200'));
+ const definite=withUtSeasonCorrections(get('EB3132'));
+ const result=(r:HuntSummary)=>({r:{...r,openDate:new Date(r.openDate!),scoreQuality:50},odds:null,opportunity:null,nr:false,points:null,basis:''} as SearchResult);
+ assert.ok(compareSearch(result(uncertain),result(definite),'open')>0);
+ assert.ok(compareSearch(result(definite),result(uncertain),'open')<0);
 });
