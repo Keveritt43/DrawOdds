@@ -34,6 +34,13 @@ PREFIX = {"antelope": "A", "deer": "D", "elk": "E"}
 PROJECT = {"antelope": True, "deer": True, "elk": False}
 # WGFD's elk nonresident region layer names regions; the draw reports use letters
 REGION_CODE = {"Eastern": "E", "Southern": "S", "Western": "W"}
+# 2026 WGFD Chapter 7 section 6: geographic region polygons also contain
+# limited-quota areas where a nonresident general license is not valid.
+ELK_GENERAL_REGION_AREAS = {
+    "E": [2, 3, 6, 116, 126, 129],
+    "S": [9, 10, 12, 13, 15, 21, 105, 106, 107, 110, 130],
+    "W": [28, 36, 37, 56, 59, 60, 66, 67, 68, 69, 70, 71, 73, 77, 78, 80, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 92, 94, 96, 97, 98, 102, 103, 104, 127, 128],
+}
 region_of = lambda info: REGION_CODE.get(info.get("region") or "", info.get("region"))
 BANDS = [1, 3, 6, 10]
 QS = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
@@ -194,6 +201,8 @@ def main():
             if region:
                 code, lkey, units = f"{h['area']}", None, [f"{PREFIX[sp]}R-{h['area']}"]
                 region_units = [unit(a) for a, info in ainfo.items() if region_of(info) == h["area"]]
+                if sp == "elk":
+                    region_units = [unit(a) for a in ELK_GENERAL_REGION_AREAS.get(h["area"], [])]
                 if not region_units and ainfo:
                     problems.append(f"{sp} region {h['area']}: no hunt areas in that region")
                 reg = None

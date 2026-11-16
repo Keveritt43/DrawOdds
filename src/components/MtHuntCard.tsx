@@ -1,3 +1,4 @@
+import { mtHarvestProxy, mtProxyRate } from '@/lib/mtHarvestProxy';
 import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import Link from 'next/link';
 import { HuntLink } from '@/components/HuntNavigation';
@@ -19,6 +20,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
   points: number | null; nr: boolean; basis: string; saved: boolean; signedIn: boolean;
 }) {
   const po = r.pointOdds as unknown as MtPointOdds | null;
+  const proxy=mtHarvestProxy(po), proxyRate=mtProxyRate(po);
   const general = po?.kind === 'general';
   // A nonresident permit shows the permit draw's own odds (as if the combination is drawn); the combination's odds sit
   // beneath it, and draw-and-fill multiplies both, so the overall chance is never hidden.
@@ -62,16 +64,16 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
           {parts && <span className="sub">Your {parts.comboName} draw: <b>{pctOdds(parts.combo)}</b></span>}
         </div>
         <div>
-          <span className="k">Success {years ? `${years} surveyed seasons` : ''}</span>
-          <b>{pct(r.success5)}</b>
-          <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
-          <span className="sub">{successSub}{r.harvestLastYear ? ` · ${r.harvestLastYear}: ${pct(r.successLast)}` : ''}</span>
+          <span className="k">{proxy === 'permit' ? 'Mule bucks / issued permit' : proxy === 'species' ? 'Species harvest / deer hunter' : `Success ${years ? `${years} surveyed seasons` : ''}`}</span>
+          <b>{pct(proxy ? proxyRate : r.success5)}</b>
+          <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{proxy ? 'District estimate · not hunter success' : r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
+          <span className="sub">{successSub}{r.harvestLastYear && !proxy ? ` · ${r.harvestLastYear}: ${pct(r.successLast)}` : ''}</span>
         </div>
         <div>
           <span className="k">Hunters/mi²</span>
           <b>{density(r.huntersSqMi)}</b>
           <span className={`verdict ${crowd.tone}`}>{crowd.text}</span>
-          <span className="sub">{r.hunters5 !== null && years ? `${int(r.hunters5 / years)} hunters/surveyed yr` : 'No density data'}</span>
+          <span className="sub">{r.hunters5 !== null && years ? `${int(r.hunters5 / years)} hunters/surveyed yr` : proxy && r.huntersSqMi !== null ? 'District pressure, all deer hunters' : 'No density data'}</span>
         </div>
       </div>
       <div className="small muted" style={{ marginTop: 8 }}>

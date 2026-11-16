@@ -3,11 +3,12 @@ import type { HuntSummary } from '@prisma/client';
 import { withCoLand, coLandUnit } from './coLand';
 import { opportunity, scoreHunts } from './score';
 import { seasonRules } from './tagSeasons';
+import { withCoHarvestCoverage } from './coHarvestCoverage';
 /** Read-time CO scoring leaves historical summaries and all Idaho rows untouched. */
 export type CoScored = HuntSummary & { coPressure?: CoPressure };
 export function withCoScores<T extends HuntSummary>(row: T, context?: CoPressureContext): T & {coPressure?:CoPressure} {
   if (row.state !== 'CO') return row;
-  const r = {...withCoLand(row)};
+  const r = {...withCoHarvestCoverage(withCoLand(row))};
   const pressure = context ? coDeerPressure(r,context) : undefined;
   if (pressure) r.huntersSqMi = pressure.density;
   const landValid = r.units.length > 0 && r.units.every(u => {

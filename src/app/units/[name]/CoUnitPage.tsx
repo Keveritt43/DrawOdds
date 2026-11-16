@@ -1,3 +1,4 @@
+import { withCoHarvestCoverage } from '@/lib/coHarvestCoverage';
 import { coSpecial } from '@/lib/coSpecial';
 import { specialPersonalOdds, specialOddsBasis } from '@/lib/coSpecialPoints';
 import { CoLand } from "@/components/CoLand";
@@ -51,7 +52,7 @@ export async function CoUnitPage({ name }: { name: string }) {
         {herds.ELK ? ` · Elk herd ${herds.ELK}` : ''}
       </p>
       <CoLand units={[name]} />
-      <CoUnitReports units={[name]} hunts={hunts} points={pts} />
+      <CoUnitReports units={[name]} hunts={hunts.map(withCoHarvestCoverage)} points={pts} />
       {!/^[SG]/.test(name) && <CoUnitSeasonHunters units={[name]} />}
       <h2>Hunt Licenses</h2>
       {!hunts.length && <p className="muted">No hunt licenses are loaded for this unit.</p>}
@@ -70,7 +71,7 @@ export async function CoUnitPage({ name }: { name: string }) {
               </tr>
             </thead>
             <tbody>
-              {hunts.map((h) => {
+              {hunts.map(withCoHarvestCoverage).map((h) => {
                 const p = pts[h.species === 'PRONGHORN' ? 'PRONGHORN' : h.species === 'ELK' ? 'ELK' : 'DEER'];
                 const special = coSpecial(h);
                 const o = special ? specialPersonalOdds(special, nr, pts) : tableOdds(h.oddsByPts as unknown as OddsTable, 'proj', pool, p);

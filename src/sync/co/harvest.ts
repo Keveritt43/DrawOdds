@@ -205,7 +205,9 @@ export function codeFromUnits(
   const split = sex !== 'E' ? t.split[kind] : undefined;
   if (split?.length) {
     const rows = split.filter((r) => units.includes(r.unit));
-    if (!rows.length) return null;
+    // A partial set describes only part of the license geography; do not
+    // silently publish it as the full hunt's pooled result.
+    if (!units.length || new Set(rows.map(r => r.unit)).size !== new Set(units).size || rows.length !== new Set(units).size) return null;
     if (rows.some((r) => !validHarvestCounts((sex === 'M' ? r.mHarvest : r.fHarvest) ?? 0, (sex === 'M' ? r.mHunters : r.fHunters) ?? 0))) return null;
     const h = rows.reduce((a, r) => a + ((sex === 'M' ? r.mHarvest : r.fHarvest) ?? 0), 0);
     const n = rows.reduce((a, r) => a + ((sex === 'M' ? r.mHunters : r.fHunters) ?? 0), 0);
@@ -213,7 +215,7 @@ export function codeFromUnits(
   }
   const tot = t.totals[kind];
   const rows = tot?.filter((r) => units.includes(r.unit)) ?? [];
-  if (!rows.length) return null;
+  if (!units.length || new Set(rows.map(r => r.unit)).size !== new Set(units).size || rows.length !== new Set(units).size) return null;
   if (rows.some((r) => !validHarvestCounts(r.harvest ?? 0, r.hunters ?? 0))) return null;
   const h = rows.reduce((a, r) => a + (sex === 'M' ? (r.male ?? 0) : sex === 'F' ? (r.female ?? 0) + (r.young ?? 0) : (r.harvest ?? 0)), 0);
   const n = rows.reduce((a, r) => a + (r.hunters ?? 0), 0);

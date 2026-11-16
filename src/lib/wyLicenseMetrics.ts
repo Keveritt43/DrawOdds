@@ -11,6 +11,7 @@ export function wyLicenseSeries(pointOdds:unknown) {
 }
 export function withoutUnvalidatedWyLicenseMetrics<T extends Row>(row:T):T {
   if (row.state !== 'WY' || !['ELK','PRONGHORN'].includes(row.species)) return row;
+  if ((row.pointOdds as {verifiedRegionHarvest?:boolean}|null)?.verifiedRegionHarvest) return row;
   return {...row, success5:null, successLast:null, hunters5:null, harvest5:null, huntersSqMi:null,
     daysPerHunter5:null, daysPerHarvest5:null, resTagAndFill:null, nrTagAndFill:null,
     scoreQuality:null, scoreSuccess:null, scoreAccess:null, scoreCrowd:null, scoreOppRes:null, scoreOppNr:null} as T;

@@ -80,7 +80,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
           <span className="k">Harvest per active license</span>
           <b>{pct(licenseCount ? licenseHarvest / licenseCount : null)}</b>
           <span className="sub">{licenseRows.length ? `${licenseRows[0].year}–${licenseRows.at(-1)?.year} · ${licenseRows.length} reported seasons` : 'No comparable data'}</span>
-          <span className="sub">{po?.harvestBasis ? 'Area-license reports; holders may overlap' : 'WGFD survey · active licenses'}</span>
+          <span className="sub">{po?.verifiedRegionHarvest ? '2025 NR region survey · active licenses' : po?.harvestBasis ? 'Area-license reports; holders may overlap' : 'WGFD survey · active licenses'}</span>
         </div>}
         <div>
           <span className="k">Hunters/mi²</span>

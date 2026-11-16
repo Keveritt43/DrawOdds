@@ -86,6 +86,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         </p>
         <p className="small muted">{po.regs?.unitText}</p>
         <h2>Hunter Success</h2>
+      {po.harvestCoverageNote && <p className="small muted">{po.harvestCoverageNote}</p>}
         {po.harvest?.length ? <div className="grid2 co-graph-grid"><HarvestCharts rows={po.harvest} /></div> : null}
         {po.harvest?.length ? <Harvest rows={po.harvest} species={spLabel} /> : <p>No harvest estimate loaded for this code.</p>}
         <h2>{species === 'PRONGHORN' ? 'Pronghorn' : 'Elk'} Population</h2>
@@ -227,6 +228,7 @@ export async function CoHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
         {po.harvest?.length ? <HarvestCharts rows={po.harvest} /> : null}
       </div>
       <h2>Hunter Success</h2>
+      {po.harvestCoverageNote && <p className="small muted">{po.harvestCoverageNote}</p>}
       {po.history.some((h) => h.sharedPool) && <p className="small muted">Some historical draws shared an applicant pool across hunt codes. Marked rows show the shared pool’s applications and cutoffs; its quota is not this code’s individual quota.</p>}
       {po.sharedPool && <p>Current draw pool shared with {po.sharedPool.codes.join(', ')}. Applicant counts and odds describe this shared pool.</p>}
       {po.harvest?.length ? (

@@ -37,6 +37,7 @@ export interface WyPointOdds {
   /** set when harvest is combined from other rows (region licenses: the region's general seasons) */
   harvestBasis?: string;
   harvestBoundaryNote?: string;
+  verifiedRegionHarvest?: boolean;
   land: WyLand | null;
   /** general season: residents buy over the counter; nonresidents need this region's license */
   general?: boolean;

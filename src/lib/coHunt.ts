@@ -67,6 +67,7 @@ export interface PointOdds {
   regs?: RegsInfo | null;
   dates?: { start: string; end: string; year: number } | null;
   harvest?: HarvestYear[];
+  harvestCoverageNote?: string;
   /** CPW post-hunt population estimates for the herds (DAUs) the hunt's units are in. */
   herds?: HerdSeries[];
 }
