@@ -29,6 +29,15 @@ test('Colorado unit-based harvest requires all license units without duplicates'
   assert.equal(codeFromUnits('DM001O2R',['1','2','3'],table),null);
   assert.equal(codeFromUnits('DM001O2R',['1'],{...table,split:{rifle2:[table.split.rifle2![0],table.split.rifle2![0]]}}),null);
   assert.equal(codeFromUnits('DE001O2R',['1','2'],{split:{},totals:{rifle2:[{unit:'1',harvest:2,hunters:5}]}}),null);
+  assert.equal(codeFromUnits('DM001O2R',['1'],{split:{},totals:{rifle2:[{unit:'1',male:4,harvest:6,hunters:10}]}}),null);
+  assert.deepEqual(codeFromUnits('DE001O2R',['1'],{split:{},totals:{rifle2:[{unit:'1',harvest:6,hunters:10,days:25}]}}),{harvest:6,hunters:10,days:25,basis:'totals'});
+});
+test('Colorado sex-specific hunts do not use all-sex hunter counts',()=>{
+  const row={id:'CO:DM001O1A',state:'CO',units:['1'],pointOdds:{harvest:[
+    {year:2024,basis:'units-all',hunters:100,harvest:40},{year:2025,basis:'code',hunters:50,harvest:20}]}};
+  const fixed=withCoHarvestCoverage(row) as typeof row & {success5:number;harvestYears:number};
+  assert.equal(fixed.harvestYears,1);assert.equal(fixed.success5,.4);
+  assert.deepEqual(fixed.pointOdds.harvest.map(h=>h.year),[2025]);
 });
 test('Colorado omits audited incomplete years without changing source data',()=>{
   const raw={id:'CO:DE043O1A',state:'CO',units:['43','47','431','471'],acres:6400,
