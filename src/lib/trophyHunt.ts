@@ -113,6 +113,19 @@ export function trophyForUnit(hunt: {
     if(upper<.5) return {score:50 as const,tier:'unclassified' as const,reason:`Low observed harvest with high overall draw rate compared with the same-year peer group${benchmark.n<30?'; provisional (small comparison group)':''}`};
     if(p<.5 && result.score>65) return seasonal({score:65,tier:'county',reason:'Below-50% observed harvest with high overall draw rate; provisional (uncertainty remains)'});
   }
+  // Reviewed hunt-specific evidence, not a general early-season upgrade. Eastmans
+  // forecast this exact hunt Excellent in 2021; CPW documents historical E-34
+  // mature-bull context. Neither source measures current hunt-level antler size.
+  const calendarDay=(v:Date|string|null|undefined) => v instanceof Date
+    ? Number.isFinite(+v) ? v.toISOString().slice(0,10) : ''
+    : typeof v==='string' ? v.slice(0,10) : '';
+  const reviewedEarly76 = state==='CO' && hunt.species.toUpperCase()==='ELK' &&
+    hunt.type.toUpperCase()==='CONTROLLED' && hunt.antlerClass.toUpperCase()==='ANTLERED' &&
+    hunt.privateOnly===false && hunt.youthOnly===false && code?.toUpperCase()==='EM076E1R' &&
+    hunt.oddsLastYear===2026 && unit.trim()==='76' && hunt.units?.length===1 && hunt.units[0].trim()==='76' &&
+    spans.length===1 && ['2026','2027'].some(year=>calendarDay(spans[0].open)===`${year}-10-01` && calendarDay(spans[0].close)===`${year}-10-07`);
+  if (reviewedEarly76)
+    return {score:80 as const,tier:'trophy' as const,reason:'Reviewed Unit 76 early rifle forecast and herd context; historical sources do not measure current antler size; provisional'};
   // These two previously reviewed Washington hunt comparisons remain hunt-specific.
   // A unit-wide source designation must not erase their documented demand distinction.
   if (!bcLow && state==='WA' && hunt.species.toUpperCase()==='DEER' && String(hunt.tagCode)==='1033' && result.score!==null && result.score>80)
