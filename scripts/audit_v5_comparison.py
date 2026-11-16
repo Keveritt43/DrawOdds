@@ -91,7 +91,8 @@ def main():
         for u, ref, _ in found:
             per_unit[u].add(ref['subspecies'])
         for u, ref, geo in found:
-            status, reason = scope(ref, h)
+            scope_status, scope_reason = scope(ref, h)
+            status, reason = scope_status, scope_reason
             if len(per_unit[u]) > 1:
                 status, reason = 'subspecies unresolved', 'Reference unit contains multiple subspecies; export does not establish the hunt population'
             elif 'not identical geography' in geo or 'portion' in geo or len(h['Units'].split()) > 1:
@@ -105,10 +106,12 @@ def main():
                 direction = 'unavailable'
             detail.append({'state':h['State'], 'hunt':h['Hunt'], 'code':h['Code'], 'link':h['Link'], 'units':h['Units'], 'matched_unit':u,
                 'record_id':ref['record_id'], 'reference_subspecies':ref['subspecies'], 'reference_scope':ref['hunt_scope'], 'reference_tier':ref['trophy_tier'],
-                'hunt_trophy_score':h.get('Trophy score', ''), 'tier_direction_context_only':direction, 'status':status, 'reason':reason, 'geography_basis':geo})
+                'hunt_trophy_score':h.get('Trophy score', ''), 'tier_direction_context_only':direction, 'status':status, 'reason':reason,
+                'scope_assessment':scope_status, 'scope_reason':scope_reason, 'geography_basis':geo,
+                'subspecies_assessment':'unresolved' if len(per_unit[u]) > 1 else 'not independently verified'})
         for u in set(h['Units'].split()) - {v[0] for v in found}:
             detail.append({'state':h['State'], 'hunt':h['Hunt'], 'code':h['Code'], 'link':h['Link'], 'units':h['Units'], 'matched_unit':u, 'status':'no reference association', 'reason':'No established reference association for this unit'})
-    fields = ['state','hunt','code','link','units','matched_unit','record_id','reference_subspecies','reference_scope','reference_tier','hunt_trophy_score','tier_direction_context_only','status','reason','geography_basis']
+    fields = ['state','hunt','code','link','units','matched_unit','record_id','reference_subspecies','reference_scope','reference_tier','hunt_trophy_score','tier_direction_context_only','status','reason','scope_assessment','scope_reason','geography_basis','subspecies_assessment']
     with output.with_suffix('.csv').open('w', encoding='utf-8-sig', newline='') as f:
         writer = csv.DictWriter(f, fields); writer.writeheader(); writer.writerows({k:spreadsheet_cell(v) for k,v in row.items()} for row in detail)
     totals = defaultdict(Counter)
