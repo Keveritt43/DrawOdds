@@ -26,6 +26,7 @@ import {
 import { parsePopulation, type HerdEstimate } from './population';
 import { herdSeries } from '../../lib/coHerds';
 import { parseHarvestByCode, parseHarvestByUnit, harvestYear, codeFromUnits, validHarvestCounts, type CodeHarvest, type UnitTables } from './harvest';
+import { coBoundaryStart } from '../../lib/coBoundaryHistory';
 import { parseRegs, datesFor, type RegCode } from './regs';
 import {
   effective,
@@ -377,10 +378,12 @@ function harvestHistory(
   units: string[],
   byCode: Map<number, Map<string, CodeHarvest>>,
   byUnit: Map<number, UnitTables>,
+  partial = false,
 ): HarvestYear[] {
   const years = [...new Set([...byCode.keys(), ...byUnit.keys()])].sort((a, b) => a - b);
   const out: HarvestYear[] = [];
   for (const y of years) {
+    if (y < coBoundaryStart(units,partial)) continue;
     const c = byCode.get(y)?.get(code);
     if (c) {
       if (!validHarvestCounts(c.harvest, c.hunters)) continue;
@@ -514,7 +517,7 @@ export async function buildCoSummaries(speciesOnly?: 'PRONGHORN'): Promise<StepR
       const known = (reg?.units ?? []).filter((u) => !gmus.size || gmus.has(u));
       const units = known.length ? known : [d.unit];
       const when = reg ? datesFor(reg, latest + 1) : null;
-      const harvest = harvestHistory(code, units, hCode, hUnit);
+      const harvest = harvestHistory(code, units, hCode, hUnit,reg?.partial ?? true);
       const h5 = harvest.slice(-5);
       const sum = (k: 'hunters' | 'harvest') => h5.reduce((a, x) => a + x[k], 0);
       const lastH = harvest[harvest.length - 1];
@@ -614,7 +617,7 @@ export async function buildCoSummaries(speciesOnly?: 'PRONGHORN'): Promise<StepR
     if (!units.length) continue;
     const latest = Math.max(...all.map((r) => r.year));
     const when = datesFor(reg, latest + 1);
-    const history = harvestHistory(reg.code, units, codeHarvest, unitHarvest),
+    const history = harvestHistory(reg.code, units, codeHarvest, unitHarvest,reg.partial),
       h5 = history.slice(-5),
       last = history.at(-1);
     const hunters = h5.reduce((a, h) => a + h.hunters, 0),

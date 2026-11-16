@@ -58,6 +58,16 @@ test('only five latest survey years are used; unknown dates never create an over
  assert.equal(withCoScores(hunt(),c).coPressure?.elkHuntersPerYear,500);
  const p=coDeerPressure(withCoLand(hunt({openDate:null})),c);assert.equal(p.status,'unknown');
 });
+test('elk pressure excludes pre-change Colorado unit boundaries',()=>{
+ const c=context();c.generalElk=[elk({units:['79']})];
+ for(const rep of c.reports) (rep.data as any).totals.rifle2=[{unit:'79',hunters:rep.year===2024?500:5000,harvest:10}];
+ const p=coDeerPressure(withCoLand(hunt({units:['79']})),c);
+ assert.equal(p.elkHuntersPerYear,500);assert.deepEqual(p.evidence[0].years,[2024]);
+ c.generalElk=[elk({units:['97']})];
+ for(const rep of c.reports) (rep.data as any).totals.rifle2=[{unit:'97',hunters:100,harvest:10}];
+ const q=coDeerPressure(withCoLand(hunt({units:['97']})),c);
+ assert.equal(q.status,'missing');assert.equal(q.density,null);
+});
 test('missing land cannot mutate the input object during pressure calculation',()=>{
  const r=hunt({units:['70','unmapped'],acres:10000,huntersSqMi:.2});
  const before=structuredClone(r);
