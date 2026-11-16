@@ -6,7 +6,7 @@ import { resolveTrophyCandidate } from './trophyCandidateResolver';
 import { unlistedExceptionalHunt } from './trophyHuntDemandCandidate';
 import { reviewTrophyPeerBenchmark } from './trophyPeerBenchmarkReview';
 
-const maximumAntlerRule = (text:string) => /\bspike(?:\s+(?:bulls?|elk))?\s+(?:only|or antlerless)\b|\b(?:no more than|not more than|at most|maximum of)\s*\d+\s*[- ]?(?:pt|point)|\b\d+\s*[- ]?(?:pt|point)s?\s*(?:(?:bucks?|deer|bulls?|elk)\s*)?(?:only|max(?:imum)?|or (?:less|fewer))\b/i.test(text);
+const maximumAntlerRule = (text:string) => /\b(?:\w+\s+)?\(\d+\)\s*points?\s+or\s+(?:less|fewer)\b/i.test(text) || /\bspike(?:\s+(?:bulls?|elk))?\s+(?:only|or antlerless)\b|\b(?:no more than|not more than|at most|maximum of)\s*\d+\s*[- ]?(?:pt|point)|\b\d+\s*[- ]?(?:pt|point)s?\s*(?:(?:bucks?|deer|bulls?|elk)\s*)?(?:only|max(?:imum)?|or (?:less|fewer))\b/i.test(text);
 
 /** Compare real date spans, rather than treating a gap between separate seasons as open. */
 function overlapsMonth(open:Date|string|null|undefined,close:Date|string|null|undefined,month:number):boolean {
