@@ -60,3 +60,13 @@ test('Montana permit-based Tag Filler is a separate, explicitly identified proxy
   assert.equal(matchesHuntPreset('tag-filler',{...p,pointOdds:{mulePermit:true,harvest:[{hunters:0,harvest:0}]}},null,false,f),false);
   assert.equal(matchesHuntPreset('tag-filler',{...p,publicPct:64},null,false,f),false);
 });
+
+test('Wyoming deer rut uses real weapon segments instead of their date envelope', () => {
+  const wy={...h,state:'WY',species:'DEER',weapon:'ANY',openDate:new Date('2026-09-01'),closeDate:new Date('2026-11-20'),
+    pointOdds:{regs:{segments:[{archery:['2026-09-01','2026-09-30'],regular:['2026-11-01','2026-11-20'],limitations:'Any deer'}]}}};
+  assert.equal(matchesHuntPreset('peak-rut',wy,null,false,f),true);
+  assert.equal(matchesHuntPreset('peak-rut',wy,null,false,{...f,weapon:['ARCHERY']}),false);
+  assert.equal(matchesHuntPreset('peak-rut',wy,null,false,{...f,weapon:['ANY']}),true);
+  assert.equal(matchesHuntPreset('peak-rut',{...wy,pointOdds:{regs:{segments:[{regular:['2026-10-01','2026-10-31']}]}}},null,false,f),false);
+  assert.equal(matchesHuntPreset('peak-rut',{...wy,pointOdds:null},null,false,f),false);
+});
