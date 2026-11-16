@@ -12,7 +12,7 @@ import {resolveTrophyCandidate} from '../src/lib/trophyCandidateResolver';
 import {reviewTrophyPeerBenchmark} from '../src/lib/trophyPeerBenchmarkReview';
 import {trophyForHunt} from '../src/lib/trophyHunt';
 import {withUtSeasonCorrections} from '../src/lib/utSeasonCorrections';
-import {trophyV2Shadow} from '../src/lib/trophyV2Shadow';
+import {countyScenarios} from '../src/lib/trophyV2CountyScenarios';
 import {utV2ShadowFloor,utV2ShadowTiming} from '../src/lib/trophyV2UtShadow';
 import {allWeaponBaseline} from '../src/lib/trophyV2PeerBaseline';
 
@@ -37,7 +37,7 @@ for(const raw of hunts.hunts){
     const refs=candidate.sourceIds.map(id=>byId.get(id)).filter((v):v is NonNullable<typeof v>=>!!v);
     if(refs.length!==1||refs[0].activeStatus!=='Active'){skip('unit reference absent, ambiguous or inactive');continue;}
     const ref=refs[0];
-    if(ref.overallPast10Tier===null||ref.overallPast10Tier!==ref.statePast10Tier){skip('county tier missing or its basis is ambiguous');continue;}
+    if(ref.overallPast10Tier===null||ref.statePast10Tier===null){skip('county tier missing');continue;}
     const value=pool==='Resident'?h.resAppsLast:h.nrAppsLast;
     const peer=typeof value==='number'&&typeof h.oddsLastYear==='number'&&h.tagCode?reviewTrophyPeerBenchmark({state:'UT',species:h.species,year:h.oddsLastYear,code:h.tagCode,pool,measure:'Applications',value}):null;
     if(!peer){skip('current pool applications do not match a comparable archived cohort');continue;}
@@ -52,20 +52,17 @@ for(const raw of hunts.hunts){
     if(timing===null){skip('timing rubric does not cover this exact segment');continue;}
     const named=ref.sourceTags.filter(t=>!['bc','bc_top_counties'].includes(t.toLowerCase())).length;
     const input={namedSources:named,independentNamedSources:0,verifiedAgencyAntlerOrAge:false,countyEvidenceKnown:true,
-      countyTier:ref.overallPast10Tier as 1|2|3|4,boundaryVerified:false,rawDemandPercentile:peer.percentile/100,peerCount:peer.peers,
+      boundaryVerified:false,rawDemandPercentile:peer.percentile/100,peerCount:peer.peers,
       allWeaponPercentile:baseline?.percentile??null,timingPoints:timing,harvestPoints:null};
-    const shadow=trophyV2Shadow(input);
-    if(!shadow){skip('score inputs failed validation');continue;}
     const record=(v5.records as Record<string,{tier:string}>)[ref.id];
     const floor=utV2ShadowFloor(h.huntCategory,h.tagCode,record?.tier);
-    const applyFloor=(score:number)=>Math.max(score,floor);
-    const tier=(score:number)=>score>=85?'Elite':score>=70?'Excellent':score>=55?'Good':'Standard';
-    const score=applyFloor(shadow.score);
-    results.push({...base,status:'shadow score',cohort:peer.cohort,peers:peer.peers,allWeaponPeers:baseline?.peers??null,previousTier:trophyForHunt(h),
-      countyTier:ref.overallPast10Tier,referenceIds:candidate.sourceIds,timing,floor,
-      score,tier:tier(score)});
+    const compared=countyScenarios(input,[ref.overallPast10Tier as 1|2|3|4,ref.statePast10Tier as 1|2|3|4],floor);
+    if(!compared){skip('score inputs failed validation');continue;}
+    results.push({...base,status:compared.scoreStable?'shadow score':'county basis scenarios',cohort:peer.cohort,peers:peer.peers,allWeaponPeers:baseline?.peers??null,previousTier:trophyForHunt(h),
+      overallCountyTier:ref.overallPast10Tier,stateCountyTier:ref.statePast10Tier,referenceIds:candidate.sourceIds,timing,floor,
+      score:compared.scoreStable?compared.scenarios[0].score:null,tier:compared.tierStable?compared.scenarios[0].tier:null,scenarios:compared.scenarios});
   }
 }
 const counts=results.reduce<Record<string,number>>((a,r)=>{const k=String(r.status==='unscored'?r.reason:r.status);a[k]=(a[k]??0)+1;return a},{});
-writeFileSync(out,JSON.stringify({notice:'Offline shadow scores, not validated v2 ratings. Assumes no verified agency age evidence, no independently verified sources, and neutral harvest proxy. No private-land penalty or weapon offset. Utah only; retained 2026 source snapshot, not production.',counts,results},null,2)+'\n');
+writeFileSync(out,JSON.stringify({notice:'Offline shadow scores and county-basis scenarios, not validated v2 ratings. Assumes no verified agency age evidence, no independently verified sources, and neutral harvest proxy. No private-land penalty or weapon offset. Utah only; retained 2026 source snapshot, not production.',counts,results},null,2)+'\n');
 console.log(JSON.stringify({rows:results.length,counts}));
