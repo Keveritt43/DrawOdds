@@ -7,6 +7,7 @@ import { searchCsv } from '../src/lib/searchCsv';
 import { matchesHuntSeason } from '../src/lib/huntSeasonFilter';
 import { parseFilters, buildWhere, toQuery } from '../src/lib/finder';
 import wyHarvest from '../data/wy/harvest.json';
+import wyHunts from '../data/wy/hunts.json';
 
 test('selected map unit excludes other units of matching multi-unit hunts', () => {
   const units = [['UT', '94'], ['UT', '928'], ['ID', '94']];
@@ -283,4 +284,12 @@ test('Montana permit Tag Filler preserves unknown hunter success and exports its
   assert.equal(runSearch([mt],{...q,minSuccess:'1'},'MT',settings).length,0);
   assert.match(searchCsv(found,'https://example.com'),/MT estimated mule bucks per issued permit % \(not hunter success\)/);
   assert.match(searchCsv(found,'https://example.com'),/,78,/);
+});
+
+test('Wyoming deer peak rut uses the actual Area 119 regular season', () => {
+  const source=wyHunts.hunts.find(h=>h.tagCode==='D119-1')!;
+  const hunt=row({...source,openDate:new Date(source.openDate!),closeDate:new Date(source.closeDate!)} as never);
+  const q={states:'WY',species:'DEER',huntPreset:'peak-rut'};
+  assert.equal(runSearch([hunt],q,'WY',settings).length,1);
+  assert.equal(runSearch([hunt],{...q,weapon:'ARCHERY'},'WY',settings).length,0);
 });
