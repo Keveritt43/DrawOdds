@@ -21,6 +21,13 @@ export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: bool
   const special = get('wyPool') === 'nrs' ? true : get('wyPool') === 'nr' ? false : savedSpecial;
   const saved = savedSpecial ? 'special' : 'regular';
   return <>
+    <Section title="Wyoming: Tag Type" value={get('wyType') ? get('wyType').split(',').map(v => v === 'general' ? 'General / region' : `Type ${v}`).join(', ') : 'Any'} set={!!get('wyType')}>
+      {note}<p className="small muted">Types can limit sex, season, weapon or area. Check hunt details and current WGFD regulations. Unknown types do not match a selection.</p>
+      <div className="checks2">{['general', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].map(value => {
+        const selected = get('wyType').split(',').filter(Boolean);
+        return <label key={value}><input type="checkbox" checked={selected.includes(value)} onChange={() => { const next = selected.includes(value) ? selected.filter(x => x !== value) : [...selected, value]; push({ wyType: next.join(',') || null }); }} /> {value === 'general' ? 'General / region' : `Type ${value}`}</label>;
+      })}</div>
+    </Section>
     {(get('species') === '' || get('species').toUpperCase() === 'DEER') && <Section title="Wyoming: Deer Harvest Mix" value={get('wyDeer') || 'Any'} set={!!get('wyDeer')}>
       {note}<p className="small muted">Based on reported harvest, not license eligibility: 60% or more whitetail = Whitetail, 40% or less = Mule Deer; between is Mixed. Only years with both species reported are counted. Unknown mixes do not match.</p>
       <div className="checks2">{([['MULE', 'Mule Deer'], ['WHITETAIL', 'Whitetail'], ['MIXED', 'Mixed']] as const).map(([value, label]) => {

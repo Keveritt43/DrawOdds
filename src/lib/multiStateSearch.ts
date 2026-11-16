@@ -10,6 +10,7 @@ import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
 export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
+import { matchesWyTagType } from './wyTagType';
 import { wyHuntWilderness } from './wyWilderness';
 import type { StatePoints } from './points';
 import type { CoScored } from './coScores';
@@ -193,6 +194,7 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
       if (has !== (f.migration === 'yes')) return false;
     }
   } else if (r.state === 'WY') {
+    if (!matchesWyTagType(r, list(sp, 'wyType'))) return false;
     const deerMix = list(sp, 'wyDeer');
     if (deerMix.length && (r.species !== 'DEER' || !deerMix.includes(wyDeerMix(r.pointOdds) ?? ''))) return false;
     for (const key of ['wyMinPts', 'wyMaxPts']) if (param(sp, key) !== '') {
