@@ -8,6 +8,7 @@ import type {CoScored} from '../src/lib/coScores';
 import {codeFromUnits,type UnitTables} from '../src/sync/co/harvest';
 import {withCoHarvestCoverage} from '../src/lib/coHarvestCoverage';
 import {mtHarvestProxy,mtProxyRate} from '../src/lib/mtHarvestProxy';
+import {coBoundaryStart,coUnitBoundaryComparable} from '../src/lib/coBoundaryHistory';
 
 const hunts=JSON.parse(readFileSync('data/wy/hunts.json','utf8')).hunts as HuntSummary[];
 const find=(id:string)=>hunts.find(h=>h.id===id)!;
@@ -41,11 +42,11 @@ test('Colorado sex-specific hunts do not use all-sex hunter counts',()=>{
 });
 test('Colorado omits audited incomplete years without changing source data',()=>{
   const raw={id:'CO:DE043O1A',state:'CO',units:['43','47','431','471'],acres:6400,
-    pointOdds:{harvest:[{year:2021,basis:'units-all',hunters:209,harvest:40},{year:2025,basis:'code',hunters:100,harvest:50}]}};
+    pointOdds:{regs:{partial:false},harvest:[{year:2021,basis:'units-all',hunters:209,harvest:40},{year:2025,basis:'code',hunters:100,harvest:50}]}};
   const before=JSON.stringify(raw),fixed=withCoHarvestCoverage(raw) as typeof raw & {success5:number;harvestYears:number;huntersSqMi:number};
   assert.equal(fixed.success5,.5);assert.equal(fixed.harvestYears,1);assert.equal(fixed.huntersSqMi,10);
   assert.deepEqual(fixed.pointOdds.harvest.map(h=>h.year),[2025]);assert.equal(JSON.stringify(raw),before);
-  const changed={...raw,pointOdds:{harvest:[{year:2021,basis:'units-all',hunters:210,harvest:40}]}};
+  const changed={...raw,pointOdds:{regs:{partial:false},harvest:[{year:2021,basis:'units-all',hunters:210,harvest:40}]}};
   assert.equal(withCoHarvestCoverage(changed),changed,'changed source is not overwritten by a stale audit');
 });
 test('Montana issued-permit and all-deer denominators cannot become hunter success',()=>{
@@ -55,4 +56,30 @@ test('Montana issued-permit and all-deer denominators cannot become hunter succe
     const corrected=withStateTrophyScores(raw);assert.equal(corrected.success5,null);assert.equal(corrected.scoreQuality,null);
     assert.equal(corrected.hunters5,null);assert.equal(corrected.huntersSqMi,raw.huntersSqMi);
   }
+});
+test('Montana district participation totals cannot masquerade as unique hunters',()=>{
+  const all=JSON.parse(readFileSync('data/mt/hunts.json','utf8')).hunts as HuntSummary[];
+  for(const id of ['MT:elk-b:210-03','MT:elk-general:391','MT:antelope:007-20']) {
+    const raw=all.find(h=>h.id===id)!;assert.equal(mtHarvestProxy(raw.pointOdds),'district');
+    const corrected=withStateTrophyScores(raw);assert.equal(corrected.success5,null);
+    assert.equal(corrected.huntersSqMi,null);assert.equal(corrected.scoreQuality,null);
+  }
+});
+test('Colorado changed boundaries exclude earlier observations while preserving unchanged unions',()=>{
+  assert.equal(coBoundaryStart(['79']),2024);assert.equal(coBoundaryStart(['79','791']),0);
+  assert.equal(coBoundaryStart(['79','791'],true),2024);
+  assert.equal(coBoundaryStart(['43']),2024);assert.equal(coBoundaryStart(['43','431']),0);
+  assert.equal(coBoundaryStart(['97']),2026);assert.equal(coBoundaryStart(['97','99']),0);
+  assert.equal(coUnitBoundaryComparable('99',2025),false);assert.equal(coUnitBoundaryComparable('99',2026),true);
+  const raw={id:'CO:DM079O1R',state:'CO',units:['79'],pointOdds:{harvest:[
+    {year:2023,basis:'code',hunters:100,harvest:60},{year:2024,basis:'code',hunters:50,harvest:20}]}};
+  const fixed=withCoHarvestCoverage(raw) as typeof raw & {success5:number;harvestYears:number};
+  assert.equal(fixed.harvestYears,1);assert.equal(fixed.success5,.4);
+  assert.deepEqual(fixed.pointOdds.harvest.map(h=>h.year),[2024]);
+  const noCurrent=withCoHarvestCoverage({...raw,units:['97']}) as typeof fixed;
+  assert.equal(noCurrent.harvestYears,0);assert.equal(noCurrent.success5,null);
+  const unverifiedScope=withCoHarvestCoverage({...raw,units:['79','791']}) as typeof fixed;
+  assert.equal(unverifiedScope.harvestYears,1,'unknown scope cannot claim the complete union');
+  const completeRaw={...raw,units:['79','791'],pointOdds:{...raw.pointOdds,regs:{partial:false}}};
+  assert.equal(withCoHarvestCoverage(completeRaw),completeRaw,'a verified full union remains unchanged');
 });

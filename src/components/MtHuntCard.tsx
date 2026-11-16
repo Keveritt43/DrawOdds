@@ -64,7 +64,7 @@ export function MtHuntCard({ r, odds, parts, points, nr, basis, saved, signedIn 
           {parts && <span className="sub">Your {parts.comboName} draw: <b>{pctOdds(parts.combo)}</b></span>}
         </div>
         <div>
-          <span className="k">{proxy === 'permit' ? 'Mule bucks / issued permit' : proxy === 'species' ? 'Species harvest / deer hunter' : `Success ${years ? `${years} surveyed seasons` : ''}`}</span>
+          <span className="k">{proxy === 'permit' ? 'Mule bucks / issued permit' : proxy === 'species' ? 'Species harvest / deer hunter' : proxy === 'district' ? 'Harvest / district participation' : `Success ${years ? `${years} surveyed seasons` : ''}`}</span>
           <b>{pct(proxy ? proxyRate : r.success5)}</b>
           <span className={`verdict ${r.smallSample ? 'none' : success.tone}`}>{proxy ? 'District estimate · not hunter success' : r.success5 === null ? 'No harvest data' : r.smallSample ? 'Small sample' : success.text}</span>
           <span className="sub">{successSub}{r.harvestLastYear && !proxy ? ` · ${r.harvestLastYear}: ${pct(r.successLast)}` : ''}</span>

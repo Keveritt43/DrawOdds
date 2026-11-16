@@ -2,6 +2,7 @@ import type { HuntSummary } from '@prisma/client';
 import type { UnitTables, SeasonKind } from '@/sync/co/harvest';
 import { coSeasonKind } from './coSeasonKind';
 import { overlapsElk, otcElkOverlap, type SeasonContext } from './overlappingSeasons';
+import {coUnitBoundaryComparable} from './coBoundaryHistory';
 
 export const GENERAL_ELK_QUALITY_FACTOR = .75;
 export type PressureElk = SeasonContext & { type: string; tagCode: string | null };
@@ -38,6 +39,7 @@ export function coDeerPressure(r: HuntSummary, context: CoPressureContext): CoPr
     const years:number[]=[], counts:number[]=[], sources:string[]=[];
     // One observation per unit/season/year. Never sum split and total tables or license codes.
     for(let year=latest-4;year<=latest;year++) {
+      if(!coUnitBoundaryComparable(unit,year)) continue;
       const reports=context.reports.filter(rep=>rep.year===year);
       const observations = reports.flatMap(rep=>{
         const t=rep.data as UnitTables;

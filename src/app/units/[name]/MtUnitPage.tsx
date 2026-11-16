@@ -138,8 +138,8 @@ export async function MtUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
           <h3>{t.species === 'PRONGHORN' ? 'Antelope' : `General ${t.species === 'DEER' ? 'Deer' : 'Elk'}`} · {label}</h3>
           <p className="small muted" style={{ marginTop: -6 }}>{t.po?.harvestBasis}. FWP surveys {t.species === 'DEER' ? 'deer in odd years' : `${t.species === 'ELK' ? 'elk' : 'antelope'} in even years`}; other seasons have no district estimate.</p>
           <div className="grid2">
-            {mtHarvestProxy(t.po) ? <SuccessChart data={t.data} title="Species harvest per deer hunter" /> : <SuccessChart data={t.data} />}
-            <HarvestChart data={t.data} />
+            {mtHarvestProxy(t.po) ? <SuccessChart data={t.data} title={mtHarvestProxy(t.po) === "district" ? "Harvest per district participation" : "Species harvest per deer hunter"} /> : <SuccessChart data={t.data} />}
+            {mtHarvestProxy(t.po) !== "district" && <HarvestChart data={t.data} />}
             {t.species === 'DEER' ? <MtDeerQualityChart data={t.data} /> : t.species === 'ELK' ? <QualityChart data={t.data} species="ELK" /> : null}
           </div>
         </section>

@@ -1,0 +1,570 @@
+{
+  "source": "https://services.arcgis.com/ZzrwjTRez6FJiOq4/arcgis/rest/services/Utah_Antlerless_Hunts_2024/FeatureServer/0",
+  "method": "Area intersection over union against bundled current boundaries; Turf simplification tolerance 0.0005 degrees. Boundary ID identity does not prove a historical hunt-to-boundary assignment.",
+  "results": [
+    {
+      "id": "227",
+      "name": "Wasatch Mtns, Currant Creek",
+      "iou": 0.9991730196924042,
+      "error": null
+    },
+    {
+      "id": "29",
+      "name": "Cache",
+      "iou": 0.9987562810896543,
+      "error": null
+    },
+    {
+      "id": "609",
+      "name": "Ogden",
+      "iou": 0.9991540216966697,
+      "error": null
+    },
+    {
+      "id": "611",
+      "name": "Kamas",
+      "iou": 0.9983465567604726,
+      "error": null
+    },
+    {
+      "id": "613",
+      "name": "Yellowstone",
+      "iou": 0.9994080889079443,
+      "error": null
+    },
+    {
+      "id": "616",
+      "name": "Nebo",
+      "iou": 0.9993469103141726,
+      "error": null
+    },
+    {
+      "id": "625",
+      "name": "Southwest Desert",
+      "iou": 0.9998407537475512,
+      "error": null
+    },
+    {
+      "id": "88",
+      "name": "Fillmore, Pahvant",
+      "iou": 0.9995548446733817,
+      "error": null
+    },
+    {
+      "id": "630",
+      "name": "Mt Dutton",
+      "iou": 0.9995299588438983,
+      "error": null
+    },
+    {
+      "id": "636",
+      "name": "Pine Valley",
+      "iou": 0.9995706299357876,
+      "error": null
+    },
+    {
+      "id": "163",
+      "name": "Paunsaugunt",
+      "iou": 0.9995653134146392,
+      "error": null
+    },
+    {
+      "id": "51",
+      "name": "Manti",
+      "iou": 0.9996211488703095,
+      "error": null
+    },
+    {
+      "id": "175",
+      "name": "Fishlake/Thousand Lakes",
+      "iou": 0.9995238137942987,
+      "error": null
+    },
+    {
+      "id": "449",
+      "name": "Book Cliffs, Bitter Creek/South",
+      "iou": 0.9994326171641761,
+      "error": null
+    },
+    {
+      "id": "685",
+      "name": "Beaver, East",
+      "iou": 0.9993474082656364,
+      "error": null
+    },
+    {
+      "id": "171",
+      "name": "Plateau",
+      "iou": 0.9996131362157037,
+      "error": null
+    },
+    {
+      "id": "24",
+      "name": "Box Elder, Promontory",
+      "iou": 0.9995307759881208,
+      "error": null
+    },
+    {
+      "id": "117",
+      "name": "Morgan-South Rich",
+      "iou": 0.9995159106660632,
+      "error": null
+    },
+    {
+      "id": "20",
+      "name": "Box Elder, Newfoundland Mtn",
+      "iou": 0.9998137694881076,
+      "error": null
+    },
+    {
+      "id": "683",
+      "name": "Box Elder, Pilot Mtn B",
+      "iou": 0.9988436643674096,
+      "error": null
+    },
+    {
+      "id": "129",
+      "name": "Nine Mile, Anthro-Myton Bench",
+      "iou": 0.999284368788171,
+      "error": null
+    },
+    {
+      "id": "634",
+      "name": "Panguitch Lake",
+      "iou": 0.9994750859013216,
+      "error": null
+    },
+    {
+      "id": "635",
+      "name": "Zion",
+      "iou": 0.9996321557143287,
+      "error": null
+    },
+    {
+      "id": "194",
+      "name": "San Rafael, North",
+      "iou": 0.9997690871862761,
+      "error": null
+    },
+    {
+      "id": "28",
+      "name": "Box Elder, West Bear River",
+      "iou": 0.9986741099375357,
+      "error": null
+    },
+    {
+      "id": "45",
+      "name": "Ferron Canyon",
+      "iou": 0.9987840557280157,
+      "error": null
+    },
+    {
+      "id": "104",
+      "name": "Kamas, Oakley",
+      "iou": 0.9988978796973669,
+      "error": null
+    },
+    {
+      "id": "480",
+      "name": "Wasatch Mtns, Timpanogos B",
+      "iou": 0.9972399309910459,
+      "error": null
+    },
+    {
+      "id": "238",
+      "name": "Wasatch Mtns, Wallsburg",
+      "iou": 0.9977587030736381,
+      "error": null
+    },
+    {
+      "id": "240",
+      "name": "Wasatch Mtns, West Heber",
+      "iou": null,
+      "error": "Error: invalid polygon, fewer than 4 points"
+    },
+    {
+      "id": "135",
+      "name": "North Slope, Henrys Fork-Burnt Fork",
+      "iou": 0.998325325832349,
+      "error": null
+    },
+    {
+      "id": "49",
+      "name": "Horn Mtn",
+      "iou": 0.9985869483109432,
+      "error": null
+    },
+    {
+      "id": "134",
+      "name": "North Slope, Greendale",
+      "iou": 0.9961096599351248,
+      "error": null
+    },
+    {
+      "id": "438",
+      "name": "Mt Dutton, Deep Creek",
+      "iou": 0.9979554177368304,
+      "error": null
+    },
+    {
+      "id": "43",
+      "name": "Central Manti",
+      "iou": 0.9990010412558021,
+      "error": null
+    },
+    {
+      "id": "38",
+      "name": "Cache, Rich",
+      "iou": 0.9986233335158599,
+      "error": null
+    },
+    {
+      "id": "58",
+      "name": "North Manti",
+      "iou": 0.9993641777907492,
+      "error": null
+    },
+    {
+      "id": "96",
+      "name": "Boulder-Circle Cliffs",
+      "iou": 0.9983803832347319,
+      "error": null
+    },
+    {
+      "id": "39",
+      "name": "Cache, Richards Hollow",
+      "iou": 0.9979437584421292,
+      "error": null
+    },
+    {
+      "id": "122",
+      "name": "Morgan-South Rich, South Rich",
+      "iou": 0.9988765056459395,
+      "error": null
+    },
+    {
+      "id": "699",
+      "name": "Fishlake/Thousand Lakes West",
+      "iou": 0.9993432729340084,
+      "error": null
+    },
+    {
+      "id": "108",
+      "name": "La Sal, Dolores Triangle",
+      "iou": 0.99847152024973,
+      "error": null
+    },
+    {
+      "id": "617",
+      "name": "La Sal, La Sal Mtns",
+      "iou": 0.9994024354855081,
+      "error": null
+    },
+    {
+      "id": "138",
+      "name": "North Slope, Summit",
+      "iou": 0.9992400299117248,
+      "error": null
+    },
+    {
+      "id": "277",
+      "name": "Nine Mile, Range Creek",
+      "iou": 0.9994300588028203,
+      "error": null
+    },
+    {
+      "id": "132",
+      "name": "Nine Mile, West Anthro",
+      "iou": 0.9989501228527945,
+      "error": null
+    },
+    {
+      "id": "710",
+      "name": "San Juan",
+      "iou": 0.9995736587701459,
+      "error": null
+    },
+    {
+      "id": "224",
+      "name": "Wasatch Mtns, Avintaquin A",
+      "iou": 0.9990196317336081,
+      "error": null
+    },
+    {
+      "id": "47",
+      "name": "Gordon Creek-Price Canyon",
+      "iou": 0.9990888012643124,
+      "error": null
+    },
+    {
+      "id": "222",
+      "name": "Wasatch Mtns",
+      "iou": 0.9996192148842213,
+      "error": null
+    },
+    {
+      "id": "85",
+      "name": "Fillmore, Oak Creek LE",
+      "iou": 0.9990532334784783,
+      "error": null
+    },
+    {
+      "id": "755",
+      "name": "Box Elder, West",
+      "iou": 0.9989912446798873,
+      "error": null
+    },
+    {
+      "id": "27",
+      "name": "Box Elder, Snowville",
+      "iou": 0.9967285230188813,
+      "error": null
+    },
+    {
+      "id": "723",
+      "name": "Monroe, Koosharem Valley",
+      "iou": 0.9955948910210273,
+      "error": null
+    },
+    {
+      "id": "695",
+      "name": "Boulder East",
+      "iou": 0.9993275329611748,
+      "error": null
+    },
+    {
+      "id": "697",
+      "name": "Boulder West",
+      "iou": 0.9995950073234786,
+      "error": null
+    },
+    {
+      "id": "814",
+      "name": "Mosby Mtn",
+      "iou": 0.9987605113548961,
+      "error": null
+    },
+    {
+      "id": "698",
+      "name": "Fishlake/Thousand Lakes East",
+      "iou": 0.9989833256449843,
+      "error": null
+    },
+    {
+      "id": "817",
+      "name": "Wasatch Mtns, Avintaquin-White River",
+      "iou": 0.9987509948613131,
+      "error": null
+    },
+    {
+      "id": "614",
+      "name": "Vernal/Bonanza",
+      "iou": 0.9994363207344115,
+      "error": null
+    },
+    {
+      "id": "206",
+      "name": "Diamond Mtn",
+      "iou": 0.999374287377346,
+      "error": null
+    },
+    {
+      "id": "40",
+      "name": "Cache, Richmond-Hyde Park",
+      "iou": 0.9995305803670039,
+      "error": null
+    },
+    {
+      "id": "55",
+      "name": "Morhland Stump Flat",
+      "iou": 0.9982203392427945,
+      "error": null
+    },
+    {
+      "id": "839",
+      "name": "Pine Valley, Enterprise",
+      "iou": 0.9973733039091518,
+      "error": null
+    },
+    {
+      "id": "840",
+      "name": "Pine Valley, New Harmony",
+      "iou": 0.9975663714853612,
+      "error": null
+    },
+    {
+      "id": "838",
+      "name": "Paunsaugunt, Hatch Bench",
+      "iou": 0.9987108035451497,
+      "error": null
+    },
+    {
+      "id": "845",
+      "name": "Wasatch Mtns, West-Central",
+      "iou": 0.9995691476609239,
+      "error": null
+    },
+    {
+      "id": "234",
+      "name": "Wasatch Mtns, Salt Lake",
+      "iou": 0.9988806264561022,
+      "error": null
+    },
+    {
+      "id": "21",
+      "name": "Oquirrh-Stansbury, Settlement Cyn",
+      "iou": 0.9937295040726764,
+      "error": null
+    },
+    {
+      "id": "115",
+      "name": "Monroe/Plateau, Seveir Valley",
+      "iou": 0.9973116789373899,
+      "error": null
+    },
+    {
+      "id": "23",
+      "name": "San Juan, Monticello",
+      "iou": 0.9946566394408201,
+      "error": null
+    },
+    {
+      "id": "11",
+      "name": "Nine Mile, Price River Valley",
+      "iou": 0.9960368119463713,
+      "error": null
+    },
+    {
+      "id": "86",
+      "name": "Oquirrh-Stansbury, East",
+      "iou": 0.9996339391603751,
+      "error": null
+    },
+    {
+      "id": "128",
+      "name": "Nine Mile, Anthro",
+      "iou": 0.9992382153275486,
+      "error": null
+    },
+    {
+      "id": "110",
+      "name": "Poison Springs Bench",
+      "iou": 0.9976525439346985,
+      "error": null
+    },
+    {
+      "id": "6",
+      "name": "Nine Mile, Green River Valley",
+      "iou": 0.9989978651393728,
+      "error": null
+    },
+    {
+      "id": "107",
+      "name": "Moroni Hills",
+      "iou": 0.9983760408270645,
+      "error": null
+    },
+    {
+      "id": "116",
+      "name": "West Desert, Tintic Valley",
+      "iou": 0.9997193265528063,
+      "error": null
+    },
+    {
+      "id": "859",
+      "name": "East Canyon, Davis-North Salt Lake",
+      "iou": 0.9978359124163146,
+      "error": null
+    },
+    {
+      "id": "861",
+      "name": "West Manti",
+      "iou": 0.9982712795914493,
+      "error": null
+    },
+    {
+      "id": "862",
+      "name": "South Manti",
+      "iou": 0.9992576102808246,
+      "error": null
+    },
+    {
+      "id": "864",
+      "name": "Myton",
+      "iou": 0.9989159405570994,
+      "error": null
+    },
+    {
+      "id": "142",
+      "name": "North Slope, West Daggett",
+      "iou": 0.9982043153654304,
+      "error": null
+    },
+    {
+      "id": "879",
+      "name": "LaSal, LaSal Mtns-North",
+      "iou": 0.9991988021409791,
+      "error": null
+    },
+    {
+      "id": "880",
+      "name": "Buckskin Hills-Jensen",
+      "iou": 0.9992349486065677,
+      "error": null
+    },
+    {
+      "id": "881",
+      "name": "Fillmore, Oak City (Archery Only)",
+      "iou": 0.990339576175442,
+      "error": null
+    },
+    {
+      "id": "882",
+      "name": "Nine Mile, Anthro Pleasant Valley",
+      "iou": 0.998799499696252,
+      "error": null
+    },
+    {
+      "id": "893",
+      "name": "Southwest Desert, Burbank/Garrison",
+      "iou": 0.9992946206635301,
+      "error": null
+    },
+    {
+      "id": "895",
+      "name": "Vernal-Ouray Valley",
+      "iou": 0.9982582910539846,
+      "error": null
+    },
+    {
+      "id": "18",
+      "name": "Box Elder, Hansel Mtn",
+      "iou": 0.9997674701481438,
+      "error": null
+    },
+    {
+      "id": "69",
+      "name": "Chalk Creek",
+      "iou": 0.9991408455786075,
+      "error": null
+    },
+    {
+      "id": "81",
+      "name": "Fillmore, Oak Creek South",
+      "iou": 0.999531860014977,
+      "error": null
+    },
+    {
+      "id": "94",
+      "name": "Henry Mtns",
+      "iou": 0.999421515576614,
+      "error": null
+    },
+    {
+      "id": "276",
+      "name": "East Canyon",
+      "iou": 0.9990108162259718,
+      "error": null
+    }
+  ]
+}

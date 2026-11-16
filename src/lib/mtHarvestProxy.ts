@@ -1,12 +1,15 @@
 type Row={state:string;species:string;pointOdds:unknown};
-export function mtHarvestProxy(pointOdds:unknown):'permit'|'species'|null {
+export function mtHarvestProxy(pointOdds:unknown):'permit'|'species'|'district'|null {
   const po=pointOdds as {mulePermit?:boolean;harvestBasis?:string}|null;
-  return po?.mulePermit?'permit':po?.harvestBasis?.includes('harvest per deer hunter')?'species':null;
+  return po?.mulePermit?'permit':po?.harvestBasis?.includes('harvest per deer hunter')?'species':
+    po?.harvestBasis?.includes('summed across districts')||po?.harvestBasis?.includes('combined from FWP')?'district':null;
 }
-/** A permit is not necessarily used; all deer hunters are not species-specific hunters. */
+/** Issued permits and overlapping district participations are not unique participating hunters. */
 export function withoutMtProxySuccess<T extends Row>(r:T):T {
-  if(r.state!=='MT'||r.species!=='DEER'||!mtHarvestProxy(r.pointOdds))return r;
+  const proxy=mtHarvestProxy(r.pointOdds);
+  if(r.state!=='MT'||!proxy)return r;
   return {...r,success5:null,successLast:null,hunters5:null,harvest5:null,daysPerHunter5:null,daysPerHarvest5:null,
+    ...(proxy==='district'?{huntersSqMi:null}:{}),
     resTagAndFill:null,nrTagAndFill:null,scoreQuality:null,scoreSuccess:null,scoreAccess:null,scoreCrowd:null,scoreOppRes:null,scoreOppNr:null} as T;
 }
 export function mtProxyRate(pointOdds:unknown):number|null {

@@ -3,6 +3,8 @@ import { coSeasonKind } from '@/lib/coSeasonKind';
 import { overlapsElk } from "@/lib/overlappingSeasons";
 import { db } from "@/lib/db";
 import type { UnitTables } from "@/sync/co/harvest";
+import {coUnitBoundaryComparable} from '@/lib/coBoundaryHistory';
+import {withCoHarvestCoverage} from '@/lib/coHarvestCoverage';
 const labels: Record<string, string> = {
   rifle1: "1st Rifle",
   rifle2: "2nd Rifle",
@@ -22,7 +24,7 @@ export async function CoUnitSeasonHunters({ units, hunt }: { units: string[]; hu
     orderBy: { tagCode: "asc" },
   });
   const matches = (r: HuntSummary) => !hunt || r.id === hunt.id || overlapsElk(hunt, {...r, species: 'ELK'});
-  const relevant = codes.filter(matches);
+  const relevant = codes.map(withCoHarvestCoverage).filter(matches);
   const latestCodes = relevant.flatMap((r) => {
     if (r.type === "GENERAL" && (!hunt || r.species !== "ELK" || !overlapsElk(hunt, r))) return [];
     const hs =
@@ -112,7 +114,7 @@ export async function CoUnitSeasonHunters({ units, hunt }: { units: string[]; hu
                   where: { state_name: { state: "CO", name: unit } },
                   select: { acres: true },
                 });
-                return latest.flatMap((r) =>
+                return latest.filter(r=>coUnitBoundaryComparable(unit,r.year)).flatMap((r) =>
                   Object.entries(
                     (r.data as unknown as UnitTables).totals,
                   ).flatMap(([kind, rows]) => {
