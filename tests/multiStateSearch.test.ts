@@ -293,3 +293,12 @@ test('Wyoming deer peak rut uses the actual Area 119 regular season', () => {
   assert.equal(runSearch([hunt],q,'WY',settings).length,1);
   assert.equal(runSearch([hunt],{...q,weapon:'ARCHERY'},'WY',settings).length,0);
 });
+
+test('Wyoming pronghorn rut respects the real archery and regular seasons', () => {
+  const source=wyHunts.hunts.find(h=>h.tagCode==='A7-1')!;
+  const hunt=row({...source,openDate:new Date(source.openDate!),closeDate:new Date(source.closeDate!)} as never);
+  const q={states:'WY',species:'PRONGHORN',huntPreset:'peak-rut'};
+  assert.equal(runSearch([hunt],q,'WY',settings).length,1);
+  assert.equal(runSearch([hunt],{...q,weapon:'ARCHERY'},'WY',settings).length,1);
+  assert.equal(runSearch([hunt],{...q,weapon:'ANY'},'WY',settings).length,0);
+});
