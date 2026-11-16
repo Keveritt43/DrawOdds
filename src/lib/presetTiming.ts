@@ -1,9 +1,12 @@
 /** Hunter-supplied seasonal timing rubric. Dates use the midpoint of an actual season segment. */
 export function timingScore(species: string, weapon: string, open: Date | string | null, close: Date | string | null): number | null {
-  if (!open || !close || !['DEER','ELK'].includes(species) || !['ANY','ARCHERY','MUZZLELOADER'].includes(weapon)) return null;
+  if (!open || !close || !['DEER','ELK','PRONGHORN'].includes(species) || !['ANY','ARCHERY','MUZZLELOADER'].includes(weapon)) return null;
   const a = new Date(open).getTime(), b = new Date(close).getTime();
   if (!Number.isFinite(a) || !Number.isFinite(b) || b < a) return null;
   const d = new Date((a + b) / 2), md = (d.getUTCMonth() + 1) * 100 + d.getUTCDate();
+  // A broad September rut window, not a prediction of a particular herd's peak.
+  // Montana FWP: mid-August through early October; WGFD: usually September.
+  if (species === 'PRONGHORN') return md >= 911 && md <= 930 ? 13 : null;
   const bow = weapon === 'ARCHERY';
   if (species === 'DEER') {
     if (bow) {
