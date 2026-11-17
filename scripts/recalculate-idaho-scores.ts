@@ -25,6 +25,12 @@ async function main(){
     },{isolationLevel:Prisma.TransactionIsolationLevel.RepeatableRead,timeout:120000});
     writeFileSync(path,JSON.stringify(plan,null,2)+'\n',{flag:'wx'});
     console.log(`Read-only plan saved: ${plan.rows.length} Idaho rows; ${plan.digest}. No database writes.`);
+    // One reviewable line: how many rows change, and how trophy tiers move.
+    const changed=plan.rows.filter(r=>JSON.stringify(r.before)!==JSON.stringify(r.after));
+    const moves:Record<string,number>={};
+    for(const r of changed)if(r.before.scoreTrophy!==r.after.scoreTrophy){const k=`${r.before.scoreTrophy}->${r.after.scoreTrophy}`;moves[k]=(moves[k]??0)+1;}
+    const diff=(k:keyof typeof plan.rows[number]['before'])=>changed.filter(r=>r.before[k]!==r.after[k]).length;
+    console.log('PLAN_SUMMARY '+JSON.stringify({digest:plan.digest,rows:plan.rows.length,changed:changed.length,trophy:diff('scoreTrophy'),quality:diff('scoreQuality'),oppRes:diff('scoreOppRes'),oppNr:diff('scoreOppNr'),trophyMoves:moves}));
   }else{
     const saved=JSON.parse(readFileSync(path,'utf8'));
     const count=await db.$transaction(async tx=>{
