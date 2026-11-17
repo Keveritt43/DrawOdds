@@ -10,8 +10,10 @@
  *    named publication lists;
  *  - rut 15: days of the season inside the species' rut window, full credit at 10 days.
  *
- * Tiers keep the live 50/65/80/100 scale: ≥85 → 100, ≥70 → 80, ≥55 → 65, else 50.
- * The cut-offs and weights are owner-set, not calibrated against an outcome. */
+ * Tiers keep the live 50/65/80/100 scale but are assigned by rank within species (`rankTiers`),
+ * because the weights are owner-set and uncalibrated: fixed score cut-offs (85/70/55) let the
+ * uncalibrated scale decide tiers. A tier therefore means "how this hunt ranks in this state for
+ * this species", not an absolute size claim across states. */
 
 export type IdSpecies = 'DEER' | 'ELK' | 'PRONGHORN';
 export const WEIGHTS = { demand: 35, animal: 30, evidence: 20, rut: 15 } as const;
@@ -96,7 +98,28 @@ export const publicationCredit = (named: number) => named <= 0 ? 0 : named === 1
 export const bcCredit = (c: CountyResult | null | undefined) => !c ? 0 : c.significant ? 1 : c.rateRatio > 1 ? 0.4 : 0;
 export const evidenceCredit = (bc: number, publications: number) => 0.6 * bc + 0.4 * publications;
 
+/** Fixed cut-offs, kept for comparison only. */
 export const tierFor = (score: number): 50 | 65 | 80 | 100 => score >= 85 ? 100 : score >= 70 ? 80 : score >= 55 ? 65 : 50;
+
+/** Share of a species' hunts in each tier, top down: top 2% → 100, to top 10% → 80, to top 40% → 65.
+ * This is a product choice about how generous tiers are, not evidence. The live Idaho spread
+ * (2% / 7% / 17%, 5 / 16 / 39 / 176 of 236) was tried first: it put Unit 54's October rifle hunt
+ * 1042 (rank 40 of 108 deer, top 37%) at 50, which the owner rejected (Nov 17). */
+export const RANK_SHARES = { 100: 0.02, 80: 0.08, 65: 0.30 } as const;
+
+/** Tier by rank within one species. Cumulative counts are rounded, with at least one hunt at 100.
+ * Hunts tied on score share the higher tier, so a tie never splits across a boundary. */
+export function rankTiers(scores: number[]): (50 | 65 | 80 | 100)[] {
+  const n = scores.length;
+  if (!n) return [];
+  const c100 = Math.max(1, Math.round(RANK_SHARES[100] * n));
+  const c80 = Math.max(c100, Math.round((RANK_SHARES[100] + RANK_SHARES[80]) * n));
+  const c65 = Math.max(c80, Math.round((RANK_SHARES[100] + RANK_SHARES[80] + RANK_SHARES[65]) * n));
+  const sorted = [...scores].sort((a, b) => b - a);
+  const floorAt = (count: number) => sorted[Math.min(count, n) - 1];
+  const s100 = floorAt(c100), s80 = floorAt(c80), s65 = floorAt(c65);
+  return scores.map(s => s >= s100 ? 100 : s >= s80 ? 80 : s >= s65 ? 65 : 50);
+}
 
 export interface IdParts { demand: number; animal: number | null; evidence: number; rut: number }
 /** Weighted score. An unknown animal signal uses the neutral 0.5 and is flagged by the caller. */
