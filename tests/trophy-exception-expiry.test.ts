@@ -18,6 +18,6 @@ test('trophy exceptions are re-reviewed before their review date',()=>{
 test('every year pinned in trophyHunt.ts is a declared reviewed year',()=>{
   const src=readFileSync('src/lib/trophyHunt.ts','utf8');
   const years=new Set([...src.matchAll(/oddsLastYear===(\d{4})|regs\?\.year===(\d{4})/g)].map(m=>Number(m[1]??m[2])));
-  const declared=new Set(Object.values(R.drawYears));
+  const declared=new Set<number>(Object.values(R.drawYears));
   for(const y of years) assert.ok(declared.has(y),`trophyHunt.ts pins ${y}, which TROPHY_EXCEPTION_REVIEW does not declare`);
 });
