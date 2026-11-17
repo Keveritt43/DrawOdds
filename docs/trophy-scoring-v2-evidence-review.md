@@ -45,3 +45,24 @@ Tried and rejected: leaving the unknown harvest pillar out and rescaling the oth
 Result on the same snapshot: 1,234 hunt/pool rows; 509 scored across 262 hunts (78 pronghorn, 13 on the all-weapon cohort), up from 446. Tiers: Elite 39, Excellent 212, Good 161, Standard 77, and 20 county-basis rows whose two scenarios differ in tier (was Elite 29, Excellent 248, Good 109, Standard 50, 10 differing); 193 of the 446 previously scored rows changed tier. Unscored: 376 no supplied crosswalk match, 90 incomplete geometry, 78 ambiguous names, 72 multiple or uncertain season segments, 32 not antlered, 20 under ten comparable hunts, 18 multi-unit, 15 no permits in the pool, 14 county tier missing, 6 timing not covered, 4 crosswalk conflicts. No production scores were calculated or written.
 
 The land-access warning uses mapped public plus enrolled access where a compatible estimate exists. When only public ownership is known, it says private access is not fully mapped; ownership is not a guarantee of legal or physical access. It is a warning, not a new score adjustment. The existing Quality model's separately documented access component is unchanged.
+
+## Idaho v2 shadow (November 16)
+
+`node --import tsx scripts/audit-id-trophy-v2.ts out/id-v2-shadow.json` scores Idaho controlled antlered and either-sex hunts from `data/id/trophy-shadow-2026-11-16.json`. That file is a read-only copy of the live public export (237 hunts, nonresident view, all first-choice applicants), taken through Claude in Chrome. Its compact form's SHA-256 is recorded in the file and was checked against the page. IDFG hunt numbers 1148–1188 in `data/controlled-hunts-2026.json` are not in production and have no draw history, so they are not scored. Model: `src/lib/trophyV2Idaho.ts`. Weights are the owner's priorities, not calibrated:
+
+| Part | Points | Measure |
+|---|---:|---|
+| Demand | 35 | Applicants per tag, percentile within species and weapon (all weapons below ten hunts). Idaho is one random draw, so this is close to 1 ÷ odds and isn't inflated by point-builders. |
+| Animal | 30 | IDFG harvest share of mature animals (mule deer 4+ points, elk 6+), shrunk toward the species mean with a 20-animal prior, percentile within species. Pronghorn and whitetail-only hunts have no share and use a flagged neutral 0.5. |
+| Evidence | 20 | 0.6 × B&C county (significant 1, above state rate 0.4, else 0) + 0.4 × named publications (1 → 0.5, 2 → 0.8, 3+ → 1). Multi-unit hunts take their weakest unit. |
+| Rut | 15 | Days inside the rut window, full credit at 10. Mule deer Nov 5–Dec 5, whitetail Nov 1–30, elk Sep 8–Oct 1, pronghorn Sep 10–Oct 5. |
+
+Tiers keep the live scale: ≥85 → 100, ≥70 → 80, ≥55 → 65, else 50.
+
+The owner's Unit 54 example: hunt 1043 (Nov 15–30, 20 tags, 1,243 applicants, 62.2 per tag, 16 rut days, 79.7% shrunk 4-point share) scores 85.6 → 100; hunt 1042 (Oct 5–31, 300 tags, 3,794 applicants, 12.6 per tag, no rut days, 51.8%) scores 34.5 → 50. Live, both are 80.
+
+Results, 236 scored: 100 ×3, 80 ×21, 65 ×49, 50 ×163 (live: 5, 16, 39, 176). 85 hunts change tier. Biggest rises: late Oct 10–Nov 30 five-tag deer hunts in units 21, 28, 36A, 50, 70 (50 → 80), elk 2015/2123 in 40–42 (50 → 80), multi-unit deer 1049 (50 → 80, it was held down by the weakest-unit rule on trophy tier). Biggest falls: Unit 54's October and archery deer hunts 1042, 1106, 1080 (80 → 50), elk 2022 in Unit 44 (80 → 50), and pronghorn 4012 and 4008 (100 → 65) because pronghorn has no animal measure.
+
+**B&C significance doesn't work with this source.** The supplied list holds only 23 mule deer entries across its counties in ten years (1–5 per county), so almost nothing can be significant: only Custer mule deer (3 vs 0.06 expected) and Cassia pronghorn (3 vs 0.25) pass q < 0.10. The denominators are also biased: a county's harvest only counts units the list places in it, and deer harvest includes whitetail. A real test needs the full B&C records by county and year (the owner's B&C workbook: Mule Deer, Elk and Pronghorn tabs) and county harvest from unit geometry, not the top-county list.
+
+Not modelled: split seasons (the export gives the outer dates), Idaho's 10% nonresident tag cap, pronghorn horn data, and calibration of weights or cut-offs against an outcome.
