@@ -5,6 +5,25 @@ import { resolveSeasonCandidate } from './trophyCandidateSeason';
 import { resolveTrophyCandidate } from './trophyCandidateResolver';
 import { unlistedExceptionalHunt } from './trophyHuntDemandCandidate';
 import { reviewTrophyPeerBenchmark } from './trophyPeerBenchmarkReview';
+import idV2 from '../../data/id/trophy-v2-tiers.json';
+import { withIdahoVerifiedArea } from './idahoHuntCorrections';
+
+const ID_V2_TIER:Record<number,TrophyTier>={100:'unicorn',80:'trophy',65:'county',50:'unclassified'};
+/** Idaho v2 tier (owner, Nov 17): demand per tag, herd quality, rut days, publications and B&C,
+ * ranked within species. Only for controlled hunts in the reviewed table whose draw year matches it;
+ * anything else keeps the earlier model. Built by scripts/audit-id-trophy-v2.ts. */
+export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;huntNumber?:number|null;tagCode?:string|null;oddsLastYear?:number|null;units?:string[];openDate?:Date|string|null;closeDate?:Date|string|null}) {
+  if(hunt.state.toUpperCase()!=='ID'||hunt.oddsLastYear!==idV2.drawYear)return null;
+  const code=hunt.tagCode??(hunt.huntNumber===null||hunt.huntNumber===undefined?null:String(hunt.huntNumber));
+  const row=code?(idV2.tiers as Record<string,{tier:number;score:number;rank:number;of:number;units:string[]}>)[`${hunt.species.toUpperCase()}:${code}`]:undefined;
+  if(!row)return null;
+  // A renumbered or re-bounded hunt must not inherit another hunt's tier. A hunt whose units were
+  // narrowed by a verified area correction (1044 drops Unit 57) still matches within the table's units.
+  const units=(withIdahoVerifiedArea(hunt).units??[]).map(u=>u.trim());
+  if(!units.length||units.some(u=>!row.units.includes(u)))return null;
+  return {score:row.tier as TrophyScore,tier:ID_V2_TIER[row.tier],
+    reason:`Ranks ${row.rank} of ${row.of} Idaho controlled ${hunt.species.toLowerCase()} hunts on applicants per tag, the unit's mature-animal harvest share, days in the rut, publications and B&C entries`};
+}
 
 /** Hunt-specific trophy exceptions below are pinned to the draw year they were reviewed
  * against (oddsLastYear === <year>, plus exact season dates). When a new year's data
@@ -23,6 +42,7 @@ export const TROPHY_EXCEPTION_REVIEW = {
     'CO deer DM074E1R (Unit 74 above 11,000 ft)',
     'CO deer DM055O1A, DM055O1M (Unit 55 early)',
     'WA elk 2016 Colockum and the 2025 Quality Elk application threshold',
+    'ID v2 tier table data/id/trophy-v2-tiers.json (drawYear 2026): regenerate with scripts/audit-id-trophy-v2.ts',
   ],
 } as const;
 
@@ -69,6 +89,9 @@ export function trophyForUnit(hunt: {
   huntNumber?:number|null; resAppsLast?:number|null; nrAppsLast?:number|null;
   deerType?:string|null; tagCode?:string|null; tagSeasons?:unknown; name?:string|null; takeMethod?:string|null; pointOdds?:unknown; season?:string|null;
 }, unit:string) {
+  const v2=idahoV2Tier(hunt);
+  // The v2 tier belongs to the hunt; a unit outside the hunt's (verified) units gets nothing.
+  if(v2)return (withIdahoVerifiedArea(hunt).units??[]).includes(unit.trim())?v2:{score:null,tier:null,reason:'This unit is not part of the hunt'};
   if ((hunt.pointOdds as {multiSeason?:boolean}|null)?.multiSeason)
     return {score:null,tier:null,reason:'Statewide multi-season tag has no unit-specific classification'};
   const rules = seasonRules(hunt.tagSeasons, hunt.species);
@@ -232,6 +255,8 @@ export function trophyForUnit(hunt: {
 export function trophyForHunt(hunt: Parameters<typeof trophyForUnit>[0] & { units:string[]; pointOdds?:unknown }):TrophyScore|null {
   // A statewide multi-season tag is not evidence about any one unit.
   if ((hunt.pointOdds as {multiSeason?:boolean}|null)?.multiSeason) return null;
+  const v2=idahoV2Tier(hunt);
+  if(v2)return v2.score;
   const scores = (hunt.units ?? []).map(u=>trophyForUnit(hunt,u).score).filter((x):x is 50|65|80|100=>x!==null);
   if (!scores.length) return null;
   const state=hunt.state.toUpperCase(),species=hunt.species.toUpperCase();
