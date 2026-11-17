@@ -5,7 +5,12 @@ const base:TrophyV2Input={namedSources:2,independentNamedSources:2,verifiedAgenc
 test('applies the guide weights and shrinks small cohorts without a hard peer cliff',()=>{
  const x=trophyV2Shadow(base)!;
  assert.equal(x.parts.corroboration,40);assert.equal(x.parts.demand,35*(18/26+8/26*.5));
- assert.equal(x.parts.harvest,5);assert.equal(x.harvestNeutral,true);assert.equal(x.confidence,'Verified');
+ assert.equal(x.parts.harvest,5);assert.equal(x.harvestMissing,true);assert.equal(x.confidence,'Verified');
+});
+test('unverified source tags never lift confidence above Provisional without a verified boundary',()=>{
+ const tags={...base,independentNamedSources:0};
+ assert.equal(trophyV2Shadow({...tags,boundaryVerified:false})!.confidence,'Provisional');
+ assert.equal(trophyV2Shadow({...tags,boundaryVerified:true})!.confidence,'Moderate');
 });
 test('withholds missing timing and missing small-cohort baseline without an offset',()=>{
  assert.equal(trophyV2Shadow({...base,timingPoints:null}),null);

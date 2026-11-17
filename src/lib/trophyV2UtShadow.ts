@@ -1,12 +1,29 @@
 /** The owner's proposed timing rubric, for offline review of one certain season segment.
- * No claimed biological probability is inferred from the rubric. Unlisted windows are unknown. */
+ * No claimed biological probability is inferred from the rubric. Unlisted windows are unknown.
+ *
+ * A segment scores the best rubric window it actually overlaps, checked day by day.
+ * The earlier version scored only the segment's midpoint, so a Sep 1–Nov 30 rifle
+ * deer season (open through the whole rut) scored 7 while a 3-day Nov 20–22 hunt
+ * scored 15. A day the rubric doesn't list contributes nothing; a segment with no
+ * listed day at all stays unknown. */
 export function utV2ShadowTiming(species:string,weapon:string,open:string,close:string):number|null {
   if(!['DEER','ELK','PRONGHORN'].includes(species)||!['ANY','ARCHERY','MUZZLELOADER'].includes(weapon))return null;
   const a=Date.parse(open),b=Date.parse(close);
   if(!Number.isFinite(a)||!Number.isFinite(b)||b<a)return null;
-  const d=new Date((a+b)/2),md=(d.getUTCMonth()+1)*100+d.getUTCDate();
+  const day=86_400_000;
+  // A season longer than a year is not a real segment.
+  if((b-a)/day>366)return null;
+  let best:number|null=null;
+  for(let t=a;t<=b;t+=day){
+    const d=new Date(t),points=dayPoints(species,weapon==='ARCHERY',(d.getUTCMonth()+1)*100+d.getUTCDate());
+    if(points!==null&&(best===null||points>best))best=points;
+  }
+  return best;
+}
+
+/** Rubric points for one calendar day (month*100+day), or null if the rubric doesn't list it. */
+function dayPoints(species:string,bow:boolean,md:number):number|null {
   const between=(lo:number,hi:number)=>md>=lo&&md<=hi;
-  const bow=weapon==='ARCHERY';
   if(species==='DEER'){
     if(bow){
       if(md>=1115||md<=115)return 14.5;
@@ -40,10 +57,4 @@ export function utV2ShadowTiming(species:string,weapon:string,open:string,close:
     if(md>=1101||md<=131)return 7;
   }
   return null;
-}
-
-/** Scenario only: apply the guide's floor to actual Utah limited-entry categories. */
-export function utV2ShadowFloor(category:string|null|undefined,code:string|null|undefined,tier:string|null|undefined):number {
-  if(!['Limited-Entry','Premium'].includes(category??'')||!/^(DB10|EB3|PB5)/.test(code??''))return 0;
-  return tier==='Elite'?76:tier==='Excellent'?68:0;
 }

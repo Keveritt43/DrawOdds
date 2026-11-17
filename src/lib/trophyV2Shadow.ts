@@ -18,14 +18,17 @@ export interface TrophyV2Input {
   allWeaponPercentile:number|null;
   /** Supplied timing rubric applied to an actual, certain and weapon-specific segment. */
   timingPoints:number|null;
-  /** Verified mature-animal proxy only; null explicitly uses the guide's neutral five points. */
+  /** Verified mature-animal proxy only. Null uses the guide's neutral five points, flagged.
+   * The constant can't separate hunts; it only fixes where the tier cut-offs fall. Rescaling
+   * the other 90 points to 100 instead was tried and rejected: it lowers the Elite bar from 80
+   * to 76.5 raw points and moved 48 Utah rows into Elite on that alone. */
   harvestPoints:number|null;
 }
 const unit=(x:number|null):x is number=>x!==null&&Number.isFinite(x)&&x>=0&&x<=1;
 const bounded=(x:number|null,max:number):x is number=>x!==null&&Number.isFinite(x)&&x>=0&&x<=max;
 
 /** Return null when required comparable data or an actual season date is missing. */
-export function trophyV2Shadow(x:TrophyV2Input):{score:number;tier:TrophyV2Tier;confidence:TrophyV2Confidence;parts:{corroboration:number;demand:number;timing:number;harvest:number};harvestNeutral:boolean}|null {
+export function trophyV2Shadow(x:TrophyV2Input):{score:number;tier:TrophyV2Tier;confidence:TrophyV2Confidence;parts:{corroboration:number;demand:number;timing:number;harvest:number};harvestMissing:boolean}|null {
   if(!Number.isInteger(x.namedSources)||x.namedSources<0||!Number.isInteger(x.independentNamedSources)||x.independentNamedSources<0||x.independentNamedSources>x.namedSources||!Number.isInteger(x.peerCount)||x.peerCount<0||!bounded(x.timingPoints,15))return null;
   if(!x.countyEvidenceKnown&&!x.verifiedAgencyAntlerOrAge)return null;
   if(x.countyTier!==null&&![1,2,3,4].includes(x.countyTier))return null;
@@ -47,6 +50,8 @@ export function trophyV2Shadow(x:TrophyV2Input):{score:number;tier:TrophyV2Tier;
   if(x.namedSources===0&&!x.verifiedAgencyAntlerOrAge)score=Math.min(score,84);
   score=Math.round(score*10)/10;
   const tier:TrophyV2Tier=score>=85?'Elite':score>=70?'Excellent':score>=55?'Good':'Standard';
-  const confidence:TrophyV2Confidence=x.independentNamedSources>=2||x.verifiedAgencyAntlerOrAge?'Verified':x.namedSources>=1||((x.countyTier===1||x.countyTier===2)&&x.boundaryVerified)?'Moderate':'Provisional';
-  return {score,tier,confidence,parts:{corroboration,demand,timing,harvest},harvestNeutral:x.harvestPoints===null};
+  // Source tags are unverified claims and may share evidence: they add points but, without a
+  // verified hunt boundary, never more than Provisional confidence.
+  const confidence:TrophyV2Confidence=x.independentNamedSources>=2||x.verifiedAgencyAntlerOrAge?'Verified':x.boundaryVerified&&(x.namedSources>=1||x.countyTier===1||x.countyTier===2)?'Moderate':'Provisional';
+  return {score,tier,confidence,parts:{corroboration,demand,timing,harvest},harvestMissing:x.harvestPoints===null};
 }
