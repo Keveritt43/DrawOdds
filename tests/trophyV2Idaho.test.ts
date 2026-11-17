@@ -29,3 +29,12 @@ test('a county is significant only above the state rate and after correction',()
  assert.equal(r.find(x=>x.county==='Hot')!.significant,true);
  assert.equal(r.find(x=>x.county==='One')!.significant,false);
 });
+import {rankTiers} from '../src/lib/trophyV2Idaho';
+test('rank tiers: top 2% → 100, to 10% → 80, to 40% → 65; ties never split',()=>{
+ const scores=Array.from({length:100},(_,i)=>100-i);
+ const t=rankTiers(scores);
+ assert.deepEqual([t[0],t[1],t[2],t[9],t[10],t[39],t[40],t[99]],[100,100,80,80,65,65,50,50]);
+ assert.deepEqual(rankTiers([70,70,10,10,10]),[100,100,50,50,50],'tied hunts share the higher tier');
+ assert.deepEqual(rankTiers([9,8,8,8,8,8,1,1,1,1]),[100,65,65,65,65,65,50,50,50,50],'five tied hunts straddling the 65 line (4 slots) all go up together');
+ assert.deepEqual(rankTiers([5]),[100]);assert.deepEqual(rankTiers([]),[]);
+});

@@ -5,7 +5,7 @@ import {writeFileSync} from 'node:fs';
 import snapshot from '../data/id/trophy-shadow-2026-11-16.json';
 import source from '../data/trophy-source-western-v4.json';
 import {resolveTrophyCandidate} from '../src/lib/trophyCandidateResolver';
-import {bcCountySignificance,bcCredit,evidenceCredit,idScore,midRank,publicationCredit,rutCredit,rutDays,tierFor,type CountyResult,type IdSpecies} from '../src/lib/trophyV2Idaho';
+import {bcCountySignificance,bcCredit,evidenceCredit,idScore,midRank,publicationCredit,rankTiers,rutCredit,rutDays,tierFor,type CountyResult,type IdSpecies} from '../src/lib/trophyV2Idaho';
 
 const out=process.argv[2];if(!out)throw new Error('Provide an output path');
 type Rec=typeof source.records[number];
@@ -86,14 +86,18 @@ const results=snapshot.hunts.filter(eligible).map(h=>{
   const weakest=unitEvidence.reduce((a,b)=>evidenceCredit(b.bc,b.publications)<evidenceCredit(a.bc,a.publications)?b:a);
   const evidence=evidenceCredit(weakest.bc,weakest.publications);
   const score=idScore({demand:demand.percentile,animal:animal?.percentile??null,evidence,rut});
-  return {...base,status:'shadow score',score,tier:tierFor(score),
+  return {...base,status:'shadow score',score,tier:0 as number,fixedCutoffTier:tierFor(score),
     applicantsPerTag:Math.round(ratio(h)!*10)/10,demandPercentile:Math.round(demand.percentile*1000)/1000,demandPeers:demand.peers,demandAllWeapon:demand.allWeapon,
     rutDays:days,animalShare:animal?Math.round(animal.value*10)/10:null,animalFromHunt:animal?.from??null,animalPercentile:animal?Math.round(animal.percentile*1000)/1000:null,animalNeutral:!animal,
     evidence:Math.round(evidence*1000)/1000,unitEvidence};
 });
 const scored=results.filter(r=>r.status==='shadow score') as Extract<typeof results[number],{score:number}>[];
+for(const sp of ['DEER','ELK','PRONGHORN']){
+  const group=scored.filter(r=>r.species===sp),tiers=rankTiers(group.map(r=>r.score));
+  group.forEach((r,i)=>{r.tier=tiers[i];});
+}
 const tally=(f:(r:typeof scored[number])=>unknown)=>scored.reduce<Record<string,number>>((a,r)=>{const k=String(f(r));a[k]=(a[k]??0)+1;return a},{});
-const summary={rows:results.length,scored:scored.length,tiers:tally(r=>r.tier),liveTiers:tally(r=>r.liveTrophy),moves:tally(r=>`${r.liveTrophy}->${r.tier}`),
+const summary={rows:results.length,scored:scored.length,tiers:tally(r=>r.tier),liveTiers:tally(r=>r.liveTrophy),moves:tally(r=>`${r.liveTrophy}->${r.tier}`),bySpecies:Object.fromEntries(['DEER','ELK','PRONGHORN'].map(sp=>[sp,scored.filter(r=>r.species===sp).reduce<Record<string,number>>((a,r)=>{a[r.tier]=(a[r.tier]??0)+1;return a},{})])),
   significantCounties:[...counties].filter(([,c])=>c.significant).map(([k,c])=>`${k} ${c.entries10} entries vs ${c.expected.toFixed(1)} expected (q ${c.q.toFixed(3)})`),countyConflicts};
 writeFileSync(out,JSON.stringify({notice:'Offline Idaho v2 shadow on the 2026-11-16 live export snapshot. Not production scores.',summary,counties:Object.fromEntries(counties),results},null,2)+'\n');
 console.log(JSON.stringify(summary,null,1));
