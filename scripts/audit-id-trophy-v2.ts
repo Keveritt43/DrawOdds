@@ -41,14 +41,30 @@ const demandOf=(h:H)=>{
   return null;
 };
 // Mature-animal share, shrunk toward the species' harvest-weighted mean with a 20-animal prior.
+// Herd quality is a unit property: a late hunt's share is higher partly because bucks move in the
+// rut, which the rut part already scores. So each unit takes the best shrunk share of any hunt that
+// covers it, and a hunt takes its weakest unit. (Scoring each hunt's own share counted the rut twice
+// and dropped Unit 54's October hunts from 80 to 50.) More hunts in a unit means more chances at a
+// high maximum; the shrinkage limits small samples but not that.
 const K=20;
+const mule=(x:H)=>!(x.species==='DEER'&&x.deerType==='WHITETAIL');
+const withShare=(sp:string)=>snapshot.hunts.filter(x=>x.species===sp&&typeof x.bigPct5==='number'&&typeof x.harvest5==='number'&&x.harvest5>0&&mule(x));
+const shrunkShare=(x:H)=>{
+  const pool=withShare(x.species),mean=pool.reduce((s,y)=>s+y.bigPct5!*y.harvest5!,0)/pool.reduce((s,y)=>s+y.harvest5!,0);
+  return (x.bigPct5!*x.harvest5!+mean*K)/(x.harvest5!+K);
+};
+const unitHerd=new Map<string,{share:number;from:string}>();
+for(const sp of ['DEER','ELK'])for(const x of withShare(sp))for(const u of x.units){
+  const k=`${sp}|${u}`,v=shrunkShare(x),old=unitHerd.get(k);
+  if(!old||v>old.share)unitHerd.set(k,{share:v,from:x.code});
+}
+const herdValues=(sp:string)=>[...unitHerd].filter(([k])=>k.startsWith(sp+'|')).map(([,v])=>v.share);
 const animalShare=(h:H)=>{
-  if(h.species==='PRONGHORN'||typeof h.bigPct5!=='number'||typeof h.harvest5!=='number')return null;
-  if(h.species==='DEER'&&h.deerType==='WHITETAIL')return null; // IDFG's deer share is mule deer 4+
-  const pool=snapshot.hunts.filter(x=>x.species===h.species&&typeof x.bigPct5==='number'&&typeof x.harvest5==='number'&&!(x.species==='DEER'&&x.deerType==='WHITETAIL'));
-  const mean=pool.reduce((s,x)=>s+x.bigPct5!*x.harvest5!,0)/pool.reduce((s,x)=>s+x.harvest5!,0);
-  const shrunk=(v:number,n:number)=>(v*n+mean*K)/(n+K);
-  return {value:shrunk(h.bigPct5,h.harvest5),percentile:midRank(shrunk(h.bigPct5,h.harvest5),pool.map(x=>shrunk(x.bigPct5!,x.harvest5!)))};
+  if(h.species==='PRONGHORN'||!mule(h))return null; // IDFG's deer share is mule deer 4+; no pronghorn measure
+  const units=h.units.map(u=>unitHerd.get(`${h.species}|${u}`));
+  if(units.some(u=>!u))return null;
+  const weakest=units.reduce((a,b)=>b!.share<a!.share?b:a)!;
+  return {value:weakest.share,from:weakest.from,percentile:midRank(weakest.share,herdValues(h.species))};
 };
 
 const results=snapshot.hunts.filter(eligible).map(h=>{
@@ -72,7 +88,7 @@ const results=snapshot.hunts.filter(eligible).map(h=>{
   const score=idScore({demand:demand.percentile,animal:animal?.percentile??null,evidence,rut});
   return {...base,status:'shadow score',score,tier:tierFor(score),
     applicantsPerTag:Math.round(ratio(h)!*10)/10,demandPercentile:Math.round(demand.percentile*1000)/1000,demandPeers:demand.peers,demandAllWeapon:demand.allWeapon,
-    rutDays:days,animalShare:animal?Math.round(animal.value*10)/10:null,animalPercentile:animal?Math.round(animal.percentile*1000)/1000:null,animalNeutral:!animal,
+    rutDays:days,animalShare:animal?Math.round(animal.value*10)/10:null,animalFromHunt:animal?.from??null,animalPercentile:animal?Math.round(animal.percentile*1000)/1000:null,animalNeutral:!animal,
     evidence:Math.round(evidence*1000)/1000,unitEvidence};
 });
 const scored=results.filter(r=>r.status==='shadow score') as Extract<typeof results[number],{score:number}>[];

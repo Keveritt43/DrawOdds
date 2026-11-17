@@ -53,15 +53,17 @@ The land-access warning uses mapped public plus enrolled access where a compatib
 | Part | Points | Measure |
 |---|---:|---|
 | Demand | 35 | Applicants per tag, percentile within species and weapon (all weapons below ten hunts). Idaho is one random draw, so this is close to 1 ÷ odds and isn't inflated by point-builders. |
-| Animal | 30 | IDFG harvest share of mature animals (mule deer 4+ points, elk 6+), shrunk toward the species mean with a 20-animal prior, percentile within species. Pronghorn and whitetail-only hunts have no share and use a flagged neutral 0.5. |
+| Animal | 30 | Herd quality per unit: the best IDFG mature share (mule deer 4+ points, elk 6+) of any hunt covering the unit, shrunk toward the species mean with a 20-animal prior; a hunt takes its weakest unit; percentile among units. Pronghorn and whitetail-only hunts have no share and use a flagged neutral 0.5. |
 | Evidence | 20 | 0.6 × B&C county (significant 1, above state rate 0.4, else 0) + 0.4 × named publications (1 → 0.5, 2 → 0.8, 3+ → 1). Multi-unit hunts take their weakest unit. |
 | Rut | 15 | Days inside the rut window, full credit at 10. Mule deer Nov 5–Dec 5, whitetail Nov 1–30, elk Sep 8–Oct 1, pronghorn Sep 10–Oct 5. |
 
 Tiers keep the live scale: ≥85 → 100, ≥70 → 80, ≥55 → 65, else 50.
 
-The owner's Unit 54 example: hunt 1043 (Nov 15–30, 20 tags, 1,243 applicants, 62.2 per tag, 16 rut days, 79.7% shrunk 4-point share) scores 85.6 → 100; hunt 1042 (Oct 5–31, 300 tags, 3,794 applicants, 12.6 per tag, no rut days, 51.8%) scores 34.5 → 50. Live, both are 80.
+The owner's Unit 54 example: hunt 1043 (Nov 15–30, 20 tags, 1,243 applicants, 62.2 per tag, 16 rut days) scores 83.9 → 80; hunt 1042 (Oct 5–31, 300 tags, 3,794 applicants, 12.6 per tag, no rut days) scores 55.0 → 65. Both are 80 live, so the November tag is one level higher.
 
-Results, 236 scored: 100 ×3, 80 ×21, 65 ×49, 50 ×163 (live: 5, 16, 39, 176). 85 hunts change tier. Biggest rises: late Oct 10–Nov 30 five-tag deer hunts in units 21, 28, 36A, 50, 70 (50 → 80), elk 2015/2123 in 40–42 (50 → 80), multi-unit deer 1049 (50 → 80, it was held down by the weakest-unit rule on trophy tier). Biggest falls: Unit 54's October and archery deer hunts 1042, 1106, 1080 (80 → 50), elk 2022 in Unit 44 (80 → 50), and pronghorn 4012 and 4008 (100 → 65) because pronghorn has no animal measure.
+**Correction, Nov 17.** The first version scored each hunt's own mature share. A late hunt's share is high partly because bucks move in the rut, which the rut part already scores, so the rut counted twice: 1042, 1106 and elk 2022 fell from 80 to 50 and 1043 rose to 100. The animal part now measures the herd in the unit (above). Neither version is calibrated; the change was made because the first one double counted, not to hit a target.
+
+Results, 236 scored: 100 ×2, 80 ×23, 65 ×45, 50 ×166 (live: 5, 16, 39, 176); 79 hunts change tier. Rises: the long Oct 10–Nov 30 five-tag deer hunts in units 21, 28, 36A, 50 and 70 and elk 2015/2123 (50 → 80). Only three hunts fall two levels: archery deer 1080 in Unit 54 (80 → 50; 534 tags for 289 applicants, Aug 30–Sep 30, 33% mature harvest) and pronghorn 4012 and 4008 (100 → 65), where pronghorn has no animal measure and the live 100 rested on the supplied source list.
 
 **B&C significance doesn't work with this source.** The supplied list holds only 23 mule deer entries across its counties in ten years (1–5 per county), so almost nothing can be significant: only Custer mule deer (3 vs 0.06 expected) and Cassia pronghorn (3 vs 0.25) pass q < 0.10. The denominators are also biased: a county's harvest only counts units the list places in it, and deer harvest includes whitetail. A real test needs the full B&C records by county and year (the owner's B&C workbook: Mule Deer, Elk and Pronghorn tabs) and county harvest from unit geometry, not the top-county list.
 
