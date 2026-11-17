@@ -13,12 +13,12 @@ test('verified Area 55 hunt removes Unit 57 without mutating stored data',()=>{
   const corrected=withIdahoVerifiedArea(hunt);
   assert.deepEqual(corrected.units,['55']);assert.deepEqual(hunt.units,['55','57']);
   assert.equal(corrected.publicPct,null);assert.equal(corrected.huntersSqMi,null);
-  assert.equal(corrected.scoreQuality,null);assert.equal(trophyForHunt(corrected),80);
+  assert.equal(corrected.scoreQuality,null);assert.equal(trophyForHunt(corrected),65); // Idaho v2 tier table (Nov 17): 1044 ranks 65; the earlier early-Unit-55 exception (80) is superseded for 2026.
 });
 
 test('geographically invalid inputs do not produce a Quality or Opportunity score',()=>{
   const result=scoreHunts([hunt]).get(hunt.id)!;
-  assert.equal(result.scoreTrophy,80);assert.equal(result.scoreQuality,null);
+  assert.equal(result.scoreTrophy,65);assert.equal(result.scoreQuality,null);
   assert.equal(result.scoreAccess,null);assert.equal(result.scoreCrowd,null);
   assert.equal(result.scoreOppRes,null);assert.equal(result.scoreOppNr,null);
 });

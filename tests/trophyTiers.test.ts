@@ -35,7 +35,7 @@ test('Idaho deer ranks qualifying November hunts above October and keeps early U
  const october={...base,openDate:'2026-10-05',closeDate:'2026-10-31',bigPct5:.4386,resOdds5:.168};
  assert.equal(trophyForHunt(november),80);
  assert.equal(trophyForHunt(october),50);
- assert.equal(trophyForHunt({...october,units:['55'],huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'}),80);
+ assert.equal(trophyForHunt({...october,units:['55'],huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'}),65); // Idaho v2 tier table (Nov 17): 1044 ranks 65; the earlier early-Unit-55 exception (80) is superseded for 2026.
  assert.equal(trophyForHunt({...october,type:'GENERAL'}),50);
  assert.equal(trophyForHunt({...november,bigPct5:.7,units:['999']}),50);
  assert.equal(trophyForHunt({...november,resOdds5:.05,units:['999']}),50);
@@ -82,7 +82,7 @@ test('off-season reduction uses actual dates and preserves the early Idaho 55 ex
  const general={state:'ID',species:'DEER',type:'GENERAL',antlerClass:'ANTLERED',weapon:'ANY',units:['39'],openDate:'2026-10-10',closeDate:'2026-10-31'};
  assert.equal(trophyForHunt(general),50);
  assert.equal(trophyForHunt({...general,openDate:null,closeDate:null}),65);
- assert.equal(trophyForHunt({...general,units:['55'],type:'CONTROLLED',huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'}),80);
+ assert.equal(trophyForHunt({...general,units:['55'],type:'CONTROLLED',huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'}),65); // Idaho v2 tier table (Nov 17): 1044 ranks 65; the earlier early-Unit-55 exception (80) is superseded for 2026.
 });
 test('low harvest and comparatively high draw are screened only with compatible enough data',()=>{
  const h={state:'ID',species:'DEER',type:'GENERAL',antlerClass:'ANTLERED',weapon:'ANY',units:['39'],openDate:'2026-11-01',closeDate:'2026-11-30',hunters5:1000,harvest5:190,harvestYears:5,nrOddsLast:.824,oddsLastYear:2026};
