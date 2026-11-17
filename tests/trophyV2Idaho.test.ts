@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {bcCountySignificance,bhAdjust,idScore,poissonUpper,rutCredit,rutDays,tierFor} from '../src/lib/trophyV2Idaho';
+import {bcCountyRates,idScore,rutCredit,rutDays,WEIGHTS} from '../src/lib/trophyV2Idaho';
 
 test('rut days count only days inside the species window, with full credit at ten',()=>{
  assert.equal(rutDays('DEER','MULE','2026-11-15','2026-11-30'),16);
@@ -11,23 +11,21 @@ test('rut days count only days inside the species window, with full credit at te
  assert.equal(rutDays('DEER','MULE','2026-11-30','2026-11-01'),null);
  assert.equal(rutCredit(16),1);assert.equal(rutCredit(5),.5);assert.equal(rutCredit(0),0);
 });
-test('Unit 54: the 20-tag November hunt outranks the 300-tag October hunt',()=>{
- // 1043: 62 applicants per tag, 16 rut days, high 4-point share. 1042: 12.6 per tag, no rut days.
- const nov=idScore({demand:.86,animal:.924,evidence:.64,rut:rutCredit(16)!});
- const oct=idScore({demand:.463,animal:.182,evidence:.64,rut:rutCredit(0)!});
- assert.ok(tierFor(nov)>tierFor(oct));assert.equal(tierFor(nov),100);assert.equal(tierFor(oct),50);
+test('weights add to 100, with B&C held to 5',()=>{
+ assert.equal(Object.values(WEIGHTS).reduce((a,b)=>a+b,0),100);assert.equal(WEIGHTS.bc,5);
 });
-test('Poisson tail and Benjamini–Hochberg behave at the edges',()=>{
- assert.equal(poissonUpper(0,3),1);
- assert.ok(Math.abs(poissonUpper(1,1)-(1-Math.exp(-1)))<1e-12);
- assert.deepEqual(bhAdjust([.01,.04,.03]),[.03,.04,.04]);
+test('Unit 54: the 20-tag November hunt outscores the 300-tag October hunt on the same herd',()=>{
+ // Same unit, so the same herd and evidence; 1043 has 62 applicants per tag and 16 rut days, 1042 12.6 and none.
+ const same={animal:.85,publications:1,bc:.86};
+ assert.ok(idScore({...same,demand:.86,rut:rutCredit(16)!})>idScore({...same,demand:.463,rut:rutCredit(0)!})+20);
 });
-test('a county is significant only above the state rate and after correction',()=>{
- const harvest={a:500,b:500,c:500,d:500,e:500};
- const r=bcCountySignificance([{county:'Hot',entries10:8,units:['a']},{county:'Cold1',entries10:0,units:['b']},{county:'Cold2',entries10:0,units:['c']},{county:'Cold3',entries10:0,units:['d']},{county:'One',entries10:1,units:['e']},{county:'NoHarvest',entries10:3,units:['zz']}],harvest);
- assert.equal(r.length,5,'a county with no harvest is left out');
- assert.equal(r.find(x=>x.county==='Hot')!.significant,true);
- assert.equal(r.find(x=>x.county==='One')!.significant,false);
+test('B&C credit is a shrunk rate: the state rate earns nothing, small counts are pulled in',()=>{
+ const r=bcCountyRates([{county:'Hot',entries:6,units:['a']},{county:'Avg',entries:2,units:['b']},{county:'One',entries:1,units:['c']},{county:'None',entries:0,units:['d']},{county:'NoHarvest',entries:3,units:['zz']}],{a:100,b:100,c:20,d:180});
+ const by=Object.fromEntries(r.map(x=>[x.county,x]));
+ assert.equal(r.length,4,'a county with no harvest is left out');
+ assert.ok(Math.abs(by.Hot.credit-(8/4.25-1))<1e-12,'6 entries vs 2.25 expected shrinks to 0.88');assert.equal(by.None.credit,0);assert.equal(by.Avg.credit,0,'below the state rate earns nothing');
+ assert.ok(by.One.credit<1&&by.One.credit>0,'one entry on a small harvest is shrunk, not full credit');
+ assert.ok(Math.abs(by.Avg.shrunkRatio-(2+2)/(9*100/400+2))<1e-12);
 });
 import {rankTiers} from '../src/lib/trophyV2Idaho';
 test('rank tiers: top 2% → 100, to 10% → 80, to 40% → 65; ties never split',()=>{

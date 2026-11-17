@@ -1,13 +1,15 @@
 /** Idaho v2 trophy score: offline shadow, not wired to displayed or stored scores.
  *
- * Four parts, each a 0–1 value, weighted to 100:
+ * Five parts, each a 0–1 value, weighted to 100 (owner, Nov 17: weight moved from B&C to herd):
  *  - demand 35: applicants per tag, percentile within species and weapon (Idaho is one
  *    random draw, so applicants per tag is close to 1 ÷ draw odds and isn't inflated by
  *    point-builders the way preference states are);
- *  - animal 30: IDFG's harvest share of mature animals (mule deer 4+ points, elk 6+ points),
- *    shrunk toward the species mean on small harvests, percentile within species;
- *  - evidence 20: B&C county entries tested against harvest (Poisson, BH-corrected) and
- *    named publication lists;
+ *  - animal 37: herd quality per unit from IDFG's mature harvest share (mule deer 4+ points,
+ *    elk 6+), percentile within species;
+ *  - publications 8: named publication lists;
+ *  - B&C 5: county entries over 20 years against harvest, shrunk toward the state rate. Idaho
+ *    has 25 mule deer, 8 elk and 9 pronghorn entries since 2016 (81 / 29 / 25 since 2006), too
+ *    few for any county to test as significant, so it is a small signal, not a test;
  *  - rut 15: days of the season inside the species' rut window, full credit at 10 days.
  *
  * Tiers keep the live 50/65/80/100 scale but are assigned by rank within species (`rankTiers`),
@@ -16,7 +18,7 @@
  * this species", not an absolute size claim across states. */
 
 export type IdSpecies = 'DEER' | 'ELK' | 'PRONGHORN';
-export const WEIGHTS = { demand: 35, animal: 30, evidence: 20, rut: 15 } as const;
+export const WEIGHTS = { demand: 35, animal: 37, publications: 8, bc: 5, rut: 15 } as const;
 
 /** Inclusive month-day windows. Sources: East Idaho News (mule deer peak ~Nov 15, breeding into
  * December), IDFG (deer rut in November, elk in September), outfitter/agency summaries (Idaho elk
@@ -52,51 +54,28 @@ export function midRank(value: number, values: number[]): number {
   return (values.filter(v => v < value).length + values.filter(v => v === value).length / 2) / values.length;
 }
 
-/** Upper-tail Poisson probability P(X ≥ k | λ). */
-export function poissonUpper(k: number, lambda: number): number {
-  if (k <= 0) return 1;
-  let term = Math.exp(-lambda), cdf = term;
-  for (let i = 1; i < k; i++) { term *= lambda / i; cdf += term; }
-  return Math.max(0, 1 - cdf);
-}
+export interface CountyInput { county: string; entries: number; units: string[] }
+export interface CountyRate { county: string; entries: number; harvest: number; expected: number; shrunkRatio: number; credit: number }
+/** Prior weight, in expected entries, pulling each county toward the state rate. */
+export const BC_PRIOR = 2;
 
-/** Benjamini–Hochberg adjusted q-values, in input order. */
-export function bhAdjust(p: number[]): number[] {
-  const order = p.map((v, i) => [v, i] as const).sort((x, y) => x[0] - y[0]);
-  const q = new Array<number>(p.length);
-  let min = 1;
-  for (let r = order.length - 1; r >= 0; r--) {
-    min = Math.min(min, order[r][0] * order.length / (r + 1));
-    q[order[r][1]] = min;
-  }
-  return q;
-}
-
-export interface CountyInput { county: string; entries10: number; units: string[] }
-export interface CountyResult { county: string; entries10: number; harvest10: number; expected: number; rateRatio: number; p: number; q: number; significant: boolean }
-
-/** B&C entries in ten years against the county's ten-year harvest (five-year unit harvest × 2),
- * at the statewide entries-per-harvest rate. A unit counts toward every county it's listed in.
- * Significance: BH q < 0.10 and rate ratio > 1. Counties with no harvest are left out. */
-export function bcCountySignificance(counties: CountyInput[], unitHarvest5: Record<string, number>): CountyResult[] {
-  const rows = counties.map(c => ({ ...c, harvest10: 2 * c.units.reduce((s, u) => s + (unitHarvest5[u] ?? 0), 0) })).filter(c => c.harvest10 > 0);
-  const totalEntries = rows.reduce((s, c) => s + c.entries10, 0), totalHarvest = rows.reduce((s, c) => s + c.harvest10, 0);
-  if (!rows.length || totalHarvest <= 0) return [];
-  const rate = totalEntries / totalHarvest;
-  const p = rows.map(c => poissonUpper(c.entries10, rate * c.harvest10));
-  const q = bhAdjust(p);
-  return rows.map((c, i) => {
-    const expected = rate * c.harvest10, rateRatio = expected > 0 ? c.entries10 / expected : 0;
-    return { county: c.county, entries10: c.entries10, harvest10: c.harvest10, expected, rateRatio, p: p[i], q: q[i], significant: q[i] < 0.1 && rateRatio > 1 };
+/** County B&C entries against the county's share of harvest. A unit counts toward every county it's
+ * listed in; counties with no harvest are left out. Shrunk ratio = (entries + prior) ÷
+ * (expected + prior); credit = min(1, max(0, ratio − 1)), so the state rate earns nothing and
+ * double the state rate earns full credit. */
+export function bcCountyRates(counties: CountyInput[], unitHarvest: Record<string, number>): CountyRate[] {
+  const rows = counties.map(c => ({ ...c, harvest: c.units.reduce((s, u) => s + (unitHarvest[u] ?? 0), 0) })).filter(c => c.harvest > 0);
+  const entries = rows.reduce((s, c) => s + c.entries, 0), harvest = rows.reduce((s, c) => s + c.harvest, 0);
+  if (!rows.length) return [];
+  return rows.map(c => {
+    const expected = entries * c.harvest / harvest, shrunkRatio = (c.entries + BC_PRIOR) / (expected + BC_PRIOR);
+    return { county: c.county, entries: c.entries, harvest: c.harvest, expected, shrunkRatio, credit: Math.min(1, Math.max(0, shrunkRatio - 1)) };
   });
 }
 
 /** Named publication lists (not B&C): one 0.5, two 0.8, three or more 1. They often reuse the same
- * draw and B&C data, so they carry 8 of 100 points at most. */
+ * draw and B&C data, so they carry 8 of 100 points. */
 export const publicationCredit = (named: number) => named <= 0 ? 0 : named === 1 ? 0.5 : named === 2 ? 0.8 : 1;
-/** Significant county 1; above the state rate but not significant 0.4; otherwise 0. */
-export const bcCredit = (c: CountyResult | null | undefined) => !c ? 0 : c.significant ? 1 : c.rateRatio > 1 ? 0.4 : 0;
-export const evidenceCredit = (bc: number, publications: number) => 0.6 * bc + 0.4 * publications;
 
 /** Fixed cut-offs, kept for comparison only. */
 export const tierFor = (score: number): 50 | 65 | 80 | 100 => score >= 85 ? 100 : score >= 70 ? 80 : score >= 55 ? 65 : 50;
@@ -121,9 +100,9 @@ export function rankTiers(scores: number[]): (50 | 65 | 80 | 100)[] {
   return scores.map(s => s >= s100 ? 100 : s >= s80 ? 80 : s >= s65 ? 65 : 50);
 }
 
-export interface IdParts { demand: number; animal: number | null; evidence: number; rut: number }
+export interface IdParts { demand: number; animal: number | null; publications: number; bc: number; rut: number }
 /** Weighted score. An unknown animal signal uses the neutral 0.5 and is flagged by the caller. */
 export function idScore(p: IdParts): number {
   const animal = p.animal ?? 0.5;
-  return Math.round((WEIGHTS.demand * p.demand + WEIGHTS.animal * animal + WEIGHTS.evidence * p.evidence + WEIGHTS.rut * p.rut) * 10) / 10;
+  return Math.round((WEIGHTS.demand * p.demand + WEIGHTS.animal * animal + WEIGHTS.publications * p.publications + WEIGHTS.bc * p.bc + WEIGHTS.rut * p.rut) * 10) / 10;
 }
