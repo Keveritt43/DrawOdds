@@ -45,7 +45,7 @@ export function CoSpecialPointCharts({ levels, history, preference, weighted, ye
       <tbody>{[...rows].sort((a,b) => b[0]-a[0] || b[1]-a[1]).map(row => {
         const apps = row[2 + selectedPool], drew = row[6 + selectedPool];
         const mine = row[0] === preference && row[1] === weighted;
-        return <tr key={row[0]+':'+row[1]} style={mine ? {background:'#fff0e8'} : undefined}><td>{row[0]}{mine ? ' · you' : ''}</td><td>{row[1]}</td><td>{apps || '—'}</td><td>{apps ? drew : '—'}</td><td>{apps ? (drew / apps * 100).toFixed(1) + '%' : '—'}</td></tr>;
+        return <tr key={row[0]+':'+row[1]} className={mine ? 'mine-row' : undefined}><td>{row[0]}{mine ? ' · you' : ''}</td><td>{row[1]}</td><td>{apps || '—'}</td><td>{apps ? drew : '—'}</td><td>{apps ? (drew / apps * 100).toFixed(1) + '%' : '—'}</td></tr>;
       })}</tbody>
     </table></div>
     <p className="small muted">Actual first-choice results at each reported regular and weighted point level. A dash means no applicants in that pool, so odds are unavailable. These historical outcomes do not forecast the next weighted draw.</p>
