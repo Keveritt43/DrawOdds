@@ -4,8 +4,9 @@
 import {writeFileSync} from 'node:fs';
 import snapshot from '../data/id/trophy-shadow-2026-11-16.json';
 import source from '../data/trophy-source-western-v4.json';
+import bcCounts from '../data/id/bc-county-counts-2026-11-17.json';
 import {resolveTrophyCandidate} from '../src/lib/trophyCandidateResolver';
-import {bcCountySignificance,bcCredit,evidenceCredit,idScore,midRank,publicationCredit,rankTiers,rutCredit,rutDays,tierFor,type CountyResult,type IdSpecies} from '../src/lib/trophyV2Idaho';
+import {bcCountyRates,idScore,midRank,publicationCredit,rankTiers,rutCredit,rutDays,tierFor,type CountyRate,type IdSpecies} from '../src/lib/trophyV2Idaho';
 
 const out=process.argv[2];if(!out)throw new Error('Provide an output path');
 type Rec=typeof source.records[number];
@@ -13,21 +14,23 @@ const records=source.records.filter(r=>r.state==='ID');
 const byId=new Map(records.map(r=>[r.id,r]));
 const harvest=snapshot.unitHarvest5.bySpecies as Record<string,Record<string,number>>;
 
-// B&C significance per species and subspecies: a county's ten-year entries against the harvest of
-// every unit the source list places in that county.
+// B&C: each county's 20-year entries (kill year 2006+) from the owner's full workbook, against the
+// harvest of every unit the source list places in that county. The workbook's deer tab is mule deer,
+// so whitetail units get no B&C credit.
 const popKey=(r:Rec)=>`${r.species}:${r.subspecies}`;
-const counties=new Map<string,CountyResult>();
-const countyConflicts:string[]=[];
-for(const pop of new Set(records.map(popKey))){
-  const rows=records.filter(r=>popKey(r)===pop&&r.county&&typeof r.bcPast10Years==='number');
-  const byCounty=new Map<string,{entries:Set<number>;units:Set<string>}>();
-  for(const r of rows){const c=byCounty.get(r.county!)??{entries:new Set(),units:new Set()};c.entries.add(r.bcPast10Years!);c.units.add(r.unit);byCounty.set(r.county!,c);}
-  const inputs=[...byCounty].flatMap(([county,c])=>{
-    if(c.entries.size!==1){countyConflicts.push(`${pop} ${county}`);return [];}
-    return [{county,entries10:[...c.entries][0],units:[...c.units]}];
-  });
-  for(const r of bcCountySignificance(inputs,harvest[pop.split(':')[0]]??{}))counties.set(`${pop}|${r.county}`,r);
+const unitCounties=new Map<string,Set<string>>();
+for(const r of records)if(r.county&&!(r.species==='DEER'&&r.subspecies!=='Mule Deer')){
+  const k=`${r.species}|${r.unit}`;unitCounties.set(k,(unitCounties.get(k)??new Set()).add(r.county));
 }
+const counties=new Map<string,CountyRate>();
+for(const sp of ['DEER','ELK','PRONGHORN']){
+  const entries=(bcCounts.bySpecies as Record<string,Record<string,number[]>>)[sp];
+  const byCounty=new Map<string,string[]>();
+  for(const [k,cs] of unitCounties)if(k.startsWith(sp+'|'))for(const c of cs)byCounty.set(c,[...(byCounty.get(c)??[]),k.split('|')[1]]);
+  const inputs=[...byCounty].map(([county,units])=>({county,units,entries:entries[county]?.[1]??0}));
+  for(const r of bcCountyRates(inputs,harvest[sp]??{}))counties.set(`${sp}|${r.county}`,r);
+}
+const countyConflicts:string[]=[];
 
 type H=typeof snapshot.hunts[number];
 const eligible=(h:H)=>['ANTLERED','EITHER'].includes(h.antlerClass);
@@ -78,18 +81,19 @@ const results=snapshot.hunts.filter(eligible).map(h=>{
   const unitEvidence=h.units.map(unit=>{
     const c=resolveTrophyCandidate({state:'ID',species:h.species,unit,deerType:h.deerType});
     const recs=c.sourceIds.map(id=>byId.get(id)).filter((r):r is Rec=>!!r);
-    if(!recs.length)return {unit,bc:0,publications:0,named:0,county:null as string|null,significant:false};
-    const r=recs[0],named=r.sourceTags.filter(t=>!['bc','bc_top_counties'].includes(t.toLowerCase())).length;
-    const county=r.county?counties.get(`${popKey(r)}|${r.county}`):undefined;
-    return {unit,bc:bcCredit(county),publications:publicationCredit(named),named,county:r.county??null,significant:!!county?.significant};
+    const named=recs.length?recs[0].sourceTags.filter(t=>!['bc','bc_top_counties'].includes(t.toLowerCase())).length:0;
+    const whitetail=h.species==='DEER'&&h.deerType==='WHITETAIL';
+    const cs=whitetail?[]:[...(unitCounties.get(`${h.species}|${unit}`)??[])].map(cn=>counties.get(`${h.species}|${cn}`)).filter((x):x is CountyRate=>!!x);
+    const best=cs.reduce<CountyRate|null>((a,b)=>!a||b.credit>a.credit?b:a,null);
+    return {unit,publications:publicationCredit(named),named,bc:best?.credit??0,county:best?.county??null,bcEntries20:best?.entries??null,bcExpected20:best?Math.round(best.expected*100)/100:null};
   });
-  const weakest=unitEvidence.reduce((a,b)=>evidenceCredit(b.bc,b.publications)<evidenceCredit(a.bc,a.publications)?b:a);
-  const evidence=evidenceCredit(weakest.bc,weakest.publications);
-  const score=idScore({demand:demand.percentile,animal:animal?.percentile??null,evidence,rut});
+  const pts=(u:typeof unitEvidence[number])=>8*u.publications+5*u.bc;
+  const weakest=unitEvidence.reduce((a,b)=>pts(b)<pts(a)?b:a);
+  const score=idScore({demand:demand.percentile,animal:animal?.percentile??null,publications:weakest.publications,bc:weakest.bc,rut});
   return {...base,status:'shadow score',score,tier:0 as number,fixedCutoffTier:tierFor(score),
     applicantsPerTag:Math.round(ratio(h)!*10)/10,demandPercentile:Math.round(demand.percentile*1000)/1000,demandPeers:demand.peers,demandAllWeapon:demand.allWeapon,
     rutDays:days,animalShare:animal?Math.round(animal.value*10)/10:null,animalFromHunt:animal?.from??null,animalPercentile:animal?Math.round(animal.percentile*1000)/1000:null,animalNeutral:!animal,
-    evidence:Math.round(evidence*1000)/1000,unitEvidence};
+    publications:weakest.publications,bc:Math.round(weakest.bc*1000)/1000,unitEvidence};
 });
 const scored=results.filter(r=>r.status==='shadow score') as Extract<typeof results[number],{score:number}>[];
 for(const sp of ['DEER','ELK','PRONGHORN']){
@@ -98,6 +102,6 @@ for(const sp of ['DEER','ELK','PRONGHORN']){
 }
 const tally=(f:(r:typeof scored[number])=>unknown)=>scored.reduce<Record<string,number>>((a,r)=>{const k=String(f(r));a[k]=(a[k]??0)+1;return a},{});
 const summary={rows:results.length,scored:scored.length,tiers:tally(r=>r.tier),liveTiers:tally(r=>r.liveTrophy),moves:tally(r=>`${r.liveTrophy}->${r.tier}`),bySpecies:Object.fromEntries(['DEER','ELK','PRONGHORN'].map(sp=>[sp,scored.filter(r=>r.species===sp).reduce<Record<string,number>>((a,r)=>{a[r.tier]=(a[r.tier]??0)+1;return a},{})])),
-  significantCounties:[...counties].filter(([,c])=>c.significant).map(([k,c])=>`${k} ${c.entries10} entries vs ${c.expected.toFixed(1)} expected (q ${c.q.toFixed(3)})`),countyConflicts};
+  bcCountiesWithCredit:[...counties].filter(([,c])=>c.credit>0).map(([k,c])=>`${k} ${c.entries} vs ${c.expected.toFixed(1)} expected, credit ${c.credit.toFixed(2)}`),countyConflicts};
 writeFileSync(out,JSON.stringify({notice:'Offline Idaho v2 shadow on the 2026-11-16 live export snapshot. Not production scores.',summary,counties:Object.fromEntries(counties),results},null,2)+'\n');
 console.log(JSON.stringify(summary,null,1));

@@ -1,0 +1,544 @@
+{
+ "notice": "Idaho B&C entries by the Location field's county, from the owner's Google Sheet 'BC Elk' (tabs Mule Deer, ELK, Pronghorn; State/Province = Idaho), counted 2026-11-17 in the browser. Columns: all years / kill year 2006+ / 2016+. '?' is a blank location; non-county places (towns, rivers, forests) are kept as written and match no county.",
+ "source": "https://docs.google.com/spreadsheets/d/1Vi7R6feUpZwJ0Lat1xnvZYOsRMcWnFAzTtV6Mw_KuBk",
+ "totals": {
+  "DEER": [
+   549,
+   81,
+   25
+  ],
+  "ELK": [
+   108,
+   29,
+   8
+  ],
+  "PRONGHORN": [
+   52,
+   25,
+   9
+  ]
+ },
+ "bySpecies": {
+  "DEER": {
+   "?": [
+    56,
+    3,
+    0
+   ],
+   "Adams": [
+    41,
+    4,
+    1
+   ],
+   "Bonneville": [
+    40,
+    5,
+    1
+   ],
+   "Boise": [
+    32,
+    5,
+    2
+   ],
+   "Franklin": [
+    27,
+    3,
+    1
+   ],
+   "Elmore": [
+    27,
+    4,
+    0
+   ],
+   "Caribou": [
+    25,
+    2,
+    1
+   ],
+   "Owyhee": [
+    23,
+    4,
+    0
+   ],
+   "Bear Lake": [
+    22,
+    3,
+    0
+   ],
+   "Lemhi": [
+    22,
+    8,
+    5
+   ],
+   "Gem": [
+    17,
+    1,
+    0
+   ],
+   "Camas": [
+    17,
+    5,
+    1
+   ],
+   "Blaine": [
+    16,
+    1,
+    1
+   ],
+   "Washington": [
+    16,
+    3,
+    0
+   ],
+   "Cassia": [
+    16,
+    4,
+    2
+   ],
+   "Fremont": [
+    15,
+    3,
+    3
+   ],
+   "Custer": [
+    14,
+    5,
+    3
+   ],
+   "Oneida": [
+    13,
+    3,
+    1
+   ],
+   "Bannock": [
+    13,
+    0,
+    0
+   ],
+   "Gooding": [
+    12,
+    3,
+    0
+   ],
+   "Power": [
+    9,
+    3,
+    1
+   ],
+   "Valley": [
+    9,
+    2,
+    0
+   ],
+   "Nez Perce": [
+    8,
+    0,
+    0
+   ],
+   "Shoshone": [
+    7,
+    1,
+    0
+   ],
+   "Twin Falls": [
+    6,
+    0,
+    0
+   ],
+   "Madison": [
+    5,
+    0,
+    0
+   ],
+   "Teton": [
+    5,
+    1,
+    0
+   ],
+   "Lincoln": [
+    4,
+    1,
+    1
+   ],
+   "Butte": [
+    3,
+    0,
+    0
+   ],
+   "Bingham": [
+    3,
+    0,
+    0
+   ],
+   "Sublett": [
+    2,
+    0,
+    0
+   ],
+   "Salmon River": [
+    2,
+    0,
+    0
+   ],
+   "Boundary": [
+    2,
+    0,
+    0
+   ],
+   "Ada": [
+    2,
+    1,
+    1
+   ],
+   "Pocatello": [
+    2,
+    0,
+    0
+   ],
+   "Payette": [
+    2,
+    0,
+    0
+   ],
+   "Clark": [
+    2,
+    1,
+    0
+   ],
+   "Clearwater": [
+    1,
+    1,
+    0
+   ],
+   "Swan Valley": [
+    1,
+    0,
+    0
+   ],
+   "Montpelier": [
+    1,
+    0,
+    0
+   ],
+   "Ashton": [
+    1,
+    0,
+    0
+   ],
+   "Lewis": [
+    1,
+    1,
+    0
+   ],
+   "Soda Springs": [
+    1,
+    0,
+    0
+   ],
+   "Irwin": [
+    1,
+    0,
+    0
+   ],
+   "Salmon": [
+    1,
+    0,
+    0
+   ],
+   "Whitebird": [
+    1,
+    0,
+    0
+   ],
+   "Latah": [
+    1,
+    0,
+    0
+   ],
+   "Bonner": [
+    1,
+    0,
+    0
+   ],
+   "Unknown": [
+    1,
+    0,
+    0
+   ]
+  },
+  "ELK": {
+   "?": [
+    9,
+    1,
+    0
+   ],
+   "Fremont": [
+    8,
+    0,
+    0
+   ],
+   "Shoshone": [
+    7,
+    0,
+    0
+   ],
+   "Valley": [
+    6,
+    2,
+    0
+   ],
+   "Adams": [
+    5,
+    1,
+    0
+   ],
+   "Lemhi": [
+    5,
+    2,
+    0
+   ],
+   "Twin Falls": [
+    4,
+    4,
+    1
+   ],
+   "Owyhee": [
+    4,
+    2,
+    1
+   ],
+   "Blaine": [
+    4,
+    2,
+    1
+   ],
+   "Kootenai": [
+    4,
+    1,
+    0
+   ],
+   "Bannock": [
+    3,
+    2,
+    0
+   ],
+   "Cassia": [
+    3,
+    2,
+    1
+   ],
+   "Clearwater": [
+    3,
+    0,
+    0
+   ],
+   "Nez Perce": [
+    3,
+    0,
+    0
+   ],
+   "Benewah": [
+    3,
+    0,
+    0
+   ],
+   "Power": [
+    3,
+    3,
+    1
+   ],
+   "Bonneville": [
+    3,
+    0,
+    0
+   ],
+   "Clark": [
+    3,
+    1,
+    0
+   ],
+   "Teton": [
+    3,
+    1,
+    1
+   ],
+   "Latah": [
+    2,
+    0,
+    0
+   ],
+   "Elmore": [
+    2,
+    0,
+    0
+   ],
+   "Oneida": [
+    2,
+    2,
+    2
+   ],
+   "Custer": [
+    2,
+    0,
+    0
+   ],
+   "Bear Lake": [
+    2,
+    1,
+    0
+   ],
+   "Bonner": [
+    2,
+    0,
+    0
+   ],
+   "Selway River": [
+    1,
+    0,
+    0
+   ],
+   "Jefferson": [
+    1,
+    1,
+    0
+   ],
+   "Salmon Natl. For.": [
+    1,
+    0,
+    0
+   ],
+   "Minidoka": [
+    1,
+    0,
+    0
+   ],
+   "Winchester": [
+    1,
+    0,
+    0
+   ],
+   "Caribou": [
+    1,
+    0,
+    0
+   ],
+   "Salmon River": [
+    1,
+    0,
+    0
+   ],
+   "Medicine Lodge Creek": [
+    1,
+    0,
+    0
+   ],
+   "Washington": [
+    1,
+    0,
+    0
+   ],
+   "Butte": [
+    1,
+    0,
+    0
+   ],
+   "Big Creek": [
+    1,
+    0,
+    0
+   ],
+   "Boise": [
+    1,
+    1,
+    0
+   ],
+   "Waverly Mts.": [
+    1,
+    0,
+    0
+   ]
+  },
+  "PRONGHORN": {
+   "Custer": [
+    9,
+    3,
+    2
+   ],
+   "Butte": [
+    7,
+    2,
+    1
+   ],
+   "Cassia": [
+    5,
+    3,
+    3
+   ],
+   "Blaine": [
+    5,
+    2,
+    1
+   ],
+   "Twin Falls": [
+    5,
+    5,
+    1
+   ],
+   "Owyhee": [
+    4,
+    1,
+    0
+   ],
+   "Elmore": [
+    4,
+    4,
+    0
+   ],
+   "Lemhi": [
+    3,
+    0,
+    0
+   ],
+   "Power": [
+    2,
+    2,
+    0
+   ],
+   "Minidoka": [
+    2,
+    2,
+    0
+   ],
+   "Clark": [
+    1,
+    0,
+    0
+   ],
+   "Bingham": [
+    1,
+    1,
+    1
+   ],
+   "Jefferson": [
+    1,
+    0,
+    0
+   ],
+   "Arco": [
+    1,
+    0,
+    0
+   ],
+   "Unknown": [
+    1,
+    0,
+    0
+   ],
+   "Ada": [
+    1,
+    0,
+    0
+   ]
+  }
+ }
+}
