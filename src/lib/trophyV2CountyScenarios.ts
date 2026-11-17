@@ -3,12 +3,14 @@ type CountyTier=1|2|3|4;
 const tier=(n:number):TrophyV2Tier=>n>=85?'Elite':n>=70?'Excellent':n>=55?'Good':'Standard';
 
 /** Compare both reported county bases without choosing whichever gives a preferred rating. */
-export function countyScenarios(input:Omit<TrophyV2Input,'countyTier'>,countyTiers:CountyTier[],floor:number) {
-  if(!countyTiers.length||!Number.isFinite(floor)||floor<0||floor>100)return null;
+/** No score floor: an earlier version floored Utah limited-entry hunts at the supplied CSV's
+ * own tier, which fed the answer back in as an input (139 of 446 scored rows sat on it). */
+export function countyScenarios(input:Omit<TrophyV2Input,'countyTier'>,countyTiers:CountyTier[]) {
+  if(!countyTiers.length)return null;
   const values=[...new Set(countyTiers)].map(countyTier=>{
     const result=trophyV2Shadow({...input,countyTier});
     if(!result)return null;
-    const score=Math.max(result.score,floor);
+    const score=result.score;
     return {countyTier,score,tier:tier(score)};
   });
   if(values.some(v=>v===null))return null;

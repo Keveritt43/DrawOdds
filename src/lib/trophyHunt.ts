@@ -6,6 +6,26 @@ import { resolveTrophyCandidate } from './trophyCandidateResolver';
 import { unlistedExceptionalHunt } from './trophyHuntDemandCandidate';
 import { reviewTrophyPeerBenchmark } from './trophyPeerBenchmarkReview';
 
+/** Hunt-specific trophy exceptions below are pinned to the draw year they were reviewed
+ * against (oddsLastYear === <year>, plus exact season dates). When a new year's data
+ * arrives they stop matching without any error, and those hunts quietly lose their tier.
+ * `tests/trophy-exception-expiry.test.ts` fails when bundled data moves past these years
+ * or after `reviewBy`, so each exception gets re-reviewed rather than silently dropped. */
+export const TROPHY_EXCEPTION_REVIEW = {
+  drawYears: { ID: 2026, CO: 2026, UT: 2026, WA: 2025, WY: 2026 },
+  /** Colorado and Idaho hunts live in the database, not bundled files; use a date instead. */
+  reviewBy: '2027-06-30',
+  exceptions: [
+    'ID deer 1044 (Area 55 early, excludes Unit 57)',
+    'UT premium limited-entry buck deer DB1000–DB1008',
+    'CO elk EM076E1R (Unit 76 early rifle)',
+    'CO elk EE002E1R, EE010E1R, EE201E1R (early rifle)',
+    'CO deer DM074E1R (Unit 74 above 11,000 ft)',
+    'CO deer DM055O1A, DM055O1M (Unit 55 early)',
+    'WA elk 2016 Colockum and the 2025 Quality Elk application threshold',
+  ],
+} as const;
+
 const maximumAntlerRule = (text:string) => /\b(?:\w+\s+)?\(\d+\)\s*points?\s+or\s+(?:less|fewer)\b/i.test(text) || /\bspike(?:\s+(?:bulls?|elk))?\s+(?:only|or antlerless)\b|\b(?:no more than|not more than|at most|maximum of)\s*\d+\s*[- ]?(?:pt|point)|\b\d+\s*[- ]?(?:pt|point)s?\s*(?:(?:bucks?|deer|bulls?|elk)\s*)?(?:only|max(?:imum)?|or (?:less|fewer))\b/i.test(text);
 
 /** Compare real date spans, rather than treating a gap between separate seasons as open. */
