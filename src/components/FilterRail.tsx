@@ -15,7 +15,7 @@ import { showPrivate } from '@/lib/privateLand';
 import { selectedValues } from '@/lib/selectedValues';
 
 /** URL keys that mark a state's own filter group as in use. Idaho's group is built in this file. */
-const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyPool', 'wyWild', 'wyDeer', 'wyType'], UT: ['utLic'], WA: ['waLic', 'waCat', 'waWeapon', 'waSide', 'waMyTag'], NM: ['nmLic', 'nmDeer', 'nmFee', 'nmWho'], OR: ['orLic', 'orSeries', 'orLimited', 'orMinPts', 'orMaxPts'] };
+const STATE_GROUP_KEYS: Partial<Record<StateCode, string[]>> = { CO: ['season', 'second', 'hybrid', 'otcElk'], WY: ['wyPool', 'wyWild', 'wyDeer', 'wyType'], UT: ['utLic'], WA: ['waLic', 'waCat', 'waWeapon', 'waSide', 'waMyTag'], NM: ['nmLic', 'nmDeer', 'nmFee', 'nmWho'], OR: ['orLic', 'orSeries', 'orLimited', 'orMinPts', 'orMaxPts'], NV: ['nvCat'] };
 
 type Opt = [value: string, label: string];
 

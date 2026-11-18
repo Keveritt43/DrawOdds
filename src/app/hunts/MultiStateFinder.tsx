@@ -27,6 +27,8 @@ import { WaSearchFilters } from '@/components/WaSearchFilters';
 import { NmHuntCard } from '@/components/NmHuntCard';
 import { NmSearchFilters } from '@/components/NmSearchFilters';
 import { OrHuntCard } from '@/components/OrHuntCard';
+import { NvHuntCard } from '@/components/NvHuntCard';
+import { NvSearchFilters } from '@/components/NvSearchFilters';
 import { OrSearchFilters } from '@/components/OrSearchFilters';
 import { wyWilderness } from '@/lib/wyWilderness';
 import { getFavorites } from '@/lib/favorites';
@@ -104,6 +106,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     <details className="small search-result-context"><summary><b>{STATES[x.r.state as keyof typeof STATES].name}</b> · {x.nr ? 'Nonresident' : 'Resident'} · Opportunity {x.opportunity ?? '—'}</summary><p>{x.basis}{x.r.state === 'CO' && settings.CO.youth ? ' · Youth pool' : ''}{x.r.state === 'WY' && x.nr && settings.WY?.wySpecial ? ' · Special pool' : ''}{x.r.scoreQuality === null ? ' · Incomplete scoring data' : ''}</p></details>
     {x.r.state === 'MT' ? <MtHuntCard r={x.r} odds={x.odds} parts={x.mtParts} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'NM' ? <NmHuntCard r={x.r} odds={x.odds} nr={x.nr} basis={x.basis} pool={x.nmPool} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
+      : x.r.state === 'NV' ? <NvHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'OR' ? <OrHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'WA' ? <WaHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} tagOk={x.waTagOk} />
       : x.r.state === 'UT' ? <UtHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
@@ -112,7 +115,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       : <article className="ucard single"><HuntCard r={x.r} also={also} c={{ nr: x.nr, rf: residencyFields(x.nr ? 'NONRESIDENT' : 'RESIDENT'), favHunts: fav.hunts, signedIn: fav.signedIn, sort }} /></article>}
   </div>;
   return <main className={`filtering multi-state-finder${view === 'table' ? ' tablemode' : ''}`}>
-    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg || states.includes('WY') || states.includes('MT') || states.includes('UT') || states.includes('WA') || states.includes('NM') || states.includes('OR') ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
+    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg || states.includes('WY') || states.includes('MT') || states.includes('UT') || states.includes('WA') || states.includes('NM') || states.includes('OR') || states.includes('NV') ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
     <section className="f-list" aria-label="Results">
       <RememberFinderNavigation />
       <div className="search-intro">
@@ -146,6 +149,6 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     <FilterRail residency={settings.ID} states={states} draw={draw}
       presets={<FilterPresets key={fav.userId} owner={fav.userId} state={header.code} states={states} />}
       drawFilters={!msg && <>{states.includes('CO') && <CoSearchFilters part="points" />}{states.includes('WY') && <WyPointFilters nr={settings.WY?.res !== 'RESIDENT'} />}{states.includes('UT') && <UtPointFilter />}</>}
-      stateFilters={msg ? { WA: <WaSearchFilters /> } : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters nr={settings.WY?.res !== 'RESIDENT'} savedSpecial={wySavedSpecial} />, MT: <MtSearchFilters nr={settings.MT?.res !== 'RESIDENT'} />, UT: <UtSearchFilters nr={settings.UT?.res !== 'RESIDENT'} />, WA: <WaSearchFilters />, NM: <NmSearchFilters />, OR: <OrSearchFilters nr={settings.OR?.res !== 'RESIDENT'} /> }} />
+      stateFilters={msg ? { WA: <WaSearchFilters /> } : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters nr={settings.WY?.res !== 'RESIDENT'} savedSpecial={wySavedSpecial} />, MT: <MtSearchFilters nr={settings.MT?.res !== 'RESIDENT'} />, UT: <UtSearchFilters nr={settings.UT?.res !== 'RESIDENT'} />, WA: <WaSearchFilters />, NM: <NmSearchFilters />, OR: <OrSearchFilters nr={settings.OR?.res !== 'RESIDENT'} />, NV: <NvSearchFilters /> }} />
   </main>;
 }

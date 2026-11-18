@@ -1,3 +1,4 @@
+import { NvGuide } from "@/components/NvPages";
 import { NmGuide } from "@/components/NmPages";
 import { OrGuide } from "@/components/OrPages";
 import { WaGuide } from "@/components/WaPages";
@@ -16,6 +17,7 @@ export default async function GuidePage() {
   if ((await getState()).code === "CO") return <CoGuide />;
   if ((await getState()).code === "MT") return <MtGuide />;
   if ((await getState()).code === "UT") return <UtGuide />;
+  if ((await getState()).code === "NV") return <NvGuide />;
   if ((await getState()).code === "NM") return <NmGuide />;
   if ((await getState()).code === "WA") return <WaGuide />;
   if ((await getState()).code === "OR") return <OrGuide />;

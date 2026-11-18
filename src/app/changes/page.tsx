@@ -1,3 +1,4 @@
+import { NvChanges } from "@/components/NvPages";
 import { NmChanges } from "@/components/NmPages";
 import { OrChanges } from "@/components/OrPages";
 import { WaChanges } from "@/components/WaPages";
@@ -19,6 +20,7 @@ export default async function ChangesPage() {
   if ((await getState()).code === "CO") return <CoChanges />;
   if ((await getState()).code === "MT") return <MtChanges />;
   if ((await getState()).code === "UT") return <UtChanges />;
+  if ((await getState()).code === "NV") return <NvChanges />;
   if ((await getState()).code === "NM") return <NmChanges />;
   if ((await getState()).code === "WA") return <WaChanges />;
   if ((await getState()).code === "OR") return <OrChanges />;

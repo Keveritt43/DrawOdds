@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM' | 'OR';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM' | 'OR' | 'NV';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -200,6 +200,23 @@ export const STATES: Record<StateCode, StateConfig> = {
     bounds: [[-124.6, 41.99], [-116.46, 46.29]],
     // WMUs for elk, Western Oregon deer and antlerless deer; Eastern Oregon buck deer use the 2026 deer hunt areas
     // (unit keys like DO-01)
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  NV: {
+    code: 'NV',
+    name: 'Nevada',
+    slug: 'nevada',
+    // Deer and elk from scripts/nv-import.ts; docs/states/nv-onboarding.md. Off until the import is applied.
+    enabled: false,
+    agency: { short: 'NDOW', name: 'Nevada Department of Wildlife', url: 'https://www.ndow.org/apply-buy/apply-buy-hunting/' },
+    accessProgram: null,
+    privateLandOnly: 'None of the imported hunts: NDOW\'s private-land tags (landowner compensation, private lands antlerless elk, depredation hunts on ranch and agricultural boundaries) are left out of the import (scripts/nv_build_hunts.py OMITTED), so no Nevada row is privateOnly.',
+    // one weighted draw: points² + 1 random numbers, the lowest kept; first choices filled before second choices
+    points: 'bonus',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-120.01, 35.0], [-114.04, 42.0]],
+    // NDOW hunt units (3-digit, "011"); a hunt covers a unit group
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };
