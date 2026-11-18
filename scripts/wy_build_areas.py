@@ -9,10 +9,18 @@ Inputs (downloaded by get-wgfd-2.ps1 from WGFD and BLM ArcGIS services):
   blm-sma-*.geojson                         BLM Wyoming Surface Management Agency (SURFACE), EPSG:5070
   walk-in-hunting-5070.geojson, hunter-management-areas-5070.geojson
 
-Land math is done on a 100 m raster in EPSG:5070 (equal-area) because no polygon library is available:
-PIL fills polygons in C. Ownership parcels are drawn largest first, so inholdings drawn later overwrite the
-parcel around them. Checks (the build stops if any fails):
-  - each hunt area's raster area is within 2% of its exact polygon area (3.5% under 200 mi²);
+Land math is done on a 100 m raster in EPSG:5070 (equal-area): a cell belongs to a polygon when its centre is
+inside it (Montana's fill, scripts/mt_build_land.py Grid.fill, even-odd so holes stay out). Ownership parcels are
+drawn largest first, so inholdings drawn later overwrite the parcel around them.
+
+Until Nov 18, 2026 this used PIL's ImageDraw.polygon, which fills every cell a polygon's outline touches. That adds
+about one cell of border to every parcel, so small parcels came out 20-60% too large (a 40-acre parcel covers ~16
+cells; its border adds ~16 more) and, drawn last, overwrote their neighbours. Wyoming's thousands of small state
+sections and private inholdings were inflated at the expense of the large BLM and Forest Service parcels around
+them. The change and its effect per area are in docs/states/wy-onboarding.md ("Land: centre-sampled raster").
+
+Checks (the build stops if any fails):
+  - each hunt area's raster area is within 1% of its exact polygon area (2% under 200 mi²);
   - ownership covers >= 97% of each hunt area's cells;
   - statewide, federal land is 45-50% and state land 5-8% of Wyoming (published shares ~48% and ~6%).
 Public = the same classes as Colorado's build (BLM, Forest Service incl. grasslands, NPS, FWS, Reclamation,
@@ -27,7 +35,8 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from mt_build_land import Grid as CentreGrid  # noqa: E402
 
 RES = 100.0  # metres per cell
 ACRES_PER_CELL = RES * RES / 4046.8564224
@@ -60,22 +69,22 @@ def ring_area(r):
     return abs(a) / 2
 
 
-class Grid:
-    def __init__(self, x0, y0, x1, y1):
-        self.x0, self.y1 = x0, y1
-        self.w = int(math.ceil((x1 - x0) / RES)) + 1
-        self.h = int(math.ceil((y1 - y0) / RES)) + 1
+class Grid(CentreGrid):
+    """Montana's centre-sampled fill on the same 100 m EPSG:5070 grid."""
 
-    def px(self, ring):
-        return [((x - self.x0) / RES, (self.y1 - y) / RES) for x, y in ring]
+    def draw(self, arr, geom, value, ox=0, oy=0):
+        self.fill(arr, rings(geom), value, ox=ox, oy=oy)
 
-    def draw(self, img_draw, geom, value, hole_value=0):
-        for poly in rings(geom):
-            if not poly:
-                continue
-            img_draw.polygon(self.px(poly[0]), fill=value)
-            for hole in poly[1:]:
-                img_draw.polygon(self.px(hole), fill=hole_value)
+    def mask(self, geom):
+        """A window around geom: (mask, ox, oy), so a hunt area doesn't need a full-state array."""
+        ps = rings(geom)
+        bx = [x for p in ps for x, _ in p[0]]
+        by = [y for p in ps for _, y in p[0]]
+        ox, oy = int((min(bx) - self.x0) / RES) - 1, int((self.y1 - max(by)) / RES) - 1
+        w, h = int((max(bx) - min(bx)) / RES) + 3, int((max(by) - min(by)) / RES) + 3
+        m = np.zeros((h, w), dtype=bool)
+        self.fill(m, ps, True, ox=ox, oy=oy)
+        return m, ox, oy
 
 
 def load(path):
@@ -135,8 +144,7 @@ def main(gis: str) -> None:
     print(f"grid {grid.w} x {grid.h} cells at {RES:.0f} m")
 
     # ownership raster
-    own = Image.new("L", (grid.w, grid.h), 0)
-    od = ImageDraw.Draw(own)
+    own_a = np.zeros((grid.h, grid.w), dtype=np.uint8)
     parcels = []
     unknown = {}
     for path in sorted(glob.glob(str(g / "blm-sma-*.geojson"))):
@@ -152,28 +160,23 @@ def main(gis: str) -> None:
         raise SystemExit(f"unmapped SURFACE values: {unknown}")
     parcels.sort(key=lambda p: -p[0])
     for _, code, geom in parcels:
-        grid.draw(od, geom, code, hole_value=0)
-    own_a = np.asarray(own)
+        grid.draw(own_a, geom, code)
     print(f"ownership: {len(parcels)} parcels drawn")
 
-    access = Image.new("1", (grid.w, grid.h), 0)
-    ad = ImageDraw.Draw(access)
+    acc_a = np.zeros((grid.h, grid.w), dtype=bool)
     access_feats = []
     for name in ("walk-in-hunting-5070.geojson", "hunter-management-areas-5070.geojson"):
         for f in load(g / name):
-            grid.draw(ad, f["geometry"], 1)
+            grid.draw(acc_a, f["geometry"], True)
             pts = [p for poly in rings(f["geometry"]) for p in poly[0]]
             if pts:
                 cx, cy = sum(p[0] for p in pts) / len(pts), grid.y1 - sum(p[1] for p in pts) / len(pts)
                 access_feats.append((int((cx - grid.x0) / RES), int(cy / RES)))
-    acc_a = np.asarray(access, dtype=bool)
 
     # statewide sanity (inside the union of deer hunt areas = all of Wyoming)
-    state = Image.new("1", (grid.w, grid.h), 0)
-    sd = ImageDraw.Draw(state)
+    st = np.zeros((grid.h, grid.w), dtype=bool)
     for f in areas5070["deer"]:
-        grid.draw(sd, f["geometry"], 1)
-    st = np.asarray(state, dtype=bool)
+        grid.draw(st, f["geometry"], True)
     tot = st.sum()
     fed = np.isin(own_a[st], [CODE[c] for c in FEDERAL]).sum() / tot
     sta = np.isin(own_a[st], [CODE["STATE"], CODE["WGFD"]]).sum() / tot
@@ -191,9 +194,7 @@ def main(gis: str) -> None:
         for f in areas5070[sp]:
             p = f["properties"]
             num = str(int(p["HUNTAREA"]))
-            m = Image.new("1", (grid.w, grid.h), 0)
-            grid.draw(ImageDraw.Draw(m), f["geometry"], 1)
-            mask = np.asarray(m, dtype=bool)
+            mask, ox, oy = grid.mask(f["geometry"])
             n = int(mask.sum())
             if n == 0:
                 errors.append(f"{sp} {num}: empty raster")
@@ -202,18 +203,19 @@ def main(gis: str) -> None:
             # check the raster against the exact polygon area (WGFD's SqMiles attribute is stale for redrawn areas,
             # e.g. 2026 deer 138/143/155/156; it is kept as wgfdSqmi for reference only)
             exact = sum(ring_area(poly[0]) - sum(ring_area(h) for h in poly[1:]) for poly in rings(f["geometry"])) / 2.589988e6
-            tol = 0.02 if exact >= 200 else 0.035  # PIL fills edge cells, so rasters run slightly large
+            tol = 0.01 if exact >= 200 else 0.02
             if exact > 5 and abs(sqmi - exact) / exact > tol:
                 errors.append(f"{sp} {num}: raster {sqmi:.1f} mi² vs polygon {exact:.1f}")
-            vals = own_a[mask]
+            win = (slice(oy, oy + mask.shape[0]), slice(ox, ox + mask.shape[1]))
+            vals = own_a[win][mask]
             counts = np.bincount(vals, minlength=len(CLASSES))
             covered = n - counts[0]
             if covered / n < 0.97:
                 errors.append(f"{sp} {num}: ownership covers {covered / n:.1%}")
             pct = {CLASSES[i]: round(100 * counts[i] / covered, 2) for i in range(1, len(CLASSES)) if counts[i]}
             public = sum(v for k, v in pct.items() if k in PUBLIC)
-            acc_cells = int((acc_a & mask).sum())
-            acc_n = sum(1 for (cx, cy) in access_feats if 0 <= cx < grid.w and 0 <= cy < grid.h and mask[cy, cx])
+            acc_cells = int((acc_a[win] & mask).sum())
+            acc_n = sum(1 for (cx, cy) in access_feats if 0 <= cy - oy < mask.shape[0] and 0 <= cx - ox < mask.shape[1] and mask[cy - oy, cx - ox])
             acres = round(n * ACRES_PER_CELL)
             rec = {"acres": acres, "sqmi": round(sqmi, 1), "wgfdSqmi": p.get("SqMiles"), "publicPct": round(public, 1),
                    "privatePct": round(pct.get("PRIVATE", 0.0), 1), "tribalPct": round(pct.get("TRIBAL", 0.0), 1),
