@@ -8,7 +8,7 @@ import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
-export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS } from './searchStates';
+export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS, NM_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import { matchesWyTagType } from './wyTagType';
 import { wyHuntWilderness } from './wyWilderness';
@@ -26,12 +26,14 @@ import { utPersonal, utKind, utPreferenceCutoff, type UtPointOdds } from './utHu
 import { readUtPoints, type UtPoints } from './utPoints';
 import { waPersonal, waLicense, waPo } from './waHunt';
 import { readWaPoints, type WaPoints } from './waPoints';
+import { nmPersonal, nmLicense, nmPo, nmEligible, nmRestricted } from './nmHunt';
+import { readNmSettings, type NmSettings, type NmPool } from './nmSettings';
 import { withoutUnvalidatedWyDeerMetrics, wyDeerMix } from './wyDeerMetrics';
 import { trophyForHunt } from './trophyHunt';
 import { withStateTrophyScores } from './stateTrophyScores';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
-export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints };
+export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints; NM?: NmSettings };
 export interface SearchResult {
   r: CoScored;
   odds: number | null;
@@ -47,6 +49,8 @@ export interface SearchResult {
   need?: number | null;
   /** Washington: whether the hunter's saved general tag can apply for this special permit (null: can't tell). */
   waTagOk?: boolean | null;
+  /** New Mexico: the drawing pool the odds are for (resident, nonresident 6% or outfitter 10%). */
+  nmPool?: NmPool;
   meetsObservedCutoff?: boolean;
 }
 export const param = (sp: SearchParams, k: string) => (Array.isArray(sp[k]) ? sp[k]!.join(',') : sp[k] ?? '') as string;
@@ -65,13 +69,15 @@ export function searchFilters(sp: SearchParams): Filters {
 /** All personal values are derived on copies; the public cached rows are never modified. */
 /** Residency for a row's state: Idaho's profile residency, else that state's saved settings. */
 export const isNonresident = (state: string, settings: HunterSettings) =>
-  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : state === 'WA' ? settings.WA?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
+  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : state === 'WA' ? settings.WA?.res ?? 'NONRESIDENT' : state === 'NM' ? settings.NM?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
 
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
   const nr = isNonresident(r.state, settings);
   if (r.state === 'ID' && r.nrTag && !nr && r.species !== 'ELK') return null;
   // Match the Idaho listing: zone tags replace duplicated per-weapon general elk rows.
   if (r.state === 'ID' && r.type === 'GENERAL' && !r.nrTag && r.species === 'ELK') return null;
+  // New Mexico: resident-only, WMA-only and antlerless elk licenses aren't issued to nonresidents (2026-27 booklet p. 17)
+  if (r.state === 'NM' && !nmEligible(r, settings.NM ?? readNmSettings(null))) return null;
   const general = (r.pointOdds as unknown as PointOdds | null)?.general;
   if (r.state === 'CO' && general && !(nr ? general.nonresident : general.resident)) return null;
   return evaluateHunt(r, settings, mode);
@@ -96,6 +102,12 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     const w = waPersonal(r, settings.WA ?? readWaPoints(null), mode);
     const opp = opportunity(r.scoreQuality, w.odds);
     return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: w.odds, opportunity: opp, nr, points: w.points, basis: w.basis, waTagOk: w.tagOk };
+  }
+  if (r.state === 'NM') {
+    // no points; unsaved settings: nonresident, no outfitter (src/lib/nmSettings.ts readNmSettings)
+    const m = nmPersonal(r, settings.NM ?? readNmSettings(null), mode);
+    const opp = opportunity(r.scoreQuality, m.odds);
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: null, basis: m.basis, nmPool: m.pool };
   }
   if (r.state === 'UT') {
     // unsaved settings: nonresident, 0 points (src/lib/utPoints.ts readUtPoints defaults)
@@ -236,6 +248,18 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     const sides = list(sp, 'waSide');
     if (sides.length && r.species === 'ELK' && waLicense(r) === 'general' && !sides.includes(po?.side ?? '')) return false;
     if (param(sp, 'waMyTag') === '1' && waLicense(r) === 'special' && x.waTagOk === false) return false;
+  } else if (r.state === 'NM') {
+    const po = nmPo(r);
+    const kinds = list(sp, 'nmLic');
+    if (kinds.length && !kinds.includes(nmLicense(r))) return false;
+    // FAMD mule deer only, FAWTD/ESWTD white-tailed only, FAD either: a hunt allowing both matches either choice
+    const deer = list(sp, 'nmDeer');
+    if (deer.length && !(r.species === 'DEER' && (r.deerType === 'MIXED' ? ['MULE', 'WHITETAIL'] : [r.deerType ?? '']).some((d) => deer.includes(d)))) return false;
+    // mobility-impaired and military-only hunts only show when asked for
+    const who = list(sp, 'nmWho');
+    if (nmRestricted(r) && !((po?.mobility && who.includes('mobility')) || (po?.military && who.includes('military')))) return false;
+    const fees = list(sp, 'nmFee');
+    if (fees.length && !fees.some((f) => (po?.fee ?? '').split('/').includes(f))) return false;
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;

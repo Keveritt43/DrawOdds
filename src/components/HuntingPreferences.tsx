@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, MT_COMBO_TYPES, type MtComboType, type MtPoints } from '@/lib/mtPoints';
 import { UT_POINTS_MAX, UT_POINT_TYPES, type UtPoints } from '@/lib/utPoints';
 import { WA_POINTS_MAX, WA_POINT_TYPES, WA_DEER_TAGS, WA_ELK_TAGS, type WaPoints } from '@/lib/waPoints';
+import type { NmSettings } from '@/lib/nmSettings';
 
 const resLabel = (r: Residency) => (r === 'RESIDENT' ? 'Resident' : 'Nonresident');
 
@@ -25,7 +26,7 @@ function StateBox({ name, line, open, children }: { name: string; line: string; 
 }
 
 /** `openState`: the state the site is set to starts expanded; the others are one line each. */
-export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, washington, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; washington?: WaPoints; openState?: string }) {
+export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, washington, newMexico, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; washington?: WaPoints; newMexico?: NmSettings; openState?: string }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
@@ -46,6 +47,8 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
   const [waPts, setWaPts] = useState(Object.fromEntries(WA_POINT_TYPES.map(t => [t.key, String(washington?.points[t.key] ?? 0)])));
   const [waDeerTag, setWaDeerTag] = useState<string>(washington?.deerTag ?? '');
   const [waElkTag, setWaElkTag] = useState<string>(washington?.elkTag ?? '');
+  const [nmResidency, setNmResidency] = useState<Residency>(newMexico?.res ?? 'NONRESIDENT');
+  const [nmOutfitter, setNmOutfitter] = useState<boolean>(newMexico?.outfitter ?? false);
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
   const n = (v: string) => (v === '' ? '?' : v);
   const lines = {
@@ -55,6 +58,7 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
     MT: `${resLabel(mtResidency)}${mtResidency === 'NONRESIDENT' ? ` · combination ${n(mtCombo)} pts` : ''} · ${MT_BONUS_TYPES.filter((t) => Number(mtBonus[t.key]) > 0).length} bonus balances`,
     UT: `${resLabel(utResidency)} · ${UT_POINT_TYPES.filter((t) => Number(utPts[t.key]) > 0).map((t) => `${t.key === 'LE_DEER' ? 'LE deer' : t.key === 'LE_ELK' ? 'LE elk' : t.key === 'GEN_DEER' ? 'general deer' : t.key === 'LE_PRONGHORN' ? 'pronghorn' : 'bison'} ${utPts[t.key]}`).join(', ') || 'no points'}`,
     WA: `${resLabel(waResidency)} · ${WA_POINT_TYPES.filter((t) => Number(waPts[t.key]) > 0).map((t) => `${t.label.toLowerCase()} ${waPts[t.key]}`).join(', ') || 'no points'}`,
+    NM: `${resLabel(nmResidency)} · ${nmOutfitter ? 'with an outfitter (10% pool)' : nmResidency === 'RESIDENT' ? 'resident pool' : 'nonresident pool (6%)'} · no points`,
   };
   return (
     <form className="card account-preferences" action={save} id="hunting-preferences"
@@ -231,6 +235,25 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
             </select>
           </label>
         </div>
+      </StateBox>}
+      {newMexico && <StateBox name="New Mexico" line={lines.NM} open={openState === 'NM'}>
+        <label>Residency
+          <select name="nmResidency" value={nmResidency} onChange={e => setNmResidency(e.target.value as Residency)}>
+            <option value="RESIDENT">Resident</option>
+            <option value="NONRESIDENT">Nonresident</option>
+          </select>
+        </label>
+        <label>How you apply
+          <select name="nmPool" value={nmOutfitter ? 'outfitter' : 'none'} onChange={e => setNmOutfitter(e.target.value === 'outfitter')}>
+            <option value="none">On my own ({nmResidency === 'RESIDENT' ? 'resident pool, 84%' : 'nonresident pool, 6%'})</option>
+            <option value="outfitter">With a New Mexico outfitter (outfitter pool, 10%)</option>
+          </select>
+        </label>
+        <p className="small muted">
+          New Mexico has <b>no points</b>: every application gets a random number, so there&apos;s nothing to track. What changes your
+          odds is the pool. Residents get at least 84% of each hunt&apos;s licenses, applicants who list a New Mexico outfitter
+          (a signed contract) 10%, and nonresidents on their own 6%.
+        </p>
       </StateBox>}
       <div className="account-save">
         <button className="btn primary" type="submit" disabled={pending}>{pending ? 'Saving…' : 'Save Preferences'}</button>
