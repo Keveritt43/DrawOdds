@@ -207,12 +207,15 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
           year&apos;s, squared, in entries (2 points held = 9 entries), so zero points can still draw. Points are kept per
           category and reset when you draw. Residents and nonresidents are in the same drawing. Enter the points you hold now.
         </p>
-        <div className="account-points">
-          {WA_POINT_TYPES.map(({ key, label }) => <label key={key}>{label} points
-            <input type="number" name={'waPts_' + key} min={0} max={WA_POINTS_MAX} step={1} required value={waPts[key]}
-              onChange={e => setWaPts({ ...waPts, [key]: e.target.value })} />
-          </label>)}
-        </div>
+        {([['Deer and elk', ['DEER', 'ELK']], ['Moose, bighorn sheep and mountain goat', ['MOOSE', 'BIGHORN', 'GOAT']]] as const).map(([title, sps]) => <div key={title}>
+          <p className="small" style={{ margin: '8px 0 4px' }}><b>{title}</b>{sps[0] === 'MOOSE' ? ' · bull moose, ram and goat are once in a lifetime after a harvest' : ''}</p>
+          <div className="account-points">
+            {WA_POINT_TYPES.filter((t) => (sps as readonly string[]).includes(t.species)).map(({ key, label }) => <label key={key}>{label} points
+              <input type="number" name={'waPts_' + key} min={0} max={WA_POINTS_MAX} step={1} required value={waPts[key]}
+                onChange={e => setWaPts({ ...waPts, [key]: e.target.value })} />
+            </label>)}
+          </div>
+        </div>)}
         <p className="small muted">Your general tag decides which special permits you can apply for (weapon, and for elk the side of the state).</p>
         <div className="account-points">
           <label>Deer tag

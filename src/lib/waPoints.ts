@@ -32,6 +32,19 @@ export const WA_POINT_TYPES = [
   { key: 'DISABLED_ELK', label: 'Hunters with disabilities elk', species: 'ELK' },
   { key: 'MASTER_DEER', label: 'Master Hunter deer', species: 'DEER' },
   { key: 'MASTER_ELK', label: 'Master Hunter elk', species: 'ELK' },
+  // moose, bighorn sheep and mountain goat (2026 pamphlet pp. 62-66): each WDFW category keeps its own points
+  { key: 'MOOSE_BULL', label: 'Bull moose', species: 'MOOSE' },
+  { key: 'MOOSE_ANTLERLESS', label: 'Antlerless moose', species: 'MOOSE' },
+  { key: 'MOOSE_YOUTH', label: 'Youth moose (under 16)', species: 'MOOSE' },
+  { key: 'MOOSE_SENIOR', label: '65+ moose', species: 'MOOSE' },
+  { key: 'MOOSE_DISABLED', label: 'Hunters with disabilities moose', species: 'MOOSE' },
+  { key: 'GOAT', label: 'Mountain goat', species: 'GOAT' },
+  { key: 'SHEEP_RAM', label: 'Bighorn ram', species: 'BIGHORN' },
+  { key: 'SHEEP_EWE', label: 'Bighorn ewe', species: 'BIGHORN' },
+  { key: 'SHEEP_JUV', label: 'Bighorn juvenile ram', species: 'BIGHORN' },
+  { key: 'SHEEP_YOUTH', label: 'Youth bighorn (under 16)', species: 'BIGHORN' },
+  { key: 'SHEEP_DIS_EWE', label: 'Hunters with disabilities bighorn ewe', species: 'BIGHORN' },
+  { key: 'SHEEP_DIS_JUV', label: 'Hunters with disabilities juvenile ram', species: 'BIGHORN' },
 ] as const;
 export type WaPointType = (typeof WA_POINT_TYPES)[number]['key'];
 
@@ -72,6 +85,11 @@ const CATEGORY_TYPE: Record<string, WaPointType> = {
   'Deer - 65 Years or Over': 'SENIOR_DEER', 'Elk - 65 and Over': 'SENIOR_ELK',
   'Deer - Hunters with Disabilities': 'DISABLED_DEER', 'Elk - Hunters with Disabilities': 'DISABLED_ELK',
   'Deer - Master Hunter': 'MASTER_DEER', 'Elk - Master Hunter': 'MASTER_ELK',
+  'Any Antlered Bull Moose': 'MOOSE_BULL', 'Antlerless Moose': 'MOOSE_ANTLERLESS', 'Moose - Youth': 'MOOSE_YOUTH',
+  'Moose - 65 and Over': 'MOOSE_SENIOR', 'Moose - Hunters with Disabilities': 'MOOSE_DISABLED', 'Mountain Goat': 'GOAT',
+  'Bighorn Sheep - Any Ram': 'SHEEP_RAM', 'Bighorn Sheep - Adult Ewe': 'SHEEP_EWE', 'Bighorn Sheep - Juvenile Ram': 'SHEEP_JUV',
+  'Bighorn Sheep - Youth': 'SHEEP_YOUTH', 'Bighorn Sheep - Hunters with Disabilities (Ewe)': 'SHEEP_DIS_EWE',
+  'Bighorn Sheep - Hunters with Disabilities (Juvenile Ram)': 'SHEEP_DIS_JUV',
 };
 /** Which balance a Washington hunt draws on, from WDFW's category (null for a general-season, no-draw hunt). */
 export const waPointType = (category: string | null | undefined): WaPointType | null => (category ? CATEGORY_TYPE[category] ?? null : null);
@@ -105,7 +123,7 @@ export function parseWaForm(get: (name: string) => FormDataEntryValue | null, ha
   if (res !== 'RESIDENT' && res !== 'NONRESIDENT') return 'Select a Washington residency.';
   const waPoints = {} as Record<WaPointType, number>;
   for (const { key, label } of WA_POINT_TYPES) {
-    const v = get('waPts_' + key);
+    const v = get('waPts_' + key) ?? '0';
     if (typeof v !== 'string' || !/^\d{1,2}$/.test(v) || Number(v) > WA_POINTS_MAX) return `Enter whole Washington ${label.toLowerCase()} points from 0 to ${WA_POINTS_MAX}.`;
     waPoints[key] = Number(v);
   }

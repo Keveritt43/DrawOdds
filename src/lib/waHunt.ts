@@ -33,6 +33,10 @@ export interface WaPointOdds {
   oddsUnavailableReason?: string;
   /** New this year (WDFW printed NEW or 0/0): nobody has applied yet, so no odds */
   newHunt?: boolean;
+  /** moose, sheep, goat: WDFW's once-in-a-lifetime categories (Any Antlered Bull Moose, Goat, Any Ram) */
+  onceInALifetime?: boolean;
+  /** the pamphlet's hunt-note letters, spelled out */
+  noteText?: string[];
   harvestIdentityBasis?: string;
   category: string;
   tag?: string;
@@ -70,7 +74,7 @@ export function waPersonal(r: Row, pts: WaPoints, mode: 'proj' | 'last' = 'proj'
   const odds = unavailable ? null : waTableOdds(t, points, projected ? 'proj' : 'last');
   const label = type ? WA_POINT_TYPES.find((x) => x.key === type)!.label.toLowerCase() : 'category';
   const when = projected ? `${po?.projYear ?? 2027} projected` : `${po?.year ?? 2025} drawing`;
-  const basis = unavailable ?? (po?.noPointData ? 'No estimate at your points: WDFW has never published 65+ results by point level' : odds === null ? 'No published applications' : `${when}, estimated, at ${points} ${label} point${points === 1 ? '' : 's'} (${(points + 1) ** 2} entr${points === 0 ? 'y' : 'ies'})`);
+  const basis = unavailable ?? (po?.noPointData ? `No estimate at your points: WDFW has never published ${po?.category?.includes('65') ? '65+' : 'this category\'s'} results by point level` : odds === null ? 'No published applications' : `${when}, estimated, at ${points} ${label} point${points === 1 ? '' : 's'} (${(points + 1) ** 2} entr${points === 0 ? 'y' : 'ies'})`);
   return { odds, points, type, basis, projected, tagOk: waTagAllows(po?.tag, r.species, pts) };
 }
 
@@ -95,4 +99,32 @@ export const WA_WHO: Record<string, string> = {
   'Deer - 65 Years or Over': '65 or older only', 'Elk - 65 and Over': '65 or older only',
   'Deer - Hunters with Disabilities': 'Registered hunters with disabilities only', 'Elk - Hunters with Disabilities': 'Registered hunters with disabilities only',
   'Deer - Master Hunter': 'Master Hunters only', 'Elk - Master Hunter': 'Master Hunters only',
+  'Moose - 65 and Over': '65 or older only', 'Moose - Hunters with Disabilities': 'Registered hunters with disabilities only',
+  'Bighorn Sheep - Hunters with Disabilities (Ewe)': 'Registered hunters with disabilities only',
+  'Bighorn Sheep - Hunters with Disabilities (Juvenile Ram)': 'Registered hunters with disabilities only',
 };
+
+export const WA_MSG = new Set(['MOOSE', 'BIGHORN', 'GOAT']);
+export const waIsMsg = (species: string) => WA_MSG.has(species);
+/** Lower-case species word for running text. */
+export const waSpeciesWord = (species: string) => ({ DEER: 'deer', ELK: 'elk', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat' } as Record<string, string>)[species] ?? species.toLowerCase();
+/** Unit key -> label: GMU 101, Deer Area 3071, Elk Area 3911, Moose Area 1, Sheep Unit 7, Goat Unit 3-6. */
+export const waUnitLabel = (u: string) => (/^DA/.test(u) ? `Deer Area ${u.slice(2)}` : /^EA/.test(u) ? `Elk Area ${u.slice(2)}`
+  : /^MA/.test(u) ? `Moose Area ${u.slice(2)}` : /^SH/.test(u) ? `Sheep Unit ${u.slice(2)}` : /^MG/.test(u) ? `Goat Unit ${u.slice(2)}` : `GMU ${u}`);
+export const waUnitKind = (u: string) => (/^DA/.test(u) ? 'Deer Area' : /^EA/.test(u) ? 'Elk Area' : /^MA/.test(u) ? 'Moose Area'
+  : /^SH/.test(u) ? 'Sheep Unit' : /^MG/.test(u) ? 'Goat Unit' : 'GMU');
+/**
+ * Moose, sheep and goat fees, WDFW fee table (2026 pamphlet p. 8 and wdfw.wa.gov/licenses/hunting/big-game, checked
+ * Nov 12, 2026; the page carries no season year). The license and tag is bought only if drawn. The higher application
+ * price applies to Any Antlered Bull Moose, Any Ram and Goat (footnote 4, with Quality deer and elk).
+ */
+export const WA_MSG_FEES = {
+  checked: 'Nov 12, 2026',
+  source: 'https://wdfw.wa.gov/licenses/hunting/big-game',
+  appHigh: { res: 18.72, nr: 152.3 },
+  app: { res: 9.61, nr: 152.3 },
+  license: { res: 457.4, nr: 2279.0, youth: 77.9, senior: 156.84 },
+} as const;
+/** Categories WDFW limits to once in a lifetime: after you report harvesting (or fail to report) on one, you can't
+ *  apply for that category again. Drawing alone doesn't count (pamphlet p. 20). */
+export const WA_ONCE = new Set(['Any Antlered Bull Moose', 'Mountain Goat', 'Bighorn Sheep - Any Ram']);

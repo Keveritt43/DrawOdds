@@ -51,7 +51,8 @@ const UT_NOTE: Partial<Record<Metric, string>> = {
   ctlPressure: 'Lowest hunter density among limited-entry hunts on the boundary.',
 };
 
-/** Washington's sources and rules. The map draws GMUs; Deer and Elk Area permits count in the GMUs they list. */
+/** Washington's sources and rules. The map draws GMUs; Deer and Elk Area permits count in the GMUs they list, and
+ *  moose areas, sheep units and goat units in the GMUs they lie in. */
 const WA_NOTE: Partial<Record<Metric, string>> = {
   public: 'Federal + state land from BLM’s Surface Management Agency map, measured over each WDFW GMU (DNR trust land counts as state land). Industrial timberland is private, often fee-access only. Ownership is not permission to cross private land.',
   huntable: 'Public land plus private land in WDFW’s access programs (Feel Free to Hunt, Register to Hunt, Hunt by Written Permission, Hunt by Reservation); each program has its own rules.',
@@ -71,7 +72,7 @@ const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5,
 export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '', unitSet }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[]; unitSet?: 'deer-elk' | 'antelope' }) {
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   const st = useStateConfig();
-  const msg = draw === "MSG" && st.code === "ID";
+  const msg = draw === "MSG" && (st.code === "ID" || st.code === "WA");
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const [metric, setMetric] = useState<Metric>('public');

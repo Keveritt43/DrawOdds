@@ -668,6 +668,13 @@ def main() -> None:
                           "harvest": [{"year": y, "hunters": v["hunters"], "harvest": v["harvest"]} for y, v in sorted(yrs.items()) if v.get("hunters")]},
         })
 
+    # ---- moose, bighorn sheep and mountain goat special permits (scripts/wa_build_msg.py, docs §10)
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import wa_build_msg
+    msg_hunts, msg_problems = wa_build_msg.build(set(units), land)
+    hunts += msg_hunts
+    problems += msg_problems
+
     # Preserve the earlier attribution for audit even when it is no longer used
     # for displayed harvest. Rebuilds keep any archive already in the file.
     old_file = ROOT / "data" / "wa" / "hunts.json"
