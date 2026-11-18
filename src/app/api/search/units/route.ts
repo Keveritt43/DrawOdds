@@ -13,9 +13,12 @@ export async function GET(req: Request) {
   // Utah: hunts are drawn on DWR hunt boundaries that overlap across species and hunt types, so show only the
   // boundaries this species' hunts use (default deer)
   const utUsed = state === 'UT' ? new Set((await db.huntSummary.findMany({ where: { state: 'UT', species: (species && ['ELK', 'PRONGHORN', 'BISON'].includes(species) ? species : 'DEER') as 'DEER' }, select: { units: true } })).flatMap(h => h.units)) : null;
+  // Oregon: elk hunts use WMUs; 2026 Eastern Oregon deer hunts use ODFW's deer hunt areas ("DO-01"), which overlap
+  // the WMUs, so deer shows only the shapes deer hunts use (hunt areas east, WMUs west) and elk shows WMUs only
+  const orDeer = state === 'OR' && species === 'DEER' ? new Set((await db.huntSummary.findMany({ where: { state: 'OR', species: 'DEER' }, select: { units: true } })).flatMap(h => h.units)) : null;
   // Wyoming hunt areas differ by species: "A12" antelope, "D12" deer, "E12" elk (default deer)
   const wyPrefix = species === 'PRONGHORN' ? 'A' : species === 'ELK' ? 'E' : 'D';
-  const features = units.filter(u => u.geometry && (utUsed ? utUsed.has(u.name) : state === 'WY' ? u.name.startsWith(wyPrefix) && !u.name.includes('R-')
+  const features = units.filter(u => u.geometry && (utUsed ? utUsed.has(u.name) : orDeer ? orDeer.has(u.name) : state === 'OR' ? /^\d+$/.test(u.name) : state === 'WY' ? u.name.startsWith(wyPrefix) && !u.name.includes('R-')
     // Montana: deer and elk share districts ("217"); antelope districts are "A320" (and Region 7 portions "A701N")
     : state === 'MT' ? (species === 'PRONGHORN' ? /^A\d/.test(u.name) : /^\d/.test(u.name)) : state !== 'CO' || (msg
     ? species === 'GOAT' ? u.name.startsWith('G') : species === 'BIGHORN' ? u.name.startsWith('S') : species === 'MOOSE' ? /^\d/.test(u.name) : true
