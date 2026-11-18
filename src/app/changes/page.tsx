@@ -1,3 +1,4 @@
+import { NmChanges } from "@/components/NmPages";
 import { WaChanges } from "@/components/WaPages";
 import { MtChanges } from "@/components/MtPages";
 import { UtChanges } from "@/components/UtPages";
@@ -17,6 +18,7 @@ export default async function ChangesPage() {
   if ((await getState()).code === "CO") return <CoChanges />;
   if ((await getState()).code === "MT") return <MtChanges />;
   if ((await getState()).code === "UT") return <UtChanges />;
+  if ((await getState()).code === "NM") return <NmChanges />;
   if ((await getState()).code === "WA") return <WaChanges />;
   const draw = await getDraw();
   const species = DRAW_SPECIES[draw];

@@ -53,6 +53,15 @@ const UT_NOTE: Partial<Record<Metric, string>> = {
 
 /** Washington's sources and rules. The map draws GMUs; Deer and Elk Area permits count in the GMUs they list, and
  *  moose areas, sheep units and goat units in the GMUs they lie in. */
+// New Mexico: every deer and elk hunt is a draw (no general seasons); no points, so odds are the hunter's pool's
+const NM_NOTE: Partial<Record<Metric, string>> = {
+  public: 'Federal + state land from BLM’s Surface Management Agency map, measured over each NMDOW GMU (state trust land counts as state land; White Sands and McGregor Range are Defense land, closed or permit-only). Ownership is not permission to cross private land.',
+  ctlOdds: 'Best next-draw estimate for your New Mexico pool (resident, nonresident or outfitter), first choice, of any buck / bull or either-sex draw hunt touching the GMU. Private-land, WMA-only, mobility-impaired and military hunts left out.',
+  ctlFill: 'Your estimated first-choice odds × NMDOW success for that hunt, best draw hunt touching the GMU.',
+  ctlSuccess: 'NMDOW harvest ÷ hunters, buck / bull and either-sex draw hunts touching the GMU together, 2023–24 to 2025–26. At least 50 hunters.',
+  ctlQuality: 'Highest DrawOdds Quality of a draw hunt touching the GMU.',
+  ctlPressure: 'Lowest hunters per square mile of a draw hunt touching the GMU (that hunt’s hunters ÷ its GMU area). Green = fewer hunters.',
+};
 const WA_NOTE: Partial<Record<Metric, string>> = {
   public: 'Federal + state land from BLM’s Surface Management Agency map, measured over each WDFW GMU (DNR trust land counts as state land). Industrial timberland is private, often fee-access only. Ownership is not permission to cross private land.',
   huntable: 'Public land plus private land in WDFW’s access programs (Feel Free to Hunt, Register to Hunt, Hunt by Written Permission, Hunt by Reservation); each program has its own rules.',
@@ -78,13 +87,13 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [metric, setMetric] = useState<Metric>('public');
   // basic filters: which animal and which kind of hunt the shading (and the unit's hunt list) is about
   const [sp, setSpRaw] = useState<Sp>(msg ? 'MOOSE' : 'ELK');
-  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
+  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg || st.code === 'CO' || st.code === 'NM' ? 'CONTROLLED' : 'GENERAL');
   // first visit: start on the animal last used in Find A Hunt (its remembered filters)
   useEffect(() => {
     try {
       const last = decodeURIComponent(document.cookie.match(/(?:^|; )lastHunts=([^;]*)/)?.[1] ?? '');
       const want = new URLSearchParams(last).get('species') as Sp | null;
-      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : st.code === 'UT' ? ['ELK', 'DEER', 'PRONGHORN', 'BISON'] : st.code === 'WA' ? ['ELK', 'DEER'] : ['ELK', 'DEER', 'PRONGHORN'];
+      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : st.code === 'UT' ? ['ELK', 'DEER', 'PRONGHORN', 'BISON'] : st.code === 'WA' || st.code === 'NM' ? ['ELK', 'DEER'] : ['ELK', 'DEER', 'PRONGHORN'];
       if (want && ok.includes(want)) setSp(want);
     } catch { /* keep the default */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -92,7 +101,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   // the header's drawing switch: start over on that drawing's species
   useEffect(() => {
     setSpRaw(msg ? 'MOOSE' : 'ELK');
-    setHtypeRaw(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
+    setHtypeRaw(msg || st.code === 'CO' || st.code === 'NM' ? 'CONTROLLED' : 'GENERAL');
     setMetric((m) => (METRICS[m].kind === 'land' ? m : msg ? 'ctlOdds' : 'success'));
   }, [msg]);
   const setSp = (x: Sp) => {
@@ -110,6 +119,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const mt = st.code === 'MT';
   const ut = st.code === 'UT';
   const wa = st.code === 'WA';
+  const nm = st.code === 'NM';
   // Utah: the boundary set on screen (flags set by /api/units): general or drawn, per species
   const utFlag = `ut${htype === 'GENERAL' ? 'Gen' : 'Ctl'}${({ ELK: 'Elk', DEER: 'Deer', PRONGHORN: 'Pronghorn', BISON: 'Bison' } as Record<string, string>)[sp] ?? 'Elk'}`;
   // Montana: no point cutoffs (bonus points, no projection) and no elk objectives; its walk-in access is Block
@@ -427,7 +437,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                       : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]
                 }
               />
-              {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN' || sp === 'BISON'], ['CONTROLLED', mt ? 'Drawn' : ut ? 'Limited Entry' : 'Controlled']]} />}
+              {!msg && !nm && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN' || sp === 'BISON'], ['CONTROLLED', mt ? 'Drawn' : ut ? 'Limited Entry' : 'Controlled']]} />}
               {st.code === 'CO' && <>{checks('Weapon', CO_METHODS, methods, setMethods)}{checks('Season type (select any)', CO_SEASONS, seasons, setSeasons)}</>}
               {!msg && st.features.elkZones && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
             </>
@@ -436,7 +446,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           options={options}
           onChange={(x) => { if (x === 'none') setNoShade(true); else { setNoShade(false); setMetric(x as Metric); } }}
           ramp={noShade ? undefined : { classes: shown?.cls ?? cls, colors, fmt: M.fmt, none: M.none, missing: shown ? shown.missing : missing[field] ?? 0, unit: st.code === 'MT' ? 'districts' : ut ? 'boundaries' : 'units', labels: M.labels }}
-          note={`${mt && MT_NOTE[metric] ? MT_NOTE[metric] : ut && UT_NOTE[metric] ? UT_NOTE[metric] : wa && WA_NOTE[metric] ? WA_NOTE[metric] : st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code === 'CO' && metric === 'ctlSuccess' ? 'Harvest divided by hunters over up to five seasons, pooled across matching adult antlered hunts touching the unit. Multi-unit hunt totals count in each unit; at least 50 hunters are required.' : st.code === 'CO' && metric === 'success' ? 'Harvest divided by hunters over up to five seasons, pooled across matching general hunts touching the unit. Multi-unit hunt totals count in each unit; at least 50 hunters are required.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat', BISON: 'bison' })[sp]}${['ctlOdds','ctlFill','ctlPoints','ctlCreep'].includes(metric) ? `, ${nr ? 'nonresident' : 'resident'}` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ((st.code === 'CO' && metric === 'ctlPoints' ? ' Yellow = your saved species points; greener = fewer points needed, redder = more. Bands use whole points; 3 fewer or lower and 3 more or higher share the end colors.' : ['genTrophy','ctlTrophy'].includes(metric) ? ' Fixed trophy tiers: 50, 65, 80 and 100.' : metric==='ctlQuality' ? ' Fixed 0–100 scale, matching the Quality badges.' : SCALE_NOTE[fixedScale(field) ?? '']) ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
+          note={`${mt && MT_NOTE[metric] ? MT_NOTE[metric] : ut && UT_NOTE[metric] ? UT_NOTE[metric] : wa && WA_NOTE[metric] ? WA_NOTE[metric] : nm && NM_NOTE[metric] ? NM_NOTE[metric] : st.code === 'CO' && metric === 'public' ? 'BLM Colorado public surface ownership intersected with CPW GMUs; ownership does not establish hunting permission.' : st.code === 'CO' && metric === 'ctlSuccess' ? 'Harvest divided by hunters over up to five seasons, pooled across matching adult antlered hunts touching the unit. Multi-unit hunt totals count in each unit; at least 50 hunters are required.' : st.code === 'CO' && metric === 'success' ? 'Harvest divided by hunters over up to five seasons, pooled across matching general hunts touching the unit. Multi-unit hunt totals count in each unit; at least 50 hunters are required.' : st.code==='CO' && ['ctlOdds','ctlFill'].includes(metric) ? 'Conservative next-draw scenario at your saved species points and youth/adult pool. Best adult buck/bull hunt touching the unit. Draw-and-fill multiplies those odds by observed success; it is not a calibrated forecast.' : M.note}${M.bySpecies ? ` Showing ${({ ELK: 'elk', DEER: 'deer', PRONGHORN: 'pronghorn', MOOSE: 'moose', BIGHORN: 'bighorn sheep', GOAT: 'mountain goat', BISON: 'bison' })[sp]}${['ctlOdds','ctlFill','ctlPoints','ctlCreep'].includes(metric) ? `, ${nr ? 'nonresident' : 'resident'}` : ''}.` : ''}${isMsgSuccess(field) ? ' Judged against fixed standards: 60-70% is yellow, 70%+ green, under 50% orange.' : ((st.code === 'CO' && metric === 'ctlPoints' ? ' Yellow = your saved species points; greener = fewer points needed, redder = more. Bands use whole points; 3 fewer or lower and 3 more or higher share the end colors.' : ['genTrophy','ctlTrophy'].includes(metric) ? ' Fixed trophy tiers: 50, 65, 80 and 100.' : metric==='ctlQuality' ? ' Fixed 0–100 scale, matching the Quality badges.' : SCALE_NOTE[fixedScale(field) ?? '']) ?? " Yellow = typical for this state; red and green = well below or above it.")}`}
           extraItems={focus ? [{ color: '#eb6834', label: `Unit ${focus}`, line: true }] : []}
           kind={kind}
           onKind={setKind}

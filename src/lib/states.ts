@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -161,6 +161,25 @@ export const STATES: Record<StateCode, StateConfig> = {
     bounds: [[-124.85, 45.54], [-116.91, 49.01]],
     // GMUs for general seasons and most permits; 4-digit Deer and Elk Areas for some permits (unit keys DA3071, EA3911);
     // Moose Areas (MA1), Sheep Units (SH7) and Mountain Goat Units (MG3-6) for those permits
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  NM: {
+    code: 'NM',
+    name: 'New Mexico',
+    slug: 'new-mexico',
+    // Deer and elk (NM-1) from scripts/nm-import.ts; docs/states/nm-onboarding.md. Off until the import has run.
+    enabled: false,
+    agency: { short: 'NMDOW', name: 'New Mexico Department of Wildlife', url: 'https://wildlife.dgf.nm.gov/hunting/' },
+    // NMDOW's Open Gate program is 23 properties, mostly small game and fishing (5 allow deer), loaded in
+    // data/nm/source/gmu-areas-5070.json but not scored, so the slot stays empty rather than read as a unit share
+    accessProgram: null,
+    privateLandOnly: 'Private-land-only deer: the landowner-authorized draw hunts in Units 2A, 2B, 2C, 4 and 5A (draw report "private land only") and the over-the-counter private-land deer hunts in Units 8, 46, 54, 55A and 55B (2026-27 booklet p. 53), set on HuntSummary.privateOnly by scripts/nm_build_hunts.py.',
+    // a pure lottery, no points: a random sequence number per application, choices 1-3 in order, then a 4th-choice
+    // drawing for leftovers; pools: residents >= 84%, outfitter 10%, nonresidents without an outfitter 6%
+    points: 'none',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-109.06, 31.33], [-103.0, 37.0]],
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };

@@ -8,6 +8,7 @@ import { getPointsStore, readState } from '@/lib/points';
 import { readMtPoints } from '@/lib/mtPoints';
 import { readUtPoints } from '@/lib/utPoints';
 import { readWaPoints } from '@/lib/waPoints';
+import { readNmSettings } from '@/lib/nmSettings';
 import { parseUnitKey, unitKey, enabledStates } from '@/lib/states';
 import { readPresets } from '@/lib/filterPresets';
 import { evaluateHunt } from '@/lib/multiStateSearch';
@@ -29,7 +30,7 @@ export const metadata = { title: 'Account' };
 
 export default async function Account() {
   const [session, {residency}, {store}, fav] = await Promise.all([auth(),getResidency(undefined,'ID'),getPointsStore(),getFavorites()]);
-  const colorado=readState(store,'CO'), wyoming=readState(store,'WY'), montana=readMtPoints(store), utah=readUtPoints(store), washington=readWaPoints(store), presets=readPresets(store);
+  const colorado=readState(store,'CO'), wyoming=readState(store,'WY'), montana=readMtPoints(store), utah=readUtPoints(store), washington=readWaPoints(store), newMexico=readNmSettings(store), presets=readPresets(store);
   const savedRefs=[...fav.units].map(parseUnitKey);
   const [units,hunts,apps]=await Promise.all([
     savedRefs.length?db.unit.findMany({where:{OR:savedRefs},select:{state:true,name:true,elkZone:true,publicPct:true}}):[],
@@ -37,7 +38,7 @@ export default async function Account() {
     session?.user?db.application.findMany({where:{userId:session.user.id},orderBy:[{year:'desc'},{createdAt:'desc'}]}):[],
   ]);
   const context=hunts.some(h=>h.state==='CO')?await getCoScoringContext():undefined;
-  const settings={ID:residency,CO:colorado,WY:wyoming,MT:montana,UT:utah,WA:washington};
+  const settings={ID:residency,CO:colorado,WY:wyoming,MT:montana,UT:utah,WA:washington,NM:newMexico};
   return <main className="wrap account-page" style={{margin:'24px auto 48px',maxWidth:1000}}>
     <h1>Your account</h1>
     <p className="muted">{session?.user?.email ?? 'Testing without sign-in: preferences and favorite hunts/units are saved in this browser; named filters are saved on this device.'}</p>
@@ -45,7 +46,7 @@ export default async function Account() {
       <Link href="#hunting-preferences">Hunting Preferences</Link>
       {enabledStates().map(state=><Link key={state.code} href={'#saved-'+state.code.toLowerCase()}>{state.name} Saved Items</Link>)}
     </nav>
-    <HuntingPreferences idaho={residency} colorado={colorado} wyoming={wyoming} montana={enabledStates().some(s=>s.code==='MT')?montana:undefined} utah={enabledStates().some(s=>s.code==='UT')?utah:undefined} washington={enabledStates().some(s=>s.code==='WA')?washington:undefined} openState={(await getState()).code}/>
+    <HuntingPreferences idaho={residency} colorado={colorado} wyoming={wyoming} montana={enabledStates().some(s=>s.code==='MT')?montana:undefined} utah={enabledStates().some(s=>s.code==='UT')?utah:undefined} washington={enabledStates().some(s=>s.code==='WA')?washington:undefined} newMexico={enabledStates().some(s=>s.code==='NM')?newMexico:undefined} openState={(await getState()).code}/>
     <section id="saved-items">
       <h2>Saved Filters, Units &amp; Hunts</h2>
       <p className="small muted">Organized by state. A search spanning both states appears under each state.</p>
