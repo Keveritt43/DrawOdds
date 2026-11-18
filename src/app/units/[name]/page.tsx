@@ -11,6 +11,7 @@ import { MtUnitPage } from './MtUnitPage';
 import { UtUnitPage } from './UtUnitPage';
 import { WaUnitPage } from './WaUnitPage';
 import { NmUnitPage } from './NmUnitPage';
+import { OrUnitPage } from './OrUnitPage';
 import { wyAreaLabel } from '@/lib/wyHunt';
 import { waUnitLabel } from '@/lib/waHunt';
 import { getResidency, getDraw } from '@/lib/residency';
@@ -39,6 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
   if (ref.state === 'MT' && /^A\d/.test(name)) return { title: `Montana Antelope District ${name.slice(1)}`, description: `Montana antelope hunting district ${name.slice(1)}: antelope licenses and B licenses, draw odds at your bonus points, hunter success and public land.` };
   if (ref.state === 'WA') return { title: `Washington ${waUnitLabel(name)}`, description: `WDFW ${/^\d+$/.test(name) ? 'game management unit' : 'hunt area'} ${waUnitLabel(name)}: general-season and special-permit hunts, estimated draw odds at your points, hunter success and land ownership.` };
   if (ref.state === 'NM') return { title: `New Mexico GMU ${name}`, description: `New Mexico game management unit ${name}: deer and elk draw hunts, draw odds for your pool, hunter success and land ownership.` };
+  if (ref.state === 'OR') return { title: `Oregon ${/^[A-Z]{2}-\d{2}$/.test(name) ? `Deer Hunt Area ${name}` : `Unit ${name}`}`, description: `ODFW ${/^[A-Z]{2}-\d{2}$/.test(name) ? 'deer hunt area' : 'wildlife management unit'} ${name}: general-season and controlled deer and elk hunts, draw odds at your preference points, hunter success and land ownership.` };
   if (ref.state === 'UT') return { title: `Utah Hunt Boundary ${name}`, description: `Utah DWR hunt boundary ${name}: limited-entry and general deer and elk hunts, draw odds at your points, hunter success and land ownership.` };
   if (ref.state === 'MT') return { title: `Montana Hunting District ${name}`, description: `Montana hunting district ${name}: general deer and elk licenses, permits and B licenses, draw odds at your points, hunter success and public land.` };
   if (ref.state === 'CO') return { title: `Colorado Unit ${name}`, description: `Colorado game management unit ${name}: hunt licenses, draw results, hunter success and public land.` };
@@ -59,6 +61,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   if (ref.state === 'WY') return <><SyncState code="WY" /><WyUnitPage name={ref.name.toUpperCase()} /></>;
   if (ref.state === 'WA') return <><SyncState code="WA" /><WaUnitPage name={ref.name.toUpperCase()} sp={{ species: sp.species, type: sp.type }} /></>;
   if (ref.state === 'NM') return <><SyncState code="NM" /><NmUnitPage name={ref.name.toUpperCase()} sp={{ species: sp.species, type: sp.type }} /></>;
+  if (ref.state === 'OR') return <><SyncState code="OR" /><OrUnitPage name={ref.name.toUpperCase()} sp={{ species: sp.species, type: sp.type }} /></>;
   if (ref.state === 'UT') return <><SyncState code="UT" /><UtUnitPage name={ref.name} sp={{ species: sp.species, type: sp.type }} /></>;
   if (ref.state === 'MT') return <><SyncState code="MT" /><MtUnitPage name={ref.name.toUpperCase()} sp={{ species: sp.species, type: sp.type }} /></>;
   if (ref.state !== 'ID') notFound();

@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM' | 'OR';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -180,6 +180,26 @@ export const STATES: Record<StateCode, StateConfig> = {
     draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
     species: ['DEER', 'ELK'],
     bounds: [[-109.06, 31.33], [-103.0, 37.0]],
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  OR: {
+    code: 'OR',
+    name: 'Oregon',
+    slug: 'oregon',
+    // Deer and elk (OR-1) from scripts/or-import.ts; docs/states/or-onboarding.md. Off until the import is applied.
+    enabled: false,
+    agency: { short: 'ODFW', name: 'Oregon Department of Fish and Wildlife', url: 'https://myodfw.com/articles/controlled-hunt-navigation' },
+    // ODFW's Access & Habitat program areas are measured per unit (data/or/land.json accessPct) but not scored yet
+    accessProgram: null,
+    privateLandOnly: 'Controlled hunts whose 2026 boundary description says "PRIVATE LANDS ONLY", "All private land" or "0% public lands" (or, with no description, a name ending in "Private"); HuntSummary.privateOnly set by scripts/or_build_hunts.py. Hunts ODFW marks "*" (private lands will limit access) stay listed, flagged on their pages.',
+    // controlled hunts: 75% of tags to the most preference points, 25% random with the same random number; general
+    // seasons: over the counter
+    points: 'preference-random',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-124.6, 41.99], [-116.46, 46.29]],
+    // WMUs for elk, Western Oregon deer and antlerless deer; Eastern Oregon buck deer use the 2026 deer hunt areas
+    // (unit keys like DO-01)
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };

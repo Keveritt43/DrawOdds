@@ -10,6 +10,7 @@ import { SPECIES_LABEL } from '@/lib/format';
 import Link from 'next/link';
 import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, MT_COMBO_TYPES, type MtComboType, type MtPoints } from '@/lib/mtPoints';
 import { UT_POINTS_MAX, UT_POINT_TYPES, type UtPoints } from '@/lib/utPoints';
+import { OR_POINTS_MAX, OR_POINT_TYPES, type OrPoints } from '@/lib/orPoints';
 import { WA_POINTS_MAX, WA_POINT_TYPES, WA_DEER_TAGS, WA_ELK_TAGS, type WaPoints } from '@/lib/waPoints';
 import type { NmSettings } from '@/lib/nmSettings';
 
@@ -26,7 +27,7 @@ function StateBox({ name, line, open, children }: { name: string; line: string; 
 }
 
 /** `openState`: the state the site is set to starts expanded; the others are one line each. */
-export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, washington, newMexico, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; washington?: WaPoints; newMexico?: NmSettings; openState?: string }) {
+export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, washington, newMexico, oregon, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; washington?: WaPoints; newMexico?: NmSettings; oregon?: OrPoints; openState?: string }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
@@ -49,6 +50,8 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
   const [waElkTag, setWaElkTag] = useState<string>(washington?.elkTag ?? '');
   const [nmResidency, setNmResidency] = useState<Residency>(newMexico?.res ?? 'NONRESIDENT');
   const [nmOutfitter, setNmOutfitter] = useState<boolean>(newMexico?.outfitter ?? false);
+  const [orResidency, setOrResidency] = useState<Residency>(oregon?.res ?? 'NONRESIDENT');
+  const [orPts, setOrPts] = useState(Object.fromEntries(OR_POINT_TYPES.map(t => [t.key, String(oregon?.points[t.key] ?? 0)])));
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
   const n = (v: string) => (v === '' ? '?' : v);
   const lines = {
@@ -57,6 +60,7 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
     WY: `${resLabel(wyResidency)}${wyResidency === 'NONRESIDENT' ? ` · deer ${n(wyPoints.DEER)}, elk ${n(wyPoints.ELK)}, antelope ${n(wyPoints.PRONGHORN)} pts${wySpecial ? ' · special pool' : ''}` : ''}`,
     MT: `${resLabel(mtResidency)}${mtResidency === 'NONRESIDENT' ? ` · combination ${n(mtCombo)} pts` : ''} · ${MT_BONUS_TYPES.filter((t) => Number(mtBonus[t.key]) > 0).length} bonus balances`,
     UT: `${resLabel(utResidency)} · ${UT_POINT_TYPES.filter((t) => Number(utPts[t.key]) > 0).map((t) => `${t.key === 'LE_DEER' ? 'LE deer' : t.key === 'LE_ELK' ? 'LE elk' : t.key === 'GEN_DEER' ? 'general deer' : t.key === 'LE_PRONGHORN' ? 'pronghorn' : 'bison'} ${utPts[t.key]}`).join(', ') || 'no points'}`,
+    OR: `${resLabel(orResidency)} · buck ${n(orPts.BUCK)}, elk ${n(orPts.ELK)}, antlerless deer ${n(orPts.ANTLERLESS)} pts`,
     WA: `${resLabel(waResidency)} · ${WA_POINT_TYPES.filter((t) => Number(waPts[t.key]) > 0).map((t) => `${t.label.toLowerCase()} ${waPts[t.key]}`).join(', ') || 'no points'}`,
     NM: `${resLabel(nmResidency)} · ${nmOutfitter ? 'with an outfitter (10% pool)' : nmResidency === 'RESIDENT' ? 'resident pool' : 'nonresident pool (6%)'} · no points`,
   };
@@ -254,6 +258,25 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
           odds is the pool. Residents get at least 84% of each hunt&apos;s licenses, applicants who list a New Mexico outfitter
           (a signed contract) 10%, and nonresidents on their own 6%.
         </p>
+      </StateBox>}
+      {oregon && <StateBox name="Oregon" line={lines.OR} open={openState === 'OR'}>
+        <label>Residency
+          <select name="orResidency" value={orResidency} onChange={e => setOrResidency(e.target.value as Residency)}>
+            <option value="RESIDENT">Resident</option>
+            <option value="NONRESIDENT">Nonresident</option>
+          </select>
+        </label>
+        <p className="small muted">
+          Controlled hunts: 75% of each hunt&apos;s tags go to the first-choice applicants with the most <b>preference points</b>
+          (0 points never draw there), the rest at random. ODFW keeps one balance per hunt series; drawing your first choice
+          resets it to 0. Nonresidents can draw at most 5% of a hunt&apos;s tags. Enter the points you hold now.
+        </p>
+        <div className="account-points">
+          {OR_POINT_TYPES.map(({ key, label }) => <label key={key}>{label} points
+            <input type="number" name={'orPts_' + key} min={0} max={OR_POINTS_MAX} step={1} required value={orPts[key]}
+              onChange={e => setOrPts({ ...orPts, [key]: e.target.value })} />
+          </label>)}
+        </div>
       </StateBox>}
       <div className="account-save">
         <button className="btn primary" type="submit" disabled={pending}>{pending ? 'Saving…' : 'Save Preferences'}</button>
