@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 import { PointRangeSlider } from './CoFilters';
@@ -8,7 +9,7 @@ import { pointRange } from '@/lib/pointRange';
 /** Wyoming-only filters; they narrow Wyoming results and leave other selected states unchanged. Private-land-only
  * hunts use the shared filter in FilterRail. */
 export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: boolean; savedSpecial?: boolean }) {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const get = (k: string) => sp.get(k) ?? '';
   const push = (patch: Record<string, string | null>) => {
     const p = new URLSearchParams(sp.toString());
@@ -67,7 +68,7 @@ export function WySearchFilters({ nr = true, savedSpecial = false }: { nr?: bool
 
 /** Last-draw preference cutoff, scoped to Wyoming's selected nonresident pool. */
 export function WyPointFilters({ nr }: { nr: boolean }) {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const min = sp.get('wyMinPts') ?? '', max = sp.get('wyMaxPts') ?? '';
   const range = pointRange(min, max);
   return <Section title="Wyoming: Points Needed (Nonresident)" value={min || max ? `${range.min ?? 0}–${range.max ?? 40}` : 'Any'} set={!!(min || max)}>
@@ -85,7 +86,7 @@ export function WyPointFilters({ nr }: { nr: boolean }) {
 
 /** Utah's general deer preference draw has observed point-level results. */
 export function UtPointFilter() {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const min = sp.get('utMinPts') ?? '', max = sp.get('utMaxPts') ?? '';
   const range = pointRange(min, max);
   return <Section title="Utah: General Deer Points Needed" value={min || max ? `${range.min ?? 0}–${range.max ?? 40}` : 'Any'} set={!!(min || max)}>

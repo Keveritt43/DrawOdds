@@ -2,7 +2,8 @@
 import { useStateConfig } from './StateContext';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import { inPageGestures } from '@/lib/mapGestures';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -65,7 +66,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   const [kind, setKind] = useState<Basemap>("satellite");
   const [metric, setMetric] = useState<ShadeKey>("match");
   const [err, setErr] = useState("");
-  const router = useRouter();
+  const router = useFinderRouter();
   const sp_ = useSearchParams();
   const spRef = useRef(sp_);
   spRef.current = sp_;

@@ -1,6 +1,7 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 
 const SORTS: [string, string][] = [
   ['score', 'DrawOdds Score (Quality)'],
@@ -23,7 +24,7 @@ const SORTS: [string, string][] = [
 ];
 
 export function SortSelect({ value, options = SORTS }: { value: string; options?: [string, string][] }) {
-  const router = useRouter();
+  const router = useFinderRouter();
   const sp = useSearchParams();
   return (
     <select

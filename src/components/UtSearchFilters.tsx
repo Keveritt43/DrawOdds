@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 
@@ -8,7 +9,7 @@ const KINDS = [['le', 'Limited-entry (bonus points)'], ['oial', 'Once-in-a-lifet
 /** Utah-only filters; they narrow Utah results and leave other selected states unchanged. CWMU hunts are
  *  private-land-only, so the shared filter hides them until "Private-Land-Only Hunts" is shown. */
 export function UtSearchFilters({ nr = true }: { nr?: boolean }) {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const chosen = (sp.get('utLic') ?? '').split(',').filter(Boolean);
   const toggle = (k: string) => {
     const next = chosen.includes(k) ? chosen.filter((x) => x !== k) : [...chosen, k];
