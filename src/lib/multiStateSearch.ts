@@ -90,7 +90,9 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
 // The public corrections and trophy scores below depend only on the row, never on the hunter, and the search
 // index keeps the same row objects for minutes, so each row is prepared once instead of on every search.
-const preparedRows = new WeakMap<CoScored, CoScored>();
+// Process-wide for the same reason as the search index (src/lib/searchData.ts): the warm-up and the pages are separate bundles.
+const sharedPrep = globalThis as typeof globalThis & { __drawoddsPreparedRows?: WeakMap<CoScored, CoScored> };
+const preparedRows = (sharedPrep.__drawoddsPreparedRows ??= new WeakMap<CoScored, CoScored>());
 export function preparePublic(raw: CoScored): CoScored {
   const hit = preparedRows.get(raw);
   if (hit) return hit;
