@@ -13,10 +13,12 @@
  * Deer Areas ("DA3071"), Elk Areas ("EA3911"), Moose Areas ("MA1"), Sheep Units ("SH7") and Mountain Goat Units ("MG3-6").
  */
 import { readFileSync } from 'node:fs';
-import type { Prisma } from '@prisma/client';
+import type { HuntSummary, Prisma } from '@prisma/client';
 import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
+import { withStateTrophyScores } from '../src/lib/stateTrophyScores';
+import { trophyForHunt } from '../src/lib/trophyHunt';
 
 type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'MOOSE' | 'BIGHORN' | 'GOAT'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; acres: number | null; bbox: number[] | null; geometry: object | null; publicPct?: number | null; privatePct?: number | null; ownership?: { manager: string; pct: number }[] };
@@ -124,6 +126,14 @@ async function main() {
     state: 'WA', name: a.name, acres: a.acres, geometry: (a.geometry ?? undefined) as object | undefined, bbox: (a.bbox ?? undefined) as object | undefined,
     landOwnership: (a.ownership ?? undefined) as object | undefined, publicPct: a.publicPct ?? null, privatePct: a.privatePct ?? null,
   }));
+  // Store exactly what the site shows: hunt pages, Find Hunts and the Unit Map rescore Washington rows on read
+  // (withStateTrophyScores + trophyForHunt, after the verified-date corrections). Scoring the stored row the same way
+  // keeps the database columns (planner, CSV export) equal to the pages. Checked offline Nov 18: the batch scorer
+  // matched read time on 1,611 of 1,612 rows; the one miss (elk 2016, dates corrected only at read time) now matches too.
+  for (const r of summaryRows) {
+    const shown = withStateTrophyScores(r as unknown as HuntSummary);
+    for (const k of SCORE_KEYS) (r as Record<string, unknown>)[k] = k === 'scoreTrophy' ? trophyForHunt(shown) : (shown as unknown as Record<string, unknown>)[k] ?? null;
+  }
   const counts = { hunts: huntRows.length, summaries: summaryRows.length, units: unitRows.length, scored: summaryRows.filter((r) => r.scoreQuality !== null).length };
   console.log('[WA] plan', JSON.stringify(counts));
   const iso = (v: unknown) => (v instanceof Date ? v.toISOString() : v);
@@ -145,17 +155,20 @@ async function main() {
   const added = summaryRows.filter((r) => !live.has(r.id)).map((r) => r.id);
   const removed = [...live.keys()].filter((id) => !summaryRows.some((r) => r.id === id));
   let changedRows = 0;
+  const fieldCounts: Record<string, number> = {};
   for (const r of summaryRows) {
     const cur = live.get(r.id);
     if (!cur) continue;
     const out: string[] = [];
     for (const [k, v] of Object.entries(r)) diffs(cur[k], v, k, out);
+    for (const o of out) { const f = o.split(/[.:]/)[0]; fieldCounts[f] = (fieldCounts[f] ?? 0) + 1; }
     if (out.length) { changedRows++; console.log('[WA] changed', r.id, out.slice(0, 12).join(' | '), out.length > 12 ? `(+${out.length - 12} more)` : ''); }
   }
   // the reviewed plan: every summary's id, odds table and score, hashed, so an apply can be gated on the dry run
   const { createHash } = await import('node:crypto');
-  const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.success5, r.privateOnly, r.publicPct, r.huntablePct]))).digest('hex').slice(0, 16);
+  const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.scoreTrophy, r.success5, r.privateOnly, r.publicPct, r.huntablePct]))).digest('hex').slice(0, 16);
   console.log('[WA] diff', JSON.stringify({ scope: only.length ? only.join(',') : 'all', keepLiveScores: keepScores, live: live.size, liveUnits, added: added.length, removed: removed.length, changed: changedRows, planDigest }));
+  console.log('[WA] fields', JSON.stringify(fieldCounts));
   if (removed.length) console.log('[WA] removed', removed.join(', '));
   if (!apply) {
     console.log('[WA] dry run only; pass --apply to write');
