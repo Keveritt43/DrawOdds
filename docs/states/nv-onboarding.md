@@ -1,6 +1,6 @@
 # Nevada onboarding (deer and elk)
 
-Status Nov 17–18, 2026: built by `scripts/nv_build_hunts.py`, imported by `scripts/nv-import.ts`. Nevada follows
+Status Nov 18, 2026: live. Code #221; imported Nov 18 13:08 PT on commit 47f105a (gated on the dry run: 0 live, 350 added, digest `bd9e29b3db14a0e1`; result 350 hunts, 117 units, 229 scored, other states unchanged; re-run showed 0 left to change; maintenance service back to idle); enabled in the follow-up PR. Nevada follows
 `docs/state-adapter-guide.md` and is laid out like Idaho, with Utah's two-pool hunt pages.
 
 ## 1. Sources (all fetched in Claude in Chrome from ndow.org, Nov 17, 2026)

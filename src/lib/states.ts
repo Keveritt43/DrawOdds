@@ -206,8 +206,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     code: 'NV',
     name: 'Nevada',
     slug: 'nevada',
-    // Deer and elk from scripts/nv-import.ts; docs/states/nv-onboarding.md. Off until the import is applied.
-    enabled: false,
+    // Deer and elk from scripts/nv-import.ts (applied Nov 18, 2026, digest bd9e29b3db14a0e1); docs/states/nv-onboarding.md.
+    enabled: true,
     agency: { short: 'NDOW', name: 'Nevada Department of Wildlife', url: 'https://www.ndow.org/apply-buy/apply-buy-hunting/' },
     accessProgram: null,
     privateLandOnly: 'None of the imported hunts: NDOW\'s private-land tags (landowner compensation, private lands antlerless elk, depredation hunts on ranch and agricultural boundaries) are left out of the import (scripts/nv_build_hunts.py OMITTED), so no Nevada row is privateOnly.',

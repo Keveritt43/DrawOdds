@@ -14,7 +14,7 @@ const bt = JSON.parse(readFileSync('data/nv/backtest.json', 'utf8'));
 const byId = (id: string) => data.hunts.find((h) => h.id === id)!;
 
 test('Nevada is listed, with a private-land-only rule', () => {
-  assert.equal(STATES.NV.code, 'NV');
+  assert.equal(STATES.NV.enabled, true);
   assert.equal(STATES.NV.points, 'bonus');
   assert.ok(STATES.NV.privateLandOnly.length > 20);
 });
