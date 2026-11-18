@@ -130,8 +130,6 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
   }
   const special = coSpecial(r);
   const points = special ? settings.CO.specialSet ? specialPointSetting(special, settings.CO)?.weighted ?? null : null : r.state === 'CO' ? settings.CO[r.species as 'DEER' | 'ELK' | 'PRONGHORN'] ?? 0 : null;
-  // New Mexico: resident-only, WMA-only and antlerless elk licenses aren't issued to nonresidents (2026-27 booklet p. 17)
-  if (r.state === 'NM' && !nmEligible(r, settings.NM ?? readNmSettings(null))) return null;
   const general = (r.pointOdds as unknown as PointOdds | null)?.general;
   let odds: number | null;
   let basis: string;
