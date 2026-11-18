@@ -6,6 +6,8 @@ type HuntWeapon = { state: string; weapon: string; nrTag?: boolean; id?: string;
 export function huntWeaponLabel(r: HuntWeapon): string {
   const po = r.pointOdds as { tag?: string; multiSeason?: boolean; regs?: { segments?: { archery?: unknown; regular?: unknown }[] } } | null;
   if (r.state === 'WA') {
+    // moose, sheep and goat permits: any legal weapon (WDFW "All Methods"; pamphlet pp. 62-66)
+    if (['MOOSE', 'BIGHORN', 'GOAT'].includes(r.species ?? '')) return 'Any legal weapon';
     if (po?.multiSeason) return 'Multiple weapons · general seasons';
     if (po?.tag) {
       const t = po.tag;
