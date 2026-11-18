@@ -20,6 +20,7 @@ const pts = (res: 'RESIDENT' | 'NONRESIDENT', BUCK = 0, ELK = 0, ANTLERLESS = 0)
 test('Oregon is registered, deer and elk, with a private-land-only rule', () => {
   assert.equal(STATES.OR.code, 'OR');
   assert.deepEqual(STATES.OR.species, ['DEER', 'ELK']);
+  assert.equal(STATES.OR.enabled, true);
   assert.ok(STATES.OR.privateLandOnly.length > 20);
 });
 
