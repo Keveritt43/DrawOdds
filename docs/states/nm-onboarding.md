@@ -80,5 +80,7 @@ Stored: `oddsByPts.{last,proj}.{res,nr,out} = [odds]`; `resOddsLast/nrOddsLast` 
 
 ## 6. Status
 
-- Code: branch `claude/nm-deer-elk`, state off (`enabled: false`) until the import has run.
-- Import: not yet run.
+- Code merged in #222 (Nov 18, 2026).
+- **Imported Nov 18, 2026, 07:42 PT**, gated on the dry run (commit 4fd7fc7: 0 live, 679 added, 0 removed, 0 changed, 70 GMUs, digest `c1adca14c12d9850`): 679 hunts, 70 GMUs, 509 scored, other states unchanged; the re-run showed 679 live and nothing left to change. Maintenance service back to idle. Start command: `sh -c 'npx tsx scripts/nm-import.ts > /tmp/dry.txt 2>&1; grep -qF "\"planDigest\":\"c1adca14c12d9850\"" /tmp/dry.txt && grep -qF "\"live\":0,\"liveUnits\":0,\"added\":679,\"removed\":0,\"changed\":0" /tmp/dry.txt && npx tsx scripts/nm-import.ts --apply ...'`.
+- Enabled in the follow-up PR.
+- **Open:** map the 2027–28 hunt codes when NMDOW publishes the new booklet; pronghorn, oryx, ibex, bighorn, Barbary sheep and javelina; Open Gate as a scored access program (23 properties, 5 with deer); the outfitter pool after the 2027 legislative session.

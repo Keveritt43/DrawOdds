@@ -167,8 +167,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     code: 'NM',
     name: 'New Mexico',
     slug: 'new-mexico',
-    // Deer and elk (NM-1) from scripts/nm-import.ts; docs/states/nm-onboarding.md. Off until the import has run.
-    enabled: false,
+    // Deer and elk (NM-1) from scripts/nm-import.ts (imported Nov 18, 2026, digest c1adca14c12d9850); docs/states/nm-onboarding.md
+    enabled: true,
     agency: { short: 'NMDOW', name: 'New Mexico Department of Wildlife', url: 'https://wildlife.dgf.nm.gov/hunting/' },
     // NMDOW's Open Gate program is 23 properties, mostly small game and fishing (5 allow deer), loaded in
     // data/nm/source/gmu-areas-5070.json but not scored, so the slot stays empty rather than read as a unit share
