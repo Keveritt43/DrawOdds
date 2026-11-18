@@ -7,7 +7,8 @@
  *
  * Scope: only rows with state 'WA' are replaced. Idaho, Colorado, Wyoming, Montana and Utah summaries are digested before
  * and after; any change aborts. No agency fetch, no schema change. Hunt ids are stable ("WA:<hunt number>", "WA:MS-DEER", "WA:GD-101-ARCHERY").
- * Deer and elk. Unit rows are WDFW GMUs ("101"), Deer Areas ("DA3071") and Elk Areas ("EA3911").
+ * Deer and elk; moose, bighorn sheep and mountain goat special permits (Nov 17, 2026). Unit rows are WDFW GMUs ("101"),
+ * Deer Areas ("DA3071"), Elk Areas ("EA3911"), Moose Areas ("MA1"), Sheep Units ("SH7") and Mountain Goat Units ("MG3-6").
  */
 import { readFileSync } from 'node:fs';
 import type { Prisma } from '@prisma/client';
@@ -15,7 +16,7 @@ import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
 
-type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
+type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'MOOSE' | 'BIGHORN' | 'GOAT'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; acres: number | null; bbox: number[] | null; geometry: object | null; publicPct?: number | null; privatePct?: number | null; ownership?: { manager: string; pct: number }[] };
 
 const apply = process.argv.includes('--apply');
@@ -55,7 +56,7 @@ function validate(): string[] {
     if (h.state !== 'WA') errors.push(`${h.id}: state ${String(h.state)}`);
   }
   for (const a of areas) {
-    if (!/^(\d{3}|DA\d{4}|EA\d{4})$/.test(a.name)) errors.push(`bad unit name ${a.name}`);
+    if (!/^(\d{3}|DA\d{4}|EA\d{4}|MA\d|SH\d{1,2}|MG\d-\d{1,2}[a-z]?)$/.test(a.name)) errors.push(`bad unit name ${a.name}`);
     // every district has measured land (scripts/mt_build_land.py); never import a missing share as 0% public
     for (const v of [a.publicPct, a.privatePct]) if (!(typeof v === 'number' && v >= 0 && v <= 100)) errors.push(`${a.name}: land share missing`);
   }

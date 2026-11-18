@@ -341,11 +341,13 @@ export async function GET(req: Request) {
     }
   }
   if (state === 'WA') {
-    // Washington: the map draws GMUs only (Deer and Elk Areas overlap them; their hunts count in the GMUs they list).
+    // Washington: the map draws GMUs only (Deer and Elk Areas overlap them; their hunts count in the GMUs they list;
+    // moose, sheep and goat units count in the GMUs they lie in).
     // General seasons are over the counter: success and crowding pool every weapon's general hunters per GMU over up
     // to five seasons (WDFW harvest reports). Special permits: odds at the hunter's saved points for that category,
     // the estimated 2027 projection (src/lib/waHunt.ts); residents and nonresidents share one pool.
     const pts = readWaPoints((await getPointsStore()).store as Record<string, unknown>);
+    const landGmus = Object.fromEntries(Object.entries((waLand as { units: Record<string, { gmus?: string[] }> }).units).filter(([, v]) => v.gmus).map(([k, v]) => [k, v.gmus!]));
     by.clear();
     const rows = (await db.huntSummary.findMany({ where: { state: 'WA' } })).map(withStateTrophyScores);
     const gen = new Map<string, { hunters: number; harvest: number; years: number }>();
@@ -365,8 +367,9 @@ export async function GET(req: Request) {
       if ((r.pointOdds as { multiSeason?: boolean } | null)?.multiSeason) continue; // statewide: it would shade every GMU alike
       const adult = r.antlerClass === 'ANTLERED' || r.antlerClass === 'EITHER';
       const odds = waPersonal(r, pts).odds;
-      for (const u of r.units) {
-        if (!/^\d{3}$/.test(u)) continue;
+      // moose areas, sheep units and goat units count in the GMUs they lie in (data/wa/land.json gmus)
+      const gmus = [...new Set(r.units.flatMap((u) => (/^\d{3}$/.test(u) ? [u] : landGmus[u] ?? [])))];
+      for (const u of gmus) {
         const m = m0(u);
         m.controlled = Number(m.controlled ?? 0) + 1;
         if (!adult || r.privateOnly) continue;
@@ -405,7 +408,8 @@ export async function GET(req: Request) {
     }
     for (const [k, a] of ctl) {
       const [sp, u] = k.split('|');
-      by.get(u)![`ctlSuccess${sp}`] = a.hunters >= MIN_HUNTERS ? (a.harvest / a.hunters) * 100 : null;
+      // moose, sheep and goat permits are a handful a year: 10 hunter-seasons is a real sample (as in Idaho)
+      by.get(u)![`ctlSuccess${sp}`] = a.hunters >= (['Moose', 'Bighorn', 'Goat'].includes(sp) ? 10 : MIN_HUNTERS) ? (a.harvest / a.hunters) * 100 : null;
     }
   }
   // Classify each unit separately: a multi-unit hunt does not transfer a tier to its other units.
