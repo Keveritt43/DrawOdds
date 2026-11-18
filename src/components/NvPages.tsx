@@ -118,7 +118,7 @@ export async function NvPlannerPage() {
   const nr = pts.res === 'NONRESIDENT';
   const rows = await db.huntSummary.findMany({ where: { state: 'NV' } }) as unknown as Row[];
   const apps = NV_POINT_TYPES.map((t) => {
-    const opts = rows.filter((r) => nvPointType((r.pointOdds as NvPointOdds | null)?.category) === t.key).map((r) => ({ r, m: nvPersonal(r, pts, nr) }))
+    const opts = rows.filter((r) => nvPointType((r.pointOdds as NvPointOdds | null)?.category) === t.key).map((r) => ({ r, m: nvPersonal({ ...r, type: "CONTROLLED" }, pts, nr) }))
       .filter((x) => x.m.odds !== null).map((x) => ({ ...x, fill: x.r.success5 !== null && !x.r.smallSample ? x.m.odds! * x.r.success5 : null }));
     const best = [...opts].sort((a, b) => (b.fill ?? -1) - (a.fill ?? -1)).slice(0, 5);
     const surest = [...opts].sort((a, b) => b.m.odds! - a.m.odds!).slice(0, 5);
