@@ -19,6 +19,9 @@ import { mtPersonal } from '@/lib/mtHunt';
 import { mtBmaDistrict } from '@/lib/mtBma';
 import { readUtPoints } from '@/lib/utPoints';
 import { readWaPoints } from '@/lib/waPoints';
+import { readNvPoints } from '@/lib/nvPoints';
+import { nvPersonal } from '@/lib/nvHunt';
+import nvLand from '../../../../data/nv/land.json';
 import { waPersonal, waIsGeneral } from '@/lib/waHunt';
 import waLand from '../../../../data/wa/land.json';
 import { utPersonal, utKind } from '@/lib/utHunt';
@@ -412,6 +415,51 @@ export async function GET(req: Request) {
       by.get(u)![`ctlSuccess${sp}`] = a.hunters >= (['Moose', 'Bighorn', 'Goat'].includes(sp) ? 10 : MIN_HUNTERS) ? (a.harvest / a.hunters) * 100 : null;
     }
   }
+  if (state === 'NV') {
+    // Nevada: every deer and elk tag is drawn (NDOW bonus points, src/lib/nvHunt.ts), so the map shades controlled
+    // hunts only. A hunt covers a unit group and counts in each of its units; odds are the 2025 draw at the hunter's
+    // saved Nevada points, resident and nonresident pools separately (junior and spike tags are residents only).
+    const pts = readNvPoints((await getPointsStore()).store as Record<string, unknown>);
+    by.clear();
+    const rows = (await db.huntSummary.findMany({ where: { state: 'NV' } })).map(withStateTrophyScores);
+    const ctl = new Map<string, { hunters: number; harvest: number }>();
+    const m0 = (u: string) => by.get(u) ?? by.set(u, {}).get(u)!;
+    for (const r of rows) {
+      const sp = SP_KEY[r.species];
+      if (!sp) continue;
+      const adult = r.antlerClass === 'ANTLERED' || r.antlerClass === 'EITHER';
+      const odds = { Res: nvPersonal(r, pts, false).odds, Nr: nvPersonal(r, pts, true).odds };
+      for (const u of r.units) {
+        const m = m0(u);
+        m.controlled = Number(m.controlled ?? 0) + 1;
+        if (!adult || r.youthOnly || r.privateOnly) continue;
+        m[`ctlCount${sp}`] = Number(m[`ctlCount${sp}`] ?? 0) + 1;
+        const put = (k: string, v: number | null, low = false) => { if (v !== null && Number.isFinite(v)) m[k] = m[k] == null ? v : low ? Math.min(Number(m[k]), v) : Math.max(Number(m[k]), v); };
+        for (const pool of ['Res', 'Nr'] as const) {
+          put(`ctlOdds${pool}${sp}`, odds[pool]);
+          put(`ctlFill${pool}${sp}`, !r.smallSample && odds[pool] !== null && r.success5 !== null ? odds[pool]! * r.success5 : null);
+        }
+        put(`ctlQuality${sp}`, r.scoreQuality);
+        put(`ctlPressure${sp}`, r.huntersSqMi, true);
+        if (r.hunters5 && r.harvest5 !== null) {
+          const k = `${sp}|${u}`;
+          const a = ctl.get(k) ?? ctl.set(k, { hunters: 0, harvest: 0 }).get(k)!;
+          a.hunters += r.hunters5; a.harvest += r.harvest5;
+        }
+      }
+    }
+    for (const u of units) {
+      const m = m0(u.name);
+      // no Nevada private-land access program is loaded; military and DOE land is public but closed
+      m.accessYesAcres = null;
+      m.accessYesPct = null;
+      m.huntablePct = (nvLand as { units: Record<string, { huntablePct: number }> }).units[u.name]?.huntablePct ?? u.publicPct;
+    }
+    for (const [k, a] of ctl) {
+      const [sp, u] = k.split('|');
+      by.get(u)![`ctlSuccess${sp}`] = a.hunters >= MIN_HUNTERS ? (a.harvest / a.hunters) * 100 : null;
+    }
+  }
   // Classify each unit separately: a multi-unit hunt does not transfer a tier to its other units.
   for (const s of sums) {
     if (!['DEER','ELK','PRONGHORN'].includes(s.species) || (s.pointOdds as {multiSeason?:boolean}|null)?.multiSeason) continue;
@@ -477,6 +525,6 @@ export async function GET(req: Request) {
   return Response.json(
     { type: 'FeatureCollection', features, classes, years: lastYear },
     // Colorado and Montana shade by the hunter's own points, so their answers are personal
-    { headers: { 'Cache-Control': state === 'CO' || state === 'MT' || state === 'UT' || state === 'WA' ? 'private, no-store' : 'public, max-age=600' } },
+    { headers: { 'Cache-Control': state === 'CO' || state === 'MT' || state === 'UT' || state === 'WA' || state === 'NV' ? 'private, no-store' : 'public, max-age=600' } },
   );
 }

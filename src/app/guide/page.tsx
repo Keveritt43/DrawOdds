@@ -1,6 +1,7 @@
 import { WaGuide } from "@/components/WaPages";
 import { MtGuide } from "@/components/MtPages";
 import { UtGuide } from "@/components/UtPages";
+import { NvGuide } from "@/components/NvPages";
 import { CoGuide } from "@/components/CoPages";
 import { getState } from "@/lib/residency";
 import Link from 'next/link';
@@ -14,6 +15,7 @@ export default async function GuidePage() {
   if ((await getState()).code === "CO") return <CoGuide />;
   if ((await getState()).code === "MT") return <MtGuide />;
   if ((await getState()).code === "UT") return <UtGuide />;
+  if ((await getState()).code === "NV") return <NvGuide />;
   if ((await getState()).code === "WA") return <WaGuide />;
   if ((await getState()).code === 'WY') return <main className="wrap" style={{ maxWidth: 860, margin: '24px auto 48px' }}>
     <h1>How The Wyoming Draw Works</h1>

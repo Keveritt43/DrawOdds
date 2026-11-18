@@ -18,6 +18,8 @@ import { readUtPoints } from '@/lib/utPoints';
 import { readWaPoints } from '@/lib/waPoints';
 import { waPersonal } from '@/lib/waHunt';
 import { utPersonal } from '@/lib/utHunt';
+import { readNvPoints } from '@/lib/nvPoints';
+import { nvPersonal } from '@/lib/nvHunt';
 import { withIdahoVerifiedArea } from '@/lib/idahoHuntCorrections';
 
 export const dynamic = 'force-dynamic';
@@ -50,6 +52,15 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
       return { id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
         open: h.openDate, close: h.closeDate, resOdds5: o, nrOdds5: o, success5: h.success5 };
     }), { headers: { 'Cache-Control': 'private, no-store' } });
+  }
+  if (state === 'NV') {
+    // Nevada: every deer and elk hunt whose unit group includes the unit, 2025-draw odds at the hunter's saved points
+    const pts = readNvPoints((await getPointsStore()).store as Record<string, unknown>);
+    const rows = await db.huntSummary.findMany({ where: { state: 'NV', units: { has: name } }, orderBy: [{ species: 'asc' }, { tagCode: 'asc' }] });
+    return Response.json(rows.map((h) => ({
+      id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
+      open: h.openDate, close: h.closeDate, resOdds5: nvPersonal(h, pts, false).odds, nrOdds5: nvPersonal(h, pts, true).odds, success5: h.success5,
+    })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   if (state === 'UT') {
     // Utah: every deer, elk, pronghorn and bison hunt using the boundary, odds at the hunter's saved Utah points

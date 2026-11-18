@@ -1,0 +1,76 @@
+{
+ "rule": {
+  "hunts": 2061,
+  "logLik": {
+   "P^2+1 (NDOW FAQ)": -77536.7,
+   "(P+1)^2": -78205.6,
+   "P+1": -80649.4,
+   "P^3+1": -80962.8,
+   "flat": -90754.1
+  },
+  "exponentScan": {
+   "1.8": -77627.9,
+   "1.9": -77548.4,
+   "2.0": -77536.7,
+   "2.1": -77593.1,
+   "2.2": -77716.6
+  }
+ },
+ "backtest": {
+  "res": {
+   "2023": {
+    "naive": 0.04916,
+    "roll": 0.0471,
+    "applicants": 50245
+   },
+   "2024": {
+    "naive": 0.04982,
+    "roll": 0.05046,
+    "applicants": 44482
+   },
+   "2025": {
+    "naive": 0.05121,
+    "roll": 0.05112,
+    "applicants": 46095
+   },
+   "2024 from 2022": {
+    "naive": 0.05001,
+    "roll": 0.04974,
+    "applicants": 43363
+   },
+   "2025 from 2023": {
+    "naive": 0.05384,
+    "roll": 0.05571,
+    "applicants": 45010
+   }
+  },
+  "nr": {
+   "2023": {
+    "naive": 0.00958,
+    "roll": 0.00957,
+    "applicants": 21927
+   },
+   "2024": {
+    "naive": 0.00988,
+    "roll": 0.00987,
+    "applicants": 23240
+   },
+   "2025": {
+    "naive": 0.01036,
+    "roll": 0.01051,
+    "applicants": 25802
+   },
+   "2024 from 2022": {
+    "naive": 0.01127,
+    "roll": 0.01084,
+    "applicants": 24633
+   },
+   "2025 from 2023": {
+    "naive": 0.00998,
+    "roll": 0.01004,
+    "applicants": 24129
+   }
+  }
+ },
+ "decision": "ship the 2025 draw (last draw) only: the roll-forward beat it in some years and pools and lost in others (res 2024, nr 2025, res two-step), so no projection passes the rule in docs/state-adapter-guide.md \u00a74"
+}

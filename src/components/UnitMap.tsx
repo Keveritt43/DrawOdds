@@ -78,13 +78,13 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [metric, setMetric] = useState<Metric>('public');
   // basic filters: which animal and which kind of hunt the shading (and the unit's hunt list) is about
   const [sp, setSpRaw] = useState<Sp>(msg ? 'MOOSE' : 'ELK');
-  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
+  const [htype, setHtypeRaw] = useState<'GENERAL' | 'CONTROLLED'>(msg || st.code === 'CO' || st.code === 'NV' ? 'CONTROLLED' : 'GENERAL');
   // first visit: start on the animal last used in Find A Hunt (its remembered filters)
   useEffect(() => {
     try {
       const last = decodeURIComponent(document.cookie.match(/(?:^|; )lastHunts=([^;]*)/)?.[1] ?? '');
       const want = new URLSearchParams(last).get('species') as Sp | null;
-      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : st.code === 'UT' ? ['ELK', 'DEER', 'PRONGHORN', 'BISON'] : st.code === 'WA' ? ['ELK', 'DEER'] : ['ELK', 'DEER', 'PRONGHORN'];
+      const ok = msg ? ['MOOSE', 'BIGHORN', 'GOAT'] : st.code === 'UT' ? ['ELK', 'DEER', 'PRONGHORN', 'BISON'] : st.code === 'WA' || st.code === 'NV' ? ['ELK', 'DEER'] : ['ELK', 'DEER', 'PRONGHORN'];
       if (want && ok.includes(want)) setSp(want);
     } catch { /* keep the default */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -92,7 +92,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   // the header's drawing switch: start over on that drawing's species
   useEffect(() => {
     setSpRaw(msg ? 'MOOSE' : 'ELK');
-    setHtypeRaw(msg || st.code === 'CO' ? 'CONTROLLED' : 'GENERAL');
+    setHtypeRaw(msg || st.code === 'CO' || st.code === 'NV' ? 'CONTROLLED' : 'GENERAL');
     setMetric((m) => (METRICS[m].kind === 'land' ? m : msg ? 'ctlOdds' : 'success'));
   }, [msg]);
   const setSp = (x: Sp) => {
@@ -114,7 +114,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const utFlag = `ut${htype === 'GENERAL' ? 'Gen' : 'Ctl'}${({ ELK: 'Elk', DEER: 'Deer', PRONGHORN: 'Pronghorn', BISON: 'Bison' } as Record<string, string>)[sp] ?? 'Elk'}`;
   // Montana: no point cutoffs (bonus points, no projection) and no elk objectives; its walk-in access is Block
   // Management Type 1, in the slot Idaho's Access Yes! uses
-  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : ut ? !["objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) : mt ? !["objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow"].includes(k))
+  const options = [{ value: 'none', label: 'No Shading' }, ...METRIC_KEYS.filter((k) => st.code === "ID" ? !["ctlQuality", "ctlPressure", "ctlPoints", "ctlCreep"].includes(k) : ut ? !["objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) : mt || st.code === "NV" ? !["objBull", "objCow", "ctlPoints", "ctlCreep"].includes(k) : !["huntable", "objBull", "objCow"].includes(k))
       .filter((k) => !['genTrophy','ctlTrophy'].includes(k) || ['DEER','ELK','PRONGHORN'].includes(sp))
       .filter(
         (k) => METRICS[k].kind === 'land' || METRICS[k].kind === (htype === 'CONTROLLED' ? 'controlled' : 'general'),
@@ -427,7 +427,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
                       : [['ELK', 'Elk'], ['DEER', 'Deer'], ['PRONGHORN', 'Pronghorn']]
                 }
               />
-              {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN' || sp === 'BISON'], ['CONTROLLED', mt ? 'Drawn' : ut ? 'Limited Entry' : 'Controlled']]} />}
+              {!msg && <KeySeg label="Hunts" value={htype} onChange={setHtype} options={[['GENERAL', 'General', sp === 'PRONGHORN' || sp === 'BISON' || st.code === 'NV'], ['CONTROLLED', mt ? 'Drawn' : ut ? 'Limited Entry' : 'Controlled']]} />}
               {st.code === 'CO' && <>{checks('Weapon', CO_METHODS, methods, setMethods)}{checks('Season type (select any)', CO_SEASONS, seasons, setSeasons)}</>}
               {!msg && st.features.elkZones && <KeySeg label="Outline" value={bounds} onChange={setBounds} options={[['units', 'Units'], ['zones', 'Elk Zones']]} />}
             </>
