@@ -53,7 +53,7 @@ def to_dates(text: str, year: int = 2026):
             continue
         a_m, b_m = MONTHS[m1], MONTHS[m2] if m2 else MONTHS[m1]
         b_y = int(y2) if y2 else year
-        a_y = int(y1) if y1 else (b_y - 1 if (y2 and a_m > b_m) else year)
+        a_y = int(y1) if y1 else (b_y - 1 if a_m > b_m else b_y) if y2 else year  # "Feb. 1 - Feb. 28, 2027" opens in 2027
         out.append({'open': date(a_y, a_m, int(d1)).isoformat(), 'close': date(b_y, b_m, int(d2)).isoformat()})
     return out
 
