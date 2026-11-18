@@ -238,4 +238,8 @@ Roll forward beat last year's odds in every group, both years. Retention was pic
 
 **App:** Moose · Sheep · Goat drawing for Washington (states.ts), 12 new point balances on the account page, the Washington: Permit Category filter in the MSG drawing, hunt pages (once-in-a-lifetime, goat training and horn inspection, fees), unit pages for the new units (no map yet, like Deer/Elk Areas), Unit Map shading via GMUs, How The Draw Works section, Planner applications with license-if-drawn costs.
 
+**Imported** Nov 17, 2026 18:41 PT (#218 merged, owner "Go"): `wa-import.ts --species=MOOSE,BIGHORN,GOAT`, gated on the dry run (0 live, 190 live units, 47 added, 0 removed, 0 changed, digest `be3c101bef5bc938`); result 47 hunts, 26 units (14 new), 23 scored, other states and the other Washington rows unchanged; re-run showed 0 left to change. Maintenance service idle. A full Washington dry run would have re-scored 783 deer and elk rows (trophy scoring changed since their last import), which is why the import got the `--species` scope; that re-score is a separate, unreviewed change.
+
+**Verified live** Nov 17: hunt pages (5001, 8000, 6001, 5000, 5012, 8027), unit pages (SH7, MG3-6, MA1), the Unit Map's MSG drawing (12 moose, 11 sheep, 6 goat GMUs shaded), Find Hunts (38 options by default: youth, 65+ and disabled hidden), the guide section, no page overflow at 390 px. Found then and fixed in the follow-up: the Washington filter group wasn't passed in the MSG drawing, and these permits read "Modern firearm" instead of any legal weapon.
+
 **Open:** raffle/auction permits; a map outline on sheep/goat unit pages; youth sheep juvenile-ram/ewe history before 2024.
