@@ -86,13 +86,13 @@ export async function OrHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="co-big">{pctOdds(mine.odds)} {mine.odds !== null && !gen && <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span>}</div>
           <div className="small muted">
             {gen ? <>Buy the {po?.tag ?? 'general tag'} over the counter and hunt this unit&apos;s general season. 2026 dates and the legal {spLabel} are under Season, from ODFW&apos;s 2026 regulations.</>
-              : <>{mine.basis}. {hasProj ? (mine.projected ? <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {lastYear} draw</HuntLink> : <HuntLink href={q({ odds: null })} scroll={false}>See the {projYear} projection</HuntLink>) : `The ${projYear} projection didn't beat the last draw in testing for ${nr ? 'nonresident' : 'resident'} ${po?.series === '200' ? 'elk' : po?.series === '600' ? 'antlerless deer' : 'buck deer'}, so this is the ${lastYear} draw.`}</>}
+              : <>{mine.basis}. {hasProj ? <>{mine.projected ? <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {lastYear} draw</HuntLink> : <HuntLink href={q({ odds: null })} scroll={false}>See the {projYear} projection</HuntLink>}.</> : `The ${projYear} projection didn't beat the last draw in testing for ${nr ? 'nonresident' : 'resident'} ${po?.series === '200' ? 'elk' : po?.series === '600' ? 'antlerless deer' : 'buck deer'}, so this is the ${lastYear} draw.`}</>}
             {!pts.set && !gen && <> <Link href="/account#hunting-preferences">Set your Oregon points</Link> for your own odds.</>}
           </div>
         </div>
         {!gen && (
           <div className="card co-need">
-            <div className="k">Points that drew ({nr ? 'nonresidents' : 'residents'}, ODFW)</div>
+            <div className="k">Point cutoff (one queue for both residencies, ODFW)</div>
             {demand.slice(-3).reverse().map((d) => <div key={d.year} className="co-need-row"><span>{d.year}</span><b>{d.prefCutoff === null ? (d.drawn >= d.apps ? 'All drew' : 'Random only') : `${d.prefCutoff} pts`}</b><span className="small muted">{int(d.tags)} tags · {int(d.apps)} first-choice applicants{nr ? ` (${int(d.nrApps)} nonresident, ${int(d.nrDrawn)} drew)` : ''}</span></div>)}
             {cut && <div className="small muted">{lastYear}: {cut.share >= 0.995 ? `everyone at ${cut.points}+ points drew by preference` : `${Math.round(cut.share * 100)}% of ${cut.points}-point ${nr ? 'nonresidents' : 'residents'} drew by preference; more points drew every time`}.</div>}
           </div>

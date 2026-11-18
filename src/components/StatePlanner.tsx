@@ -38,7 +38,7 @@ export interface PlanApp {
 }
 export interface PlanTimelineStep { when: string; what: string; tone?: 'blaze' | 'good' }
 
-const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.001 ? '<0.1%' : o < 0.01 ? `${(o * 100).toFixed(1)}%` : `${Math.round(o * 100)}%`);
+const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? '100%' : o <= 0 ? '0%' : o < 0.001 ? '<0.1%' : o < 0.01 ? `${(o * 100).toFixed(1)}%` : `${Math.round(o * 100)}%`);
 const money = (n: number) => `$${n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 })}`;
 
 export function StatePlanner({ state, apps, opts, prereq, timeline, intro, costNote, signedIn, set, setLabel }: {
