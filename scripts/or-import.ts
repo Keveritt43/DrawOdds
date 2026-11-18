@@ -158,7 +158,7 @@ async function main() {
     console.log('[OR] dry run only; pass --apply to write');
     return;
   }
-  const others = ['ID', 'CO', 'WY', 'MT', 'UT', 'WA'];
+  const others = ['ID', 'CO', 'WY', 'MT', 'UT', 'WA', 'NM'];
   const digestOthers = async () => Object.fromEntries(await Promise.all(others.map(async (st) => [st, await digest(st)])));
   const before = await digestOthers();
   await db.$transaction(async (tx) => {
