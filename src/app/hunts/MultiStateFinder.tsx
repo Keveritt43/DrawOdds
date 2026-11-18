@@ -44,7 +44,9 @@ import { DRAW_LABEL } from '@/lib/species';
 import { CompareToggle } from '@/components/Compare';
 import { parseHuntPresets } from '@/lib/huntPresets';
 
-const PAGE_SIZE = 40;
+// Cards are the costly part of a combined search to draw (~8 ms each on a desktop, several times that on a phone), so
+// card views show 20 per page; the table is light and keeps 40 rows.
+const CARD_PAGE_SIZE = 20, TABLE_PAGE_SIZE = 40;
 const SORTS: [string, string][] = [['opp', 'Opportunity'], ['score', 'Quality'], ['odds', 'My odds'], ['best', 'Draw and fill'], ['success', 'Harvest success'], ['public', 'Public land'], ['densityLow', 'Fewest hunters per sq mi'], ['open', 'Opening date'], ['alpha', 'State / unit'], ['trophy', 'Trophy score'], ['big', 'Harvest antler share'], ['harvest', 'Most harvest'], ['hunters', 'Most hunters'], ['huntersLow', 'Fewest hunters'], ['apps', 'Most applicants (my residency)'], ['appsLow', 'Fewest applicants (my residency)'], ['tags', 'Most tags'], ['leftover', 'Leftover tags (Idaho)'], ['pts', 'Points needed (Colorado, Wyoming NR)'], ['creep', 'Point creep (Colorado, Wyoming NR)'], ['unit', 'Unit']];
 const max = (values: (number | null)[]) => { const finite = values.filter((v): v is number => v !== null && Number.isFinite(v)); return finite.length ? Math.max(...finite) : null; };
 
@@ -100,6 +102,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     else cards.set(key, { x, also: [] });
   }
   const total = view === 'unit' ? entries.length : view === 'table' ? results.length : cards.size;
+  const PAGE_SIZE = view === 'table' ? TABLE_PAGE_SIZE : CARD_PAGE_SIZE;
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(pages, Math.max(1, Math.floor(Number(param(sp, 'page')) || 1)));
   const shown = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -118,7 +121,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   </div>;
   return <main className={`filtering multi-state-finder${view === 'table' ? ' tablemode' : ''}`}>
       <FinderBusy />
-    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg || states.includes('WY') || states.includes('MT') || states.includes('UT') || states.includes('WA') || states.includes('NM') || states.includes('OR') || states.includes('NV') ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={selectedUnit} packedUnits={packStats(stats)} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
+    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key="combined" states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={selectedUnit} packedUnits={packStats(stats)} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
     <section className="f-list" aria-label="Results">
       <RememberFinderNavigation />
       <div className="search-intro">
