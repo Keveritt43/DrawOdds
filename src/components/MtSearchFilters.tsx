@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import Link from 'next/link';
 import { Section, Slider } from './FilterRail';
 import { Term } from './Term';
@@ -10,7 +11,7 @@ const KINDS = [['general', 'General licenses'], ['permit', 'Deer and elk permits
 /** Montana-only filters; they narrow Montana results and leave other selected states unchanged. Private-land-only
  * hunts use the shared filter in FilterRail. */
 export function MtSearchFilters({ nr = true }: { nr?: boolean }) {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const chosen = (sp.get('mtLic') ?? '').split(',').filter(Boolean);
   const deer = (sp.get('mtDeer') ?? '').split(',').filter(Boolean);
   const push = (next: string[], key = 'mtLic') => {

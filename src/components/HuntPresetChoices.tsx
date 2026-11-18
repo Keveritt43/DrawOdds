@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import { HUNT_PRESETS, parseHuntPresets } from '@/lib/huntPresets';
 import type { StateCode } from '@/lib/states';
 
@@ -16,7 +17,7 @@ export function QuickHuntPresets({ wyomingOnly = false }: { wyomingOnly?: boolea
 }
 
 export function HuntPresetFilters({states}: {states: StateCode[]}) {
-  const router = useRouter(), sp = useSearchParams();
+  const router = useFinderRouter(), sp = useSearchParams();
   const selected = parseHuntPresets(sp.getAll('huntPreset').join(','));
   function toggle(key: string) {
     const p = new URLSearchParams(sp.toString());

@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 
@@ -8,7 +9,7 @@ const SERIES = [['100', 'Buck deer (100 series)'], ['200', 'Elk (200 series)'], 
 
 /** Oregon-only filters: they narrow Oregon results and leave other selected states unchanged. */
 export function OrSearchFilters({ nr }: { nr: boolean }) {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const list = (k: string) => (sp.get(k) ?? '').split(',').filter(Boolean);
   const push = (p: URLSearchParams) => { p.delete('page'); router.push(`/hunts?${p}`, { scroll: false }); };
   const toggle = (key: string, k: string) => {

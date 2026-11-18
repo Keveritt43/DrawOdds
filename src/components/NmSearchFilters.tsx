@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 
@@ -10,7 +11,7 @@ const WHO = [['mobility', 'Mobility-impaired hunts'], ['military', 'Military-onl
 
 /** New Mexico-only filters: they narrow New Mexico results and leave other selected states unchanged. */
 export function NmSearchFilters() {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const list = (k: string) => (sp.get(k) ?? '').split(',').filter(Boolean);
   const toggle = (key: string, k: string) => {
     const cur = list(key);

@@ -1,12 +1,13 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import { Section } from './FilterRail';
 import { PointRangeSlider, CHANCES } from './CoFilters';
 import { pointRange } from '@/lib/pointRange';
 
 /** State controls retain their URL names; common species, weapon and dates live in FilterRail. */
 export function CoSearchFilters({ part }: { part: 'points' | 'state' }) {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const get = (k: string) => sp.get(k) ?? '';
   const push = (patch: Record<string, string | null>) => {
     const p = new URLSearchParams(sp.toString());

@@ -793,3 +793,11 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 .fold > summary > span:first-child { flex: 1; }
 .fold > :not(summary) { margin-left: 16px; margin-right: 16px; }
 .fold > :last-child { margin-bottom: 14px; }
+
+/* Find Hunts: one search per state pick, and a visible wait while results update */
+.search-states-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 8px; min-height: 24px; }
+.finder-busy { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 1000; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--card); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 4px 14px rgba(0,0,0,.18); font-size: .9rem; font-weight: 600; }
+.finder-spinner { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--blaze); animation: finder-spin .8s linear infinite; }
+@keyframes finder-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .finder-spinner { animation-duration: 2.4s; } }
+html[data-finder-busy] .f-list, html[data-finder-busy] .f-map { opacity: .55; transition: opacity .15s; pointer-events: none; }

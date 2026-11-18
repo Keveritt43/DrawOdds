@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { HuntPresetFilters } from './HuntPresetChoices';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import { pointRange } from '@/lib/pointRange';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { CHANCE_LABEL, type Chance } from '@/lib/coOdds';
@@ -37,7 +38,7 @@ export const CHANCES: Opt[] = (Object.entries(CHANCE_LABEL) as [Chance, string][
 
 /** Colorado's original single-state filters. Every change updates the URL. */
 export function CoFilters({ nr, points, speciesLabel, presets }: { nr: boolean; points: number; speciesLabel: string; presets?: React.ReactNode }) {
-  const router = useRouter();
+  const router = useFinderRouter();
   const sp = useSearchParams();
   const [open, setOpen] = useState(false);
   const push = (patch: Record<string, string | string[] | null>) => {

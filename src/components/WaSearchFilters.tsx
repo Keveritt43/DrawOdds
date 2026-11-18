@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 
@@ -21,7 +22,7 @@ const SIDES = [['EAST', 'Eastern'], ['WEST', 'Western']] as const;
 
 /** Washington-only filters: they narrow Washington results and leave other selected states unchanged. */
 export function WaSearchFilters() {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const list = (k: string) => (sp.get(k) ?? '').split(',').filter(Boolean);
   const toggle = (key: string, k: string) => {
     const cur = list(key);
