@@ -1,4 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
+import { FinderBusy } from '@/components/FinderBusy';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
@@ -147,6 +148,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
 
   return (
     <main className="filtering">
+      <FinderBusy />
       <RememberQuery state="CO" owner={fav.userId}/>
       <section className="f-map" aria-label="Map of matching units">
         <HuntMap

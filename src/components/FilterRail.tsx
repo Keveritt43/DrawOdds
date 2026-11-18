@@ -5,7 +5,8 @@ import { HuntPresetFilters, HuntPresetNote } from './HuntPresetChoices';
 import { DAY_MIN, DAY_MAX, dayLabel, parseMonthDay, toMonthDay } from '@/lib/seasonDays';
 import { ELK_ZONES, ELK_ZONE_NAMES } from '@/lib/elkZones';
 import { useStateConfig } from './StateContext';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import type { Residency } from '@prisma/client';
 import { SEARCH_DRAW_SPECIES, type Draw } from '@/lib/species';
 import { STATES, type StateCode } from '@/lib/states';
@@ -49,7 +50,7 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
   const config = states ? STATES[states.includes('ID') ? 'ID' : states[0]] : header;
   const feat = config.features;
   const accessProgram = config.accessProgram;
-  const router = useRouter();
+  const router = useFinderRouter();
   const sp = useSearchParams();
   const [open, setOpen] = useState(false);
   const nr = residency === 'NONRESIDENT';

@@ -1,4 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
+import { FinderBusy } from '@/components/FinderBusy';
 import { trophyForUnit, trophyForHunt } from '@/lib/trophyHunt';
 import { trophyPresentation } from '@/lib/trophyDisplay';
 import { withPresetEdit } from '@/lib/filterPresets';
@@ -242,6 +243,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
   return (
     <main className={`filtering${f.view === 'table' ? ' tablemode' : ''}`}>
+      <FinderBusy />
       <RememberQuery owner={fav.userId}/>
       <section className="f-map" aria-label="Map of matching units">
         <HuntMap matched={areaSp.length ? [] : matched} selected={f.unit} chips={activeChips} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
