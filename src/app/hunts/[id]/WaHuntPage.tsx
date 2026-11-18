@@ -13,7 +13,7 @@ import { int, pct as pct0, density } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
-import { waPersonal, waLicense, waPo, WA_WEAPON_LABEL, WA_WHO, type WaOddsTable } from '@/lib/waHunt';
+import { waPersonal, waLicense, waPo, WA_WEAPON_LABEL, WA_WHO, waNoteFlags, type WaOddsTable } from '@/lib/waHunt';
 import { LandBar } from '@/components/LandBar';
 import { SuccessChart, HarvestChart } from '@/components/Charts';
 import { WaOddsPointsChart, WaDrawHistory } from '@/components/WaCharts';
@@ -61,6 +61,8 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   if (s.privateOnly) notes.push('Private land only');
   if (gen) notes.push('Over the counter, no draw');
   if (/\bQ\b/.test(po?.notes ?? '')) notes.push('Timberland access fees possible');
+  notes.push(...waNoteFlags(po?.notes));
+  if (po?.newHunt) notes.push('New for 2026');
   if (mine.tagOk === false) notes.push(`Your ${myTag ?? 'saved'} tag can't apply`);
   const lastArr = table?.last?.res ?? [], projArr = table?.proj?.res ?? [];
 
@@ -89,6 +91,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="co-big">{pct(mine.odds)} {mine.odds !== null && !gen && <span className={`pill ch-${chance}`}>{CHANCE_LABEL[chance]}</span>}</div>
           <div className="small muted">
             {gen ? <>Buy a general {spLabel} tag over the counter{s.species === 'ELK' ? ' (Eastern or Western Washington, one weapon)' : ' (one weapon)'} and hunt this GMU&apos;s general season. This GMU&apos;s 2026 dates and legal {spLabel} for your weapon are under Season, from WDFW&apos;s 2026 pamphlet.</>
+              : po?.newHunt ? <>{mine.basis} Apply with your points (squared, like every category): with no history, every applicant is guessing, and next year&apos;s page will show this year&apos;s applications.</>
               : po?.noPointData || po?.oddsUnavailableReason ? <>{mine.basis} Points still count (squared, like every category), so more points help, but how much can&apos;t be estimated. The permits ÷ applications at right is an overall guide.</>
               : <>{mine.basis}. {mine.projected ? <HuntLink href={q({ odds: 'last' })} scroll={false}>See the {lastYear} estimate</HuntLink> : <HuntLink href={q({ odds: null })} scroll={false}>See the {projYear} projection</HuntLink>}</>}
             {!pts.set && !gen && <> <Link href="/account#hunting-preferences">Set your Washington points</Link> for your own odds.</>}
@@ -98,7 +101,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <div className="card co-need">
             <div className="k">Applications and permits (WDFW)</div>
             {drawSeries.slice(-3).reverse().map((d) => <div key={d.year} className="co-need-row"><span>{d.year}</span><b>{pct(d.resOdds ?? null)}</b><span className="small muted">{int(d.resPermits ?? null)} {lic === 'multi' ? 'tags' : 'permits'} · {int(d.resApps ?? null)} applications (any choice)</span></div>)}
-            {!drawSeries.length && <div className="small muted">WDFW has published no applications for this hunt.</div>}
+            {!drawSeries.length && <div className="small muted">{po?.newHunt ? 'New for 2026: WDFW held no drawing for this hunt last year, so there are no applications yet.' : 'WDFW has published no applications for this hunt.'}</div>}
           </div>
         )}
       </div>

@@ -118,15 +118,18 @@ def parse_dates(s: str, year: int):
     s = re.sub(r'(?<=\d) (?=\d(?:\s*[-,]|$))', '', s)
     out, month = [], None
     for part in re.split(r",\s*(?=[A-Z][a-z]{2,4}\.?\s*\d)", s.replace("–", "-")):
-        m = re.match(r"\s*([A-Z][a-z]{2,4})\.?\s*(\d{1,2})\s*-\s*(?:([A-Z][a-z]{2,4})\.?\s*)?(\d{1,2})", part)
+        # A printed year may follow either day: "Dec. 30, 2026-Jan. 19, 2027", "Jan. 23-Feb. 12, 2027".
+        m = re.match(r"\s*([A-Z][a-z]{2,4})\.?\s*(\d{1,2})(?:,\s*(\d{4}))?\s*-\s*(?:([A-Z][a-z]{2,4})\.?\s*)?(\d{1,2})(?:,\s*(\d{4}))?", part)
         if not m:
             continue
-        m1 = MONTHS.get(m.group(1)[:3].lower()); m2 = MONTHS.get((m.group(3) or m.group(1))[:3].lower())
+        mon1, d1, yr1, mon2, d2, yr2 = m.groups()
+        m1 = MONTHS.get(mon1[:3].lower()); m2 = MONTHS.get((mon2 or mon1)[:3].lower())
         if not m1 or not m2:
             continue
-        y2 = year + (1 if m2 < m1 else 0)
+        y1 = int(yr1) if yr1 else (int(yr2) - (1 if m2 < m1 else 0)) if yr2 else year
+        y2 = int(yr2) if yr2 else y1 + (1 if m2 < m1 else 0)
         try:
-            out.append((dt.date(year, m1, int(m.group(2))).isoformat(), dt.date(y2, m2, int(m.group(4))).isoformat()))
+            out.append((dt.date(y1, m1, int(d1)).isoformat(), dt.date(y2, m2, int(d2)).isoformat()))
         except ValueError:
             continue
     return out
@@ -178,6 +181,10 @@ def area_units(area: str, known: set[str]):
     for m in re.finditer(r"GMUs?\s*([\d,\s and-]+)", a):
         gm += re.findall(r"\d{3}", m.group(1))
     out = [g for g in dict.fromkeys(gm) if g in known]
+    if not out:
+        # PDF text can split a GMU number ("GMU 37 1" for 371, hunt 2304 in 2026); join only when that names a GMU.
+        joined = [x + y for x, y in re.findall(r"GMUs?\s*(\d{2})\s(\d)\b", a)]
+        out = [g for g in dict.fromkeys(joined) if g in known]
     if not out:
         # Master Hunter hunts name a WDFW region ("Region 3", "Designated Areas in Region 6"; Region 4 North/South by
         # name). WDFW numbers GMUs by region (1xx Eastern ... 6xx Coastal), so the region's GMUs stand in for its
@@ -401,6 +408,11 @@ def main() -> None:
         if seed is None and r["category"] in NO_POINT_DATA:
             # placeholder so the demand and permit fields get built; the odds tables are dropped below
             catmix[(sp, r["category"])] = collections.Counter({1: 1})
+        # New for this year: WDFW prints NEW or 0/0, so nobody has applied yet and there is nothing to estimate odds
+        # from. Keep the hunt (dates, permits, legal animal, land, map) and drop the odds below.
+        new_hunt = bool(r.get("is_new")) and not demand
+        if seed is None and new_hunt:
+            seed, seed_year, seed_kind = {1: 1.0}, 2020, "category"   # placeholder so the roll runs; discarded below
         if seed is None:
             mix = catmix.get((sp, r["category"]))
             if not mix:
@@ -504,10 +516,17 @@ def main() -> None:
             h['oddsByPts'] = {'proj': {}, 'last': {}}
             h['pointOdds']['demand'] = {year: v for year, v in h['pointOdds']['demand'].items() if int(year) >= 2023}
             h['pointOdds']['oddsUnavailableReason'] = 'Point-level estimates are unavailable because this hunt number previously identified a different season.'
-        if r["category"] in NO_POINT_DATA:
+        if r["category"] in NO_POINT_DATA and not new_hunt:
             h["oddsByPts"] = {"proj": {}, "last": {}}
             h["pointOdds"].update({"projected": False, "estimated": False, "seed": None, "seedYear": None, "cutoff": None, "noPointData": True})
             seeds["category"] -= 1; seeds["none"] += 1
+        if new_hunt:
+            h["oddsByPts"] = {"proj": {}, "last": {}}
+            h.update({"oddsYears": 0, "appsLast": None, "permitsLast": None, "resOddsLast": None, "nrOddsLast": None})
+            h["pointOdds"].update({"projected": False, "estimated": False, "seed": None, "seedYear": None, "cutoff": None,
+                                   "demand": {}, "newHunt": True, "noPointData": False,
+                                   "oddsUnavailableReason": f"New for {YEAR}: WDFW held no drawing for this hunt last year, so there are no applications to estimate odds from."})
+            seeds["own"] -= 1; seeds["new"] += 1
         h["restricted"] = r["category"] in RESTRICTED
         h["pointOdds"]["restricted"] = h["restricted"]
         hunts.append(h)

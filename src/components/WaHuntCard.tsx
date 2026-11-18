@@ -7,7 +7,7 @@ import { ScoreRow, TrophyMark } from './HuntCards';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { pct, pctOdds, int, density, crowdVerdict, successVerdict, antlerLabel } from '@/lib/format';
 import { dateRange } from '@/lib/coDisplay';
-import { waLicense, waPo, WA_WEAPON_LABEL, WA_WHO } from '@/lib/waHunt';
+import { waLicense, waNoteFlags, waPo, WA_WEAPON_LABEL, WA_WHO } from '@/lib/waHunt';
 
 const PILL = { general: 'General season', special: 'Special permit', multi: 'Multi-season' } as const;
 
@@ -39,7 +39,7 @@ export function WaHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, s
       </div>
       <div className="dates">
         {[huntWeaponLabel(r), !gen ? po?.category : '', antlerLabel(r.species, r.antlerClass), r.tagCode && !gen ? `Hunt ${r.tagCode}` : '', where, side, po?.dates || dateRange(r.openDate, r.closeDate),
-          r.youthOnly ? 'Youth only (under 16)' : '', po?.restricted ? (WA_WHO[po.category ?? ''] ?? 'Limited eligibility') : '', po?.noPointData ? 'No point-level data (65+)' : '', r.privateOnly ? 'Private land only' : '', tagOk === false ? 'Your saved tag can\'t apply' : '']
+          r.youthOnly ? 'Youth only (under 16)' : '', po?.restricted ? (WA_WHO[po.category ?? ''] ?? 'Limited eligibility') : '', po?.noPointData ? 'No point-level data (65+)' : '', po?.newHunt ? 'New for 2026 · no odds yet' : '', ...waNoteFlags(po?.notes), r.privateOnly ? 'Private land only' : '', tagOk === false ? 'Your saved tag can\'t apply' : '']
           .filter(Boolean).join(' · ')}
       </div>
       <ScoreRow r={r} nr={nr} />
@@ -47,8 +47,8 @@ export function WaHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, s
         <div>
           <span className="k">{gen ? 'Tag · no draw' : `Draw odds · ${points ?? 0} pts`}</span>
           <b>{pctOdds(odds)}</b>
-          <span className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{odds === null ? 'No draw data' : CHANCE_LABEL[chance]}</span>
-          <span className="sub">{gen ? 'Over the counter' : `${projected ? `${po?.projYear ?? 2027} projected` : `${po?.year ?? 2025} drawing`} · estimated`}</span>
+          <span className={`verdict ${odds === null ? 'none' : chance === 'sure' || chance === 'likely' ? 'good' : chance === 'possible' ? 'ok' : 'bad'}`}>{odds === null ? (po?.newHunt ? 'New hunt' : 'No draw data') : CHANCE_LABEL[chance]}</span>
+          <span className="sub">{gen ? 'Over the counter' : po?.newHunt ? 'No applications yet' : `${projected ? `${po?.projYear ?? 2027} projected` : `${po?.year ?? 2025} drawing`} · estimated`}</span>
         </div>
         <div>
           <span className="k">Success {years ? `${years} seasons` : ''}</span>
