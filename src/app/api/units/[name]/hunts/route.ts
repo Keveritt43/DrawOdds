@@ -15,11 +15,15 @@ import { getPointsStore } from '@/lib/points';
 import { readMtPoints } from '@/lib/mtPoints';
 import { mtPersonal } from '@/lib/mtHunt';
 import { readUtPoints } from '@/lib/utPoints';
-import { readWaPoints } from '@/lib/waPoints';
-import { waPersonal } from '@/lib/waHunt';
-import { utPersonal } from '@/lib/utHunt';
 import { readNvPoints } from '@/lib/nvPoints';
 import { nvPersonal } from '@/lib/nvHunt';
+import { readOrPoints } from '@/lib/orPoints';
+import { orPersonal } from '@/lib/orHunt';
+import { readWaPoints } from '@/lib/waPoints';
+import { readNmSettings } from '@/lib/nmSettings';
+import { nmPersonal } from '@/lib/nmHunt';
+import { waPersonal } from '@/lib/waHunt';
+import { utPersonal } from '@/lib/utHunt';
 import { withIdahoVerifiedArea } from '@/lib/idahoHuntCorrections';
 
 export const dynamic = 'force-dynamic';
@@ -60,6 +64,27 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
     return Response.json(rows.map((h) => ({
       id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
       open: h.openDate, close: h.closeDate, resOdds5: nvPersonal(h, pts, false).odds, nrOdds5: nvPersonal(h, pts, true).odds, success5: h.success5,
+    })), { headers: { 'Cache-Control': 'private, no-store' } });
+  }
+  if (state === 'NM') {
+    // New Mexico: every deer and elk hunt on the GMU (statewide premium hunts left out), first-choice odds for the
+    // resident pool and for the hunter's nonresident pool (outfitter or not); no points
+    const set = readNmSettings((await getPointsStore()).store as Record<string, unknown>);
+    const rows = (await db.huntSummary.findMany({ where: { state: 'NM', units: { has: name } }, orderBy: [{ species: 'asc' }, { tagCode: 'asc' }] }))
+      .filter((h) => h.units.length < 40);
+    return Response.json(rows.map((h) => ({
+      id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
+      open: h.openDate, close: h.closeDate, resOdds5: nmPersonal(h, { ...set, res: 'RESIDENT', outfitter: false }).odds,
+      nrOdds5: nmPersonal(h, { ...set, res: 'NONRESIDENT' }).odds, success5: h.success5,
+    })), { headers: { 'Cache-Control': 'private, no-store' } });
+  }
+  if (state === 'OR') {
+    // Oregon: every deer and elk hunt on the unit or deer hunt area, odds at the hunter's saved Oregon points
+    const pts = readOrPoints((await getPointsStore()).store as Record<string, unknown>);
+    const rows = await db.huntSummary.findMany({ where: { state: 'OR', units: { has: name } }, orderBy: [{ type: 'asc' }, { species: 'asc' }, { tagCode: 'asc' }] });
+    return Response.json(rows.map((h) => ({
+      id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
+      open: h.openDate, close: h.closeDate, resOdds5: orPersonal(h, pts, false).odds, nrOdds5: orPersonal(h, pts, true).odds, success5: h.success5,
     })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   if (state === 'UT') {

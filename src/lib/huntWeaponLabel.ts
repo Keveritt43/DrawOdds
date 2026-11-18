@@ -21,6 +21,8 @@ export function huntWeaponLabel(r: HuntWeapon): string {
     }
     return WEAPON[r.weapon] ? ({ ANY: 'Modern firearm', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' } as Record<string, string>)[r.weapon] ?? 'Weapon: see regulations' : 'Weapon: see regulations';
   }
+  // New Mexico hunt codes: 1 = any legal sporting arm, 2 = bow only, 3 = muzzleloader, crossbow or bow (2026-27 booklet p. 49)
+  if (r.state === 'NM') return ({ ANY: 'Any legal weapon', ARCHERY: 'Bow only', MUZZLELOADER: 'Muzzleloader, crossbow or bow' } as Record<string, string>)[r.weapon] ?? 'Weapon: see regulations';
   if (r.state === 'WY') {
     const segments = po?.regs?.segments ?? [];
     const archery = segments.some(s => !!s.archery);

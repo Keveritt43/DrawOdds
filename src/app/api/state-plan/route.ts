@@ -6,7 +6,7 @@ import { db } from '@/lib/db';
  * Saved Application Planner choices (hunt ids in order) for states using the shared StatePlanner, one account key
  * per state (`_plan_WA`, ...), kept apart from Idaho's, Colorado's and Montana's plans and from point balances.
  */
-const STATES = new Set(['WA', 'UT', 'WY']);
+const STATES = new Set(['WA', 'UT', 'WY', 'NM', 'OR']);
 const stateOf = (req: Request) => {
   const s = new URL(req.url).searchParams.get('state') ?? '';
   return STATES.has(s) ? s : null;

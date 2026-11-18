@@ -10,8 +10,10 @@ import { getPointsStore, POINTS_COOKIE, type StatePoints } from '@/lib/points';
 import { setAccountPreference } from '@/lib/accountPreferences';
 import { parseMtForm } from '@/lib/mtPoints';
 import { parseUtForm } from '@/lib/utPoints';
-import { parseNvForm } from '@/lib/nvPoints';
 import { parseWaForm } from '@/lib/waPoints';
+import { parseNmForm } from '@/lib/nmSettings';
+import { parseNvForm } from '@/lib/nvPoints';
+import { parseOrForm } from '@/lib/orPoints';
 import { GUEST_FAVORITES_COOKIE, GUEST_FAVORITES_LIMIT, parseGuestFavorites } from '@/lib/guestFavorites';
 
 export async function saveHuntingPreferences(_previous: { message: string; saved: boolean }, form: FormData) {
@@ -48,6 +50,12 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
   // Washington: residency, weighted points per permit category, general deer and elk tags (src/lib/waPoints.ts)
   const WA = parseWaForm(name => form.get(name), name => form.has(name));
   if (typeof WA === 'string') return { message: WA, saved: false };
+  // New Mexico: residency and drawing pool (no points; src/lib/nmSettings.ts)
+  const NM = parseNmForm(name => form.get(name), name => form.has(name));
+  if (typeof NM === 'string') return { message: NM, saved: false };
+  // Oregon: residency and preference points per hunt series (src/lib/orPoints.ts)
+  const OR = parseOrForm(name => form.get(name), name => form.has(name));
+  if (typeof OR === 'string') return { message: OR, saved: false };
   // Nevada: residency and a bonus-point balance per NDOW hunt category (src/lib/nvPoints.ts)
   const NV = parseNvForm(name => form.get(name), name => form.has(name));
   if (typeof NV === 'string') return { message: NV, saved: false };
@@ -60,6 +68,8 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
       if (MT) await setAccountPreference(userId, 'MT', MT, tx);
       if (UT) await setAccountPreference(userId, 'UT', UT, tx);
       if (WA) await setAccountPreference(userId, 'WA', WA, tx);
+      if (NM) await setAccountPreference(userId, 'NM', NM, tx);
+      if (OR) await setAccountPreference(userId, 'OR', OR, tx);
       if (NV) await setAccountPreference(userId, 'NV', NV, tx);
     });
   }
@@ -67,7 +77,7 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
   const options = { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax' as const, path: '/', httpOnly: true };
   jar.set(RESIDENCY_COOKIE, idaho, options);
   // Keep account-only preferences out of the browser cookie.
-  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO, ...(WY ? { WY } : {}), ...(MT ? { MT } : {}), ...(UT ? { UT } : {}), ...(WA ? { WA } : {}), ...(NV ? { NV } : {}) };
+  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO, ...(WY ? { WY } : {}), ...(MT ? { MT } : {}), ...(UT ? { UT } : {}), ...(WA ? { WA } : {}), ...(NM ? { NM } : {}), ...(OR ? { OR } : {}), ...(NV ? { NV } : {}) };
   jar.set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), options);
   revalidatePath('/', 'layout');
   return { message: 'Hunting preferences saved.', saved: true };

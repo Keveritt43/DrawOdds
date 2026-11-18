@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NV';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM' | 'OR' | 'NV';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -163,12 +163,51 @@ export const STATES: Record<StateCode, StateConfig> = {
     // Moose Areas (MA1), Sheep Units (SH7) and Mountain Goat Units (MG3-6) for those permits
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
+  NM: {
+    code: 'NM',
+    name: 'New Mexico',
+    slug: 'new-mexico',
+    // Deer and elk (NM-1) from scripts/nm-import.ts (imported Nov 18, 2026, digest c1adca14c12d9850); docs/states/nm-onboarding.md
+    enabled: true,
+    agency: { short: 'NMDOW', name: 'New Mexico Department of Wildlife', url: 'https://wildlife.dgf.nm.gov/hunting/' },
+    // NMDOW's Open Gate program is 23 properties, mostly small game and fishing (5 allow deer), loaded in
+    // data/nm/source/gmu-areas-5070.json but not scored, so the slot stays empty rather than read as a unit share
+    accessProgram: null,
+    privateLandOnly: 'Private-land-only deer: the landowner-authorized draw hunts in Units 2A, 2B, 2C, 4 and 5A (draw report "private land only") and the over-the-counter private-land deer hunts in Units 8, 46, 54, 55A and 55B (2026-27 booklet p. 53), set on HuntSummary.privateOnly by scripts/nm_build_hunts.py.',
+    // a pure lottery, no points: a random sequence number per application, choices 1-3 in order, then a 4th-choice
+    // drawing for leftovers; pools: residents >= 84%, outfitter 10%, nonresidents without an outfitter 6%
+    points: 'none',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-109.06, 31.33], [-103.0, 37.0]],
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  OR: {
+    code: 'OR',
+    name: 'Oregon',
+    slug: 'oregon',
+    // Deer and elk (OR-1) from scripts/or-import.ts; docs/states/or-onboarding.md. Off until the import is applied.
+    enabled: true,
+    agency: { short: 'ODFW', name: 'Oregon Department of Fish and Wildlife', url: 'https://myodfw.com/articles/controlled-hunt-navigation' },
+    // ODFW's Access & Habitat program areas are measured per unit (data/or/land.json accessPct) but not scored yet
+    accessProgram: null,
+    privateLandOnly: 'Controlled hunts whose 2026 boundary description says "PRIVATE LANDS ONLY", "All private land" or "0% public lands" (or, with no description, a name ending in "Private"); HuntSummary.privateOnly set by scripts/or_build_hunts.py. Hunts ODFW marks "*" (private lands will limit access) stay listed, flagged on their pages.',
+    // controlled hunts: 75% of tags to the most preference points, 25% random with the same random number; general
+    // seasons: over the counter
+    points: 'preference-random',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-124.6, 41.99], [-116.46, 46.29]],
+    // WMUs for elk, Western Oregon deer and antlerless deer; Eastern Oregon buck deer use the 2026 deer hunt areas
+    // (unit keys like DO-01)
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
   NV: {
     code: 'NV',
     name: 'Nevada',
     slug: 'nevada',
-    // Deer and elk from scripts/nv-import.ts (Nov 17, 2026); docs/states/nv-onboarding.md.
-    enabled: true,
+    // Deer and elk from scripts/nv-import.ts; docs/states/nv-onboarding.md. Off until the import is applied.
+    enabled: false,
     agency: { short: 'NDOW', name: 'Nevada Department of Wildlife', url: 'https://www.ndow.org/apply-buy/apply-buy-hunting/' },
     accessProgram: null,
     privateLandOnly: 'None of the imported hunts: NDOW\'s private-land tags (landowner compensation, private lands antlerless elk, depredation hunts on ranch and agricultural boundaries) are left out of the import (scripts/nv_build_hunts.py OMITTED), so no Nevada row is privateOnly.',

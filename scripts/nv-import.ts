@@ -142,7 +142,7 @@ async function main() {
     console.log('[NV] dry run only; pass --apply to write');
     return;
   }
-  const others = ['ID', 'CO', 'WY', 'MT', 'UT', 'WA'];
+  const others = ['ID', 'CO', 'WY', 'MT', 'UT', 'WA', 'NM', 'OR'];
   const before = Object.fromEntries(await Promise.all(others.map(async (st) => [st, await digest(st)])));
   await db.$transaction(async (tx) => {
     await tx.huntSummary.deleteMany({ where: { state: 'NV' } });

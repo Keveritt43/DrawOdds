@@ -1,3 +1,5 @@
+import { NmPlannerPage } from "@/components/NmPages";
+import { OrPlannerPage } from "@/components/OrPages";
 import { WaPlannerPage } from "@/components/WaPages";
 import { MtPlanner, type MtPlanOpt, type MtPlanApp } from "@/components/MtPlanner";
 import { UtPlannerPage } from "@/components/UtPages";
@@ -31,7 +33,9 @@ export default async function PlannerPage({ searchParams,
   if ((await getState()).code === "UT") return <UtPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "NV") return <NvPlannerPage />;
   if ((await getState()).code === "WY") return <WyPlannerPage signedIn={signedIn} />;
+  if ((await getState()).code === "NM") return <NmPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "WA") return <WaPlannerPage signedIn={signedIn} />;
+  if ((await getState()).code === "OR") return <OrPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "CO") {
     const pts = await getPoints("CO"),
       pool = poolFor(pts.res === "NONRESIDENT", pts.youth);

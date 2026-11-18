@@ -1,0 +1,864 @@
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                      Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                YOUTH           Rifle      DER-1-100   10/25-10/29     FAD        25         24          96%         23         50%      11           0         2.9          3.4
+                 REG            Rifle      DER-1-101    11/1-11/5      FAD       150        134          89%        137         36%      49           0         2.9          3.5
+                YOUTH           Rifle      DER-1-103   11/22-11/30     FAD        15         15         100%         15         80%      12           0         4.1          2.5
+      Public
+                 REG          Archery      DER-2-104     9/1-9/24      FAD        40         38          95%         28         11%      3            0         2.7          8.8
+                 REG          Archery      DER-2-106   1/1-1/15, '26   FAD        80         74          93%         69         23%      16           0         3.2          6.6
+2A
+                 REG        Muzzleloader   DER-3-108    9/27-10/3      FAD        50         46          92%         41         21%      9            0         2.9          4.1
+                 REG            Rifle      DER-1-102    11/1-11/5      FAD        24         19          79%         21         41%      9            0         3.5          3.0
+                 REG          Archery      DER-2-105     9/1-9/24      FAD        6          6          100%         3          67%      2            0         3.7         10.3
+      Private
+                 REG          Archery      DER-2-107   1/1-1/15, '26   FAD        15         14          93%         15         43%      6            0         3.1          7.6
+                 REG        Muzzleloader   DER-3-109    9/27-10/3      FAD        4          4          100%         1         100%      1            0         5.0          3.5
+                           GMU Total                                             409        374          91%        353         34%     119           0         3.1         4.8
+
+                 REG            Rifle      DER-1-110   10/25-10/29     FAD       275        251          91%         236       45%      106           0         3.5         3.3
+                YOUTH           Rifle      DER-1-111   10/25-10/29     FAD       125        114          91%         110       50%       55           0         3.4         2.9
+                 REG            Rifle      DER-1-113     11/1-11/5     FAD       350        313          89%         313       57%      178           0         3.6         3.2
+                 REG            Rifle      DER-1-115    11/8-11/12     FAD       400        368          92%         367       73%      268           0         3.9         3.1
+                YOUTH           Rifle      DER-1-117   11/22-11/30     FAD        25         24          96%          25       96%       24           0         4.3         2.8
+      Public     REG          Archery      DER-2-118     9/1-9/24      FAD       130        118          91%          97       9%        9            0         2.8         6.9
+                YOUTH         Archery      DER-2-119     9/1-9/24      FAD        20         17          85%          16        0%        0           0         2.6         4.9
+                 REG          Archery      DER-2-121   1/1-1/15, '26   FAD       180        170          94%         166       44%       73           0         4.0         6.8
+2B
+                YOUTH         Archery      DER-2-122   1/1-1/15, '26   FAD        50         49          98%          46       53%       24           0         3.9         5.1
+                 REG        Muzzleloader   DER-3-124     9/27-10/3     FAD       175        160          91%         145       12%       18           0         2.6         4.4
+                YOUTH       Muzzleloader   DER-3-125     9/27-10/3     FAD        20         20         100%          17       24%       4            0         2.8         3.9
+                 REG            Rifle      DER-1-112   10/25-10/29     FAD        3          2           67%          2        0%        0            0         5.0         5.0
+                 REG            Rifle      DER-1-114     11/1-11/5     FAD        18         16          89%          18       44%       8            0         4.3         3.6
+      Private    REG            Rifle      DER-1-116    11/8-11/12     FAD        33         24          73%          29       81%       23           0         4.1         3.2
+                 REG          Archery      DER-2-123   1/1-1/15, '26   FAD        30         25          83%          28       57%       16           0         3.8         6.4
+                 REG        Muzzleloader   DER-3-126     9/27-10/3     FAD        2          0           0%           0          -        -           -          -           -
+                           GMU Total                                            1,836      1,671         91%        1,617      50%      806           0         3.6         4.0
+
+                  REG           Rifle      DER-1-127    11/8-11/12     FAD        30         26          87%         30        62%       18           0         3.5         4.2
+      Public      REG         Archery      DER-2-129   1/1-1/15, '26   FAD        50         46          92%         49        31%       15           0         3.2         8.1
+                  REG       Muzzleloader   DER-3-131     9/27-10/3     FAD        20         19          95%         17        0%        0            0         2.6         5.3
+2C
+                  REG           Rifle      DER-1-128    11/8-11/12     FAD        8          8          100%         8         75%       6            0         4.4         2.6
+      Private     REG         Archery      DER-2-130   1/1-1/15, '26   FAD        6          6          100%         5         40%       2            0         3.4         8.2
+                  REG       Muzzleloader   DER-3-132     9/27-10/3     FAD        7          6           86%         5         25%       1            0         2.8         4.8
+                           GMU Total                                             121        111          92%        113        38%       43           0         3.3         6.1
+                                                           2025-2026 Deer Harvest Report
+                  Hunter                       Hunt                    Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU      Type     Category      Weapon         Code      Hunt Dates    Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                    REG           Rifle      DER-1-133   10/25-10/29   FAD        20         19          95%         18        53%       9            0         3.8         3.0
+                    REG           Rifle      DER-1-134   10/25-10/29   FAD        10         10         100%         10        30%       3            0         3.8         3.0
+                    REG           Rifle      DER-1-136    11/1-11/5    FAD        20         19          95%         20        42%       8            0         2.5         3.3
+        Public
+                    REG           Rifle      DER-1-138   11/8-11/12    FAD        10         9           90%         9         50%       4            0         3.6         4.0
+                    REG           Rifle      DER-1-140   11/26-11/30   FAD        5          5          100%         5         60%       3            0         3.4         3.6
+ 4                  REG         Archery      DER-2-141    9/1-9/24     FAD        10         9           90%         10        33%       3            0         3.4         4.3
+                    REG           Rifle      DER-1-135   10/25-10/29   FAD       150        124          83%        138        58%       79           1         3.6         3.3
+                    REG           Rifle      DER-1-137    11/1-11/5    FAD       175        158          90%        141        45%       63           0         3.6         3.2
+        Private     REG           Rifle      DER-1-139   11/8-11/12    FAD        10         10         100%         9         56%       5            0         4.0         3.2
+                    REG         Archery      DER-2-142    9/1-9/24     FAD        74         60          81%         53        14%       7            0         3.6         4.5
+                    REG       Muzzleloader   DER-3-143    9/27-10/3    FAD        46         40          87%         35        27%       9            0         3.4         2.9
+                             GMU Total                                           530        463          87%        448        44%      196           1         3.5         3.4
+
+                    REG           Rifle      DER-1-144   11/11-11/17   FAD        40         36         90%          37        55%       20           0         3.7         3.7
+        Public      REG         Archery      DER-2-146    9/1-9/24     FAD        30         28         93%          26        21%       5            0         3.3         7.4
+                    REG       Muzzleloader   DER-3-148    9/27-10/3    FAD        10         8          80%          6         80%       5            0         3.8         2.2
+ 5A
+                    REG           Rifle      DER-1-145   11/11-11/17   FAD       152        126         83%         140        48%       68           0         3.7         4.1
+        Private     REG         Archery      DER-2-147    9/1-9/24     FAD        80         61         76%          72        18%       13           0         3.5         6.6
+                    REG       Muzzleloader   DER-3-149    9/27-10/3    FAD        50         47         94%          46        40%       18           0         3.6         3.5
+                             GMU Total                                           362        306         85%         327        40%      130           0         3.6         4.7
+
+                   REG            Rifle      DER-1-150    11/1-11/5    FAD        30         30         100%         29        72%       21           0         4.1         3.1
+                  YOUTH           Rifle      DER-1-151   11/22-11/30   FAD        10         10         100%         10        80%       8            0         3.4         4.0
+        Public
+                   REG          Archery      DER-2-152     9/1-9/24    FAD        10          9          90%          9        38%        3           0         3.3         8.8
+                   REG        Muzzleloader   DER-3-153    9/27-10/3    FAD        10          9          90%         10        67%        7           0         2.6         4.3
+ 5B
+                   REG            Rifle      DER-1-150    11/1-11/5    FAD        34         28          82%         30        48%       15           0         3.6         3.3
+                  YOUTH           Rifle      DER-1-151   11/22-11/30   FAD         7          6          86%         7         67%       5            0         4.0         3.2
+        Private
+                   REG          Archery      DER-2-152    9/1-9/24     FAD        3          3          100%         2         0%        0            0         3.5         5.5
+                   REG        Muzzleloader   DER-3-153    9/27-10/3    FAD        2          1           50%         2         0%        0            0         4.0         7.0
+                             GMU Total                                           106         96          91%         99        60%       60           0         3.6         4.0
+
+                    REG           Rifle      DER-1-155    11/1-11/5    FAD       110         99          90%         99        42%       41           0         3.3         3.1
+        Public      REG         Archery      DER-2-156    9/1-9/24     FAD       100         95          95%         92        40%       37           0         3.4         6.2
+                    REG       Muzzleloader   DER-3-157    10/4-10/8    FAD       114        108          95%        101        47%       48           0         3.5         3.2
+6A/6C
+                    REG           Rifle      DER-1-155    11/1-11/5    FAD       157        135          86%        144        22%       31           0         3.1         3.3
+        Private     REG         Archery      DER-2-156    9/1-9/24     FAD        31         26          84%         25        43%       11           0         3.7         5.8
+                    REG       Muzzleloader   DER-3-157    10/4-10/8    FAD        4          4          100%         4         75%       3            0         3.8         3.3
+                             GMU Total                                           516        467          91%        465        37%      172           0         3.3         4.0
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                      Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-158    11/1-11/5      FAD        30         26          87%         21        56%       12           0         3.2         3.7
+                  REG         Archery      DER-2-159     9/1-9/24      FAD        10         8           80%         9         14%        1           0         3.4         9.1
+      Public
+                  REG         Archery      DER-2-160   1/1-1/15, '26   FAD        15         15         100%         9         11%        1           0         2.6         7.3
+                  REG       Muzzleloader   DER-3-161    9/27-10/3      FAD        25         24          96%         23        9%        2            0         2.8         4.5
+ 7
+                  REG           Rifle      DER-1-158    11/1-11/5      FAD        52         43          83%         45        32%       15           0         3.6         3.5
+                  REG         Archery      DER-2-159     9/1-9/24      FAD        6          5           83%         2         0%        0            0         3.5         8.5
+      Private
+                  REG         Archery      DER-2-160   1/1-1/15, '26   FAD        16         14          88%         15        15%       2            0         3.4         4.8
+                  REG       Muzzleloader   DER-3-161    9/27-10/3      FAD        4          4          100%         4         25%       1            0         4.3         3.5
+                           GMU Total                                             158        139          88%        127        26%       33           0         3.3         4.6
+
+                YOUTH         Archery      DER-2-162   11/22-11/30     FAD        65         63          97%         62        37%       23           0         3.6         4.7
+      Public
+                 REG          Archery      DER-2-163   1/1-1/15, '26   FAD        65         63         97%          58        36%       21           0         3.8         6.0
+                 REG            Rifle      DER-1-500   10/18-10/22     FAD        13          9          69%         13        33%        4           0         3.7         3.2
+                YOUTH         Archery      DER-2-162   11/22-11/30     FAD         1          1         100%          0                   0           0
+ 8
+                 REG          Archery      DER-2-163   1/1-1/15, '26   FAD        26         24          92%         22         45%      10           0         3.7         3.6
+      Private
+                 REG          Archery      DER-2-501     9/1-9/24      FAD         3          3         100%          2         50%       1           0         4.5         7.0
+                 REG          Archery      DER-2-502   1/1-1/15, '26   FAD         8          8         100%          7         29%       2           0         3.7         5.4
+                 REG        Muzzleloader   DER-3-503    9/27-10/3      FAD         1          1         100%          1        100%       1           0         2.0         2.0
+                           GMU Total                                             182        172          95%        164         37%      61           0         3.7         5.0
+
+                 REG            Rifle      DER-1-164    11/8-11/12     FAD        15         12          80%         15        67%       10           0         3.6          3.9
+                YOUTH           Rifle      DER-1-166   11/22-11/30     FAD        10         10         100%         7         43%       3            0         4.0          4.4
+      Public     REG          Archery      DER-2-167     9/1-9/24      FAD        10         10         100%         9         22%       2            0         3.1         12.2
+                 REG          Archery      DER-2-168   1/1-1/15, '26   FAD        15         15         100%         14        43%        6           0         3.4          6.2
+ 9               REG        Muzzleloader   DER-3-169     9/27-10/3     FAD        10          7          70%         10        43%       4            0         3.7          4.1
+                 REG            Rifle      DER-1-164    11/8-11/12     FAD        29         23          79%         26        43%       11           0         3.3          2.8
+                YOUTH           Rifle      DER-1-166   11/22-11/30     FAD        9          8           89%         8         43%       3            0         4.1          4.1
+      Private
+                 REG          Archery      DER-2-167     9/1-9/24      FAD        8          7           88%         7         50%       3            0         3.7          7.5
+                 REG          Archery      DER-2-168   1/1-1/15, '26   FAD        3          1           33%         0                   0            0
+                           GMU Total                                             109         93          85%         97        45%       43           0         3.5         5.3
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                      Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                 MIP            Rifle      DER-1-170   10/25-10/29     FAD        20         19          95%         18        41%       7            0         3.3         2.9
+                 REG            Rifle      DER-1-171   10/25-10/29     FAD        70         61          87%         60        12%       7            0         3.3         3.6
+                 REG            Rifle      DER-1-172    11/1-11/5      FAD        65         57          88%         60        34%       21           0         3.5         4.0
+      Public     REG            Rifle      DER-1-173   11/8-11/12      FAD        90         85          94%         84        13%       11           0         3.3         4.3
+                YOUTH           Rifle      DER-1-174   11/22-11/30     FAD        25         23          92%         23        33%       8            0         3.6         4.6
+                 REG          Archery      DER-2-175    9/1-9/24       FAD       100         91          91%         91        17%       15           0         3.8         8.9
+                 REG        Muzzleloader   DER-3-176    9/27-10/3      FAD        90         77          86%         81        29%       23           0         3.2         4.0
+10
+                 MIP            Rifle      DER-1-170   10/25-10/29     FAD        1          1          100%         1        100%       1            0         5.0         3.0
+                 REG            Rifle      DER-1-171   10/25-10/29     FAD        31         25          81%         26        19%       5            0         3.4         3.2
+                 REG            Rifle      DER-1-172    11/1-11/5      FAD        22         18          82%         22        39%       9            0         3.6         3.7
+      Private    REG            Rifle      DER-1-173   11/8-11/12      FAD        29        23           79%         25        30%       8            0         3.3         3.5
+                YOUTH           Rifle      DER-1-174   11/22-11/30     FAD        14         12          86%         14        75%       11           0         3.8         2.8
+                 REG          Archery      DER-2-175     9/1-9/24      FAD        14         14         100%         13        15%       2            0         3.0         4.8
+                 REG        Muzzleloader   DER-3-176    9/27-10/3      FAD         3          3         100%          3         0%       0            0         2.3         6.7
+                           GMU Total                                             574        509          89%        521        24%      125           0         3.4         4.8
+
+                  REG           Rifle      DER-1-177   11/8-11/12      FAD        85         75         88%          74        23%       17           0         2.9         3.5
+      Public      REG         Archery      DER-2-178    9/1-9/24       FAD        20         19         95%          18        24%       4            0         3.4         8.1
+                  REG       Muzzleloader   DER-3-179    11/1-11/5      FAD        40         36         90%          31        29%       9            0         3.1         3.6
+12
+                  REG           Rifle      DER-1-177   11/8-11/12      FAD        36         26         72%          33        54%       17           1         3.7         3.0
+      Private     REG         Archery      DER-2-178    9/1-9/24       FAD       22         13          59%         17         20%       3            0         3.2         4.2
+                  REG       Muzzleloader   DER-3-179    11/1-11/5      FAD        4          3          75%           4        33%        1           0         3.3         3.7
+                           GMU Total                                             207        172         83%         177        29%       51           1         3.2         4.0
+
+                 REG            Rifle      DER-1-180    11/8-11/12     FAD       149        127          85%        135        35%       47           0         3.6         3.7
+                 REG            Rifle      DER-1-181   11/15-11/19     FAD       150        134          89%        125        19%       24           0         3.2         3.9
+                YOUTH           Rifle      DER-1-182   11/22-11/30     FAD        50         46          92%         45        29%       13           0         2.8         5.5
+      Public
+                 REG          Archery      DER-2-183     9/1-9/24      FAD       125        111          89%         96        12%       11           0         3.4         8.1
+                 REG          Archery      DER-2-184   1/1-1/15, '26   FAD        75         67          89%         56        18%       10           0         3.2         6.6
+13               REG        Muzzleloader   DER-3-185     11/1-11/5     FAD       200        178          89%        173        16%       27           0         3.2         3.8
+                 REG            Rifle      DER-1-180    11/8-11/12     FAD        22         13          59%         20        17%       3            0         3.3         3.2
+                 REG            Rifle      DER-1-181   11/15-11/19     FAD        27         18         67%          24        13%       3            0         2.9         2.9
+      Private   YOUTH           Rifle      DER-1-182   11/22-11/30     FAD        1           1         100%          1         0%        0           0         1.0         2.0
+                 REG          Archery      DER-2-183      9/1-9/24     FAD        11         10          91%         10         0%        0           0         3.9         6.0
+                 REG          Archery      DER-2-184   1/1-1/15, '26   FAD         5          5         100%          5        40%       2            0         3.6         3.4
+                           GMU Total                                             815        710          87%        689        20%      140           0         3.3         4.7
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                      Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-186   10/25-10/29     FAD        55         48         87%          48        64%       31           0         4.0         3.1
+                  REG         Archery      DER-2-187     9/1-9/24      FAD        35         30         86%          32        85%       27           0         4.6         4.9
+      Public
+                  REG         Archery      DER-2-188   1/1-1/15, '26   FAD        25         24         96%          24        35%       8            0         3.7         6.2
+                  REG       Muzzleloader   DER-3-189    9/27-10/3      FAD        55         54         98%          52        67%       35           0         4.3         3.1
+14
+                  REG           Rifle      DER-1-186   10/25-10/29     FAD       103         73         71%         100        49%       49           0         3.7         2.9
+                  REG         Archery      DER-2-187     9/1-9/24      FAD        18         16         89%          14        58%       8            0         3.7         8.0
+      Private
+                  REG         Archery      DER-2-188   1/1-1/15, '26   FAD        52         48         92%          48        48%       23           0         3.8         4.0
+                  REG       Muzzleloader   DER-3-189    9/27-10/3      FAD        13         11         85%          12        40%       5            0         3.7         2.4
+                           GMU Total                                             356        304         85%         328        57%      186           0         3.9         3.8
+
+                 REG          Archery      DER-2-190     9/1-9/24      FAD        75         68          91%         61         18%      11           0         3.3         7.9
+                 REG          Archery      DER-2-191   1/1-1/15, '26   FAD        25         24          96%         21        35%       7            0         3.1         4.9
+      Public
+                 REG        Muzzleloader   DER-3-192    11/1-11/5      FAD       165        147          89%        132         32%      43           0         3.4         3.7
+                YOUTH       Muzzleloader   DER-3-193   11/22-11/30     FAD       101         94          93%         90         18%      16           0         3.1         4.4
+15
+                 REG          Archery      DER-2-190     9/1-9/24      FAD         5          2          40%          5        100%       5           0         4.0         8.5
+                 REG          Archery      DER-2-191   1/1-1/15, '26   FAD         1          1         100%          1        100%      1            0         4.0         3.0
+      Private
+                 REG        Muzzleloader   DER-3-192    11/1-11/5      FAD         5          3          60%          3         0%       0            0         1.5         3.5
+                YOUTH       Muzzleloader   DER-3-193   11/22-11/30     FAD        1          1          100%         1          0%       0            0         1.0         6.0
+                           GMU Total                                             378        340          90%        315         26%      81           0         3.2         4.8
+
+                 REG            Rifle      DER-1-194    11/8-11/12     FAD       300         270        90%          254       41%      103           0         3.6         3.5
+                 MIP            Rifle      DER-1-195   11/15-11/19     FAD        25          23        92%           17       19%       3            0         3.0         3.1
+                 REG            Rifle      DER-1-196   11/15-11/19     FAD       300         264        88%          238       39%       92           0         3.5         3.4
+      Public    YOUTH           Rifle      DER-1-197   11/22-11/30     FAD       100          90        90%           90        38%      34           0         3.4         4.3
+                 REG          Archery      DER-2-198      9/1-9/24     FAD       230         208        90%          184        19%      34           0         3.3         7.4
+                 REG          Archery      DER-2-199   1/1-1/15, '26   FAD       175         167        95%          135        38%      51           0         3.9         5.7
+16               REG        Muzzleloader   DER-3-200     11/1-11/5     FAD       299         281        94%          251        27%      68           0         3.4         3.8
+                 REG            Rifle      DER-1-194    11/8-11/12     FAD        13          5         38%           8         67%       5           0         4.7         2.0
+                 REG            Rifle      DER-1-196   11/15-11/19     FAD        13          9         69%           9         33%      3            0         5.0         3.8
+                YOUTH           Rifle      DER-1-197   11/22-11/30     FAD        3           2         67%           3         0%       0            0         4.5         3.0
+      Private
+                 REG          Archery      DER-2-198     9/1-9/24      FAD        7           2         29%           4         0%       0            0         4.0         6.0
+                 REG          Archery      DER-2-199   1/1-1/15, '26   FAD        3           2         67%           3        50%       2            0         2.5         2.5
+                 REG        Muzzleloader   DER-3-200     11/1-11/5     FAD        2            1        50%            2       100%       2           0         5.0         5.0
+                           GMU Total                                            1,470       1,324       90%         1,200       33%     397           0         3.5         4.5
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                      Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                 REG            Rifle      DER-1-201    11/8-11/12     FAD        80         74         93%          74        51%       38           0         3.3         3.4
+                 REG            Rifle      DER-1-202   11/15-11/19     FAD        80         71         89%          66        36%       24           0         3.7         3.5
+                YOUTH           Rifle      DER-1-203   11/22-11/30     FAD        80         76         95%          72        62%       44           0         3.4         3.6
+      Public
+                 REG          Archery      DER-2-204     9/1-9/24      FAD        75         68         91%          62        25%       15           0         3.6         7.4
+                 REG          Archery      DER-2-205   1/1-1/15, '26   FAD        75         71         95%          67        16%       11           0         3.4         5.8
+17
+                 REG        Muzzleloader   DER-3-206     11/1-11/5     FAD        80         78         98%          67        22%       14           0         3.5         3.8
+                 REG            Rifle      DER-1-201    11/8-11/12     FAD        22         16         73%          19        43%       8            0         3.4         3.3
+                 REG            Rifle      DER-1-202   11/15-11/19     FAD        11         9          82%          11        33%       4            0         3.6         3.0
+      Private
+                YOUTH           Rifle      DER-1-203   11/22-11/30     FAD        6          4          67%          5         67%       3            0         5.0         4.0
+                 REG          Archery      DER-2-205   1/1-1/15, '26   FAD        12         7          58%          12        29%       3            0         3.3         3.4
+                           GMU Total                                             521        474         91%         453        36%      164           0         3.5         4.4
+
+                  REG           Rifle      DER-1-207    11/8-11/12     FAD        70         63          90%         63        30%       19           0         3.1         3.4
+                  REG           Rifle      DER-1-208   11/15-11/19     FAD        70         58          83%         54        24%       13           0         3.6         3.3
+      Public      REG         Archery      DER-2-209      9/1-9/24     FAD        50         50         100%         42        17%       7            0         2.9         7.9
+                  REG         Archery      DER-2-210   1/1-1/15, '26   FAD        40         38          95%         33        23%       7            0         3.5         7.4
+                  REG       Muzzleloader   DER-3-211     11/1-11/5     FAD        76         70          92%         67        15%       10           0         2.7         3.8
+18
+                  REG           Rifle      DER-1-207    11/8-11/12     FAD        48         35          73%         44        28%       12           0         3.2         3.6
+                  REG           Rifle      DER-1-208   11/15-11/19     FAD        43         30          70%         37        19%       7            0         3.2         2.6
+      Private     REG         Archery      DER-2-209     9/1-9/24      FAD        1          1          100%         1        100%       1            0         4.0         2.0
+                  REG         Archery      DER-2-210   1/1-1/15, '26   FAD       18         18          100%        17         29%       5            0         2.2         7.1
+                  REG       Muzzleloader   DER-3-211     11/1-11/5     FAD        4          4          100%          4         0%       0            0         3.0         4.0
+                           GMU Total                                             420        367          87%        363        22%       81           0         3.1         4.6
+
+                  REG         Archery      DER-2-214   1/1-1/15, '26   FAD       10          9           90%         9          75%      7            0         4.1         2.8
+      Public
+                  REG       Muzzleloader   DER-3-215    12/6-12/10     FAD       10          9           90%         9          38%      3            0         3.0         3.0
+19
+                  REG         Archery      DER-2-214   1/1-1/15, '26   FAD       2           2          100%         2         100%      2            0         5.0         2.5
+      Private
+                  REG       Muzzleloader   DER-3-215    12/6-12/10     FAD       1           1          100%         1          0%       0            0         5.0         4.0
+                           GMU Total                                             23          21          91%         21         58%      12           0         3.8         2.9
+
+                  REG           Rifle      DER-1-216    11/8-11/12     FAD        90         77          86%         84        35%       29           0         3.3         3.4
+                  REG           Rifle      DER-1-217   11/15-11/19     FAD        90         77          86%         78        21%       16           0         2.9         3.2
+      Public      REG         Archery      DER-2-218     9/1-9/24      FAD        45         39          87%         28        17%       5            0         3.0         6.5
+                  REG         Archery      DER-2-219   1/1-1/15, '26   FAD        25         25         100%         24        42%       10           0         3.0         5.5
+20                REG       Muzzleloader   DER-3-220     11/1-11/5     FAD        85         77          91%         68        16%       11           0         2.9         3.3
+                  REG           Rifle      DER-1-216    11/8-11/12     FAD        14         11          79%         14        27%        4           0         2.6         2.3
+                  REG           Rifle      DER-1-217   11/15-11/19     FAD         8          6          75%          7        60%        4           0         2.8         3.0
+      Private
+                  REG         Archery      DER-2-218     9/1-9/24      FAD         2          2         100%          2        50%        1           0         4.0         6.5
+                  REG         Archery      DER-2-219   1/1-1/15, '26   FAD        11         7           64%         9         0%        0            0         3.2         6.7
+                           GMU Total                                             370        321          87%        315        26%       81           0         3.0         3.8
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                       Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                 REG            Rifle      DER-1-221    11/8-11/12      FAD      425        376          88%         363       26%       94           0         3.2         3.4
+                 REG            Rifle      DER-1-222   11/15-11/19      FAD      425        381          90%         354       17%       61           0         3.0         3.5
+                YOUTH           Rifle      DER-1-223   11/22-11/30      FAD      100         95          95%          88       27%       24           0         2.7         4.3
+      Public     REG            Rifle      DER-1-227    12/6-12/14     FAWTD      25         25         100%          19       47%        9           0         3.1         3.8
+                 REG          Archery      DER-2-224     9/1-9/24       FAD      300        263          88%         212       11%       24           0         3.1         7.2
+                 REG          Archery      DER-2-225   1/1-1/15, '26    FAD      200        190          95%         162       14%       23           0         3.3         6.0
+                 REG        Muzzleloader   DER-3-226     11/1-11/5      FAD      350        330          94%         285       15%       42           0         2.9         3.5
+21
+                 REG            Rifle      DER-1-221    11/8-11/12      FAD       69         40          58%          66       34%       22           0         3.3         3.1
+                 REG            Rifle      DER-1-222   11/15-11/19      FAD       44         23          52%          44       30%       13           0         3.6         3.1
+                YOUTH           Rifle      DER-1-223   11/22-11/30      FAD       7          5          71%           4        33%       1            0         3.7         3.3
+      Private    REG            Rifle      DER-1-227    12/6-12/14     FAWTD      2          1          50%            2        0%        0           0         3.0         2.0
+                 REG          Archery      DER-2-224     9/1-9/24       FAD       1          1          100%           1        0%        0           0         1.0         7.0
+                 REG          Archery      DER-2-225   1/1-1/15, '26    FAD       23         19          83%          22       50%       11           0         3.4         4.7
+                 REG        Muzzleloader   DER-3-226     11/1-11/5      FAD       5          0           0%           0          -        -           -          -           -
+                           GMU Total                                            1,976      1,749         89%        1,620      20%      320           0         3.1         4.3
+
+                 REG            Rifle      DER-1-228    11/8-11/12      FAD       70         64          91%         57         23%      13           0         2.8         3.8
+                 REG            Rifle      DER-1-229   11/15-11/19      FAD       70         58          83%         52         23%      12           0         3.0         3.7
+                YOUTH           Rifle      DER-1-230   11/22-11/30      FAD       20         19          95%         18         59%      11           0         3.2         4.3
+      Public
+                 REG          Archery      DER-2-231     9/1-9/24       FAD       30         25          83%         22        17%       4            0         3.0         7.6
+                 REG          Archery      DER-2-232   1/1-1/15, '26    FAD       25         23         92%          23        24%       5            0         3.4         5.9
+22
+                 REG        Muzzleloader   DER-3-233     11/1-11/5      FAD       64         60          94%         50         26%      13           0         3.0         3.6
+                 REG            Rifle      DER-1-228    11/8-11/12      FAD        3          2          67%          3        100%      3            0         4.0         2.0
+                 REG            Rifle      DER-1-229   11/15-11/19      FAD        8          2          25%          8         50%      4            0         5.0         4.0
+      Private
+                YOUTH           Rifle      DER-1-230   11/22-11/30      FAD        1          1         100%          1         0%       0            0         3.0         4.0
+                 REG          Archery      DER-2-232   1/1-1/15, '26    FAD        5          1          20%         5          0%       0            0         3.0         8.0
+                           GMU Total                                             296        255          86%        237         27%      64           0         3.0         4.3
+                                                                2025-2026 Deer Harvest Report
+                      Hunter                       Hunt                        Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+  GMU        Type     Category      Weapon         Code       Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                        REG           Rifle      DER-1-234    11/8-11/12       FAMD     450        395          88%         376       19%       73           0         3.0         3.7
+                        REG           Rifle      DER-1-235    11/15-11/19      FAMD     450        412          92%         383       16%       62           0         2.7         3.6
+                        REG           Rifle      DER-1-236    11/22-11/26     FAWTD     100         92          92%          84       26%       22           0         3.3         3.7
+                        REG           Rifle      DER-1-237    12/6-12/14      FAWTD      55         53          96%          47       27%       12           0         2.9         3.6
+                        REG           Rifle      DER-1-238    11/22-11/30       FAD      75         70          93%          66       50%       33           0         3.3         3.9
+                        REG           Rifle      DER-1-245    11/8-11/16       FAMD      2          0           0%           0         -         -           -          -           -
+                        REG           Rifle      DER-1-246    12/6-12/14      FAWTD      1          0           0%           0         -         -           -          -           -
+                        REG           Rifle      DER-1-247    11/22-11/30       FAD      2          0           0%           0         -         -           -          -           -
+            Public      REG         Archery      DER-2-239     9/1-9/24        FAMD     205        184          90%         154       20%       17          13         3.0         6.7
+                        REG         Archery      DER-2-240   1/1-1/15, '26     FAMD      50         46          92%          42       41%       15          2          3.2         6.1
+                        REG         Archery      DER-2-241     9/1-9/24       FAWTD     100         94          94%          63       15%       2            7         3.4         4.9
+                        REG         Archery      DER-2-242   1/16-1/31, '26   FAWTD      50         49          98%          36       14%       4            1         3.3         5.3
+                        REG         Archery      DER-2-248   1/1-1/15, '26     FAMD      5          0           0%           0         -         -           -          -           -
+   23
+                        REG         Archery      DER-2-249     9/1-9/24       FAWTD      3          0           0%           0         -         -           -          -           -
+                        REG       Muzzleloader   DER-3-243     11/1-11/5       FAMD     226        203          90%         185       13%       23          0          3.0         4.0
+                        REG       Muzzleloader   DER-3-244     11/1-11/5      FAWTD      75         71          95%          60       14%       8           0          2.9         3.6
+                        REG       Muzzleloader   DER-3-251     11/1-11/5       FAMD      3          0           0%           0         -         -           -          -           -
+                        REG           Rifle      DER-1-234    11/8-11/12       FAMD      38         19          50%          34       71%       24          0          4.2         2.5
+                        REG           Rifle      DER-1-235    11/15-11/19      FAMD      30         22          73%          29       67%       19          0          4.2         2.6
+                        REG           Rifle      DER-1-236    11/22-11/26     FAWTD      3          2           67%          3       100%       3           0          4.0         3.0
+                        REG           Rifle      DER-1-237    12/6-12/14      FAWTD      5          3           60%          5        67%       3            0         2.3         1.3
+            Private     REG           Rifle      DER-1-238    11/22-11/30       FAD      9          6           67%          9        83%       8            0         4.0         2.5
+                        REG         Archery      DER-2-239     9/1-9/24        FAMD      4          4          100%          3        33%       1            0         4.0         2.7
+                        REG         Archery      DER-2-240   1/1-1/15, '26     FAMD      27         22          81%          27       36%       10          0          3.4         5.6
+                        REG         Archery      DER-2-242   1/16-1/31, '26   FAWTD      2          1           50%          2        0%        0           0          3.0         3.0
+                        REG       Muzzleloader   DER-3-243     11/1-11/5       FAMD      7          6           86%          7        67%       5           0          3.0         2.2
+                                 GMU Total                                             1,977      1,754         89%        1,623      22%      334          25         3.0         4.1
+
+                        REG           Rifle      DER-1-245    11/8-11/16       FAMD     33         33          100%         30        27%       8            0         2.7         4.9
+                        REG           Rifle      DER-1-246    12/6-12/14      FAWTD     40         40          100%        37         35%       13           0         3.2         4.3
+                        REG           Rifle      DER-1-247    11/22-11/30       FAD     23         23          100%        20         75%       15           0         3.7         3.1
+                        REG         Archery      DER-2-248   1/1-1/15, '26     FAMD      35         35         100%         30        43%       12           1         3.1         6.6
+            Public
+23 Burros               REG         Archery      DER-2-249      9/1-9/24      FAWTD      17         17         100%         13        23%        1           2         3.3         7.6
+                        REG         Archery      DER-2-250   1/16-1/31, '26   FAWTD      49         49         100%         38        21%        8           0         3.2         6.9
+                        REG       Muzzleloader   DER-3-251      11/1-11/5      FAMD      37         37         100%         35        43%       15           0         3.6         3.2
+                        REG       Muzzleloader   DER-3-252      11/1-11/5     FAWTD      40         40         100%         35         9%        3           0         2.8         3.9
+            Private     REG           Rifle      DER-1-245     11/8-11/16      FAMD      1          1          100%          1         0%        0           0         1.0         5.0
+                                 GMU Total                                              275        275         100%        239        33%       75           3         3.1         4.9
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                        Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code       Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-253     9/27-10/5        FAD      50          45         90%          43       67%       29          0          3.6         2.6
+                  REG           Rifle      DER-1-254    11/8-11/12       FAMD     400         353         88%         339       26%       90          0          3.2         3.6
+                  REG           Rifle      DER-1-255    11/15-11/19      FAMD     400         357         89%         350       19%       67          0          3.1         3.5
+                  REG           Rifle      DER-1-256    11/22-11/26     FAWTD     100          90         90%          91       33%       30          0          3.3         3.3
+                  REG           Rifle      DER-1-257    11/22-11/30       FAD      50          49         98%          46       67%       31          0          3.6         4.1
+                  REG           Rifle      DER-1-258    12/6-12/14      FAWTD      50          45         90%          40       33%       13          0          3.3         4.4
+      Public
+                  REG         Archery      DER-2-259     9/1-9/24        FAMD     135         123         91%         123       28%       24          10         3.3         6.3
+                  REG         Archery      DER-2-260   1/1-1/15, '26     FAMD      85          81         95%          77       34%       21          5          3.6         7.1
+                  REG         Archery      DER-2-261     9/1-9/24       FAWTD      60          52         87%          39       26%       3           7          3.5         5.1
+                  REG         Archery      DER-2-262   1/16-1/31, '26   FAWTD      40          40        100%          29       31%       9           0          3.5         6.0
+                  REG       Muzzleloader   DER-3-263     11/1-11/5       FAMD     288         272         94%         250       23%       57          0          2.9         3.7
+24
+                  REG       Muzzleloader   DER-3-264     11/1-11/5      FAWTD      74          70         95%          61       16%       10          0          2.8         3.5
+                  REG           Rifle      DER-1-253     9/27-10/5        FAD       6           4         67%           6      100%       6           0          4.3         1.5
+                  REG           Rifle      DER-1-254    11/8-11/12       FAMD      49          32         65%          44       41%       18          0          3.8         3.7
+                  REG           Rifle      DER-1-255    11/15-11/19      FAMD      34          25         74%          33       67%       22          0          4.1         2.6
+                  REG           Rifle      DER-1-256    11/22-11/26     FAWTD       3           1         33%          3         0%       0           0          5.0         1.0
+                  REG           Rifle      DER-1-257    11/22-11/30       FAD      13          11         85%          13       73%       9           0          3.5         3.3
+      Private
+                  REG           Rifle      DER-1-258    12/6-12/14      FAWTD      2           1          50%          2        0%        0           0          4.0         2.0
+                  REG         Archery      DER-2-259     9/1-9/24        FAMD      4           1          25%          4       100%       4           0          5.0         2.0
+                  REG         Archery      DER-2-260   1/1-1/15, '26     FAMD      69          59         86%         61        65%      33           7          4.1         5.4
+                  REG         Archery      DER-2-262   1/16-1/31, '26   FAWTD       5           2         40%           3      100%       3           0          5.0         4.0
+                  REG       Muzzleloader   DER-3-263     11/1-11/5       FAMD       1           1        100%           0                 0           0
+                           GMU Total                                             1,918       1,714        89%        1,655      30%      471          29         3.2         4.1
+
+                  REG           Rifle      DER-1-265    11/8-11/12       FAD      100         83          83%         90        16%       14           0         2.8         3.5
+                  REG           Rifle      DER-1-266   11/15-11/19       FAD      100         87          87%         83        7%        6            0         2.3         3.0
+      Public      REG         Archery      DER-2-267     9/1-9/24        FAD       45         40          89%         21        11%       2            0         2.4         6.8
+                  REG         Archery      DER-2-268   1/1-1/15, '26     FAD       30         30         100%         27        11%       3            0         2.8         7.0
+25
+                  REG       Muzzleloader   DER-3-269     11/1-11/5       FAD       46         44          96%         40        3%        1            0         2.2         3.5
+                  REG           Rifle      DER-1-265    11/8-11/12       FAD       4          2           50%         4         0%        0            0         3.0         3.0
+      Private     REG           Rifle      DER-1-266   11/15-11/19       FAD       1          1          100%         0                   0            0
+                  REG         Archery      DER-2-268   1/1-1/15, '26     FAD       4          3           75%         4         0%        0            0         2.7         4.3
+                           GMU Total                                              330        290          88%        269        10%       26           0         2.5         4.0
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                        Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category       Weapon        Code       Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-270    11/8-11/12       FAD      100         93          93%         86        23%       19           0         2.7         3.6
+                  REG           Rifle      DER-1-271   11/15-11/19       FAD      100         89          89%         73        18%       13           0         2.7         3.7
+                  REG           Rifle      DER-1-275    12/6-12/14      FAWTD      25         24          96%         21        30%        6           0         2.9         3.4
+      Public
+                  REG         Archery      DER-2-272     9/1-9/24        FAD       25         19          76%         12         0%        0           0         2.4         4.8
+                  REG         Archery      DER-2-273   1/1-1/15, '26     FAD       15         15         100%         14        21%        3           0         3.2         5.1
+26
+                  REG       Muzzleloader   DER-3-274     11/1-11/5       FAD       60         56          93%         48        11%        5           0         2.6         3.3
+                  REG           Rifle      DER-1-270    11/8-11/12       FAD       7          3           43%         7         33%       2            0         3.7         2.3
+                  REG           Rifle      DER-1-271   11/15-11/19       FAD       12         8           67%         11        43%       5            0         3.7         4.0
+      Private
+                  REG           Rifle      DER-1-275    12/6-12/14      FAWTD      2          1           50%         2        100%       2            0         5.0         2.0
+                  REG         Archery      DER-2-273   1/1-1/15, '26     FAD       7          7          100%         6         67%       4            0         3.2         4.3
+                           GMU Total                                              353        315          89%        280        21%       59           0         2.8         3.7
+
+                 REG            Rifle      DER-1-276    11/8-11/12       FAMD      50         43          86%         37         19%       7           0         2.9          3.2
+                 REG            Rifle      DER-1-277    11/15-11/19      FAMD      50         44          88%         39         18%       7           0         2.5          3.4
+                 REG            Rifle      DER-1-278    11/22-11/26     FAWTD      40         39          98%         32         26%       8           0         3.0          3.3
+                YOUTH           Rifle      DER-1-279    11/22-11/30       FAD      25         24          96%         22         48%      10           0         3.1          3.8
+                 REG            Rifle      DER-1-280    12/6-12/14      FAWTD      25         25         100%         23         22%      5            0         3.5          4.9
+      Public     REG          Archery      DER-2-281     9/1-9/24        FAMD      30         29          97%         10         0%       0            0         2.9          6.1
+                 REG          Archery      DER-2-282     9/1-9/24       FAWTD      15         15         100%         7          0%       0            0         2.5          3.1
+                 REG          Archery      DER-2-283   1/1-1/15, '26     FAMD      30         27          90%         21         16%      3            0         2.5          6.4
+27               REG          Archery      DER-2-284   1/16-1/31, '26   FAWTD      40         37          93%         30        18%       5            0         3.4          6.5
+                 REG        Muzzleloader   DER-3-285     11/1-11/5       FAMD      38         33          87%         30          4%       1           0         2.2          4.0
+                 REG        Muzzleloader   DER-3-286     11/1-11/5      FAWTD      50         49          98%         40         21%       8           0         3.0          3.7
+                 REG            Rifle      DER-1-276    11/8-11/12       FAMD       4          4         100%          4          0%       0           0         1.8          2.0
+                 REG            Rifle      DER-1-277    11/15-11/19      FAMD       5          2          40%          5        100%       5           0         4.0          2.0
+                 REG            Rifle      DER-1-278    11/22-11/26     FAWTD       7          5          71%         7          40%      3            0         2.2          3.8
+      Private
+                 REG            Rifle      DER-1-280    12/6-12/14      FAWTD      11         10          91%         11         30%      3            0         2.9          3.5
+                 REG          Archery      DER-2-283   1/1-1/15, '26     FAMD      2          2          100%         2          0%       0            0         1.0          5.0
+                 REG          Archery      DER-2-284   1/16-1/31, '26   FAWTD      1          1          100%         1          0%       0            0         1.0         10.0
+                           GMU Total                                              423        389          92%        320        20%       64           0         2.9         4.2
+
+                  REG           Rifle      DER-1-287   12/20-12/21       FAD      25          24         96%          23        41%       9            0         2.5         1.7
+28    Public
+                  REG           Rifle      DER-1-288   12/20-12/21       FAD      25          23         92%          18        29%       5            0         2.9         1.6
+                           GMU Total                                              50          47         94%          41        36%       15           0         2.7         1.7
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                      Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-289   10/25-10/29     FAD       150        134          89%        118        10%       11           0         2.5         3.6
+                  REG           Rifle      DER-1-290    11/8-11/12     FAD       150        134          89%        138        9%        12           0         2.8         3.6
+      Public      REG         Archery      DER-2-291     9/1-9/24      FAD       100         84          84%         40        6%        2            0         2.6         5.2
+                  REG         Archery      DER-2-292   1/1-1/15, '26   FAD        50         50         100%         42        12%       5            0         2.8         5.4
+29
+                  REG       Muzzleloader   DER-3-293   10/18-10/22     FAD        70         66          94%         39        11%       4            0         2.3         3.5
+                  REG           Rifle      DER-1-289   10/25-10/29     FAD        2          0           0%          0          -         -           -          -           -
+      Private     REG           Rifle      DER-1-290    11/8-11/12     FAD        7          5           71%         7         20%       1            0         3.4         2.8
+                  REG         Archery      DER-2-292   1/1-1/15, '26   FAD        2          2          100%         2         0%        0            0         2.5         6.0
+                           GMU Total                                             531        475          89%        389        9%        37           0         2.6         4.0
+
+                 REG            Rifle      DER-1-294   10/25-10/29     FAD       720        645          90%         624       20%      125           0         2.9         3.7
+                 REG            Rifle      DER-1-295    11/8-11/12     FAD       720        618          86%         631       20%      123           0         2.9         3.7
+                YOUTH           Rifle      DER-1-296   11/22-11/30     FAD       250        227          91%         226       26%       59           0         2.8         4.7
+      Public
+                 REG          Archery      DER-2-297     9/1-9/24      FAD       200        178          89%         162        5%       8            0         3.0         6.5
+                 REG          Archery      DER-2-298   1/1-1/15, '26   FAD       100         91          91%          95       21%       20           0         3.2         6.2
+30               REG        Muzzleloader   DER-3-299   10/18-10/22     FAD       325        305          94%         278       23%       63           1         3.1         4.0
+                 REG            Rifle      DER-1-294   10/25-10/29     FAD        30         19          63%          28       28%       8            0         3.6         3.2
+                 REG            Rifle      DER-1-295    11/8-11/12     FAD        43         17          40%          35       36%       13           0         2.6         3.6
+      Private   YOUTH           Rifle      DER-1-296   11/22-11/30     FAD        5          5          100%          5        40%       2            0         3.0         4.0
+                 REG          Archery      DER-2-298   1/1-1/15, '26   FAD        31         22          71%          31       23%       7            0         3.1         6.2
+                 REG        Muzzleloader   DER-3-299   10/18-10/22     FAD        9          6           67%          8        0%        0            0         2.8         3.8
+                           GMU Total                                            2,433      2,133         88%        2,123      20%      425           1         2.9         4.2
+
+                  REG           Rifle      DER-1-300    11/1-11/5      FAD       440         389         88%         388       35%      135           1         3.3         3.3
+                  REG           Rifle      DER-1-301   11/15-11/19     FAD       435         374         86%         387       33%      127           0         3.1         3.5
+      Public      REG         Archery      DER-2-302     9/1-9/24      FAD       175         153         87%         140       16%       23           0         3.3         7.5
+                  REG         Archery      DER-2-303   1/1-1/15, '26   FAD       100          89         89%          87       23%       20           0         3.6         6.9
+                  REG       Muzzleloader   DER-3-304   10/18-10/22     FAD       175         162         93%         151       26%       38           1         3.2         3.2
+31
+                  REG           Rifle      DER-1-300    11/1-11/5      FAD       104          67         64%          99       59%       59           0         3.9         3.0
+                  REG           Rifle      DER-1-301   11/15-11/19     FAD       171         108         63%         160       46%       73           0         3.7         2.7
+      Private     REG         Archery      DER-2-302     9/1-9/24      FAD        5           4         80%           5       100%       5            0         4.8         7.8
+                  REG         Archery      DER-2-303   1/1-1/15, '26   FAD        59          46        78%           50       31%      15            0         3.4         5.7
+                  REG       Muzzleloader   DER-3-304   10/18-10/22     FAD        6            6        100%           6       50%       3            0         4.5         4.5
+                           GMU Total                                            1,670       1,398        84%        1,468      33%      483           2         3.4         4.0
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                       Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code       Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-305      11/1-11/5     FAD       565        480          85%         505        31%     154          0          3.3         3.3
+                  REG           Rifle      DER-1-306     11/8-11/12     FAD       560        483          86%         495        29%     143          0          3.2         3.4
+                  REG           Rifle      DER-1-307    12/16-12/31      A         15         11          73%          14        80%      0           11         4.0         2.1
+      Public      REG           Rifle      DER-1-308   1/16-1/31, '26    A         15         13          87%          10        56%      0           6          3.6         2.0
+                  REG         Archery      DER-2-309      9/1-9/24      FAD       150        141          94%         117        7%       9           0          3.0         7.2
+                  REG         Archery      DER-2-310   1/1-1/15, '26    FAD       100         93          93%          85        28%      24          0          3.6         7.0
+                  REG       Muzzleloader   DER-3-311    10/18-10/22     FAD       174        158          91%         151        18%      28          0          3.0         3.6
+32
+                  REG           Rifle      DER-1-305      11/1-11/5     FAD        84         58          69%          78        50%      39          0          3.6         3.0
+                  REG           Rifle      DER-1-306    11/8-11/12      FAD       101         67          66%          99        56%      56          0          4.0         2.9
+                  REG           Rifle      DER-1-307    12/16-12/31      A         14         12          86%          12        60%      0           7          3.8         2.1
+      Private     REG           Rifle      DER-1-308   1/16-1/31, '26    A         68         55         81%           56        53%      1           28         3.9         3.8
+                  REG         Archery      DER-2-309      9/1-9/24      FAD         1          1         100%           1       100%      1           0          5.0         4.0
+                  REG         Archery      DER-2-310   1/1-1/15, '26    FAD        50         43          86%          49        45%      22          0          3.8         5.5
+                  REG       Muzzleloader   DER-3-311    10/18-10/22     FAD        4          3           75%          4         33%      1           0          4.3         2.3
+                           GMU Total                                             1,901      1,618         85%        1,671       31%     464          49         3.3         3.9
+
+                 REG            Rifle      DER-1-312    11/1-11/5       FAD       150        135          90%        139        34%       46           2         3.3         3.4
+                 REG            Rifle      DER-1-313   11/15-11/19      FAD       150        138          92%        139        30%       41           0         3.1         3.5
+                 REG          Archery      DER-2-314     9/1-9/24       FAD        60         56          93%         51        13%       6            0         3.0         7.1
+                 REG          Archery      DER-2-315   1/1-1/15, '26    FAD        50         48         96%          45        30%       14           0         3.9         7.4
+      Public
+                 REG        Muzzleloader   DER-3-316   10/25-10/29      FAD       140        135         96%         124        15%       19           0         2.8         3.7
+                 REG        Muzzleloader   DER-3-317   11/22-11/30       ES        5          5          100%          5        20%        1           0         3.0         3.4
+33
+                 REG        Muzzleloader   DER-3-318                     A          2          0           0%          0          -        -           -          -           -
+                YOUTH       Muzzleloader   DER-3-318                     A          3          3         100%          2         0%        0           0         2.0         2.5
+                 REG            Rifle      DER-1-312    11/1-11/5       FAD        31         21          68%         31        48%       15           0         3.7         3.3
+                 REG            Rifle      DER-1-313   11/15-11/19      FAD        48         32          67%         45        37%       17           0         3.7         3.2
+      Private
+                 REG          Archery      DER-2-314     9/1-9/24       FAD         4          4         100%          4        25%        1           0         3.8         5.3
+                 REG          Archery      DER-2-315   1/1-1/15, '26    FAD        22         17          77%         22        41%        9           0         3.5         5.5
+                           GMU Total                                              665        594          89%        608        27%      163           2         3.2         4.2
+
+                 MIP            Rifle      DER-1-319     11/1-11/5      FAD        50          45         90%          39       46%       18           0         3.1         3.1
+                YOUTH           Rifle      DER-1-320     11/1-11/5      FAD        45          45        100%          40       43%       17           0         3.3         2.7
+                 REG            Rifle      DER-1-321   11/15-11/19      FAD       650         569         88%         533       21%      111           0         3.1         3.6
+      Public     REG            Rifle      DER-1-322   11/22-11/26      FAD       650         564         87%         539       18%       99           0         3.0         3.6
+                 REG          Archery      DER-2-323     9/1-9/24       FAD       449         406         90%         334       16%       52           0         3.3         6.4
+                 REG          Archery      DER-2-324   1/1-1/15, '26    FAD       350         334         95%         298       26%       79           0         3.4         5.8
+34               REG        Muzzleloader   DER-3-325    11/8-11/12      FAD       340         308         91%         295       15%       45           0         2.9         3.7
+                 MIP            Rifle      DER-1-319     11/1-11/5      FAD        4           4         100%          3        33%       1            0         3.0         4.3
+                YOUTH           Rifle      DER-1-320     11/1-11/5      FAD        5           3          60%          5       100%       5            0         3.3         2.0
+                 REG            Rifle      DER-1-321   11/15-11/19      FAD        57          31         54%          46       32%      15            0         3.4         2.9
+      Private
+                 REG            Rifle      DER-1-322   11/22-11/26      FAD        31          24         77%          26       35%       9            0         3.4         3.2
+                 REG          Archery      DER-2-323     9/1-9/24       FAD        13          11         85%          13       27%       4            0         2.9         6.2
+                 REG          Archery      DER-2-324   1/1-1/15, '26    FAD        52          47         90%          46       38%       18           0         3.5         5.0
+                           GMU Total                                             2,696       2,391        89%        2,218      21%      470           0         3.1         4.3
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                      Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+
+
+                 REG            Rifle      DER-1-326    11/8-11/12     FAD       300        271         90%          263       29%       75           0         3.1         3.5
+                 REG            Rifle      DER-1-327   11/15-11/19     FAD       300        255         85%          268       29%       78           0         3.1         3.6
+                YOUTH           Rifle      DER-1-328   11/22-11/30     FAD        25         22         88%           22       63%       14           0         3.2         3.1
+      Public     REG          Archery      DER-2-329     9/1-9/24      FAD       225        209         93%          184       20%       38           0         3.5         6.9
+                 REG          Archery      DER-2-330   1/1-1/15, '26   FAD       125        117         94%          110       38%       42           0         3.7         5.3
+                 REG        Muzzleloader   DER-3-331   10/25-10/29     FAD       115        111         97%          100       29%       29           0         3.3         3.6
+36              YOUTH       Muzzleloader   DER-3-332   10/25-10/29     FAD        25         23         92%           20       11%       2            0         2.8         3.4
+                 REG            Rifle      DER-1-326    11/8-11/12     FAD        40         24         60%           37       59%       22           0         4.0         2.6
+                 REG            Rifle      DER-1-327   11/15-11/19     FAD        35         27         77%           31       46%       14           0         3.4         3.1
+                YOUTH           Rifle      DER-1-328   11/22-11/30     FAD        9          8          89%            9       63%        6           0         3.4         2.6
+      Private
+                 REG          Archery      DER-2-329     9/1-9/24      FAD        13          9         69%           13       67%        9           0         3.8         2.8
+                 REG          Archery      DER-2-330   1/1-1/15, '26   FAD        25         16         64%           23       80%       19           0         3.7         3.9
+                 REG        Muzzleloader   DER-3-331   10/25-10/29     FAD        1          0           0%           0         -         -           -          -           -
+                           GMU Total                                            1,238      1,092        88%         1,079      31%      337           0         3.3         4.3
+
+                  REG           Rifle      DER-1-333    11/8-11/12     FAD       365        328         90%          319       17%       55           0         2.8         3.6
+                  REG           Rifle      DER-1-334   11/15-11/19     FAD       360        318         88%          320       15%       48           0         2.8         3.8
+      Public      REG         Archery      DER-2-335     9/1-9/24      FAD       100         89         89%           80       15%       12           0         3.2         8.9
+                  REG         Archery      DER-2-336   1/1-1/15, '26   FAD        80         76         95%           73       33%       24           0         3.3         6.6
+                  REG       Muzzleloader   DER-3-337   10/25-10/29     FAD       125        116         93%          108       18%       19           0         2.8         3.6
+37
+                  REG           Rifle      DER-1-333    11/8-11/12     FAD        74         54         73%           71       40%       29           0         3.6         3.8
+                  REG           Rifle      DER-1-334   11/15-11/19     FAD        71         44         62%           66       32%       21           0         3.1         3.7
+      Private     REG         Archery      DER-2-335     9/1-9/24      FAD         7          5         71%           6        25%        1           0         3.0         5.0
+                  REG         Archery      DER-2-336   1/1-1/15, '26   FAD        34         26         76%           31       42%       13           0         3.8         4.4
+                  REG       Muzzleloader   DER-3-337   10/25-10/29     FAD        8          5          63%           8        0%        0            0         1.4         3.2
+                           GMU Total                                            1,224      1,061        87%         1,080      20%      217           0         3.0         4.3
+
+                  REG           Rifle      DER-1-338    11/8-11/12     FAD       160        138          86%        132        3%        3            0         2.5         3.8
+                  REG           Rifle      DER-1-339   11/15-11/19     FAD       155        134          86%        135        16%       22           0         2.6         3.8
+      Public      REG         Archery      DER-2-340     9/1-9/24      FAD        65         59          91%         57        12%       7            0         3.2         6.4
+                  REG         Archery      DER-2-341   1/1-1/15, '26   FAD        40         39          98%         36        46%       16           0         3.2         5.6
+                  REG       Muzzleloader   DER-3-342   10/25-10/29     FAD       104         99          95%         79         9%        7           0         2.7         3.9
+38
+                  REG           Rifle      DER-1-338    11/8-11/12     FAD        31         21          68%         28        26%        7           0         3.6         3.1
+                  REG           Rifle      DER-1-339   11/15-11/19     FAD         8          6          75%          8        33%        3           0         3.2         2.8
+      Private     REG         Archery      DER-2-340     9/1-9/24      FAD         2          1          50%          2       100%        2           0         5.0         5.0
+                  REG         Archery      DER-2-341   1/1-1/15, '26   FAD        12         12         100%         9         56%       5            0         3.4         4.0
+                  REG       Muzzleloader   DER-3-342   10/25-10/29     FAD        1          1          100%         1        100%       1            0         1.0         2.0
+                           GMU Total                                             578        510          88%        486        15%       74           0         2.8         4.2
+                                                          2025-2026 Deer Harvest Report
+                Hunter                       Hunt                       Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates      Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-343    11/8-11/12      FAD       35         30          86%         34        48%       16           0         2.9         2.9
+                  REG           Rifle      DER-1-344   11/15-11/19      FAD       35         34          97%         34        21%        7           0         3.1         3.5
+      Public      REG         Archery      DER-2-345     9/1-9/24       FAD       25         21          84%         21        17%        4           0         3.0         6.3
+                  REG         Archery      DER-2-346   1/1-1/15, '26    FAD       15         12          80%         14        27%        4           0         3.0         7.4
+                  REG       Muzzleloader   DER-3-347   10/25-10/29      FAD       40         36          90%         26        9%        2            0         2.6         4.1
+39
+                  REG           Rifle      DER-1-343    11/8-11/12      FAD       44         29          66%         44        24%       11           0         3.4         2.8
+                  REG           Rifle      DER-1-344   11/15-11/19      FAD       61         51          84%         59        35%       20           0         3.5         3.1
+      Private     REG         Archery      DER-2-345     9/1-9/24       FAD       1          1          100%         1         0%        0            0         5.0         3.0
+                  REG         Archery      DER-2-346   1/1-1/15, '26    FAD       20         17          85%         16        21%       4            0         3.4         4.6
+                  REG       Muzzleloader   DER-3-347   10/25-10/29      FAD       1          1          100%         1         0%        0            0         3.0         3.0
+                           GMU Total                                             277        232          84%        248        27%       67           0         3.2         3.8
+
+                  REG           Rifle      DER-1-348    11/1-11/5       FAD       50         43          86%         38        45%       17           0         3.9         2.5
+                  REG           Rifle      DER-1-349   11/15-11/19      FAD       50         40          80%         40        28%       11           0         2.8         3.3
+      Public      REG         Archery      DER-2-350     9/1-9/24       FAD       20         18          90%         14        0%        0            0         1.9         4.6
+                  REG         Archery      DER-2-351   1/1-1/15, '26    FAD       15         15         100%         12        17%       2            0         3.4         5.1
+                  REG       Muzzleloader   DER-3-352   10/25-10/29      FAD       29         26          90%         18        38%       7            0         2.8         3.2
+40
+                  REG           Rifle      DER-1-348    11/1-11/5       FAD       82         56          68%         79        72%       57           0         3.8         2.4
+                  REG           Rifle      DER-1-349   11/15-11/19      FAD      122         79          65%        114        49%       56           0         3.8         2.5
+      Private     REG         Archery      DER-2-350     9/1-9/24       FAD       1          1          100%         1         0%        0            0         3.0         6.0
+                  REG         Archery      DER-2-351   1/1-1/15, '26    FAD       15        14           93%         14        31%       4            0         3.7         5.8
+                  REG       Muzzleloader   DER-3-352   10/25-10/29      FAD       1          1          100%          1         0%       0            0         3.0         2.0
+                           GMU Total                                             385        293          76%        327        45%      146           0         3.5         3.1
+
+                 REG            Rifle      DER-1-353   10/25-10/29      FAD       40         36          90%         31        46%       14           0         3.7         3.1
+                 REG            Rifle      DER-1-354     11/1-11/5      FAD       40         37          93%         38        34%       13           0         3.2         3.2
+                YOUTH           Rifle      DER-1-355   11/22-11/30      FAD       5          5          100%         5         80%       4            0         4.8         2.8
+                YOUTH           Rifle      DER-1-356    12/6-12/10     ESWTD      15         14          93%         11        20%       2            0         2.1         4.0
+      Public
+                 REG            Rifle      DER-1-357   12/13-12/17     ESWTD      10         9           90%         9         13%       1            0         2.1         3.3
+                 REG          Archery      DER-2-358     9/1-9/24       FAD       10         10         100%         8         38%       3            0         2.5         6.0
+                 REG          Archery      DER-2-359   1/1-1/15, '26    FAD       10         7           70%         9         50%       4            0         3.3         6.7
+41               REG        Muzzleloader   DER-3-360     9/27-10/3      FAD       25         25         100%         22        32%       7            0         3.1         3.5
+                 REG            Rifle      DER-1-353   10/25-10/29      FAD       34         19          56%         34        84%       29           0         3.7         3.0
+                 REG            Rifle      DER-1-354     11/1-11/5      FAD       50         26          52%         46        92%       42           0         4.1         3.0
+                YOUTH           Rifle      DER-1-355   11/22-11/30      FAD       16         10          63%         16        80%       13           0         4.2         2.8
+      Private   YOUTH           Rifle      DER-1-356    12/6-12/10     ESWTD      1          1          100%         1         0%        0            0         3.0         4.0
+                 REG            Rifle      DER-1-357   12/13-12/17     ESWTD      8          4           50%         6         67%       0            4         3.3         2.0
+                 REG          Archery      DER-2-359   1/1-1/15, '26    FAD       16         7           44%         11        40%       5            0         3.8         4.6
+                 REG        Muzzleloader   DER-3-360     9/27-10/3      FAD       1          1          100%         1        100%       1            0         3.0         3.0
+                           GMU Total                                             281        211          75%        246        52%      125           3         3.4         3.5
+                                                         2025-2026 Deer Harvest Report
+                Hunter                       Hunt                     Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates    Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-361   10/25-10/29    FAD       40         38          95%         36        29%       11           0         3.2         3.4
+                  REG           Rifle      DER-1-362    11/1-11/5     FAD       40         37          93%         35        34%       12           0         3.4         2.8
+      Public      REG           Rifle      DER-1-363   11/26-11/30   ESWTD      10         8           80%         9         0%         0           0         2.6         2.6
+                  REG         Archery      DER-2-364    9/1-9/24      FAD       15         13          87%         13        0%        0            0         3.2         5.6
+                  REG       Muzzleloader   DER-3-365    9/27-10/3     FAD       15         14          93%         13        8%        1            0         2.8         3.1
+42
+                  REG           Rifle      DER-1-361   10/25-10/29    FAD       56         31          55%         54        57%       31           0         3.7         3.1
+                  REG           Rifle      DER-1-362    11/1-11/5     FAD       64         46          72%         58        50%       29           0         3.3         3.1
+      Private     REG           Rifle      DER-1-363   11/26-11/30   ESWTD      53         35          66%         50        48%       15           9         3.9         3.1
+                  REG         Archery      DER-2-364    9/1-9/24      FAD       1          1          100%         0                   0            0
+                  REG       Muzzleloader   DER-3-365    9/27-10/3     FAD       2          2          100%         2         50%       1            0         3.0         2.0
+                           GMU Total                                           296        225          76%        267        38%       93           8         3.4         3.2
+
+                  REG           Rifle      DER-1-366   11/8-11/12     FAD       35         27          77%         31        33%       10           0         3.3         3.4
+      Public      REG         Archery      DER-2-367    9/1-9/24      FAD       10         10         100%         8         25%       2            0         3.5         9.9
+                  REG       Muzzleloader   DER-3-368   10/25-10/29    FAD       15         14          93%         14        15%       2            0         3.8         3.5
+43
+                  REG           Rifle      DER-1-366   11/8-11/12     FAD      132         93          70%        123        32%       40           0         3.1         3.0
+      Private     REG         Archery      DER-2-367    9/1-9/24      FAD       4          4          100%         4         25%       1            0         3.3         4.8
+                  REG       Muzzleloader   DER-3-368   10/25-10/29    FAD       5          4           80%         5         25%       1            0         3.0         3.0
+                           GMU Total                                           201        152          76%        185        30%       56           0         3.2         3.6
+
+                 REG            Rifle      DER-1-369    11/1-11/5     FAD      254        223          88%        223        43%       97           0         3.5         3.2
+                 MIP            Rifle      DER-1-370   11/8-11/12     FAD       25         24          96%         18        47%       8            0         3.2         3.6
+                 REG            Rifle      DER-1-371   11/8-11/12     FAD      249        228          92%        220        38%       84           0         3.6         3.3
+      Public
+                YOUTH           Rifle      DER-1-372   11/22-11/30    FAD       25         24          96%         23        64%       15           0         3.4         3.5
+                 REG          Archery      DER-2-373     9/1-9/24     FAD      165        151          92%        149        36%       54           0         3.7         8.0
+                 REG        Muzzleloader   DER-3-374    9/27-10/3     FAD      160        148          93%        143        37%       53           0         3.6         3.7
+45
+                 REG            Rifle      DER-1-369    11/1-11/5     FAD       55         37          67%         51        56%       28           0         3.8         2.9
+                 MIP            Rifle      DER-1-370   11/8-11/12     FAD       2          2          100%         2         50%       1            0         4.0         3.0
+                 REG            Rifle      DER-1-371   11/8-11/12     FAD       89         81          91%         79        50%       40           0         3.5         3.2
+      Private
+                YOUTH           Rifle      DER-1-372   11/22-11/30    FAD       60         55          92%         58        70%       40           0         3.5         3.3
+                 REG          Archery      DER-2-373    9/1-9/24      FAD       18         16          89%         17        40%       7            0         3.6         5.0
+                 REG        Muzzleloader   DER-3-374    9/27-10/3     FAD       17         16          94%         15        43%       6            0         3.4         3.6
+                           GMU Total                                          1,119      1,005         90%        995        43%      431           0         3.6         4.1
+
+                  REG           Rifle      DER-1-504   10/18-10/22    FAD      150        120         80%         146        61%       89           0         3.9         2.9
+                  REG           Rifle      DER-1-505   10/25-10/29    FAD      177        131         74%         154        62%       96           0         3.8         2.9
+46    Private
+                  REG         Archery      DER-2-506    9/1-9/24      FAD       40         33         83%          38        48%       18           0         4.0         6.1
+                  REG       Muzzleloader   DER-3-507    9/27-10/3     FAD       8          6          75%          7         60%       4            0         3.6         3.6
+                           GMU Total                                           375        290         77%         345        60%      207           0         3.9         3.3
+                                                         2025-2026 Deer Harvest Report
+                Hunter                       Hunt                    Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates    Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                  REG           Rifle      DER-1-375   10/25-10/29   FAD        25         22          88%         20        33%       7            0         3.1         2.9
+                  REG           Rifle      DER-1-376    11/1-11/5    FAD        20         18          90%         18        31%       6            0         3.1         2.9
+      Public
+                  REG         Archery      DER-2-377    9/1-9/24     FAD        10         10         100%         10        20%       2            0         3.0         5.2
+47                REG       Muzzleloader   DER-3-378    9/27-10/3    FAD        20         19          95%         19        28%       5            0         3.1         3.8
+                  REG           Rifle      DER-1-375   10/25-10/29   FAD        24         15          63%         22        36%       8            0         3.4         3.2
+      Private     REG           Rifle      DER-1-376    11/1-11/5    FAD        48         25          52%         46        38%       17           0         4.0         3.0
+                  REG       Muzzleloader   DER-3-378    9/27-10/3    FAD        2          1           50%         2         0%        0            0         5.0         2.0
+                           GMU Total                                           149        110          74%        137        32%       43           0         3.3         3.3
+
+                  REG           Rifle      DER-1-379    11/1-11/5    FAD        50         45         90%          41        59%       24           0         3.9         2.8
+                  REG           Rifle      DER-1-380   11/8-11/12    FAD        50         45         90%          46        46%       21           0         3.4         3.0
+      Public
+                  REG         Archery      DER-2-381    9/1-9/24     FAD        45         44         98%          38        41%       15           0         3.6         5.9
+48                REG       Muzzleloader   DER-3-382    9/27-10/3    FAD        30         29         97%          26        68%       18           0         4.1         2.9
+                  REG           Rifle      DER-1-379    11/1-11/5    FAD        10          5         50%          10        60%        6           0         3.8         1.8
+      Private     REG           Rifle      DER-1-380   11/8-11/12    FAD        16         10         63%          13        25%        3           0         3.6         3.0
+                  REG         Archery      DER-2-381    9/1-9/24     FAD        5          3          60%          3         50%       2            0         3.5         3.5
+                           GMU Total                                           206        181         88%         176        51%       90           0         3.7         3.6
+
+                  REG           Rifle      DER-1-383   10/25-10/29   FAD       100         94         94%          96        50%       48           0         3.6         3.3
+      Public      REG           Rifle      DER-1-384    11/1-11/5    FAD       100         91         91%          96        55%       53           0         3.7         3.2
+                  REG         Archery      DER-2-385    9/1-9/24     FAD       105         99         94%          94        37%       35           0         3.6         7.5
+49
+                  REG           Rifle      DER-1-383   10/25-10/29   FAD        31         20         65%          29        37%       11           0         2.4         2.9
+      Private     REG           Rifle      DER-1-384    11/1-11/5    FAD        49         44         90%          47        33%       16           0         3.3         3.3
+                  REG         Archery      DER-2-385    9/1-9/24     FAD        15         6          40%          15        0%        0            0         3.8         5.8
+                           GMU Total                                           400        354         89%         376        44%      166           0         3.5         4.4
+
+                  REG           Rifle      DER-1-386   10/25-10/29   FAD        50         47          94%         45        36%       16           0         3.5         3.4
+      Public      REG           Rifle      DER-1-387    11/1-11/5    FAD        50         43          86%         47        45%       21           0         3.6         3.4
+50                REG         Archery      DER-2-388    9/1-9/24     FAD        5          5          100%         3         0%        0            0         3.0         4.0
+                  REG           Rifle      DER-1-386   10/25-10/29   FAD        13         10          77%         13        40%       5            0         3.7         3.1
+      Private
+                  REG           Rifle      DER-1-387    11/1-11/5    FAD        29         20          69%         26        50%       13           0         3.2         3.1
+                           GMU Total                                           147        125          85%        133        41%       54           0         3.5         3.3
+
+                  REG           Rifle      DER-1-389    11/1-11/5    FAD       145        131         90%         125        34%      42            0         3.4         3.5
+      Public
+                  REG         Archery      DER-2-390    9/1-9/24     FAD        65         62         95%          53        22%      12            0         3.3         7.5
+51A
+                  REG           Rifle      DER-1-389    11/1-11/5    FAD       100         84          84%         94        49%       46           0         3.4         2.8
+      Private
+                  REG         Archery      DER-2-390     9/1-9/24    FAD        11         11         100%         11        36%       4            0         3.2         7.0
+                           GMU Total                                           321        288          90%        283        36%      103           0         3.4         4.2
+                                                                  2025-2026 Deer Harvest Report
+                         Hunter                       Hunt                     Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+   GMU          Type     Category       Weapon        Code      Hunt Dates    Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                           REG           Rifle      DER-1-391   10/25-10/29    FAD      20          19          95%         19        39%       7            0         3.2         3.6
+               Public      REG           Rifle      DER-1-392    11/1-11/5     FAD      15          13          87%         13        27%       3            0         2.8         2.9
+                           REG         Archery      DER-2-393    9/1-9/24      FAD      15          15         100%         11        27%       3            0         2.8         6.3
+    51B
+                           REG           Rifle      DER-1-391   10/25-10/29    FAD      14          12          86%         13        36%       5            0         3.5         3.5
+               Private     REG           Rifle      DER-1-392    11/1-11/5     FAD      22          18          82%         18        47%       9            0         3.5         3.5
+                           REG         Archery      DER-2-393    9/1-9/24      FAD      1           1          100%         1         0%        0            0         5.0         5.0
+                                    GMU Total                                           87          78          90%         75        36%       27           0         3.2         3.9
+
+                           REG           Rifle      DER-1-394    11/1-11/5     FAD       90         82          91%         77         36%      27           0         3.4         3.2
+                           REG           Rifle      DER-1-395   11/8-11/12     FAD       90         79          88%         77         24%      18           0         3.3         3.7
+               Public
+                           REG         Archery      DER-2-396    9/1-9/24      FAD       80         72          90%         60        22%       13           0         3.4         6.8
+                           REG       Muzzleloader   DER-3-397    9/27-10/3     FAD       25         23          92%         22        35%       8            0         3.4         3.2
+    52
+                           REG           Rifle      DER-1-394    11/1-11/5     FAD        3          2          67%          3        100%       3           0         4.0         3.0
+                           REG           Rifle      DER-1-395   11/8-11/12     FAD       17         16          94%         15         64%      10           0         3.4         2.7
+               Private
+                           REG         Archery      DER-2-396    9/1-9/24      FAD       1          1          100%          1         0%       0            0         4.0         3.0
+                           REG       Muzzleloader   DER-3-397    9/27-10/3     FAD       3          2           67%         3          0%       0            0         1.0         3.0
+                                    GMU Total                                           309        277          90%        258         31%      79           0         3.3         4.2
+
+                           REG           Rifle      DER-1-398    11/1-11/5     FAD       85         70          82%         70        55%       39           0         3.6         3.3
+               Public      REG           Rifle      DER-1-399   11/8-11/12     FAD       85         74          87%         75        46%       34           0         3.5         3.7
+                           REG         Archery      DER-2-400    9/1-9/24      FAD      100         82          82%         84        26%       22           0         3.4         6.7
+    53
+                           REG           Rifle      DER-1-398    11/1-11/5     FAD       26         23         88%          24        52%       12           0         3.7         3.4
+               Private     REG           Rifle      DER-1-399   11/8-11/12     FAD       34        28          82%         33         33%      11            0         3.4         3.0
+                           REG         Archery      DER-2-400     9/1-9/24     FAD        5          5         100%          4        25%        1           0         2.0         4.0
+                                    GMU Total                                           335        282          84%        290        41%      120           0         3.5         4.3
+
+                           REG           Rifle      DER-1-508   10/18-10/22    FAD      7           4           57%         7         75%       5            0         3.8         3.8
+    54         Private     REG           Rifle      DER-1-509   10/25-10/29    FAD      6           4           67%         6        100%       6            0         4.8         3.3
+                           REG         Archery      DER-2-512    9/1-9/24      FAD      1           1          100%         1        100%       1            0         3.0         3.0
+                                    GMU Total                                           14          9           64%         14        89%       12           0         4.1         3.4
+
+                          REG            Rifle      DER-1-514   10/18-10/22    FAD      11          9          82%         10         63%       6            0         4.3         2.3
+                          REG            Rifle      DER-1-515   10/25-10/29    FAD      37          23         62%         35         77%       26           2         3.9         3.2
+                         YOUTH           Rifle      DER-1-516   11/22-11/30    FAD      17          14         82%         16         69%       11           0         4.0         3.2
+    55         Private
+                          REG            Rifle      DER-1-519   11/26-11/30   ESWTD     28          20         71%         28         55%       8            7         4.5         2.1
+                          REG          Archery      DER-2-517     9/1-9/24     FAD       14          9         64%          14        44%        6           0         4.2         4.3
+                          REG        Muzzleloader   DER-3-518    9/27-10/3     FAD       3           0          0%          0          -         -           -          -           -
+                                    GMU Total                                           110         75         68%         106        64%       59           9         4.2         2.9
+
+                           REG           Rifle      DER-1-404   10/25-10/29    FAD      5           5          100%         5         60%       3            0         3.2         3.6
+55 ES Barker   Public
+                           REG           Rifle      DER-1-405   11/22-11/30    FAD      5           5          100%         3         0%        0            0         2.3         4.0
+                                    GMU Total                                           10          10         100%         8         38%       3            0         2.9         3.8
+                                                                    2025-2026 Deer Harvest Report
+                           Hunter                       Hunt                     Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+    GMU           Type     Category       Weapon        Code      Hunt Dates    Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                             REG           Rifle      DER-1-406   10/25-10/29    FAD      5           5          100%         5         40%       2            0         4.2         3.4
+ 55 Urraca       Public
+                             REG           Rifle      DER-1-407    11/1-11/5     FAD      5           3           60%         5         0%        0            0         2.7         3.7
+                                      GMU Total                                           10          8           80%         10        25%       3            0         3.6         3.5
+
+55 Valle Vidal   Public      REG         Archery      DER-2-408    9/1-9/24      FAD      10          10         100%         10        40%       4            0         4.2         5.6
+                                      GMU Total                                           10          10         100%         10        40%       4            0         4.2         5.6
+
+                            REG            Rifle      DER-1-409   10/25-10/29    FAD       15         15         100%         13        31%       4            0         2.7         3.1
+                            REG            Rifle      DER-1-410    11/1-11/5     FAD       15         15         100%         14        36%       5            0         2.9         3.0
+                           YOUTH           Rifle      DER-1-411   11/22-11/30    FAD       10         9           90%         9         88%       8            0         3.6         1.5
+                 Public
+                           YOUTH           Rifle      DER-1-412   12/6-12/10    ESWTD      10         10         100%         6         17%       0            1         2.5         2.7
+                            REG          Archery      DER-2-413    9/1-9/24      FAD       10         9           90%         10        33%       3            0         3.0         7.7
+                            REG        Muzzleloader   DER-3-414    9/27-10/3     FAD       15         15         100%         11        9%        1            0         2.5         3.7
+     56
+                            REG            Rifle      DER-1-409   10/25-10/29    FAD       17          7          41%         15        50%       7            0         4.0         3.5
+                            REG            Rifle      DER-1-410    11/1-11/5     FAD       18         10          56%         18        60%       11           0         3.8         3.1
+                           YOUTH           Rifle      DER-1-411   11/22-11/30    FAD       3          2           67%         2         0%        0            0         3.0         4.0
+                 Private
+                           YOUTH           Rifle      DER-1-412   12/6-12/10    ESWTD      2          2          100%         2         50%       1            0         4.0         3.0
+                            REG          Archery      DER-2-413    9/1-9/24      FAD       3          2           67%         3         50%       2            0         3.5         2.5
+                            REG        Muzzleloader   DER-3-414    9/27-10/3     FAD       2          0           0%          0          -         -           -          -           -
+                                      GMU Total                                           120         96          80%        103        39%       39           1         3.1         3.5
+
+                            REG            Rifle      DER-1-415   10/25-10/29    FAD       25         21          84%         20        41%       8            0         3.7         3.3
+                            REG            Rifle      DER-1-416    11/1-11/5     FAD       25         23          92%         21        21%       4            0         2.9         3.6
+                           YOUTH           Rifle      DER-1-417   11/22-11/30    FAD      10         10          100%         9        100%       9            0         4.0         3.4
+                 Public     REG            Rifle      DER-1-418   11/26-11/30   ESWTD      10          8          80%          6         0%       0            0         3.0         2.8
+                            REG          Archery      DER-2-419    9/1-9/24      FAD       20         19          95%         20        5%        1            0         3.2         8.5
+                            REG          Archery      DER-2-420   11/1-11/30     FAD       2          0           0%          0           -        -           -          -           -
+     57                     REG        Muzzleloader   DER-3-421    9/27-10/3     FAD       15         15         100%         12        42%       5            0         2.9         4.5
+                            REG            Rifle      DER-1-415   10/25-10/29    FAD       43         22          51%         39        45%       18           0         4.0         3.5
+                            REG            Rifle      DER-1-416    11/1-11/5     FAD       47         28          60%         42        40%       17           0         3.6         4.0
+                           YOUTH           Rifle      DER-1-417   11/22-11/30    FAD       14         8           57%         14        88%       12           0         4.0         3.3
+                 Private
+                            REG            Rifle      DER-1-418   11/26-11/30   ESWTD      3          3          100%         2        100%       2            0         4.5         2.5
+                            REG          Archery      DER-2-419    9/1-9/24      FAD       11         7           64%         9         33%       3            0         4.0         5.0
+                            REG        Muzzleloader   DER-3-421    9/27-10/3     FAD       2          0           0%          0           -        -           -          -           -
+                                      GMU Total                                           227        164          72%        197        39%       78           0         3.5         4.3
+
+ 57 Sugarite     Public      REG         Archery      DER-2-420   11/1-11/30     FAD      18          18         100%         17        29%       5            0         3.4         10.8
+                                      GMU Total                                           18          18         100%         17        29%       5            0         3.4         10.8
+                                                         2025-2026 Deer Harvest Report
+                Hunter                       Hunt                     Bag    Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+GMU    Type     Category      Weapon         Code      Hunt Dates    Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                 REG            Rifle      DER-1-422   10/25-10/29    FAD       40         37          93%         34        39%       13           0         3.5         3.6
+                 REG            Rifle      DER-1-423    11/1-11/5     FAD       35         32          91%         27        40%       11           0         3.0         3.1
+                YOUTH           Rifle      DER-1-424   11/22-11/30    FAD       10         10         100%          9        89%        8           0         3.6         3.6
+      Public    YOUTH           Rifle      DER-1-425   12/6-12/10    ESWTD      15         15         100%         6         50%        2           1         2.8         2.5
+                 REG            Rifle      DER-1-426   12/13-12/17   ESWTD      15         13          87%         10        56%       3            2         3.6         1.9
+                 REG          Archery      DER-2-427    9/1-9/24      FAD       10         9           90%         7         17%       1            0         3.0         5.0
+58               REG        Muzzleloader   DER-3-428    9/27-10/3     FAD       25         24          96%         21        20%       4            0         3.2         3.8
+                 REG            Rifle      DER-1-422   10/25-10/29    FAD       23         16          70%         23        19%       4            0         3.6         3.8
+                 REG            Rifle      DER-1-423    11/1-11/5     FAD       17         12          71%         14        50%       7            0         3.8         2.8
+                YOUTH           Rifle      DER-1-424   11/22-11/30    FAD       18         7           39%         18       100%       18           0         4.6         2.3
+      Private
+                YOUTH           Rifle      DER-1-425   12/6-12/10    ESWTD      2          2          100%          2       100%        1           1         4.0         2.0
+                 REG            Rifle      DER-1-426   12/13-12/17   ESWTD      13         9           69%         12        38%       3            1         3.3         3.0
+                 REG          Archery      DER-2-427    9/1-9/24      FAD       2          1           50%         2        100%       2            0         5.0         5.0
+                           GMU Total                                           225        187          83%        180        43%       71           6         3.4         3.3
+
+                 REG            Rifle      DER-1-429   10/25-10/29    FAD       40         40         100%         37         30%      11           0         3.1         3.1
+                 REG            Rifle      DER-1-430    11/1-11/5     FAD       40         37          93%         32         33%      11           0         3.1         3.0
+                YOUTH           Rifle      DER-1-431   11/22-11/30    FAD       5          4           80%         5          75%      4            0         3.8         3.0
+      Public    YOUTH           Rifle      DER-1-432   12/6-12/10    ESWTD      15         12          80%         8          17%      1            0         1.8         3.2
+                 REG            Rifle      DER-1-433   12/13-12/17   ESWTD      15         14          93%         12         9%       1            0         2.5         2.5
+                 REG          Archery      DER-2-434    9/1-9/24      FAD       10         10         100%         9          0%       0            0         2.1         4.0
+                 REG        Muzzleloader   DER-3-435    9/27-10/3     FAD       25         24          96%         11          0%       0           0         3.8         3.5
+59
+                 REG            Rifle      DER-1-429   10/25-10/29    FAD       20         13          65%         20         31%       6           0         3.9         3.5
+                 REG            Rifle      DER-1-430    11/1-11/5     FAD       31         17          55%         31         59%      18           0         3.8         4.0
+                YOUTH           Rifle      DER-1-431   11/22-11/30    FAD       11          7          64%         11         86%      9            0         3.7         2.1
+      Private   YOUTH           Rifle      DER-1-432   12/6-12/10    ESWTD       1          1         100%         1         100%      1            0         5.0         1.0
+                 REG            Rifle      DER-1-433   12/13-12/17   ESWTD      6          4           67%         6          50%      3            0         3.0         2.0
+                 REG          Archery      DER-2-434    9/1-9/24      FAD       6          5           83%         6          20%      1            0         4.0         3.0
+                 REG        Muzzleloader   DER-3-435    9/27-10/3     FAD       1          1          100%         1          0%       0            0         2.0         4.0
+                           GMU Total                                           226        189          84%        187         32%      60           0         3.2         3.2
+                                                                                        2025-2026 Deer Harvest Report
+                                        Hunter                           Hunt                     Bag     Licenses   # Hunters    Percent    Estimated   Success   Estimated Harvest   Satisfaction    Days
+     GMU                  Type         Category        Weapon            Code        Hunt Dates   Limit    Sold      Reporting   Reporting   Hunters      Rate     Bucks       Does      Rating       Hunted
+                                                        Rifle         DER-1-501                   FAD        2          2          100%         2         100%      2            0         4.0          9.0
+                          Enhancement Hunt              Rifle         DER-1-550                   FAD        1          1          100%         1         100%      1            0         3.0          1.0
+      Premium Statewide
+
+
+
+
+                                                        Rifle         DER-1-604                   FAD        1          1          100%         1         100%      1            0         5.0         30.0
+                              STATE WIDE                Rifle         DER-1-600                   FAD       166         89          54%        164         68%     112           0         4.2          3.4
+                               2A, 2B, 2C               Rifle         DER-1-601                   FAD        1          1          100%         1         100%      1            0         3.0          5.0
+                                4, 5A, 5B               Rifle         DER-1-602                   FAD        1          1          100%         1         100%      1            0         3.0          3.0
+                             23, 24, 26, 27             Rifle         DER-1-603                   FAD        1          0           0%          0           -       -            -          -            -
+                          Premium Statewide             Rifle         DER-1-700                   FAD        1          1          100%         1         100%      1            0         4.0         31.0
+                                              Special Hunts Total                                           174         96          55%        172         71%     121           0         4.1         4.0
+
+                                                Statewide Totals                                          36,101      31,530       87%        30,974      30%      9,298       137         3.2         4.2
+* REG=Regular, MIP=Mobility Impaired, MIL=Military Only
+** Success rate is calculated from the number of licensed hunters reporting they went afield
+Please contact Orrin Duvuvuei at orrin.duvuvuei@dgf.nm.gov with questions
+
