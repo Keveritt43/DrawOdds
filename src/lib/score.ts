@@ -1,3 +1,4 @@
+import type { TrophyScore } from './trophyTiers';
 import { trophyQualityBonus } from './trophyTiers';
 import { trophyForHunt } from './trophyHunt';
 import { withIdahoVerifiedArea } from './idahoHuntCorrections';
@@ -37,7 +38,7 @@ export interface ScoreInput {
   deerType?: string | null;
   twoPoint?: boolean;
   /** Use this trophy score instead of computing one (number or null). */
-  trophy?: number | null;
+  trophy?: TrophyScore | null;
   antlerMaximum?: boolean;
   resOdds5?: number | null;
   resOddsLast?: number | null;

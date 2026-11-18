@@ -17,6 +17,7 @@ import type { Prisma } from '@prisma/client';
 import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
+import type { TrophyScore } from '../src/lib/trophyTiers';
 
 type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'PRONGHORN'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; geometry: object | null; bbox: number[] | null; acres: number | null; publicPct: number | null; privatePct: number | null; ownership: { manager: string; pct: number }[]; accessAcres: number | null; accessCount: number | null };
@@ -71,7 +72,7 @@ async function main() {
     ? new Map((await db.huntSummary.findMany({ where: { state: 'WY' }, select: { id: true, scoreTrophy: true } })).map((r) => [r.id, r.scoreTrophy]))
     : new Map<string, number | null>();
   const scores = scoreHunts(hunts.hunts.map((h) => ({
-    ...(liveTrophy.has(h.id) ? { trophy: liveTrophy.get(h.id) ?? null } : {}),
+    ...(liveTrophy.has(h.id) ? { trophy: (liveTrophy.get(h.id) ?? null) as TrophyScore | null } : {}),
     id: h.id, state: 'WY', units:h.units, name:h.name, tagCode:h.tagCode, takeMethod:typeof h.takeMethod==='string'?h.takeMethod:null, openDate:date(h.openDate), closeDate:date(h.closeDate), tagSeasons:h.tagSeasons, pointOdds:h.pointOdds, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
     harvestYears:num(h.harvestYears), nrOddsLast:num(h.nrOddsLast), resOddsLast:num(h.resOddsLast), oddsLastYear:num(h.oddsLastYear), youthOnly:h.youthOnly===true, privateOnly:h.privateOnly===true,
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
