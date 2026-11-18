@@ -147,12 +147,13 @@ test('Washington 65+, hunters with disabilities and Master Hunter permits', asyn
   const lim = data.hunts.filter((h) => (h.pointOdds as { restricted?: boolean }).restricted && (h.species === 'DEER' || h.species === 'ELK'));
   assert.ok(lim.length >= 140, `restricted hunts ${lim.length}`);
   for (const h of lim) {
-    const po = h.pointOdds as { category: string; noPointData?: boolean };
+    const po = h.pointOdds as { category: string; noPointData?: boolean; newHunt?: boolean };
     assert.ok(waPointType(po.category), po.category);
     assert.ok(!h.youthOnly);
     // 65+ has no point tables anywhere, so no odds; the others do
     const t = h.oddsByPts as { proj: { res?: number[] } };
-    if (/65/.test(po.category)) { assert.ok(po.noPointData && !t.proj.res, h.id); }
+    if (po.newHunt) { assert.ok(!t.proj.res, h.id); }
+    else if (/65/.test(po.category)) { assert.ok(po.noPointData && !t.proj.res, h.id); }
     else assert.ok((t.proj.res ?? []).length > 0, h.id);
   }
   const senior = lim.find((h) => /65/.test((h.pointOdds as { category: string }).category))!;
@@ -161,6 +162,33 @@ test('Washington 65+, hunters with disabilities and Master Hunter permits', asyn
   assert.match(p.basis, /never published 65\+ results/);
   // Master Hunter region hunts stand in with the region's GMUs (1xx = Region 1)
   assert.ok(by('WA:1800').units.every((u: string) => u.startsWith('1')));
+});
+
+test('Washington permits new for 2026 are listed without odds', async () => {
+  const { waNoteFlags } = await import('../src/lib/waHunt');
+  const fresh = data.hunts.filter((h) => (h.pointOdds as { newHunt?: boolean }).newHunt);
+  assert.ok(fresh.length >= 25, `new hunts ${fresh.length}`);
+  for (const h of fresh) {
+    assert.ok(h.units.length > 0, h.id);
+    assert.ok(h.openDate && h.closeDate, `${h.id} dates`);
+    assert.deepEqual(h.oddsByPts, { proj: {}, last: {} }, h.id);
+    assert.equal(h.appsLast, null, h.id);
+    const p = waPersonal(row(h), readWaPoints({}));
+    assert.equal(p.odds, null, h.id);
+    assert.match(p.basis, /New for 2026/);
+  }
+  // youth and antlerless are among them
+  assert.ok(fresh.some((h) => h.youthOnly && h.antlerClass === 'ANTLERLESS'));
+  // a split GMU number in the PDF text ("GMU 37 1") still finds Alkali, 371
+  assert.deepEqual(by('WA:2304').units, ['371']);
+  // dates carrying a printed year land in that year, including a season that runs into 2027
+  assert.equal(by('WA:2271').openDate, '2026-12-30');
+  assert.equal(by('WA:2271').closeDate, '2027-01-19');
+  assert.equal(by('WA:2272').openDate, '2027-01-23');
+  assert.equal(by('WA:2238').openDate, '2027-01-01');
+  // Alkali is on the Yakima Training Center (WDFW hunt note B)
+  assert.deepEqual(waNoteFlags(String(by('WA:2298').notes)), ['Military installation: access may be extremely limited']);
+  assert.deepEqual(waNoteFlags('C, D'), []);
 });
 
 test('Washington moose, sheep and goat: categories, once-in-a-lifetime, odds and units', async () => {

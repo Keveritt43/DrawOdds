@@ -31,6 +31,8 @@ export interface WaPointOdds {
   /** 65+: WDFW has never published results by point level, so no odds table */
   noPointData?: boolean;
   oddsUnavailableReason?: string;
+  /** New this year (WDFW printed NEW or 0/0): nobody has applied yet, so no odds */
+  newHunt?: boolean;
   /** moose, sheep, goat: WDFW's once-in-a-lifetime categories (Any Antlered Bull Moose, Goat, Any Ram) */
   onceInALifetime?: boolean;
   /** the pamphlet's hunt-note letters, spelled out */
@@ -80,6 +82,14 @@ export function waPersonal(r: Row, pts: WaPoints, mode: 'proj' | 'last' = 'proj'
 export function waLicense(r: Row): 'general' | 'special' | 'multi' {
   const po = waPo(r);
   return waIsGeneral(r) ? 'general' : po?.multiSeason ? 'multi' : 'special';
+}
+
+/** Plain-language flags for WDFW hunt notes that change whether a hunter can use the permit (pamphlet p. 37, p. 58). */
+export function waNoteFlags(notes: string | null | undefined): string[] {
+  const n = notes ?? '';
+  const out: string[] = [];
+  if (/\bB\b/.test(n)) out.push('Military installation: access may be extremely limited');
+  return out;
 }
 
 export const WA_WEAPON_LABEL: Record<string, string> = { ANY: 'Modern firearm', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
