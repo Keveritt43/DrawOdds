@@ -10,6 +10,12 @@ const CATS = [['Quality Deer', 'Quality deer'], ['Buck Deer', 'Buck deer'], ['An
   ['Deer - 65 Years or Over', '65+ deer'], ['Elk - 65 and Over', '65+ elk'],
   ['Deer - Hunters with Disabilities', 'Hunters with disabilities deer'], ['Elk - Hunters with Disabilities', 'Hunters with disabilities elk'],
   ['Deer - Master Hunter', 'Master Hunter deer'], ['Elk - Master Hunter', 'Master Hunter elk']] as const;
+const MSG_CATS = [['Any Antlered Bull Moose', 'Bull moose (once in a lifetime)'], ['Antlerless Moose', 'Antlerless moose'],
+  ['Moose - Youth', 'Youth moose (under 16)'], ['Moose - 65 and Over', '65+ moose'], ['Moose - Hunters with Disabilities', 'Hunters with disabilities moose'],
+  ['Mountain Goat', 'Mountain goat (once in a lifetime)'], ['Bighorn Sheep - Any Ram', 'Bighorn ram (once in a lifetime)'],
+  ['Bighorn Sheep - Adult Ewe', 'Bighorn ewe'], ['Bighorn Sheep - Juvenile Ram', 'Bighorn juvenile ram'], ['Bighorn Sheep - Youth', 'Youth bighorn (under 16)'],
+  ['Bighorn Sheep - Hunters with Disabilities (Ewe)', 'Hunters with disabilities ewe'],
+  ['Bighorn Sheep - Hunters with Disabilities (Juvenile Ram)', 'Hunters with disabilities juvenile ram']] as const;
 const WEAPONS = [['ANY', 'Modern firearm'], ['ARCHERY', 'Archery'], ['MUZZLELOADER', 'Muzzleloader']] as const;
 const SIDES = [['EAST', 'Eastern'], ['WEST', 'Western']] as const;
 
@@ -37,6 +43,12 @@ export function WaSearchFilters() {
     const c = list(key);
     return c.length ? opts.filter(([k]) => c.includes(k)).map(([, l]) => l.replace(/ \(.*\)$/, '')).join(', ') : 'All';
   };
+  if (sp.get('draw')?.toLowerCase() === 'msg') return <>
+    <Section title="Washington: Permit Category" value={summary('waCat', MSG_CATS)} set={list('waCat').length > 0} defaultOpen>
+      {box('waCat', MSG_CATS)}
+      <p className="small muted">Moose, sheep and goat are special permits in WDFW&apos;s weighted drawing: your entries are your points in that category plus this year&apos;s, squared. Odds are estimates (WDFW stopped publishing results by points after 2020). Bull moose, ram and goat are once in a lifetime once you harvest one. 65+ and disabled-hunter permits show only when picked here. Set points in <Link href="/account#hunting-preferences">Account</Link>.</p>
+    </Section>
+  </>;
   return <>
     <Section title="Washington: License" value={summary('waLic', KINDS)} set={list('waLic').length > 0} defaultOpen>
       {box('waLic', KINDS)}

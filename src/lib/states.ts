@@ -154,10 +154,13 @@ export const STATES: Record<StateCode, StateConfig> = {
     // special permits and multi-season tags: one weighted drawing per category, (points + 1)² entries; general
     // seasons: over the counter
     points: 'bonus',
-    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
-    species: ['DEER', 'ELK'],
+    // Moose, bighorn sheep and mountain goat (WA-3, Nov 17, 2026) are the same weighted drawing, but searched under the
+    // site's Moose · Sheep · Goat drawing like Idaho's and Colorado's
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }, { key: 'MSG', label: 'Moose · Sheep · Goat', species: ['MOOSE', 'BIGHORN', 'GOAT'] }],
+    species: ['DEER', 'ELK', 'MOOSE', 'BIGHORN', 'GOAT'],
     bounds: [[-124.85, 45.54], [-116.91, 49.01]],
-    // GMUs for general seasons and most permits; 4-digit Deer and Elk Areas for some permits (unit keys DA3071, EA3911)
+    // GMUs for general seasons and most permits; 4-digit Deer and Elk Areas for some permits (unit keys DA3071, EA3911);
+    // Moose Areas (MA1), Sheep Units (SH7) and Mountain Goat Units (MG3-6) for those permits
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };

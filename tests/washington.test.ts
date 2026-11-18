@@ -18,7 +18,8 @@ test('Washington is listed, with a private-land-only rule', () => {
   assert.equal(STATES.WA.enabled, true);
   assert.equal(STATES.WA.code, 'WA');
   assert.ok(STATES.WA.privateLandOnly.includes('Private Lands Only'));
-  assert.deepEqual(STATES.WA.species, ['DEER', 'ELK']);
+  assert.deepEqual(STATES.WA.species, ['DEER', 'ELK', 'MOOSE', 'BIGHORN', 'GOAT']);
+  assert.deepEqual(STATES.WA.draws.map((d) => d.key), ['DEP', 'MSG']);
 });
 
 test('Washington hunts build cleanly: unique ids, known units, monotone odds', () => {
@@ -108,7 +109,7 @@ test('Washington general hunts follow the 2026 season tables, not the harvest re
 
 test('Washington youth permits: own category, own points, hidden unless asked for', async () => {
   const { waPointType } = await import('../src/lib/waPoints');
-  const youth = data.hunts.filter((h) => h.youthOnly);
+  const youth = data.hunts.filter((h) => h.youthOnly && (h.species === 'DEER' || h.species === 'ELK'));
   assert.ok(youth.length >= 100, `youth hunts ${youth.length}`);
   for (const h of youth) {
     assert.equal(h.type, 'CONTROLLED');
@@ -118,6 +119,7 @@ test('Washington youth permits: own category, own points, hidden unless asked fo
   }
   // no adult hunt is flagged youth
   assert.ok(data.hunts.filter((h) => !h.youthOnly && /Youth/.test(String((h.pointOdds as { category?: string }).category))).length === 0);
+  assert.equal(waPointType('Moose - Youth'), 'MOOSE_YOUTH');
 });
 
 test('Washington youth general days count only when the Youth Hunts filter lets them', async () => {
@@ -142,7 +144,7 @@ test('Washington youth general days count only when the Youth Hunts filter lets 
 test('Washington 65+, hunters with disabilities and Master Hunter permits', async () => {
   const { waPointType } = await import('../src/lib/waPoints');
   const { waPersonal } = await import('../src/lib/waHunt');
-  const lim = data.hunts.filter((h) => (h.pointOdds as { restricted?: boolean }).restricted);
+  const lim = data.hunts.filter((h) => (h.pointOdds as { restricted?: boolean }).restricted && (h.species === 'DEER' || h.species === 'ELK'));
   assert.ok(lim.length >= 140, `restricted hunts ${lim.length}`);
   for (const h of lim) {
     const po = h.pointOdds as { category: string; noPointData?: boolean };
@@ -159,4 +161,46 @@ test('Washington 65+, hunters with disabilities and Master Hunter permits', asyn
   assert.match(p.basis, /never published 65\+ results/);
   // Master Hunter region hunts stand in with the region's GMUs (1xx = Region 1)
   assert.ok(by('WA:1800').units.every((u: string) => u.startsWith('1')));
+});
+
+test('Washington moose, sheep and goat: categories, once-in-a-lifetime, odds and units', async () => {
+  const msg = data.hunts.filter((h) => ['MOOSE', 'BIGHORN', 'GOAT'].includes(h.species));
+  // 2026 pamphlet pp. 62-66: 28 moose, 14 sheep, 5 goat permit hunts
+  assert.deepEqual(['MOOSE', 'BIGHORN', 'GOAT'].map((s) => msg.filter((h) => h.species === s).length), [28, 14, 5]);
+  for (const h of msg) {
+    const po = h.pointOdds as unknown as { category: string; onceInALifetime: boolean; oddsUnavailableReason?: string; kind: string };
+    assert.equal(po.kind, 'squared', h.id);
+    assert.ok(waPointType(po.category), po.category);
+    assert.equal(po.onceInALifetime, ['Any Antlered Bull Moose', 'Mountain Goat', 'Bighorn Sheep - Any Ram'].includes(po.category), h.id);
+    const t = h.oddsByPts.proj.res ?? [];
+    assert.ok(t.length > 0 || po.oddsUnavailableReason, h.id);
+    assert.equal(h.weapon, 'ANY');
+  }
+  // renumbered across years: 2026 sheep 5001 Cleman Mountain chains back to its 2020 table (5007 "Cleman Mountain A")
+  const cleman = by('WA:5001');
+  assert.equal((cleman.pointOdds as unknown as { seedYear: number }).seedYear, 2020);
+  assert.deepEqual(cleman.units, ['SH7']);
+  // the pamphlet puts 8027 Mt Spokane South D in Moose Area 1 (the Regulation service says 2)
+  assert.deepEqual(by('WA:8027').units, ['MA1']);
+  // new in 2026: no applications yet, so no odds
+  assert.match(String((by('WA:5000').pointOdds as unknown as { oddsUnavailableReason: string }).oddsUnavailableReason), /New hunt/);
+  // personal odds read the category's own points
+  const pts = readWaPoints({ WA: { res: 'NONRESIDENT', set: true, waPoints: { MOOSE_BULL: 20 } } });
+  const bull = by('WA:8005');
+  const p = waPersonal(row(bull), pts);
+  assert.equal(p.type, 'MOOSE_BULL');
+  assert.equal(p.odds, bull.oddsByPts.proj.res[20]);
+  assert.ok(p.odds! > 0 && p.odds! < 0.05);
+  // sheep and goat units carry the GMUs they lie in (Unit Map shading)
+  const land = JSON.parse(readFileSync('data/wa/land.json', 'utf8')) as { units: Record<string, { gmus?: string[] }> };
+  assert.deepEqual(land.units.SH14.gmus, ['250']);
+  for (const u of ['MA1', 'MA2']) assert.deepEqual(land.units[u].gmus, ['124']);
+});
+
+test('Washington account form accepts saves from before the moose/sheep/goat fields existed', () => {
+  const f = new Map<string, string>([['waResidency', 'RESIDENT'], ...WA_POINT_TYPES.filter((t) => t.species === 'DEER' || t.species === 'ELK').map((t) => ['waPts_' + t.key, '2'] as [string, string])]);
+  const out = parseWaForm((k) => f.get(k) ?? null, (k) => f.has(k));
+  assert.ok(out && typeof out === 'object');
+  assert.equal((out as { waPoints: Record<string, number> }).waPoints.MOOSE_BULL, 0);
+  assert.equal((out as { waPoints: Record<string, number> }).waPoints.QUALITY_DEER, 2);
 });

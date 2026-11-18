@@ -39,7 +39,7 @@ export function WaHuntCard({ r, odds, points, nr, basis, mode = 'proj', saved, s
       </div>
       <div className="dates">
         {[huntWeaponLabel(r), !gen ? po?.category : '', antlerLabel(r.species, r.antlerClass), r.tagCode && !gen ? `Hunt ${r.tagCode}` : '', where, side, po?.dates || dateRange(r.openDate, r.closeDate),
-          r.youthOnly ? 'Youth only (under 16)' : '', po?.restricted ? (WA_WHO[po.category ?? ''] ?? 'Limited eligibility') : '', po?.noPointData ? 'No point-level data (65+)' : '', r.privateOnly ? 'Private land only' : '', tagOk === false ? 'Your saved tag can\'t apply' : '']
+          r.youthOnly ? 'Youth only (under 16)' : '', po?.restricted ? (WA_WHO[po.category ?? ''] ?? 'Limited eligibility') : '', po?.noPointData ? 'No point-level data' : '', po?.onceInALifetime ? 'Once in a lifetime' : '', r.privateOnly ? 'Private land only' : '', tagOk === false ? 'Your saved tag can\'t apply' : '']
           .filter(Boolean).join(' · ')}
       </div>
       <ScoreRow r={r} nr={nr} />

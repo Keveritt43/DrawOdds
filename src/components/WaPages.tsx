@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { db } from '@/lib/db';
 import { int } from '@/lib/format';
-import { waPo, waPersonal, waLicense, type WaOddsTable, type WaPointOdds } from '@/lib/waHunt';
+import { waPo, waPersonal, waLicense, waIsMsg, WA_MSG_FEES, type WaOddsTable, type WaPointOdds } from '@/lib/waHunt';
 import { WaOddsPointsChart } from './WaCharts';
 import { StatePlanner, type PlanApp, type PlanOpt, type PlanPrereq, type PlanTimelineStep } from './StatePlanner';
 
@@ -14,7 +14,9 @@ import { StatePlanner, type PlanApp, type PlanOpt, type PlanPrereq, type PlanTim
  * Fees: WDFW's big-game license page, checked Nov 12, 2026 (no season year on the page).
  */
 
-const LIMITED = new Set(['SENIOR_DEER', 'SENIOR_ELK', 'DISABLED_DEER', 'DISABLED_ELK', 'MASTER_DEER', 'MASTER_ELK']);
+const LIMITED = new Set(['SENIOR_DEER', 'SENIOR_ELK', 'DISABLED_DEER', 'DISABLED_ELK', 'MASTER_DEER', 'MASTER_ELK', 'MOOSE_SENIOR', 'MOOSE_DISABLED', 'SHEEP_DIS_EWE', 'SHEEP_DIS_JUV']);
+const MSG_TYPES = new Set(['MOOSE_BULL', 'MOOSE_ANTLERLESS', 'MOOSE_YOUTH', 'MOOSE_SENIOR', 'MOOSE_DISABLED', 'GOAT', 'SHEEP_RAM', 'SHEEP_EWE', 'SHEEP_JUV', 'SHEEP_YOUTH', 'SHEEP_DIS_EWE', 'SHEEP_DIS_JUV']);
+const ONCE_TYPES = new Set(['MOOSE_BULL', 'GOAT', 'SHEEP_RAM']);
 const pct = (o: number | null | undefined) => (o == null ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.001 ? '<0.1%' : o < 0.01 ? `${(o * 100).toFixed(1)}%` : `${Math.round(o * 100)}%`);
 type Row = { id: string; slug: string; name: string; species: string; type: string; tagCode: string | null; tags: number | null; privateOnly: boolean; youthOnly: boolean;
   pointOdds: unknown; oddsByPts: unknown; success5: number | null; smallSample: boolean };
@@ -57,7 +59,12 @@ const apps = (po: WaPointOdds | null, y: string) => po?.demand?.[y]?.apps ?? nul
 const permitsIn = (po: WaPointOdds | null, y: string) => po?.demand?.[y]?.permits ?? null;
 
 export async function WaGuide() {
-  const rows = (await db.huntSummary.findMany({ where: { state: 'WA' }, select: SELECT })) as unknown as Row[];
+  const all = (await db.huntSummary.findMany({ where: { state: 'WA' }, select: SELECT })) as unknown as Row[];
+  const rows = all.filter((r) => !waIsMsg(r.species));
+  const msgRows = all.filter((r) => waIsMsg(r.species));
+  const msgBy = (sp: string) => msgRows.filter((r) => r.species === sp);
+  const msgPermits = (sp: string) => msgBy(sp).reduce((a, r) => a + (r.tags ?? 0), 0);
+  const msgEx = msgRows.filter((r) => waPo(r)?.onceInALifetime && (r.oddsByPts as WaOddsTable | null)?.proj?.nr?.length).sort((a, b) => (apps(waPo(b), '2025') ?? 0) - (apps(waPo(a), '2025') ?? 0))[0];
   const special = rows.filter((r) => waLicense(r) === 'special' && !r.youthOnly && !waPo(r)?.restricted);
   const youth = rows.filter((r) => waLicense(r) === 'special' && r.youthOnly);
   const restricted = (k: string) => rows.filter((r) => waPo(r)?.restricted && (waPo(r)?.category ?? '').includes(k));
@@ -108,6 +115,17 @@ export async function WaGuide() {
       <h2>Multi-Season Tags</h2>
       <p>A multi-season tag lets you hunt <b>every general season for that species, any weapon, either side of the state</b>, and apply for special permits with any weapon. It is drawn once a year with its own points, squared the same way. Deer: {msLine('DEER')}. Elk: {msLine('ELK')}. Winners must buy the tag, and every year thousands of drawn deer tags go unbought and are then sold to applicants who didn&apos;t draw, so a deer applicant&apos;s real chance is higher than the drawn odds.</p>
 
+      <h2>Moose, Bighorn Sheep And Mountain Goat</h2>
+      <p>The same squared drawing, applied for in the same April 20 – May 20 window, by category: <b>Any Antlered Bull Moose</b>, <b>Antlerless Moose</b>, <b>Mountain Goat</b>, <b>Any Ram</b>, <b>Adult Ewe</b>, <b>Juvenile Ram</b>, plus youth, 65+ and disabled-hunter categories. Each category keeps its own points, and you may list up to four hunts in each. 2026 has {int(msgBy('MOOSE').length)} moose hunts ({int(msgPermits('MOOSE'))} permits), {int(msgBy('BIGHORN').length)} bighorn sheep hunts ({int(msgPermits('BIGHORN'))} permits) and {int(msgBy('GOAT').length)} mountain goat hunts ({int(msgPermits('GOAT'))} permits), for tens of thousands of applications: most hunts draw well under 1% at any points.</p>
+      <p><b>Once in a lifetime, but only after a harvest.</b> Bull moose, any ram and goat are once in a lifetime: once you <b>report harvesting</b> one on that category&apos;s permit (or don&apos;t file your hunting report), WDFW won&apos;t sell you another application in it. Drawing and not taking an animal doesn&apos;t end your eligibility, though it resets your points. Antlerless moose, ewe and juvenile ram can be applied for every year, even after a harvest. Goats taken on auction, raffle or conflict permits don&apos;t count; raffles and auctions are separate and open every year.</p>
+      <p><b>You only buy the license if you draw:</b> {`$${WA_MSG_FEES.license.res.toFixed(2)}`} resident, {`$${WA_MSG_FEES.license.nr.toLocaleString('en-US', { minimumFractionDigits: 2 })}`} nonresident, {`$${WA_MSG_FEES.license.youth.toFixed(2)}`} youth. Applying costs {`$${WA_MSG_FEES.appHigh.res.toFixed(2)}`} (bull moose, ram, goat) or {`$${WA_MSG_FEES.app.res.toFixed(2)}`} (other categories) for residents, {`$${WA_MSG_FEES.app.nr.toFixed(2)}`} for nonresidents, and is not refunded. Groups are limited to two.</p>
+      {msgEx && <>
+        <h3>Example: <Link href={`/hunts/${msgEx.slug}`}>{msgEx.name}</Link></h3>
+        <p className="small">{int(msgEx.tags ?? 0)} permits for {int(apps(waPo(msgEx), '2025') ?? 0)} applications in 2025.</p>
+        <WaOddsPointsChart main={(msgEx.oddsByPts as WaOddsTable).proj.nr ?? []} other={(msgEx.oddsByPts as WaOddsTable).last.nr ?? []} myPoints={null} year={waPo(msgEx)?.projYear ?? 2027} otherYear={waPo(msgEx)?.year ?? 2025} projected />
+      </>}
+      <p className="small muted">Odds are estimated the deer-and-elk way, from WDFW&apos;s 2018–2020 moose, goat and sheep point tables rolled forward through the applications WDFW printed each year since. Checked on 2019 and 2020, that beat last year&apos;s odds for moose, goat and sheep separately; the model&apos;s average winner points since stay within what the luck of the draw explains (docs/states/wa-onboarding.md §10). Three sheep hunts are new in 2026 and the disabled-hunter ewe category has never been published by points, so those show no odds at your points. <Link href="/hunts?states=WA&draw=msg">Find Washington moose, sheep and goat hunts →</Link></p>
+
       <h2>What It Costs</h2>
       <div className="cmp-wrap"><table className="cmp-table"><thead><tr><th>Item</th><th>Resident</th><th>Nonresident</th><th>Youth (under 16)</th></tr></thead>
         <tbody>{FEES.map(([k, r, n, y]) => <tr key={k}><td>{k}</td><td>{r}</td><td>{n}</td><td>{y}</td></tr>)}</tbody></table></div>
@@ -132,7 +150,7 @@ export async function WaChanges() {
     .sort((a, b) => Math.abs(b.p26! - b.p25!) - Math.abs(a.p26! - a.p25!) || (b.a25 ?? 0) - (a.a25 ?? 0)).slice(0, 40);
   const swings = cmp.filter((c) => c.a24 !== null && c.a25 !== null && c.a24 >= 100 && c.a25 > 0)
     .sort((a, b) => Math.abs(b.a25! / b.a24! - 1) - Math.abs(a.a25! / a.a24! - 1)).slice(0, 40);
-  const sp = (s: string) => (s === 'ELK' ? 'sp-elk' : 'sp-deer');
+  const sp = (s: string) => (s === 'ELK' ? 'sp-elk' : s === 'DEER' ? 'sp-deer' : 'sp-msg');
   const name = (r: Row) => <><span className={`pill ${sp(r.species)}`}>{r.tagCode}</span> <Link href={`/hunts/${r.slug}`}>{r.name}</Link></>;
   return (
     <main className="wrap" style={{ margin: '24px auto 48px' }}>
@@ -178,22 +196,25 @@ export async function WaPlannerPage({ signedIn }: { signedIn: boolean }) {
     odds: x.odds, basis: x.basis, success: x.r.success5 !== null && !x.r.smallSample ? x.r.success5 : null,
   }));
   const apps: PlanApp[] = WA_POINT_TYPES.filter((t) => opts.some((o) => o.app === t.key) && (!LIMITED.has(t.key) || pts.points[t.key] > 0)).map((t) => {
-    const youth = t.key.startsWith('YOUTH');
+    const youth = t.key.startsWith('YOUTH') || t.key === 'MOOSE_YOUTH' || t.key === 'SHEEP_YOUTH';
     const ms = t.key === 'MS_DEER' || t.key === 'MS_ELK';
     const quality = t.key.startsWith('QUALITY');
+    const msgT = MSG_TYPES.has(t.key);
     const mine = opts.filter((o) => o.app === t.key);
     const n = pts.points[t.key];
     return {
       key: t.key, label: t.label, choices: ms ? 1 : quality ? 2 : 4,
       when: ms ? 'Apply Dec 1 – Mar 31 for the next year · results in April' : 'Apply Apr 20 – May 20 (2026 dates) · results by end of June',
       points: `Your ${t.label.toLowerCase()} points: ${n} (${int((n + 1) ** 2)} entr${n === 0 ? 'y' : 'ies'}); applying adds one whether or not you draw`,
-      price: fee(ms ? 'Multi-season deer or elk application' : quality ? 'Quality special permit application, per category' : 'Special permit application, per category', youth),
-      needs: ms ? [] : [t.species], group: youth ? 'youth' : undefined,
+      price: msgT ? (youth ? 5.05 : (ONCE_TYPES.has(t.key) ? WA_MSG_FEES.appHigh : WA_MSG_FEES.app)[nr ? 'nr' : 'res'])
+        : fee(ms ? 'Multi-season deer or elk application' : quality ? 'Quality special permit application, per category' : 'Special permit application, per category', youth),
+      needs: ms || msgT ? [] : [t.species], group: youth ? 'youth' : undefined,
       later: 'When your turn comes in the drawing, WDFW gives you your first choice that still has a permit, so a later choice only counts if every earlier one is gone by then.',
       suggest: mine.filter((o) => o.odds !== null && o.success !== null).sort((a, b) => b.odds! * b.success! - a.odds! * a.success!).slice(0, 4).map((o) => o.id),
       ifDrawn: t.key === 'MS_DEER' ? [{ label: 'multi-season deer tag', amount: fee('Multi-season deer tag, if drawn', false) }]
         : t.key === 'MS_ELK' ? [{ label: 'multi-season elk tag', amount: fee('Multi-season elk tag, if drawn', false) }]
-        : t.key === 'SECOND_DEER' ? [{ label: 'second deer tag', amount: fee('Second deer tag (second-deer permits)', youth) }] : undefined,
+        : t.key === 'SECOND_DEER' ? [{ label: 'second deer tag', amount: fee('Second deer tag (second-deer permits)', youth) }]
+        : msgT ? [{ label: `${t.species === 'MOOSE' ? 'moose' : t.species === 'GOAT' ? 'goat' : 'sheep'} license and tag`, amount: youth ? WA_MSG_FEES.license.youth : WA_MSG_FEES.license[nr ? 'nr' : 'res'] }] : undefined,
     };
   });
   const prereq: PlanPrereq[] = [false, true].flatMap((youth) => [

@@ -26,7 +26,7 @@ Status (Nov 12, 2026): **live for deer and elk.** Imported Nov 12 22:28 PT and e
 | **Special permits, deer** | Quality, Buck, Antlerless, Second Deer | Odds at every point level, table and chart. |
 | **Special permits, elk** | Quality, Bull, Antlerless | Same. |
 
-Later: Youth, 65+, Hunters with Disabilities, Master Hunter categories (parsed already, same model, add once the main ones are live), raffles, incentive and landowner permits, moose/sheep/goat.
+Later: raffles, incentive and landowner permits. (Youth, 65+, disabilities and Master Hunter were added Nov 13; moose, sheep and goat Nov 17, §10.)
 
 You must hold the matching transport tag to apply (weapon; East/West for elk); multi-season holders may apply with any weapon and either side. The finder hides special hunts the hunter's chosen tag can't apply for.
 
@@ -189,3 +189,50 @@ The November 15 follow-up review also matched 2026 Desert late archery hunt 1080
 WDFW reuses and renumbers choices. The importer follows annual pamphlet rows only when species, category, name, tag, area and legal animal agree and the fully parsed annual season ranges have matching counts and endpoints within ten calendar days. Each match must also be unique in reverse. A documented `anterless` extraction typo is normalized; other legal-animal changes, unparsed dates, new hunts and ambiguous matches stop the lineage. The matched 2021–2025 records drive pooled success and density; prior attributed histories are retained separately as `harvestPriorToLineageAudit` and are not shown as verified hunt history. No historical source reports or other states are deleted.
 
 For Colockum 2016, the September season used choice 2015 in 2021 and 2022. The old choice 2016 represented the distinct late season. The corrected five hunter-seasons are still too few for Quality; point-level odds remain withheld because the drawing seed has not been revalidated. The change does not establish that unmatched histories do not exist.
+
+
+## 10. Moose, bighorn sheep and mountain goat (WA-3, Nov 17, 2026)
+
+**Scope:** every 2026 moose, sheep and goat special permit: 28 moose (14 Any Antlered Bull, 9 Antlerless, 1 youth, 2 65+, 2 disabled-hunter), 14 bighorn sheep (7 Any Ram, 2 Adult Ewe, 1 Juvenile Ram, 2 youth ewe, 2 disabled-hunter) and 5 goat. Raffle and auction permits are left out (no drawing odds). Built by `scripts/wa_build_msg.py` (called from `wa_build_hunts.py`; `--merge` replaces only these rows in `data/wa/hunts.json`), units by `scripts/wa_build_msg_land.py`.
+
+**Rules, checked in the 2026 pamphlet (pp. 17-20, 62-66):**
+- The same weighted drawing as deer and elk, one category at a time, up to four choices, groups of **2**, one pool for residents and nonresidents, applications Apr 20 – May 20.
+- **Once in a lifetime is triggered by a harvest, not a draw.** Any Antlered Bull Moose, Goat and Any Ram: after you report taking one (or fail to report), WDFW won't sell you another application in that category. Antlerless moose, ewe, juvenile ram and the youth/65+/disabled categories may be applied for every year. Several outfitter and forum sites say "once you draw"; that is wrong. Goat restrictions are waived for goats taken on auction, raffle or conflict permits.
+- **Fees** (fee table, checked Nov 12): application $18.72 resident for bull moose, ram and goat (the "Quality" price, footnote 4), $9.61 for the other categories, $152.30 nonresident, $5.05 youth; license and tag only if drawn: $457.40 resident, $2,279.00 nonresident, $77.90 youth, $156.84 resident 70+.
+
+**Sources (Claude in Chrome, Nov 17; see the script headers):**
+
+| File | What |
+|---|---|
+| `msg-regulation-2017-2026.json` | WDFW Hunt Planner **Regulation** service (`geodataservices.wdfw.wa.gov/arcgis/rest/services/WP_HuntPlanner/Regulation/MapServer`, table 1 and UnitSpatial layer 0): the pamphlet's permit tables as data for 2017-2026 (hunt number, name, category, units, dates, permits and the prior year's "apps/avg points"), and unit outlines. This is a better source than parsing pamphlet PDFs and should be tried for the deer/elk rebuild too. |
+| `msg-drawing-points-2018-2020.csv` | WDFW per-point drawing PDFs for moose, goat and sheep, 2018-2020 (29 files; no Conflict Goat or disabled-hunter ewe file exists). Every 2018-2019 hunt's selected applicants sum to its permits. |
+| `msg-harvest-2013-2025.json` | WDFW special-permit harvest reports, moose, sheep and goat, 2013-2025. |
+| `msg-land-5070.json` | BLM SMA and WDFW private-lands access polygons per new unit envelope. |
+
+**Checks:**
+- Weighting (`wa_build_msg.py --check`, log-likelihood on the 2018-2020 tables): P² best for moose (−2,847.7 vs P²+1 −2,848.4, P −2,895.4, flat −3,112.6), goat (−451.1, tied with P²+1) and sheep (−1,645.8 vs −1,647.0). Consistent with deer and elk.
+- **WDFW renumbers and renames.** 2026 sheep 5001 Cleman Mountain was 5000 in 2023-2025, 5003 in 2021-2022 and 5007 "Cleman Mountain A" in 2020. Chains are walked back by category and name; where the name changed, WDFW's own link is used (the hunt whose harvest-report applications are within 3% of what the next pamphlet prints as last year's). The youth moose hunt moved from Moose Area 1 to 2 under number 8023 in 2026: the drawing chain follows it (same category pool), the harvest chain stops (different ground).
+- **Regulation service vs pamphlet:** 8027 Mt Spokane South D is in Moose Area 2 in the service and Moose Area 1 in the pamphlet; the pamphlet wins. Five 2023 ewe rows have no category; their category is taken from the 2022 hunt their printed applications match (Cleman Mountain = youth).
+- **Applications:** the 2018-2020 point tables hold ~98% of the harvest report's Total Applicants; the pamphlet's prior-year count runs ~1-2% below the harvest report in most years (identical in 2021).
+
+**Backtest** (`scripts/wa_backtest_msg.py`, Brier ×1000, last year's odds vs roll forward r = 1):
+
+| Group | 2019 last | 2019 roll | 2020 last | 2020 roll |
+|---|---|---|---|---|
+| Bull moose | 1.758 | 1.734 | 1.658 | 1.640 |
+| Other moose | 1.151 | 1.121 | 0.881 | 0.846 |
+| Goat | 0.587 | 0.582 | 0.608 | 0.590 |
+| Any ram | 0.641 | 0.636 | 0.767 | 0.759 |
+| Other sheep (r = 0.7) | 5.648 | 5.610 | 3.389 | 3.136 |
+
+Roll forward beat last year's odds in every group, both years. Retention was picked per group on 2019 and held on 2020: 1.0 everywhere except the other-sheep group (0.7: 5.610 vs 5.625 at 1.0). The gains are small in Brier terms because nearly every application loses; they are 1-8% relative.
+
+**Drift 2021-2025** (`wa_build_msg.py`): the model's average points of drawn applications vs WDFW's printed average winner points: mean error −0.11, +0.52, +0.21, +0.33, +0.15; mean |error| 2.8, 1.5, 3.3, 3.6, 4.2. With 1-15 permits a hunt, the luck of the draw alone would give about 2.8-3.2 (computed from each year's modelled spread), so the model is unbiased and close to that floor, slowly losing precision. Labelled "estimated".
+
+**Odds availability:** 40 hunts from their own 2018-2020 table, 2 (Swakane ewe, Chelan Butte youth ewe, both first held in 2024) from their category's pooled 2020 mix, and none for 4: three hunts new in 2026 (5000 Selah Butte ram, 5009 Cleman Mountain juvenile ram, 5011 Swakane youth) and 5012 Chelan Butte A disabled-hunter ewe (category never published by points).
+
+**Units and land** (`wa_build_msg_land.py`, Montana raster): Moose Areas 1-2 (`MA1`, `MA2`, inside GMU 124, 6-9% public), Sheep Units (`SH4` … `SH20`; e.g. Cleman Mountain SH7 79% public, Lincoln Cliffs SH12 5%), Mountain Goat Units (`MG3-6` … `MG5-7`, 96-100% public). Each records the GMUs it lies in (≥5% of its area), which the Unit Map shades. Note C hunts ("Private lands; access is extremely limited") are **not** flagged private-land-only: the permit isn't legally limited to private land (Idaho's rule for "very limited access"); the card and page show the note.
+
+**App:** Moose · Sheep · Goat drawing for Washington (states.ts), 12 new point balances on the account page, the Washington: Permit Category filter in the MSG drawing, hunt pages (once-in-a-lifetime, goat training and horn inspection, fees), unit pages for the new units (no map yet, like Deer/Elk Areas), Unit Map shading via GMUs, How The Draw Works section, Planner applications with license-if-drawn costs.
+
+**Open:** raffle/auction permits; a map outline on sheep/goat unit pages; youth sheep juvenile-ram/ewe history before 2024.

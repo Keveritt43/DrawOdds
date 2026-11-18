@@ -9,7 +9,7 @@ import { int, pct100 } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { evaluateHunt, type HunterSettings } from '@/lib/multiStateSearch';
 import type { CoScored } from '@/lib/coScores';
-import { waLicense } from '@/lib/waHunt';
+import { waLicense, waUnitKind } from '@/lib/waHunt';
 import { WaHuntCard } from '@/components/WaHuntCard';
 import { LandBar } from '@/components/LandBar';
 import { UnitMap } from '@/components/UnitMap';
@@ -18,16 +18,17 @@ import waUnits from '../../../../data/wa/land.json';
 
 type SP = { species?: string; type?: string };
 const FILTERS = {
-  species: [['', 'All species'], ['DEER', 'Deer'], ['ELK', 'Elk']],
+  species: [['', 'All species'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn sheep'], ['GOAT', 'Mountain goat']],
   type: [['', 'All hunts'], ['general', 'General season'], ['special', 'Special permits']],
 } as const;
 type LandRec = { accessAcres?: number; accessPrograms?: Record<string, number>; tribalPct?: number };
-const kindOf = (name: string) => (/^DA/.test(name) ? 'Deer Area' : /^EA/.test(name) ? 'Elk Area' : 'GMU');
+const kindOf = waUnitKind;
+const bare = (name: string) => name.replace(/^(DA|EA|MA|SH|MG)/, '');
 const lower = (kind: string) => (kind === 'GMU' ? 'GMU' : kind.toLowerCase());
 
 /**
- * A WDFW game management unit (or Deer / Elk Area), laid out like Idaho's unit page: land, the unit on the map,
- * WDFW's private-lands access programs, and every general-season and special-permit deer and elk hunt on it.
+ * A WDFW game management unit (or Deer / Elk / Moose Area, Sheep Unit or Mountain Goat Unit), laid out like Idaho's unit page: land, the unit on the map,
+ * WDFW's private-lands access programs, and every general-season and special-permit hunt on it.
  * Statewide multi-season tags aren't listed on unit pages.
  */
 export async function WaUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
@@ -55,7 +56,7 @@ export async function WaUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
   const general = rows.filter((h) => h.type === 'GENERAL');
   const label = general[0]?.areaName?.replace(/^GMU \d+ /, '') ?? rows.find((h) => h.units.length === 1)?.areaName ?? '';
   const kind = kindOf(name);
-  const title = `${kind} ${name.replace(/^(DA|EA)/, '')}${label && kind === 'GMU' ? `: ${label}` : ''}`;
+  const title = `${kind} ${bare(name)}${label && kind === 'GMU' ? `: ${label}` : ''}`;
   const lr = (waUnits as { units: Record<string, LandRec> }).units[name];
   const tribal = (unit.landOwnership as { manager: string; pct: number }[] | null)?.find((o) => o.manager === 'TRIBAL')?.pct ?? 0;
   const side = (rows.find((h) => h.species === 'ELK' && h.type === 'GENERAL')?.pointOdds as { side?: string } | null)?.side;
@@ -64,7 +65,7 @@ export async function WaUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
       <p className="small"><Link href="/hunts?states=WA">← Find Hunts</Link> · <Link href={`/hunts?states=WA&unit=WA:${name}`}>Filter Hunts In This {kind}</Link></p>
       <h1 className="star-head">Washington {title} <Star kind="unit" id={key} saved={fav.units.has(key)} signedIn={fav.signedIn} label /></h1>
-      <div className="muted">WDFW {lower(kind)} {name.replace(/^(DA|EA)/, '')}{unit.acres ? ` · ${int(unit.acres)} acres` : ''}{side ? ` · ${side === 'EAST' ? 'Eastern' : 'Western'} Washington elk tag` : ''}{kind !== 'GMU' ? ' · special-permit area inside one or more GMUs' : ''}</div>
+      <div className="muted">WDFW {lower(kind)} {bare(name)}{unit.acres ? ` · ${int(unit.acres)} acres` : ''}{side ? ` · ${side === 'EAST' ? 'Eastern' : 'Western'} Washington elk tag` : ''}{kind !== 'GMU' ? ` · special-permit ${kind === 'Sheep Unit' || kind === 'Goat Unit' ? 'hunt unit' : 'area'}${kind === 'Moose Area' ? ' inside GMU 124' : ''}` : ''}</div>
 
       <div className="stats">
         <div className="stat"><div className="k">Public land</div><div className="v">{pct100(unit.publicPct)}</div></div>
@@ -96,7 +97,7 @@ export async function WaUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
         </> : <p className="small muted" style={{ margin: 0 }}>No WDFW private-lands access properties here.</p>}
       </section>
 
-      <h2 id="hunts">Hunts In {kind} {name.replace(/^(DA|EA)/, '')}</h2>
+      <h2 id="hunts">Hunts In {kind} {bare(name)}</h2>
       {!pts.set && <p className="small"><Link href="/account#hunting-preferences">Set your Washington points</Link> for odds at your points.</p>}
       <div className="uh-filters">
         {(Object.keys(FILTERS) as (keyof typeof FILTERS)[]).map((k) => (
@@ -111,9 +112,9 @@ export async function WaUnitPage({ name, sp = {} }: { name: string; sp?: SP }) {
       <p className="small muted" style={{ margin: '4px 0 8px' }}>{shown.length} of {rows.length} hunts · special-permit odds are estimated for the 2027 drawing at your saved points; residents and nonresidents share one drawing. Multi-season tags are statewide and listed in Find Hunts.</p>
       <div className="uh-cards">
         {shown.map((x) => <WaHuntCard key={x.r.id} r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} tagOk={x.waTagOk} />)}
-        {!shown.length && <p className="muted">{rows.length ? 'No hunts match these filters.' : 'No deer or elk hunts in this unit.'}</p>}
+        {!shown.length && <p className="muted">{rows.length ? 'No hunts match these filters.' : 'No hunts in this unit.'}</p>}
       </div>
-      <p className="small muted">Source: WDFW 2026 Big Game pamphlet, game harvest reports and GMU / Deer Area / Elk Area boundaries; private-lands access from WDFW; land from BLM&apos;s Surface Management Agency map. Confirm with WDFW before you hunt.</p>
+      <p className="small muted">Source: WDFW 2026 Big Game pamphlet, game harvest reports and GMU / Deer, Elk and Moose Area / Sheep and Goat Unit boundaries; private-lands access from WDFW; land from BLM&apos;s Surface Management Agency map. Confirm with WDFW before you hunt.</p>
     </main>
   );
 }

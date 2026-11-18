@@ -4,10 +4,12 @@
  *
  *   npx tsx scripts/wa-import.ts          dry run: validates and prints what would change
  *   npx tsx scripts/wa-import.ts --apply  writes, in one transaction
+ *   --species=MOOSE,BIGHORN,GOAT          only those species' rows (other Washington rows digested, must not change)
  *
  * Scope: only rows with state 'WA' are replaced. Idaho, Colorado, Wyoming, Montana and Utah summaries are digested before
  * and after; any change aborts. No agency fetch, no schema change. Hunt ids are stable ("WA:<hunt number>", "WA:MS-DEER", "WA:GD-101-ARCHERY").
- * Deer and elk. Unit rows are WDFW GMUs ("101"), Deer Areas ("DA3071") and Elk Areas ("EA3911").
+ * Deer and elk; moose, bighorn sheep and mountain goat special permits (Nov 17, 2026). Unit rows are WDFW GMUs ("101"),
+ * Deer Areas ("DA3071"), Elk Areas ("EA3911"), Moose Areas ("MA1"), Sheep Units ("SH7") and Mountain Goat Units ("MG3-6").
  */
 import { readFileSync } from 'node:fs';
 import type { Prisma } from '@prisma/client';
@@ -15,11 +17,15 @@ import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
 
-type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
+type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'MOOSE' | 'BIGHORN' | 'GOAT'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; acres: number | null; bbox: number[] | null; geometry: object | null; publicPct?: number | null; privatePct?: number | null; ownership?: { manager: string; pct: number }[] };
 
 const apply = process.argv.includes('--apply');
-const hunts = JSON.parse(readFileSync('data/wa/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
+// --species=MOOSE,BIGHORN,GOAT: write only those species' rows (and the units they add); every other Washington
+// row is left exactly as it is and digested before and after, like the other states
+const only = (process.argv.find((a) => a.startsWith('--species='))?.slice(10).split(',').filter(Boolean) ?? []) as Rec['species'][];
+const allHunts = JSON.parse(readFileSync('data/wa/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
+const hunts = only.length ? { ...allHunts, hunts: allHunts.hunts.filter((h) => only.includes(h.species)) } : allHunts;
 // Unit rows: the GMUs and Deer/Elk Areas the imported hunts use (data/wa/units.json). Deer and Elk Areas overlap
 // GMUs; each is one Unit row with its own land shares.
 const used = new Set(hunts.hunts.flatMap((h) => h.units));
@@ -27,6 +33,9 @@ const areas = (JSON.parse(readFileSync('data/wa/units.json', 'utf8')) as { units
 
 const digest = async (state: string) =>
   JSON.stringify(await db.$queryRaw`SELECT md5(COALESCE(jsonb_agg(to_jsonb(s) ORDER BY id)::text,'[]')) AS digest FROM "HuntSummary" s WHERE state=${state}`);
+const digestWaOthers = async () => only.length
+  ? JSON.stringify(await db.$queryRaw`SELECT md5(COALESCE(jsonb_agg(to_jsonb(s) ORDER BY id)::text,'[]')) AS digest FROM "HuntSummary" s WHERE state='WA' AND NOT (species::text = ANY(${only}))`)
+  : 'all';
 const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 const date = (v: unknown) => (typeof v === 'string' ? new Date(`${v}T12:00:00Z`) : null);
 
@@ -55,7 +64,7 @@ function validate(): string[] {
     if (h.state !== 'WA') errors.push(`${h.id}: state ${String(h.state)}`);
   }
   for (const a of areas) {
-    if (!/^(\d{3}|DA\d{4}|EA\d{4})$/.test(a.name)) errors.push(`bad unit name ${a.name}`);
+    if (!/^(\d{3}|DA\d{4}|EA\d{4}|MA\d|SH\d{1,2}|MG\d-\d{1,2}[a-z]?)$/.test(a.name)) errors.push(`bad unit name ${a.name}`);
     // every district has measured land (scripts/mt_build_land.py); never import a missing share as 0% public
     for (const v of [a.publicPct, a.privatePct]) if (!(typeof v === 'number' && v >= 0 && v <= 100)) errors.push(`${a.name}: land share missing`);
   }
@@ -122,7 +131,7 @@ async function main() {
     }
     if (JSON.stringify(a) !== JSON.stringify(b)) out.push(`${path}: ${JSON.stringify(a)?.slice(0, 60)} -> ${JSON.stringify(b)?.slice(0, 60)}`);
   };
-  const live = new Map((await db.huntSummary.findMany({ where: { state: 'WA' } })).map((r) => [r.id, r as unknown as Record<string, unknown>]));
+  const live = new Map((await db.huntSummary.findMany({ where: { state: 'WA', ...(only.length ? { species: { in: only } } : {}) } })).map((r) => [r.id, r as unknown as Record<string, unknown>]));
   const liveUnits = await db.unit.count({ where: { state: 'WA' } });
   const added = summaryRows.filter((r) => !live.has(r.id)).map((r) => r.id);
   const removed = [...live.keys()].filter((id) => !summaryRows.some((r) => r.id === id));
@@ -137,14 +146,24 @@ async function main() {
   // the reviewed plan: every summary's id, odds table and score, hashed, so an apply can be gated on the dry run
   const { createHash } = await import('node:crypto');
   const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.success5, r.privateOnly, r.publicPct, r.huntablePct]))).digest('hex').slice(0, 16);
-  console.log('[WA] diff', JSON.stringify({ live: live.size, liveUnits, added: added.length, removed: removed.length, changed: changedRows, planDigest }));
+  console.log('[WA] diff', JSON.stringify({ scope: only.length ? only.join(',') : 'all', live: live.size, liveUnits, added: added.length, removed: removed.length, changed: changedRows, planDigest }));
   if (removed.length) console.log('[WA] removed', removed.join(', '));
   if (!apply) {
     console.log('[WA] dry run only; pass --apply to write');
     return;
   }
-  const before = { ID: await digest('ID'), CO: await digest('CO'), WY: await digest('WY'), MT: await digest('MT'), UT: await digest('UT') };
+  const before = { ID: await digest('ID'), CO: await digest('CO'), WY: await digest('WY'), MT: await digest('MT'), UT: await digest('UT'), WAother: await digestWaOthers() };
   await db.$transaction(async (tx) => {
+    if (only.length) {
+      // scoped: replace only these species; add or refresh their units, delete no unit
+      await tx.huntSummary.deleteMany({ where: { state: 'WA', species: { in: only } } });
+      await tx.hunt.deleteMany({ where: { state: 'WA', source: 'wa-import', species: { in: only }, idfgId: { notIn: huntRows.map((h) => h.idfgId) } } });
+      for (const h of huntRows) await tx.hunt.upsert({ where: { idfgId: h.idfgId }, create: h, update: { ...h, idfgId: undefined } });
+      await tx.huntSummary.createMany({ data: summaryRows });
+      const otherUnits = new Set(allHunts.hunts.filter((h) => !only.includes(h.species)).flatMap((h) => h.units));
+      for (const u of unitRows) if (!otherUnits.has(u.name)) await tx.unit.upsert({ where: { state_name: { state: 'WA', name: u.name } }, create: u, update: { ...u, state: undefined, name: undefined } });
+      return;
+    }
     await tx.huntSummary.deleteMany({ where: { state: 'WA' } });
     await tx.hunt.deleteMany({ where: { state: 'WA', source: 'wa-import', idfgId: { notIn: huntRows.map((h) => h.idfgId) } } });
     for (const h of huntRows) await tx.hunt.upsert({ where: { idfgId: h.idfgId }, create: h, update: { ...h, idfgId: undefined } });
@@ -152,9 +171,9 @@ async function main() {
     await tx.unit.deleteMany({ where: { state: 'WA', name: { notIn: unitRows.map((u) => u.name) } } });
     for (const u of unitRows) await tx.unit.upsert({ where: { state_name: { state: 'WA', name: u.name } }, create: u, update: { ...u, state: undefined, name: undefined } });
   }, { timeout: 180_000 });
-  const after = { ID: await digest('ID'), CO: await digest('CO'), WY: await digest('WY'), MT: await digest('MT'), UT: await digest('UT') };
+  const after = { ID: await digest('ID'), CO: await digest('CO'), WY: await digest('WY'), MT: await digest('MT'), UT: await digest('UT'), WAother: await digestWaOthers() };
   if (JSON.stringify(before) !== JSON.stringify(after)) throw Error('another state\'s summaries changed during the Washington import; review concurrent writes');
-  const written = await db.huntSummary.count({ where: { state: 'WA' } });
+  const written = await db.huntSummary.count({ where: { state: 'WA', ...(only.length ? { species: { in: only } } : {}) } });
   if (written !== summaryRows.length) throw Error(`expected ${summaryRows.length} Washington summaries, found ${written}`);
   console.log('[WA_IMPORT_SUCCESS]', JSON.stringify({ ...counts, planDigest, otherStatesUnchanged: true }));
 }

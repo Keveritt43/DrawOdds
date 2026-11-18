@@ -13,21 +13,23 @@ import { int, pct as pct0, density } from '@/lib/format';
 import { unitKey } from '@/lib/states';
 import { CHANCE_LABEL, chanceOf } from '@/lib/coOdds';
 import { opportunity } from '@/lib/score';
-import { waPersonal, waLicense, waPo, WA_WEAPON_LABEL, WA_WHO, type WaOddsTable } from '@/lib/waHunt';
+import { waPersonal, waLicense, waPo, WA_WEAPON_LABEL, WA_WHO, waIsMsg, waSpeciesWord, waUnitLabel, WA_MSG_FEES, WA_ONCE, type WaOddsTable } from '@/lib/waHunt';
 import { LandBar } from '@/components/LandBar';
 import { SuccessChart, HarvestChart } from '@/components/Charts';
 import { WaOddsPointsChart, WaDrawHistory } from '@/components/WaCharts';
 import type { YearPoint } from '@/lib/history';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.001 ? '<0.1%' : o < 0.01 ? `${(o * 100).toFixed(1)}%` : `${Math.round(o * 100)}%`);
-const unitLabel = (u: string) => (/^DA/.test(u) ? `Deer Area ${u.slice(2)}` : /^EA/.test(u) ? `Elk Area ${u.slice(2)}` : `GMU ${u}`);
+const unitLabel = waUnitLabel;
+const usd = (n: number) => `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-/** A Washington deer or elk hunt: a special permit or multi-season tag (WDFW's weighted-point drawing, odds
+/** A Washington deer, elk, moose, bighorn sheep or mountain goat hunt: a special permit or multi-season tag (WDFW's weighted-point drawing, odds
  *  estimated) or a general season (over the counter). Laid out like Idaho's, Montana's and Utah's hunt pages. */
 export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: string } }) {
   const po = waPo(s);
   const table = s.oddsByPts as unknown as WaOddsTable | null;
-  const spLabel = s.species === 'ELK' ? 'elk' : 'deer';
+  const spLabel = waSpeciesWord(s.species);
+  const msg = waIsMsg(s.species);
   const [store, session] = await Promise.all([getPointsStore(), auth()]);
   const pts = readWaPoints(store.store as Record<string, unknown>);
   const saved = session?.user ? await db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } }) : null;
@@ -56,12 +58,14 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
   })).sort((a, b) => a.year - b.year);
   const fill = mine.odds !== null && s.success5 !== null ? mine.odds * s.success5 : null;
   const ptLabel = mine.type ? WA_POINT_TYPES.find((t) => t.key === mine.type)!.label.toLowerCase() : null;
-  const myTag = s.species === 'DEER' ? WA_DEER_TAGS.find(([k]) => k === pts.deerTag)?.[1] : WA_ELK_TAGS.find(([k]) => k === pts.elkTag)?.[1];
+  const myTag = msg ? undefined : s.species === 'DEER' ? WA_DEER_TAGS.find(([k]) => k === pts.deerTag)?.[1] : WA_ELK_TAGS.find(([k]) => k === pts.elkTag)?.[1];
   const notes: string[] = [];
   if (s.privateOnly) notes.push('Private land only');
   if (gen) notes.push('Over the counter, no draw');
   if (/\bQ\b/.test(po?.notes ?? '')) notes.push('Timberland access fees possible');
   if (mine.tagOk === false) notes.push(`Your ${myTag ?? 'saved'} tag can't apply`);
+  if (po?.onceInALifetime) notes.push('Once in a lifetime');
+  if (/\bC\b/.test(po?.notes ?? '') && msg) notes.push('Private land, access very limited');
   const lastArr = table?.last?.res ?? [], projArr = table?.proj?.res ?? [];
 
   return (
@@ -120,7 +124,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <HuntLink className="seg-link" href={q({ odds: 'last' })} aria-pressed={!mine.projected} scroll={false}>{lastYear} estimate</HuntLink>
         </span></div>
         <WaOddsPointsChart main={mine.projected ? projArr : lastArr} other={mine.projected ? lastArr : projArr} myPoints={mine.points} year={mine.projected ? projYear : lastYear} otherYear={mine.projected ? lastYear : projYear} projected={mine.projected} />
-        <p className="small muted">Estimated. WDFW stopped publishing draw results by point level after 2020. {po?.seed === 'own' ? `This hunt starts from WDFW's own ${po?.seedYear ?? 2020} table of applicants at every point level` : `This hunt has no point table of its own, so it starts from the ${po?.category ?? 'category'} hunts' pooled ${po?.seedYear ?? 2020} mix`}, rolled forward a year at a time: everyone who didn&apos;t draw comes back with one more point, winners leave, and new applicants make up the count WDFW published that year. The {projYear} line rolls forward twice more with {lastYear}&apos;s applications and the 2026 permits. Tested on WDFW&apos;s 2018, 2019 and 2020 results, this beat last year&apos;s odds every year.{lic === 'multi' && s.species === 'DEER' ? ' Multi-season deer: thousands of drawn tags go unbought every year and are then sold to applicants who didn\'t draw, so a deer applicant\'s real chance of a tag is higher than these drawn odds.' : ''}</p>
+        <p className="small muted">Estimated. WDFW stopped publishing draw results by point level after 2020. {po?.seed === 'own' ? `This hunt starts from WDFW's own ${po?.seedYear ?? 2020} table of applicants at every point level` : `This hunt has no point table of its own, so it starts from the ${po?.category ?? 'category'} hunts' pooled ${po?.seedYear ?? 2020} mix`}, rolled forward a year at a time: everyone who didn&apos;t draw comes back with one more point, winners leave, and new applicants make up the count WDFW published that year. The {projYear} line rolls forward twice more with {lastYear}&apos;s applications and the 2026 permits. Tested on WDFW&apos;s 2018, 2019 and 2020 results, this beat last year&apos;s odds every year{msg ? ` (moose, goat and sheep checked separately, 2019 and 2020)` : ''}.{lic === 'multi' && s.species === 'DEER' ? ' Multi-season deer: thousands of drawn tags go unbought every year and are then sold to applicants who didn\'t draw, so a deer applicant\'s real chance of a tag is higher than these drawn odds.' : ''}</p>
       </>}
       <h2>Hunter Success</h2>
       {harvestSeries.length > 0 ? <div className="grid2"><SuccessChart data={harvestSeries} /><HarvestChart data={harvestSeries} /></div> : <p className="muted">No comparable WDFW harvest history is available for this {gen ? 'GMU and weapon' : 'hunt'}.</p>}
@@ -136,8 +140,12 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <details className="card fold">
         <summary><span>How these odds work</span><span className="small muted">{gen ? 'no draw' : 'weighted points'}</span></summary>
         {gen && <p><b>Over the counter, no draw.</b> Washington sells general deer and elk tags over the counter to residents and nonresidents. A deer tag is for one weapon (modern firearm, archery or muzzleloader); an elk tag is for one weapon and one side of the state (Eastern: EF, EA, EM; Western: WF, WA, WM). This GMU{s.species === 'ELK' && po?.side ? ` is in ${po.side === 'EAST' ? 'Eastern' : 'Western'} Washington` : ''}.</p>}
-        {!gen && <p><b>A weighted drawing.</b> You earn one point each year you apply in a category ({ptLabel ?? 'this category'}). Each application gets your points plus this year&apos;s, squared, in random numbers, and the best one ranks you in the whole category&apos;s queue: 0 banked points = 1 entry, 2 = 9, 4 = 25. WDFW then goes down the queue giving each applicant their highest hunt choice that still has permits (up to four choices; two for Quality). So zero points can still draw, more points help a lot, and drawing resets that category&apos;s points to zero. Residents and nonresidents are in the same drawing; groups of up to {lic === 'multi' ? '2' : '8'} average their points.</p>}
-        {!gen && po?.tag && <p><b>Tag required to apply:</b> {po.tag}.{myTag ? ` Yours: ${myTag}.` : ' Save your general tag in Account to check.'} Multi-season tag holders can apply with any weapon{s.species === 'ELK' ? ' and either side' : ''}.</p>}
+        {!gen && <p><b>A weighted drawing.</b> You earn one point each year you apply in a category ({ptLabel ?? 'this category'}). Each application gets your points plus this year&apos;s, squared, in random numbers, and the best one ranks you in the whole category&apos;s queue: 0 banked points = 1 entry, 2 = 9, 4 = 25. WDFW then goes down the queue giving each applicant their highest hunt choice that still has permits (up to four choices; two for Quality). So zero points can still draw, more points help a lot, and drawing resets that category&apos;s points to zero. Residents and nonresidents are in the same drawing; groups of up to {lic === 'multi' || msg ? '2' : '8'} average their points.</p>}
+        {msg && <p><b>{po?.onceInALifetime || WA_ONCE.has(po?.category ?? '') ? 'Once in a lifetime.' : 'Every year.'}</b> {po?.onceInALifetime || WA_ONCE.has(po?.category ?? '') ? `Once you report harvesting a ${s.species === 'MOOSE' ? 'bull moose' : s.species === 'GOAT' ? 'mountain goat' : 'bighorn ram'} on a ${po?.category} permit (or fail to file your hunting report), WDFW won't sell you another application in that category. Drawing without taking an animal doesn't count against you, but it resets your points. ${s.species === 'GOAT' ? 'Goats taken on auction, raffle or conflict-reduction permits don\'t count.' : 'Raffle and auction permits are separate and open every year.'}` : `You may apply every year, even after a harvest. These permits have their own category and points, separate from the once-in-a-lifetime ${s.species === 'MOOSE' ? 'bull moose' : 'ram'} category.`}</p>}
+        {msg && s.species === 'GOAT' && <p><b>Before you can buy the license</b> a drawn goat hunter must pass WDFW&apos;s online mountain goat identification training; a harvested goat&apos;s head must be inspected by WDFW within 10 days.</p>}
+        {msg && s.species === 'BIGHORN' && /Ram/.test(po?.category ?? '') && <p><b>Horn inspection.</b> A ram&apos;s horns must be inspected and marked by WDFW within 10 days.</p>}
+        {(po?.noteText ?? []).map((t) => <p key={t} className="small"><b>Hunt note.</b> {t}</p>)}
+        {!gen && !msg && po?.tag && <p><b>Tag required to apply:</b> {po.tag}.{myTag ? ` Yours: ${myTag}.` : ' Save your general tag in Account to check.'} Multi-season tag holders can apply with any weapon{s.species === 'ELK' ? ' and either side' : ''}.</p>}
         {s.youthOnly && <p><b>Youth only.</b> Applicants must be under 16 when they buy the application and license (youth license and application fees are lower). Youth permits are their own category with their own points, separate from adult categories. WDFW requires an adult to accompany the youth during the hunt.</p>}
         {s.privateOnly && <p><b>Private land only.</b> WDFW limits this permit to private land; you need landowner permission before you apply. It counts as 0% public land.</p>}
         {po?.pointsMeaning && <p className="small muted">{po.pointsMeaning}</p>}
@@ -153,6 +161,16 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
                 return <tr key={n} className={isMe ? 'me' : undefined} aria-current={isMe ? 'true' : undefined}><td>{isMe ? <b>{n} · you</b> : n}</td><td className="num">{(n + 1) ** 2}</td><td className="num">{pct(lastArr[n])}</td><td className="num">{pct(projArr[n] ?? null)}</td></tr>;
               });
             })()}</tbody></table></div>
+        </details>
+      )}
+      {msg && (
+        <details className="card fold">
+          <summary><span>What it costs</span><span className="small muted">{nr ? 'nonresident' : 'resident'}</span></summary>
+          <div className="htable-wrap"><table><tbody>
+            <tr><th>Application (to apply, not refunded)</th><td className="num">{usd((WA_ONCE.has(po?.category ?? '') ? WA_MSG_FEES.appHigh : WA_MSG_FEES.app)[nr ? 'nr' : 'res'])}</td></tr>
+            <tr><th>License and tag (only if drawn)</th><td className="num">{usd(s.youthOnly ? WA_MSG_FEES.license.youth : WA_MSG_FEES.license[nr ? 'nr' : 'res'])}</td></tr>
+          </tbody></table></div>
+          <p className="small muted">WDFW fee table, checked {WA_MSG_FEES.checked} (the page carries no season year). You don&apos;t buy a hunting license to apply; if drawn, you buy the moose, goat or sheep license and tag by WDFW&apos;s deadline or the permit goes to an alternate.{!s.youthOnly ? ` Resident 70+ price: ${usd(WA_MSG_FEES.license.senior)}.` : ''} Online and phone sales add a 2.9% card fee. <a href={WA_MSG_FEES.source} target="_blank" rel="noreferrer">WDFW fees</a></p>
         </details>
       )}
       {land && (
@@ -182,7 +200,7 @@ export async function WaHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
           <p className="small muted">WDFW game harvest reports{gen ? `, general season, GMU ${s.units[0]}, ${(WA_WEAPON_LABEL[s.weapon] ?? '').toLowerCase()}` : ', this hunt'}.</p>
         </details>
       )}
-      <p className="small muted">Source: WDFW 2026 Big Game Hunting Seasons and Regulations (special permit tables, with each year&apos;s applications 2020–2025), WDFW special hunt drawing results by point level (2018–2020), WDFW game harvest reports (2013–2025), WDFW GMUs. Land: BLM Surface Management Agency. Confirm dates and rules with WDFW before you apply.</p>
+      <p className="small muted">Source: WDFW 2026 Big Game Hunting Seasons and Regulations (special permit tables, with each year&apos;s applications 2020–2025{msg ? '; for moose, sheep and goat read from WDFW\'s Hunt Planner regulation data' : ''}), WDFW special hunt drawing results by point level (2018–2020), WDFW game harvest reports (2013–2025), WDFW {msg ? 'GMUs, Moose Areas, Sheep Units and Mountain Goat Units' : 'GMUs'}. Land: BLM Surface Management Agency. Confirm dates and rules with WDFW before you apply.</p>
     </main>
   );
 }
