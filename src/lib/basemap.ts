@@ -1,9 +1,11 @@
 import type { StyleSpecification } from 'maplibre-gl';
 
-/** USGS National Map tiles: public domain, no key. Topo = contour topo; Satellite = imagery with topo labels. */
+/** USGS National Map tiles: public domain, no key. Topo = contour topo; Satellite = imagery.
+ *  USGS retired USGSImageryTopo (imagery with topo labels) by Nov 18, 2026: every tile 404s and it is gone from
+ *  https://basemap.nationalmap.gov/arcgis/rest/services?f=json. USGSImageryOnly is the imagery without the labels. */
 export const BASEMAPS = {
   topo: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}',
-  satellite: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/{z}/{y}/{x}',
+  satellite: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}',
 } as const;
 export type Basemap = keyof typeof BASEMAPS;
 
@@ -35,3 +37,16 @@ export function setBasemap(map: { getSource: (id: string) => unknown }, kind: Ba
 }
 
 export const IDAHO_CENTER: [number, number] = [-114.6, 45.2];
+
+type ReadyMap = { once: (ev: 'style.load' | 'load', fn: () => void) => unknown; style?: unknown };
+
+/** Run `fn` once the style is parsed, so overlays can be added. Not `load`: MapLibre holds `load` until the basemap
+ *  tiles settle, and when USGS retired a tile service (Nov 2026) `load` never fired and no unit outlines were drawn.
+ *  The outlines must never wait on a third-party basemap. */
+export function onStyleReady(m: ReadyMap, fn: () => void) {
+  let done = false;
+  const go = () => { if (!done) { done = true; fn(); } };
+  m.once('style.load', go);
+  m.once('load', go);
+  if ((m.style as { _loaded?: boolean } | undefined)?._loaded) go();
+}

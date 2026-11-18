@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { inPageGestures } from '@/lib/mapGestures';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
+import { baseStyle, setBasemap, type Basemap, onStyleReady } from '@/lib/basemap';
 import { MapKey, type KeyItem } from './MapKey';
 import { LandToggles } from './LandLayers';
 import { divergingClasses, type BreakMode } from '@/lib/breaks';
@@ -116,7 +116,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
     // full screen takes the map's wrapper, so the key and panels come along
     m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'top-right');
-    m.on('load', async () => {
+    onStyleReady(m, async () => {
       let fc;
       let labels;
       try {

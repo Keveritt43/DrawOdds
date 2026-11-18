@@ -6,7 +6,7 @@ import { huntHref } from '@/lib/huntSlug';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { baseStyle, setBasemap, type Basemap } from '@/lib/basemap';
+import { baseStyle, setBasemap, type Basemap, onStyleReady } from '@/lib/basemap';
 import Link from 'next/link';
 import { Star } from './Star';
 import { MapKey, KeySeg } from './MapKey';
@@ -197,7 +197,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
   const [err, setErr] = useState("");
   const [kind, setKind] = useState<Basemap>("satellite");
   useEffect(() => {
-    if (map.current?.isStyleLoaded()) setBasemap(map.current, kind);
+    if (map.current) setBasemap(map.current, kind);
   }, [kind]);
 
   const M = METRICS[metric];
@@ -237,7 +237,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     if (bare) inPageGestures(m);
     // full screen takes the map's wrapper, so the key and panels come along
     m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
-    m.on("load", async () => {
+    onStyleReady(m, async () => {
       try {
         const {
           fc,

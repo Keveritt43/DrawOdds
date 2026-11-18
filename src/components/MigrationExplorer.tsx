@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import maplibregl, { type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { baseStyle } from '@/lib/basemap';
+import { baseStyle, onStyleReady } from '@/lib/basemap';
 import { IDAHO_BOUNDS } from '@/lib/mapMetrics';
 import { inPageGestures } from '@/lib/mapGestures';
 import { loadUnits } from '@/lib/unitData';
@@ -84,7 +84,7 @@ export function MigrationExplorer({ studies, initial, initialUnits = [], initial
     m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
     inPageGestures(m);
     m.addControl(new maplibregl.FullscreenControl({ container: el.current!.parentElement ?? undefined }), 'bottom-right');
-    m.on('load', async () => {
+    onStyleReady(m, async () => {
       try {
         const { fc, labels } = await loadUnits();
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
