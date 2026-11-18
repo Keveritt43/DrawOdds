@@ -187,7 +187,7 @@ export const STATES: Record<StateCode, StateConfig> = {
     name: 'Oregon',
     slug: 'oregon',
     // Deer and elk (OR-1) from scripts/or-import.ts; docs/states/or-onboarding.md. Off until the import is applied.
-    enabled: false,
+    enabled: true,
     agency: { short: 'ODFW', name: 'Oregon Department of Fish and Wildlife', url: 'https://myodfw.com/articles/controlled-hunt-navigation' },
     // ODFW's Access & Habitat program areas are measured per unit (data/or/land.json accessPct) but not scored yet
     accessProgram: null,

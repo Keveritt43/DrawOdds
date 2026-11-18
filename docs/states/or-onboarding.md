@@ -1,7 +1,12 @@
 # Oregon onboarding (OR-1: deer and elk)
 
-Status (Nov 18, 2026): data built and checked, app wired, import pending. Built by `scripts/or_*.py` and imported by
-`scripts/or-import.ts`. `STATES.OR.enabled` is switched on after the import is applied and verified.
+Status (Nov 18, 2026): live. Built by `scripts/or_*.py` and imported by `scripts/or-import.ts`.
+
+- Code merged in #223. Import applied Nov 18 on the maintenance service pinned to b757a19, gated on the dry run
+  (0 live, 654 added, 0 removed, 0 changed, digest `18cb05e42fb96947`). Result: 654 hunts, 110 units (67 WMUs, 43 deer
+  hunt areas), 319 scored, other states unchanged (ID, CO, WY, MT, UT, WA, NM digested before and after). The re-run
+  showed 654 live and nothing left to change. Maintenance service back to `echo idle`.
+- `STATES.OR.enabled` switched on in the PR after the import.
 
 ## 1. Sources
 
