@@ -1,3 +1,4 @@
+import type { TrophyScore } from './trophyTiers';
 import { trophyQualityBonus } from './trophyTiers';
 import { trophyForHunt } from './trophyHunt';
 import { withIdahoVerifiedArea } from './idahoHuntCorrections';
@@ -36,6 +37,8 @@ export interface ScoreInput {
   bigPct5?: number | null;
   deerType?: string | null;
   twoPoint?: boolean;
+  /** Use this trophy score instead of computing one (number or null). */
+  trophy?: TrophyScore | null;
   antlerMaximum?: boolean;
   resOdds5?: number | null;
   resOddsLast?: number | null;
@@ -89,7 +92,8 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
     const r=withIdahoVerifiedArea(raw);
     const o = { ...EMPTY };
     out.set(r.id, o);
-    const trophy = r.twoPoint || r.antlerMaximum ? null : trophyForHunt({...r,state:r.state ?? 'ID',units:r.units ?? []});
+    // `trophy` given: use it as is (an import that changes land only keeps the live trophy score, scripts/wy-import.ts)
+    const trophy = r.trophy !== undefined ? r.trophy : r.twoPoint || r.antlerMaximum ? null : trophyForHunt({...r,state:r.state ?? 'ID',units:r.units ?? []});
     o.scoreTrophy = trophy;
     const n = r.hunters5, h = r.harvest5;
     if (!finite(n) || n < (MSG.has(r.species) ? 10 : 30) || !finite(h) || h < 0 || h > n) continue;

@@ -4,8 +4,11 @@
  *
  *   npx tsx scripts/wy-import.ts          dry run: validates and prints what would change
  *   npx tsx scripts/wy-import.ts --apply  writes, in one transaction
+ *   --keep-live-trophy                     rows already live keep their live trophy score, and their Quality is
+ *                                          recomputed with it: a land or data import doesn't also carry an unreviewed
+ *                                          trophy-model change (the WA precedent, #220)
  *
- * Scope: only rows with state 'WY' are replaced. Idaho and Colorado summaries are digested before and after; any
+ * Scope: only rows with state 'WY' are replaced. Every other state's summaries are digested before and after; any
  * change aborts. No agency fetch, no schema change. Saved Wyoming hunts survive because hunt ids are stable
  * (hash of the Wyoming hunt key).
  */
@@ -14,11 +17,14 @@ import type { Prisma } from '@prisma/client';
 import { db } from '../src/sync/core/context';
 import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
+import type { TrophyScore } from '../src/lib/trophyTiers';
 
 type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'PRONGHORN'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; geometry: object | null; bbox: number[] | null; acres: number | null; publicPct: number | null; privatePct: number | null; ownership: { manager: string; pct: number }[]; accessAcres: number | null; accessCount: number | null };
 
 const apply = process.argv.includes('--apply');
+const keepTrophy = process.argv.includes('--keep-live-trophy');
+const OTHER_STATES = ['ID', 'CO', 'MT', 'UT', 'WA', 'NM', 'OR', 'NV', 'AZ'];
 const hunts = JSON.parse(readFileSync('data/wy/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
 let areas: Area[] = [];
 try {
@@ -62,7 +68,11 @@ function validate() {
 async function main() {
   const errors = validate();
   if (errors.length) throw Error(`Wyoming data failed validation:\n${errors.slice(0, 30).join('\n')}`);
+  const liveTrophy = keepTrophy
+    ? new Map((await db.huntSummary.findMany({ where: { state: 'WY' }, select: { id: true, scoreTrophy: true } })).map((r) => [r.id, r.scoreTrophy]))
+    : new Map<string, number | null>();
   const scores = scoreHunts(hunts.hunts.map((h) => ({
+    ...(liveTrophy.has(h.id) ? { trophy: (liveTrophy.get(h.id) ?? null) as TrophyScore | null } : {}),
     id: h.id, state: 'WY', units:h.units, name:h.name, tagCode:h.tagCode, takeMethod:typeof h.takeMethod==='string'?h.takeMethod:null, openDate:date(h.openDate), closeDate:date(h.closeDate), tagSeasons:h.tagSeasons, pointOdds:h.pointOdds, species: h.species, type: h.type, nrTag: false, weapon: String(h.weapon), antlerClass: String(h.antlerClass),
     harvestYears:num(h.harvestYears), nrOddsLast:num(h.nrOddsLast), resOddsLast:num(h.resOddsLast), oddsLastYear:num(h.oddsLastYear), youthOnly:h.youthOnly===true, privateOnly:h.privateOnly===true,
     hunters5: num(h.hunters5), harvest5: num(h.harvest5), huntersSqMi: num(h.huntersSqMi),
@@ -117,21 +127,28 @@ async function main() {
   const added = summaryRows.filter((r) => !live.has(r.id)).map((r) => r.id);
   const removed = [...live.keys()].filter((id) => !summaryRows.some((r) => r.id === id));
   let changedRows = 0;
+  const fields: Record<string, number> = {};
   for (const r of summaryRows) {
     const cur = live.get(r.id);
     if (!cur) continue;
     const out: string[] = [];
     for (const [k, v] of Object.entries(r)) diffs(cur[k], v, k, out);
-    if (out.length) { changedRows++; console.log('[WY] changed', r.tagCode ?? r.id, out.slice(0, 12).join(' | '), out.length > 12 ? `(+${out.length - 12} more)` : ''); }
+    for (const f of new Set(out.map((o) => o.split(':')[0].split('.').slice(0, 2).join('.')))) fields[f] = (fields[f] ?? 0) + 1;
+    if (out.length) changedRows++;
   }
-  console.log('[WY] diff', JSON.stringify({ live: live.size, added: added.length, removed: removed.length, changed: changedRows }));
+  // per-field counts, not per-row lines: printing every changed row hits Railway's 500 logs/sec limit
+  console.log('[WY] fields', JSON.stringify(fields));
+  const { createHash } = await import('node:crypto');
+  const planDigest = createHash('sha256').update(JSON.stringify([summaryRows, unitRows.map((u) => [u.name, u.acres, u.publicPct, u.privatePct, u.landOwnership])])).digest('hex').slice(0, 16);
+  console.log('[WY] diff', JSON.stringify({ keepLiveTrophy: keepTrophy, live: live.size, liveUnits: await db.unit.count({ where: { state: 'WY' } }), added: added.length, removed: removed.length, changed: changedRows, planDigest }));
   if (added.length) console.log('[WY] added', added.join(', '));
   if (removed.length) console.log('[WY] removed', removed.join(', '));
   if (!apply) {
     console.log('[WY] dry run only; pass --apply to write');
     return;
   }
-  const before = { ID: await digest('ID'), CO: await digest('CO') };
+  const digestAll = async () => Object.fromEntries(await Promise.all(OTHER_STATES.map(async (c) => [c, await digest(c)])));
+  const before = await digestAll();
   await db.$transaction(async (tx) => {
     await tx.huntSummary.deleteMany({ where: { state: 'WY' } });
     await tx.hunt.deleteMany({ where: { state: 'WY', source: 'wy-import', idfgId: { notIn: huntRows.map((h) => h.idfgId) } } });
@@ -142,11 +159,11 @@ async function main() {
       for (const u of unitRows) await tx.unit.upsert({ where: { state_name: { state: 'WY', name: u.name } }, create: u, update: { ...u, state: undefined, name: undefined } });
     }
   }, { timeout: 120_000 });
-  const after = { ID: await digest('ID'), CO: await digest('CO') };
-  if (before.ID !== after.ID || before.CO !== after.CO) throw Error('Idaho or Colorado summaries changed during the Wyoming import; review concurrent writes');
+  const after = await digestAll();
+  if (JSON.stringify(before) !== JSON.stringify(after)) throw Error('another state\'s summaries changed during the Wyoming import; review concurrent writes');
   const written = await db.huntSummary.count({ where: { state: 'WY' } });
   if (written !== summaryRows.length) throw Error(`expected ${summaryRows.length} Wyoming summaries, found ${written}`);
-  console.log('[WY_IMPORT_SUCCESS]', JSON.stringify({ ...counts, idahoUnchanged: true, coloradoUnchanged: true }));
+  console.log('[WY_IMPORT_SUCCESS]', JSON.stringify({ ...counts, planDigest, keepLiveTrophy: keepTrophy, otherStatesUnchanged: true }));
 }
 
 main()
