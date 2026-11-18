@@ -1,5 +1,6 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useFinderRouter } from './FinderBusy';
 import Link from 'next/link';
 import { Section } from './FilterRail';
 
@@ -7,7 +8,7 @@ const KINDS = [['deer', 'Antlered mule deer'], ['junior', 'Junior mule deer'], [
 
 /** Nevada-only filter, one choice per NDOW bonus-point category; it narrows Nevada results only. */
 export function NvSearchFilters() {
-  const sp = useSearchParams(), router = useRouter();
+  const sp = useSearchParams(), router = useFinderRouter();
   const chosen = (sp.get('nvCat') ?? '').split(',').filter(Boolean);
   const toggle = (k: string) => {
     const next = chosen.includes(k) ? chosen.filter((x) => x !== k) : [...chosen, k];
