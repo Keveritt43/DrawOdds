@@ -14,6 +14,7 @@ import { SearchStates } from '@/components/SearchStates';
 import { FilterRail } from '@/components/FilterRail';
 import { CoSearchFilters } from '@/components/CoSearchFilters';
 import { HuntMap, type MatchStat } from '@/components/HuntMap';
+import { packStats } from '@/lib/mapStatsPack';
 import { trophyForUnit } from '@/lib/trophyHunt';
 import { HuntCard } from '@/components/HuntCards';
 import { CoHuntCard } from '@/components/CoHuntCard';
@@ -117,7 +118,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   </div>;
   return <main className={`filtering multi-state-finder${view === 'table' ? ' tablemode' : ''}`}>
       <FinderBusy />
-    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg || states.includes('WY') || states.includes('MT') || states.includes('UT') || states.includes('WA') || states.includes('NM') || states.includes('OR') || states.includes('NV') ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={selectedUnit} stats={{ units: stats, areas: {} }} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
+    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key={`${states.join(',')}:${draw}:${msg || states.includes('WY') || states.includes('MT') || states.includes('UT') || states.includes('WA') || states.includes('NM') || states.includes('OR') || states.includes('NV') ? param(sp, 'species') : ''}`} states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={selectedUnit} packedUnits={packStats(stats)} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
     <section className="f-list" aria-label="Results">
       <RememberFinderNavigation />
       <div className="search-intro">

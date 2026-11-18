@@ -88,10 +88,21 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 }
 
 /** Personal metrics without finder visibility rules, also used for explicitly chosen comparisons. */
-export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
-  r = withStateTrophyScores(r);
+// The public corrections and trophy scores below depend only on the row, never on the hunter, and the search
+// index keeps the same row objects for minutes, so each row is prepared once instead of on every search.
+const preparedRows = new WeakMap<CoScored, CoScored>();
+function preparePublic(raw: CoScored): CoScored {
+  const hit = preparedRows.get(raw);
+  if (hit) return hit;
+  let r = withStateTrophyScores(raw);
   r = withoutUnvalidatedWyDeerMetrics(r);
   r = {...r,scoreTrophy:trophyForHunt(r)};
+  preparedRows.set(raw, r);
+  return r;
+}
+
+export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult {
+  r = preparePublic(r);
   const nr = isNonresident(r.state, settings);
   if (r.state === 'MT') {
     // unsaved settings: 0 points, buying, nonresident (src/lib/mtPoints.ts readMtPoints defaults)
