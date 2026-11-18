@@ -2,14 +2,14 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { packStats, unpackStats, MATCH_STAT_FIELDS } from '../src/lib/mapStatsPack';
 
-const empty = Object.fromEntries(MATCH_STAT_FIELDS.map(f => [f, null]));
+const empty = Object.fromEntries(MATCH_STAT_FIELDS.map(f => [f, null])) as Record<(typeof MATCH_STAT_FIELDS)[number], number | null>;
 
 test('packed map stats round-trip, keeping nulls distinct from zero', () => {
   const units = {
     'ID:60': { ...empty, trophy: 100, score: 100, odds: 1, fill: 0.6487894144144144, success: 0.20981812804968208, public: 79.6, crowd: 0.01370052402720482, huntable: 80.52429003693557 },
     'WY:E7': { ...empty, odds: 0, crowd: 0.000123456, wilderness: 0 },
     'NV:011': { ...empty },
-  } as Parameters<typeof packStats>[0];
+  };
   const back = unpackStats(packStats(units));
   assert.deepEqual(Object.keys(back), Object.keys(units));
   assert.equal(back['ID:60'].fill, 0.6488);
