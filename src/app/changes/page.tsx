@@ -1,4 +1,5 @@
 import { NmChanges } from "@/components/NmPages";
+import { OrChanges } from "@/components/OrPages";
 import { WaChanges } from "@/components/WaPages";
 import { MtChanges } from "@/components/MtPages";
 import { UtChanges } from "@/components/UtPages";
@@ -20,6 +21,7 @@ export default async function ChangesPage() {
   if ((await getState()).code === "UT") return <UtChanges />;
   if ((await getState()).code === "NM") return <NmChanges />;
   if ((await getState()).code === "WA") return <WaChanges />;
+  if ((await getState()).code === "OR") return <OrChanges />;
   const draw = await getDraw();
   const species = DRAW_SPECIES[draw];
   const rows = await db.huntSummary.findMany({ where: { state: 'ID', type: 'CONTROLLED', species: { in: species } } });

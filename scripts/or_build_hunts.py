@@ -270,8 +270,9 @@ def main():
             ac = antler_class(series, rg['bag'])
             if kind == 'antlerless' and ac == 'ANTLERED':
                 problems.append(f'{code}: antlerless series with an antlered bag ({rg["bag"]})')
-            # private-land-only: ODFW names them "... Private" / "Private Lands" (access by landowner permission only)
-            private_only = bool(re.search(r'\bPrivate( Lands)?\b', name)) and not re.search(r'Public', name)
+            # private-land-only: ODFW's boundary description says "PRIVATE LANDS ONLY", "All private land" or "0%
+            # public lands"; hunts with no description fall back to a name ending in "Private"
+            private_only = bool(desc and desc.get('privateOnly')) or (not desc and bool(re.search(r'\bPrivate( Lands)?( No\. ?\d)?$', name)))
             po = {
                 'state': 'OR', 'kind': 'preference', 'year': DRAW_YEAR, 'projYear': PROJ_YEAR, 'projected': sorted(proj),
                 'series': series, 'section': rg['section'].title(), 'legal': rg['bag'], 'dates': season_text(dates), 'tags': h['tags'],

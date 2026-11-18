@@ -8,7 +8,7 @@ import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
-export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS, NM_RESTRICTIONS } from './searchStates';
+export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS, NM_RESTRICTIONS, OR_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import { matchesWyTagType } from './wyTagType';
 import { wyHuntWilderness } from './wyWilderness';
@@ -28,12 +28,14 @@ import { waPersonal, waLicense, waPo } from './waHunt';
 import { readWaPoints, type WaPoints } from './waPoints';
 import { nmPersonal, nmLicense, nmPo, nmEligible, nmRestricted } from './nmHunt';
 import { readNmSettings, type NmSettings, type NmPool } from './nmSettings';
+import { orPersonal, orPo, orIsGeneral, orPrefCutoff } from './orHunt';
+import { readOrPoints, type OrPoints } from './orPoints';
 import { withoutUnvalidatedWyDeerMetrics, wyDeerMix } from './wyDeerMetrics';
 import { trophyForHunt } from './trophyHunt';
 import { withStateTrophyScores } from './stateTrophyScores';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
-export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints; NM?: NmSettings };
+export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints; NM?: NmSettings; OR?: OrPoints };
 export interface SearchResult {
   r: CoScored;
   odds: number | null;
@@ -69,7 +71,7 @@ export function searchFilters(sp: SearchParams): Filters {
 /** All personal values are derived on copies; the public cached rows are never modified. */
 /** Residency for a row's state: Idaho's profile residency, else that state's saved settings. */
 export const isNonresident = (state: string, settings: HunterSettings) =>
-  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : state === 'WA' ? settings.WA?.res ?? 'NONRESIDENT' : state === 'NM' ? settings.NM?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
+  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : state === 'WA' ? settings.WA?.res ?? 'NONRESIDENT' : state === 'NM' ? settings.NM?.res ?? 'NONRESIDENT' : state === 'OR' ? settings.OR?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
 
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
   const nr = isNonresident(r.state, settings);
@@ -108,6 +110,15 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
     const m = nmPersonal(r, settings.NM ?? readNmSettings(null), mode);
     const opp = opportunity(r.scoreQuality, m.odds);
     return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: m.odds, opportunity: opp, nr, points: null, basis: m.basis, nmPool: m.pool };
+  }
+  if (r.state === 'OR') {
+    // residents and nonresidents share one queue but nonresidents stop at 5% of the tags, so ODFW reports each
+    // pool; unsaved settings: nonresident, 0 points (src/lib/orPoints.ts readOrPoints)
+    const o = orPersonal(r, settings.OR ?? readOrPoints(null), nr, mode);
+    const opp = opportunity(r.scoreQuality, o.odds);
+    const cut = orIsGeneral(r) ? null : orPrefCutoff(orPo(r), nr ? 'nr' : 'res');
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: o.odds, opportunity: opp, nr, points: o.points, basis: o.basis,
+      meetsObservedCutoff: !!settings.OR?.set && o.points !== null && cut !== null && cut.points <= o.points };
   }
   if (r.state === 'UT') {
     // unsaved settings: nonresident, 0 points (src/lib/utPoints.ts readUtPoints defaults)
@@ -260,6 +271,19 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
     if (nmRestricted(r) && !((po?.mobility && who.includes('mobility')) || (po?.military && who.includes('military')))) return false;
     const fees = list(sp, 'nmFee');
     if (fees.length && !fees.some((f) => (po?.fee ?? '').split('/').includes(f))) return false;
+  } else if (r.state === 'OR') {
+    const po = orPo(r);
+    const kinds = list(sp, 'orLic');
+    if (kinds.length && !kinds.includes(orIsGeneral(r) ? 'general' : 'controlled')) return false;
+    const series = list(sp, 'orSeries');
+    if (series.length && !orIsGeneral(r) && !series.includes(po?.series ?? '')) return false;
+    // "*" hunts (ODFW: private lands will limit access; don't apply without a place to hunt) only on request
+    if (param(sp, 'orLimited') === 'hide' && po?.privateLimited) return false;
+    for (const key of ['orMinPts', 'orMaxPts']) if (param(sp, key) !== '') {
+      const n = Number(param(sp, key));
+      const cut = orIsGeneral(r) ? null : orPrefCutoff(po, x.nr ? 'nr' : 'res');
+      if (Number.isFinite(n) && (cut === null || (key === 'orMinPts' ? cut.points < n : cut.points > n))) return false;
+    }
   } else if (r.state === 'CO') {
     if (!matchesCoSeason(r.tagCode ?? '', list(sp, 'season'))) return false;
     const need = x.nr ? r.ptsNr : r.ptsRes;

@@ -23,6 +23,9 @@ import { waPersonal, waIsGeneral } from '@/lib/waHunt';
 import { readNmSettings } from '@/lib/nmSettings';
 import { nmPersonal, nmEligible, nmRestricted, nmPo } from '@/lib/nmHunt';
 import waLand from '../../../../data/wa/land.json';
+import { readOrPoints } from '@/lib/orPoints';
+import { orPersonal, orIsGeneral } from '@/lib/orHunt';
+import orLand from '../../../../data/or/land.json';
 import { utPersonal, utKind } from '@/lib/utHunt';
 import utLabels from '../../../../data/ut/boundary-labels.json';
 import { utGenElk } from '@/lib/utGenElk';
@@ -453,6 +456,73 @@ export async function GET(req: Request) {
       by.get(u)![`ctlSuccess${sp}`] = a.hunters >= MIN_HUNTERS ? (a.harvest / a.hunters) * 100 : null;
     }
   }
+  if (state === 'OR') {
+    // Oregon: the map draws WMUs. Eastern Oregon buck deer hunts (2026 deer hunt areas) count in the WMUs holding at
+    // least 5% of their area (data/or/land.json wmus). General seasons are over the counter: success and crowding
+    // pool every general season's hunters per WMU over up to five seasons (ODFW harvest summaries). Controlled hunts:
+    // odds at the hunter's saved points for that series and residency (src/lib/orHunt.ts).
+    const pts = readOrPoints((await getPointsStore()).store as Record<string, unknown>);
+    const nrOr = pts.res === 'NONRESIDENT';
+    const landU = (orLand as unknown as { units: Record<string, { wmus?: string[]; accessPct?: number }> }).units;
+    by.clear();
+    const rows = (await db.huntSummary.findMany({ where: { state: 'OR' } })).map(withStateTrophyScores);
+    const gen = new Map<string, { hunters: number; harvest: number; years: number }>();
+    const ctl = new Map<string, { hunters: number; harvest: number }>();
+    const m0 = (u: string) => by.get(u) ?? by.set(u, {}).get(u)!;
+    for (const r of rows) {
+      const sp = SP_KEY[r.species];
+      if (!sp) continue;
+      if (orIsGeneral(r)) {
+        const u = r.units[0];
+        if (!u || !r.hunters5) continue;
+        const k = `${sp}|${u}`;
+        const a = gen.get(k) ?? gen.set(k, { hunters: 0, harvest: 0, years: 0 }).get(k)!;
+        a.hunters += r.hunters5; a.harvest += r.harvest5 ?? 0; a.years = Math.max(a.years, r.harvestYears);
+        continue;
+      }
+      if (r.units.length > 10) continue; // the statewide youth bow hunt would shade every unit alike
+      const adult = r.antlerClass === 'ANTLERED' || r.antlerClass === 'EITHER';
+      const odds = orPersonal(r, pts, nrOr).odds;
+      const wmus = [...new Set(r.units.flatMap((u) => (/^\d+$/.test(u) ? [u] : landU[u]?.wmus ?? [])))];
+      for (const u of wmus) {
+        const m = m0(u);
+        m.controlled = Number(m.controlled ?? 0) + 1;
+        if (!adult || r.privateOnly) continue;
+        m[`ctlCount${sp}`] = Number(m[`ctlCount${sp}`] ?? 0) + 1;
+        const put = (k: string, v: number | null, low = false) => { if (v !== null && Number.isFinite(v)) m[k] = m[k] == null ? v : low ? Math.min(Number(m[k]), v) : Math.max(Number(m[k]), v); };
+        put(`ctlOdds${nrOr ? 'Nr' : 'Res'}${sp}`, odds);
+        put(`ctlFill${nrOr ? 'Nr' : 'Res'}${sp}`, !r.smallSample && odds !== null && r.success5 !== null ? odds * r.success5 : null);
+        put(`ctlQuality${sp}`, r.scoreQuality);
+        put(`ctlPressure${sp}`, r.huntersSqMi, true);
+        if (r.hunters5 && r.harvest5 !== null && /^\d+$/.test(r.units[0] ?? '')) {
+          const k = `${sp}|${u}`;
+          const a = ctl.get(k) ?? ctl.set(k, { hunters: 0, harvest: 0 }).get(k)!;
+          a.hunters += r.hunters5; a.harvest += r.harvest5;
+        }
+      }
+    }
+    for (const u of units) {
+      const m = m0(u.name);
+      // ODFW Access & Habitat areas fill the Access Yes! slot (share of the unit)
+      const ah = landU[u.name]?.accessPct ?? 0;
+      m.accessYesPct = ah;
+      m.accessYesAcres = u.acres ? Math.round((ah / 100) * u.acres) : 0;
+      m.huntablePct = u.publicPct !== null ? Math.min(100, u.publicPct + ah) : null;
+      for (const sp of ['Deer', 'Elk']) {
+        const g = gen.get(`${sp}|${u.name}`);
+        if (!g) continue;
+        m[`genSuccess${sp}`] = g.hunters >= MIN_HUNTERS ? (g.harvest / g.hunters) * 100 : null;
+        m[`genSuccessRaw${sp}`] = g.hunters ? (g.harvest / g.hunters) * 100 : null;
+        m[`genHunters${sp}`] = g.years ? Math.round(g.hunters / g.years) : null;
+        m[`genYears${sp}`] = g.years;
+        m[`huntersSqMi${sp}`] = g.years && u.acres ? g.hunters / g.years / (u.acres / 640) : null;
+      }
+    }
+    for (const [k, a] of ctl) {
+      const [sp, u] = k.split('|');
+      by.get(u)![`ctlSuccess${sp}`] = a.hunters >= MIN_HUNTERS ? (a.harvest / a.hunters) * 100 : null;
+    }
+  }
   // Classify each unit separately: a multi-unit hunt does not transfer a tier to its other units.
   for (const s of sums) {
     if (!['DEER','ELK','PRONGHORN'].includes(s.species) || (s.pointOdds as {multiSeason?:boolean}|null)?.multiSeason) continue;
@@ -471,7 +541,7 @@ export async function GET(req: Request) {
       }
     }
   const features = units
-    .filter((u) => u.geometry && (state !== 'WA' || /^\d{3}$/.test(u.name)))
+    .filter((u) => u.geometry && (state !== 'WA' || /^\d{3}$/.test(u.name)) && (state !== 'OR' || /^\d+$/.test(u.name)))
     .map((u) => {
       const ayPct = u.acres ? Math.min(100, ((u.accessYesAcres ?? 0) / u.acres) * 100) : null;
       return {
@@ -518,6 +588,6 @@ export async function GET(req: Request) {
   return Response.json(
     { type: 'FeatureCollection', features, classes, years: lastYear },
     // Colorado and Montana shade by the hunter's own points, so their answers are personal
-    { headers: { 'Cache-Control': state === 'CO' || state === 'MT' || state === 'UT' || state === 'WA' || state === 'NM' ? 'private, no-store' : 'public, max-age=600' } },
+    { headers: { 'Cache-Control': state === 'CO' || state === 'MT' || state === 'UT' || state === 'WA' || state === 'NM' || state === 'OR' ? 'private, no-store' : 'public, max-age=600' } },
   );
 }

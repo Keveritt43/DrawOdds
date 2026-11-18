@@ -233,15 +233,16 @@ def main(pdf: str, draws_path: str, dest: str):
     # boundary descriptions: "HUNT 123A: Umpqua - 50% public lands." / "HUNTS 233X and 233Y: Sprague - 75% public lands."
     desc = {}
     flat = re.sub(r'\s+', ' ', raw[raw.find('Hunt descriptions with [MAP]'):])
-    starts = [m for m in re.finditer(r'\bHUNTS? ([0-9A-Z][0-9A-Z,& -]{1,80}?):', flat)]
+    starts = [m for m in re.finditer(r'\bHUNTS? ((?:[0-9A-Z][0-9A-Z-]*)(?:(?:, | and | & |,|&| ?- ?)(?:[0-9A-Z][0-9A-Z-]*))*):', flat)]
     for k, m in enumerate(starts):
-        codes = [c for c in re.findall(r'[0-9A-Z]+(?:-\d)?', m.group(1)) if c not in ('AND',)]
+        codes = re.findall(r'[0-9A-Z]+(?:-\d)?', m.group(1))
         end = starts[k + 1].start() if k + 1 < len(starts) else len(flat)
         body = flat[m.end():end][:1200]
         pct = re.search(r'(\d{1,3})% public lands?', body)
         for c in codes:
             if c in wanted:
-                desc[c] = {'text': body.strip(), 'publicPct': int(pct.group(1)) if pct else None}
+                desc[c] = {'text': body.strip(), 'publicPct': int(pct.group(1)) if pct else None,
+                           'privateOnly': bool(re.search(r'private lands? only|all private lands?\b|^[^.]*- ?0% public lands', body, re.I))}
     out = {
         'source': 'ODFW 2026 Oregon Big Game Hunting Regulations, https://myodfw.com/sites/default/files/2025-11/26_BG_regs.pdf',
         'year': 2026, 'hunts': by_code, 'descriptions': desc, 'problems': problems,

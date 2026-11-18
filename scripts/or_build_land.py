@@ -187,6 +187,19 @@ def main(path: str) -> None:
             u['accessPct'] = ah_pct
             u['ownership'] = [{'manager': k, 'pct': v} for k, v in sorted(rec['ownership'].items(), key=lambda kv: -kv[1])]
         units.append(u)
+    # each deer hunt area -> the WMUs holding at least 5% of it (the map shades WMUs; area hunts count in these)
+    wmu_id = np.zeros((grid.h, grid.w), dtype=np.int16)
+    for f in wmus:
+        grid.fill(wmu_id, shapes[id(f)], int(f['attributes']['UNIT_NUM']) + 1)
+    for f in areas:
+        name = f['attributes']['HuntArea'].strip()
+        mask, ox, oy = window(grid, shapes[id(f)])
+        vals = wmu_id[oy:oy + mask.shape[0], ox:ox + mask.shape[1]][mask]
+        cnt = np.bincount(vals, minlength=100)
+        tot_c = int(mask.sum()) or 1
+        info[name]['wmus'] = [str(i - 1) for i in range(1, len(cnt)) if cnt[i] / tot_c >= 0.05]
+        if not info[name]['wmus']:
+            errors.append(f'deer area {name}: no WMU')
     if errors:
         raise SystemExit('land checks failed:\n' + '\n'.join(errors[:40]))
 
