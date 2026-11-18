@@ -21,7 +21,10 @@ type PublicIndex = { rows: CoScored[]; overlaps: Record<string, boolean | null>;
 // visitor waits on it; data only changes through reviewed imports. Failures keep the last good
 // index (or, before there is one, are retried on the next request).
 type Entry = { expires: number; ready?: PublicIndex; building?: Promise<PublicIndex> };
-const indexes = new Map<StateCode, Entry>();
+// On globalThis, not module scope: Next.js bundles src/instrumentation.ts separately from the app routes, so a
+// module-level Map gives the startup warm-up its own copy that pages never read (found in the logs, Nov 18).
+const shared = globalThis as typeof globalThis & { __drawoddsSearchIndexes?: Map<StateCode, Entry> };
+const indexes = (shared.__drawoddsSearchIndexes ??= new Map<StateCode, Entry>());
 const INDEX_TTL = 300_000;
 
 async function buildIndex(state: StateCode): Promise<PublicIndex> {
