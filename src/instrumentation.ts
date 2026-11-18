@@ -4,9 +4,18 @@
  * Disabled by default. BOOTSTRAP_SYNC=1 explicitly opts into agency synchronization.
  */
 export async function register() {
-  if (process.env.NEXT_RUNTIME !== 'nodejs' || process.env.BOOTSTRAP_SYNC !== '1') return;
+  if (process.env.NEXT_RUNTIME !== 'nodejs') return;
+  // Build the Find Hunts search index once the server is up, so the first visitor after a deploy doesn't wait on it.
+  // Database reads only (src/lib/searchData.ts); this is not an agency sync and writes nothing.
+  if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) setTimeout(() => void warmSearch().catch((e) => console.error('[search-index] warm-up failed', e)), 5_000);
+  if (process.env.BOOTSTRAP_SYNC !== '1') return;
   // give the server a moment to come up and pass its healthcheck first
   setTimeout(() => void bootstrap().catch((e) => console.error('[bootstrap-sync] failed to start', e)), 15_000);
+}
+
+async function warmSearch() {
+  const [{ publicSearchIndex }, { enabledStates }] = await Promise.all([import('./lib/searchData'), import('./lib/states')]);
+  await Promise.all(enabledStates().map(s => publicSearchIndex(s.code)));
 }
 
 async function bootstrap() {

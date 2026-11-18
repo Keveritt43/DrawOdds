@@ -35,13 +35,14 @@ const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode:
 import { loadUnits, loadSearchUnits } from "@/lib/unitData";
 import { searchBounds, searchUnitLabel } from '@/lib/searchStates';
 import { STATES, type StateCode } from '@/lib/states';
+import { unpackStats, type PackedStats } from '@/lib/mapStatsPack';
 
 /**
  * Filtering map. By default units with a matching hunt are filled blaze orange and the rest are outlines;
  * "Shade" switches the fill to any unit metric (public land, success, crowding, odds) while matching units keep
  * a heavy orange outline. Click a unit to narrow the results to it (click again to clear).
  */
-export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats = { units: {}, areas: {} }, states, searchGroup, species }: {
+export function HuntMap({ matched, selected, chips, showZones = false, zones = [], areaSpecies = '', matchedAreas = [], selectedArea = '', stats: statsProp = { units: {}, areas: {} }, packedUnits, states, searchGroup, species }: {
   matched: string[]; selected: string; chips: { label: string; href: string }[]; nr?: boolean; showZones?: boolean; zones?: string[];
   /** species hunted by their own hunt areas (pronghorn, moose, sheep, goat; comma list): draw those instead of filling units.
    *  matchedAreas / selectedArea / stats.areas are keyed "<SPECIES>:<area>" */
@@ -49,10 +50,13 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
   species?: string;
   /** the matching hunts' numbers per unit and per hunt area (Filtering computes them from its results) */
   stats?: { units: Record<string, MatchStat>; areas: Record<string, MatchStat> };
+  /** Combined Find Hunts sends unit stats packed (src/lib/mapStatsPack.ts); takes the place of stats.units. */
+  packedUnits?: PackedStats;
   /** Combined Find Hunts uses namespaced units and fits all selected states. */
   states?: StateCode[];
   searchGroup?: 'DEP' | 'MSG';
 }) {
+  const stats = useMemo(() => (packedUnits ? { units: unpackStats(packedUnits), areas: statsProp.areas } : statsProp), [packedUnits, statsProp]);
   const el = useRef<HTMLDivElement>(null);
   const keyEl = useRef<HTMLDivElement>(null);
   const st = useStateConfig();
