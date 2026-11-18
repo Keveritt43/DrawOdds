@@ -145,12 +145,13 @@ test('Washington 65+, hunters with disabilities and Master Hunter permits', asyn
   const lim = data.hunts.filter((h) => (h.pointOdds as { restricted?: boolean }).restricted);
   assert.ok(lim.length >= 140, `restricted hunts ${lim.length}`);
   for (const h of lim) {
-    const po = h.pointOdds as { category: string; noPointData?: boolean };
+    const po = h.pointOdds as { category: string; noPointData?: boolean; newHunt?: boolean };
     assert.ok(waPointType(po.category), po.category);
     assert.ok(!h.youthOnly);
     // 65+ has no point tables anywhere, so no odds; the others do
     const t = h.oddsByPts as { proj: { res?: number[] } };
-    if (/65/.test(po.category)) { assert.ok(po.noPointData && !t.proj.res, h.id); }
+    if (po.newHunt) { assert.ok(!t.proj.res, h.id); }
+    else if (/65/.test(po.category)) { assert.ok(po.noPointData && !t.proj.res, h.id); }
     else assert.ok((t.proj.res ?? []).length > 0, h.id);
   }
   const senior = lim.find((h) => /65/.test((h.pointOdds as { category: string }).category))!;
