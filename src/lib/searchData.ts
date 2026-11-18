@@ -10,7 +10,7 @@ import { readNvPoints } from './nvPoints';
 import { readWaPoints } from './waPoints';
 import { readNmSettings } from './nmSettings';
 import { getResidency, getState } from './residency';
-import { param, runSearch, type SearchParams } from './multiStateSearch';
+import { param, preparePublic, runSearch, type SearchParams } from './multiStateSearch';
 import { searchStates, wySpecialView } from './searchStates';
 import type { StateCode } from './states';
 
@@ -38,6 +38,12 @@ async function buildIndex(state: StateCode): Promise<PublicIndex> {
     if (context && r.species === 'DEER') overlaps[r.id] = otcElkOverlap(r, context.generalElk);
     return state === 'CO' ? withCoScores(r, context) : r;
   });
+  // Prepare each row's public metrics now, while the previous index still serves, so no search pays for it.
+  // In small slices, so a background rebuild never holds up other requests for long.
+  for (let i = 0; i < scored.length; i++) {
+    preparePublic(scored[i]);
+    if (i % 100 === 99) await new Promise(r => setImmediate(r));
+  }
   console.log(`[search-index] ${state} rows=${scored.length} ms=${Date.now() - started}`);
   return { rows: scored, overlaps, migrations };
 }

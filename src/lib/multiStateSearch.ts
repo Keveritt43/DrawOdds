@@ -91,7 +91,7 @@ export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' 
 // The public corrections and trophy scores below depend only on the row, never on the hunter, and the search
 // index keeps the same row objects for minutes, so each row is prepared once instead of on every search.
 const preparedRows = new WeakMap<CoScored, CoScored>();
-function preparePublic(raw: CoScored): CoScored {
+export function preparePublic(raw: CoScored): CoScored {
   const hit = preparedRows.get(raw);
   if (hit) return hit;
   let r = withStateTrophyScores(raw);

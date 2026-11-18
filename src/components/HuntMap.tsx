@@ -103,6 +103,13 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     prevSel.current = selected;
   };
 
+  // frame the searched area below the chips and folded key (top-left), nudged right of the key's column
+  const fitAll = (m: MlMap, bounds: [[number, number], [number, number]]) => {
+    const kh = keyEl.current?.offsetHeight ?? 90;
+    const cw = m.getContainer().clientWidth;
+    const ch = m.getContainer().clientHeight;
+    m.fitBounds(bounds, { padding: { top: Math.min(kh + 18, ch * 0.4), bottom: 12, left: cw > 700 ? Math.min(160, cw * 0.18) : 12, right: 50 }, duration: 0 });
+  };
   useEffect(() => {
     if (!el.current || map.current) return;
     let cancelled = false;
@@ -181,10 +188,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       m.on('mouseleave', 'units-fill', () => (m.getCanvas().style.cursor = ''));
       loaded.current = true;
       // frame all of Idaho below the chips and folded key (top-left), nudged right of the key's column
-      const kh = keyEl.current?.offsetHeight ?? 90;
-      const cw = m.getContainer().clientWidth;
-      const ch = m.getContainer().clientHeight;
-      m.fitBounds(stBounds, { padding: { top: Math.min(kh + 18, ch * 0.4), bottom: 12, left: cw > 700 ? Math.min(160, cw * 0.18) : 12, right: 50 }, duration: 0 });
+      fitAll(m, stBounds);
       paint();
       m.fire('ready'); // units layers exist now: overlays (shading, elk zones, areas) can attach
       setMapObj(m);
@@ -200,6 +204,38 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(paint, [matched.join(','), selected, JSON.stringify(stats.units)]);
+
+  // Combined Find Hunts keeps one map when the states, drawing or species change: swap the outline data, the
+  // boundary credit and the framing instead of rebuilding the map (a rebuild cost ~0.55 s of main thread, Nov 18).
+  const dataKey = states ? `${states.join(',')}:${searchGroup ?? ''}:${species ?? ''}` : '';
+  const loadedKey = useRef(dataKey);
+  useEffect(() => {
+    const m = map.current;
+    if (!states || !m || !mapObj || loadedKey.current === dataKey) return;
+    let cancelled = false;
+    (async () => {
+      let data;
+      try { data = await Promise.all(states.map(s => loadSearchUnits(s, searchGroup, species))); }
+      catch (e) { setErr('Could not load unit boundaries.'); console.error(e); return; }
+      if (cancelled || !m.getSource('units')) return;
+      loadedKey.current = dataKey;
+      (m.getSource('units') as maplibregl.GeoJSONSource).setData({ type: 'FeatureCollection', features: data.flatMap(d => d.fc.features) } as never);
+      (m.getSource('unit-labels') as maplibregl.GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: data.flatMap(d => d.labels.features) } as never);
+      // the boundary credit lives on the basemap source: re-add it with this search's agencies, same tiles
+      const base = m.getStyle().sources.base as { attribution?: string } | undefined;
+      const credit = baseStyle('satellite', states.map(s => STATES[s].agency.short).join(' / ')).sources.base as { attribution?: string };
+      if (base && base.attribution !== credit.attribution) {
+        const above = m.getStyle().layers.find(l => l.id !== 'base')?.id;
+        m.removeLayer('base'); m.removeSource('base');
+        m.addSource('base', { ...base, attribution: credit.attribution } as never);
+        m.addLayer({ id: 'base', type: 'raster', source: 'base' }, above);
+      }
+      fitAll(m, searchBounds(states));
+      paint();
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataKey, mapObj]);
 
   // shading: always the matching units only. "match" = flat orange; any other choice colors them by the matching
   // hunts' own numbers (feature-state set in paint), and units without a match stay unfilled outlines
@@ -352,6 +388,9 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
       // Idaho alone keeps its own program's name; with Montana selected the option covers both programs
       .map((k) => ({ value: k, label: (k === 'huntable' && !states?.includes('MT') ? 'Public + Access Yes! % (Matching Units)' : k === 'huntable' && !states?.includes('ID') ? 'Public + Block Mgmt Type 1 % (Matching Units)' : SHADES[k].label).replace('Units', areaMode ? 'Areas' : 'Units') })),
   ];
+  // the map now outlives a change of states: a shading the new search can't offer (wilderness without Wyoming) falls back
+  const optionValues = options.map(o => o.value).join(',');
+  useEffect(() => { if (!optionValues.split(',').includes(metric)) setMetric('match'); }, [optionValues, metric]);
 
   return (
     <div style={{ position: 'absolute', inset: 0 }}>
