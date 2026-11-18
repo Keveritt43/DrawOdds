@@ -5,6 +5,7 @@
  *   npx tsx scripts/wa-import.ts          dry run: validates and prints what would change
  *   npx tsx scripts/wa-import.ts --apply  writes, in one transaction
  *   --species=MOOSE,BIGHORN,GOAT          only those species' rows (other Washington rows digested, must not change)
+ *   --keep-live-scores                     rows already live keep their live scores (new rows are scored)
  *
  * Scope: only rows with state 'WA' are replaced. Idaho, Colorado, Wyoming, Montana and Utah summaries are digested before
  * and after; any change aborts. No agency fetch, no schema change. Hunt ids are stable ("WA:<hunt number>", "WA:MS-DEER", "WA:GD-101-ARCHERY").
@@ -24,6 +25,10 @@ const apply = process.argv.includes('--apply');
 // --species=MOOSE,BIGHORN,GOAT: write only those species' rows (and the units they add); every other Washington
 // row is left exactly as it is and digested before and after, like the other states
 const only = (process.argv.find((a) => a.startsWith('--species='))?.slice(10).split(',').filter(Boolean) ?? []) as Rec['species'][];
+// --keep-live-scores: rows already live keep their live scores, so a data import doesn't also carry a scoring-model
+// change nobody reviewed for Washington (Nov 17: trophy v2 would move 783 WA scores). New rows are scored normally.
+const keepScores = process.argv.includes('--keep-live-scores');
+const SCORE_KEYS = ['scoreQuality', 'scoreSuccess', 'scoreAccess', 'scoreCrowd', 'scoreTrophy'] as const;
 const allHunts = JSON.parse(readFileSync('data/wa/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
 const hunts = only.length ? { ...allHunts, hunts: allHunts.hunts.filter((h) => only.includes(h.species)) } : allHunts;
 // Unit rows: the GMUs and Deer/Elk Areas the imported hunts use (data/wa/units.json). Deer and Elk Areas overlap
@@ -132,6 +137,10 @@ async function main() {
     if (JSON.stringify(a) !== JSON.stringify(b)) out.push(`${path}: ${JSON.stringify(a)?.slice(0, 60)} -> ${JSON.stringify(b)?.slice(0, 60)}`);
   };
   const live = new Map((await db.huntSummary.findMany({ where: { state: 'WA', ...(only.length ? { species: { in: only } } : {}) } })).map((r) => [r.id, r as unknown as Record<string, unknown>]));
+  if (keepScores) for (const r of summaryRows) {
+    const cur = live.get(r.id);
+    if (cur) for (const k of SCORE_KEYS) (r as Record<string, unknown>)[k] = cur[k] ?? null;
+  }
   const liveUnits = await db.unit.count({ where: { state: 'WA' } });
   const added = summaryRows.filter((r) => !live.has(r.id)).map((r) => r.id);
   const removed = [...live.keys()].filter((id) => !summaryRows.some((r) => r.id === id));
@@ -146,7 +155,7 @@ async function main() {
   // the reviewed plan: every summary's id, odds table and score, hashed, so an apply can be gated on the dry run
   const { createHash } = await import('node:crypto');
   const planDigest = createHash('sha256').update(JSON.stringify(summaryRows.map((r) => [r.id, r.oddsByPts, r.scoreQuality, r.success5, r.privateOnly, r.publicPct, r.huntablePct]))).digest('hex').slice(0, 16);
-  console.log('[WA] diff', JSON.stringify({ scope: only.length ? only.join(',') : 'all', live: live.size, liveUnits, added: added.length, removed: removed.length, changed: changedRows, planDigest }));
+  console.log('[WA] diff', JSON.stringify({ scope: only.length ? only.join(',') : 'all', keepLiveScores: keepScores, live: live.size, liveUnits, added: added.length, removed: removed.length, changed: changedRows, planDigest }));
   if (removed.length) console.log('[WA] removed', removed.join(', '));
   if (!apply) {
     console.log('[WA] dry run only; pass --apply to write');
