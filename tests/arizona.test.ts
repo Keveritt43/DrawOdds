@@ -43,7 +43,7 @@ test('odds tables are probabilities and never fall with more points', () => {
 
 test('no projection ships: the roll-forward lost to the last draw on the 2026 holdout for every species and pool', () => {
   for (const sp of ['DEER', 'ELK']) for (const pool of ['res', 'nr']) assert.ok(bt[sp][pool]['2026'].roll > bt[sp][pool]['2026'].last, `${sp} ${pool}`);
-  for (const h of data.hunts) assert.deepEqual((h.oddsByPts as { proj: object }).proj, {});
+  for (const h of data.hunts) assert.deepEqual((h.oddsByPts as unknown as { proj: object }).proj, {});
 });
 
 test('AZGFD renumbers hunts: 5A/5B general deer is 1006 in 2026 and was 1007 in 2025', () => {
