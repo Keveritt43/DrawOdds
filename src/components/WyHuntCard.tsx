@@ -73,14 +73,14 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
           </span>
         </div>
         {r.species === 'DEER' ? <div>
-          <span className="k">Harvest per active license</span>
+          <span className="k">Hunter success by species</span>
           {deer.some(d => d.rate !== null) ? deer.filter(d => d.rate !== null).map(d => <span key={d.kind}><b>{d.kind === 'MULE' ? 'Mule deer' : 'Whitetail'}: {pct(d.rate)}</b><span className="sub">{d.first}–{d.last} · {d.years} reported season{d.years === 1 ? '' : 's'}</span></span>) : <><b>–</b><span className="sub">No species estimates available</span></>}
-          <span className="sub">WGFD survey · active licenses, not unique hunters</span>
+          <span className="sub">WGFD survey · harvest ÷ active licenses per species</span>
         </div> : <div>
-          <span className="k">Harvest per active license</span>
+          <span className="k">{po?.harvestBasis && !po?.verifiedRegionHarvest ? 'Harvest per active license' : 'Hunter success'}</span>
           <b>{pct(licenseCount ? licenseHarvest / licenseCount : null)}</b>
           <span className="sub">{licenseRows.length ? `${licenseRows[0].year}–${licenseRows.at(-1)?.year} · ${licenseRows.length} reported seasons` : 'No comparable data'}</span>
-          <span className="sub">{po?.verifiedRegionHarvest ? '2025 NR region survey · active licenses' : po?.harvestBasis ? 'Area-license reports; holders may overlap' : 'WGFD survey · active licenses'}</span>
+          <span className="sub">{po?.verifiedRegionHarvest ? '2025 NR region survey · active licenses' : po?.harvestBasis ? 'Area-license reports; holders may overlap' : 'WGFD survey · harvest ÷ active licenses (one full-price license per hunter)'}</span>
         </div>}
         <div>
           <span className="k">Hunters/mi²</span>
@@ -89,7 +89,7 @@ export function WyHuntCard({ r, odds, points, nr, special, poolLink, mode, saved
           <span className="sub">{r.hunters5 !== null && years ? `${int(r.hunters5 / years)} hunters/yr` : 'No density data'}</span>
         </div>
       </div>
-      {r.species === 'DEER' && <p className="small muted">{mix ? 'Harvest mix: ' + (mix === 'MULE' ? 'Mule Deer' : mix === 'WHITETAIL' ? 'Whitetail' : 'Mixed') + '. ' : ''}Combined success and hunter density are unavailable because species counts may overlap. See hunt details.</p>}
+      {r.species === 'DEER' && <p className="small muted">{mix ? 'Harvest mix: ' + (mix === 'MULE' ? 'Mule Deer' : mix === 'WHITETAIL' ? 'Whitetail' : 'Mixed') + '. ' : ''}{mix === 'MULE' || mix === 'WHITETAIL' ? `Hunter success, density and Quality use the ${mix === 'MULE' ? 'mule deer' : 'whitetail'} rate.` : 'One hunter success rate is unavailable: WGFD counts a hunter of both species in each table. See hunt details.'}</p>}
       <div className="small muted" style={{ marginTop: 8 }}>
         Draw and fill: {odds !== null && r.success5 !== null ? <b>{pct(odds * r.success5)}</b> : '—'} · Public land:{' '}
         {r.publicPct === null ? 'not reported' : `${Math.round(r.publicPct)}%`}

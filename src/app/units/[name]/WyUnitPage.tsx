@@ -55,7 +55,7 @@ export async function WyUnitPage({ name }: { name: string }) {
           return <tr key={h.id}><td><Star kind="hunt" id={h.huntId} saved={fav.hunts.has(h.huntId)} signedIn={fav.signedIn} /></td><td><Link href={`/hunts/${h.slug}`}>{h.name}</Link></td><td className="small">{h.takeMethod && h.takeMethod.length >= 120 ? 'See hunt details and WGFD regulations' : h.takeMethod}</td><td className="num">{h.tags === null ? '–' : int(h.tags)}</td><td className="num">{pct(o)} <span className="small muted">{o === null ? '' : CHANCE_LABEL[chanceOf(o, 0, o)]}</span></td><td className="num">{pct0(h.tagCode?.startsWith('ER-') ? null : h.success5)} {h.success5 !== null && !h.tagCode?.startsWith('ER-') && h.harvestYears > 0 && <span className="small muted">({h.harvestYears} season{h.harvestYears === 1 ? '' : 's'})</span>}</td></tr>;
         })}</tbody></table></div>
       <p className="small muted">Odds: next draw where a projection passed our backtest (antelope, deer), otherwise the last draw. Region general licenses for this area's nonresident region are listed with it. Source: WGFD draw reports, regulations and harvest surveys; confirm with WGFD before you apply.</p>
-      <p className="small muted">Hunter success is unavailable because WGFD license-type reports count active licenses. See each license for its harvest per active license.</p>
+      <p className="small muted">Hunter success: WGFD harvest ÷ active licenses for that license, five reported seasons at most (one full-price license per hunter per species). Deer use the dominant species' rate; mixed deer licenses and summed region licenses show none.</p>
     </main>
   );
 }
