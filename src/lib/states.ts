@@ -223,8 +223,8 @@ export const STATES: Record<StateCode, StateConfig> = {
     code: 'AZ',
     name: 'Arizona',
     slug: 'arizona',
-    // Deer and elk from scripts/az-import.ts; docs/states/az-onboarding.md. Off until the import is applied.
-    enabled: false,
+    // Deer and elk from scripts/az-import.ts (applied Nov 18, 2026); docs/states/az-onboarding.md.
+    enabled: true,
     agency: { short: 'AZGFD', name: 'Arizona Game and Fish Department', url: 'https://www.azgfd.com/hunting/hunt-draw-and-licenses/big-game-draw/' },
     accessProgram: null,
     privateLandOnly: 'None of the imported hunts: AZGFD\'s deer and elk draw hunts are open on all lands in their units (tribal and Camp Navajo military hunts, printed as "----" in the regulations, are left out), so no Arizona row is privateOnly.',

@@ -17,6 +17,10 @@ Use this worksheet with the reusable [state-onboarding checklist](../state-onboa
 - [ ] Validate harvest, hunter density, land access and species-specific Quality inputs. Keep unsupported metrics and scores unknown, and distinguish ownership from legal access.
 - [ ] Complete the shared checklist for state-qualified database identity, residency and points, shared and Arizona-only filters, maps, cards, details, both UAT personas, performance and protected rollout. Record evidence and unresolved gaps before enabling Arizona.
 
+## Status
+
+**Live** (Nov 18, 2026): code #239; imported Nov 18 18:44 PT on commit 70e1c38, gated on the dry run (0 live, 401 added, 0 removed, 0 changed, digest `6f059216cf649e58`); result 401 hunts, 72 GMUs, 363 scored, other states unchanged; re-run 0 left to change. Maintenance service back to idle. Enabled in the follow-up PR.
+
 ## Findings, Nov 17, 2026 (Claude)
 
 ### Draw rules (AZGFD "Draw Process" and "Bonus Point Process" pages, read Nov 17, 2026)
