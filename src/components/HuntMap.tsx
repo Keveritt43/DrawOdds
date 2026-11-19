@@ -371,7 +371,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     ...(metric !== 'match' ? [{ color: kind === 'satellite' ? '#9aa0a6' : '#1d2023', label: `No match (${areaMode ? 'outline' : 'unfilled'})`, line: true }] : []),
     ...(showZones && !areaMode ? [{ color: ZONE, label: zones.length ? `${zones.join(', ')} zone${zones.length > 1 ? 's' : ''}` : 'Elk zones', line: true }] : []),
     ...(selected ? [{ color: '#ffd400', label: `Unit ${searchUnitLabel(selected)} (selected)`, line: true }] : []),
-    { color: '#4b2a6b', label: 'State line', line: true, dashed: true },
+    { color: '#2a0f45', label: 'State line', line: true, dashed: true },
   ];
   const where = areaMode ? "hunt areas" : "units";
   const options = [
