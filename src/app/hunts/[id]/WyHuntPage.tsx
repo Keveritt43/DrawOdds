@@ -17,7 +17,8 @@ import { opportunity } from '@/lib/score';
 import { fmtNeed, fmtCreep } from '@/lib/coDisplay';
 import { prefOdds, randomOdds } from '@/lib/wyOdds';
 import { wyAreaLabel, wyDates, wyPool, wyTableOdds, WY_POOL_LABEL, WY_POOL_SHORT, type WyOddsTable, type WyPointOdds, type WyPool, type WyNrPoolData } from '@/lib/wyHunt';
-import { withoutUnvalidatedWyDeerMetrics, wyDeerSeries } from '@/lib/wyDeerMetrics';
+import { wyDeerSeries } from '@/lib/wyDeerMetrics';
+import { withStateTrophyScores } from '@/lib/stateTrophyScores';
 import { SuccessChart } from '@/components/Charts';
 
 const pct = (o: number | null | undefined) => (o === null || o === undefined ? '–' : o >= 0.995 ? '100%' : o > 0 && o < 0.01 ? '<1%' : `${Math.round(o * 100)}%`);
@@ -30,7 +31,8 @@ const need = (p: WyNrPoolData | undefined) => {
 
 /** A Wyoming limited quota license or nonresident region license: odds for your pool, points needed, history. */
 export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: string; pool?: string } }) {
-  s = withoutUnvalidatedWyDeerMetrics(s);
+  // same read-time corrections and scores as Find Hunts (boundary history, region licenses, deer by species)
+  s = withStateTrophyScores(s);
   const po = s.pointOdds as unknown as WyPointOdds | null;
   const table = s.oddsByPts as unknown as WyOddsTable | null;
   const species = s.species === 'PRONGHORN' ? 'PRONGHORN' : s.species === 'ELK' ? 'ELK' : 'DEER';
@@ -131,16 +133,17 @@ export async function WyHuntPage({ s, sp }: { s: HuntSummary; sp: { odds?: strin
       <h2>Harvest Reports</h2>
       {po.harvestBoundaryNote && <p className="small muted">{po.harvestBoundaryNote} {po.verifiedRegionHarvest ? "Earlier area totals are retained but can repeat license holders." : "Earlier records are retained but describe different boundaries."} <a href={po.verifiedRegionHarvest ? "https://wgfd.wyo.gov/media/33482/download" : "https://wgfd.wyo.gov/news-events/hunting-regulation-changes-sheridan-region"}>{po.verifiedRegionHarvest ? "WGFD harvest report" : "WGFD boundary changes"}</a>.</p>}
       {species === 'DEER' ? <>
-        <p className="small muted">WGFD survey estimates by hunt area and license type. The denominator is active licenses for each deer species, not unique people. A license holder may appear in both species. Combined success, density and dependent scores remain unavailable because that overlap is unknown. Region license aggregates and missing species records are not estimated. <a href="https://wgfd.wyo.gov/hunting-trapping/harvest-reports-surveys">WGFD reports</a></p>
+        <p className="small muted">WGFD survey estimates by hunt area and license type. Each species' rate is WGFD's hunter success for that species (harvest ÷ active licenses; WGFD heads the column "active lics/htrs"). A hunter of both species is counted in each table, so the two can't be added. Where one species is at least 60% of the harvest, its rate drives hunter success, density and Quality; mixed hunts show both rates only. Region license aggregates and missing species records are not estimated. <a href="https://wgfd.wyo.gov/hunting-trapping/harvest-reports-surveys">WGFD reports</a></p>
         {deerSeries.map(({kind, rows}) => <section key={kind}><h3>{kind === 'MULE' ? 'Mule deer' : 'Whitetail'} harvest</h3>{rows.length ? <>
           <div className="grid2"><SuccessChart data={rows} title="Harvest per active license" /></div>
           <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Active licenses</th><th className="num">Harvest</th><th className="num">Harvest / active license</th></tr></thead><tbody>{rows.slice().reverse().map(h => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.success)}</td></tr>)}</tbody></table></div>
         </> : <p className="muted">No validated species-specific estimate for this license.</p>}</section>)}
-      </> : po.harvest.length ? (
+      </> : po.harvest.length ? (<>
+        {!po.harvestBasis && <div className="grid2"><SuccessChart data={po.harvest.map((h) => ({ year: h.year, success: h.hunters ? h.harvest / h.hunters : null })) as never} /></div>}
         <div className="htable-wrap"><table><thead><tr><th>Season</th><th className="num">Active licenses</th><th className="num">Harvest</th><th className="num">Harvest / active license</th></tr></thead>
           <tbody>{po.harvest.slice().reverse().map((h) => <tr key={h.year}><td>{h.year}</td><td className="num">{int(h.hunters)}</td><td className="num">{int(h.harvest)}</td><td className="num">{pct0(h.hunters ? h.harvest / h.hunters : null)}</td></tr>)}</tbody></table>
-          <p className="small muted">{po.verifiedRegionHarvest ? "WGFD directly estimates active nonresident region licenses. One general elk license per person makes these unique license holders; crowding and Quality remain unavailable until the eligible area is calculated." : "WGFD survey estimates count active licenses, not verified unique hunters. Hunter success, crowding and dependent scores are unavailable."}</p></div>
-      ) : <p className="muted">No WGFD harvest estimate matched to this license.</p>}
+          <p className="small muted">{po.verifiedRegionHarvest ? "WGFD directly estimates active nonresident region licenses. One general elk license per person makes these unique license holders; crowding and Quality remain unavailable until the eligible area is calculated." : po.harvestBasis ? "These rows add hunt-area reports, and a license holder can hunt more than one area, so hunter success, crowding and Quality are unavailable." : "WGFD survey estimates by hunt area and license type. A person may hold one full-price license per species from the initial drawing, so active licenses are the hunters who used this license: harvest ÷ active licenses is hunter success."}</p></div>
+      </>) : <p className="muted">No WGFD harvest estimate matched to this license.</p>}
 
       <h2>Draw History</h2>
       <div className="htable-wrap"><table><thead><tr><th>Draw</th><th className="num">Res quota</th><th className="num">Res 1st apps</th><th className="num">NR regular (pref + random)</th><th>NR regular needed</th><th className="num">NR special (pref + random)</th><th>NR special needed</th></tr></thead>

@@ -48,7 +48,7 @@ test('trophy tier checkboxes filter combined hunts and survive query round trips
  assert.match(JSON.stringify(buildWhere(f,'RESIDENT')),/"scoreTrophy":\{"in":\[50,80\]\}/);
 });
 
-test('Wyoming deer unknown hunter overlap cannot drive success filters, scores or exports', () => {
+test('Wyoming deer without species rows cannot drive success filters, scores or exports', () => {
   const source = row({ id: 'wy:deer121', state: 'WY', species: 'DEER', scoreQuality: 80, success5: .62,
     hunters5: 1366, harvest5: 849, huntersSqMi: .6, oddsByPts: { proj: { nr: [.95] }, last: { nr: [.9] } } });
   const before = JSON.stringify(source);
@@ -61,23 +61,37 @@ test('Wyoming deer unknown hunter overlap cannot drive success filters, scores o
   assert.equal(result.opportunity, null);
   assert.equal(JSON.stringify(source), before, 'stored source must remain unchanged');
   assert.equal(runSearch([source], { states: 'WY', minSuccess: '20' }, 'WY', settings).length, 0);
-  assert.equal(evaluateHunt(row({ state: 'WY', species: 'ELK' }), settings, 'proj').r.success5, null);
-  assert.equal(evaluateHunt(row({ state: 'WY', species: 'PRONGHORN' }), settings, 'proj').r.success5, null);
+  // elk and pronghorn license rows are hunter success (one full-price license per hunter); summed region rows are not
+  assert.equal(evaluateHunt(row({ state: 'WY', species: 'ELK' }), settings, 'proj').r.success5, .5);
+  assert.equal(evaluateHunt(row({ state: 'WY', species: 'PRONGHORN' }), settings, 'proj').r.success5, .5);
+  assert.equal(evaluateHunt(row({ state: 'WY', species: 'ELK', pointOdds: { harvestBasis: 'summed areas' } as never }), settings, 'proj').r.success5, null);
 });
 
-test('Wyoming Tag Filler uses license-based evidence without changing shared hunter success', () => {
+test('Wyoming deer use the dominant species rate for success, density and Quality', () => {
+  const harvest = [2021, 2022, 2023, 2024, 2025].map((year) => ({ year, hunters: 400, harvest: 260, basis: 'mule+whitetail',
+    mule: 250, whitetail: 10, huntersMule: 400, huntersWhitetail: 80 }));
+  const mule = evaluateHunt(row({ id: 'wy:deer22', state: 'WY', species: 'DEER', acres: 640 * 1000, pointOdds: { harvest } as never }), settings, 'proj').r;
+  assert.equal(mule.success5, 1250 / 2000);
+  assert.equal(mule.hunters5, 2000);
+  assert.equal(mule.huntersSqMi, 400 / 1000);
+  assert.notEqual(mule.scoreQuality, null);
+  const mixed = harvest.map((h) => ({ ...h, mule: 130, whitetail: 130, huntersWhitetail: 300 }));
+  assert.equal(evaluateHunt(row({ id: 'wy:deer23', state: 'WY', species: 'DEER', pointOdds: { harvest: mixed } as never }), settings, 'proj').r.success5, null);
+});
+
+test('Wyoming Tag Filler uses license-based evidence and hunter success', () => {
   const wy = row({ id:'wy:elk1', state:'WY', species:'ELK', units:['E1'], publicPct:87.9,
     pointOdds:{state:'WY', pools:{}, harvest:wyHarvest.species.elk['1-1']} as never });
   const q = { states:'WY', species:'ELK', antler:'ALL', huntPreset:'tag-filler' };
   const found = runSearch([wy],q,'WY',settings);
   assert.equal(found.length,1);
-  assert.equal(found[0].r.success5,null);
-  assert.equal(found[0].r.scoreQuality,null);
-  assert.equal(runSearch([wy],{...q,minSuccess:'1'},'WY',settings).length,0);
+  assert.equal(found[0].r.success5,.5);
+  assert.notEqual(found[0].r.scoreQuality,null);
+  assert.equal(runSearch([wy],{...q,minSuccess:'1'},'WY',settings).length,1);
   assert.equal(runSearch([wy],{...q,minPublic:'90'},'WY',settings).length,0);
   assert.equal(runSearch([wy],{...q,huntPreset:'tag-filler,peak-rut'},'WY',settings).length,1);
   const csv = searchCsv(found,'https://example.com');
-  assert.match(csv, /WY harvest per active license \(not hunter success\)/);
+  assert.match(csv, /WY success by species or license \(WGFD harvest ÷ active licenses\)/);
   assert.match(csv, /Elk: 60\.31%/);
 });
 

@@ -1,9 +1,26 @@
 import type { HuntSummary } from '@prisma/client';
 import { trophyForHunt } from './trophyHunt';
+import { scoreHunts } from './score';
 
-/** Species hunter counts overlap by an unknown amount; the stored upper bound is not a measured rate. */
+/** WGFD reports deer by species: a license holder who hunted both is counted in each table, so the stored combined
+ * rate (all deer ÷ the larger table) is only an upper bound. Each species' own rate is WGFD's published hunter success
+ * for that species. Where one species is ≥60% of the harvest (Idaho's harvest-mix rule), that species' rate is the
+ * hunt's success, density and score input; mixed hunts, region sums and hunts without species rows stay withheld. */
 export function withoutUnvalidatedWyDeerMetrics<T extends HuntSummary>(row: T): T {
   if (row.state !== 'WY' || row.species !== 'DEER') return row;
+  const mix = wyDeerMix(row.pointOdds);
+  const series = mix === 'MULE' || mix === 'WHITETAIL' ? wyDeerSeries(row.pointOdds, mix).slice(-5) : [];
+  const hunters5 = series.reduce((n, x) => n + x.hunters, 0), harvest5 = series.reduce((n, x) => n + x.harvest, 0);
+  if (series.length && hunters5 > 0) {
+    const last = series[series.length - 1];
+    const sqmi = row.acres ? row.acres / 640 : null;
+    const fixed = { ...row, success5: harvest5 / hunters5, successLast: last.hunters > 0 ? last.harvest / last.hunters : null,
+      hunters5, harvest5, harvestYears: series.length, harvestLastYear: last.year,
+      huntersSqMi: sqmi ? hunters5 / series.length / sqmi : null, daysPerHunter5: null, daysPerHarvest5: null,
+      resTagAndFill: null, nrTagAndFill: null };
+    const sc = scoreHunts([{ ...fixed, publicPct: row.privateOnly ? (row.publicPct === null ? null : 0) : row.publicPct, huntablePct: null, nrTag: false }]).get(row.id);
+    return { ...fixed, ...(sc ?? {}), scoreTrophy: trophyForHunt(fixed) } as T;
+  }
   return { ...row, success5: null, successLast: null, hunters5: null, harvest5: null,
     huntersSqMi: null, daysPerHunter5: null, daysPerHarvest5: null, resTagAndFill: null, nrTagAndFill: null,
     scoreQuality: null, scoreSuccess: null, scoreAccess: null, scoreCrowd: null,

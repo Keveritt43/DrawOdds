@@ -17,8 +17,9 @@ export function withStateTrophyScores<T extends HuntSummary>(raw:T):T {
   if(!['WA','MT','UT','WY'].includes(raw.state))return raw;
   const r=withUtSeasonCorrections(withWyElkRegion(withWyElkBoundaryHistory(withWaVerifiedDates(withoutUnvalidatedWyDeerMetrics(raw)))));
   if(r.state==='MT' && mtHarvestProxy(r.pointOdds)) {const safe=withoutMtProxySuccess(r);return {...safe,scoreTrophy:trophyForHunt(safe)};}
+  // Wyoming deer were rescored from their dominant species above, or withheld; region sums stay withheld
   if(r.state==='WY' && r.species==='DEER')return r;
-  if(r.state==='WY' && ['ELK','PRONGHORN'].includes(r.species)) { const safe=withoutUnvalidatedWyLicenseMetrics(r); return {...safe,scoreTrophy:trophyForHunt(safe)}; }
+  if(r.state==='WY') { const safe=withoutUnvalidatedWyLicenseMetrics(r); if(safe.success5===null) return {...safe,scoreTrophy:trophyForHunt(safe)}; }
   const publicPct=r.privateOnly ? (r.publicPct===null ? null : 0) : r.publicPct;
   const huntablePct=r.state==='MT' ? (r.privateOnly?r.accessYesPct:r.huntablePct)
     : r.state==='WY' ? null : (r.privateOnly ? 0 : r.publicPct);

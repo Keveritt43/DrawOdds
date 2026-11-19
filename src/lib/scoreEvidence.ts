@@ -7,9 +7,10 @@ export function scoreEvidence(r:Row):{label:string; explanation:string}|null {
   if(r.state==='UT' && (r.tagSeasons as {seasons?:{uncertain?:boolean}[]}|null)?.seasons?.some(s=>s.uncertain))
     return {label:'Dates vary', explanation:'Exact hunt dates vary within the published window, so season-dependent scoring is unavailable.'};
   if(r.state==='WY') {
-    if(r.species==='DEER') return {label:'Deer harvest populations differ',explanation:'Separate mule deer and whitetail hunter counts can overlap; combined hunter success and Quality are unavailable.'};
-    if(['ELK','PRONGHORN'].includes(r.species) && !(r.pointOdds as {verifiedRegionHarvest?:boolean}|null)?.verifiedRegionHarvest)
-      return {label:'Active-license data',explanation:'WGFD reports harvest per active license; unique-hunter success and density are not established for this hunt.'};
+    const po=r.pointOdds as {verifiedRegionHarvest?:boolean; harvestBasis?:string}|null;
+    if(po?.harvestBasis && !po.verifiedRegionHarvest)
+      return {label:'Summed hunt areas',explanation:'This region total adds hunt-area reports, and a license holder can hunt more than one area, so hunter success and Quality are unavailable.'};
+    if(r.species==='DEER') return {label:'Mixed deer harvest',explanation:'Mule deer and whitetail are both a large share of the harvest, and WGFD counts a hunter of both in each table, so one hunter success rate is unavailable. Each species\' own rate is shown.'};
   }
   if(r.state==='MT') {
     const kind=mtHarvestProxy(r.pointOdds);

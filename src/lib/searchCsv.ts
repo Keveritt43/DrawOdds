@@ -18,7 +18,7 @@ const cell = (value: unknown) => {
 };
 export function searchCsv(results: SearchResult[], origin: string) {
   const percent = (value: number | null) => value === null ? null : Math.round(value * 10000) / 100;
-  const rows: unknown[][] = [['State', 'Hunt', 'Code', 'Species', 'Units', 'Weapon', 'Season dates', 'Residency', 'Points', 'Your odds %', 'Odds basis', 'Draw report year', 'Harvest report year', 'Harvest success %', 'Hunter-seasons', 'Harvest small sample', 'WY harvest per active license (not hunter success)', 'MT estimated mule bucks per issued permit % (not hunter success)', 'Public land %', 'Quality', 'Opportunity', 'Trophy score', 'Link', 'Score evidence', 'Unit reference (unverified)', 'Land access note']];
+  const rows: unknown[][] = [['State', 'Hunt', 'Code', 'Species', 'Units', 'Weapon', 'Season dates', 'Residency', 'Points', 'Your odds %', 'Odds basis', 'Draw report year', 'Harvest report year', 'Harvest success %', 'Hunter-seasons', 'Harvest small sample', 'WY success by species or license (WGFD harvest ÷ active licenses)', 'MT estimated mule bucks per issued permit % (not hunter success)', 'Public land %', 'Quality', 'Opportunity', 'Trophy score', 'Link', 'Score evidence', 'Unit reference (unverified)', 'Land access note']];
   for (const x of results) {
     const wy = x.r.state === 'WY' ? wyPresetHarvest(x.r.pointOdds, x.r.species).map(r => `${r.label}: ${percent(r.rate)}% (${r.first === r.last ? r.first : `${r.first}–${r.last}`}; ${r.years} season${r.years === 1 ? '' : 's'})`).join('; ') : null;
     const mt = x.r.state === 'MT' && x.r.species === 'DEER' && mtHarvestProxy(x.r.pointOdds) === 'permit' ? percent(mtProxyRate(x.r.pointOdds)) : null;

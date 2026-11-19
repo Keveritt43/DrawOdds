@@ -11,7 +11,7 @@ test('2025 boundary change limits 117 and 123 history without altering raw recor
  assert.equal(fixed.harvestYears,1);assert.equal(fixed.harvestLastYear,2025);assert.equal(fixed.hunters5,454);assert.equal(fixed.harvest5,277);assert.equal(fixed.success5,277/454);
  assert.equal((fixed.pointOdds as any).harvestPriorBoundaryAudit.length,5);assert.equal(JSON.stringify(raw),before);
  const other=withWyElkBoundaryHistory(row('WY:elk:123-4'));assert.equal(other.hunters5,83);assert.equal(other.harvest5,38);
- assert.equal(withStateTrophyScores(raw).success5,null);
+ assert.equal(withStateTrophyScores(raw).success5,277/454);
 });
 test('2024 boundary change limits 54 and affected region aggregates',()=>{
  const fixed=withWyElkBoundaryHistory(row('WY:elk:054-1'));assert.equal(fixed.harvestYears,2);assert.equal(fixed.hunters5,112);assert.equal(fixed.harvest5,68);
@@ -27,13 +27,14 @@ import {runSearch,type HunterSettings} from '../src/lib/multiStateSearch';
 import type {CoScored} from '../src/lib/coScores';
 import {searchCsv} from '../src/lib/searchCsv';
 
-test('finder keeps license rates separate from hunter filters and CSV success',()=>{
+test('finder uses license hunter success in filters, scores and CSV',()=>{
  const settings={ID:'RESIDENT',CO:{res:'NONRESIDENT',DEER:0,ELK:0,PRONGHORN:0,youth:false,set:false}} as HunterSettings;
  const row117=row('WY:elk:117-1') as CoScored;
- assert.equal(runSearch([row117],{states:'WY',species:'ELK',antler:'ALL',minSucc:'60'},'WY',settings).length,0);
+ assert.equal(runSearch([row117],{states:'WY',species:'ELK',antler:'ALL',minSuccess:'62'},'WY',settings).length,0);
+ assert.equal(runSearch([row117],{states:'WY',species:'ELK',antler:'ALL',minSuccess:'60'},'WY',settings).length,1);
  const result=runSearch([row117],{states:'WY',species:'ELK',antler:'ALL'},'WY',settings);
- assert.equal(result.length,1);assert.equal(result[0].r.success5,null);assert.equal(result[0].r.scoreQuality,null);
+ assert.equal(result.length,1);assert.equal(result[0].r.success5,277/454);assert.notEqual(result[0].r.scoreQuality,null);
  const csv=searchCsv(result,'https://example.test');
- assert.match(csv,/Harvest success %,Hunter-seasons,Harvest small sample,WY harvest per active license \(not hunter success\)/);
- assert.match(csv,/2025,,,,Elk: 61\.01% \(2025; 1 season\)/);
+ assert.match(csv,/Harvest success %,Hunter-seasons,Harvest small sample,WY success by species or license \(WGFD harvest ÷ active licenses\)/);
+ assert.match(csv,/Elk: 61\.01% \(2025; 1 season\)/);
 });
