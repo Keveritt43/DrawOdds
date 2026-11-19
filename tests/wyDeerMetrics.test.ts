@@ -9,10 +9,11 @@ test('WGFD 2025 Area 1 general species values match report tables 7 and 8', () =
   assert.deepEqual(wyDeerSeries(po, 'WHITETAIL').find(r => r.year === 2025), {year: 2025, hunters: 934, harvest: 347, success: 347 / 934});
   assert.equal(wyDeerMix(po), 'MIXED');
 });
-test('missing or invalid species is unknown, and region aggregates are not attributed', () => {
+test('a species with no WGFD table took none; invalid rows and region aggregates are not attributed', () => {
   const r = { year: 2025, basis: 'mule+whitetail', huntersMule: 20, mule: 10, huntersWhitetail: null, whitetail: 0 };
   assert.equal(wyDeerSeries({harvest: [r]}, 'MULE').length, 1);
-  assert.equal(wyDeerMix({harvest: [r]}), null);
+  assert.equal(wyDeerMix({harvest: [r]}), 'MULE');
+  assert.equal(wyDeerMix({harvest: [{...r, mule: 21}]}), null);
   assert.equal(wyDeerSeries({harvest: [{...r, mule: 21}]}, 'MULE').length, 0);
   assert.equal(wyDeerSeries({harvest: [r], harvestBasis: 'region'}, 'MULE').length, 0);
 });

@@ -42,11 +42,13 @@ export function wyDeerSeries(pointOdds: unknown, kind: WyDeerKind): WyDeerObserv
     return [{ year: r.year, hunters, harvest, success: hunters > 0 ? harvest / hunters : null }];
   }).sort((a, b) => a.year - b.year);
 }
-/** Idaho's harvest-mix thresholds, using only years with both species reported. */
+/** Idaho's harvest-mix thresholds over the last five years with either species reported. A license with no table
+ * for one species (Type 3 whitetail-only licenses have no mule deer table) took none of it that year. */
 export function wyDeerMix(pointOdds: unknown): 'MULE' | 'WHITETAIL' | 'MIXED' | null {
   const mule = wyDeerSeries(pointOdds, 'MULE'), white = wyDeerSeries(pointOdds, 'WHITETAIL');
-  const pairs = mule.flatMap(m => { const w = white.find(x => x.year === m.year); return w ? [{m, w}] : []; }).slice(-5);
-  const m = pairs.reduce((n, p) => n + p.m.harvest, 0), w = pairs.reduce((n, p) => n + p.w.harvest, 0);
+  const years = [...new Set([...mule, ...white].map(x => x.year))].sort((a, b) => a - b).slice(-5);
+  const sum = (rows: WyDeerObservation[]) => rows.filter(x => years.includes(x.year)).reduce((n, x) => n + x.harvest, 0);
+  const m = sum(mule), w = sum(white);
   if (!m && !w) return null;
   const share = w / (m + w);
   return share >= .6 ? 'WHITETAIL' : share <= .4 ? 'MULE' : 'MIXED';
