@@ -12,6 +12,7 @@ import { MT_BONUS_MAX, MT_BONUS_TYPES, MT_COMBO_CAP, MT_COMBO_TYPES, type MtComb
 import { UT_POINTS_MAX, UT_POINT_TYPES, type UtPoints } from '@/lib/utPoints';
 import { OR_POINTS_MAX, OR_POINT_TYPES, type OrPoints } from '@/lib/orPoints';
 import { NV_POINTS_MAX, NV_POINT_TYPES, type NvPoints } from '@/lib/nvPoints';
+import { AZ_POINTS_MAX, AZ_POINT_TYPES, type AzPoints } from '@/lib/azPoints';
 import { WA_POINTS_MAX, WA_POINT_TYPES, WA_DEER_TAGS, WA_ELK_TAGS, type WaPoints } from '@/lib/waPoints';
 import type { NmSettings } from '@/lib/nmSettings';
 
@@ -28,7 +29,7 @@ function StateBox({ name, line, open, children }: { name: string; line: string; 
 }
 
 /** `openState`: the state the site is set to starts expanded; the others are one line each. */
-export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, washington, newMexico, oregon, nevada, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; washington?: WaPoints; newMexico?: NmSettings; oregon?: OrPoints; nevada?: NvPoints; openState?: string }) {
+export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, washington, newMexico, oregon, nevada, arizona, openState }: { idaho: Residency; colorado: StatePoints; wyoming?: StatePoints; montana?: MtPoints; utah?: UtPoints; washington?: WaPoints; newMexico?: NmSettings; oregon?: OrPoints; nevada?: NvPoints; arizona?: AzPoints; openState?: string }) {
   const [result, save, pending] = useActionState(saveHuntingPreferences, { message: '', saved: false });
   const [idahoResidency, setIdahoResidency] = useState(idaho);
   const [coloradoResidency, setColoradoResidency] = useState(colorado.res);
@@ -53,6 +54,10 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
   const [nmOutfitter, setNmOutfitter] = useState<boolean>(newMexico?.outfitter ?? false);
   const [nvResidency, setNvResidency] = useState<Residency>(nevada?.res ?? 'NONRESIDENT');
   const [nvPts, setNvPts] = useState(Object.fromEntries(NV_POINT_TYPES.map(t => [t.key, String(nevada?.points[t.key] ?? 0)])));
+  const [azResidency, setAzResidency] = useState<Residency>(arizona?.res ?? 'NONRESIDENT');
+  const [azPts, setAzPts] = useState(Object.fromEntries(AZ_POINT_TYPES.map(t => [t.key, String(arizona?.points[t.key] ?? 0)])));
+  const [azLoyalty, setAzLoyalty] = useState(arizona?.loyalty ?? false);
+  const [azHunterEd, setAzHunterEd] = useState(arizona?.hunterEd ?? false);
   const [orResidency, setOrResidency] = useState<Residency>(oregon?.res ?? 'NONRESIDENT');
   const [orPts, setOrPts] = useState(Object.fromEntries(OR_POINT_TYPES.map(t => [t.key, String(oregon?.points[t.key] ?? 0)])));
   const [weighted, setWeighted] = useState(Object.fromEntries(SPECIAL_POINT_SPECIES.map(s => [s, String(colorado.weighted?.[s] ?? 0)])));
@@ -280,6 +285,29 @@ export function HuntingPreferences({ idaho, colorado, wyoming, montana, utah, wa
             <input type="number" name={'nvPts_' + key} min={0} max={NV_POINTS_MAX} step={1} required value={nvPts[key]}
               onChange={e => setNvPts({ ...nvPts, [key]: e.target.value })} />
           </label>)}
+        </div>
+      </StateBox>}
+      {arizona && <StateBox name="Arizona" line={`${resLabel(azResidency)} · ${AZ_POINT_TYPES.map((t) => `${t.label.toLowerCase()} ${azPts[t.key]}`).join(', ')}${azLoyalty ? ' · loyalty' : ''}${azHunterEd ? ' · hunter ed' : ''}`} open={openState === 'AZ'}>
+        <label>Residency
+          <select name="azResidency" value={azResidency} onChange={e => setAzResidency(e.target.value as Residency)}>
+            <option value="RESIDENT">Resident</option>
+            <option value="NONRESIDENT">Nonresident</option>
+          </select>
+        </label>
+        <p className="small muted">
+          Arizona draws every deer and elk hunt with <b>bonus points</b>. Up to 20% of each hunt&apos;s permits go to the
+          applications with the most points (1st and 2nd choices); the rest are drawn at random, and every point is one
+          more random number, so zero points can still draw. Nonresidents get at most 10% of a hunt&apos;s permits. You earn a
+          species point when you apply and don&apos;t draw, or buy one; drawing that species resets it to 0. The loyalty point
+          (five years in a row of applying or buying a point) and the hunter education point count for every species.
+        </p>
+        <div className="account-points">
+          {AZ_POINT_TYPES.map(({ key, label }) => <label key={key}>{label} (bonus points)
+            <input type="number" name={'azPts_' + key} min={0} max={AZ_POINTS_MAX} step={1} required value={azPts[key]}
+              onChange={e => setAzPts({ ...azPts, [key]: e.target.value })} />
+          </label>)}
+          <label><input type="checkbox" name="azLoyalty" checked={azLoyalty} onChange={e => setAzLoyalty(e.target.checked)} /> Loyalty bonus point</label>
+          <label><input type="checkbox" name="azHunterEd" checked={azHunterEd} onChange={e => setAzHunterEd(e.target.checked)} /> Hunter education bonus point</label>
         </div>
       </StateBox>}
       {oregon && <StateBox name="Oregon" line={lines.OR} open={openState === 'OR'}>

@@ -8,7 +8,7 @@ import { unitsWithObjective } from './elkObjectives';
 import { zoneUnits } from './finder';
 import { type StateCode } from './states';
 import { searchDraw, searchStates, searchUnitKey } from './searchStates';
-export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS, NM_RESTRICTIONS, OR_RESTRICTIONS, NV_RESTRICTIONS } from './searchStates';
+export { ID_RESTRICTIONS, CO_RESTRICTIONS, WY_RESTRICTIONS, MT_RESTRICTIONS, UT_RESTRICTIONS, WA_RESTRICTIONS, NM_RESTRICTIONS, OR_RESTRICTIONS, NV_RESTRICTIONS, AZ_RESTRICTIONS } from './searchStates';
 import { wyPool, wyNeed, wyTableOdds, wyBasis, type WyOddsTable, type WyPointOdds } from './wyHunt';
 import { matchesWyTagType } from './wyTagType';
 import { wyHuntWilderness } from './wyWilderness';
@@ -32,12 +32,14 @@ import { orPersonal, orPo, orIsGeneral, orPrefCutoff } from './orHunt';
 import { readOrPoints, type OrPoints } from './orPoints';
 import { nvPersonal, nvPo } from './nvHunt';
 import { readNvPoints, type NvPoints } from './nvPoints';
+import { azPersonal, azPo } from './azHunt';
+import { readAzPoints, type AzPoints } from './azPoints';
 import { withoutUnvalidatedWyDeerMetrics, wyDeerMix } from './wyDeerMetrics';
 import { trophyForHunt } from './trophyHunt';
 import { withStateTrophyScores } from './stateTrophyScores';
 
 export type SearchParams = Record<string, string | string[] | undefined>;
-export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints; NM?: NmSettings; OR?: OrPoints; NV?: NvPoints };
+export type HunterSettings = { ID: Residency; CO: StatePoints; WY?: StatePoints; MT?: MtPoints; UT?: UtPoints; WA?: WaPoints; NM?: NmSettings; OR?: OrPoints; NV?: NvPoints; AZ?: AzPoints };
 export interface SearchResult {
   r: CoScored;
   odds: number | null;
@@ -73,7 +75,7 @@ export function searchFilters(sp: SearchParams): Filters {
 /** All personal values are derived on copies; the public cached rows are never modified. */
 /** Residency for a row's state: Idaho's profile residency, else that state's saved settings. */
 export const isNonresident = (state: string, settings: HunterSettings) =>
-  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : state === 'WA' ? settings.WA?.res ?? 'NONRESIDENT' : state === 'NV' ? settings.NV?.res ?? 'NONRESIDENT' : state === 'NM' ? settings.NM?.res ?? 'NONRESIDENT' : state === 'OR' ? settings.OR?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
+  (state === 'ID' ? settings.ID : state === 'WY' ? settings.WY?.res ?? 'NONRESIDENT' : state === 'MT' ? settings.MT?.res ?? 'NONRESIDENT' : state === 'UT' ? settings.UT?.res ?? 'NONRESIDENT' : state === 'WA' ? settings.WA?.res ?? 'NONRESIDENT' : state === 'NV' ? settings.NV?.res ?? 'NONRESIDENT' : state === 'AZ' ? settings.AZ?.res ?? 'NONRESIDENT' : state === 'NM' ? settings.NM?.res ?? 'NONRESIDENT' : state === 'OR' ? settings.OR?.res ?? 'NONRESIDENT' : settings.CO.res) === 'NONRESIDENT';
 
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
   const nr = isNonresident(r.state, settings);
@@ -129,6 +131,12 @@ export function evaluateHunt(r: CoScored, settings: HunterSettings, mode: 'last'
   if (r.state === 'NV') {
     // unsaved settings: nonresident, 0 points (src/lib/nvPoints.ts readNvPoints defaults); always the 2025 draw
     const v = nvPersonal(r, settings.NV ?? readNvPoints(null), nr);
+    const opp = opportunity(r.scoreQuality, v.odds);
+    return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: v.odds, opportunity: opp, nr, points: v.points, basis: v.basis };
+  }
+  if (r.state === 'AZ') {
+    // unsaved settings: nonresident, 0 points (src/lib/azPoints.ts readAzPoints defaults); always the 2026 draw
+    const v = azPersonal(r, settings.AZ ?? readAzPoints(null), nr);
     const opp = opportunity(r.scoreQuality, v.odds);
     return { r: { ...r, scoreOppRes: nr ? null : opp, scoreOppNr: nr ? opp : null }, odds: v.odds, opportunity: opp, nr, points: v.points, basis: v.basis };
   }
@@ -295,6 +303,14 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   } else if (r.state === 'NV') {
     const cats = list(sp, 'nvCat');
     if (cats.length && !cats.includes(nvCategoryGroup(nvPo(r)?.category))) return false;
+  } else if (r.state === 'AZ') {
+    const po = azPo(r);
+    const lic = list(sp, 'azLic');
+    if (lic.length && !lic.includes(po?.license ?? '')) return false;
+    // CHAMP hunts need AZGFD's mobility permit: they show only when asked for
+    if (po?.restricted && !lic.includes('champ')) return false;
+    const deer = list(sp, 'azDeer');
+    if (deer.length && !(r.species === 'DEER' && deer.includes(r.deerType ?? ''))) return false;
   } else if (r.state === 'OR') {
     const po = orPo(r);
     const kinds = list(sp, 'orLic');

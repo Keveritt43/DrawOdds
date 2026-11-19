@@ -5,7 +5,7 @@
  */
 import type { Draw, SpeciesKey } from './species';
 
-export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM' | 'OR' | 'NV';
+export type StateCode = 'ID' | 'CO' | 'WY' | 'MT' | 'UT' | 'WA' | 'NM' | 'OR' | 'NV' | 'AZ';
 
 export interface StateFeatures {
   /** Elk zones grouping units, with zone A/B tags (Idaho). */
@@ -217,6 +217,24 @@ export const STATES: Record<StateCode, StateConfig> = {
     species: ['DEER', 'ELK'],
     bounds: [[-120.01, 35.0], [-114.04, 42.0]],
     // NDOW hunt units (3-digit, "011"); a hunt covers a unit group
+    features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
+  },
+  AZ: {
+    code: 'AZ',
+    name: 'Arizona',
+    slug: 'arizona',
+    // Deer and elk from scripts/az-import.ts; docs/states/az-onboarding.md. Off until the import is applied.
+    enabled: false,
+    agency: { short: 'AZGFD', name: 'Arizona Game and Fish Department', url: 'https://www.azgfd.com/hunting/hunt-draw-and-licenses/big-game-draw/' },
+    accessProgram: null,
+    privateLandOnly: 'None of the imported hunts: AZGFD\'s deer and elk draw hunts are open on all lands in their units (tribal and Camp Navajo military hunts, printed as "----" in the regulations, are left out), so no Arizona row is privateOnly.',
+    // three passes: 20% of each hunt's permits by group bonus points, then two random passes in which each point is one
+    // more random number (the lowest kept); 10% nonresident cap throughout
+    points: 'bonus',
+    draws: [{ key: 'DEP', label: 'Deer · Elk', species: ['DEER', 'ELK'] }],
+    species: ['DEER', 'ELK'],
+    bounds: [[-114.82, 31.33], [-109.04, 37.0]],
+    // AZGFD game management units ("1", "12A", "11M"); hunt areas like 5B North or 12A West are portions of a GMU
     features: { elkZones: false, nrGeneralTagDraw: false, elkObjectives: false, migration: false, leftovers: false, areaSpecies: [] },
   },
 };
