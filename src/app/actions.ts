@@ -13,6 +13,7 @@ import { parseUtForm } from '@/lib/utPoints';
 import { parseWaForm } from '@/lib/waPoints';
 import { parseNmForm } from '@/lib/nmSettings';
 import { parseNvForm } from '@/lib/nvPoints';
+import { parseAzForm } from '@/lib/azPoints';
 import { parseOrForm } from '@/lib/orPoints';
 import { GUEST_FAVORITES_COOKIE, GUEST_FAVORITES_LIMIT, parseGuestFavorites } from '@/lib/guestFavorites';
 
@@ -59,6 +60,9 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
   // Nevada: residency and a bonus-point balance per NDOW hunt category (src/lib/nvPoints.ts)
   const NV = parseNvForm(name => form.get(name), name => form.has(name));
   if (typeof NV === 'string') return { message: NV, saved: false };
+  // Arizona: residency, deer and elk bonus points, loyalty and hunter education points (src/lib/azPoints.ts)
+  const AZ = parseAzForm(name => form.get(name), name => form.has(name));
+  if (typeof AZ === 'string') return { message: AZ, saved: false };
   const { store, userId } = await getPointsStore();
   if (userId) {
     await db.$transaction(async tx => {
@@ -71,13 +75,14 @@ export async function saveHuntingPreferences(_previous: { message: string; saved
       if (NM) await setAccountPreference(userId, 'NM', NM, tx);
       if (OR) await setAccountPreference(userId, 'OR', OR, tx);
       if (NV) await setAccountPreference(userId, 'NV', NV, tx);
+      if (AZ) await setAccountPreference(userId, 'AZ', AZ, tx);
     });
   }
   const jar = await cookies();
   const options = { maxAge: 60 * 60 * 24 * 365, sameSite: 'lax' as const, path: '/', httpOnly: true };
   jar.set(RESIDENCY_COOKIE, idaho, options);
   // Keep account-only preferences out of the browser cookie.
-  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO, ...(WY ? { WY } : {}), ...(MT ? { MT } : {}), ...(UT ? { UT } : {}), ...(WA ? { WA } : {}), ...(NM ? { NM } : {}), ...(OR ? { OR } : {}), ...(NV ? { NV } : {}) };
+  const all = { ...Object.fromEntries(Object.entries(store).filter(([code]) => Object.hasOwn(STATES, code))), CO, ...(WY ? { WY } : {}), ...(MT ? { MT } : {}), ...(UT ? { UT } : {}), ...(WA ? { WA } : {}), ...(NM ? { NM } : {}), ...(OR ? { OR } : {}), ...(NV ? { NV } : {}), ...(AZ ? { AZ } : {}) };
   jar.set(POINTS_COOKIE, encodeURIComponent(JSON.stringify(all)), options);
   revalidatePath('/', 'layout');
   return { message: 'Hunting preferences saved.', saved: true };

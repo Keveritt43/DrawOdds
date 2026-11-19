@@ -8,6 +8,7 @@ import { readWaPoints } from '@/lib/waPoints';
 import { readNmSettings } from '@/lib/nmSettings';
 import { readOrPoints } from '@/lib/orPoints';
 import { readNvPoints } from '@/lib/nvPoints';
+import { readAzPoints } from '@/lib/azPoints';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Unit Map' };
@@ -16,11 +17,11 @@ export default async function MapPage() {
   const state = await getState();
   // Colorado, Montana and Utah shade by the hunter's saved points: the map's data is keyed by them
   const store = (await getPointsStore()).store as Record<string, unknown>;
-  const points = state.code === 'CO' ? await getPoints('CO') : state.code === 'MT' ? readMtPoints(store) : state.code === 'UT' ? readUtPoints(store) : state.code === 'WA' ? readWaPoints(store) : state.code === 'NM' ? readNmSettings(store) : state.code === 'OR' ? readOrPoints(store) : state.code === 'NV' ? readNvPoints(store) : null;
+  const points = state.code === 'CO' ? await getPoints('CO') : state.code === 'MT' ? readMtPoints(store) : state.code === 'UT' ? readUtPoints(store) : state.code === 'WA' ? readWaPoints(store) : state.code === 'NM' ? readNmSettings(store) : state.code === 'OR' ? readOrPoints(store) : state.code === 'NV' ? readNvPoints(store) : state.code === 'AZ' ? readAzPoints(store) : null;
   const [{ residency }, fav, draw] = await Promise.all([getResidency(), getFavorites(), getDraw()]);
   return (
     <main className="mapbox">
-      <UnitMap key={state.code + draw + JSON.stringify(points)} coPointsKey={points ? JSON.stringify(points) : ''} draw={draw} nr={points && (state.code === 'MT' || state.code === 'UT' || state.code === 'WA' || state.code === 'NM' || state.code === 'OR' || state.code === 'NV') ? points.res === 'NONRESIDENT' : residency === 'NONRESIDENT'} savedUnits={[...fav.units]} signedIn={fav.signedIn} />
+      <UnitMap key={state.code + draw + JSON.stringify(points)} coPointsKey={points ? JSON.stringify(points) : ''} draw={draw} nr={points && (state.code === 'MT' || state.code === 'UT' || state.code === 'WA' || state.code === 'NM' || state.code === 'OR' || state.code === 'NV' || state.code === 'AZ') ? points.res === 'NONRESIDENT' : residency === 'NONRESIDENT'} savedUnits={[...fav.units]} signedIn={fav.signedIn} />
     </main>
   );
 }
