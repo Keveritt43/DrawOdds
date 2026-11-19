@@ -1,5 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
-import { FinderBusy } from '@/components/FinderBusy';
+import { FinderBusy, FinderLink } from '@/components/FinderBusy';
 import { trophyForUnit, trophyForHunt } from '@/lib/trophyHunt';
 import { trophyPresentation } from '@/lib/trophyDisplay';
 import { withPresetEdit } from '@/lib/filterPresets';
@@ -12,7 +12,6 @@ import { dayLabel } from '@/lib/seasonDays';
 import { huntHref } from '@/lib/huntSlug';
 import { unitObjective, OBJ_NUM } from '@/lib/elkObjectives';
 import { unitOrder } from '@/lib/format';
-import Link from 'next/link';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
 import { getResidency, getDraw, getState } from '@/lib/residency';
@@ -258,16 +257,16 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
             <h1>Find A Hunt</h1>
           </div>
           <SearchStates draw={draw} />
-          {draw === 'MSG' && <Link className="small" href={`/hunts?states=CO,ID&draw=msg${f.species ? `&species=${f.species}` : ''}`}>Search Idaho and Colorado</Link>}
+          {draw === 'MSG' && <FinderLink className="small" href={`/hunts?states=CO,ID&draw=msg${f.species ? `&species=${f.species}` : ''}`}>Search Idaho and Colorado</FinderLink>}
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'unit' ? 'units' : total === 1 ? 'result' : 'results'} · sort by</span>
             <SortSelect value={f.sort} />
             {activeChips.length > 0 && <a className="small reset-all" href={withPresetEdit(sp.editPreset ? '/hunts?state=ID&restore=1&antler=ANTLERED&draw='+draw.toLowerCase() : '/hunts?reset=1', sp.editPreset)}>Reset all filters</a>}
             <a className="small csv" href={`/api/export${query({ page: 1 })}`} title="Every result with odds, success, crowding and tags, for a spreadsheet">Download CSV</a>
             <span className="seg light view-seg" role="group" aria-label="List by">
-              <Link className="seg-link" href={viewHref('hunt')} aria-pressed={f.view === 'hunt'} scroll={false}>By hunt</Link>
-              <Link className="seg-link" href={viewHref('unit')} aria-pressed={f.view === 'unit'} scroll={false}>By unit</Link>
-              <Link className="seg-link" href={viewHref('table')} aria-pressed={f.view === 'table'} scroll={false} title="Every hunt in one sortable table">Table</Link>
+              <FinderLink className="seg-link" href={viewHref('hunt')} aria-pressed={f.view === 'hunt'} scroll={false}>By hunt</FinderLink>
+              <FinderLink className="seg-link" href={viewHref('unit')} aria-pressed={f.view === 'unit'} scroll={false}>By unit</FinderLink>
+              <FinderLink className="seg-link" href={viewHref('table')} aria-pressed={f.view === 'table'} scroll={false} title="Every hunt in one sortable table">Table</FinderLink>
             </span>
           </div>
           {(oddsYear || harvestYear) && (
@@ -279,7 +278,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
         {!total && (
           <div className="ucard">
             <h2>No Hunts Match</h2>
-            <p className="muted">Loosen a slider or remove a chip on the map. <Link href="/hunts">Clear all filters</Link>.</p>
+            <p className="muted">Loosen a slider or remove a chip on the map. <FinderLink href="/hunts">Clear all filters</FinderLink>.</p>
           </div>
         )}
         {picks.length > 0 && f.view !== 'table' && <TopPicks picks={picks} c={c} />}
@@ -327,7 +326,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
         {shown < total && (
           <div className="more">
-            <Link className="btn" href={more} scroll={false}>Show {Math.min(PER_PAGE, total - shown)} more</Link>
+            <FinderLink className="btn" href={more} scroll={false}>Show {Math.min(PER_PAGE, total - shown)} more</FinderLink>
             <span className="small muted"> Showing {shown} of {total}</span>
           </div>
         )}

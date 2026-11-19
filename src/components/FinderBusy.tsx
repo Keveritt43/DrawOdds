@@ -1,7 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useId, useMemo, useSyncExternalStore, useTransition } from 'react';
+import Link from 'next/link';
+import { type ComponentProps, useEffect, useId, useMemo, useSyncExternalStore, useTransition } from 'react';
 
 // Which finder controls are waiting on a search. Several controls can be pending at once.
 const pending = new Set<string>();
@@ -35,4 +36,16 @@ export function FinderBusy() {
     return () => document.documentElement.removeAttribute('data-finder-busy');
   }, [on]);
   return on ? <div className="finder-busy" role="status" aria-live="polite"><span className="finder-spinner" aria-hidden="true" />Updating results…</div> : null;
+}
+
+/** A Find Hunts link (page, view, drawing, sort) that shows the busy indicator. Still a real link, so
+ *  new-tab and modified clicks behave normally; a plain click navigates through useFinderRouter. */
+export function FinderLink({ href, scroll, onClick, ...props }: ComponentProps<typeof Link> & { href: string }) {
+  const router = useFinderRouter();
+  return <Link {...props} href={href} scroll={scroll} onClick={(e) => {
+    onClick?.(e);
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || props.target) return;
+    e.preventDefault();
+    router.push(href, { scroll: scroll !== false });
+  }} />;
 }
