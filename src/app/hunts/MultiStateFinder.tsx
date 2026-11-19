@@ -1,5 +1,5 @@
 import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
-import { FinderBusy } from '@/components/FinderBusy';
+import { FinderBusy, FinderLink } from '@/components/FinderBusy';
 import { trophyReferenceContext } from '@/lib/trophyReferenceContext';
 import { FilterPresets } from '@/components/FilterPresets';
 import { withPresetEdit } from '@/lib/filterPresets';
@@ -31,6 +31,8 @@ import { NmSearchFilters } from '@/components/NmSearchFilters';
 import { OrHuntCard } from '@/components/OrHuntCard';
 import { NvHuntCard } from '@/components/NvHuntCard';
 import { NvSearchFilters } from '@/components/NvSearchFilters';
+import { AzHuntCard } from '@/components/AzHuntCard';
+import { AzSearchFilters } from '@/components/AzSearchFilters';
 import { OrSearchFilters } from '@/components/OrSearchFilters';
 import { wyWilderness } from '@/lib/wyWilderness';
 import { getFavorites } from '@/lib/favorites';
@@ -111,6 +113,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
     <details className="small search-result-context"><summary><b>{STATES[x.r.state as keyof typeof STATES].name}</b> · {x.nr ? 'Nonresident' : 'Resident'} · Opportunity {x.opportunity ?? '—'}</summary><p>{x.basis}{x.r.state === 'CO' && settings.CO.youth ? ' · Youth pool' : ''}{x.r.state === 'WY' && x.nr && settings.WY?.wySpecial ? ' · Special pool' : ''}{x.r.scoreQuality === null ? ' · Incomplete scoring data' : ''}</p></details>
     {x.r.state === 'MT' ? <MtHuntCard r={x.r} odds={x.odds} parts={x.mtParts} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'NM' ? <NmHuntCard r={x.r} odds={x.odds} nr={x.nr} basis={x.basis} pool={x.nmPool} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
+      : x.r.state === 'AZ' ? <AzHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'NV' ? <NvHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'OR' ? <OrHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} />
       : x.r.state === 'WA' ? <WaHuntCard r={x.r} odds={x.odds} points={x.points} nr={x.nr} basis={x.basis} mode={mode} saved={fav.hunts.has(x.r.huntId)} signedIn={fav.signedIn} tagOk={x.waTagOk} />
@@ -127,8 +130,8 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       <div className="search-intro">
         <h1>Find A Hunt</h1>
         <div className="seg light" role="group" aria-label="Hunt species group">
-          {(['DEP', 'MSG'] as const).map(group => <Link key={group} className="seg-link" aria-pressed={group === draw} href={group === draw ? q({}) : withPresetEdit(`/hunts?states=${states.join(',')}&draw=${group.toLowerCase()}`, sp.editPreset)}>{DRAW_LABEL[group]}</Link>)}
-          {msg && states.length === 1 && <Link className="seg-link" href={q({ states: 'CO,ID', draw: 'msg', unit: null, page: null })}>Search both states</Link>}
+          {(['DEP', 'MSG'] as const).map(group => <FinderLink key={group} className="seg-link" aria-pressed={group === draw} href={group === draw ? q({}) : withPresetEdit(`/hunts?states=${states.join(',')}&draw=${group.toLowerCase()}`, sp.editPreset)}>{DRAW_LABEL[group]}</FinderLink>)}
+          {msg && states.length === 1 && <FinderLink className="seg-link" href={q({ states: 'CO,ID', draw: 'msg', unit: null, page: null })}>Search both states</FinderLink>}
         </div>
         <details className="search-setup">
           <summary>States &amp; Settings</summary>
@@ -140,21 +143,21 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
       </div>
       <div className="f-head search-toolbar">
         <div className="f-sub search-sort"><span><b>{results.length}</b> hunt options</span><span className="search-sort-control"><span>Sort by</span><SortSelect value={sort} options={SORTS} /></span></div>
-        <div className="f-sub"><div className="seg light" role="group" aria-label="List by">{[['hunt', 'By hunt'], ['unit', 'By unit'], ['table', 'Table']].map(([value, label]) => <Link key={value} className="seg-link" aria-pressed={(view || 'hunt') === value} href={`/hunts${q({ view: value, page: null })}`} scroll={false}>{label}</Link>)}</div><a className="small" href={`/api/export${q({ page: null })}`}>Download CSV</a><Link className="small" href={withPresetEdit(`/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0`, sp.editPreset)}>Reset filters</Link></div>
+        <div className="f-sub"><div className="seg light" role="group" aria-label="List by">{[['hunt', 'By hunt'], ['unit', 'By unit'], ['table', 'Table']].map(([value, label]) => <FinderLink key={value} className="seg-link" aria-pressed={(view || 'hunt') === value} href={`/hunts${q({ view: value, page: null })}`} scroll={false}>{label}</FinderLink>)}</div><a className="small" href={`/api/export${q({ page: null })}`}>Download CSV</a><FinderLink className="small" href={withPresetEdit(`/hunts?states=${states.join(',')}${msg ? '&draw=msg' : '&antler=ANTLERED'}&sort=opp&minScore=0`, sp.editPreset)}>Reset filters</FinderLink></div>
       </div>
       {mtEmpty && <MtFinderNotice only={states.length === 1} />}
       {states.includes('WY') && selectedPresets.includes('tag-filler') && <p className="small muted">Wyoming Tag Filler uses harvest per active license over up to five reported seasons, a different measure from hunter success. Deer qualifies if either reported species reaches 60%; see each card for its species rates. Region aggregates are excluded.</p>}
           {states.includes('MT') && selectedPresets.includes('tag-filler') && <p className="small muted">Some Montana deer matches use estimated mule bucks per permit issued, pooled over reported seasons. This is not hunter success; permits issued include people who may not have hunted.</p>}
-      {!results.length && !(mtEmpty && states.length === 1) && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p>{selectedPresets.length > 0 && <p><Link href={`/hunts${q({ huntPreset: null, page: null })}`} scroll={false}>Clear DrawOdds presets</Link> to see hunts matching your other filters.</p>}</div>}
+      {!results.length && !(mtEmpty && states.length === 1) && <div className="ucard"><h2>No Hunts Match</h2><p>Remove a filter or adjust your states. State-specific filters narrow only the states named in their notes.</p>{selectedPresets.length > 0 && <p><FinderLink href={`/hunts${q({ huntPreset: null, page: null })}`} scroll={false}>Clear DrawOdds presets</FinderLink> to see hunts matching your other filters.</p>}</div>}
       {states.includes('CO') && param(sp, 'species') === 'DEER' && param(sp, 'type') === 'GENERAL' && <p className="small muted">Colorado&apos;s 2026 OTC white-tailed deer license D-E-048-U6-R is not yet included in these results. It is valid December 1–31 in selected units and sold at CPW offices and participating state parks. GMU 512 has additional restrictions. <a href="https://cpw.state.co.us/sites/default/files/dam/erjzbk48be/colorado-big-game-hunting-brochure.pdf">See the CPW brochure for valid units and restrictions</a>.</p>}
       {view === 'table' ? <div className="htable-wrap"><table className="htable"><thead><tr><th aria-label="Compare" />{['State', 'Hunt', 'Species', 'Units', 'Weapon', 'Season dates', 'Your odds', 'Odds basis', 'Success', 'Public land', 'Quality', 'Opportunity', 'Trophy', 'Unit reference (unverified)'].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{shown.map(x => <tr key={x.r.id}><td><CompareToggle id={x.r.id} label={x.r.name} compact /></td><td>{x.r.state}</td><td><HuntLink href={huntHref(x.r) + (x.r.state === 'WY' && param(sp, 'wyPool') ? `?pool=${param(sp, 'wyPool')}` : '')}>{x.r.name}</HuntLink></td><td>{SPECIES_LABEL[x.r.species]}</td><td>{x.r.units.join(', ')}</td><td>{huntWeaponLabel(x.r)}</td><td>{seasonsSummary(x.r.tagSeasons) || range(x.r.openDate, x.r.closeDate)}</td><td>{pct(x.odds)}</td><td>{x.basis}</td><td>{pct(x.r.success5)}</td><td>{x.r.publicPct === null ? '—' : `${Math.round(x.r.publicPct)}%`}</td><td>{x.r.scoreQuality ?? '—'}</td><td>{x.opportunity ?? '—'}</td><td>{x.r.scoreTrophy ?? '—'}</td><td>{x.r.scoreTrophy === null ? '—' : trophyReferenceContext(x.r)?.tier ?? '—'}</td></tr>)}</tbody></table></div>
         : view === 'unit' ? entries.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(([key, rows]) => { const [state, unit] = key.split(':'); return <div key={key} className="ucard"><h2><HuntLink href={`/units/${unitKey(state, unit)}`}>{STATES[state as keyof typeof STATES].name} · Unit {unit}</HuntLink></h2>{rows.map(x => renderCard(x, x.r.id))}</div>; })
           : [...cards.entries()].slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE).map(([key, { x, also }]) => renderCard(x, key, also))}
-      {pages > 1 && <nav className="search-pagination" aria-label="Results pages">{page > 1 && <Link className="btn" href={`/hunts${q({ page: String(page - 1) })}`} scroll={false}>Previous</Link>}<span>Page {page} of {pages}</span>{page < pages && <Link className="btn" href={`/hunts${q({ page: String(page + 1) })}`} scroll={false}>Next</Link>}</nav>}
+      {pages > 1 && <nav className="search-pagination" aria-label="Results pages">{page > 1 && <FinderLink className="btn" href={`/hunts${q({ page: String(page - 1) })}`} scroll={false}>Previous</FinderLink>}<span>Page {page} of {pages}</span>{page < pages && <FinderLink className="btn" href={`/hunts${q({ page: String(page + 1) })}`} scroll={false}>Next</FinderLink>}</nav>}
     </section>
     <FilterRail residency={settings.ID} states={states} draw={draw}
       presets={<FilterPresets key={fav.userId} owner={fav.userId} state={header.code} states={states} />}
       drawFilters={!msg && <>{states.includes('CO') && <CoSearchFilters part="points" />}{states.includes('WY') && <WyPointFilters nr={settings.WY?.res !== 'RESIDENT'} />}{states.includes('UT') && <UtPointFilter />}</>}
-      stateFilters={msg ? { WA: <WaSearchFilters /> } : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters nr={settings.WY?.res !== 'RESIDENT'} savedSpecial={wySavedSpecial} />, MT: <MtSearchFilters nr={settings.MT?.res !== 'RESIDENT'} />, UT: <UtSearchFilters nr={settings.UT?.res !== 'RESIDENT'} />, WA: <WaSearchFilters />, NM: <NmSearchFilters />, OR: <OrSearchFilters nr={settings.OR?.res !== 'RESIDENT'} />, NV: <NvSearchFilters /> }} />
+      stateFilters={msg ? { WA: <WaSearchFilters /> } : { CO: <CoSearchFilters part="state" />, WY: <WySearchFilters nr={settings.WY?.res !== 'RESIDENT'} savedSpecial={wySavedSpecial} />, MT: <MtSearchFilters nr={settings.MT?.res !== 'RESIDENT'} />, UT: <UtSearchFilters nr={settings.UT?.res !== 'RESIDENT'} />, WA: <WaSearchFilters />, NM: <NmSearchFilters />, OR: <OrSearchFilters nr={settings.OR?.res !== 'RESIDENT'} />, NV: <NvSearchFilters />, AZ: <AzSearchFilters /> }} />
   </main>;
 }

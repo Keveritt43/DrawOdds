@@ -7,7 +7,7 @@ import { useFinderRouter } from './FinderBusy';
 import { inPageGestures } from '@/lib/mapGestures';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { baseStyle, setBasemap, type Basemap, onStyleReady } from '@/lib/basemap';
+import { baseStyle, setBasemap, type Basemap, onStyleReady, addStateOutlines } from '@/lib/basemap';
 import { MapKey, type KeyItem } from './MapKey';
 import { LandToggles } from './LandLayers';
 import { divergingClasses, type BreakMode } from '@/lib/breaks';
@@ -173,6 +173,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
           'text-halo-width': ['interpolate', ['linear'], ['zoom'], 4, 1, 9, 1.6],
         },
       });
+      void addStateOutlines(m as never, 'units-label');
       m.on('click', 'units-fill', (e) => {
         if (m.getLayer('areas-fill') && m.getLayoutProperty('areas-fill', 'visibility') === 'visible') return; // areas take the click
         const target = e.features?.find(f => latestPaint.current.matched.includes(String(f.properties?.name))) ?? e.features?.[0];
@@ -370,6 +371,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     ...(metric !== 'match' ? [{ color: kind === 'satellite' ? '#9aa0a6' : '#1d2023', label: `No match (${areaMode ? 'outline' : 'unfilled'})`, line: true }] : []),
     ...(showZones && !areaMode ? [{ color: ZONE, label: zones.length ? `${zones.join(', ')} zone${zones.length > 1 ? 's' : ''}` : 'Elk zones', line: true }] : []),
     ...(selected ? [{ color: '#ffd400', label: `Unit ${searchUnitLabel(selected)} (selected)`, line: true }] : []),
+    { color: '#2a0f45', label: 'State line', line: true, dashed: true },
   ];
   const where = areaMode ? "hunt areas" : "units";
   const options = [

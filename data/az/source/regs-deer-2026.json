@@ -1,0 +1,2365 @@
+[
+{
+"hunt": 1001,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [],
+"areas": "1",
+"legal": "Any antlered deer",
+"permits": 400
+},
+{
+"hunt": 1002,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+28
+],
+"areas": "2A, 2B, and 2C",
+"legal": "Any antlered deer",
+"permits": 40
+},
+{
+"hunt": 1003,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [],
+"areas": "3A and 3C",
+"legal": "Any antlered deer",
+"permits": 60
+},
+{
+"hunt": 1004,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34
+],
+"areas": "3A and 3C",
+"legal": "Any antlered deer",
+"permits": 10
+},
+{
+"hunt": 1005,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+30,
+31,
+32,
+165,
+174
+],
+"areas": "4A and 4B",
+"legal": "Any antlered deer",
+"permits": 315
+},
+{
+"hunt": 1006,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 8, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A and 5B",
+"legal": "Any antlered deer",
+"permits": 423
+},
+{
+"hunt": 1007,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Antlered mule deer",
+"permits": 450
+},
+{
+"hunt": 1008,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+10
+],
+"areas": "6B (except Camp Navajo)",
+"legal": "Antlered mule deer",
+"permits": 225
+},
+{
+"hunt": 1009,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 8, 2026",
+"notes": [
+157
+],
+"areas": "7 and 9",
+"legal": "Any antlered deer",
+"permits": 1200
+},
+{
+"hunt": 1010,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+157
+],
+"areas": "7 and 9",
+"legal": "Any antlered deer",
+"permits": 20
+},
+{
+"hunt": 1011,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Antlered mule deer",
+"permits": 350
+},
+{
+"hunt": 1012,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Any antlered deer",
+"permits": 400
+},
+{
+"hunt": 1013,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+11,
+12
+],
+"areas": "12A East (excluding Grand Canyon National Park)",
+"legal": "Any antlered deer",
+"permits": 60
+},
+{
+"hunt": 1014,
+"section": "GENERAL DEER",
+"dates": "Nov 20 - Nov 29, 2026",
+"notes": [
+11,
+12
+],
+"areas": "12A East (excluding Grand Canyon National Park)",
+"legal": "Any antlered deer",
+"permits": 15
+},
+{
+"hunt": 1015,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+11,
+13
+],
+"areas": "12A West (excluding Grand Canyon National Park)",
+"legal": "Any antlered deer",
+"permits": 400
+},
+{
+"hunt": 1016,
+"section": "GENERAL DEER",
+"dates": "Nov 20 - Nov 29, 2026",
+"notes": [
+11,
+13
+],
+"areas": "12A West (excluding Grand Canyon National Park)",
+"legal": "Any antlered deer",
+"permits": 100
+},
+{
+"hunt": 1017,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+3
+],
+"areas": "12B",
+"legal": "Any antlered deer",
+"permits": 15
+},
+{
+"hunt": 1018,
+"section": "GENERAL DEER",
+"dates": "Nov 20 - Nov 29, 2026",
+"notes": [
+3
+],
+"areas": "12B",
+"legal": "Any antlered deer",
+"permits": 20
+},
+{
+"hunt": 1019,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+3,
+14
+],
+"areas": "12B West",
+"legal": "Any antlered deer",
+"permits": 110
+},
+{
+"hunt": 1020,
+"section": "GENERAL DEER",
+"dates": "Nov 20 - Nov 29, 2026",
+"notes": [
+3,
+14
+],
+"areas": "12B West",
+"legal": "Any antlered deer",
+"permits": 75
+},
+{
+"hunt": 1021,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 22, 2026",
+"notes": [
+3,
+116
+],
+"areas": "13A",
+"legal": "Any antlered deer",
+"permits": 50
+},
+{
+"hunt": 1022,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 15, 2026",
+"notes": [
+3,
+116
+],
+"areas": "13B",
+"legal": "Any antlered deer",
+"permits": 70
+},
+{
+"hunt": 1023,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+2
+],
+"areas": "16A (excluding Mohave County Park Lands)",
+"legal": "Any antlered deer",
+"permits": 175
+},
+{
+"hunt": 1024,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [],
+"areas": "17A",
+"legal": "Any antlered deer",
+"permits": 90
+},
+{
+"hunt": 1025,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [],
+"areas": "17B",
+"legal": "Any antlered deer",
+"permits": 300
+},
+{
+"hunt": 1026,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+42
+],
+"areas": "18A",
+"legal": "Any antlered deer",
+"permits": 400
+},
+{
+"hunt": 1027,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+42
+],
+"areas": "18B",
+"legal": "Any antlered deer",
+"permits": 225
+},
+{
+"hunt": 1028,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [],
+"areas": "19A",
+"legal": "Any antlered deer",
+"permits": 525
+},
+{
+"hunt": 1029,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+128
+],
+"areas": "19B",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1030,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+128
+],
+"areas": "19B",
+"legal": "Any antlered deer",
+"permits": 15
+},
+{
+"hunt": 1031,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [],
+"areas": "20A",
+"legal": "Any antlered deer",
+"permits": 575
+},
+{
+"hunt": 1032,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "20B",
+"legal": "Any antlered deer",
+"permits": 225
+},
+{
+"hunt": 1033,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [],
+"areas": "20C",
+"legal": "Any antlered deer",
+"permits": 125
+},
+{
+"hunt": 1034,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [],
+"areas": "20C",
+"legal": "Any antlered deer",
+"permits": 125
+},
+{
+"hunt": 1035,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Antlered mule deer",
+"permits": 200
+},
+{
+"hunt": 1036,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Antlered mule deer",
+"permits": 325
+},
+{
+"hunt": 1037,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34
+],
+"areas": "22",
+"legal": "Antlered mule deer",
+"permits": 10
+},
+{
+"hunt": 1038,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Antlered mule deer",
+"permits": 250
+},
+{
+"hunt": 1039,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 22, 2026",
+"notes": [],
+"areas": "24A",
+"legal": "Antlered mule deer",
+"permits": 75
+},
+{
+"hunt": 1040,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 22, 2026",
+"notes": [
+88
+],
+"areas": "24B",
+"legal": "Antlered mule deer",
+"permits": 150
+},
+{
+"hunt": 1041,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Antlered mule deer",
+"permits": 500
+},
+{
+"hunt": 1042,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [],
+"areas": "28",
+"legal": "Antlered mule deer",
+"permits": 175
+},
+{
+"hunt": 1043,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [],
+"areas": "28",
+"legal": "Antlered mule deer",
+"permits": 175
+},
+{
+"hunt": 1044,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+128
+],
+"areas": "29",
+"legal": "Antlered mule deer",
+"permits": 25
+},
+{
+"hunt": 1045,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+128
+],
+"areas": "29",
+"legal": "Antlered mule deer",
+"permits": 25
+},
+{
+"hunt": 1046,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+2,
+128
+],
+"areas": "30A",
+"legal": "Antlered mule deer",
+"permits": 125
+},
+{
+"hunt": 1047,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+2,
+128
+],
+"areas": "30A",
+"legal": "Antlered mule deer",
+"permits": 125
+},
+{
+"hunt": 1048,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+128
+],
+"areas": "30B",
+"legal": "Antlered mule deer",
+"permits": 275
+},
+{
+"hunt": 1049,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+128
+],
+"areas": "30B",
+"legal": "Antlered mule deer",
+"permits": 275
+},
+{
+"hunt": 1050,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+19
+],
+"areas": "31",
+"legal": "Antlered mule deer",
+"permits": 25
+},
+{
+"hunt": 1051,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+19
+],
+"areas": "31",
+"legal": "Antlered mule deer",
+"permits": 25
+},
+{
+"hunt": 1052,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+19,
+128,
+129
+],
+"areas": "32",
+"legal": "Antlered mule deer",
+"permits": 150
+},
+{
+"hunt": 1053,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+19,
+128,
+129
+],
+"areas": "32",
+"legal": "Antlered mule deer",
+"permits": 150
+},
+{
+"hunt": 1054,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+129
+],
+"areas": "33",
+"legal": "Antlered mule deer",
+"permits": 150
+},
+{
+"hunt": 1055,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+129
+],
+"areas": "34B",
+"legal": "Antlered mule deer",
+"permits": 25
+},
+{
+"hunt": 1056,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+129
+],
+"areas": "34B",
+"legal": "Antlered mule deer",
+"permits": 25
+},
+{
+"hunt": 1057,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+2,
+129
+],
+"areas": "36A",
+"legal": "Antlered mule deer",
+"permits": 200
+},
+{
+"hunt": 1058,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+2,
+129
+],
+"areas": "36A",
+"legal": "Antlered mule deer",
+"permits": 200
+},
+{
+"hunt": 1059,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+2,
+34,
+129
+],
+"areas": "36A",
+"legal": "Antlered mule deer",
+"permits": 15
+},
+{
+"hunt": 1060,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+2,
+21,
+129
+],
+"areas": "36B",
+"legal": "Antlered mule deer",
+"permits": 75
+},
+{
+"hunt": 1061,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+2,
+21,
+129
+],
+"areas": "36B",
+"legal": "Antlered mule deer",
+"permits": 75
+},
+{
+"hunt": 1062,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+2,
+22,
+128,
+129
+],
+"areas": "36C",
+"legal": "Antlered mule deer",
+"permits": 45
+},
+{
+"hunt": 1063,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+2,
+22,
+128,
+129
+],
+"areas": "36C",
+"legal": "Antlered mule deer",
+"permits": 45
+},
+{
+"hunt": 1064,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+3,
+22,
+23,
+129
+],
+"areas": "37A",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1065,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+3,
+22,
+23,
+129
+],
+"areas": "37A",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1066,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+24
+],
+"areas": "37B",
+"legal": "Any antlered deer",
+"permits": 250
+},
+{
+"hunt": 1067,
+"section": "GENERAL DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+24
+],
+"areas": "37B",
+"legal": "Any antlered deer",
+"permits": 250
+},
+{
+"hunt": 1068,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 15, 2026",
+"notes": [
+3,
+6,
+26
+],
+"areas": "39 (excluding Buckeye Hills and Estrella Mountain Regional Parks), 40A, and 40B (Special Restrictions Apply - See Note 6)",
+"legal": "Any antlered deer",
+"permits": 450
+},
+{
+"hunt": 1069,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 15, 2026",
+"notes": [
+7
+],
+"areas": "41 (Special Restrictions Apply - See Note 7)",
+"legal": "Any antlered deer",
+"permits": 550
+},
+{
+"hunt": 1070,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 15, 2026",
+"notes": [],
+"areas": "42 (excluding Skyline and White Tank Mountain Regional Parks)",
+"legal": "Any antlered deer",
+"permits": 275
+},
+{
+"hunt": 1071,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 15, 2026",
+"notes": [
+2,
+7,
+27
+],
+"areas": "43A, 43B, 44A, and 44B (Special Restrictions Apply - See Note 7)",
+"legal": "Any antlered deer",
+"permits": 450
+},
+{
+"hunt": 1072,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 15, 2026",
+"notes": [
+2
+],
+"areas": "45A, 45B, and 45C",
+"legal": "Any antlered deer",
+"permits": 250
+},
+{
+"hunt": 1073,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 15, 2026",
+"notes": [
+2,
+6,
+36
+],
+"areas": "46A and 46B (Special Restrictions Apply - See Note 6)",
+"legal": "Any antlered deer",
+"permits": 15
+},
+{
+"hunt": 1074,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Antlered whitetail deer",
+"permits": 100
+},
+{
+"hunt": 1075,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34
+],
+"areas": "6A",
+"legal": "Antlered whitetail deer",
+"permits": 20
+},
+{
+"hunt": 1076,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+10
+],
+"areas": "6B (except Camp Navajo)",
+"legal": "Antlered whitetail deer",
+"permits": 55
+},
+{
+"hunt": 1077,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+10,
+34
+],
+"areas": "6B (except Camp Navajo) and 8",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1078,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Antlered whitetail deer",
+"permits": 50
+},
+{
+"hunt": 1079,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Antlered whitetail deer",
+"permits": 200
+},
+{
+"hunt": 1080,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Antlered whitetail deer",
+"permits": 200
+},
+{
+"hunt": 1081,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+3,
+34
+],
+"areas": "21",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1082,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Antlered whitetail deer",
+"permits": 350
+},
+{
+"hunt": 1083,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Antlered whitetail deer",
+"permits": 350
+},
+{
+"hunt": 1084,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+88
+],
+"areas": "22",
+"legal": "Antlered whitetail deer",
+"permits": 50
+},
+{
+"hunt": 1085,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Antlered whitetail deer",
+"permits": 175
+},
+{
+"hunt": 1086,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Antlered whitetail deer",
+"permits": 175
+},
+{
+"hunt": 1087,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+88
+],
+"areas": "23",
+"legal": "Antlered whitetail deer",
+"permits": 75
+},
+{
+"hunt": 1088,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "24A",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1089,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "24A",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1090,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [],
+"areas": "24A",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1091,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34
+],
+"areas": "24A",
+"legal": "Antlered whitetail deer",
+"permits": 50
+},
+{
+"hunt": 1092,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "24B",
+"legal": "Antlered whitetail deer",
+"permits": 175
+},
+{
+"hunt": 1093,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "24B",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1094,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+88
+],
+"areas": "24B",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1095,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+88
+],
+"areas": "24B",
+"legal": "Antlered whitetail deer",
+"permits": 35
+},
+{
+"hunt": 1096,
+"section": "GENERAL DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1097,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1098,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34
+],
+"areas": "27",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1099,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [],
+"areas": "28",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1100,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+128
+],
+"areas": "29",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1101,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+128
+],
+"areas": "29",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1102,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+128
+],
+"areas": "29",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1103,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+128
+],
+"areas": "29",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1104,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+2,
+128
+],
+"areas": "30A",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1105,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+2,
+128
+],
+"areas": "30A",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1106,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+2,
+128
+],
+"areas": "30A",
+"legal": "Antlered whitetail deer",
+"permits": 125
+},
+{
+"hunt": 1107,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+2,
+34,
+128
+],
+"areas": "30A",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1108,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+128
+],
+"areas": "30B",
+"legal": "Antlered whitetail deer",
+"permits": 80
+},
+{
+"hunt": 1109,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+128
+],
+"areas": "30B",
+"legal": "Antlered whitetail deer",
+"permits": 80
+},
+{
+"hunt": 1110,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+128
+],
+"areas": "30B",
+"legal": "Antlered whitetail deer",
+"permits": 80
+},
+{
+"hunt": 1111,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+128
+],
+"areas": "30B",
+"legal": "Antlered whitetail deer",
+"permits": 80
+},
+{
+"hunt": 1112,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+19
+],
+"areas": "31",
+"legal": "Antlered whitetail deer",
+"permits": 100
+},
+{
+"hunt": 1113,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+19
+],
+"areas": "31",
+"legal": "Antlered whitetail deer",
+"permits": 75
+},
+{
+"hunt": 1114,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+19
+],
+"areas": "31",
+"legal": "Antlered whitetail deer",
+"permits": 75
+},
+{
+"hunt": 1115,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+19,
+34
+],
+"areas": "31",
+"legal": "Antlered whitetail deer",
+"permits": 50
+},
+{
+"hunt": 1116,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+19,
+128,
+129
+],
+"areas": "32",
+"legal": "Antlered whitetail deer",
+"permits": 250
+},
+{
+"hunt": 1117,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+19,
+128,
+129
+],
+"areas": "32",
+"legal": "Antlered whitetail deer",
+"permits": 275
+},
+{
+"hunt": 1118,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+19,
+128,
+129
+],
+"areas": "32",
+"legal": "Antlered whitetail deer",
+"permits": 225
+},
+{
+"hunt": 1119,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+19,
+34,
+128,
+129
+],
+"areas": "32",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1120,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+129
+],
+"areas": "33",
+"legal": "Antlered whitetail deer",
+"permits": 175
+},
+{
+"hunt": 1121,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+129
+],
+"areas": "33",
+"legal": "Antlered whitetail deer",
+"permits": 275
+},
+{
+"hunt": 1122,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+129
+],
+"areas": "33",
+"legal": "Antlered whitetail deer",
+"permits": 275
+},
+{
+"hunt": 1123,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+129
+],
+"areas": "33",
+"legal": "Antlered whitetail deer",
+"permits": 65
+},
+{
+"hunt": 1124,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+20
+],
+"areas": "34A",
+"legal": "Antlered whitetail deer",
+"permits": 675
+},
+{
+"hunt": 1125,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+20
+],
+"areas": "34A",
+"legal": "Antlered whitetail deer",
+"permits": 675
+},
+{
+"hunt": 1126,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+20
+],
+"areas": "34A",
+"legal": "Antlered whitetail deer",
+"permits": 600
+},
+{
+"hunt": 1127,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+20,
+34
+],
+"areas": "34A",
+"legal": "Antlered whitetail deer",
+"permits": 100
+},
+{
+"hunt": 1128,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+129
+],
+"areas": "34B",
+"legal": "Antlered whitetail deer",
+"permits": 125
+},
+{
+"hunt": 1129,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+129
+],
+"areas": "34B",
+"legal": "Antlered whitetail deer",
+"permits": 100
+},
+{
+"hunt": 1130,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+129
+],
+"areas": "34B",
+"legal": "Antlered whitetail deer",
+"permits": 100
+},
+{
+"hunt": 1131,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+129
+],
+"areas": "34B",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1132,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+136
+],
+"areas": "35A (excluding Fort Huachuca)",
+"legal": "Antlered whitetail deer",
+"permits": 300
+},
+{
+"hunt": 1133,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+136
+],
+"areas": "35A (excluding Fort Huachuca)",
+"legal": "Antlered whitetail deer",
+"permits": 300
+},
+{
+"hunt": 1134,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+136
+],
+"areas": "35A (excluding Fort Huachuca)",
+"legal": "Antlered whitetail deer",
+"permits": 300
+},
+{
+"hunt": 1135,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+136
+],
+"areas": "35A (excluding Fort Huachuca)",
+"legal": "Antlered whitetail deer",
+"permits": 65
+},
+{
+"hunt": 1136,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "35B",
+"legal": "Antlered whitetail deer",
+"permits": 375
+},
+{
+"hunt": 1137,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [],
+"areas": "35B",
+"legal": "Antlered whitetail deer",
+"permits": 350
+},
+{
+"hunt": 1138,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [],
+"areas": "35B",
+"legal": "Antlered whitetail deer",
+"permits": 300
+},
+{
+"hunt": 1139,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34
+],
+"areas": "35B",
+"legal": "Antlered whitetail deer",
+"permits": 65
+},
+{
+"hunt": 1140,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+2,
+129
+],
+"areas": "36A",
+"legal": "Antlered whitetail deer",
+"permits": 350
+},
+{
+"hunt": 1141,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+2,
+129
+],
+"areas": "36A",
+"legal": "Antlered whitetail deer",
+"permits": 375
+},
+{
+"hunt": 1142,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+2,
+129
+],
+"areas": "36A",
+"legal": "Antlered whitetail deer",
+"permits": 350
+},
+{
+"hunt": 1143,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+2,
+34,
+129
+],
+"areas": "36A",
+"legal": "Antlered whitetail deer",
+"permits": 50
+},
+{
+"hunt": 1144,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+2,
+21,
+129
+],
+"areas": "36B",
+"legal": "Antlered whitetail deer",
+"permits": 600
+},
+{
+"hunt": 1145,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+2,
+21,
+129
+],
+"areas": "36B",
+"legal": "Antlered whitetail deer",
+"permits": 600
+},
+{
+"hunt": 1146,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+2,
+21,
+129
+],
+"areas": "36B",
+"legal": "Antlered whitetail deer",
+"permits": 600
+},
+{
+"hunt": 1147,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+2,
+21,
+34,
+129
+],
+"areas": "36B",
+"legal": "Antlered whitetail deer",
+"permits": 80
+},
+{
+"hunt": 1148,
+"section": "GENERAL DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+2,
+22,
+128,
+129
+],
+"areas": "36C",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1149,
+"section": "GENERAL DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+2,
+22,
+128,
+129
+],
+"areas": "36C",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1150,
+"section": "GENERAL DEER",
+"dates": "Nov 27 - Dec 6, 2026",
+"notes": [
+2,
+22,
+128,
+129
+],
+"areas": "36C",
+"legal": "Antlered whitetail deer",
+"permits": 150
+},
+{
+"hunt": 1151,
+"section": "GENERAL DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+2,
+22,
+34,
+128,
+129
+],
+"areas": "36C",
+"legal": "Antlered whitetail deer",
+"permits": 110
+},
+{
+"hunt": 1152,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A and 5B",
+"legal": "Any antlered deer",
+"permits": 47
+},
+{
+"hunt": 1153,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 2 - Oct 11, 2026",
+"notes": [
+33,
+43,
+44
+],
+"areas": "10",
+"legal": "Any antlered deer",
+"permits": 65
+},
+{
+"hunt": 1154,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 12, 2026",
+"notes": [
+1,
+11,
+13
+],
+"areas": "12A West (excluding Grand Canyon National Park)",
+"legal": "Antlerless deer",
+"permits": 100
+},
+{
+"hunt": 1155,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [],
+"areas": "17B, 19A, 19B, and 20A",
+"legal": "Any antlered deer",
+"permits": 225
+},
+{
+"hunt": 1156,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Nov 20 - Nov 29, 2026",
+"notes": [
+42
+],
+"areas": "18B",
+"legal": "Any antlered deer",
+"permits": 50
+},
+{
+"hunt": 1157,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [],
+"areas": "20B",
+"legal": "Any antlered deer",
+"permits": 75
+},
+{
+"hunt": 1158,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 2 - Oct 11, 2026",
+"notes": [],
+"areas": "20C",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1159,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 2 - Oct 8, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Any antlered deer",
+"permits": 40
+},
+{
+"hunt": 1160,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1161,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Any antlered deer",
+"permits": 125
+},
+{
+"hunt": 1162,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Any antlered deer",
+"permits": 100
+},
+{
+"hunt": 1163,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [],
+"areas": "28",
+"legal": "Any antlered deer",
+"permits": 25
+},
+{
+"hunt": 1164,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+128
+],
+"areas": "29",
+"legal": "Any antlered deer",
+"permits": 25
+},
+{
+"hunt": 1165,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+2,
+128
+],
+"areas": "30A",
+"legal": "Any antlered deer",
+"permits": 20
+},
+{
+"hunt": 1166,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+128
+],
+"areas": "30B",
+"legal": "Any antlered deer",
+"permits": 50
+},
+{
+"hunt": 1167,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+19,
+128
+],
+"areas": "31",
+"legal": "Any antlered deer",
+"permits": 25
+},
+{
+"hunt": 1168,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+19,
+128,
+129
+],
+"areas": "32",
+"legal": "Any antlered deer",
+"permits": 25
+},
+{
+"hunt": 1169,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+33,
+129
+],
+"areas": "33",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1170,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Nov 20 - Nov 26, 2026",
+"notes": [
+33,
+129
+],
+"areas": "33",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1171,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+33,
+136
+],
+"areas": "35A (excluding Fort Huachuca)",
+"legal": "Any antlered deer",
+"permits": 75
+},
+{
+"hunt": 1172,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+33
+],
+"areas": "35B",
+"legal": "Any antlered deer",
+"permits": 75
+},
+{
+"hunt": 1173,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Nov 20 - Nov 26, 2026",
+"notes": [
+2,
+33,
+129
+],
+"areas": "36A",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1174,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Nov 20 - Nov 26, 2026",
+"notes": [
+2,
+21,
+33,
+129
+],
+"areas": "36B",
+"legal": "Any antlered deer",
+"permits": 100
+},
+{
+"hunt": 1175,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Nov 20 - Nov 26, 2026",
+"notes": [
+2,
+22,
+33,
+128,
+129
+],
+"areas": "36C",
+"legal": "Any antlered deer",
+"permits": 25
+},
+{
+"hunt": 1176,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+24
+],
+"areas": "37B",
+"legal": "Any antlered deer",
+"permits": 100
+},
+{
+"hunt": 1177,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Nov 20 - Nov 29, 2026",
+"notes": [],
+"areas": "42 (excluding Skyline and White Tank Mountain Regional Parks)",
+"legal": "Any antlered deer",
+"permits": 75
+},
+{
+"hunt": 1178,
+"section": "YOUTH-ONLY (GENERAL) DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+20
+],
+"areas": "34A",
+"legal": "Antlered whitetail deer",
+"permits": 125
+},
+{
+"hunt": 1179,
+"section": "CHAMP (GENERAL) DEER",
+"dates": "Sep 18 - Sep 24, 2026",
+"notes": [
+11,
+13
+],
+"areas": "12A West (excluding Grand Canyon National Park)",
+"legal": "Any antlered deer",
+"permits": 10
+},
+{
+"hunt": 1180,
+"section": "CHAMP (GENERAL) DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+157
+],
+"areas": "7 and 9",
+"legal": "Any deer",
+"permits": 30
+},
+{
+"hunt": 1181,
+"section": "CHAMP (GENERAL) DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+20
+],
+"areas": "34A",
+"legal": "Antlered whitetail deer",
+"permits": 50
+},
+{
+"hunt": 1182,
+"section": "MUZZLELOADER DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [],
+"areas": "3B",
+"legal": "Any antlered deer",
+"permits": 100
+},
+{
+"hunt": 1183,
+"section": "MUZZLELOADER DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34
+],
+"areas": "3B",
+"legal": "Any antlered deer",
+"permits": 10
+},
+{
+"hunt": 1184,
+"section": "MUZZLELOADER DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+10
+],
+"areas": "6B (except Camp Navajo)",
+"legal": "Any antlered deer",
+"permits": 200
+},
+{
+"hunt": 1185,
+"section": "MUZZLELOADER DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+11,
+12
+],
+"areas": "12A East (excluding Grand Canyon National Park)",
+"legal": "Any antlered deer",
+"permits": 15
+},
+{
+"hunt": 1186,
+"section": "MUZZLELOADER DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+3,
+14
+],
+"areas": "12B West",
+"legal": "Any antlered deer",
+"permits": 15
+},
+{
+"hunt": 1187,
+"section": "MUZZLELOADER DEER",
+"dates": "Oct 23 - Nov 1, 2026",
+"notes": [
+2
+],
+"areas": "15A, 15B, 15C, and 15D",
+"legal": "Any antlered deer",
+"permits": 125
+},
+{
+"hunt": 1188,
+"section": "MUZZLELOADER DEER",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+2
+],
+"areas": "15A, 15B, 15C, and 15D",
+"legal": "Any antlered deer",
+"permits": 125
+},
+{
+"hunt": 1189,
+"section": "MUZZLELOADER DEER",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "20B",
+"legal": "Any antlered deer",
+"permits": 65
+},
+{
+"hunt": 1190,
+"section": "MUZZLELOADER DEER",
+"dates": "Oct 30 - Nov 5, 2026",
+"notes": [
+136
+],
+"areas": "35A (excluding Fort Huachuca) and 35B",
+"legal": "Any antlered deer",
+"permits": 40
+},
+{
+"hunt": 1191,
+"section": "MUZZLELOADER DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+34,
+136
+],
+"areas": "35A (excluding Fort Huachuca) and 35B",
+"legal": "Any antlered deer",
+"permits": 10
+},
+{
+"hunt": 1192,
+"section": "MUZZLELOADER DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+3,
+6,
+7,
+34
+],
+"areas": "39, 40A, 40B, 41, and 42 (excluding Buckeye Hills, Skyline, Estrella Mountain and White Tank Mountain Regional Parks) (Special Restrictions Apply - See Notes 6 and 7)",
+"legal": "Any antlered deer",
+"permits": 50
+},
+{
+"hunt": 1193,
+"section": "MUZZLELOADER DEER",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+128
+],
+"areas": "30B",
+"legal": "Antlered whitetail deer",
+"permits": 15
+},
+{
+"hunt": 1194,
+"section": "MUZZLELOADER DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+129
+],
+"areas": "33",
+"legal": "Antlered whitetail deer",
+"permits": 275
+},
+{
+"hunt": 1195,
+"section": "MUZZLELOADER DEER",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [
+20
+],
+"areas": "34A",
+"legal": "Antlered whitetail deer",
+"permits": 25
+},
+{
+"hunt": 1196,
+"section": "MUZZLELOADER DEER",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+2,
+129
+],
+"areas": "36A",
+"legal": "Antlered whitetail deer",
+"permits": 75
+},
+{
+"hunt": 1197,
+"section": "YOUTH-ONLY (MUZZLELOADER) DEER",
+"dates": "Oct 2 - Oct 11, 2026",
+"notes": [
+2,
+33
+],
+"areas": "15A, 15B, 15C, and 15D",
+"legal": "Any antlered deer",
+"permits": 25
+},
+{
+"hunt": 1198,
+"section": "YOUTH-ONLY (MUZZLELOADER) DEER",
+"dates": "Nov 20 - Nov 29, 2026",
+"notes": [
+2,
+33
+],
+"areas": "16A (excluding Mohave County Park Lands)",
+"legal": "Any antlered deer",
+"permits": 40
+},
+{
+"hunt": 1199,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+4,
+34
+],
+"areas": "1",
+"legal": "Any antlered deer",
+"permits": 160
+},
+{
+"hunt": 1200,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+4,
+34
+],
+"areas": "3A and 3C",
+"legal": "Any antlered deer",
+"permits": 20
+},
+{
+"hunt": 1201,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+4,
+10,
+34
+],
+"areas": "11M",
+"legal": "Any antlered deer",
+"permits": 150
+},
+{
+"hunt": 1202,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Oct 30 - Nov 12, 2026",
+"notes": [
+1,
+4,
+10
+],
+"areas": "11M",
+"legal": "Antlerless deer",
+"permits": 50
+},
+{
+"hunt": 1203,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+1,
+4,
+10,
+34
+],
+"areas": "11M",
+"legal": "Antlerless deer",
+"permits": 25
+},
+{
+"hunt": 1204,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+4,
+11
+],
+"areas": "12A (excluding Grand Canyon National Park) and 12B",
+"legal": "Any antlered deer",
+"permits": 300
+},
+{
+"hunt": 1205,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+3,
+4,
+116
+],
+"areas": "13A",
+"legal": "Any antlered deer",
+"permits": 15
+},
+{
+"hunt": 1206,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+3,
+4,
+116
+],
+"areas": "13B",
+"legal": "Any antlered deer",
+"permits": 25
+},
+{
+"hunt": 1207,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+4,
+34
+],
+"areas": "17A",
+"legal": "Any antlered deer",
+"permits": 45
+},
+{
+"hunt": 1208,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Aug 21 - Sep 10, 2026",
+"notes": [
+4,
+34
+],
+"areas": "27",
+"legal": "Antlered mule deer",
+"permits": 265
+},
+{
+"hunt": 1209,
+"section": "ARCHERY-ONLY HUNT PERMIT-TAG REQUIRED DEER",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+4,
+10,
+34
+],
+"areas": "11M",
+"legal": "Any deer",
+"permits": 25
+}
+]

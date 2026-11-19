@@ -18,6 +18,8 @@ import { mtPersonal } from '@/lib/mtHunt';
 import { readUtPoints } from '@/lib/utPoints';
 import { readNvPoints } from '@/lib/nvPoints';
 import { nvPersonal } from '@/lib/nvHunt';
+import { readAzPoints } from '@/lib/azPoints';
+import { azPersonal } from '@/lib/azHunt';
 import { readOrPoints } from '@/lib/orPoints';
 import { orPersonal } from '@/lib/orHunt';
 import { readWaPoints } from '@/lib/waPoints';
@@ -57,6 +59,15 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
       return { id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
         open: h.openDate, close: h.closeDate, resOdds5: o, nrOdds5: o, success5: h.success5 };
     }), { headers: { 'Cache-Control': 'private, no-store' } });
+  }
+  if (state === 'AZ') {
+    // Arizona: every deer and elk hunt whose open area includes the GMU, 2026-draw odds at the hunter's saved points
+    const pts = readAzPoints((await getPointsStore()).store as Record<string, unknown>);
+    const rows = await db.huntSummary.findMany({ where: { state: 'AZ', units: { has: name } }, orderBy: [{ species: 'asc' }, { tagCode: 'asc' }] });
+    return Response.json(rows.map((h) => ({
+      id: h.id, tagCode: h.tagCode, slug: h.slug, type: h.type, label: h.name, species: h.species, antler: h.antlerClass,
+      open: h.openDate, close: h.closeDate, resOdds5: azPersonal(h, pts, false).odds, nrOdds5: azPersonal(h, pts, true).odds, success5: h.success5,
+    })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   if (state === 'NV') {
     // Nevada: every deer and elk hunt whose unit group includes the unit, 2025-draw odds at the hunter's saved points

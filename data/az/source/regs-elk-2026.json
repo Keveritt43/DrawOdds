@@ -1,0 +1,2195 @@
+[
+{
+"hunt": 3001,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+166
+],
+"areas": "3A and 3C",
+"legal": "Bull elk",
+"permits": 20
+},
+{
+"hunt": 3002,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+165,
+166
+],
+"areas": "4B",
+"legal": "Bull elk",
+"permits": 15
+},
+{
+"hunt": 3003,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5B",
+"legal": "Bull elk",
+"permits": 24
+},
+{
+"hunt": 3004,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+157
+],
+"areas": "9",
+"legal": "Bull elk",
+"permits": 20
+},
+{
+"hunt": 3005,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Bull elk",
+"permits": 40
+},
+{
+"hunt": 3006,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+42,
+128
+],
+"areas": "15A, 15B, and 18A",
+"legal": "Bull elk",
+"permits": 35
+},
+{
+"hunt": 3007,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+55
+],
+"areas": "22 North",
+"legal": "Bull elk",
+"permits": 25
+},
+{
+"hunt": 3008,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+57
+],
+"areas": "23 North",
+"legal": "Bull elk",
+"permits": 25
+},
+{
+"hunt": 3009,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+58
+],
+"areas": "23 South",
+"legal": "Bull elk",
+"permits": 10
+},
+{
+"hunt": 3010,
+"section": "GENERAL ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Bull elk",
+"permits": 40
+},
+{
+"hunt": 3011,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+60,
+73
+],
+"areas": "1, 2B, and 2C",
+"legal": "Bull elk",
+"permits": 225
+},
+{
+"hunt": 3012,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+166
+],
+"areas": "3A and 3C",
+"legal": "Bull elk",
+"permits": 225
+},
+{
+"hunt": 3013,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+30,
+31,
+32
+],
+"areas": "4A",
+"legal": "Bull elk",
+"permits": 170
+},
+{
+"hunt": 3014,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+165,
+166
+],
+"areas": "4B",
+"legal": "Bull elk",
+"permits": 175
+},
+{
+"hunt": 3015,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A",
+"legal": "Bull elk",
+"permits": 339
+},
+{
+"hunt": 3016,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5B",
+"legal": "Bull elk",
+"permits": 772
+},
+{
+"hunt": 3017,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Bull elk",
+"permits": 825
+},
+{
+"hunt": 3018,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+10
+],
+"areas": "6B (excluding Camp Navajo)",
+"legal": "Bull elk",
+"permits": 175
+},
+{
+"hunt": 3019,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+45,
+53,
+76,
+157
+],
+"areas": "7 East",
+"legal": "Bull elk",
+"permits": 450
+},
+{
+"hunt": 3020,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+54
+],
+"areas": "7 West",
+"legal": "Bull elk",
+"permits": 500
+},
+{
+"hunt": 3021,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Bull elk",
+"permits": 500
+},
+{
+"hunt": 3022,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+157
+],
+"areas": "9",
+"legal": "Bull elk",
+"permits": 225
+},
+{
+"hunt": 3023,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Bull elk",
+"permits": 325
+},
+{
+"hunt": 3024,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+42,
+128
+],
+"areas": "15A, 15B, and 18A",
+"legal": "Bull elk",
+"permits": 100
+},
+{
+"hunt": 3025,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [],
+"areas": "19A",
+"legal": "Bull elk",
+"permits": 30
+},
+{
+"hunt": 3026,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Bull elk",
+"permits": 10
+},
+{
+"hunt": 3027,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+55
+],
+"areas": "22 North",
+"legal": "Bull elk",
+"permits": 300
+},
+{
+"hunt": 3028,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+55
+],
+"areas": "22 North",
+"legal": "Bull elk",
+"permits": 275
+},
+{
+"hunt": 3029,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+56
+],
+"areas": "22 South",
+"legal": "Bull elk",
+"permits": 100
+},
+{
+"hunt": 3030,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Bull elk",
+"permits": 210
+},
+{
+"hunt": 3031,
+"section": "GENERAL ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [
+60
+],
+"areas": "27",
+"legal": "Bull elk",
+"permits": 250
+},
+{
+"hunt": 3032,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+60
+],
+"areas": "27",
+"legal": "Bull elk",
+"permits": 250
+},
+{
+"hunt": 3033,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+46,
+60
+],
+"areas": "Escudilla-Auger Canyon Hunt Area (Special Restrictions Apply - See Note 46)",
+"legal": "Antlerless elk",
+"permits": 75
+},
+{
+"hunt": 3034,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+60,
+73
+],
+"areas": "1, 2B, and 2C",
+"legal": "Antlerless elk",
+"permits": 400
+},
+{
+"hunt": 3035,
+"section": "GENERAL ELK",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+60,
+73
+],
+"areas": "1, 2B, and 2C",
+"legal": "Antlerless elk",
+"permits": 400
+},
+{
+"hunt": 3036,
+"section": "GENERAL ELK",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+166
+],
+"areas": "3A and 3C",
+"legal": "Antlerless elk",
+"permits": 175
+},
+{
+"hunt": 3037,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+30,
+31,
+32
+],
+"areas": "4A",
+"legal": "Antlerless elk",
+"permits": 97
+},
+{
+"hunt": 3038,
+"section": "GENERAL ELK",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+165,
+166
+],
+"areas": "4B",
+"legal": "Antlerless elk",
+"permits": 50
+},
+{
+"hunt": 3039,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A",
+"legal": "Antlerless elk",
+"permits": 194
+},
+{
+"hunt": 3040,
+"section": "GENERAL ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+50
+],
+"areas": "5B North",
+"legal": "Antlerless elk",
+"permits": 193
+},
+{
+"hunt": 3041,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+52
+],
+"areas": "5B South",
+"legal": "Antlerless elk",
+"permits": 325
+},
+{
+"hunt": 3042,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Antlerless elk",
+"permits": 550
+},
+{
+"hunt": 3043,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+10
+],
+"areas": "6B (excluding Camp Navajo)",
+"legal": "Antlerless elk",
+"permits": 300
+},
+{
+"hunt": 3044,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+45,
+53,
+76,
+157
+],
+"areas": "7 East",
+"legal": "Antlerless elk",
+"permits": 200
+},
+{
+"hunt": 3045,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+45,
+53,
+76,
+157
+],
+"areas": "7 East",
+"legal": "Antlerless elk",
+"permits": 200
+},
+{
+"hunt": 3046,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+48
+],
+"areas": "Kachina Peaks Wilderness Hunt Area (Special Restrictions Apply - See Note 48)",
+"legal": "Antlerless elk",
+"permits": 30
+},
+{
+"hunt": 3047,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+54
+],
+"areas": "7 West",
+"legal": "Antlerless elk",
+"permits": 350
+},
+{
+"hunt": 3048,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+54
+],
+"areas": "7 West",
+"legal": "Antlerless elk",
+"permits": 350
+},
+{
+"hunt": 3049,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Antlerless elk",
+"permits": 550
+},
+{
+"hunt": 3050,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+157
+],
+"areas": "9",
+"legal": "Antlerless elk",
+"permits": 350
+},
+{
+"hunt": 3051,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+157
+],
+"areas": "9",
+"legal": "Antlerless elk",
+"permits": 350
+},
+{
+"hunt": 3052,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Antlerless elk",
+"permits": 725
+},
+{
+"hunt": 3053,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Antlerless elk",
+"permits": 750
+},
+{
+"hunt": 3054,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [
+42,
+128
+],
+"areas": "15A, 15B, and 18A",
+"legal": "Antlerless elk",
+"permits": 150
+},
+{
+"hunt": 3055,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [],
+"areas": "19A",
+"legal": "Antlerless elk",
+"permits": 30
+},
+{
+"hunt": 3056,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 13, 2026",
+"notes": [],
+"areas": "19A",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3057,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3058,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+55
+],
+"areas": "22 North",
+"legal": "Antlerless elk",
+"permits": 75
+},
+{
+"hunt": 3059,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+56
+],
+"areas": "22 South",
+"legal": "Antlerless elk",
+"permits": 50
+},
+{
+"hunt": 3060,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Antlerless elk",
+"permits": 75
+},
+{
+"hunt": 3061,
+"section": "GENERAL ELK",
+"dates": "Dec 4 - Dec 10, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Antlerless elk",
+"permits": 100
+},
+{
+"hunt": 3062,
+"section": "GENERAL ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+60
+],
+"areas": "27",
+"legal": "Antlerless elk",
+"permits": 150
+},
+{
+"hunt": 3063,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+60
+],
+"areas": "1 and 2C",
+"legal": "Antlerless elk",
+"permits": 200
+},
+{
+"hunt": 3064,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+166
+],
+"areas": "3A and 3C",
+"legal": "Antlerless elk",
+"permits": 125
+},
+{
+"hunt": 3065,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+30,
+31,
+32
+],
+"areas": "4A",
+"legal": "Antlerless elk",
+"permits": 97
+},
+{
+"hunt": 3066,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A",
+"legal": "Antlerless elk",
+"permits": 121
+},
+{
+"hunt": 3067,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+52
+],
+"areas": "5B South and 6A",
+"legal": "Antlerless elk",
+"permits": 450
+},
+{
+"hunt": 3068,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+54
+],
+"areas": "7 West",
+"legal": "Antlerless elk",
+"permits": 100
+},
+{
+"hunt": 3069,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+157
+],
+"areas": "9",
+"legal": "Antlerless elk",
+"permits": 150
+},
+{
+"hunt": 3070,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 2 - Oct 11, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Antlerless elk",
+"permits": 350
+},
+{
+"hunt": 3071,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Antlerless elk",
+"permits": 100
+},
+{
+"hunt": 3072,
+"section": "YOUTH-ONLY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Antlerless elk",
+"permits": 100
+},
+{
+"hunt": 3073,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 2 - Oct 15, 2026",
+"notes": [
+42,
+59
+],
+"areas": "17A, 17B, 18B, 19B, 20A, and 20C",
+"legal": "Bull elk",
+"permits": 35
+},
+{
+"hunt": 3074,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 16 - Oct 29, 2026",
+"notes": [
+59,
+67
+],
+"areas": "Antelope Mountain Hunt Area (Special Restrictions Apply - See Note 67) Antelope Mountain Hunt Area (Special Restrictions Apply - See",
+"legal": "Antlerless elk",
+"permits": 5
+},
+{
+"hunt": 3075,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 30 - Nov 12, 2026",
+"notes": [
+59,
+67
+],
+"areas": "Note 67) Antelope Mountain Hunt Area (Special Restrictions Apply - See",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3076,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+59,
+67
+],
+"areas": "Note 67)",
+"legal": "Antlerless elk",
+"permits": 15
+},
+{
+"hunt": 3077,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Sep 11 - Sep 20, 2026",
+"notes": [
+59,
+166
+],
+"areas": "2A and 2B",
+"legal": "Antlerless elk",
+"permits": 65
+},
+{
+"hunt": 3078,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Sep 25 - Oct 4, 2026",
+"notes": [
+59,
+166
+],
+"areas": "2A and 2B",
+"legal": "Antlerless elk",
+"permits": 60
+},
+{
+"hunt": 3079,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+59,
+166
+],
+"areas": "2A and 2B",
+"legal": "Antlerless elk",
+"permits": 40
+},
+{
+"hunt": 3080,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Dec 4 - Dec 13, 2026",
+"notes": [
+30,
+31,
+32,
+59,
+70
+],
+"areas": "4A North",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3081,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+49,
+59
+],
+"areas": "East Sunset and West Sunset Hunt areas (Special Restrictions Apply - See Note 49) East Sunset and West Sunset Hunt areas (Special Restrictions",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3082,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+49,
+59
+],
+"areas": "Apply - See Note 49)",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3083,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+51,
+59
+],
+"areas": "Twin Arrows Hunt Area (Special Restrictions Apply - See Note 51)",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3084,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+51,
+59
+],
+"areas": "Twin Arrows Hunt Area (Special Restrictions Apply - See Note 51)",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3085,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 2 - Oct 15, 2026",
+"notes": [
+42,
+59
+],
+"areas": "17A, 17B, 18B, 19B, 20A, and 20C",
+"legal": "Antlerless elk",
+"permits": 150
+},
+{
+"hunt": 3086,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Nov 6 - Dec 10, 2026",
+"notes": [
+42,
+59
+],
+"areas": "17A, 17B, 18B, 19B, 20A, and 20C",
+"legal": "Antlerless elk",
+"permits": 300
+},
+{
+"hunt": 3087,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Aug 7 - Aug 20, 2026",
+"notes": [
+59,
+61
+],
+"areas": "Black Mountain Hunt Area (Special Restrictions Apply - See Note 61)",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3088,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Sep 11 - Sep 20, 2026",
+"notes": [
+59,
+166
+],
+"areas": "2A and 2B",
+"legal": "Any elk",
+"permits": 35
+},
+{
+"hunt": 3089,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Sep 25 - Oct 4, 2026",
+"notes": [
+59,
+166
+],
+"areas": "2A and 2B",
+"legal": "Any elk",
+"permits": 35
+},
+{
+"hunt": 3090,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+59,
+166
+],
+"areas": "2A and 2B",
+"legal": "Any elk",
+"permits": 25
+},
+{
+"hunt": 3091,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Dec 11 - Dec 24, 2026",
+"notes": [
+59,
+156,
+158,
+167
+],
+"areas": "Zeniff Hunt Area and Dry Lake Hunt Area (Special Restrictions Apply - See Notes 156 and 158)",
+"legal": "Any elk",
+"permits": 50
+},
+{
+"hunt": 3092,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Nov 6 - Dec 10, 2026",
+"notes": [
+42,
+59
+],
+"areas": "17A, 17B, 18B, 19B, 20A, and 20C",
+"legal": "Any elk",
+"permits": 150
+},
+{
+"hunt": 3093,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Sep 25 - Oct 4, 2026",
+"notes": [
+59
+],
+"areas": "24A",
+"legal": "Any elk",
+"permits": 5
+},
+{
+"hunt": 3094,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 9 - Oct 18, 2026",
+"notes": [
+59
+],
+"areas": "24A",
+"legal": "Any elk",
+"permits": 5
+},
+{
+"hunt": 3095,
+"section": "LIMITED OPPORTUNITY (GENERAL) ELK",
+"dates": "Oct 2 - Oct 29, 2026",
+"notes": [
+59,
+129
+],
+"areas": "28, 31, and 32",
+"legal": "Any elk",
+"permits": 10
+},
+{
+"hunt": 3096,
+"section": "CHAMP (GENERAL) ELK",
+"dates": "Oct 9 - Oct 15, 2026",
+"notes": [
+165,
+166
+],
+"areas": "4B",
+"legal": "Any elk",
+"permits": 15
+},
+{
+"hunt": 3097,
+"section": "CHAMP (GENERAL) ELK",
+"dates": "Oct 23 - Oct 29, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Any elk",
+"permits": 50
+},
+{
+"hunt": 3098,
+"section": "CHAMP (GENERAL) ELK",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Any elk",
+"permits": 15
+},
+{
+"hunt": 3099,
+"section": "CHAMP (GENERAL) ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Any elk",
+"permits": 95
+},
+{
+"hunt": 3100,
+"section": "MUZZLELOADER ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+60
+],
+"areas": "1, 2B, and 2C",
+"legal": "Bull elk",
+"permits": 35
+},
+{
+"hunt": 3101,
+"section": "MUZZLELOADER ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [],
+"areas": "3B",
+"legal": "Bull elk",
+"permits": 30
+},
+{
+"hunt": 3102,
+"section": "MUZZLELOADER ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A",
+"legal": "Bull elk",
+"permits": 24
+},
+{
+"hunt": 3103,
+"section": "MUZZLELOADER ELK",
+"dates": "Oct 2 - Oct 8, 2026",
+"notes": [
+48
+],
+"areas": "Kachina Peaks Wilderness Hunt Area (Special Restrictions Apply - See Note 48)",
+"legal": "Bull elk",
+"permits": 5
+},
+{
+"hunt": 3104,
+"section": "MUZZLELOADER ELK",
+"dates": "Sep 25 - Oct 1, 2026",
+"notes": [
+56
+],
+"areas": "22 South",
+"legal": "Bull elk",
+"permits": 50
+},
+{
+"hunt": 3105,
+"section": "MUZZLELOADER ELK",
+"dates": "Nov 27 - Dec 3, 2026",
+"notes": [],
+"areas": "3B",
+"legal": "Bull elk",
+"permits": 200
+},
+{
+"hunt": 3106,
+"section": "MUZZLELOADER ELK",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Bull elk",
+"permits": 325
+},
+{
+"hunt": 3107,
+"section": "MUZZLELOADER ELK",
+"dates": "Nov 6 - Nov 12, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Bull elk",
+"permits": 65
+},
+{
+"hunt": 3108,
+"section": "MUZZLELOADER ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [],
+"areas": "3B",
+"legal": "Antlerless elk",
+"permits": 100
+},
+{
+"hunt": 3109,
+"section": "MUZZLELOADER ELK",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [],
+"areas": "3B",
+"legal": "Antlerless elk",
+"permits": 250
+},
+{
+"hunt": 3110,
+"section": "MUZZLELOADER ELK",
+"dates": "Nov 13 - Nov 19, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Antlerless elk",
+"permits": 50
+},
+{
+"hunt": 3111,
+"section": "MUZZLELOADER ELK",
+"dates": "Oct 16 - Oct 22, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Antlerless elk",
+"permits": 150
+},
+{
+"hunt": 3112,
+"section": "MUZZLELOADER ELK",
+"dates": "Sep 25 - Oct 15, 2026",
+"notes": [],
+"areas": "16A (excluding Mohave County Park Lands)",
+"legal": "Any elk",
+"permits": 6
+},
+{
+"hunt": 3113,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Oct 2 - Oct 15, 2026",
+"notes": [
+59,
+68,
+69
+],
+"areas": "Coon Canyon and Flat Top Hunt Areas (Special Restrictions Apply - See Notes 68 and 69) Coon Canyon and Flat Top Hunt Areas (Special Restrictions",
+"legal": "Antlerless elk",
+"permits": 5
+},
+{
+"hunt": 3114,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Oct 16 - Oct 29, 2026",
+"notes": [
+59,
+68,
+69
+],
+"areas": "Apply - See Notes 68 and 69) Coon Canyon and Flat Top Hunt Areas (Special Restrictions",
+"legal": "Antlerless elk",
+"permits": 5
+},
+{
+"hunt": 3115,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Oct 30 - Nov 12, 2026",
+"notes": [
+59,
+68,
+69
+],
+"areas": "Apply - See Notes 68 and 69) Coon Canyon and Flat Top Hunt Areas (Special Restrictions",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3116,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+59,
+68,
+69
+],
+"areas": "Apply - See Notes 68 and 69) Coon Canyon and Flat Top Hunt Areas (Special Restrictions",
+"legal": "Antlerless elk",
+"permits": 15
+},
+{
+"hunt": 3117,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Nov 27 - Dec 10, 2026",
+"notes": [
+59,
+68,
+69
+],
+"areas": "Apply - See Notes 68 and 69) Coon Canyon and Flat Top Hunt Areas (Special Restrictions",
+"legal": "Antlerless elk",
+"permits": 15
+},
+{
+"hunt": 3118,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+59,
+68,
+69
+],
+"areas": "Apply - See Notes 68 and 69) Show Low Creek Hunt Area (Special Restrictions Apply -",
+"legal": "Antlerless elk",
+"permits": 15
+},
+{
+"hunt": 3119,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Jul 31 - Aug 6, 2026",
+"notes": [
+59,
+71
+],
+"areas": "See Note 71) Show Low Creek Hunt Area (Special Restrictions Apply -",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3120,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Aug 7 - Aug 13, 2026",
+"notes": [
+59,
+71
+],
+"areas": "See Note 71) Show Low Creek Hunt Area (Special Restrictions Apply -",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3121,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Aug 14 - Aug 20, 2026",
+"notes": [
+59,
+71
+],
+"areas": "See Note 71) Show Low Creek Hunt Area (Special Restrictions Apply -",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3122,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Aug 21 - Aug 27, 2026",
+"notes": [
+59,
+71
+],
+"areas": "See Note 71) Show Low Creek Hunt Area (Special Restrictions Apply -",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3123,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Aug 28 - Sep 3, 2026",
+"notes": [
+59,
+71
+],
+"areas": "See Note 71) Show Low Creek Hunt Area (Special Restrictions Apply -",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3124,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Oct 2 - Oct 8, 2026",
+"notes": [
+59,
+71
+],
+"areas": "See Note 71)",
+"legal": "Antlerless elk",
+"permits": 10
+},
+{
+"hunt": 3125,
+"section": "LIMITED OPPORTUNITY (HAM) ELK",
+"dates": "Dec 11 - Dec 31, 2026",
+"notes": [
+37,
+59
+],
+"areas": "3B North",
+"legal": "Antlerless elk",
+"permits": 150
+},
+{
+"hunt": 3126,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "1, 2B, and 2C",
+"legal": "Bull elk",
+"permits": 225
+},
+{
+"hunt": 3127,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+166
+],
+"areas": "3A and 3C",
+"legal": "Bull elk",
+"permits": 75
+},
+{
+"hunt": 3128,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "3B",
+"legal": "Bull elk",
+"permits": 75
+},
+{
+"hunt": 3129,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+30,
+31,
+32
+],
+"areas": "4A",
+"legal": "Bull elk",
+"permits": 97
+},
+{
+"hunt": 3130,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+165,
+166
+],
+"areas": "4B",
+"legal": "Bull elk",
+"permits": 100
+},
+{
+"hunt": 3131,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A",
+"legal": "Bull elk",
+"permits": 145
+},
+{
+"hunt": 3132,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+50
+],
+"areas": "5B North",
+"legal": "Bull elk",
+"permits": 168
+},
+{
+"hunt": 3133,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+52
+],
+"areas": "5B South",
+"legal": "Bull elk",
+"permits": 200
+},
+{
+"hunt": 3134,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Bull elk",
+"permits": 700
+},
+{
+"hunt": 3135,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+10
+],
+"areas": "6B (excluding Camp Navajo)",
+"legal": "Bull elk",
+"permits": 155
+},
+{
+"hunt": 3136,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+45,
+53,
+76,
+157
+],
+"areas": "7 East",
+"legal": "Bull elk",
+"permits": 150
+},
+{
+"hunt": 3137,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+48
+],
+"areas": "Kachina Peaks Wilderness Hunt Area (Special Restrictions Apply - See Note 48)",
+"legal": "Bull elk",
+"permits": 25
+},
+{
+"hunt": 3138,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+54
+],
+"areas": "7 West",
+"legal": "Bull elk",
+"permits": 150
+},
+{
+"hunt": 3139,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Bull elk",
+"permits": 200
+},
+{
+"hunt": 3140,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+157
+],
+"areas": "9",
+"legal": "Bull elk",
+"permits": 90
+},
+{
+"hunt": 3141,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Bull elk",
+"permits": 100
+},
+{
+"hunt": 3142,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+4,
+10
+],
+"areas": "11M",
+"legal": "Bull elk",
+"permits": 80
+},
+{
+"hunt": 3143,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 25 - Oct 8, 2026",
+"notes": [
+4,
+10
+],
+"areas": "11M",
+"legal": "Bull elk",
+"permits": 80
+},
+{
+"hunt": 3144,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+42,
+128
+],
+"areas": "15A, 15B, and 18A",
+"legal": "Bull elk",
+"permits": 25
+},
+{
+"hunt": 3145,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "19A",
+"legal": "Bull elk",
+"permits": 15
+},
+{
+"hunt": 3146,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Bull elk",
+"permits": 10
+},
+{
+"hunt": 3147,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Bull elk",
+"permits": 45
+},
+{
+"hunt": 3148,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+57
+],
+"areas": "23 North",
+"legal": "Bull elk",
+"permits": 25
+},
+{
+"hunt": 3149,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+58
+],
+"areas": "23 South",
+"legal": "Bull elk",
+"permits": 15
+},
+{
+"hunt": 3150,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Bull elk",
+"permits": 225
+},
+{
+"hunt": 3151,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 6 - Nov 19, 2026",
+"notes": [],
+"areas": "1, 2B, and 2C",
+"legal": "Bull elk",
+"permits": 30
+},
+{
+"hunt": 3152,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 6 - Nov 19, 2026",
+"notes": [
+30,
+31,
+32
+],
+"areas": "4A",
+"legal": "Bull elk",
+"permits": 29
+},
+{
+"hunt": 3153,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A",
+"legal": "Bull elk",
+"permits": 48
+},
+{
+"hunt": 3154,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+50
+],
+"areas": "5B North",
+"legal": "Bull elk",
+"permits": 48
+},
+{
+"hunt": 3155,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+52
+],
+"areas": "5B South",
+"legal": "Bull elk",
+"permits": 50
+},
+{
+"hunt": 3156,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 20 - Nov 26, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Bull elk",
+"permits": 100
+},
+{
+"hunt": 3157,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+10
+],
+"areas": "6B (excluding Camp Navajo)",
+"legal": "Bull elk",
+"permits": 30
+},
+{
+"hunt": 3158,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+45,
+53,
+76,
+157
+],
+"areas": "7 East",
+"legal": "Bull elk",
+"permits": 55
+},
+{
+"hunt": 3159,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+54
+],
+"areas": "7 West",
+"legal": "Bull elk",
+"permits": 55
+},
+{
+"hunt": 3160,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Bull elk",
+"permits": 50
+},
+{
+"hunt": 3161,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+157
+],
+"areas": "9",
+"legal": "Bull elk",
+"permits": 40
+},
+{
+"hunt": 3162,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Bull elk",
+"permits": 25
+},
+{
+"hunt": 3163,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+3
+],
+"areas": "21",
+"legal": "Bull elk",
+"permits": 10
+},
+{
+"hunt": 3164,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+55
+],
+"areas": "22 North",
+"legal": "Bull elk",
+"permits": 200
+},
+{
+"hunt": 3165,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+56
+],
+"areas": "22 South",
+"legal": "Bull elk",
+"permits": 65
+},
+{
+"hunt": 3166,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Bull elk",
+"permits": 200
+},
+{
+"hunt": 3167,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Bull elk",
+"permits": 30
+},
+{
+"hunt": 3168,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "1, 2B, and 2C",
+"legal": "Antlerless elk",
+"permits": 75
+},
+{
+"hunt": 3169,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Jul 31 - Aug 6, 2026",
+"notes": [
+4,
+163
+],
+"areas": "Alpine Hunt Area (Special Restrictions Apply - See Note 163)",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3170,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Aug 7 - Aug 13, 2026",
+"notes": [
+4,
+163
+],
+"areas": "Alpine Hunt Area (Special Restrictions Apply - See Note 163)",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3171,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+166
+],
+"areas": "3A and 3C",
+"legal": "Antlerless elk",
+"permits": 35
+},
+{
+"hunt": 3172,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "3B",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3173,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+30,
+31,
+32
+],
+"areas": "4A",
+"legal": "Antlerless elk",
+"permits": 97
+},
+{
+"hunt": 3174,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+165,
+166
+],
+"areas": "4B",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3175,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+29,
+30,
+31,
+32
+],
+"areas": "5A",
+"legal": "Antlerless elk",
+"permits": 48
+},
+{
+"hunt": 3176,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+29,
+30,
+31,
+32,
+50
+],
+"areas": "5B North",
+"legal": "Antlerless elk",
+"permits": 24
+},
+{
+"hunt": 3177,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+52
+],
+"areas": "5B South",
+"legal": "Antlerless elk",
+"permits": 50
+},
+{
+"hunt": 3178,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "6A",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3179,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+10
+],
+"areas": "6B (excluding Camp Navajo)",
+"legal": "Antlerless elk",
+"permits": 75
+},
+{
+"hunt": 3180,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+45,
+53,
+76,
+157
+],
+"areas": "7 East",
+"legal": "Antlerless elk",
+"permits": 55
+},
+{
+"hunt": 3181,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+54
+],
+"areas": "7 West",
+"legal": "Antlerless elk",
+"permits": 50
+},
+{
+"hunt": 3182,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "8",
+"legal": "Antlerless elk",
+"permits": 50
+},
+{
+"hunt": 3183,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [
+43,
+44
+],
+"areas": "10",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3184,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+4,
+10
+],
+"areas": "11M",
+"legal": "Antlerless elk",
+"permits": 80
+},
+{
+"hunt": 3185,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 25 - Oct 8, 2026",
+"notes": [
+4,
+10
+],
+"areas": "11M",
+"legal": "Antlerless elk",
+"permits": 80
+},
+{
+"hunt": 3186,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [],
+"areas": "22",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3187,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Nov 13 - Nov 26, 2026",
+"notes": [],
+"areas": "23",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3188,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [],
+"areas": "27",
+"legal": "Antlerless elk",
+"permits": 25
+},
+{
+"hunt": 3189,
+"section": "ARCHERY-ONLY ELK",
+"dates": "Sep 4 - Sep 24, 2026",
+"notes": [],
+"areas": "16A (excluding Mohave County Park Lands)",
+"legal": "Any elk",
+"permits": 8
+},
+{
+"hunt": 3190,
+"section": "LIMITED OPPORTUNITY (ARCHERY-ONLY) ELK",
+"dates": "Sep 11 - Oct 1, 2026",
+"notes": [
+42,
+59
+],
+"areas": "17A, 17B, 18B, 19B, 20A, and 20C",
+"legal": "Bull elk",
+"permits": 35
+},
+{
+"hunt": 3191,
+"section": "LIMITED OPPORTUNITY (ARCHERY-ONLY) ELK",
+"dates": "Sep 11 - Oct 1, 2026",
+"notes": [
+42,
+59
+],
+"areas": "17A, 17B, 18B, 19B, 20A, and 20C",
+"legal": "Antlerless elk",
+"permits": 50
+},
+{
+"hunt": 3192,
+"section": "LIMITED OPPORTUNITY (ARCHERY-ONLY) ELK",
+"dates": "Sep 11 - Sep 24, 2026",
+"notes": [
+59,
+129
+],
+"areas": "28, 31, and 32",
+"legal": "Any elk",
+"permits": 90
+}
+]

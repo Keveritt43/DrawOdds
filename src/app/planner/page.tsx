@@ -4,6 +4,7 @@ import { WaPlannerPage } from "@/components/WaPages";
 import { MtPlanner, type MtPlanOpt, type MtPlanApp } from "@/components/MtPlanner";
 import { UtPlannerPage } from "@/components/UtPages";
 import { NvPlannerPage } from "@/components/NvPages";
+import { AzPlannerPage } from "@/components/AzPages";
 import { WyPlannerPage } from "@/components/WyPlanner";
 import { readMtPoints, mtCombo } from "@/lib/mtPoints";
 import { getPointsStore } from "@/lib/points";
@@ -32,6 +33,7 @@ export default async function PlannerPage({ searchParams,
   if ((await getState()).code === "MT") return <MtPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "UT") return <UtPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "NV") return <NvPlannerPage />;
+  if ((await getState()).code === "AZ") return <AzPlannerPage />;
   if ((await getState()).code === "WY") return <WyPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "NM") return <NmPlannerPage signedIn={signedIn} />;
   if ((await getState()).code === "WA") return <WaPlannerPage signedIn={signedIn} />;

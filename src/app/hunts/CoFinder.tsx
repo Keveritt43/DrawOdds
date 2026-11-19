@@ -1,5 +1,5 @@
 import { FilterPresets } from '@/components/FilterPresets';
-import { FinderBusy } from '@/components/FinderBusy';
+import { FinderBusy, FinderLink } from '@/components/FinderBusy';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { getCoScoringContext } from '@/lib/coScoringContext';
 import { withCoScores, withCoOpportunity } from '@/lib/coScores';
@@ -220,7 +220,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
                   ['unit', 'Unit'],
                 ] as const
               ).map(([k, l]) => (
-                <Link
+                <FinderLink
                   key={k}
                   className="seg-link"
                   href={q({ sort: k === 'odds' ? null : k, page: null })}
@@ -228,7 +228,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
                   scroll={false}
                 >
                   {l}
-                </Link>
+                </FinderLink>
               ))}
             </span>
           </div>
@@ -242,12 +242,12 @@ export async function CoFinder({ sp }: { sp: SP }) {
               {!pts.set && <> (<Link href="/account#hunting-preferences">set your points in Account</Link>)</>}
             </span>
             <span className="seg light" role="group" aria-label="Which draw">
-              <Link className="seg-link" href={q({ odds: null, page: null })} aria-pressed={mode === 'proj'} scroll={false}>
+              <FinderLink className="seg-link" href={q({ odds: null, page: null })} aria-pressed={mode === 'proj'} scroll={false}>
                 {projYear} projected
-              </Link>
-              <Link className="seg-link" href={q({ odds: 'last', page: null })} aria-pressed={mode === 'last'} scroll={false}>
+              </FinderLink>
+              <FinderLink className="seg-link" href={q({ odds: 'last', page: null })} aria-pressed={mode === 'last'} scroll={false}>
                 {year} actual
-              </Link>
+              </FinderLink>
             </span>
           </div>
           {projYear >= RULE_CHANGE_YEAR - 1 && (
@@ -264,7 +264,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
             <h2>No Hunts Match</h2>
             {species === 'DEER' && one(sp.type) === 'GENERAL' && <p>Colorado&apos;s 2026 OTC white-tailed deer license <b>D-E-048-U6-R</b> is not yet included in these results. It is an either-sex, late-season license for selected units, December 1–31, 2026; it is sold at CPW offices and participating state parks. Whitetails are scarce and mostly on private land in this area. GMU 512 has separate access and weapon restrictions. <a href="https://cpw.state.co.us/sites/default/files/dam/erjzbk48be/colorado-big-game-hunting-brochure.pdf">See the CPW brochure for the valid units, eligibility and restrictions</a>.</p>}
             <p className="muted">
-              Loosen a filter or remove a chip on the map. <Link href={withPresetEdit(sp.editPreset ? '/hunts?state=CO&restore=1&antler=ANTLERED' : '/hunts?reset=1', sp.editPreset)}>Clear all filters</Link>.
+              Loosen a filter or remove a chip on the map. <FinderLink href={withPresetEdit(sp.editPreset ? '/hunts?state=CO&restore=1&antler=ANTLERED' : '/hunts?reset=1', sp.editPreset)}>Clear all filters</FinderLink>.
             </p>
           </div>
         )}
@@ -286,9 +286,9 @@ export async function CoFinder({ sp }: { sp: SP }) {
         ))}
         {shown.length < decorated.length && (
           <p style={{ textAlign: 'center' }}>
-            <Link className="btn" href={q({ page: String(page + 1) })} scroll={false}>
+            <FinderLink className="btn" href={q({ page: String(page + 1) })} scroll={false}>
               Show more ({decorated.length - shown.length} left)
-            </Link>
+            </FinderLink>
           </p>
         )}
         <p className="small muted">
