@@ -77,6 +77,9 @@ test('Wyoming deer use the dominant species rate for success, density and Qualit
   assert.notEqual(mule.scoreQuality, null);
   const mixed = harvest.map((h) => ({ ...h, mule: 130, whitetail: 130, huntersWhitetail: 300 }));
   assert.equal(evaluateHunt(row({ id: 'wy:deer23', state: 'WY', species: 'DEER', pointOdds: { state: 'WY', pools: {}, harvest: mixed } as never }), settings, 'proj').r.success5, null);
+  // a whitetail-only license has no mule deer table at all
+  const white = [2023, 2024, 2025].map((year) => ({ year, hunters: 43, harvest: 18, basis: 'mule+whitetail', mule: 0, whitetail: 18, huntersMule: null, huntersWhitetail: 43 }));
+  assert.equal(evaluateHunt(row({ id: 'wy:deer8-3', state: 'WY', species: 'DEER', pointOdds: { state: 'WY', pools: {}, harvest: white } as never }), settings, 'proj').r.success5, 54 / 129);
 });
 
 test('Wyoming Tag Filler uses license-based evidence and hunter success', () => {
