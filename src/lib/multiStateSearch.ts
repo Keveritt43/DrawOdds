@@ -81,6 +81,8 @@ export const isNonresident = (state: string, settings: HunterSettings) =>
 export function personalize(r: CoScored, settings: HunterSettings, mode: 'last' | 'proj'): SearchResult | null {
   const nr = isNonresident(r.state, settings);
   if (r.state === 'ID' && r.nrTag && !nr && r.species !== 'ELK') return null;
+  // Nonresidents choose a deer tag, so do not also list its unit general seasons.
+  if (nr && r.state === 'ID' && r.species === 'DEER' && r.type === 'GENERAL' && !r.nrTag) return null;
   // Match the Idaho listing: zone tags replace duplicated per-weapon general elk rows.
   if (r.state === 'ID' && r.type === 'GENERAL' && !r.nrTag && r.species === 'ELK') return null;
   // New Mexico: resident-only, WMA-only and antlerless elk licenses aren't issued to nonresidents (2026-27 booklet p. 17)

@@ -137,10 +137,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };
 
   // Elk: the zone A / B tag is the listing (it carries the seasons, odds and quota), so the per-weapon general
-  // elk rows would repeat it. Deer: the general seasons carry the Regular Deer tag; the White-tailed tag stays.
+  // elk rows would repeat it. Deer: residents see general seasons; nonresidents see tag listings.
   const zu = f.zones.length ? zoneUnits(f.zones) : null;
   const visible = f.type === 'NRTAG' ? rows : rows.filter((r) =>
-    r.nrTag ? r.species === 'ELK' || !!r.tagCode?.startsWith('WD') : !(r.type === 'GENERAL' && r.species === 'ELK'));
+    r.nrTag ? r.species === 'ELK' || (nr && r.species === 'DEER') : !(r.type === 'GENERAL' && r.species === 'ELK'));
 
   // ---- by hunt (default): each hunt once; an elk zone's A and B tags share one card
   const listings: Listing[] = [];

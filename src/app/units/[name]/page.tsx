@@ -90,8 +90,8 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const fType = pick('type');
   const fWeapon = pick('weapon');
   // elk: the A/B tag rows are the listing; the per-weapon general elk rows stay for the charts only. Deer: the
-  // general seasons carry the Regular Deer tag, so its tag row is hidden (the White-tailed tag stays).
-  const listed = hunts.filter((h) => (h.nrTag ? h.species === 'ELK' || !!h.tagCode?.startsWith('WD') : !(h.type === 'GENERAL' && h.species === 'ELK')));
+  // residents see general seasons and nonresidents see deer tag listings.
+  const listed = hunts.filter((h) => (h.nrTag ? h.species === 'ELK' || (nr && h.species === 'DEER') : !(h.type === 'GENERAL' && (h.species === 'ELK' || (nr && h.species === 'DEER')))));
   const shown = listed.filter((h) => (!fSpecies || h.species === fSpecies) && (!fType || h.type === fType) && (!fWeapon || h.weapon === fWeapon || (h.nrTag && (h.weapons as string[]).includes(fWeapon))));
   const href = (patch: SP) => {
     const q = new URLSearchParams(Object.entries({ species: fSpecies, type: fType, weapon: fWeapon, ...patch }).filter(([, v]) => v) as [string, string][]);
