@@ -1,0 +1,47 @@
+{
+  "2018": {
+    "count": 341,
+    "sha256": "1028a5053fa2e7580a3deb8b3c47cfc7e7834bda912ac188c028bb3c2a538db4",
+    "where": "FIRE_YEAR_INT=2018 AND FEATURE_CA LIKE 'Wildfire%'"
+  },
+  "2019": {
+    "count": 266,
+    "sha256": "858db1405d08611fc5c3f741e952a4fa0f9e8fa8e06e1b2e017c062a72520163",
+    "where": "FIRE_YEAR_INT=2019 AND FEATURE_CA LIKE 'Wildfire%'"
+  },
+  "2020": {
+    "count": 351,
+    "sha256": "3442fbce78a7dac97d08cb66c1124a8510b6f87b79005e34bfd509df7dac391e",
+    "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2020-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2021-01-01 00:00:00'"
+  },
+  "2021": {
+    "count": 674,
+    "sha256": "c79cd4d5bfa3a3ce1fc7eb44d178110abd341f64e81e189a09bea9332b7d1f7d",
+    "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2021-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2022-01-01 00:00:00'"
+  },
+  "2022": {
+    "count": 526,
+    "sha256": "d39f2df5761bbfd87722bec4c608bd72a1305f27880b07f94660425fe9b43613",
+    "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2022-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2023-01-01 00:00:00'"
+  },
+  "2023": {
+    "count": 299,
+    "sha256": "49d76d0977c66cd52641fdeaefdf474203ca6c4272699858e7ea2f3e101fa289",
+    "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2023-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2024-01-01 00:00:00'"
+  },
+  "2024": {
+    "count": 658,
+    "sha256": "523c7689172cd9bd55cf522d7786e4caa3aeffb140b9876019f33ef455582991",
+    "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2024-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2025-01-01 00:00:00'"
+  },
+  "2025": {
+    "count": 476,
+    "sha256": "4867d548e6f8394e74bc5a650bc6a72c4f4951dcb203aae8e374b045ceafc48a",
+    "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2025-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2026-01-01 00:00:00'"
+  },
+  "2026": {
+    "count": 593,
+    "sha256": "051f8a156e02bbd02649aa7b915a204a3310cd96ed45e8ca783a71c25fdf77a9",
+    "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2026-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2027-01-01 00:00:00'"
+  }
+}

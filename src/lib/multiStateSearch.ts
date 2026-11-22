@@ -1,3 +1,4 @@
+import { matchesIdFire } from './idFire';
 import { matchesIdTerrain } from './idTerrain';
 import { matchesHuntPreset, matchesTiming, parseHuntPresets } from './huntPresets';
 import type { Residency } from '@prisma/client';
@@ -235,6 +236,7 @@ export function matchesSearch(x: SearchResult, f: Filters, sp: SearchParams, mig
   if (isPrivateOnly(r) && !showPrivate(k => param(sp, k))) return false;
   if (f.q && ![r.name, r.areaName, r.tagCode, String(r.huntNumber ?? '')].some(s => s?.toLowerCase().includes(f.q.toLowerCase()))) return false;
   if (r.state === 'ID') {
+    if (!matchesIdFire(r, param(sp, 'idFire'), param(sp, 'idFireMin'), param(sp, 'idRemote'), param(sp, 'idHigh'))) return false;
     if (!matchesIdTerrain({ ...r, privateOnly: isPrivateOnly(r) }, param(sp, 'idRemote'), param(sp, 'idHigh'))) return false;
     if (f.deerType.length && !f.deerType.includes(r.tagCode?.startsWith('WD') ? 'WHITETAIL' : r.deerType as 'MULE')) return false;
     if (!atLeast(r.bigPct5, f.minBig, 100)) return false;

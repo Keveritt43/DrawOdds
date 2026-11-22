@@ -38,3 +38,7 @@ The web app only reads these summaries. Rasters (DEMs, SNODAS, NDVI) get the sam
 ## Idaho pilot (November 2026)
 
 A mapped-road/motorized-route and elevation pilot has been developed separately from Quality. See the data dictionary for its exact definitions, source limitations and unit-versus-hunt-area caveat. It uses a 100-m grid and is not a measure of actual pressure or legal access. Do not infer that unspecified metrics in the table above have been implemented.
+
+## Idaho wildfire and overlap pilot (November 2026)
+
+Mapped NIFC perimeters for 2018–2026 now support Idaho unit screening, historical details, map shading and a single-unit overlap map with mapped-route distance, elevation and slope. The wildfire/remote filter measures the actual joint cells. It is a dated, incomplete perimeter inventory, not a burn-severity or forage model; see the data dictionary and `idaho-wildfire-validation.md`. Remaining backlog items above should not be assumed implemented.
