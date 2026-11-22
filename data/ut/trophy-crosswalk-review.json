@@ -4,11 +4,10 @@
   "geometrySha256": "4452b7b922c27f1c1c20857238ec78b22360fed0297333af3e5de29313e295ef",
   "note": "Current retained snapshot only. Agreement is geographic context, not proof of historical identity or trophy size.",
   "counts": {
-    "agrees with geographic association": 318,
-    "no supplied match": 213,
+    "agrees with geographic association": 334,
+    "no supplied match": 215,
     "geometry incomplete": 45,
-    "ambiguous supplied matches": 39,
-    "conflict": 2
+    "ambiguous supplied matches": 23
   },
   "hunts": [
     {
@@ -899,19 +898,13 @@
         "625"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_DEER_MULEDEER_19"
-        },
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
@@ -2761,20 +2754,12 @@
       "boundary_ids": [
         "535"
       ],
-      "supplied_units": [
-        "25"
-      ],
+      "supplied_units": [],
       "geometry_units": [
         "16"
       ],
-      "status": "conflict",
-      "matches": [
-        {
-          "type": "hunt_name_substring",
-          "value": "Plateau",
-          "record_id": "UT_DEER_MULEDEER_25"
-        }
-      ]
+      "status": "no supplied match",
+      "matches": []
     },
     {
       "code": "DB1273",
@@ -5435,23 +5420,17 @@
         "871"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -5532,23 +5511,17 @@
         "871"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -5607,23 +5580,17 @@
         "872"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -5682,23 +5649,17 @@
         "872"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -5757,23 +5718,17 @@
         "872"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -5832,23 +5787,17 @@
         "872"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -5880,23 +5829,17 @@
         "872"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -6833,23 +6776,17 @@
         "872"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -6861,23 +6798,17 @@
         "872"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_ELK_ROCKYMOUNTAIN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_19"
         }
       ]
     },
@@ -7451,20 +7382,12 @@
       "boundary_ids": [
         "535"
       ],
-      "supplied_units": [
-        "25"
-      ],
+      "supplied_units": [],
       "geometry_units": [
         "16"
       ],
-      "status": "conflict",
-      "matches": [
-        {
-          "type": "hunt_name_substring",
-          "value": "Plateau",
-          "record_id": "UT_ELK_ROCKYMOUNTAIN_25"
-        }
-      ]
+      "status": "no supplied match",
+      "matches": []
     },
     {
       "code": "EB3541",
@@ -8378,19 +8301,13 @@
         "625"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_DEER_MULEDEER_19"
-        },
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
@@ -8861,19 +8778,13 @@
         "625"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_DEER_MULEDEER_19"
-        },
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
@@ -9344,19 +9255,13 @@
         "625"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_DEER_MULEDEER_19"
-        },
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
@@ -10858,23 +10763,17 @@
         "625"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_PRONGHORN_AMERICAN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_PRONGHORN_AMERICAN_19"
         }
       ]
     },
@@ -10957,23 +10856,17 @@
         "625"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_PRONGHORN_AMERICAN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_PRONGHORN_AMERICAN_19"
         }
       ]
     },
@@ -11502,23 +11395,17 @@
         "625"
       ],
       "supplied_units": [
-        "19",
         "20"
       ],
       "geometry_units": [
         "20"
       ],
-      "status": "ambiguous supplied matches",
+      "status": "agrees with geographic association",
       "matches": [
         {
           "type": "hunt_name_substring",
           "value": "Southwest Desert",
           "record_id": "UT_PRONGHORN_AMERICAN_20"
-        },
-        {
-          "type": "hunt_name_substring",
-          "value": "West Desert",
-          "record_id": "UT_PRONGHORN_AMERICAN_19"
         }
       ]
     },

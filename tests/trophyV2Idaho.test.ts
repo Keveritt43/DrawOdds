@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {bcCountyRates,idScore,rutCredit,rutDays,WEIGHTS} from '../src/lib/trophyV2Idaho';
+import {bcCountyRates,idScore,idScoreNoQuota,rutCredit,rutDays,WEIGHTS} from '../src/lib/trophyV2Idaho';
 
 test('rut days count only days inside the species window, with full credit at ten',()=>{
  assert.equal(rutDays('DEER','MULE','2026-11-15','2026-11-30'),16);
@@ -13,6 +13,12 @@ test('rut days count only days inside the species window, with full credit at te
 });
 test('weights add to 100, with B&C held to 5',()=>{
  assert.equal(Object.values(WEIGHTS).reduce((a,b)=>a+b,0),100);assert.equal(WEIGHTS.bc,5);
+});
+test('no-quota scenario excludes permits and limits timing to five points',()=>{
+ const herd={animal:.85,publications:1,bc:.86};
+ assert.equal(idScoreNoQuota({...herd,rut:1})-idScoreNoQuota({...herd,rut:0}),5);
+ const scarce={...herd,rut:0,tags:20},abundant={...herd,rut:0,tags:300};
+ assert.equal(idScoreNoQuota(scarce),idScoreNoQuota(abundant));
 });
 test('Unit 54: the 20-tag November hunt outscores the 300-tag October hunt on the same herd',()=>{
  // Same unit, so the same herd and evidence; 1043 has 62 applicants per tag and 16 rut days, 1042 12.6 and none.

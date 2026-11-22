@@ -36,9 +36,9 @@ const day = 86_400_000;
 const parse = (v: string) => Date.parse(`${v.slice(0, 10)}T00:00:00Z`);
 
 /** Days of [open, close] inside the rut window, in any year the season spans. */
-export function rutDays(species: IdSpecies, deerType: string | null | undefined, open: string, close: string): number | null {
+export function rutDays(species: IdSpecies, deerType: string | null | undefined, open: string, close: string, windows: Record<string,[string,string]> = RUT_WINDOWS): number | null {
   const key = species === 'DEER' ? `DEER:${deerType === 'WHITETAIL' ? 'WHITETAIL' : 'MULE'}` : species;
-  const w = RUT_WINDOWS[key], a = parse(open), b = parse(close);
+  const w = windows[key], a = parse(open), b = parse(close);
   if (!w || !Number.isFinite(a) || !Number.isFinite(b) || b < a || (b - a) / day > 366) return null;
   let days = 0;
   for (let t = a; t <= b; t += day) {
@@ -105,4 +105,10 @@ export interface IdParts { demand: number; animal: number | null; publications: 
 export function idScore(p: IdParts): number {
   const animal = p.animal ?? 0.5;
   return Math.round((WEIGHTS.demand * p.demand + WEIGHTS.animal * animal + WEIGHTS.publications * p.publications + WEIGHTS.bc * p.bc + WEIGHTS.rut * p.rut) * 10) / 10;
+}
+
+/** Offline comparison only. The old 35-point demand pillar is held constant;
+ * timing varies by at most five points. These weights are not calibrated. */
+export function idScoreNoQuota(p: Omit<IdParts,'demand'>): number {
+  return Math.round((17.5 + 47 * (p.animal ?? 0.5) + 8 * p.publications + 5 * p.bc + 5 * p.rut) * 10) / 10;
 }
