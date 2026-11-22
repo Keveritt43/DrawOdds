@@ -47,6 +47,23 @@ class ScopeTest(unittest.TestCase):
         refs = [{'state':'WA','species':'Deer','unit_id':'117','subspecies':'Whitetail'}]
         hunt = {'State':'WA','Species':'Deer','Units':'117','Hunt':'Mule Deer Buck'}
         self.assertEqual(audit.candidates(hunt,audit.reference_index(refs),{}),[])
+    def test_az_split_unit_is_context_only_when_explicitly_named(self):
+        refs = [{'state':'AZ','species':'Deer','unit_id':'12A East','subspecies':'Mule Deer'},
+                {'state':'AZ','species':'Deer','unit_id':'12A West','subspecies':'Mule Deer'}]
+        index = audit.reference_index(refs)
+        hunt = {'State':'AZ','Species':'Deer','Units':'12A','Hunt':'Unit 12A East · Any antlered deer'}
+        matches = audit.candidates(hunt,index,{})
+        self.assertEqual([r[1]['unit_id'] for r in matches],['12A East'])
+        self.assertIn('not identical geography',matches[0][2])
+        hunt['Hunt'] = 'Unit 12A · Any antlered deer'
+        self.assertEqual(audit.candidates(hunt,index,{}),[])
+    def test_explicit_species_applies_to_other_states(self):
+        refs = [{'state':'AZ','species':'Deer','unit_id':'34A','subspecies':'Coues Whitetail'},
+                {'state':'AZ','species':'Deer','unit_id':'34A','subspecies':'Mule Deer'}]
+        hunt = {'State':'AZ','Species':'Deer','Units':'34A','Hunt':'Antlered whitetail deer'}
+        self.assertEqual([r[1]['subspecies'] for r in audit.candidates(hunt,audit.reference_index(refs),{})],['Coues Whitetail'])
+        hunt['Hunt'] = 'Antlered deer'
+        self.assertEqual(len(audit.candidates(hunt,audit.reference_index(refs),{})),2)
     def test_spreadsheet_formula_is_escaped(self):
         self.assertEqual(audit.spreadsheet_cell('=1+1'), "'=1+1")
 
