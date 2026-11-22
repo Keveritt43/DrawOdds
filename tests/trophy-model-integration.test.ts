@@ -59,7 +59,8 @@ test('Idaho v2 tiers: Unit 54 November above October, unit 40 November at 80, ot
   assert.equal(trophyForHunt(h),80);
   assert.equal(trophyForUnit(h,'40').score,80);
   assert.match(trophyForUnit(h,'40').reason,/Ranks \d+ of 108 Idaho controlled deer hunts/);
-  assert.equal(trophyHuntEvidence(h,80).provisional,false);
+  assert.equal(trophyHuntEvidence(h,80).provisional,true);
+  assert.match(trophyHuntEvidence(h,80).reason,/another hunt or a broader area/);
   assert.equal(idahoV2Tier({...h,oddsLastYear:2027}),null,'a new draw year falls back until the table is regenerated');
   assert.equal(idahoV2Tier({...h,species:'ELK'}),null);
   assert.equal(idahoV2Tier({...h,state:'CO'}),null);
