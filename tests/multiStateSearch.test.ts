@@ -330,3 +330,16 @@ test('Idaho terrain filter uses overlapping acres and leaves Colorado results al
   assert.match(csv, /Idaho best unit remote public above 9000 ft sq mi \(estimate\)/);
   assert.ok(!csv.includes('id-low'));
 });
+
+
+test('Idaho general deer listings follow residency statewide', () => {
+  const u49 = row({ id: 'unit49', type: 'GENERAL', unit: '49', units: ['49'] });
+  const u39 = row({ id: 'unit39', type: 'GENERAL', unit: '39', units: ['39'] });
+  const regular = row({ id: 'rd49', type: 'GENERAL', nrTag: true, tagCode: 'RD49', units: ['49'] });
+  const whitetail = row({ id: 'wd39', type: 'GENERAL', nrTag: true, tagCode: 'WD39', units: ['39'] });
+  const controlled = row({ id: 'controlled49', unit: '49', units: ['49'] });
+  const rows = [u49, u39, regular, whitetail, controlled];
+  assert.deepEqual(rows.filter(r => personalize(r, settings, 'last')).map(r => r.id), ['unit49', 'unit39', 'controlled49']);
+  assert.deepEqual(rows.filter(r => personalize(r, { ...settings, ID: 'NONRESIDENT' }, 'last')).map(r => r.id), ['rd49', 'wd39', 'controlled49']);
+  assert.ok(personalize(row({ state: 'CO', type: 'GENERAL', nrTag: false }), { ...settings, ID: 'NONRESIDENT' }, 'last'));
+});
