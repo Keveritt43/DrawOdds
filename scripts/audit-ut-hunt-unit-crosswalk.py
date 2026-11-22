@@ -7,6 +7,7 @@ Name matches and polygon overlap are evidence for review, not automatic identity
 import csv
 import hashlib
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -24,7 +25,15 @@ results=[]
 for h in hunts:
     hits=[r for r in rows if r['species'].upper()==h['species'] and (
         (r['match_type']=='hunt_code_exact' and r['match_value'].casefold()==h['tagCode'].casefold()) or
-        (r['match_type']=='hunt_name_substring' and r['match_value'].casefold() in h['name'].casefold()))]
+        (r['match_type']=='hunt_name_substring' and re.search(r'(?<!\w)'+re.escape(r['match_value'])+r'(?!\w)',h['name'],re.IGNORECASE)))]
+    # "Plateau" alone refers to management unit 25 in the supplied file. It is not
+    # an identity match for the separately named Old Woman Plateau CWMU permits.
+    # Utah's 2026 application guide lists Old Woman Plateau as a CWMU in Sevier:
+    # https://wildlife.utah.gov/pdf/guidebooks/biggameapp.pdf
+    # Reject this false substring match; geometry remains context, not a substitute
+    # for an agency-verified hunt-to-unit link.
+    if h['tagCode'] in {'DB1272', 'EB3540'}:
+        hits=[r for r in hits if not (r['match_type']=='hunt_name_substring' and r['match_value'].casefold()=='plateau')]
     supplied=sorted(set(r['unit_id'] for r in hits))
     mapped=[by_boundary.get((h['species'],str(u))) for u in h['units']]
     known=sorted(set(v for v in mapped if v is not None))

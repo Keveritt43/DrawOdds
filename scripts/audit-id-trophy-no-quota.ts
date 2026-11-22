@@ -90,14 +90,17 @@ const results=snapshot.hunts.filter(eligible).map(h=>{
   const pts=(u:typeof unitEvidence[number])=>8*u.publications+5*u.bc;
   const weakest=unitEvidence.reduce((a,b)=>pts(b)<pts(a)?b:a);
   const score=idScoreNoQuota({animal:animal?.percentile??null,publications:weakest.publications,bc:weakest.bc,rut});
-  return {...base,status:'shadow score',score,tier:0 as number,fixedCutoffTier:tierFor(score),
+  // Rank the animal evidence without timing. Timing remains a small numerical adjustment;
+  // a fraction of a point must not force two hunts in the same unit into different tiers.
+  const baseScore=idScoreNoQuota({animal:animal?.percentile??null,publications:weakest.publications,bc:weakest.bc,rut:0});
+  return {...base,status:'shadow score',score,baseScore,tier:0 as number,fixedCutoffTier:tierFor(score),
     demandNeutral:true,
     rutDays:days,animalShare:animal?Math.round(animal.value*10)/10:null,animalFromHunt:animal?.from??null,animalPercentile:animal?Math.round(animal.percentile*1000)/1000:null,animalNeutral:!animal,
     publications:weakest.publications,bc:Math.round(weakest.bc*1000)/1000,unitEvidence};
 });
 const scored=results.filter(r=>r.status==='shadow score') as Extract<typeof results[number],{score:number}>[];
 for(const sp of ['DEER','ELK','PRONGHORN']){
-  const group=scored.filter(r=>r.species===sp),tiers=rankTiers(group.map(r=>r.score));
+  const group=scored.filter(r=>r.species===sp),tiers=rankTiers(group.map(r=>r.baseScore));
   group.forEach((r,i)=>{r.tier=tiers[i];});
 }
 const tally=(f:(r:typeof scored[number])=>unknown)=>scored.reduce<Record<string,number>>((a,r)=>{const k=String(f(r));a[k]=(a[k]??0)+1;return a},{});
