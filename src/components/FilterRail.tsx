@@ -213,6 +213,12 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
         </FilterGroup>
         {(!states || states.includes('ID')) && <FilterGroup title="Idaho Filters" active={active(...ID_RESTRICTIONS)}>
           {idNote && <div className="filter-group-note">{idNote}</div>}
+          <Section title="Wildfire History" value={get('idFire') ? ({recent:'2023–2025',mature:'2018–2023',five:'2021–2025',all:'2018–2026'} as Record<string,string>)[get('idFire')] ?? 'Any' : 'Any'} set={!!get('idFire')}>
+            <label>Mapped wildfire perimeter years</label>
+            <select aria-label="Wildfire perimeter years" value={get('idFire')} onChange={e => push({idFire:e.target.value || null,idFireMin:e.target.value ? get('idFireMin') || null : null})}><option value="">Any</option><option value="recent">2023–2025 (1–3 years before 2026)</option><option value="mature">2018–2023 (3–8 years before 2026)</option><option value="five">2021–2025 (1–5 years before 2026)</option><option value="all">2018–2026 (2026 partial)</option></select>
+            {get('idFire') && <><label>Minimum acres in one unit</label><select aria-label="Minimum mapped wildfire acres" value={get('idFireMin')} onChange={e=>push({idFireMin:e.target.value || null})}><option value="">Any mapped area</option><option value="1000">1,000+</option><option value="5000">5,000+</option><option value="10000">10,000+</option></select></>}
+            <p className="small muted">Applies only to Idaho. Mapped perimeters can include unburned and private land; records are incomplete, 2026 is partial, and a unit may extend beyond the hunt. A multi-unit hunt matches if any unit meets the minimum. When combined with Remote Public Land, both thresholds apply to the same ground in one unit. Not a forage or legal access measure.</p>
+          </Section>
           <Section title="Remote Public Land" value={get('idRemote') ? `${Number(get('idRemote')) / 640}+ sq mi` : get('idHigh') ? 'Above 9,000 ft' : 'Any'} set={!!get('idRemote') || !!get('idHigh')}>
             <label>Minimum square miles in a unit</label>
             <select value={get('idRemote')} onChange={e => push({ idRemote: e.target.value || null })}><option value="">Any</option><option value="3200">5+</option><option value="6400">10+</option><option value="16000">25+</option><option value="32000">50+</option></select>

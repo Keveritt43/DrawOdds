@@ -1,3 +1,5 @@
+import { IdahoOverlapExplorer } from '@/components/IdahoOverlapExplorer';
+import { IdahoFireNote } from '@/components/IdahoFireNote';
 import { IdahoTerrainNote } from '@/components/IdahoTerrainNote';
 import { SyncState } from '@/components/SyncState';
 import { listStudies, type MigClass } from '@/lib/migrations';
@@ -118,6 +120,8 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
       <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?states=ID&unit=ID:${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
+      <IdahoFireNote units={[unit.name]} />
+      <IdahoOverlapExplorer unit={unit.name} />
       <IdahoTerrainNote units={[unit.name]} />
       {draw === 'DEP' && <ObjectivePills units={[unit.name]} species="ELK" />}
       {recentBoundaryChanges([unit.name]) && <div className="note">IDFG changed this unit&apos;s boundary in {recentBoundaryChanges([unit.name])!.year}. Harvest numbers before then cover different ground.</div>}

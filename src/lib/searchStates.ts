@@ -1,7 +1,7 @@
 import { drawOf, type Draw } from './species';
 import { enabledStates, STATES, type StateCode } from './states';
 
-export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable', 'deerType', 'minBig', 'idRemote', 'idHigh'];
+export const ID_RESTRICTIONS = ['zone', 'bullObj', 'cowObj', 'migration', 'leftover', 'accessYes', 'minAccessYes', 'minHuntable', 'deerType', 'minBig', 'idRemote', 'idHigh', 'idFire', 'idFireMin'];
 export const CO_RESTRICTIONS = ['season', 'chance', 'minPts', 'maxPts', 'second', 'hybrid', 'otcElk'];
 export const WY_RESTRICTIONS = ['wyMinPts', 'wyMaxPts', 'wyPool', 'wyWild', 'wyDeer', 'wyType'];
 export const MT_RESTRICTIONS = ['mtLic', 'mtDeer', 'mtMinBma', 'mtMinHuntable', 'mtHasBma', 'mtBma2'];
