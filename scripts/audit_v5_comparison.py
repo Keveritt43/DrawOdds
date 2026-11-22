@@ -13,7 +13,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-STATES = {'ID', 'CO', 'MT', 'UT', 'WA', 'WY'}
+STATES = {'AZ', 'CO', 'ID', 'MT', 'NM', 'NV', 'OR', 'UT', 'WA', 'WY'}
 RANK = {'Standard': 50, 'Good': 65, 'Excellent': 80, 'Elite': 100}
 ROOT = Path(__file__).resolve().parent.parent
 # 2026 WDFW legal descriptions identify these deer areas as portions of GMUs.
@@ -82,6 +82,13 @@ def candidates(hunt, index, ut):
                 continue
             u = norm(str(link['managementUnit']))
             note = 'Utah hunt boundary associated with broader management unit; not identical geography'
+        elif state == 'AZ' and species == 'DEER' and u == '12A':
+            # The export uses the parent boundary for both split hunts. Match a
+            # reference split only when the hunt name explicitly names that side.
+            side = re.search(r'\bunit\s+12a\s+(east|west)\b', hunt.get('Hunt', ''), re.I)
+            if side:
+                u = '12A ' + side.group(1).upper()
+                note = 'Hunt name specifies a portion of the exported parent unit; not identical geography; verify boundaries'
         elif state == 'WA' and species == 'DEER' and u in WA_DEER_AREAS_2026:
             u = WA_DEER_AREAS_2026[u]
             note = '2026 WDFW deer area is a portion of this GMU; not identical geography; verify other years'
@@ -96,7 +103,7 @@ def candidates(hunt, index, ut):
         # Names such as "mule deer buck" and "white-tailed buck" explicitly
         # distinguish hunts sharing a GMU. Retain ambiguity when the name does
         # not do so; do not infer an animal type solely from the GMU.
-        if state == 'WA' and species == 'DEER':
+        if species == 'DEER':
             deer_type = explicit_deer_type(hunt.get('Hunt', ''))
             if deer_type:
                 records = [r for r in records if normalized_deer_type(r.get('subspecies', '')) == deer_type]
@@ -162,7 +169,7 @@ def main():
     lines = ['# Western v5 comparison: scope and evidence audit', '',
         f'Reference SHA-256: `{digest}`. The reference file was read only. Public export inputs: ' + ', '.join(p.name for p in exports) + '.', '',
         'The source tier and the live hunt trophy score use different methods. A matching unit is an association, not a confirmed discrepancy. The detail direction is descriptive context only; no numerical tier differences are classified as errors without individual scope, species, geography and season verification.', '',
-        'Counts below are association rows, except unique hunts. A hunt can appear in multiple categories. Exports reflect the selected finder filters and may omit hidden or restricted hunts. Utah management units and hunt boundaries are different geographies. Unknown subspecies are not assigned by geography alone.', '',
+        'Counts below are association rows, except unique hunts. A hunt can appear in multiple categories. Exports reflect the selected finder filters and may omit hidden or restricted hunts. Utah management units and hunt boundaries are different geographies. Unknown subspecies are not assigned by geography alone; an explicit deer type in the exported hunt name is context that still needs agency verification.', '',
         '| State | Unique exported hunts | No reference association | Subspecies unresolved | Different or broader geography | Different scope | Scope unverified |', '| --- | ---: | ---: | ---: | ---: | ---: | ---: |']
     for state in sorted(totals):
         c = totals[state]
@@ -173,6 +180,9 @@ def main():
     for state in sorted(totals):
         c = Counter(d.get('tier_direction_context_only') for d in detail if d['state']==state and d.get('record_id'))
         lines.append(f"| {state} | {c['lower']} | {c['same']} | {c['higher']} | {c['unavailable']} |")
+    reference_only = sorted({r.get('state','').upper() for r in refs if r.get('state','').upper()} - STATES)
+    if reference_only:
+        lines += ['', 'Reference states outside this comparison: ' + ', '.join(reference_only) + '. No score comparison is made for them.']
     lines += ['', f'Detail: `{output.with_suffix(".csv").name}`. Each row includes the original scope, source tier, live score and reason for its classification.', '',
         'Unrepresented and unsupported reference records are not evidence of an application defect; this report starts from exported hunts. The accompanying detail is a review queue, not an instruction to change scores.']
     output.with_suffix('.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
