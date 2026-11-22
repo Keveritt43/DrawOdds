@@ -23,7 +23,7 @@ export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;
   const units=(withIdahoVerifiedArea(hunt).units??[]).map(u=>u.trim());
   if(!units.length||units.some(u=>!row.units.includes(u)))return null;
   return {score:row.tier as TrophyScore,tier:ID_V2_TIER[row.tier],
-    reason:`Ranks ${row.rank} of ${row.of} Idaho controlled ${hunt.species.toLowerCase()} hunts on applicants per tag, the unit's mature-animal harvest share, days in the rut, publications and B&C entries`};
+    reason:`Ranks ${row.rank} of ${row.of} Idaho controlled ${hunt.species.toLowerCase()} hunts on applicants per tag, harvest-based unit context, season dates, publications and B&C entries; provisional: unit context can come from another hunt or a broader area and does not measure genetics`};
 }
 
 /** Hunt-specific trophy exceptions below are pinned to the draw year they were reviewed
