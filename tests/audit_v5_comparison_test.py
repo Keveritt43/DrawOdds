@@ -31,6 +31,22 @@ class ScopeTest(unittest.TestCase):
         self.assertIn('portion',matches[0][2])
         self.assertIn('verify other years',matches[0][2])
         self.assertEqual(audit.candidates({'State':'WA','Species':'Elk','Units':'DA1008'}, audit.reference_index(refs), {}), [])
+    def test_washington_explicit_deer_type_filters_only_matching_reference(self):
+        refs = [{'state':'WA','species':'Deer','unit_id':'117','subspecies':'Whitetail'},
+                {'state':'WA','species':'Deer','unit_id':'117','subspecies':'Mule Deer'}]
+        index = audit.reference_index(refs)
+        hunt = {'State':'WA','Species':'Deer','Units':'117','Hunt':'49 Degrees North White-tailed Buck Quality Deer'}
+        self.assertEqual([r[1]['subspecies'] for r in audit.candidates(hunt,index,{})],['Whitetail'])
+        hunt['Hunt'] = '49 Degrees North Mule Deer Buck Quality Deer'
+        self.assertEqual([r[1]['subspecies'] for r in audit.candidates(hunt,index,{})],['Mule Deer'])
+        hunt['Hunt'] = '49 Degrees North Buck Deer'
+        self.assertEqual(len(audit.candidates(hunt,index,{})),2)
+        hunt['Hunt'] = 'White-tailed or Mule Deer Buck'
+        self.assertEqual(len(audit.candidates(hunt,index,{})),2)
+    def test_explicit_type_does_not_inherit_another_subspecies(self):
+        refs = [{'state':'WA','species':'Deer','unit_id':'117','subspecies':'Whitetail'}]
+        hunt = {'State':'WA','Species':'Deer','Units':'117','Hunt':'Mule Deer Buck'}
+        self.assertEqual(audit.candidates(hunt,audit.reference_index(refs),{}),[])
     def test_spreadsheet_formula_is_escaped(self):
         self.assertEqual(audit.spreadsheet_cell('=1+1'), "'=1+1")
 

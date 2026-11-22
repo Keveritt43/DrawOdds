@@ -45,6 +45,7 @@ export function resolveTrophyCandidate(h: CandidateHunt): CandidateTier & { sour
     const deerType = (h.deerType ?? '').toUpperCase();
     if (deerType === 'WHITETAIL') rows = rows.filter(r => /whitetail/i.test(r.subspecies));
     else if (deerType === 'MULE') rows = rows.filter(r => /mule/i.test(r.subspecies));
+    else if (deerType === 'BLACKTAIL') rows = rows.filter(r => /blacktail/i.test(r.subspecies));
   }
   // Distinct subspecies records cannot be collapsed without an identified population.
   if (new Set(rows.map(r => r.subspecies)).size > 1)

@@ -48,6 +48,17 @@ export const TROPHY_EXCEPTION_REVIEW = {
 
 const maximumAntlerRule = (text:string) => /\b(?:\w+\s+)?\(\d+\)\s*points?\s+or\s+(?:less|fewer)\b/i.test(text) || /\bspike(?:\s+(?:bulls?|elk))?\s+(?:only|or antlerless)\b|\b(?:no more than|not more than|at most|maximum of)\s*\d+\s*[- ]?(?:pt|point)|\b\d+\s*[- ]?(?:pt|point)s?\s*(?:(?:bucks?|deer|bulls?|elk)\s*)?(?:only|max(?:imum)?|or (?:less|fewer))\b/i.test(text);
 
+/** WA's agency legal-animal description can identify the deer type; a generic or
+ * mixed description does not. Names or the GMU alone are not proof of a restriction. */
+export function waLegalDeerType(takeMethod:string|null|undefined):'MULE'|'WHITETAIL'|'BLACKTAIL'|null {
+  const text=takeMethod??'';
+  const types:('MULE'|'WHITETAIL'|'BLACKTAIL')[]=[];
+  if(/\bmule deer\b/i.test(text))types.push('MULE');
+  if(/\bwhite[ -]*tail(?:ed)?\b/i.test(text))types.push('WHITETAIL');
+  if(/\bblack[ -]*tail(?:ed)?\b/i.test(text))types.push('BLACKTAIL');
+  return types.length===1?types[0]:null;
+}
+
 /** Compare real date spans, rather than treating a gap between separate seasons as open. */
 function overlapsMonth(open:Date|string|null|undefined,close:Date|string|null|undefined,month:number):boolean {
   if (!open || !close) return false;
@@ -124,8 +135,15 @@ export function trophyForUnit(hunt: {
   const peerDemand=peerStates.includes(state) && code && typeof hunt.oddsLastYear==='number' && typeof apps==='number' && hunt.units?.length===1
     ? reviewTrophyPeerBenchmark({state,species:hunt.species,year:hunt.oddsLastYear,code,pool:'Combined',measure:'Applications',value:apps}) : null;
   const huntEvidence=peerStates.includes(state) && code ? {huntDemandHigh:peerDemand ? peerDemand.percentile>=75 : null,huntDemandExceptional:peerDemand?.exceptional??null,huntDemandProvisional:peerDemand?.provisional??true} : {};
-  const candidate=resolveSeasonCandidate({state,species:hunt.species,unit,huntCode:code,drawYear:hunt.oddsLastYear,applications:apps,deerType:whitetailOnly?'WHITETAIL':hunt.deerType,...huntEvidence});
-  const rawCandidate=resolveTrophyCandidate({state,species:hunt.species,unit,huntCode:code,drawYear:hunt.oddsLastYear,applications:apps,deerType:whitetailOnly?'WHITETAIL':hunt.deerType,...huntEvidence});
+  // The curated WA blacktail reference describes special permits, so do not
+  // apply it to general seasons merely because the unit and animal match.
+  const waType=state==='WA'&&hunt.type.toUpperCase()==='CONTROLLED'&&hunt.species.toUpperCase()==='DEER'?waLegalDeerType(hunt.takeMethod):null;
+  // Contradictory explicit type fields remain unresolved instead of selecting one.
+  const statedType=hunt.deerType?.toUpperCase();
+  const deerType=waType&&statedType&&['MULE','WHITETAIL','BLACKTAIL'].includes(statedType)&&statedType!==waType
+    ? null : waType??(whitetailOnly?'WHITETAIL':hunt.deerType);
+  const candidate=resolveSeasonCandidate({state,species:hunt.species,unit,huntCode:code,drawYear:hunt.oddsLastYear,applications:apps,deerType,...huntEvidence});
+  const rawCandidate=resolveTrophyCandidate({state,species:hunt.species,unit,huntCode:code,drawYear:hunt.oddsLastYear,applications:apps,deerType,...huntEvidence});
   if (code && rawCandidate.sourceIds.length===0 && !/No verified|multiple subspecies|conditional or inactive/.test(rawCandidate.reason) &&
       unlistedExceptionalHunt({state,species:hunt.species.toUpperCase(),code,year:hunt.oddsLastYear??null,applications:apps??null,units:[unit],sourceCoverage:'absent'}))
     return {score:65 as const,tier:'county' as const,reason:'Exceptional comparable hunt demand; no source-list entry; provisional'};
