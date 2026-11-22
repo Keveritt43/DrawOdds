@@ -128,6 +128,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   // nonresident general tags only exist for nonresidents (residents buy general tags over the counter)
   // (elk zone A/B tags are listed for everyone: residents pick an A or B tag too, bought over the counter)
   if (r !== 'NONRESIDENT') and.push({ OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' }] });
+  if (state === 'ID' && r === 'NONRESIDENT') and.push({ NOT: { species: 'DEER', type: 'GENERAL', nrTag: false } });
   if (f.type === 'NRTAG') and.push({ nrTag: true });
   else if (f.type) and.push({ type: f.type });
   // a tag covers several weapons and sexes (its seasons do the narrowing), so those filters let tags through
