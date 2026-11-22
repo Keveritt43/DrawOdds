@@ -175,7 +175,7 @@ export function trophyForUnit(hunt: {
   const category=state==='ID'?'random':state==='WA'?po?.category:state==='MT'?po?.license:kind;
   const benchmark=(drawBenchmarks.groups as Record<string,{n:number;p75:number}>)[`${state}|${hunt.species.toUpperCase()}|${hunt.oddsLastYear}|${kind}|${category}`];
   const n=hunt.hunters5,k=hunt.harvest5;
-  if(!earlyId55 && !hunt.youthOnly && !hunt.privateOnly && result.score!==null && benchmark && typeof hunt.nrOddsLast==='number' && Number.isFinite(hunt.nrOddsLast) && hunt.nrOddsLast>=benchmark.p75 && hunt.nrOddsLast<=1 && typeof n==='number' && Number.isFinite(n) && n>=50 && typeof k==='number' && Number.isFinite(k) && k>=0 && k<=n && typeof hunt.harvestYears==='number' && hunt.harvestYears>=3) {
+  if(state==='ID' && !earlyId55 && !hunt.youthOnly && !hunt.privateOnly && result.score!==null && benchmark && typeof hunt.nrOddsLast==='number' && Number.isFinite(hunt.nrOddsLast) && hunt.nrOddsLast>=benchmark.p75 && hunt.nrOddsLast<=1 && typeof n==='number' && Number.isFinite(n) && n>=50 && typeof k==='number' && Number.isFinite(k) && k>=0 && k<=n && typeof hunt.harvestYears==='number' && hunt.harvestYears>=3) {
     const p=k/n,z=1.96,z2=z*z,upper=(p+z2/(2*n)+z*Math.sqrt(p*(1-p)/n+z2/(4*n*n)))/(1+z2/n);
     if(upper<.5) return {score:50 as const,tier:'unclassified' as const,reason:`Low observed harvest with high overall draw rate compared with the same-year peer group${benchmark.n<30?'; provisional (small comparison group)':''}`};
     if(p<.5 && result.score>65) return seasonal({score:65,tier:'county',reason:'Below-50% observed harvest with high overall draw rate; provisional (uncertainty remains)'});
@@ -236,32 +236,8 @@ export function trophyForUnit(hunt: {
     if(spans.some(s=>overlapsRut(s.open,s.close)) && result.score<65)
       return seasonal({score:65,tier:'county',reason:'Blue Mountains elk hunt open during September or early October'});
   }
-  // Compare observed cutoff points with the same season and pool. A point outlier alone
-  // does not establish an Elite trophy hunt, and missing award details remain unknown.
-  const coRifle=/^([DE])[MFEP](?:\d{3}|[SG]\d{2})[OU]([1-4])R$/i.exec(hunt.tagCode ?? '');
-  if (!bcLow && result.score!==null && hunt.state.toUpperCase()==='CO' && coRifle && coRifle[1].toUpperCase()==='D' && hunt.species.toUpperCase()==='DEER') {
-    const printedSeason=Number(coRifle[2]);
-    if(printedSeason===3 || printedSeason===4) {
-      const cutoff=(hunt.pointOdds as {pools?:{nr?:{cut?:{points?:number|null;drawnAtLevel?:number|null}}}}|null)?.pools?.nr?.cut;
-      // The archival benchmark contains only cutoffs with verified awards. The live
-      // summary may omit that count; an explicit zero still contradicts the archive.
-      const comparison=typeof cutoff?.points==='number' && cutoff.drawnAtLevel!==0 && typeof hunt.oddsLastYear==='number' && code
-        ? reviewTrophyPeerBenchmark({state:'CO',species:'DEER',year:hunt.oddsLastYear,code,pool:'Nonresident',measure:'Observed cutoff points',value:cutoff.points}) : null;
-      if(comparison?.exceptional && result.score>=65 && result.score<80)
-        return seasonal({score:80,tier:'trophy',reason:`Observed nonresident cutoff in the top decile of ${comparison.peers} same-season peers; provisional`});
-    }
-  }
-  if (!bcLow && state==='WY' && code && typeof hunt.oddsLastYear==='number' && result.score!==null && result.score>=65 && result.score<80) {
-    const wy=hunt.pointOdds as {pools?:Record<string,{pref?:{rows?:unknown[][]}}>}|null;
-    for (const [field,pool] of [['regular','NR Regular'],['special','NR Special']] as const) {
-      const rows=wy?.pools?.[field]?.pref?.rows??[];
-      const awarded=rows.filter(r=>typeof r[1]==='number' && r[1]>0 && (r[2]==='e'||r[2]==='p') && typeof r[3]==='number' && r[3]>=0).map(r=>r[3] as number);
-      if(!awarded.length)continue;
-      const comparison=reviewTrophyPeerBenchmark({state,species:hunt.species,year:hunt.oddsLastYear,code,pool,measure:'Observed cutoff points',value:Math.min(...awarded)});
-      if(comparison?.exceptional)
-        return seasonal({score:80,tier:'trophy',reason:`Observed Wyoming ${pool.toLowerCase()} preference cutoff in the top decile of ${comparison.peers} comparable hunts; provisional`});
-    }
-  }
+  // Draw cutoffs depend on permits and pool allocation. They describe odds, not
+  // the animals on the unit, so Colorado and Wyoming no longer gain trophy tiers from them.
   if (result.score===null || hunt.state.toUpperCase()!=='ID' || hunt.species.toUpperCase()!=='DEER') return seasonal(result);
   // The early controlled Unit 55 hunt is the owner's explicit premium exception.
   if (earlyId55)
