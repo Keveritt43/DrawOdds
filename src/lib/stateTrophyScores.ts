@@ -9,13 +9,14 @@ import {trophyForHunt} from './trophyHunt';
 import {withWyElkRegion} from './wyElkRegions';
 import {mtHarvestProxy,withoutMtProxySuccess} from './mtHarvestProxy';
 import {withUtSeasonCorrections} from './utSeasonCorrections';
+import {withWaMixedBuckPermit} from './waMixedDeer';
 
 /** Recompute the shared trophy modifier on read for non-Idaho states whose persisted
  * imports predate unit tiers. No database writes or agency synchronization occur. */
 export function withStateTrophyScores<T extends HuntSummary>(raw:T):T {
   if(raw.state==='ID')return withIdahoVerifiedArea(raw);
   if(!['WA','MT','UT','WY'].includes(raw.state))return raw;
-  const r=withUtSeasonCorrections(withWyElkRegion(withWyElkBoundaryHistory(withWaVerifiedDates(withoutUnvalidatedWyDeerMetrics(raw)))));
+  const r=withWaMixedBuckPermit(withUtSeasonCorrections(withWyElkRegion(withWyElkBoundaryHistory(withWaVerifiedDates(withoutUnvalidatedWyDeerMetrics(raw))))));
   if(r.state==='MT' && mtHarvestProxy(r.pointOdds)) {const safe=withoutMtProxySuccess(r);return {...safe,scoreTrophy:trophyForHunt(safe)};}
   // Wyoming deer were rescored from their dominant species above, or withheld; region sums stay withheld
   if(r.state==='WY' && r.species==='DEER')return r;

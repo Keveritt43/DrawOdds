@@ -1,5 +1,7 @@
 # DrawOdds data dictionary
 
+**Washington mixed deer permits:** WDFW's 2026 "any buck, white-tailed antlerless" special permits allow both antlered deer and antlerless whitetail, not antlerless-only or whitetail-only. The finder corrects the retained classification at read time for that exact 2026 legal wording; both antler filters include it. Species-specific trophy is withheld because the buck may be either deer type. The agency legal wording remains visible. Future imports correct the same retained source, and the builder classifies it correctly. [2026 WDFW regulations](https://wdfw.wa.gov/sites/default/files/publications/02706/wdfw02706.pdf), p. 35.
+
 This describes the current Idaho and Colorado implementation, not a universal definition of every agency's data. Check the cited code and state-specific sources when changing a metric; update this document and the user-facing explanation alongside any calculation change. Values may be unknown, estimated, pooled or based on broader geography than an individual hunt. Show the applicable source, years, population and limitations rather than silently filling gaps.
 
 ## Draw odds

@@ -75,6 +75,13 @@ MONTHS = {m: i for i, m in enumerate(["jan", "feb", "mar", "apr", "may", "jun", 
 def norm(s: str) -> str:
     return re.sub(r"[^a-z0-9]", "", (s or "").lower())
 
+def special_antler_class(legal: str) -> str:
+    # WDFW permits both any buck and an antlerless whitetail on these tags.
+    if re.fullmatch(r"\s*any\s+buck\s*,\s*white[ -]*tailed\s+antlerless\s*", legal, re.I):
+        return "EITHER"
+    return "ANTLERLESS" if re.search(r"antlerless", legal, re.I) and not re.search(r"any (elk|deer)|either", legal, re.I) else \
+           "EITHER" if re.search(r"any (elk|deer)|either", legal, re.I) else "ANTLERED"
+
 
 def cutoff(dist: dict[int, float], target: float) -> float:
     tot = sum(dist.values())
@@ -473,8 +480,7 @@ def main() -> None:
         tag = r["tag"]
         weapon = "ARCHERY" if "Archery" in tag or tag in ("EA", "WA") else "MUZZLELOADER" if "Muzzle" in tag or tag in ("EM", "WM") else "ANY"
         legal = r["legal"]
-        antler = "ANTLERLESS" if re.search(r"antlerless", legal, re.I) and not re.search(r"any (elk|deer)|either", legal, re.I) else \
-                 "EITHER" if re.search(r"any (elk|deer)|either", legal, re.I) else "ANTLERED"
+        antler = special_antler_class(legal)
         priv = bool(re.search(r"\bJ\b", r["notes"])) or bool(re.search(r"private lands? only", r["area"] + " " + legal, re.I))
         h = {
             "id": hid, "slug": f"wa-{r['choice']}", "state": "WA", "species": sp, "type": "CONTROLLED", "tagCode": str(r["choice"]),
