@@ -49,6 +49,26 @@ def reference_index(rows):
         out[(r['state'].upper(), r['species'].upper(), norm(r.get('unit_id_normalized') or r.get('unit_id', '')))].append(r)
     return out
 
+def explicit_deer_type(name):
+    """Only use an explicit animal restriction in the exported hunt name.
+
+    Geography alone does not distinguish sympatric deer. A mixed name is unknown.
+    The exported name is context, not independent confirmation of legal eligibility.
+    """
+    name = name.lower()
+    found = set()
+    if re.search(r'\bwhite[ -]*tail(?:ed)?\b', name): found.add('whitetail')
+    if re.search(r'\bmule deer\b', name): found.add('mule deer')
+    if re.search(r'\bblack[ -]*tail(?:ed)?\b', name): found.add('blacktail')
+    return next(iter(found)) if len(found) == 1 else None
+
+def normalized_deer_type(name):
+    value = re.sub(r'[^a-z]', '', name.lower())
+    if 'whitetail' in value: return 'whitetail'
+    if 'muledeer' in value: return 'mule deer'
+    if 'blacktail' in value: return 'blacktail'
+    return None
+
 def candidates(hunt, index, ut):
     state, species = hunt['State'], hunt['Species'].upper()
     units = hunt['Units'].split()
@@ -72,7 +92,15 @@ def candidates(hunt, index, ut):
             if re.search(r'\d[NS]$', u):
                 u = u[:-1]
                 note = 'Montana district portion associated with parent district'
-        for record in index.get((state, species, u), []):
+        records = index.get((state, species, u), [])
+        # Names such as "mule deer buck" and "white-tailed buck" explicitly
+        # distinguish hunts sharing a GMU. Retain ambiguity when the name does
+        # not do so; do not infer an animal type solely from the GMU.
+        if state == 'WA' and species == 'DEER':
+            deer_type = explicit_deer_type(hunt.get('Hunt', ''))
+            if deer_type:
+                records = [r for r in records if normalized_deer_type(r.get('subspecies', '')) == deer_type]
+        for record in records:
             found.append((original, record, note))
     return found
 
