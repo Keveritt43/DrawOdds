@@ -1,0 +1,2210 @@
+{
+  "built": "2026-11-22",
+  "sharedSha256": {
+    "units": "df1b90f47a8c86402f930b7aab0d91073382d6a4c640c271f95e0d241c8cffb8",
+    "surfaceManagement": "90ae054f0651799f000455d484e02a77ba4a8dd36bbccd1f799380f078cbce18",
+    "bearLake": "eb8be574737cccb8bb5f8f8e1c170b9915c61cbc896151b9033d82655b40693d"
+  },
+  "units": {
+    "16": {
+      "landCoverage": 0.99996,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 216,
+        "usgs5": 127,
+        "usgs7": 6445,
+        "blm": 0,
+        "fsroad": 75,
+        "fstrail": 130
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "478d572671c9538ce14a1a83c840b3ab7235f1ccc3f0f3c90a078c09a3060664",
+        "usgs5": "61408848b42dab162e8514666781ace7f6c6c9f6b2507bff6db63287bb3d249d",
+        "usgs7": "243366ca9a61ae7df3e65d6f47a351e707e72d5ac08833b38384d5d7b32d09f8",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "814d218508bc2f46861e9bd2fb6bbe64d27c5b0a378c7a0b011ed354438e373f",
+        "fstrail": "c188dce85fc11af0da4d4f2ffba1c52fa83dcf1003d026f0b8cd1d501fb7f979",
+        "elevation": "54e7011558d2025f2d3fb833c7f7bda711b6d20eb63694d4293bb0ff0852f4e3"
+      }
+    },
+    "47": {
+      "landCoverage": 0.99984,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 48,
+        "usgs5": 0,
+        "usgs7": 2554,
+        "blm": 0,
+        "fsroad": 62,
+        "fstrail": 92
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "9309b384cbe23ada6e72f1347476364bfd0440c767c1a299b45154b6b0769b1d",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "c39beb8772641dd6eeb28a513c6140761ff44c35681accd4efb9630afc4eb47b",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "c92c9f57d9adad99abd439382285d33410a82ed290037486a77870e50824604c",
+        "fstrail": "43573066fe242aa98bf4bbc77bd2e7e8d0e43fbdb175014bbe66f5ca5387cd62",
+        "elevation": "de9f69494b9b2155d334c3645b728722c1a0221cb906b86b31c7fead4ddcb8df"
+      }
+    },
+    "60": {
+      "landCoverage": 0.99991,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 127,
+        "usgs5": 91,
+        "usgs7": 7686,
+        "blm": 1225,
+        "fsroad": 281,
+        "fstrail": 30
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "48e9375a7b31690c3ecebad60cf8f387108862db9040505aadc54338f17111ca",
+        "usgs5": "0934118c3118402b193d503ff02a38160a4e5ca37601623e964c99583d9d90f8",
+        "usgs7": "3af1e4a34faf2ec3b9d7c3530c5b83d1710c0ab3c3d232d6248afba51f4394b1",
+        "blm": "e93335bf40268287b905dfffc4286e6d9d1958760dfcddf65bdd91c4694cb57a",
+        "fsroad": "87bd6e12e410c085b20de2e34505a3ccedce1aab087d486c1e5efa632a513549",
+        "fstrail": "541f6fa961143f5b7a91b1c2590f14b1783bd257b721e0c50ef48116a0b790b7",
+        "elevation": "81f5dde1944064bbbe62de1fc192af5332f636854e23d268f9d453065e466272"
+      }
+    },
+    "73": {
+      "landCoverage": 0.9999,
+      "routeCounts": {
+        "usgs3": 213,
+        "usgs4": 301,
+        "usgs5": 531,
+        "usgs7": 13686,
+        "blm": 405,
+        "fsroad": 150,
+        "fstrail": 81
+      },
+      "sha256": {
+        "usgs3": "cdf6338f7d9b495fc3a4edf09d484e73bc05832c16fca8c10dc824b7900d6d23",
+        "usgs4": "5dc72bbe2a8c4adff4d0fac1465adb236d9cef67a7b7ddf1f51f3a2374179ee9",
+        "usgs5": "2a24fe6fc2ab2bca6f75dec86d38017cbce72dcd3acf66b3ee632914103077da",
+        "usgs7": "6e021df0f0003da0cd0a031808d0475dab9d9b5a06381f80d008d40e9609a70a",
+        "blm": "ffc49aa720dbd77c7732fe9c817bfe4588d2287022a745a60002170855244d1d",
+        "fsroad": "f5247fb9cfb0d8fa78a0a6a05132c98bb77e5d6d2d1c3fb66d73389101eee950",
+        "fstrail": "6e58097e53a4b25fc78068f35463a8d8f2d3ec7c124d6d61e2496262ebd6acb7",
+        "elevation": "16f9fc0c9f3c6d1d4260cedc8cbe57bea87b514fe6d6cc360038afa7e138d645"
+      }
+    },
+    "75": {
+      "landCoverage": 0.99992,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 187,
+        "usgs5": 224,
+        "usgs7": 5111,
+        "blm": 46,
+        "fsroad": 223,
+        "fstrail": 134
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "23e8ffe63d355bc1eaaad3627e62fe3ed736d9ee2696d170ad82548c967430e5",
+        "usgs5": "9fa642e22bdcbf6671400dd1f235bde9b45343f4f627526f70ba450f5062f287",
+        "usgs7": "8492a9749a74df8a95b5c98b524b147a416b468ad7757a665e719add0301e52d",
+        "blm": "7d66582364a0cc638322fc26018d5b13726cbdf36167d182a1da511a6e4b890f",
+        "fsroad": "e49c6e1895a742910c7550dd55f83060f9a5d90bfd1f8268ac6918cd958d96ad",
+        "fstrail": "663ad0b837e09637e8a3255727fd7a231548f53a7903ab54847b4aed4454e389",
+        "elevation": "dfd2efca95818786eae1e084fcf536bba52f7a5b009fd714054f0b7d6be5ff97"
+      }
+    },
+    "41": {
+      "landCoverage": 0.99989,
+      "routeCounts": {
+        "usgs3": 16,
+        "usgs4": 16,
+        "usgs5": 365,
+        "usgs7": 10773,
+        "blm": 8656,
+        "fsroad": 80,
+        "fstrail": 232
+      },
+      "sha256": {
+        "usgs3": "eed2ef9850ea762262fec30dd50f0f9f0a20cf5417a593090fd1510614e5c3e4",
+        "usgs4": "30a410ebd7fba67c166e28499ab5ac34038eca0d6ea4f7bcfaae11e81f5f9b08",
+        "usgs5": "deefe4b69f377a0b04b993621c37c6321e08fffad955a796a33e98cfa8182f24",
+        "usgs7": "d6f54a927b79331a5ea1364e8e383965a11c72a17fb2ce27f32f991e0bc200db",
+        "blm": "461bd382884e0f6def1707609e82d9ee82b88b70d0aceb4cb5804531bae0f627",
+        "fsroad": "c208d3326c04da0740539a978d043d2fa5b16f7aaaaf74ad84ea33f49c22bc4b",
+        "fstrail": "9a64b8e2cfd18f01d6e59f613e2495fe424d21988d3f9e06f296634f9ee6ca4d",
+        "elevation": "053cb6b141f42df7bab312f9c1b30548075b653f15800394213780d6a95243f3"
+      }
+    },
+    "46": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 138,
+        "usgs4": 778,
+        "usgs5": 512,
+        "usgs7": 33938,
+        "blm": 2462,
+        "fsroad": 54,
+        "fstrail": 59
+      },
+      "sha256": {
+        "usgs3": "9148c3d5acaea014978db0835d858cea59b18f1845bc08f9b9870b09c78279cd",
+        "usgs4": "70241a31df023f849552238d9965f1cb835ec65a76cee9a279c3cddea5bd397f",
+        "usgs5": "150544b249a5b14741ce1fce75b4376624f2e108aee4ad453b369dc3c70ae2ac",
+        "usgs7": "2f8b6338dc80255bd7ee6e316a58ba6fc01b96c955cfc52bd29d6d10f9747f53",
+        "blm": "208588d568a666fbe0a613783e8dfa8346e5c282f953e9621867c35fe0602a5f",
+        "fsroad": "70d0a2989d027530f3a90340b1349dbddc743d7391383866190bf70059403f5f",
+        "fstrail": "58b451031e0f0be9eee0ab01444a201ea85caac72ef65700ba0d968ee4f27721",
+        "elevation": "0364505c23a066ac2030e4797496eba946241d59ecde9711cfded82c8cfea571"
+      }
+    },
+    "70": {
+      "landCoverage": 0.99988,
+      "routeCounts": {
+        "usgs3": 352,
+        "usgs4": 394,
+        "usgs5": 0,
+        "usgs7": 9273,
+        "blm": 146,
+        "fsroad": 60,
+        "fstrail": 33
+      },
+      "sha256": {
+        "usgs3": "4a513b08ee5ee457f08e7256a7a440390524bcbc03ea45f74b7d577fd2a2fdb9",
+        "usgs4": "ecaf68a87d3232b4357330a2773319a2f4eef6ed84de262cf7bc757910f8c298",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "330902407e9d06892125b4fa60cb0f00a618772ba87e62b93a35c9698416be38",
+        "blm": "12d14a54959d541db99e2f080c121fbd7917d2658a422ad2f7e7e70df61092de",
+        "fsroad": "6bab23b0c80145d9c003c788c4666cd44a21f4b2cc694a1e046b9c76c217ad54",
+        "fstrail": "dfe69bd4001fb88553a487ea91a5acdad1eb0000e81a498d3b74bba340b046e1",
+        "elevation": "a5ef9ce6d41d42df6312232ce3e163a0676dab06282adc0ae03df6b00b5280b5"
+      }
+    },
+    "73A": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 187,
+        "usgs4": 211,
+        "usgs5": 192,
+        "usgs7": 7146,
+        "blm": 285,
+        "fsroad": 76,
+        "fstrail": 12
+      },
+      "sha256": {
+        "usgs3": "e0e7614a9e60de07dedd70cbfbcd08c8f19125f247e1ae3a7c4f8acc7cbe389b",
+        "usgs4": "c0386adf8b533998f8d1967b5e6fd99728e5689b7d76afc352f0e27a5bf6ccf2",
+        "usgs5": "767064740a802cda02f733cf2478880ec4b0de3673a40e517505c28b6b7af001",
+        "usgs7": "c4c639159fdbb15c7cc104b53c32463d1467775024e4dc9f88397caade2f05f7",
+        "blm": "00ff80808d6c4cf69b34b72d0a91a44241f31f748fc9188f597faac696ebae92",
+        "fsroad": "8121eb60ed9e53488d57dfc6c64e2c91092d63f2d24870138c6d517e4b0e4b76",
+        "fstrail": "9227c94c8edce65ada1909a6bf13ef5d3dcc6339ee86b2c4da4c7d606043c447",
+        "elevation": "9fb1c63c3c0448e9a3789a71fc151388240dfded4505b563fd3f5bb24139c031"
+      }
+    },
+    "74": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 155,
+        "usgs4": 275,
+        "usgs5": 427,
+        "usgs7": 10722,
+        "blm": 66,
+        "fsroad": 144,
+        "fstrail": 102
+      },
+      "sha256": {
+        "usgs3": "5249ec2fbcb5d337299227a434a57d82f1c3dad932869bcf04b488ccc4415f39",
+        "usgs4": "f7cf6b4737daf42af3207bf9ce4c343cd89aefa32ca78da3b7c63e5bfaa6b870",
+        "usgs5": "01dca5e6245384786023880d39cc7cdeb11666052c8f6fc04824c07f82515cb2",
+        "usgs7": "cf88aed739634edbac681d043ddedb4709c69a0b5716c0c984fa42377a2ec79a",
+        "blm": "bf1f738d9d58a8b1050bf5c7bd25a990f70726c480a57227c6ed8338013ba8a4",
+        "fsroad": "21163053001ae876c038b2b16a61e03feb18cd8c8c1a1d32a76aa07bfda2d85d",
+        "fstrail": "8de77cd9c52a6d88cf02dd126e1f4c41f9e782b0f93826cfc4b51545f01e5813",
+        "elevation": "4c917bfae19ca530997f3247d66e51d39df73293ebd4ae2a5f36d9bb8990edd2"
+      }
+    },
+    "56": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 162,
+        "usgs4": 65,
+        "usgs5": 270,
+        "usgs7": 8545,
+        "blm": 489,
+        "fsroad": 186,
+        "fstrail": 15
+      },
+      "sha256": {
+        "usgs3": "49b7ca8604d93f8de125890b1301f7824134268b333f24c80a66e22aacd0a817",
+        "usgs4": "92a8bdb2c764dcad690aa684dbd0b8e2c5f4deaa6412e84b045750b8f3db9bd0",
+        "usgs5": "5f04e7a2121fe96d57f72e29d5821928611785f0e03aae15942ad47df81815bc",
+        "usgs7": "2fc024720367c5ee95bad52e67d1738f8cb06345b37837128302a141f4b0a5df",
+        "blm": "a92f21b559e741bfeaf20797c9d1c45d53cfb637c4e0162b55203e3d0907a252",
+        "fsroad": "1deb657c8937caa2ee277589685a72bbaccb9fbd5309a3cfd0b93e640e2da22e",
+        "fstrail": "6e4d248051eba6206b6b184685c14eeeb5251b923b1a062ac5841467a4cd8049",
+        "elevation": "de83a647791f1975fa177dd00767ebfe525a3a5ff21c2f1ab59d340ef10553e1"
+      }
+    },
+    "64": {
+      "landCoverage": 1.0,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 115,
+        "usgs5": 250,
+        "usgs7": 7636,
+        "blm": 361,
+        "fsroad": 50,
+        "fstrail": 61
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "ee7a743af8aec1eab232229cec6ddf717de3305ccfb56330c53bd8f57045530b",
+        "usgs5": "c70dcae7437862e2db6b7ac6fc1e92b3f2fd62deed58da7a15a4890eedefa639",
+        "usgs7": "a2684ce8da517220f9f009285d6633a6794b9a3d8b183ae4874a7c473225e32d",
+        "blm": "983d99a8642f09da00e00a65f6f5a78081307fbe2af8569ea28742ec852cf0bb",
+        "fsroad": "2c2f5afbdc26337129f931eaa81873d153c923dc448edb2669f1414e5c3e63ca",
+        "fstrail": "0123699df85a1577c83b3433001a7c0b1e908b48cef682f73c2205c69e7f45e4",
+        "elevation": "40d04ad67fea79b42c7dca8ff40d2944b4351eac6995edea791d7cd83a0bfecb"
+      }
+    },
+    "65": {
+      "landCoverage": 0.99931,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 285,
+        "usgs7": 5245,
+        "blm": 52,
+        "fsroad": 89,
+        "fstrail": 58
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "9f115b83d88fe992c63c1f07d8e21715e2a5f45da8ea437a002fdb9a46538800",
+        "usgs7": "e90be969dcacf15599d2cc096e4f016427a704c5ea5d2c77626f040ebd586121",
+        "blm": "c5b2cefb74e542e6f0353286e4d82b7ca42345cf2b3f94e7cd12b22e509bbe61",
+        "fsroad": "cc023396a7aba18658aa1ffed02cf6665d6cd3f5fd7ca58cae85c6474b531217",
+        "fstrail": "c3c05a0efd096b97d3b2ee331e3fb8f432881df9a9a7725a22309ff8f6a95ee4",
+        "elevation": "7fc47dc2ba61ed7c70e68a1627dd5c96ba3347ccada44d4732a10a4f15a42a1b"
+      }
+    },
+    "43": {
+      "landCoverage": 0.99996,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 45,
+        "usgs7": 5519,
+        "blm": 0,
+        "fsroad": 552,
+        "fstrail": 217
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "9a0da962f12b6675dfa48e3402e23207c1612034e44433b5dc4c16784957b0e9",
+        "usgs7": "f786005cf1f7f7be30461de1d08102fac9c425f11cc0dccbf4ca0980eb24cb18",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "2cd65809d954a60ce610ba836b64f12d4206ea192d56df573c5fa5be254a40b1",
+        "fstrail": "4871e6a719079dbaee846aceace894855a567a8a6e2c09d19de752e17eb37a2b",
+        "elevation": "b8819baf2729b3c33e9658f7ab675a20a7700303148e6a3cb469856bab2de118"
+      }
+    },
+    "63A": {
+      "landCoverage": 0.99989,
+      "routeCounts": {
+        "usgs3": 86,
+        "usgs4": 489,
+        "usgs5": 340,
+        "usgs7": 17091,
+        "blm": 607,
+        "fsroad": 2,
+        "fstrail": 0
+      },
+      "sha256": {
+        "usgs3": "492a4b753e02bed8a7c23486241b8c57400f36096c133f8633ca5973b0b1adca",
+        "usgs4": "96a15bf800158a48909119721394fa68ec1a0ab04bd3b78930c8b87f9b7632e3",
+        "usgs5": "34f8c8b80c1d39cd0e39dd552972696f399803696e34f96ac7703986571f6e24",
+        "usgs7": "44879f6029690749b6def06b41d97e256ace8dadf5c636381e45e46858f78e72",
+        "blm": "f589f2b0202e10afc86b7dd8f75af33f45b12557673f336fb71cbad2ce3c8081",
+        "fsroad": "e381c66314bd1044aefd0e887454744561a16b8dc62d63d44b076919df85cb20",
+        "fstrail": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "elevation": "f845acaaa5829be85a73bb99bbddbef1a03e51f90ee0c847c3324cff687792cd"
+      }
+    },
+    "49": {
+      "landCoverage": 0.99989,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 94,
+        "usgs5": 174,
+        "usgs7": 5704,
+        "blm": 250,
+        "fsroad": 216,
+        "fstrail": 74
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "c119c6037470aceeda3c6fd0031c2f3be2b9b61abf8f56aa478be82e96b1dcc0",
+        "usgs5": "619c088c0bf35dbff30f771e54e9188e258e25cae409399bda023c962ccb653d",
+        "usgs7": "4a5bde4784a0b5352e0a1219ae89413f677e59c40e7859fedf32dfb25626b86d",
+        "blm": "97c70389d49ecb4ba0bcfaab11f72b5da42efa45b6ea2c50d8a5194ffd4e2b75",
+        "fsroad": "5593fc73629ebee396fb7407bd0eb701c5878f03c9447ab422c71caca24145f4",
+        "fstrail": "b1941ec8a4612ef4e943c4c9f45532cdec3f013081c14048a28d3cc5d5759677",
+        "elevation": "e78f2afa5fd92453fa5ef8a606d3c5d682eeeee99b6421627c97840231baf8e9"
+      }
+    },
+    "40": {
+      "landCoverage": 0.99996,
+      "routeCounts": {
+        "usgs3": 485,
+        "usgs4": 715,
+        "usgs5": 1169,
+        "usgs7": 66485,
+        "blm": 7731,
+        "fsroad": 19,
+        "fstrail": 5
+      },
+      "sha256": {
+        "usgs3": "08e01a157b4af4e654a26321461d9a1c86977c2f520fce7058426557dd5752fd",
+        "usgs4": "b99db89d067b47c458afd2e33b673eaf88883a8d9448638fe7ebd76dfc1f5857",
+        "usgs5": "4628e0978132ab8dcff5bd4cb5b6f3d168f0982eabfbc91d1635b89177efe00d",
+        "usgs7": "23c7c9de55fab4b07d10f0f38ff1eacd05ab5ac6d38d2e92a38cb7076c0d59e9",
+        "blm": "5a13d97681d1c8d50715b6d11424ea68cafd2cd66265fe0e05a2c09451bcb806",
+        "fsroad": "8000ebb9c65ee19e5cf718994686405137a7490371abdb2fa8cc690da1099641",
+        "fstrail": "b28ea4b4d3f3860d9d5a433c7c4a14f88ec6c8993cd1796a3fa79b92ab16f6a8",
+        "elevation": "18a3c5f380f6c9fbc9c6c895d8ee07fb2f6f1078339f0d9230044ee4c79495be"
+      }
+    },
+    "67": {
+      "landCoverage": 0.99994,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 244,
+        "usgs5": 165,
+        "usgs7": 7141,
+        "blm": 317,
+        "fsroad": 234,
+        "fstrail": 139
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "a4fe8d27158b1227b153dc52456d1c3a6bcf9b390c287627fc122014f2b0e3f5",
+        "usgs5": "614f6aa8917472bd15112dc0ed5ec9bd28611392fcc19c506c702c41da1c2d3a",
+        "usgs7": "3540538d242866fcfbc333cf4ba3996b921a687f31275c0455a8f01a52e0af8d",
+        "blm": "811b1ea737fd1511544cd085c1a6d9430757a57664d0f3dc6cdfa7d8df06984e",
+        "fsroad": "a776eef837a605278421755223977a49e9fe83329ae78a94a84833cf4b86ff1d",
+        "fstrail": "50cf5fd7d9ba4b2aa852d08b4295d8be8141828b43cc973bd4f587312ae85457",
+        "elevation": "bb2d17ba03d4355ae722ecc6a72d22ed9beeedfde3e84c1fc63ce93acfd45ed1"
+      }
+    },
+    "69": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 408,
+        "usgs4": 1127,
+        "usgs5": 231,
+        "usgs7": 31173,
+        "blm": 698,
+        "fsroad": 161,
+        "fstrail": 128
+      },
+      "sha256": {
+        "usgs3": "d87506cd62693d36605921283b2e882d38d82fc0a05a630b9dd003cd680c5c8d",
+        "usgs4": "3da832a16bf91bf0a6a2c90469e7c8c8122004396bf7d7c175e1289590015736",
+        "usgs5": "f5f1300c00d927bc01cafa5a8c1a48333a46ca49deede974d64deffa336a01a2",
+        "usgs7": "2e95f0f91f08d3c9b25bbe796e5f4d304d4ec0e868e2240dea64d2a19f879bc9",
+        "blm": "1f6eb28dd2cdecd304c908e92a9990a28c55091fe30dd28c8dd373dc13c847d3",
+        "fsroad": "467446363cc2dc0cdb760648ac23206b1c956ca70a9cd3ce47cb8b8b2939d646",
+        "fstrail": "e8eddcd8e42449ca670d5ee344f49c7760fdf3ea34f0f498b79ea13137fa81c1",
+        "elevation": "754261b8efc4838ac00a21f30dc4b30ff7d65852ee3f990c2f18ef7f5c867641"
+      }
+    },
+    "44": {
+      "landCoverage": 0.99992,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 108,
+        "usgs5": 28,
+        "usgs7": 6362,
+        "blm": 2,
+        "fsroad": 391,
+        "fstrail": 173
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "f81390987f7f1684cb5203ed93ffa41b91b898dd56136afc49d10f90d241a4e0",
+        "usgs5": "dbebb8370055620c925766b02ccf62bfe149a3adfd2e1d2d3431f6b94978f963",
+        "usgs7": "afb4f30e3c0b20e2c1cb633f3eca4256dc3c20c996e7eeab9ab870d857b962dd",
+        "blm": "733bf165552554c3f84da707888d13abed6709d9e96e8aab341de38ea0340f7a",
+        "fsroad": "6e27a747c3765399fa7f62a45e5f94e152e9f3d50827924957798b7d344b4ff3",
+        "fstrail": "6d14a101eb76162beb10ec0379e62e693bab5b50821726434c6c7d8f57f360fe",
+        "elevation": "b26d8e4e672e7fddab7f4de4a5f48f93c62237246702c0041707711f26316bf1"
+      }
+    },
+    "66": {
+      "landCoverage": 0.99999,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 232,
+        "usgs5": 24,
+        "usgs7": 2822,
+        "blm": 53,
+        "fsroad": 147,
+        "fstrail": 80
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "bedf8df4bbbcfcb754d2c0a0c531d2121ffe91d5c65288c41c41d58d23634e61",
+        "usgs5": "39f8119d824ca84b606cb62d1739d9fc52bf0a1804f5b24c726fcf6e8dfc25aa",
+        "usgs7": "ffe38c6f8b4bdae41b9f96015a4eb8f2f9e37ee5794659ddd5f4946a4d6c6fcb",
+        "blm": "7b55be1dbf2ee8667f714700f1696dead85b51d3ff21fb7e88c59b7214bdb552",
+        "fsroad": "5bb67fa42b8285b3b3df9947615fad3a19fb2d38fd8d21a5c947c272cd9aa954",
+        "fstrail": "c2e46395f5c97e38e59a90b655b1efca90c469fe3ae8706b9570110db3133716",
+        "elevation": "b2c59f019eb5fb01861b2121743c445102c9e8e624f831ba75a8c7be985c5ffc"
+      }
+    },
+    "45": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 194,
+        "usgs4": 359,
+        "usgs5": 367,
+        "usgs7": 19342,
+        "blm": 316,
+        "fsroad": 92,
+        "fstrail": 15
+      },
+      "sha256": {
+        "usgs3": "2ba8f9afec72e8112b9f53b54193cd16cf8765f4325a14bc902815e7b0f77bd8",
+        "usgs4": "66166cf78a0157483ced7bda049f13b2c560d8fe4cbd9cfac7c36ad09323857e",
+        "usgs5": "7afeb7ed6a8c4bdf4ec08ac914ab4ad8f989b3aaf63e47747ab8bbef61dc0768",
+        "usgs7": "a52603d4c463d9a82f7eb827f5396fca3a0d442b5cdca505dfbaf8bd5579950c",
+        "blm": "00179b53f93cdf1bb744a72169d80696db59b0f591d65885b52c5c73a5eba898",
+        "fsroad": "bcdd0fde8624e36dd45ee3814da12d5039793ffbe3e83c26fd3d6a3ed974d79c",
+        "fstrail": "1f7b3c0516772b7924de48545c4b069ad1c0d5334973498cbeaa31fde3b18e45",
+        "elevation": "fefd5a3832f1a3587d234dbd0620c62bcc93ae36802a6e8f9bc55f5300c59857"
+      }
+    },
+    "52": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 286,
+        "usgs5": 230,
+        "usgs7": 9318,
+        "blm": 17,
+        "fsroad": 2,
+        "fstrail": 1
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "6df3f21e1484ad1cd74640f1333d3c1f6037910397e5cf883d505b1007c5f61f",
+        "usgs5": "4b84f57bbb6d40786964feca1001a7d3e88743997a4b0ab493ec045fb4fb185c",
+        "usgs7": "d65c7042493c0023d85331134b702f0ead9608694198e42e093e727ca47d58bc",
+        "blm": "79b2ed422faf10d25caa888957a62c8ab5c6f76db173630a12a3fe9200ebcdac",
+        "fsroad": "d77cf39963d65a741287f24723c0ba17a576fc6337e7676ffb694633f1bd07f8",
+        "fstrail": "4d41eedc70fa864f95c96bf0ed043c6fdfef48a855d66cebb14d92b3701591c2",
+        "elevation": "cb91fa639d4a764a37120e97d6b84df5c6f720b182d988408ea3c4030722fc23"
+      }
+    },
+    "66A": {
+      "landCoverage": 0.99987,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 159,
+        "usgs5": 78,
+        "usgs7": 1891,
+        "blm": 0,
+        "fsroad": 103,
+        "fstrail": 34
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "87046173fcd550fbf85bd99f1543a2252a2b8e0b2652194d02f6e8ae47833497",
+        "usgs5": "e64073c9d7e21fe049bef1f76c0a2259bcf4c907e5f481ff2c49e58826912d38",
+        "usgs7": "b15e6319540756404faa53089dfebd59af633faa8049a073fee257f4c903adc4",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "522b1412c30c7fd5b953e2aa3af5cbb0eecc1f4007c158d640388887979fbe78",
+        "fstrail": "a20de135ab48919c40b44457fec1b1fd0abb8c858decf64f0faf952147c68d71",
+        "elevation": "84a50475e6a39fe8de2991b4727700f0a3db769e8f5eaebd089fc3a59d0ff3ec"
+      }
+    },
+    "72": {
+      "landCoverage": 0.99992,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 63,
+        "usgs5": 93,
+        "usgs7": 4404,
+        "blm": 31,
+        "fsroad": 37,
+        "fstrail": 24
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "a2a03b93a00b39754fd3f2914ed08b34f0b936ad011b72f92ff936cec31a8224",
+        "usgs5": "59695bdebef2811e2866def7f88e4bc04c8092cf4db44428bf794270eb8c73b1",
+        "usgs7": "f810f25f24960abbdbf12f66fee33d6cf7cdd74a361cf563378daebbf6c7e7e9",
+        "blm": "61d886edffe157eb5aeff81ce7d8648f958d8748ffd1a523ec770a4fc155d3eb",
+        "fsroad": "fd31db20dc90604a86034006fef805c1559df30f806464f75ab55bf72fc43910",
+        "fstrail": "ee9452d7319c38aac4d5f1465fb48a2ae96225bb9656c2ecc0823952bde5fa5a",
+        "elevation": "6b29644b7142ac731417e029cbb4af0d0952c98c88b5017cce3e69575546247b"
+      }
+    },
+    "71": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 344,
+        "usgs4": 437,
+        "usgs5": 0,
+        "usgs7": 10642,
+        "blm": 104,
+        "fsroad": 77,
+        "fstrail": 44
+      },
+      "sha256": {
+        "usgs3": "b27bbb92548e03d8c283098dcf2ad2dc6180851a11fce7d9d6963765f9eff1f2",
+        "usgs4": "0c151529435328e4b2ceeca8dcb17168208dd49fdba5593339317d05edeaf9eb",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "fad7c372aaefcf5c66e1f7194998013b15ea0b0fe700a1f494ae8f54049f30ef",
+        "blm": "c9fd8eb97603a867c2a3de3b3cfd54d6cd4ea7fe280d6a4f7aff2545e0910e98",
+        "fsroad": "dcfd60ed49492ff2d844fd4882b096d95f4c34dc33e81884126e593505b32b0f",
+        "fstrail": "ea7cb00c3ca9f248284d073d636259a4e45494973bddf4663d053bcc11542902",
+        "elevation": "70f7f0ab626d6da160f67fc394d4e823cbca92068ac6b317f3fb743ba8f107c3"
+      }
+    },
+    "32": {
+      "landCoverage": 0.99862,
+      "routeCounts": {
+        "usgs3": 282,
+        "usgs4": 1067,
+        "usgs5": 1138,
+        "usgs7": 55448,
+        "blm": 0,
+        "fsroad": 431,
+        "fstrail": 48
+      },
+      "sha256": {
+        "usgs3": "e586db38126d3a12581a21c6f6ee818b5bf52d5a87af05b9d46fbf9eebaf53f8",
+        "usgs4": "c86f71b8d74983fa75a2e149980b919bc6ea78291d6c6ee347159dd1e1862afb",
+        "usgs5": "fb7ef70a3e7ad5a2a617464e0832a364fea6aba8a4acc8b88aada2498d6ea596",
+        "usgs7": "c7fc88c5846951d75874bc292f2843174839c59bf2d3a78daf755da4ae6bc857",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "ae0783e7d4000538d032213349688141075e3ce24a4de25558e36b2bed5f262a",
+        "fstrail": "7b0e1441561e8930a128137bb0945a8e4afcab42b31d01b2358ff7ebac1f7bc1",
+        "elevation": "46d6d9206cf01f1466738b1b43cdbef5330bcb1c4347ce95e5cdcafa4ab62f03"
+      }
+    },
+    "34": {
+      "landCoverage": 1.0,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 17,
+        "usgs7": 1617,
+        "blm": 0,
+        "fsroad": 335,
+        "fstrail": 83
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "4b84566e1e91dac52d79f603a702b8b96d05232468f5b876be846d2ac8132999",
+        "usgs7": "66c42fc66ca2cdf69600f5898add441341b70db1e0f3760746ec3ab7eef48ce1",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "3899b6e21f7bcba99c948703cd2833a6829954fe441cf13eb46b0478ccf69ffa",
+        "fstrail": "6bfbaeb105f79f79d9810738f213d1e2ef65084c8f9a53fdd825178866a1065d",
+        "elevation": "1f509fe50fab5f25bc237e0bd457fbb50eafe7b8eb340615050bc13e36a1d053"
+      }
+    },
+    "59": {
+      "landCoverage": 0.99855,
+      "routeCounts": {
+        "usgs3": 74,
+        "usgs4": 0,
+        "usgs5": 28,
+        "usgs7": 5567,
+        "blm": 0,
+        "fsroad": 123,
+        "fstrail": 17
+      },
+      "sha256": {
+        "usgs3": "892ca2515aae75897bda89ad079973ebab836b5f2479b6dac2b9c57f2e4de7a1",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "44c5da0689fec8b4d6b307771c50a93613162377dfcdfb97e700000ddfa1eb7c",
+        "usgs7": "56876c8fc8a7611cf97e0add746cab9516f1ae609ce46e48b9a41aa97ead9f51",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "c8116fd31dec4577c171b314e731b92f19b17ee18000ae8b498aa367c25c23fc",
+        "fstrail": "f5354694191e0e77cac9594b8c1ae7cc57acb6b00777480dd482a7b10bc6d162",
+        "elevation": "c1ced98ab720b0f8676b3eb30ff77fe25fa18a262bf0b0e9faaaffcc488717d6"
+      }
+    },
+    "37A": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 77,
+        "usgs5": 40,
+        "usgs7": 4938,
+        "blm": 1796,
+        "fsroad": 138,
+        "fstrail": 60
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "dcded9b522e50c21fbd3c80349a5adef715c1103cf417767a82861ebde0b46c4",
+        "usgs5": "45e493b106c35c806349cf1aa6d5f4124b0e0bb7216cce5fabb20156e62637e1",
+        "usgs7": "7742a09a213333984e57b9ac5a05a7f87c89d7a23870b912ba2f1681c6f98a9f",
+        "blm": "45f943653fe3176cfe140f88e9022aab28441012ac7de8fcfcb03882ede58c83",
+        "fsroad": "451303efb094e0d2bf0ffb8aba7b3a2d202ee8eb5606aba4a18a407be2c31230",
+        "fstrail": "b1f6746ec2fd95ffe1f52c595bf76c14872b2302543ae97556d0bef2231099a4",
+        "elevation": "47cdc4df2b8faa8ea36aed316f6aa369951f54795d636116327ed3ebd51c750a"
+      }
+    },
+    "30A": {
+      "landCoverage": 0.99874,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 96,
+        "usgs7": 3677,
+        "blm": 0,
+        "fsroad": 49,
+        "fstrail": 21
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "46b6b1c44025bd6669780ddb2bf0aff44678555abbb109fe5943b96e735f561a",
+        "usgs7": "25541803ddaf41b2b1a4c881076f4da8ba54015f5d292d4d977a59f250ace867",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "7f2fe5894662a07b2bb3d275798ebae0fe10318f97e4ee4bc167a41d9f5e9680",
+        "fstrail": "9853a47d5713395c2f9341045dce23ca55d089751a6db7ba4ac8b40ede566874",
+        "elevation": "3c98083c31c83d2e645454f7c4b7fe41f2a2667ee347976b8b1911b739af332c"
+      }
+    },
+    "61": {
+      "landCoverage": 0.99877,
+      "routeCounts": {
+        "usgs3": 71,
+        "usgs4": 193,
+        "usgs5": 62,
+        "usgs7": 11703,
+        "blm": 1007,
+        "fsroad": 414,
+        "fstrail": 44
+      },
+      "sha256": {
+        "usgs3": "7786db366cfef794d8b1bf194a736c05f1b62ab353a48e013278395866f888c9",
+        "usgs4": "0b4a1c7e3d416003a382bcd3186095c46e5fb1490bcb73eae2ed8a655f438648",
+        "usgs5": "13efae568b40872487bfbd2e95837ed8fa59ed5a9e1ddd8e91f406a76db6f15c",
+        "usgs7": "9320d99ed44327507920101089c0089b5c4ba9e56109c9ecb87d5911c8364531",
+        "blm": "67ca93ff4dcfe228781db2f856ddcb34c6924dadb645cf6f0793d9eb77019758",
+        "fsroad": "12fe798d00cf11eb251c1489486142cdecd1a8290bbe3e1ad07c04c9b7b348c3",
+        "fstrail": "492f2996b48e0414b77d20122362dc717e43354239e22172d32cda9c5552a699",
+        "elevation": "22188b82a59028b26a9b828fa0e374707d8d43cbabb6133ae1aaaba4b4c72af5"
+      }
+    },
+    "37": {
+      "landCoverage": 0.99999,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 116,
+        "usgs5": 33,
+        "usgs7": 4171,
+        "blm": 3351,
+        "fsroad": 154,
+        "fstrail": 47
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "53eb194e9ae220f1280292699a2ad72e0b25ce26ae6e30281213e1d5686c5cd0",
+        "usgs5": "e56b0c2306514fcd886bac2a0d92c2bbbe9be1734948438b8d42710397b0f5fb",
+        "usgs7": "f1372e1d46ea1b48ac60855fd349eef2f1efca01529df05b0b1434dede56c263",
+        "blm": "d4db953c60ce20e421b1da458cec8bee521119b1b8505ebcee56b5c9703152ab",
+        "fsroad": "d19edf3b3c34a8dc1521445c0e7f1ddf12a5ffd0304a9ab219062a1dcbc5d53b",
+        "fstrail": "ca167b7b361da9fa44859789df0178c1d52162862c717a89555441b36de9aa8c",
+        "elevation": "77a02c0dfb90c237bca7c52af8245c38949901a02bde857ffd02a93bf1c5963f"
+      }
+    },
+    "31": {
+      "landCoverage": 0.99007,
+      "routeCounts": {
+        "usgs3": 62,
+        "usgs4": 282,
+        "usgs5": 154,
+        "usgs7": 5188,
+        "blm": 0,
+        "fsroad": 150,
+        "fstrail": 38
+      },
+      "sha256": {
+        "usgs3": "152064a434a409927d5b92978148ac1b6cd14bac76eda6903c169723f2718df0",
+        "usgs4": "b0217c61bb1c8d96c05d3b729d7e951036a1101c6b3bee4bfe9fa8cbe1a3ed1e",
+        "usgs5": "50572b7faeb0e7bbdfb1b5295386a3aa5ac6da3820fb529ba676bd6fdeebfb18",
+        "usgs7": "711da99c4096ead76c1acf653106cd77dc3ef2b8f1a736d15cfe0ade86e5dbe1",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "f9e2a6c7ce4191b1821556d87c8ab40eadeb3553ea3ff946966c63b3ffd511b9",
+        "fstrail": "a25d7b67e6fb5fb13dd2e3bb847374210a5f07fa951c50bee4ebd08e13e7d6f3",
+        "elevation": "b3dfa2e553015659af2caf65866fb4565382dd6759e1eeed968ca174ff1ee44d"
+      }
+    },
+    "36B": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 123,
+        "usgs5": 86,
+        "usgs7": 3553,
+        "blm": 1786,
+        "fsroad": 266,
+        "fstrail": 86
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "11533f98a9e02d7bbb78bac44526cbc20d2c8134610c7a8331f9be2a9de9043c",
+        "usgs5": "aa71b75faadcd9da0bd2e10f975e9ac8db05884224bb4140477b38a196c407d6",
+        "usgs7": "db8c5c0fc16cceebe796f2ab03c17b52e6800b239432554248468641b1614394",
+        "blm": "284d872daaa9285a0663fbb7bc753ce098d127f809b45360e5f5ad801eb6c29c",
+        "fsroad": "4e6a1377f8283d6919b5d61cdab9fd52d8990c53cd7df886a2ad1e73d9511bfe",
+        "fstrail": "9f6ee46f6be35e85ad9170bcbaf5386c381a258ae0e2b1dfbc65ff99175f6a2a",
+        "elevation": "3a16f59f97a89a6b6e5441c2f3a955f73f5551581bf7b2484ae313de6d23c175"
+      }
+    },
+    "32A": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 218,
+        "usgs5": 302,
+        "usgs7": 20403,
+        "blm": 0,
+        "fsroad": 745,
+        "fstrail": 49
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "135454af8b12bd7621730585c6aaf0f3582b3d4447ae80522741348a03624a6b",
+        "usgs5": "abecd44603a4a024dc114a45124558b29b55d38c8873d81a1091b4fcfe5de92e",
+        "usgs7": "477a602c5b83b404e5fb792028ba0c37c08f8b2f6ee8f18c9a6b7cdfb659ea12",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "149b61276b97b092da5d5ca8e8c75073491fac432a06df178d14929ab4d6d179",
+        "fstrail": "445fb198726079a3a5c0306d10cd6cd85c9201d745079020ff778a3f99ef388d",
+        "elevation": "f07ae2d6955d7c7dfb6a0a19e6bfba44f55955a9b940e7faa981b9b7d158e661"
+      }
+    },
+    "25": {
+      "landCoverage": 1.0,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 15,
+        "usgs7": 4216,
+        "blm": 0,
+        "fsroad": 374,
+        "fstrail": 117
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "edf77c4d4b264674a4681bc5ddec76214cfcbbfd1f46fc7454b0862abe85b383",
+        "usgs7": "4580e11313ddf450b095f4cac1a96284edd0f5f3af6b6f9b2d9c50e47ae5292b",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "3a6de66156fc66eda16b9d1d7137bc8032db41437444b8d4fba75c658928ccbb",
+        "fstrail": "dff8157e182dba0b39600d8270828cb205f2cb85d4e03533ca8df253d7d3e6e3",
+        "elevation": "55df1f0606b583d3c2cc4a7eb839936777ae171dda3c83c360fd258726f9b600"
+      }
+    },
+    "27": {
+      "landCoverage": 0.99999,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 15,
+        "usgs7": 2879,
+        "blm": 101,
+        "fsroad": 391,
+        "fstrail": 109
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "92567651ad1027b612e108c40ee905749a21a8361056c73b4443163362ef0e4c",
+        "usgs7": "2d2193927372762e85dfa64c723e02146cc96979844da9989fa7ea1a6a21050a",
+        "blm": "5d24c0cc9592b46a51bf427f2891bc14f29a7d6f2bc13695bb9062a92ebac50a",
+        "fsroad": "87c9433072e77668c27575a426b7b7c135aee35e5b3f8838fd4cda1b4b077c5a",
+        "fstrail": "35e9ddfe886b59c5a6ff733b66cebba32162fcf4e9f2581498f93c4f9dd81a9b",
+        "elevation": "6946fc23bdf127a0062c5006b5090ca676f009a774051fe57ceb95deb59721d3"
+      }
+    },
+    "30": {
+      "landCoverage": 0.99855,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 141,
+        "usgs5": 229,
+        "usgs7": 9811,
+        "blm": 485,
+        "fsroad": 87,
+        "fstrail": 53
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "f6842d8c71f98aefdde9b69d0bea345a11ac5f37d360873b47a389ef7bb1fb3c",
+        "usgs5": "716bbfd65f0d44525d14eb9b0f161572ec55c7c7047393f60e9cd9a2743058cd",
+        "usgs7": "e5b95722bf40fd25239220319eae3f4b81bad35b1e20d17fc47457ae42df0552",
+        "blm": "9266d9582f1a451f6fab216d599b0305633cb3bc9152cec51478b9ad2527fdf2",
+        "fsroad": "c4ed1937e09acc78a274a59d1645f405f860e49ab5b06bdc2af6e7173466122d",
+        "fstrail": "3f565f07b9cba9d864f41e106c977304043eb17f05cceb0218c62aa597096454",
+        "elevation": "17f4df1ccf4d09fe82107abb662e53ad3de71a05f2e1363c5667757bf406bc91"
+      }
+    },
+    "24": {
+      "landCoverage": 0.99996,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 217,
+        "usgs5": 273,
+        "usgs7": 19170,
+        "blm": 0,
+        "fsroad": 1048,
+        "fstrail": 181
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "e5e12622f96cf2b6868736770e7831eb50fd12bff2c6049675d0ecdb028f62bc",
+        "usgs5": "86ba7f060e57d7c30729290ff9bd42436f69d4a97f731c5123425407af367b9b",
+        "usgs7": "c9152ef6b3ce496051bbb86751f1d7b9682be90d65f70c0825a89bc1098f3e66",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "ee84be51219ab8ae879409846dd93d5a2a1562c6b465a37e8dcb18816497e7e6",
+        "fstrail": "c4402b008da34b0f992d8ed9c45c024d0735fd518b3d3fbd947d74f15be6557e",
+        "elevation": "6c0d9add98b7783413b8d33f6c0d5029737ddbd6604d2f9f48d7c74ba5b33cb4"
+      }
+    },
+    "29": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 197,
+        "usgs5": 231,
+        "usgs7": 13281,
+        "blm": 1761,
+        "fsroad": 247,
+        "fstrail": 94
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "f2397a7e4c5594f9c450fdd6589c181895c523bcd2d70ea0b0045edf4fc2ad92",
+        "usgs5": "87632328a792f694471a386dbdbce8cc3cb1435cd277624a48dda157e04e6dfc",
+        "usgs7": "9f5d2858d0916be1b6f1c6c9d25928eea99783f07a53fb6f755512fcaae964a8",
+        "blm": "3e65af6c2c3d711a61480d075d6891f1fe4138e7b65365519cbcf717f866be32",
+        "fsroad": "eb1977c4d2638b5dfe43e3d4237744593182c90de7e8930c756c02ef91d50fc2",
+        "fstrail": "9c19f035396b4583e835d2f173cf55692d1a34c4aa57f35784450a83168d4f69",
+        "elevation": "4c69002531919d653e28327524f184c6f081a1b28aa6fb6cfaa61332e5b3a1ab"
+      }
+    },
+    "36": {
+      "landCoverage": 0.99999,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 248,
+        "usgs7": 4319,
+        "blm": 380,
+        "fsroad": 683,
+        "fstrail": 184
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "c9de9a8129807e5c1b14bbe62cc87edd06b2edfc29523a88005ab0652bf427f7",
+        "usgs7": "e6d8c441a53796b7ff7171690629ba02d52eed9e66586aeb6fbd3662a1b4071f",
+        "blm": "23d6a14e0da20729e63db48fed3f0a4cb3bf0ed75f5c13839927401c5969a38b",
+        "fsroad": "91f21d451473948b636fe01be08836a6b165215647a49227dd9fa70e3ba221b5",
+        "fstrail": "2d593d81688620040900a739f84d805c317de34e619b03593975e80cac5537be",
+        "elevation": "85cdcd9ae134057c169cf71fa71f6539deaca535de8ff36e9704a12c1c9a8e3b"
+      }
+    },
+    "YNP": {
+      "landCoverage": 0.99423,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 0,
+        "usgs7": 198,
+        "blm": 0,
+        "fsroad": 23,
+        "fstrail": 0
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "0482fa972d66e40045513518ee2d04bf02185fd7e8738accdad97ea3148e074a",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "8baaa50903b16e7c3ca9f2a19567321351c1bbf1ba473cd65e8915f4e14d18a6",
+        "fstrail": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "elevation": "1647c2cfd348d74db79ed45a52b416cccf32e4d90f872bbbba2c61299232708a"
+      }
+    },
+    "51": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 169,
+        "usgs5": 87,
+        "usgs7": 6863,
+        "blm": 1429,
+        "fsroad": 356,
+        "fstrail": 82
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "5658320219af3185983fc56f10f2abc8fb7417c795e7ed587594e1db6df01799",
+        "usgs5": "eedcdc807b6d6976e26f170672edc98b9d5f0bfbdb59dab962996d2e02f0570e",
+        "usgs7": "8c810b39d757066522a8aed09f7b361d2e3c9262768aa18955c9c0dbb5b77812",
+        "blm": "b629b46e944173607f9f162efa860e1611b4c8807b054a67fd3e5438cbde1212",
+        "fsroad": "99ff7ce70d47643fca50ebfa3d610966b02bab8189e1aaef2e197a11d32b29a4",
+        "fstrail": "8cedcccfaf12b619c9fc864d7bbacd3858e5777bbad200629ffc15ec0ee65280",
+        "elevation": "5f17f6855964ed991a6a672cbb04a0eee273471bde726adfb832e1b724895b43"
+      }
+    },
+    "59A": {
+      "landCoverage": 0.99932,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 60,
+        "usgs7": 5360,
+        "blm": 0,
+        "fsroad": 111,
+        "fstrail": 14
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "9434d44f126218b5f151e95504235679151a1d2bab70dafdcf576ccf88568862",
+        "usgs7": "3f1852b119168cc698450c937181f206fc5b6eae48ac7ec8f0827a3d8a7defc4",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "354505cab4bcc512eee97779f65b20ec22fa509c34fa9679e39ba27d6e252ad5",
+        "fstrail": "1cd2beb92f67f3ddebc0f0477ca559cd611e94f6510bbe91bd2757be81f5309e",
+        "elevation": "b26a198cae5289476de4492dbab39d2e816863e7d34569886a8e2ceeb98ad604"
+      }
+    },
+    "42": {
+      "landCoverage": 0.99989,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 60,
+        "usgs7": 3196,
+        "blm": 3082,
+        "fsroad": 0,
+        "fstrail": 0
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "d06c13d9544a0800065a9db8dff77058d3781bd8d8989c93f888a6fd9f533b25",
+        "usgs7": "b73ad3177218293faa14f20c69dca392e9f7ed02b73ae96943c9acce6bb5c2f4",
+        "blm": "e83bc9b696d0415b5864b87b4df81efd9f756b5e205ea80954d044bc15b5eb19",
+        "fsroad": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fstrail": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "elevation": "05bf3ecb512fa62bbdc8521f41aebc6e51b4ef98cd4c032c7046c7fa629d41f4"
+      }
+    },
+    "54": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 178,
+        "usgs4": 720,
+        "usgs5": 575,
+        "usgs7": 28647,
+        "blm": 0,
+        "fsroad": 299,
+        "fstrail": 99
+      },
+      "sha256": {
+        "usgs3": "35ec0ea4161157881780d8ca5c6622ce3b82e7764763ea1faa3c720e4a35703c",
+        "usgs4": "925d529e57564caba82cbf22a1902893bddf26b955d2d7b56257f97f0f02a4c8",
+        "usgs5": "fbafff48558538a4cccfb22fac1b86a5401ffad2122ad1d17e6a2a33acb37c1d",
+        "usgs7": "78a48666c8d7e6f29076eaf8c403030c03900e39fbbc3ee2184556d2a7f617ef",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "e8f0e622a513eb09581971b6f7b5b2986ae2cfc2bd8e4770df3b4e99d7b9a404",
+        "fstrail": "c6f74ecb12d49addf8eaa9aeeac352205e01ba2355f5dcf5abe5227c04c34031",
+        "elevation": "4dfaadc6588f7e2a70a8e112adf72741702d9d653cd237012134b2272a61d238"
+      }
+    },
+    "55": {
+      "landCoverage": 0.99973,
+      "routeCounts": {
+        "usgs3": 208,
+        "usgs4": 163,
+        "usgs5": 516,
+        "usgs7": 12778,
+        "blm": 0,
+        "fsroad": 178,
+        "fstrail": 29
+      },
+      "sha256": {
+        "usgs3": "0db6e7270b481c41e25fa6fe361b9dd0955f2d7e0657a1553bc439db855d4eb8",
+        "usgs4": "91c14df000c43bded7647be8e9002b6882470cb83b63079f033cbd35548e5816",
+        "usgs5": "c3959decbc458bad08eb33711490f2bbaf49eaa5aabb0cf51d3e713bcd751280",
+        "usgs7": "2a33510358592a7342be15702e0f7b3718904a49bbacd1bee0b5f89a4cf69d38",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "74784a3c92eaf6fdfc84ee72a0e221d08f9ca131c8662ff81d811db09c5b2962",
+        "fstrail": "f20c892ff8217877a2e2fa4c98edfc347754b5065fc984553aa185ae09d8ab4b",
+        "elevation": "b43f3dd76f4d673f49e094e1add985f9797ec28c0552b000cd5e8829f1be5f58"
+      }
+    },
+    "57": {
+      "landCoverage": 0.99964,
+      "routeCounts": {
+        "usgs3": 60,
+        "usgs4": 2,
+        "usgs5": 146,
+        "usgs7": 3964,
+        "blm": 168,
+        "fsroad": 111,
+        "fstrail": 13
+      },
+      "sha256": {
+        "usgs3": "1af4d1e415a2605f7b0f9aa0b5677426da16710f701370cb86a87f09115c568f",
+        "usgs4": "101f50a8f464a3d1a1d9f2d5f44800ffa184162a3d6b16195524201204d6ab7a",
+        "usgs5": "aa8aa1813439bf8bc599f9490c87aa56298b6e20c3427a25fb4365f9708baef5",
+        "usgs7": "2c7ca476ddeed87e859b90b40ac73cc79aa12efb7de0a9a69393a9dc22d45d0c",
+        "blm": "30672755fa59538fe8d961ea6d9cad94a7aa5b1163e33ef35d5f4c959840b577",
+        "fsroad": "37d91cfeb9a2132154e97adf44ebd171ff15b47d098cc503b7b7e29bf0feacf8",
+        "fstrail": "776737d9d2d8c20d73f672ea8f40965390c875745bdde9926aea1f60ae6c9b99",
+        "elevation": "19a941c0dbfbf83a80f1599d10faf001753a3af7d50279dccd9968baf93b2d7a"
+      }
+    },
+    "76": {
+      "landCoverage": 0.99896,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 686,
+        "usgs5": 439,
+        "usgs7": 12068,
+        "blm": 377,
+        "fsroad": 601,
+        "fstrail": 256
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "9d4b90c0df8d5de8d3815b8a7ec075c5dd8966711fe37c56d2042f96c482b547",
+        "usgs5": "13330d8ce194893e696f41c74e731f2a5b7238922445cdaa613fe24fe6523b79",
+        "usgs7": "dcdd7b9c41e20838760cdcd3f8debda24379871fc5e730aaeba6cf2c209b90ba",
+        "blm": "16e2ff04d9fb42dd8f2264131761bdb47bf13ebe81de116abd603e4fa6922cde",
+        "fsroad": "bf09c455a6dc6cd0bbb5141d60788252f8bc6adfdf8933e82e0f8050236e4a9b",
+        "fstrail": "9cb33f8f38180767a7969e7ed83599338ab8631597d3c507edb52ddac2b310ff",
+        "elevation": "f17479e6a57fa7eeb197b84fb58b263aee88f0f5eb1445535182df9f361b2be9"
+      }
+    },
+    "36A": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 51,
+        "usgs5": 150,
+        "usgs7": 3506,
+        "blm": 2025,
+        "fsroad": 386,
+        "fstrail": 113
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "300bcff5014394ec29359575d6ad88990aa7f2e750bf7fa7a13a15af301251ba",
+        "usgs5": "0f51703fccd0947092de808f07fe535f94cefa1c427a952f6bf8ff71542eb26f",
+        "usgs7": "9ac34258e034d078c8930d627639fd91cfbd4591f4c46a04d2ff163e61f7c6a6",
+        "blm": "0e987d0a0db4248d9f3c132aebef6fa6ae212cbf8c714190e62e433dbb8bac50",
+        "fsroad": "bc22ec18c9d1335c10fd17dda6a3aacc34252d5ec1434557efeda764c0160047",
+        "fstrail": "d8987cc14020bbd85d6f6d45d0da35970a4646e4cb948905478fcbe9ebb391cc",
+        "elevation": "5691028a8bdae3c580b609a6835664b6e0a28784d737c4fda1cb9c88c5dcc732"
+      }
+    },
+    "58": {
+      "landCoverage": 0.99973,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 112,
+        "usgs7": 4115,
+        "blm": 0,
+        "fsroad": 221,
+        "fstrail": 37
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "ae983b6d722dbff15b999c62a68eda62fadad799e66c3382467cf16f7b395029",
+        "usgs7": "e81c6bc6757632401beeb47edf3bd2a3c6c916638c5b3565167cb738beadff06",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "aa8e31d1dcfd1d095c129616eff5ccf2e2de9408fa33bddc188570324f480ba0",
+        "fstrail": "00b232eb5c6cb9fc5037b2e60caf60d42eb6dda5cf7197e7e8e497cdb12133af",
+        "elevation": "146c60894d86266da83fd9f507bccace9ec55b50556c8edca45679f54d35ef11"
+      }
+    },
+    "62A": {
+      "landCoverage": 0.99996,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 52,
+        "usgs5": 59,
+        "usgs7": 2308,
+        "blm": 69,
+        "fsroad": 152,
+        "fstrail": 11
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "d87717d7123e9c4eb3c9891d2f41251a3822191e689fb49512c9686c178eddf4",
+        "usgs5": "9ef95dfd03e650cbfaa52195c1d609295141dbca5d2afbac97ec5240beaf3c87",
+        "usgs7": "e5ace4ae82a6d2c6f4f7725600635bae149ed4e446921f76586c23afcab02b29",
+        "blm": "e14119c20199208c353e8199080823cdde431ef286016ed7fdb202c0c892b240",
+        "fsroad": "9da801501d4889c7d1868971fe2edc0825c6c37d7e90f876e50032e08dc7335c",
+        "fstrail": "531e6d4f613c578eec1daa170c0df878350143867fdc04586884a5fe0c4b14a4",
+        "elevation": "1f158351cf2359de9d582b0041de812d9927c70bdcafecc2d60bdf90402c75d9"
+      }
+    },
+    "50": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 287,
+        "usgs5": 246,
+        "usgs7": 9693,
+        "blm": 3342,
+        "fsroad": 546,
+        "fstrail": 167
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "badc92f27927bcce4ae9d0264d7a770b99e0e1a08238128523b38246b5ed2019",
+        "usgs5": "23d93c9d76cae989be86c108e016aa19f07c350d349278171a7d9f01c9a5197a",
+        "usgs7": "8eddb2b91ed6735cdd074a55f2f0d25f2a5af781692471f51eab8f0aa2fd5fd2",
+        "blm": "c86d48af705d10ac79850c16fc633d3e7b32deecd3d952bc3cb9be4fb1059fb0",
+        "fsroad": "f6beef3c4e590776756f965d0d9b1098547752c89ab45368394c8addc4d066c4",
+        "fstrail": "a43fef07bb24d31141879ef04e6390870e8fa627fe2c4fa7bdc0f9755246f254",
+        "elevation": "0909a4ee8d078539d574bbe88265fdc9daaf0989448f2c7b264ce0bd677c34c6"
+      }
+    },
+    "62": {
+      "landCoverage": 0.99989,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 136,
+        "usgs5": 396,
+        "usgs7": 10013,
+        "blm": 401,
+        "fsroad": 123,
+        "fstrail": 14
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "4290cf2494bb7cbdeee44d53634af653cfc44ead8529bb4b4e9e856a6f1ecbf8",
+        "usgs5": "da5814d6ced3624a23701836e250bff1b2f59aa2fde6585888e23b88b10d2daf",
+        "usgs7": "5d072af9ee8db7ebc33ff25bf25db55b715436f516a7121c47ec56728db6505d",
+        "blm": "47d8a05e91e70602d5be8b39e82bec81c4df7e56abb766f75d83b55f8b4bbd22",
+        "fsroad": "1a1dc6e408b36354461fa378c6bae3be3d1b788e2ee1143646b7285b9c6fd1c5",
+        "fstrail": "23873e8b3b592c22ae0edff9df3963b9eb16601e2c3afa4869a2413847141ee7",
+        "elevation": "747520e26a2695a085d4ff95d9937964e1e7934898533ceb6a7d8c9fd2465b1f"
+      }
+    },
+    "63": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 181,
+        "usgs4": 678,
+        "usgs5": 353,
+        "usgs7": 22794,
+        "blm": 446,
+        "fsroad": 114,
+        "fstrail": 22
+      },
+      "sha256": {
+        "usgs3": "f6eae48f31fbc4b0ca49d6b50f59dc0caa33867608736f9552ac80f27e7e68f2",
+        "usgs4": "16a90ed9f71b5d7e0781de4c4a01e4c4dd6c490c5552d47589dd901d288d5e0f",
+        "usgs5": "b3356004c7623af70a0e75ee9a94f6101c75f3e2696990d82dcf870e8b8fe2ed",
+        "usgs7": "0f4cd2d96af024b736285d41c2c7b195334ea3b3aa4bb0bb7e4498f30c4b5e16",
+        "blm": "4a8c50286674a64b70322a99e332f2af9e677a1ac138390425c43e7d0599816b",
+        "fsroad": "34c8ac97aed0350ff062cc9da763d17a38b989f26e4461588912493b1318d054",
+        "fstrail": "9e700a42c7fef699d5cdcb710abe0e6823a2ac13dc953eae6c4537e12061e4b5",
+        "elevation": "9cc873e1a83c547ddc9ea5de388884fa177d03b777b5d9b36689f5c1adbd9eb4"
+      }
+    },
+    "48": {
+      "landCoverage": 0.99993,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 49,
+        "usgs5": 232,
+        "usgs7": 6325,
+        "blm": 37,
+        "fsroad": 248,
+        "fstrail": 110
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "af571749fc252f58fd98f4c357d5985566d67eb6097122c47cc70a06dd12d7e4",
+        "usgs5": "b1d318a903891474732e8fa184da1160e6cb8a51292a73f05efa83a5a6a3bee0",
+        "usgs7": "50c0bc9970070336234295b1b4d4d9a60d1c6e78f0169702da64334a92c0fb9e",
+        "blm": "f8219a1bf45c5cab1b96bbfd486b6034823614c3aff678b07734b40a1c756f0e",
+        "fsroad": "7f84808097073697ef51877caf63247aba0b7cfbdd129e77efc8bb70ec866162",
+        "fstrail": "5daf96e1b4b50b9239609e05bd95e0c1297e50236af8cf3fde8cb198b7f7ba29",
+        "elevation": "ffb7bacf25f62cfd6bb04fc6d029307da9c9fefe3d30639a512b7d89481a7a81"
+      }
+    },
+    "60A": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 71,
+        "usgs4": 104,
+        "usgs5": 223,
+        "usgs7": 12215,
+        "blm": 1131,
+        "fsroad": 81,
+        "fstrail": 16
+      },
+      "sha256": {
+        "usgs3": "206bb4c15d0935ea1f7dcf411886a668feb3cf1bf2ddaf4de7db988feee6496b",
+        "usgs4": "1a4589c19410bbe20bb234ef54084a64ed0166aac282eff1b9684b4f387535b8",
+        "usgs5": "6f303371ba33c04cb90b7fbdcb2b520c8d682dd573ffa767f1cafd46bfd30172",
+        "usgs7": "476a2b43314e215a8de552fc21cba3c4e26bf17b6343e1a16967318ee61c885d",
+        "blm": "b5d7bfd7722b10756b78fb72a7b03c88a9fe27ba4fbb2d91d54a327742732082",
+        "fsroad": "d1df6b82468da82bd3e33bf4667c68870a8fe949334561331f9b0204a0f3fc18",
+        "fstrail": "3182af484ce86b1dd7b9b55ed4faab88b8d18a8b62dd94db632a3695f6be2fc2",
+        "elevation": "011d592f5f6bd50bf26148bb4ba398bf6f1460aacf5f8479924c4bda41f0fb26"
+      }
+    },
+    "1": {
+      "landCoverage": 0.99979,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 767,
+        "usgs5": 968,
+        "usgs7": 32931,
+        "blm": 0,
+        "fsroad": 1425,
+        "fstrail": 103
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "33bf5cffd76983f4056d4311ca966c81b831748d24eae57bfae8fb4b6679e28b",
+        "usgs5": "643f448f12a6c76869fb1294bcd99287f0e4904ae062e1f5e6e86909dd3b9ae8",
+        "usgs7": "e48e559ae355922138e9fc85f0d2745488e10569b42e16736cbd29ad6b885ee9",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "6c759e3cc0ce195bdfa2e3d4b7c8dbc94cbef705e2143d53c30dc47659783bd1",
+        "fstrail": "e376148209446d2599c76d1bcff3ba1ff4f5a67e7514622fa4880d01aa7ad182",
+        "elevation": "2ff99ac4ec91626aa886c0a409609845e2cf43edc4bf636fa74236d7ca949922"
+      }
+    },
+    "4A": {
+      "landCoverage": 0.99994,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 211,
+        "usgs5": 207,
+        "usgs7": 8722,
+        "blm": 0,
+        "fsroad": 201,
+        "fstrail": 56
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "97292b2960cdf2ac3907ca0e0def70eb51ffe9862bc2440e6bd67703b7de0faa",
+        "usgs5": "78b565fe64e5a32d4dcd440d05e20f0a88da97e0b170c8ab46e8179e5cb70269",
+        "usgs7": "49684f0548c33567d74537a0176eea78f785d87d8693270b2d4ba7ddb3fa159c",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "1892d863dbeae40a16103f47fc136543d1d3aaba78d2eb48efe8ca364fdb9be5",
+        "fstrail": "21ed48bc8f8f65c624c8e0bd922f4a55c4823e527d92d380f6e3079066cc4de7",
+        "elevation": "92dbae5419dd0ddaa88f5bdc00e9a2cdc8173414cda69316397d8be6b2235a36"
+      }
+    },
+    "2": {
+      "landCoverage": 0.99966,
+      "routeCounts": {
+        "usgs3": 143,
+        "usgs4": 457,
+        "usgs5": 563,
+        "usgs7": 32528,
+        "blm": 0,
+        "fsroad": 315,
+        "fstrail": 124
+      },
+      "sha256": {
+        "usgs3": "891aeb17aed15461b46af0c50b7795637fa2d05a9fe631463f3d02f0d37f1ed1",
+        "usgs4": "9be26626d35fcf13bb9d11db2cebe015a3cb1f21c2478fdd8dbe1726724c13ef",
+        "usgs5": "a6e85329d1481a6487062dd715980e006cb11e08c633ea5730017a6ccf6b7c79",
+        "usgs7": "d43435e5a397544d8b057a01ba4d70b89a63552477ab9be725ef46890ada7f7c",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "0850e0e75c657e5878b902d0433ae85f62b7a0d2a7e638e02ee2b8b7664ed8c7",
+        "fstrail": "f98aa20ca73084cd2fff397e8f278e1b54a332a0cb40298f3835e4ade2379bbc",
+        "elevation": "1bd03711744c0d6be3b47bbe2d078dc3f13417e570082db30861c4c90bbeae26"
+      }
+    },
+    "4": {
+      "landCoverage": 0.99968,
+      "routeCounts": {
+        "usgs3": 322,
+        "usgs4": 204,
+        "usgs5": 727,
+        "usgs7": 31519,
+        "blm": 3,
+        "fsroad": 567,
+        "fstrail": 269
+      },
+      "sha256": {
+        "usgs3": "91184b2c64c47db1329ce77d213179dcc19fac938d30d8e570f5560070393d95",
+        "usgs4": "6d1722a1e54677db88d8e8947f85361302165ba8721f4993b6fb92be82652d7b",
+        "usgs5": "f453f7b2d41865f3e6794f589234d1c824315fe1fcc74e948eac8b39bc230291",
+        "usgs7": "134c58a2a105054a1359cd77f76c2840dfd3fb78f04c38cf8caa31e9f223e9ad",
+        "blm": "bb37363554eddb99e1b867c99fbd82868d899fd2ff4f2e3f3cffbd1fbe016ae0",
+        "fsroad": "3f814b119d201d7c57da4aae904459e5c984a076bdf202a5426c2c199dcf29d0",
+        "fstrail": "c92f614d3726091cdb458ed108ecd0cd5ec15097c0b592c82744dbcc7e3a2c91",
+        "elevation": "3fd6ecfa2825b5e4471677f4d576b36985bbd04956b167e84a4df0a49e05d246"
+      }
+    },
+    "3": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 178,
+        "usgs4": 204,
+        "usgs5": 496,
+        "usgs7": 23996,
+        "blm": 0,
+        "fsroad": 195,
+        "fstrail": 96
+      },
+      "sha256": {
+        "usgs3": "2b620552aadfc745c098c71ccec26d48df1feefcd0d2d9e602fb18fd425aa7dd",
+        "usgs4": "dfedb75452ed4c18107f7ae5999d1e434ac196cf2e948335bd872427fd88928f",
+        "usgs5": "0d980487b1e2f8958f2a0c30d6b4159b04954b28158686900c0e4c405676b6ca",
+        "usgs7": "188017a598b4ec0c59fe1b22addf2d8a499f66c1d9d93a691d0cd4f0c55427f0",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "a2367ea5a755ec672c83da8c2d1ff81fcc2261b2260e12111622d3866397efd8",
+        "fstrail": "1288b35774189be967bee4ae09f9922b7c4936b80ed603684fa1518ad9119489",
+        "elevation": "e4c1f2bcf82875e614ed751b4b434362f49ac5b5efe7a68a422783a48c5ac8e8"
+      }
+    },
+    "5": {
+      "landCoverage": 0.99926,
+      "routeCounts": {
+        "usgs3": 181,
+        "usgs4": 217,
+        "usgs5": 849,
+        "usgs7": 28058,
+        "blm": 0,
+        "fsroad": 187,
+        "fstrail": 119
+      },
+      "sha256": {
+        "usgs3": "eb7c0ab24a88743a519891640f8abdacde788fc5c7314edd2d7c414a1d7bb686",
+        "usgs4": "cdff0b4aca5e78e5c0b80937c7b8c18794408bc18e3d547be3c73f227684010e",
+        "usgs5": "03a1bad542f075259a4010533b0a71ff298fd6f469e97700b7e4067c5e16dfb9",
+        "usgs7": "10045224e9761b7584b0cc1aa9184dbab9adda9e389bdd4b8943b3333be41e7e",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "7bd4f801dbe3e5c5ac524741b4318dd5e5a84c52bc64d69e67e6fc2ecfeb27bd",
+        "fstrail": "6477fc7a65318ae0c79727cf271dd40e22ad71cf5446a233af19cbd37175894d",
+        "elevation": "aba5c562b67d68bb379bbd25943423ecff2d9f1e83826891d9c8276473e70c58"
+      }
+    },
+    "6": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 205,
+        "usgs4": 27,
+        "usgs5": 590,
+        "usgs7": 17550,
+        "blm": 3,
+        "fsroad": 642,
+        "fstrail": 390
+      },
+      "sha256": {
+        "usgs3": "b1902b661e2ed9866690f70130a43c6d16f0bcb33b4124db41e024cc054bd9a5",
+        "usgs4": "bd9e6425c9bbdcf7a395cdc72595f1344576556799aa263616cd2952f6d97ad6",
+        "usgs5": "54c368eb7e1347eee53744dde3f209c3fde1c411d5457970b8c55fada2f75b13",
+        "usgs7": "fbbc23c4b3015254451ba278fdacd6ab2adc5f9745994eda018dd46430363e44",
+        "blm": "bb37363554eddb99e1b867c99fbd82868d899fd2ff4f2e3f3cffbd1fbe016ae0",
+        "fsroad": "a799f1caa2c212b738039b36e08d210acfbd4bf7323127e73948143d8bd64b90",
+        "fstrail": "26460a8fda23cf7fb3ef69a8a5f4fbb4cf98b26cdb8359b46ecf7d69553c42bf",
+        "elevation": "114b92dfeed627dbf21bf2928b49be80d60148dc2712e2ee8dd7d1334d642a1d"
+      }
+    },
+    "7": {
+      "landCoverage": 0.9988,
+      "routeCounts": {
+        "usgs3": 318,
+        "usgs4": 27,
+        "usgs5": 62,
+        "usgs7": 10287,
+        "blm": 0,
+        "fsroad": 597,
+        "fstrail": 282
+      },
+      "sha256": {
+        "usgs3": "ee7c151a700469f59949a20473c064c512b6790ddf69c5713ecd6de41a923fe8",
+        "usgs4": "bd9e6425c9bbdcf7a395cdc72595f1344576556799aa263616cd2952f6d97ad6",
+        "usgs5": "48311fbeba053e402b7016c88ef44ef10163ec70c60c5f41aabd703def2eee6f",
+        "usgs7": "bdb1be8dba34f4c481a8528c1e211c73330e875823f13bc351baac17318b5a6c",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "c5612472499caf09d31d2df0f3891fd09dbcd679ecec86a5b455872c90bf991e",
+        "fstrail": "d42f21548e97aee41997fc6dfce3c70aa11482df0722aa13295c1dfa37ec75b7",
+        "elevation": "bce575c4848af8f655e0228f01d06af88f94d73a92d865c3bffbe64dc84a93f6"
+      }
+    },
+    "8": {
+      "landCoverage": 0.99967,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 571,
+        "usgs5": 1137,
+        "usgs7": 22304,
+        "blm": 0,
+        "fsroad": 370,
+        "fstrail": 159
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "6b6bc368109ec44ef8390311922b16ebb67d7dc7223a491542a3962d33b19e3f",
+        "usgs5": "e8255b4081ff31bac20a3ae943a4e05a5c17b70d4f05df7dc6abbd8717ee9e8d",
+        "usgs7": "47342baf812d7f77fff499b825719346c226f1177d3f1ae522af6cd17cd6cbf2",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "5a20419ebaf46edf48de35a5a84c1cc4b9608ff100b2148cd3610115efc4acba",
+        "fstrail": "64d091d59f919cbccf6d9ff09ebf5dd4368892a42b4fbd22704b299479dfe4e6",
+        "elevation": "e8288605f1248689575591e7e1e5af84bde383c12198808e24ec8be844b40e68"
+      }
+    },
+    "9": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 0,
+        "usgs7": 3240,
+        "blm": 0,
+        "fsroad": 127,
+        "fstrail": 103
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "f49bb0cc9a1f6295fca0f1fdf49d23464dc14cac0dc2909b6830a1ab54e65bff",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "d090a3036d599164533fad7beb559ea616c3c9836b0b7b406a4eec0cce0afef5",
+        "fstrail": "8375259a9fbecd10ebbd87f26e39b2254a4623c6d5fa2148d18917654085052a",
+        "elevation": "d100ec1d8d973aacd19e5dcb2a5e6c6b06979f9eb0895ce3bfc277d06b217cb9"
+      }
+    },
+    "8A": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 276,
+        "usgs5": 723,
+        "usgs7": 16027,
+        "blm": 0,
+        "fsroad": 531,
+        "fstrail": 231
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "e0d5c95a4c6d2d62fcfe21fa55deb14e2c6b969fc85929115ad1655fd3e3e110",
+        "usgs5": "8368a841b736d4c641417fae7254176b99829e70eb024123b76643c07f7192d0",
+        "usgs7": "0d9667be7ad73892566f3aeaafa1d2025b60205f84d7a2c718e01b4aad8ecd8f",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "e18bbff3009516bc08c40f8cc3a30682f41d73207d949518dcaf5f1545836b36",
+        "fstrail": "e63dcfc4a8b128a86e8c8d52936a805121c6098eadddc60d64003441e4b08930",
+        "elevation": "d111ff8053eb3f778da312be36f0f46aa0793692e843224005ab6035673f8aa8"
+      }
+    },
+    "10A": {
+      "landCoverage": 0.99994,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 361,
+        "usgs5": 486,
+        "usgs7": 20722,
+        "blm": 0,
+        "fsroad": 807,
+        "fstrail": 664
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "93613e3598fc258e2d67b8ee6a304f4e450086e5fbbd4b4155de9c296f9fa9a1",
+        "usgs5": "aae5e6b21e9b89035c70cb00b57824a32e66d5f5d94e89afd5e66281588cc149",
+        "usgs7": "05a255914b9f6f21d020b0e626f65afff2a70c85f7f1779d5c6a5fff3e439d9c",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "1b21aa711203853b9ab7816411669695fdda073066f21455bd0d106e09574caa",
+        "fstrail": "7ed26fed46fae479d6db91f1533176d390f54bc1364d72f564d04975f533b16e",
+        "elevation": "4ad739ab6a147006086ce3617953648b1e8bf7c111e72c51ef9c7db130e9e893"
+      }
+    },
+    "10": {
+      "landCoverage": 0.99971,
+      "routeCounts": {
+        "usgs3": 28,
+        "usgs4": 36,
+        "usgs5": 75,
+        "usgs7": 12041,
+        "blm": 0,
+        "fsroad": 650,
+        "fstrail": 424
+      },
+      "sha256": {
+        "usgs3": "aa6c7faa7aff50c6d7556096b9d48ade61074252ab51e691b81299b48e3a6b3b",
+        "usgs4": "586ecb6f8db64a86cf97be4150d9517015d7828635700b77590a5ba18cd4189c",
+        "usgs5": "8a779594a313b02e1170bea007c155268f8182ee0b14f01b3308a38aa8e18c7c",
+        "usgs7": "f69603af2b9f76a4638a6f46e5fa2cd2233fac91abe913ec535e46e57361b453",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "2d9e4f276ce62be6077ec6d12fcb6adda9cdafdaa16cb17d11409f3ccdc37cfa",
+        "fstrail": "69a249a7ea38ea02fdaf681325979b748c1f1d37d2538b4da63c6ee842881aee",
+        "elevation": "9725701ec5fe6c4a9b37044a30cc6ed3461f0217315b0be47b0dc58668a359e9"
+      }
+    },
+    "12": {
+      "landCoverage": 0.99949,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 278,
+        "usgs5": 48,
+        "usgs7": 14892,
+        "blm": 0,
+        "fsroad": 796,
+        "fstrail": 521
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "747e0d951c7de3be9aa5ff18a4046ebfabef680eba6e072b68976541dbdee628",
+        "usgs5": "b3864471cee5556032dd23a5332c832039806243dd1e24bf5e815c2a01b8b530",
+        "usgs7": "8b94a14f4709901fd9cd84486b4c6f40240c77f14dfc8031febba83830b03b3c",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "a158a0b74b3929755cee0c18c5d8da2fb2d5a153e07e5a340993438b4f025be2",
+        "fstrail": "4cd00a949fab8a7ee475aedf897059bc78d428ec8eef17fbfe911a7fbf572dd7",
+        "elevation": "6499d1ad411de8afcbe882e6d0f36519f5f8a6682cce16f0dab1b3f42fdebe23"
+      }
+    },
+    "11A": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 397,
+        "usgs5": 429,
+        "usgs7": 12953,
+        "blm": 0,
+        "fsroad": 1,
+        "fstrail": 0
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "47925db68076daa677a8958be04cc30034b524223420333e8c8797dcfee94dc9",
+        "usgs5": "ff73042e0fede1cc04d7a4750eb3e9f3be7cf12d074eecd39f9a8f438ab67617",
+        "usgs7": "f14cd70beca266f3113e8f33275fe6579781eeaf01315bef641938dd428c2dd0",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "41a4d6abbc74bd9567a5b0cfe7f310f94fdfeb874047e30282ccc65089dd242b",
+        "fstrail": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "elevation": "d45b1364e2ee8cfdbc031cf9badc74c6d98f7a9f1e51a5cb6927fcf9e5c94b93"
+      }
+    },
+    "11": {
+      "landCoverage": 0.99303,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 408,
+        "usgs5": 164,
+        "usgs7": 10706,
+        "blm": 0,
+        "fsroad": 0,
+        "fstrail": 0
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "a317d4a294567d338513be8bf539ad5ef385b044f6829ed24d42d957b6b05798",
+        "usgs5": "5142c23680cf0831b0be4ac9032484d56a8609f2c8aeca692a2566a48e258d24",
+        "usgs7": "e0a19c7322f37a6ad43c9bc65f75563b1813c14a16d60ed2336282b29a7a4226",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fstrail": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "elevation": "adef3cc945936849122703ae3e8b054be6aa20cf6f9b1cdd8bdfd1f0e0ebd15b"
+      }
+    },
+    "17": {
+      "landCoverage": 0.99939,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 11,
+        "usgs5": 113,
+        "usgs7": 4415,
+        "blm": 0,
+        "fsroad": 482,
+        "fstrail": 28
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "63e39e47fd9c7c605816fed1adaeb561935f49a9263c22b7e8f5f15d63693458",
+        "usgs5": "83cb020861e9f6c410545c375cae73f7cccb7031d3cfa4457d746908fba660b9",
+        "usgs7": "572d8c91f4dbfd95952cff98d9ddaf75538b8661c59a4bb366eb9f8b12828ae5",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "1e0dc5dd1ffbfe8f4bfd7d9519d31e05d7bedb4b6ea44be8415b94bea3b6507d",
+        "fstrail": "f9f9493bf39efa39685f16c191abaf8ee4e7fe91b533e0cf363ba15c49acd47d",
+        "elevation": "9602b88f59ce82b8b1b72fd78a5c305c47e146e440dca64495344b1683e1a74b"
+      }
+    },
+    "16A": {
+      "landCoverage": 1.0,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 9,
+        "usgs7": 2106,
+        "blm": 0,
+        "fsroad": 1,
+        "fstrail": 0
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "2d0f09a7f4b915aaa852c47d179cb645df298104f87e08ceb969f4163e682c06",
+        "usgs7": "cd21a2ef5decf8b774bb9e03fb3aeb152b98556314c131dfca88b6df356bb7b9",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "5e046779e89787857cc6e7a9b8393ce8b56d8d4c66d37b0f7436dac6f6366caa",
+        "fstrail": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "elevation": "2ad5ec06a2a40c0f1af287b226da17ff0a0ff0db18f6608e1eb03b57b8b54cc1"
+      }
+    },
+    "14": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 185,
+        "usgs5": 129,
+        "usgs7": 10013,
+        "blm": 0,
+        "fsroad": 17,
+        "fstrail": 8
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "73ff4ae7bb2fbdaf3cf5ebc016744622dcb732e0e0c1f6c2e47edfadab2fc940",
+        "usgs5": "e568bdaf3223bc877e76d4656291e4c48bd53161f5099e06d61633b5e6c9bf1e",
+        "usgs7": "bac0b9240a08dbe33f2632c0a9e505602405fb50dd1a34b3a47acf5a59a0feb3",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "c57045cc71bc3a845022f8313478b1039a11b999e5b00fdae966a728af65f981",
+        "fstrail": "7a1a559dc6173c79ee0aee167192bb16ab816687bd76f90e9ad692f51f8674e7",
+        "elevation": "5b1ce9aa3c8e41691124027e73c2d2ce1c44cb52c95ea022d3a8c94400bdb041"
+      }
+    },
+    "13": {
+      "landCoverage": 0.99694,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 105,
+        "usgs5": 0,
+        "usgs7": 2918,
+        "blm": 0,
+        "fsroad": 0,
+        "fstrail": 0
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "66039efcf6ac43417c4a93bec143218f105ee1e52a5aafbcb327ef71cf68b01c",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "80a7b52dba63b2a144cfb179ce0797748ac44841c11961fa658b0e4cd70e5ceb",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fstrail": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "elevation": "1aeb3ec11de64d8423b5e56e6de39d5a36a92dab8afe1a9d24577339a3b80d23"
+      }
+    },
+    "20": {
+      "landCoverage": 1.0,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 29,
+        "usgs7": 2602,
+        "blm": 0,
+        "fsroad": 16,
+        "fstrail": 1
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "92a80c2513cfcef408db61b1ce134b18ee4ebbf719c08d8c68b390c91c6853b2",
+        "usgs7": "0f1000e42b861fe6bd25013ed5a5a5654b284ef15b12240868641d47fec62a85",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "00ec8588b83274f0e602206d763f4f4c433cb1b7c49fa771e054fd62e8a75f54",
+        "fstrail": "fde4b71447e99a93e5ced4213632419f1681e3dc3a697e26c3d2a8a268617851",
+        "elevation": "c1bc71757ffe3c4961f90ebbd420b1787c7bcfc0abe63a6652cb25424a60b37d"
+      }
+    },
+    "18": {
+      "landCoverage": 0.99691,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 139,
+        "usgs5": 0,
+        "usgs7": 3152,
+        "blm": 0,
+        "fsroad": 29,
+        "fstrail": 172
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "391044e5f61b89f0a030b296f130247eb37e09602349758c5ed157af04794b90",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "a5988ab81c72d3ebfb90cdd609d78039fe40ab65ecd55f7b1209dc26025324d5",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "541515ca844f08f02f6a7d12fce60e32f7e873f4763c18249600baad3af6b86a",
+        "fstrail": "7025da3ca3ea19dc426462aaf012827e4b12b71adcc1996f174231b05e188881",
+        "elevation": "3bcf4b3999dd5a3d7860737708ba79970d3d8c25bad38473e1d0be7dead45ab5"
+      }
+    },
+    "21": {
+      "landCoverage": 0.99914,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 127,
+        "usgs5": 69,
+        "usgs7": 4702,
+        "blm": 69,
+        "fsroad": 392,
+        "fstrail": 50
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3d4d3f4ae3c7b5faba51af30606de008c4d1a0a20122c1bfeefc9f65aa7400aa",
+        "usgs5": "38f36761f0bfd665837a9e9607053fefc15c664225b8876b7f34502526b520b3",
+        "usgs7": "33b80a338cc182b39fa529b5bedff01fe7e29176dac76eb48cc183f840ed9124",
+        "blm": "500fbf0f884696cacfd501e312449b89fe72c5eb366668f47a4b5f635d6d111a",
+        "fsroad": "c2102176c58986cdce745ff0dbbc0fa4e2458af3c2eb6994935dfbb72c92ccf7",
+        "fstrail": "800e29eae9aa497b2938c8032fe09aedf5306499900a2c75f688bf28de7c6eca",
+        "elevation": "c79adbf6cd5bf1c649b365a588df3fc896fda0e232ed0b673e034993ecceafcd"
+      }
+    },
+    "21A": {
+      "landCoverage": 0.99795,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 159,
+        "usgs5": 35,
+        "usgs7": 3753,
+        "blm": 162,
+        "fsroad": 178,
+        "fstrail": 42
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "a4e1ba5d19b9dff6b41f0b66cdb22a2683f36550343caf93c77b347ae5e8a5b1",
+        "usgs5": "5f34e439c5b8457deecdf941b8484fdf166d208857a623072f86a89035574fb5",
+        "usgs7": "dd991929b390aa5b3ccb937bbee4b33e51de14d4069932f10fc359c93a7651ec",
+        "blm": "0fe0b8d7fca93cfe1e632e9c7abb8e6ad0e1bdbf78db55b06ff8e702d9898ca7",
+        "fsroad": "7093d8b502987199fe182ea53540b5e71039a5a4cd1ec0bce2af6a4fcc759adb",
+        "fstrail": "bccee370f094c8aee192c11117f44281eea4f4e8f013a4b321227be1dec3d917",
+        "elevation": "ee72a16d600695e567d7d11af43cceb6af0516cbba74c7c87d9303a3d3a1326f"
+      }
+    },
+    "19": {
+      "landCoverage": 0.99999,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 0,
+        "usgs7": 1219,
+        "blm": 0,
+        "fsroad": 27,
+        "fstrail": 13
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "f038720b2b0c4ec7234a93164a2dbd576c85b4a5402c894a4f62ddfc8bae6d51",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "35f5c0de92fc863d33f8b0a42da72b59b92878ab6f5f4c3be556f430757c66cd",
+        "fstrail": "a1d656d295255ddd2eeaed4f78efef9eb13814af3374fee4cae82a4332012480",
+        "elevation": "2bc14b2f4f4945d97e200d5761a38729135b84b6bf6a4f8e2aa7cf17b60d01a9"
+      }
+    },
+    "20A": {
+      "landCoverage": 1.0,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 0,
+        "usgs7": 1009,
+        "blm": 0,
+        "fsroad": 63,
+        "fstrail": 34
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "ecf60988f19b45a3e1efb58a5ef0bbc974856600473844c1a2e49def364a5be6",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "6bbd928c8bf0b81e43ba0d2e842349cde467ce0ed04d9731e03697ad7ac43f7e",
+        "fstrail": "f71ce317f65fdb840c99b15c1046fb8d79cd8bd8be3e609f1da22d259b602115",
+        "elevation": "de2a7f570cebaa4a4c43ab8124b4805310cd727cc5738ae4a3593f7339f34c00"
+      }
+    },
+    "19A": {
+      "landCoverage": 0.99999,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 0,
+        "usgs7": 946,
+        "blm": 0,
+        "fsroad": 114,
+        "fstrail": 45
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "2dbc406f68b980ff960c04d014d502c2cbe5640ec67abc118c5815ebc54c0aed",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "572ceaad6068db271cd48a6bd1936a4f149b695c98df5cefc5515373fa1bbdbb",
+        "fstrail": "f953c161c6ae17b06b023514f0a85e2f386d4653da7a1e54fcef31ccdacf2af9",
+        "elevation": "c1d26fc4f40842462d71222e7dcc22a7debb5acc7217490fae260f6d46b05b55"
+      }
+    },
+    "23": {
+      "landCoverage": 0.99996,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 245,
+        "usgs5": 163,
+        "usgs7": 11113,
+        "blm": 0,
+        "fsroad": 715,
+        "fstrail": 244
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "41b32bedb942ae3e8aac9996cb004e0cdf52c465b52bb9c62299014f72f5d6d5",
+        "usgs5": "adaa1b336d6131b41ee9a4d53f204ec1637ccab21c8273c35cc9593371d02caa",
+        "usgs7": "1cf52e16f3ebb1cc8072fe131d0492f29c0a1aa331ff87e42fea717cb39e4b51",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "5625bfaaee99a8fd4addebc192732e854a4563f6d26089c345f60df9116383ff",
+        "fstrail": "e76d541d89b00fe8b5dfcc2a8906b721309e30436b51d58503ebddd286ad3b27",
+        "elevation": "9d77ef9586a42561ff5ae4b5a0b78a3ea7aca9be23512f84677d2dc94fd8ef64"
+      }
+    },
+    "28": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 278,
+        "usgs5": 58,
+        "usgs7": 8519,
+        "blm": 938,
+        "fsroad": 363,
+        "fstrail": 75
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "d1b379ec9ea22a956a681a223191b6f99af8039a28cdde1b296916c70c7c9277",
+        "usgs5": "01069bde23ddd854a6316f94d2878f638b43e96eafeeebd73a35d97b85f9ae5c",
+        "usgs7": "6baa64c957743679088e70d1f77dae7993f5e9f43c128447e47df0059c296fa1",
+        "blm": "eac2108f0c6ec704af80fdfd04dfe144275da301c8d05007027fc7b04d1759ad",
+        "fsroad": "3efd7a475eddfc095de1bcdca950c833721cd2c2cee826c07bb3836236026c65",
+        "fstrail": "5ff26a395fd983c8ff2ea1afbde1c617563c5d384be541cf62e28ca82114fdb5",
+        "elevation": "217cd81b11ec51d8da6fc1632ebbeaab506e56bc615904e270368621de3af472"
+      }
+    },
+    "22": {
+      "landCoverage": 0.99814,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 304,
+        "usgs5": 120,
+        "usgs7": 11522,
+        "blm": 0,
+        "fsroad": 687,
+        "fstrail": 219
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "a68f56ae58bfa9630346d00e3610931efcc694bfdf327ef0aafab6cb84000c37",
+        "usgs5": "44059c397d80b82fc5280ce79ff345634d119ae911b14b869a00b285da0cbb94",
+        "usgs7": "25e3abb6b7cb8d83f5a0ec20bd9a987a10aa10f3cee22464c4d3b0820e274692",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "d79e7d732749204141603efb00f90650995064d81a45a6ef0f93e765a9375837",
+        "fstrail": "85477ed91c2e066afbdd358bc78f8747fae7a9d2b76d49f4ba3aa6f26fa5ce1c",
+        "elevation": "b269b3ed4b0e333750d029474ad7508d9261f7956a670003914cfd94dec59bea"
+      }
+    },
+    "26": {
+      "landCoverage": 1.0,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 0,
+        "usgs7": 385,
+        "blm": 0,
+        "fsroad": 27,
+        "fstrail": 16
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs7": "469fe0188766f7dcd59b591675ed8b7f7ad093b10a24b8804375ed947e7908e4",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "dc2d3625b12c54f3689b5764ec7917f554425c84f8b6ef6adacafe93ed196b21",
+        "fstrail": "7c6984b590a3767df54a03f44d4e8af82974ac669da110027a301500b82fe45a",
+        "elevation": "50236cb5639f7891b12b82277054065fb1986671319b7c65657f67943e870a5c"
+      }
+    },
+    "52A": {
+      "landCoverage": 0.99998,
+      "routeCounts": {
+        "usgs3": 46,
+        "usgs4": 351,
+        "usgs5": 419,
+        "usgs7": 23313,
+        "blm": 1396,
+        "fsroad": 36,
+        "fstrail": 39
+      },
+      "sha256": {
+        "usgs3": "1bcf1b60988108fa574a3d3abb9d52174dc0962d922b97b5f792b73e1e4625ee",
+        "usgs4": "21086cbbe5dfe9e51616810bef7c28d0325fb88d3822c3761c6c53c79a3333e0",
+        "usgs5": "a8ee0eabfc435fdce166de5bf5c700f539e57cff76aef09d812df7c69df5c68b",
+        "usgs7": "1dbf02dd7998d3331254a4129cdc7c3a8a2a03f4ada1e107f843acd7339a134b",
+        "blm": "6ebe60e5d42806adb6156c97f91053e614d978474b706152ccdbc1b0cf71837e",
+        "fsroad": "f104bfc87172b929b8d71d9f07073fe2fbc8178b61985e5e000ab58ee3fc0d8d",
+        "fstrail": "bc7bafbaceeab022caab35138e90cad1f15ebee33afd7969bab89244f3de0bd4",
+        "elevation": "d468d22e70f81d45958329d8ab214aa237945a6215332fcb5928fa0750838f4e"
+      }
+    },
+    "15": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 35,
+        "usgs5": 186,
+        "usgs7": 10247,
+        "blm": 0,
+        "fsroad": 3,
+        "fstrail": 2
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "42bbc8fd604814d4d8d92dbd045d8d3b696a2901522ea90b92759fdd07f6cc69",
+        "usgs5": "176585a3f58d49f570698b80bc701248360bc640d41f3ab8eb91060443d716b8",
+        "usgs7": "de2ce10edab450013131ca72a3b5ce9a62145f47ee0105c67dbfa96748ec5e8d",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "ebf5af71ebc212a3d4ba54777f56eea93b0ca8e6e1f8ae8cb3180f10b7de9256",
+        "fstrail": "b05e25f6e15d391999ccc811944564c11f344ec4640eb9f4b300a67da73aea01",
+        "elevation": "e989eeeb109885427777e9c068c8ee25f6a4544ed5ca6a016b720f89335e1f0f"
+      }
+    },
+    "68": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 500,
+        "usgs4": 800,
+        "usgs5": 375,
+        "usgs7": 25861,
+        "blm": 1496,
+        "fsroad": 94,
+        "fstrail": 38
+      },
+      "sha256": {
+        "usgs3": "4a323afb7e131ce824d281323fbc240b74bff311911daef6c8365cbc64941199",
+        "usgs4": "fbd4cdc3d64f05596b5be97b6c94c453aca69b281b77a18eb4ed424d3119447c",
+        "usgs5": "4d39e3ce24a9d851250dee39259ce84a3b83d4e9893b6a2e8a130be59e7c59a9",
+        "usgs7": "241e1fa1ba4f5f8e29d180ee1c6d1cf4fb255e05575081b9b6f88689139884e2",
+        "blm": "e6bc7f6329a4b99eafb1710470b2ac279bce90d92ec87b896a6237f692e9ea9d",
+        "fsroad": "053a263933a2d2fb3ad19de3142e8177eb5bdd44f37020b4c5863ebe1ea1c9bc",
+        "fstrail": "8cc25f0cd24d2db856dde676b0fc29e00f6f87d704ef9e43a22b1ebf7085995c",
+        "elevation": "e210142a425ce504997568a3b617df3d27d3b5bdbe88a806e82850e9cabe0be0"
+      }
+    },
+    "77": {
+      "landCoverage": 0.99996,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 134,
+        "usgs5": 305,
+        "usgs7": 4760,
+        "blm": 21,
+        "fsroad": 166,
+        "fstrail": 61
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "7853c11c3c4122a69336b571478dc06d5960a57031e0c1a69c5658898d339f71",
+        "usgs5": "a5f154365e4cb68b19b2ce35a7696b0757a194cb1f2143ffd5eaed1890a44b23",
+        "usgs7": "478a28c5fcf8eff615a5151632be3586620e7bc3eea1740aa08296d3dd353903",
+        "blm": "67fcda85cc419bbed6904e6b030dcb50a91440a477b57c77dac3d038ce8b978f",
+        "fsroad": "bbfac7ace21a6f9c1759f96264b5dfae96665c0bd30b2ca9cd7ba10ca25cd417",
+        "fstrail": "f44a209a4212c93d2ffe8cef60d8ba957a0c733b471adba6ee84ce04fb404b55",
+        "elevation": "2dbce21fa6ddca215df54b95eab71738a1067b43075e29660a1e571149260862"
+      }
+    },
+    "78": {
+      "landCoverage": 0.99991,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 158,
+        "usgs5": 59,
+        "usgs7": 2526,
+        "blm": 36,
+        "fsroad": 171,
+        "fstrail": 66
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "62976f1e757d68b0f0430e4820191645d4bc9d0b5d69749ec8ea020b584eebce",
+        "usgs5": "751d9dca4ab16ca64311ac42504561e2a1ca58f95be06b2d745670fe06b5c02c",
+        "usgs7": "0d031c966a5b26d6c9fa7ed72fc1fe226ff65e9a19da8288ecee70d763e7316f",
+        "blm": "2850ddc2e63a04281e50130b8580a625fd166c6e51991b9441ec4d450f9017e6",
+        "fsroad": "69ec9a314e7e7d31f4da985d1bb2be793fbed1c9443f180e79df1e82ac12104b",
+        "fstrail": "81a2cd828beea462eb3cce70c43bac8dc3e62e1fb3c8f151915ca660356dab98",
+        "elevation": "0e95d7bd10adcb9d112de96627c51b200ef492e9114f014734b73d1cac2bdecd"
+      }
+    },
+    "53": {
+      "landCoverage": 0.99997,
+      "routeCounts": {
+        "usgs3": 328,
+        "usgs4": 1073,
+        "usgs5": 1118,
+        "usgs7": 50539,
+        "blm": 896,
+        "fsroad": 78,
+        "fstrail": 14
+      },
+      "sha256": {
+        "usgs3": "6d6ff3aadf267534c318d46d0b2472a8f0863fca65bce8a418debdc689c00007",
+        "usgs4": "917de57b1376bc8313653a9c1699deb2df2a848a36c97fc07e938d590f1d1931",
+        "usgs5": "abb9b2cc4d76bb4b4d279cc3c570a4839758b43a320d7f239d3b456b37563389",
+        "usgs7": "cd954379c38237dd9dccb6f759f8d13d6a918ac65824f7ba73ae858c498ee476",
+        "blm": "ca28ed764961f3f17ecc39fbf955964c06aa0fd588f4f8d5d0f0a4668f6143e0",
+        "fsroad": "0e2bbc3e21ecde787a23abcc863ad49ebc3a1f450479bcef4acc9bab6b4872a9",
+        "fstrail": "6f40e04b0e88ce5a79ce1f79fbde667f5a66b3eec5da3edcb9459f42051dc17c",
+        "elevation": "4c970c0894e20eba6b22ef1e8dc780fbf9fad00980809e03c7f29ee450e61915"
+      }
+    },
+    "68A": {
+      "landCoverage": 0.99992,
+      "routeCounts": {
+        "usgs3": 468,
+        "usgs4": 904,
+        "usgs5": 181,
+        "usgs7": 24924,
+        "blm": 176,
+        "fsroad": 43,
+        "fstrail": 21
+      },
+      "sha256": {
+        "usgs3": "ddd83343b5780e5d1e32aa8a036efad7992d9dfdd7234fe9e7f6a3d8b01a2129",
+        "usgs4": "cbef3c7148acd1ac18737a76d188838633ee175e80fc3b97febcd201a319f8ad",
+        "usgs5": "f42c81385ddb74ff85f972a8e46851c7afdd86e4fd28fd84608bb16f743576f2",
+        "usgs7": "f2a3c26b36c5363d190d59e53ad2eba2082b6674e6f62153e3471c7671a574fc",
+        "blm": "bb21e753a23abe58b27bcb531e37e07308888605b38cc7e70df345dd610525cf",
+        "fsroad": "83163246ba4cf32841a30a22da0ab45d70490c1ccce18f8703e20a8d2654e35d",
+        "fstrail": "0aa018efd032bcdcd7c7bc9b0d4d2c640a8f03c0a4baaa986953eaa8985f66df",
+        "elevation": "7055cf05b4deae11f3284b701a18833585420aba8f0e8a1dab2cfd868b20633d"
+      }
+    },
+    "33": {
+      "landCoverage": 0.99994,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 276,
+        "usgs7": 14868,
+        "blm": 0,
+        "fsroad": 886,
+        "fstrail": 158
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "bbea67c4405b98d05961fa32093ca83561ec2346b6ca606c910296f942738d4e",
+        "usgs7": "f09de4f777fef190f6f7510768dd4757cdbbc3d4d4a796fd2509a131f1c3f0c3",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "12f239bb59e326c4b883b5a3d7e308393e79a4be2137123aba9fe9d858923e2b",
+        "fstrail": "5c0992a926e3ec855cd8e6d303ab3db45a79fbe434836eb77ff2a3dc6ecf6555",
+        "elevation": "9837ab16de5011cd3060bf0dfb10558b4b51745308973f6c5526f8907fe7e589"
+      }
+    },
+    "39": {
+      "landCoverage": 0.99995,
+      "routeCounts": {
+        "usgs3": 259,
+        "usgs4": 439,
+        "usgs5": 768,
+        "usgs7": 55892,
+        "blm": 296,
+        "fsroad": 1289,
+        "fstrail": 379
+      },
+      "sha256": {
+        "usgs3": "b701810ddc1937ec38f0c290f62c8e69b0d8808bd039a3e19a1e6420b78d422a",
+        "usgs4": "f1f2f0b0b9ccd2645fb8ce95141c01c1b0a74435b2a4fd90828024051acd4081",
+        "usgs5": "017ef40879a5c2c00813cc913964e7bbd09196351e6c367cf6cc9947af951a42",
+        "usgs7": "239642d7413dba4668705a0e107e9d94363877facf34be0c027cefd0c7b2b766",
+        "blm": "ef24a262061ad83045e1e4c3e3a3aa14538bb51cb2101202345442e78ba664c6",
+        "fsroad": "39e45a0943be5d6f6aa58fe80c98c7500ac2cbba67a3c83b1033a078e4dd3a66",
+        "fstrail": "0b699452392c02303bacce5a7bf3166f95a8e3591c5c9465d5d04172231a9116",
+        "elevation": "331aae11a34506c588ac651e4e4c02cb6a1924f906ce67d7c488ff7d4d0d75e8"
+      }
+    },
+    "38": {
+      "landCoverage": 0.99831,
+      "routeCounts": {
+        "usgs3": 677,
+        "usgs4": 1354,
+        "usgs5": 2071,
+        "usgs7": 92426,
+        "blm": 6390,
+        "fsroad": 479,
+        "fstrail": 169
+      },
+      "sha256": {
+        "usgs3": "7bb32f2c212156d7da3999f16712ad3a259085f1b5bbb9b9da1db61766bb7a48",
+        "usgs4": "7d919097c5aac4e0fd276b99b7c157630f0950df06aa2ea09a89d6277b60df84",
+        "usgs5": "73e269a0a62ef27ef445716d81e72423d84c46f862ed98a9c6fc3b90e889aab2",
+        "usgs7": "101603a3d4ca355197d634841d540f9578cc41ce496b3744c50d49d85c4cfae0",
+        "blm": "c12dba0fc1b40e3d02b76e8177731d2471da1981e3a2819485868173a898d622",
+        "fsroad": "5bd28078980b75a0108be9e494ec554e0ef0500c9ef490d17e1c932e43efc6ab",
+        "fstrail": "6d3cf00072b10b0bc1c6c1b374ae70e4ae78641a61885ed23132b1249110af0b",
+        "elevation": "821a303d6079b3445beae0a80504b3b01702b0a6aab47c919cf9cc4628926676"
+      }
+    },
+    "35": {
+      "landCoverage": 0.99999,
+      "routeCounts": {
+        "usgs3": 0,
+        "usgs4": 0,
+        "usgs5": 135,
+        "usgs7": 2487,
+        "blm": 0,
+        "fsroad": 412,
+        "fstrail": 93
+      },
+      "sha256": {
+        "usgs3": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs4": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "usgs5": "64645f637436894453884c188e2b4cb1b376ddf861d23fe3dd089c53cbab6252",
+        "usgs7": "7cd32fa311eb656c398c9519d0dfd7879f8960c6badc15d1f4631a8020ca9fda",
+        "blm": "3603cc39eff36eb955b095f0318f3e7daef74e6ac8f74e15dead1eceb3d773c7",
+        "fsroad": "854e462880ccefc269a81800dbeb7341feeba232795ef7a0f692b1a55bf1b3cb",
+        "fstrail": "21cce71050456f7783e8c5703b5a8a1bfdc041818b8c6e8717064dbca0d5a232",
+        "elevation": "a8f5187294f347cf6f67aefce41ee17de3985bc9855b689511e5360b003f3800"
+      }
+    }
+  }
+}

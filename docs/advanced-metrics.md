@@ -1,6 +1,6 @@
 # Advanced metrics backlog
 
-This list comes from the owner's "Advanced Hunting Metrics Implementation Guide" (Nov 2026). It is a backlog, not a commitment, and nothing here is built yet. Each metric needs the same evidence a shipped metric needs (see [data-dictionary.md](data-dictionary.md)): a source, a vintage, a definition, validation against known places, and a label explaining what it does **not** mean.
+This list comes from the owner's "Advanced Hunting Metrics Implementation Guide" (Nov 2026). It is a backlog, not a commitment. The Idaho mapped-route and elevation pilot below is implemented separately from the broader ideas in this table. Each metric needs the same evidence a shipped metric needs (see [data-dictionary.md](data-dictionary.md)): a source, a vintage, a definition, validation against known places, and a label explaining what it does **not** mean.
 
 ## How these fit this stack
 
@@ -34,3 +34,7 @@ The web app only reads these summaries. Rasters (DEMs, SNODAS, NDVI) get the sam
 - A missing layer means unknown, not zero. Coverage varies by state and forest.
 - Don't fold a new metric into Quality until it has been checked against harvest or density data and the score explanation (`/score`) is updated with it.
 - Record the source, its vintage and the build date with each per-unit value, so the age of the data can be shown.
+
+## Idaho pilot (November 2026)
+
+A mapped-road/motorized-route and elevation pilot has been developed separately from Quality. See the data dictionary for its exact definitions, source limitations and unit-versus-hunt-area caveat. It uses a 100-m grid and is not a measure of actual pressure or legal access. Do not infer that unspecified metrics in the table above have been implemented.

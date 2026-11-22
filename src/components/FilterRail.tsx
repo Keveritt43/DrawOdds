@@ -213,6 +213,12 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
         </FilterGroup>
         {(!states || states.includes('ID')) && <FilterGroup title="Idaho Filters" active={active(...ID_RESTRICTIONS)}>
           {idNote && <div className="filter-group-note">{idNote}</div>}
+          <Section title="Remote Public Land" value={get('idRemote') ? `${Number(get('idRemote')) / 640}+ sq mi` : get('idHigh') ? 'Above 9,000 ft' : 'Any'} set={!!get('idRemote') || !!get('idHigh')}>
+            <label>Minimum square miles in a unit</label>
+            <select value={get('idRemote')} onChange={e => push({ idRemote: e.target.value || null })}><option value="">Any</option><option value="3200">5+</option><option value="6400">10+</option><option value="16000">25+</option><option value="32000">50+</option></select>
+            <div className="checks2"><label><input type="checkbox" checked={get('idHigh') === '1'} onChange={e => push({ idHigh: e.target.checked ? '1' : null })} /> Also above 9,000 feet</label></div>
+            <p className="small muted">Idaho deer and elk only. Estimates public land more than one mile from mapped roads and designated motorized trails. Coverage is incomplete; closed or private roads may be included. This is unit context, not legal access, hunter pressure, or the acreage within a partial-unit hunt. A multi-unit hunt matches if any unit meets the minimum; unknown units do not pass. Other states are unchanged.</p>
+          </Section>
           {!msg && (sp_ === '' || sp_ === 'DEER') && (
             <Section title="Deer: Mule Or Whitetail" value={many(DEER, 'deerType', 'Any')} set={list('deerType').length > 0}>
               {checks('deerType', DEER)}

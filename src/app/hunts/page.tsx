@@ -4,6 +4,8 @@ import { trophyForUnit, trophyForHunt } from '@/lib/trophyHunt';
 import { trophyPresentation } from '@/lib/trophyDisplay';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { HuntLink } from '@/components/HuntNavigation';
+import { isPrivateOnly } from '@/lib/privateLand';
+import { matchesIdTerrain } from '@/lib/idTerrain';
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
 import { savedFilters } from "@/lib/savedFilters";
 import { restoresSavedFilters } from "@/lib/filterPreferences";
@@ -129,7 +131,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     }),
     getFavorites(),
   ]);
-  const rows = candidateRows.filter((r) => matchesHuntSeason(r, f));
+  const rows = candidateRows.filter((r) => matchesHuntSeason(r, f) && matchesIdTerrain({ ...r, privateOnly: isPrivateOnly(r) }, String(sp.idRemote ?? ''), String(sp.idHigh ?? '')));
   // alphabetical: unit / area names in human order (4 before 10, 20A right after 20)
   if (f.sort === 'alpha') rows.sort((a, b) => unitOrder(a.areaName ?? a.unit, b.areaName ?? b.unit) || (a.huntNumber ?? 0) - (b.huntNumber ?? 0) || (a.tagCode ?? '').localeCompare(b.tagCode ?? ''));
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };
@@ -225,8 +227,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
   const query = (patch: Partial<Filters>) => {
     const value = toQuery(f, patch);
-    if (!sp.state && !sp.draw && sp.restore !== "1" && !sp.as) return value;
+    if (!sp.state && !sp.draw && sp.restore !== "1" && !sp.as && !sp.idRemote && !sp.idHigh) return value;
     const p = new URLSearchParams(value);
+    if (typeof sp.idRemote === 'string' && sp.idRemote) p.set('idRemote', sp.idRemote);
+    if (sp.idHigh === '1') p.set('idHigh', '1');
     if (typeof sp.editPreset === 'string') p.set('editPreset', sp.editPreset);
     if (sp.state || sp.restore === "1") p.set("state", state);
     if (sp.draw) p.set("draw", draw.toLowerCase());

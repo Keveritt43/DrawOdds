@@ -1,3 +1,4 @@
+import { IdahoTerrainNote } from './IdahoTerrainNote';
 import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
 import { HuntLink } from '@/components/HuntNavigation';
 import { CoPressureNote } from './CoPressureNote';
@@ -192,6 +193,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
       <ScoreRow r={r} nr={c.nr} />
       <Stats r={r} c={c} />
       <Footer r={r} c={c} />
+      {r.state === 'ID' && !isPrivateOnly(r) && ['DEER', 'ELK'].includes(r.species) && <IdahoTerrainNote units={r.units} />}
     </div>
   );
 }
@@ -324,6 +326,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
           );
         })}
       </div>
+      <IdahoTerrainNote units={units} />
       <div className="zshared">
         {any.publicPct !== null && <span>Public land <b>{Math.round(any.publicPct)}%</b></span>}
         <span className="muted">Success and crowding: 5-yr general-season numbers for the weapons each tag can hunt in these units.</span>
