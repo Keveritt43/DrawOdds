@@ -10,4 +10,6 @@ test('unmapped private access stays unknown and private-only hunts mention permi
  assert.match(landAccessNotice({state:'WY',privateOnly:false,publicPct:25,huntablePct:null})!,/not fully mapped/);
  assert.equal(landAccessNotice({state:'WY',privateOnly:false,publicPct:null,huntablePct:null}),null);
  assert.match(landAccessNotice({state:'UT',privateOnly:true,publicPct:80,huntablePct:80})!,/permission/);
+ assert.match(landAccessNotice({state:'UT',privateOnly:false,publicPct:30,huntablePct:30})!,/private access may be available but is not fully mapped/);
+ assert.equal(landAccessNotice({state:'UT',privateOnly:false,publicPct:50,huntablePct:50}),null);
 });
