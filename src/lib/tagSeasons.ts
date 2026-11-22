@@ -1,4 +1,5 @@
 /** Display helpers for nonresident elk A/B tag seasons (HuntSummary.tagSeasons). */
+import {isWaMixedBuckPermit} from './waMixedDeer';
 export interface TagSeason {
   weapon: string;
   sex: string;
@@ -28,6 +29,7 @@ export function sortedSeasons(ts: unknown): TagSeason[] {
 
 /** "antlerless (youth hunt only on private land only)" -> "youth antlerless"; "A tag · antlered only" -> "antlered". */
 export function shortSex(sex: string): string {
+  if(isWaMixedBuckPermit(sex))return 'any buck or antlerless whitetail';
   const t = sex.replace(/^[AB] tag · /i, '').toLowerCase();
   const base = /^antlerless/.test(t) ? 'antlerless' : /^antlered/.test(t) ? 'antlered' : t.replace(/ only$/, '');
   const q = /youth/.test(t) ? 'youth ' : '';
@@ -58,7 +60,7 @@ export function seasonRules(ts: unknown, species: string): string[] {
   const male = species === 'ELK' ? 'Bulls' : 'Bucks';
   const isFemale = (x: string) => /^antlerless/.test(x);
   const isMale = (x: string) => /^antlered|spike|brow-tined|bull/.test(x) && !/^antlerless only/.test(x);
-  const isAny = (x: string) => /any elk|any deer|either|spike or antlerless|antlerless or spike/.test(x);
+  const isAny = (x: string) => isWaMixedBuckPermit(x) || /any elk|any deer|either|spike or antlerless|antlerless or spike/.test(x);
   const females = sx.filter((x) => isFemale(x) || isAny(x));
   const males = sx.filter((x) => (isMale(x) || isAny(x)) && !/^antlerless only$/.test(x));
   const out: string[] = [];
@@ -72,7 +74,7 @@ export function seasonRules(ts: unknown, species: string): string[] {
   else if (females.every((x) => /youth/.test(x))) out.push('Antlerless: youth only');
   if (species === 'DEER') {
     allOrSome(males, /2-point/, '2-point bucks only');
-    allOrSome(sx, /white-tailed/, 'Whitetail only');
+    if(!sx.some(isWaMixedBuckPermit)) allOrSome(sx, /white-tailed/, 'Whitetail only');
   } else if (species === 'ELK') {
     allOrSome(males, /^spike only|spike only/, 'Spike bulls only');
     allOrSome(males, /brow-tined/, 'Brow-tined bulls only');
@@ -93,7 +95,7 @@ export const RULE_HELP: Record<string, string> = {
 /** A general season's sex class from its regulation seasons: unit 40's any-weapon deer season is bucks only. */
 export function seasonsClass(seasons: { sex: string }[]): 'ANTLERED' | 'ANTLERLESS' | 'EITHER' {
   const sx = seasons.map((x) => x.sex.replace(/^[AB] tag · /i, '').toLowerCase());
-  const any = (x: string) => /any (elk|deer)|either|spike or antlerless|antlerless or spike/.test(x);
+  const any = (x: string) => isWaMixedBuckPermit(x) || /any (elk|deer)|either|spike or antlerless|antlerless or spike/.test(x);
   // Montana antelope B licences are printed "Doe/Fawn"
   const f = sx.some((x) => any(x) || /^antlerless|^doe\b|doe\/fawn/.test(x));
   const m = sx.some((x) => any(x) || /^antlered|spike|brow-tined|bull/.test(x));

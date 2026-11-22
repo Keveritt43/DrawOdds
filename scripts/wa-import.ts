@@ -19,6 +19,7 @@ import { syntheticId } from '../src/sync/steps/hunts';
 import { scoreHunts } from '../src/lib/score';
 import { withStateTrophyScores } from '../src/lib/stateTrophyScores';
 import { trophyForHunt } from '../src/lib/trophyHunt';
+import {isWaMixedBuckPermit} from '../src/lib/waMixedDeer';
 
 type Rec = Record<string, unknown> & { id: string; slug: string; species: 'DEER' | 'ELK' | 'MOOSE' | 'BIGHORN' | 'GOAT'; type: 'CONTROLLED' | 'GENERAL'; units: string[]; name: string; tagCode: string };
 type Area = { name: string; acres: number | null; bbox: number[] | null; geometry: object | null; publicPct?: number | null; privatePct?: number | null; ownership?: { manager: string; pct: number }[] };
@@ -31,7 +32,10 @@ const only = (process.argv.find((a) => a.startsWith('--species='))?.slice(10).sp
 // change nobody reviewed for Washington (Nov 17: trophy v2 would move 783 WA scores). New rows are scored normally.
 const keepScores = process.argv.includes('--keep-live-scores');
 const SCORE_KEYS = ['scoreQuality', 'scoreSuccess', 'scoreAccess', 'scoreCrowd', 'scoreTrophy'] as const;
-const allHunts = JSON.parse(readFileSync('data/wa/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
+const sourceHunts = JSON.parse(readFileSync('data/wa/hunts.json', 'utf8')) as { drawYear: number; regsYear: number; problems: string[]; hunts: Rec[] };
+// Older retained files have this legal animal misclassified. Apply the same explicit
+// correction to future reviewed imports; the dry run includes the resulting changes.
+const allHunts={...sourceHunts,hunts:sourceHunts.hunts.map(h=>sourceHunts.regsYear===2026&&h.species==='DEER'&&h.type==='CONTROLLED'&&h.antlerClass==='ANTLERLESS'&&isWaMixedBuckPermit(typeof h.takeMethod==='string'?h.takeMethod:null)?{...h,antlerClass:'EITHER'}:h)};
 const hunts = only.length ? { ...allHunts, hunts: allHunts.hunts.filter((h) => only.includes(h.species)) } : allHunts;
 // Unit rows: the GMUs and Deer/Elk Areas the imported hunts use (data/wa/units.json). Deer and Elk Areas overlap
 // GMUs; each is one Unit row with its own land shares.

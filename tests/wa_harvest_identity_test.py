@@ -8,6 +8,10 @@ wa = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(wa)
 
 class HarvestIdentityTest(unittest.TestCase):
+    def test_mixed_buck_and_antlerless_whitetail(self):
+        self.assertEqual(wa.special_antler_class('Any Buck, White-tailed antlerless'), 'EITHER')
+        self.assertEqual(wa.special_antler_class('White-tailed, antlerless'), 'ANTLERLESS')
+        self.assertEqual(wa.special_antler_class('White-tailed, Any Buck'), 'ANTLERED')
     def setUp(self):
         self.hunt = dict(species='Deer', category='Quality Deer', name='Desert', tag='Archery', area='GMU 290', legal='Any Buck', dates='Sept. 1-27', choice=1079)
     def test_renumbered_same_season(self):

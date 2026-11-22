@@ -7,6 +7,7 @@ import { unlistedExceptionalHunt } from './trophyHuntDemandCandidate';
 import { reviewTrophyPeerBenchmark } from './trophyPeerBenchmarkReview';
 import idV2 from '../../data/id/trophy-v2-tiers.json';
 import { withIdahoVerifiedArea } from './idahoHuntCorrections';
+import {isWaMixedBuckPermit} from './waMixedDeer';
 
 const ID_V2_TIER:Record<number,TrophyTier>={100:'unicorn',80:'trophy',65:'county',50:'unclassified'};
 /** Idaho v2 tier (owner, Nov 17): demand per tag, herd quality, rut days, publications and B&C,
@@ -52,6 +53,7 @@ const maximumAntlerRule = (text:string) => /\b(?:\w+\s+)?\(\d+\)\s*points?\s+or\
  * mixed description does not. Names or the GMU alone are not proof of a restriction. */
 export function waLegalDeerType(takeMethod:string|null|undefined):'MULE'|'WHITETAIL'|'BLACKTAIL'|null {
   const text=takeMethod??'';
+  if(isWaMixedBuckPermit(text))return null;
   const types:('MULE'|'WHITETAIL'|'BLACKTAIL')[]=[];
   if(/\bmule deer\b/i.test(text))types.push('MULE');
   if(/\bwhite[ -]*tail(?:ed)?\b/i.test(text))types.push('WHITETAIL');
@@ -112,10 +114,12 @@ export function trophyForUnit(hunt: {
   const antlerMaximum = rules.includes('2-point bucks only') || rules.includes('Spike bulls only') ||
     (seasons.length ? seasons.every(s=>maximumAntlerRule(`${s.sex} ${s.notes}`)) : maximumAntlerRule(hunt.takeMethod ?? ''));
   const speciesText=`${hunt.deerType ?? ''} ${hunt.name ?? ''} ${hunt.takeMethod ?? ''}`;
-  const whitetailOnly = hunt.species==='DEER' && (rules.includes('Whitetail only') || (/white.?tail/i.test(speciesText) && !/mule/i.test(speciesText)));
+  const whitetailOnly = hunt.species==='DEER' && !isWaMixedBuckPermit(hunt.takeMethod) && (rules.includes('Whitetail only') || (/white.?tail/i.test(speciesText) && !/mule/i.test(speciesText)));
   if (antlerMaximum || !['DEER','ELK','PRONGHORN'].includes(hunt.species.toUpperCase()) || !['ANTLERED','EITHER'].includes(hunt.antlerClass.toUpperCase()))
     return {score:null,tier:null,reason:'Trophy classification not applicable'};
   const state=hunt.state.toUpperCase();
+  if(state==='WA' && hunt.species.toUpperCase()==='DEER' && isWaMixedBuckPermit(hunt.takeMethod))
+    return {score:null,tier:null,reason:'This permit allows any buck or an antlerless whitetail; available unit trophy evidence does not identify the buck species'};
   // Utah DWR's 2026 premium limited-entry buck deer table includes these
   // distinct permits, including multiseason PLE. Match the actual hunt and
   // boundary, not every hunt in a premium unit (e.g. management buck tags).
