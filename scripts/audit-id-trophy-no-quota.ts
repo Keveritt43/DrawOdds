@@ -42,22 +42,21 @@ type H=typeof snapshot.hunts[number];
 // Compare the exact reviewed production-table population; do not alter ranks by adding a new hunt.
 const eligible=(h:H)=>['ANTLERED','EITHER'].includes(h.antlerClass)&&`${h.species}:${h.code}` in liveTiers.tiers;
 // Mature-animal share, shrunk toward the species' harvest-weighted mean with a 20-animal prior.
-// Herd quality is a unit property: a late hunt's share is higher partly because bucks move in the
-// rut, which the rut part already scores. So each unit takes the best shrunk share of any hunt that
-// covers it, and a hunt takes its weakest unit. (Scoring each hunt's own share counted the rut twice
-// and dropped Unit 54's October hunts from 80 to 50.) More hunts in a unit means more chances at a
-// high maximum; the shrinkage limits small samples but not that.
+// A multi-unit hunt cannot attribute its harvest to each unit. For each unit use the single-unit
+// hunt with the largest available harvest sample, not the highest observed antler share. This
+// avoids selecting the best of multiple noisy estimates, although season-specific selection bias
+// still remains. Unknown units remain flagged; these are experimental, not validated herd measures.
 const K=20;
 const mule=(x:H)=>!(x.species==='DEER'&&x.deerType==='WHITETAIL');
-const withShare=(sp:string)=>snapshot.hunts.filter(x=>x.species===sp&&typeof x.bigPct5==='number'&&typeof x.harvest5==='number'&&x.harvest5>0&&mule(x));
+const withShare=(sp:string)=>snapshot.hunts.filter(x=>x.species===sp&&x.units.length===1&&typeof x.bigPct5==='number'&&typeof x.harvest5==='number'&&x.harvest5>0&&mule(x));
 const shrunkShare=(x:H)=>{
   const pool=withShare(x.species),mean=pool.reduce((s,y)=>s+y.bigPct5!*y.harvest5!,0)/pool.reduce((s,y)=>s+y.harvest5!,0);
   return (x.bigPct5!*x.harvest5!+mean*K)/(x.harvest5!+K);
 };
-const unitHerd=new Map<string,{share:number;from:string}>();
+const unitHerd=new Map<string,{share:number;from:string;sample:number}>();
 for(const sp of ['DEER','ELK'])for(const x of withShare(sp))for(const u of x.units){
   const k=`${sp}|${u}`,v=shrunkShare(x),old=unitHerd.get(k);
-  if(!old||v>old.share)unitHerd.set(k,{share:v,from:x.code});
+  if(!old||x.harvest5!>old.sample||(x.harvest5===old.sample&&x.code<old.from))unitHerd.set(k,{share:v,from:x.code,sample:x.harvest5!});
 }
 const herdValues=(sp:string)=>[...unitHerd].filter(([k])=>k.startsWith(sp+'|')).map(([,v])=>v.share);
 const animalShare=(h:H)=>{
