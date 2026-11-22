@@ -1,0 +1,605 @@
+{
+  "built": "2026-11-22",
+  "units": {
+    "1": {
+      "publicAcres": 1096936,
+      "remoteAcres": 142768,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "10": {
+      "publicAcres": 754837,
+      "remoteAcres": 272271,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "10A": {
+      "publicAcres": 495267,
+      "remoteAcres": 8247,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "11": {
+      "publicAcres": 127002,
+      "remoteAcres": 15937,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "11A": {
+      "publicAcres": 3296,
+      "remoteAcres": 0,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "12": {
+      "publicAcres": 717542,
+      "remoteAcres": 369584,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "13": {
+      "publicAcres": 60505,
+      "remoteAcres": 11624,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "14": {
+      "publicAcres": 242956,
+      "remoteAcres": 23556,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "15": {
+      "publicAcres": 519867,
+      "remoteAcres": 84388,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "16": {
+      "publicAcres": 198749,
+      "remoteAcres": 41405,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "16A": {
+      "publicAcres": 178738,
+      "remoteAcres": 127855,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "17": {
+      "publicAcres": 969232,
+      "remoteAcres": 882508,
+      "highAcres": 2,
+      "remoteHighAcres": 2
+    },
+    "18": {
+      "publicAcres": 143033,
+      "remoteAcres": 63026,
+      "highAcres": 49,
+      "remoteHighAcres": 49
+    },
+    "19": {
+      "publicAcres": 162739,
+      "remoteAcres": 114833,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "19A": {
+      "publicAcres": 291433,
+      "remoteAcres": 102326,
+      "highAcres": 42,
+      "remoteHighAcres": 42
+    },
+    "2": {
+      "publicAcres": 79755,
+      "remoteAcres": 860,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "20": {
+      "publicAcres": 301265,
+      "remoteAcres": 209190,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "20A": {
+      "publicAcres": 481324,
+      "remoteAcres": 454270,
+      "highAcres": 365,
+      "remoteHighAcres": 360
+    },
+    "21": {
+      "publicAcres": 321347,
+      "remoteAcres": 77301,
+      "highAcres": 10,
+      "remoteHighAcres": 0
+    },
+    "21A": {
+      "publicAcres": 140721,
+      "remoteAcres": 18694,
+      "highAcres": 2504,
+      "remoteHighAcres": 1258
+    },
+    "22": {
+      "publicAcres": 402828,
+      "remoteAcres": 41880,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "23": {
+      "publicAcres": 359591,
+      "remoteAcres": 69634,
+      "highAcres": 62,
+      "remoteHighAcres": 62
+    },
+    "24": {
+      "publicAcres": 311690,
+      "remoteAcres": 36671,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "25": {
+      "publicAcres": 572176,
+      "remoteAcres": 170475,
+      "highAcres": 111,
+      "remoteHighAcres": 94
+    },
+    "26": {
+      "publicAcres": 379970,
+      "remoteAcres": 332543,
+      "highAcres": 748,
+      "remoteHighAcres": 703
+    },
+    "27": {
+      "publicAcres": 979408,
+      "remoteAcres": 821705,
+      "highAcres": 22351,
+      "remoteHighAcres": 17450
+    },
+    "28": {
+      "publicAcres": 807946,
+      "remoteAcres": 184001,
+      "highAcres": 7754,
+      "remoteHighAcres": 3807
+    },
+    "29": {
+      "publicAcres": 362874,
+      "remoteAcres": 34299,
+      "highAcres": 50013,
+      "remoteHighAcres": 19607
+    },
+    "3": {
+      "publicAcres": 195935,
+      "remoteAcres": 709,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "30": {
+      "publicAcres": 204236,
+      "remoteAcres": 3629,
+      "highAcres": 8838,
+      "remoteHighAcres": 1159
+    },
+    "30A": {
+      "publicAcres": 155254,
+      "remoteAcres": 12635,
+      "highAcres": 17238,
+      "remoteHighAcres": 9254
+    },
+    "31": {
+      "publicAcres": 189182,
+      "remoteAcres": 31751,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "32": {
+      "publicAcres": 266206,
+      "remoteAcres": 40940,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "32A": {
+      "publicAcres": 270348,
+      "remoteAcres": 10442,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "33": {
+      "publicAcres": 400193,
+      "remoteAcres": 40405,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "34": {
+      "publicAcres": 284127,
+      "remoteAcres": 93924,
+      "highAcres": 205,
+      "remoteHighAcres": 44
+    },
+    "35": {
+      "publicAcres": 239281,
+      "remoteAcres": 114706,
+      "highAcres": 9318,
+      "remoteHighAcres": 9298
+    },
+    "36": {
+      "publicAcres": 646536,
+      "remoteAcres": 178980,
+      "highAcres": 62317,
+      "remoteHighAcres": 39934
+    },
+    "36A": {
+      "publicAcres": 479920,
+      "remoteAcres": 173209,
+      "highAcres": 84666,
+      "remoteHighAcres": 63429
+    },
+    "36B": {
+      "publicAcres": 348237,
+      "remoteAcres": 13386,
+      "highAcres": 19293,
+      "remoteHighAcres": 1960
+    },
+    "37": {
+      "publicAcres": 406597,
+      "remoteAcres": 58144,
+      "highAcres": 52245,
+      "remoteHighAcres": 40166
+    },
+    "37A": {
+      "publicAcres": 210065,
+      "remoteAcres": 69918,
+      "highAcres": 47971,
+      "remoteHighAcres": 31051
+    },
+    "38": {
+      "publicAcres": 495729,
+      "remoteAcres": 1191,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "39": {
+      "publicAcres": 1195423,
+      "remoteAcres": 203748,
+      "highAcres": 8082,
+      "remoteHighAcres": 7171
+    },
+    "4": {
+      "publicAcres": 627115,
+      "remoteAcres": 22849,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "40": {
+      "publicAcres": 1098060,
+      "remoteAcres": 80305,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "41": {
+      "publicAcres": 1132087,
+      "remoteAcres": 111635,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "42": {
+      "publicAcres": 822509,
+      "remoteAcres": 182902,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "43": {
+      "publicAcres": 433834,
+      "remoteAcres": 38419,
+      "highAcres": 14620,
+      "remoteHighAcres": 3286
+    },
+    "44": {
+      "publicAcres": 181134,
+      "remoteAcres": 6564,
+      "highAcres": 1647,
+      "remoteHighAcres": 474
+    },
+    "45": {
+      "publicAcres": 524654,
+      "remoteAcres": 53491,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "46": {
+      "publicAcres": 1397051,
+      "remoteAcres": 80957,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "47": {
+      "publicAcres": 164152,
+      "remoteAcres": 8171,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "48": {
+      "publicAcres": 325747,
+      "remoteAcres": 52747,
+      "highAcres": 39231,
+      "remoteHighAcres": 23719
+    },
+    "49": {
+      "publicAcres": 330879,
+      "remoteAcres": 97838,
+      "highAcres": 27697,
+      "remoteHighAcres": 22297
+    },
+    "4A": {
+      "publicAcres": 91709,
+      "remoteAcres": 486,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "5": {
+      "publicAcres": 35208,
+      "remoteAcres": 333,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "50": {
+      "publicAcres": 857521,
+      "remoteAcres": 241929,
+      "highAcres": 154230,
+      "remoteHighAcres": 100390
+    },
+    "51": {
+      "publicAcres": 553694,
+      "remoteAcres": 162872,
+      "highAcres": 73625,
+      "remoteHighAcres": 50935
+    },
+    "52": {
+      "publicAcres": 359481,
+      "remoteAcres": 8654,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "52A": {
+      "publicAcres": 640324,
+      "remoteAcres": 37389,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "53": {
+      "publicAcres": 392171,
+      "remoteAcres": 2604,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "54": {
+      "publicAcres": 517677,
+      "remoteAcres": 27877,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "55": {
+      "publicAcres": 331686,
+      "remoteAcres": 25528,
+      "highAcres": 2020,
+      "remoteHighAcres": 1244
+    },
+    "56": {
+      "publicAcres": 290808,
+      "remoteAcres": 18460,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "57": {
+      "publicAcres": 174771,
+      "remoteAcres": 5370,
+      "highAcres": 343,
+      "remoteHighAcres": 316
+    },
+    "58": {
+      "publicAcres": 340106,
+      "remoteAcres": 40882,
+      "highAcres": 46167,
+      "remoteHighAcres": 23202
+    },
+    "59": {
+      "publicAcres": 161316,
+      "remoteAcres": 6492,
+      "highAcres": 1738,
+      "remoteHighAcres": 815
+    },
+    "59A": {
+      "publicAcres": 217664,
+      "remoteAcres": 7139,
+      "highAcres": 11744,
+      "remoteHighAcres": 2766
+    },
+    "6": {
+      "publicAcres": 381353,
+      "remoteAcres": 10351,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "60": {
+      "publicAcres": 191653,
+      "remoteAcres": 3825,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "60A": {
+      "publicAcres": 305413,
+      "remoteAcres": 6489,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "61": {
+      "publicAcres": 412007,
+      "remoteAcres": 46093,
+      "highAcres": 7621,
+      "remoteHighAcres": 6145
+    },
+    "62": {
+      "publicAcres": 78536,
+      "remoteAcres": 659,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "62A": {
+      "publicAcres": 140603,
+      "remoteAcres": 1242,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "63": {
+      "publicAcres": 366178,
+      "remoteAcres": 85135,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "63A": {
+      "publicAcres": 36951,
+      "remoteAcres": 180,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "64": {
+      "publicAcres": 67921,
+      "remoteAcres": 0,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "65": {
+      "publicAcres": 39903,
+      "remoteAcres": 283,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "66": {
+      "publicAcres": 204086,
+      "remoteAcres": 29111,
+      "highAcres": 299,
+      "remoteHighAcres": 0
+    },
+    "66A": {
+      "publicAcres": 117058,
+      "remoteAcres": 37344,
+      "highAcres": 524,
+      "remoteHighAcres": 0
+    },
+    "67": {
+      "publicAcres": 221707,
+      "remoteAcres": 70656,
+      "highAcres": 5934,
+      "remoteHighAcres": 5909
+    },
+    "68": {
+      "publicAcres": 663674,
+      "remoteAcres": 152379,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "68A": {
+      "publicAcres": 19164,
+      "remoteAcres": 2881,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "69": {
+      "publicAcres": 213810,
+      "remoteAcres": 18826,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "7": {
+      "publicAcres": 316189,
+      "remoteAcres": 42556,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "70": {
+      "publicAcres": 93049,
+      "remoteAcres": 5896,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "71": {
+      "publicAcres": 114697,
+      "remoteAcres": 10156,
+      "highAcres": 91,
+      "remoteHighAcres": 15
+    },
+    "72": {
+      "publicAcres": 83627,
+      "remoteAcres": 519,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "73": {
+      "publicAcres": 283452,
+      "remoteAcres": 15071,
+      "highAcres": 96,
+      "remoteHighAcres": 0
+    },
+    "73A": {
+      "publicAcres": 101332,
+      "remoteAcres": 8548,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "74": {
+      "publicAcres": 100396,
+      "remoteAcres": 12852,
+      "highAcres": 104,
+      "remoteHighAcres": 0
+    },
+    "75": {
+      "publicAcres": 103371,
+      "remoteAcres": 207,
+      "highAcres": 579,
+      "remoteHighAcres": 0
+    },
+    "76": {
+      "publicAcres": 481324,
+      "remoteAcres": 50516,
+      "highAcres": 3682,
+      "remoteHighAcres": 30
+    },
+    "77": {
+      "publicAcres": 80003,
+      "remoteAcres": 8943,
+      "highAcres": 567,
+      "remoteHighAcres": 76
+    },
+    "78": {
+      "publicAcres": 113396,
+      "remoteAcres": 2913,
+      "highAcres": 2057,
+      "remoteHighAcres": 241
+    },
+    "8": {
+      "publicAcres": 9701,
+      "remoteAcres": 2,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "8A": {
+      "publicAcres": 186934,
+      "remoteAcres": 2718,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "9": {
+      "publicAcres": 113614,
+      "remoteAcres": 40625,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    },
+    "YNP": {
+      "publicAcres": 116,
+      "remoteAcres": 5,
+      "highAcres": 0,
+      "remoteHighAcres": 0
+    }
+  }
+}

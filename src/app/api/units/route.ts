@@ -1,3 +1,4 @@
+import { idTerrainUnit } from '@/lib/idTerrain';
 import { withoutMtProxySuccess } from '@/lib/mtHarvestProxy';
 import { withUtSeasonCorrections } from '@/lib/utSeasonCorrections';
 import { withCoHarvestCoverage } from '@/lib/coHarvestCoverage';
@@ -51,7 +52,7 @@ const MIN_HUNTERS = 50;
 
 /** Fields the map can color by. Breaks are computed from the live data on every request. */
 const SHADED = [
-  'publicPct', 'huntablePct', 'genSuccessDeer', 'genSuccessElk', 'huntersSqMiDeer', 'huntersSqMiElk', 'bestResOdds', 'bestNrOdds',
+  'idRemote', 'idRemoteHigh', 'publicPct', 'huntablePct', 'genSuccessDeer', 'genSuccessElk', 'huntersSqMiDeer', 'huntersSqMiElk', 'bestResOdds', 'bestNrOdds',
   'ctlOddsResDeer', 'ctlOddsNrDeer', 'ctlSuccessDeer', 'ctlOddsResElk', 'ctlOddsNrElk', 'ctlSuccessElk',
   'ctlOddsResPronghorn', 'ctlOddsNrPronghorn', 'ctlSuccessPronghorn',
   'ctlOddsResMoose', 'ctlOddsNrMoose', 'ctlSuccessMoose', 'ctlOddsResBighorn', 'ctlOddsNrBighorn', 'ctlSuccessBighorn',
@@ -648,6 +649,8 @@ export async function GET(req: Request) {
           name: u.name,
           elkZone: u.elkZone,
           acres: u.acres,
+          idRemote: state === 'ID' ? (idTerrainUnit(u.name)?.remoteAcres ?? null) : null,
+          idRemoteHigh: state === 'ID' ? (idTerrainUnit(u.name)?.remoteHighAcres ?? null) : null,
           publicPct: u.publicPct,
           privatePct: u.privatePct,
           accessYesAcres: u.accessYesAcres ?? 0,

@@ -319,3 +319,14 @@ test('Wyoming pronghorn rut respects the real archery and regular seasons', () =
   assert.equal(runSearch([hunt],{...q,weapon:'ARCHERY'},'WY',settings).length,1);
   assert.equal(runSearch([hunt],{...q,weapon:'ANY'},'WY',settings).length,0);
 });
+
+test('Idaho terrain filter uses overlapping acres and leaves Colorado results alone', () => {
+  const high = row({ id:'id-high', units:['30A'], unit:'30A', areaName:'30A' });
+  const low = row({ id:'id-low', units:['54'], unit:'54', areaName:'54' });
+  const other = colorado({ units:['30A'] });
+  const results = runSearch([high, low, other], { states:'ID,CO', antler:'ALL', idRemote:'3200', idHigh:'1' }, 'ID', settings);
+  assert.deepEqual(results.map(x=>x.r.id).sort(), ['co:deer39','id-high']);
+  const csv=searchCsv(results,'https://example.com');
+  assert.match(csv, /Idaho best unit remote public above 9000 ft sq mi \(estimate\)/);
+  assert.ok(!csv.includes('id-low'));
+});
