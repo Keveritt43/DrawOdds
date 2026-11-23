@@ -237,6 +237,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Land and access</h3>
           <LandBar shares={land} />
+          {!area && land && <p className="small muted">Land management is an acreage-weighted estimate across the listed units, not a mapped hunt-area measurement.</p>}
           <p className="small">
             {s.accessYesCount === null ? 'Hunt-area Access Yes! coverage is unavailable.' : s.accessYesCount > 0 ? `${s.accessYesCount} Access Yes! properties, about ${int(s.accessYesAcres)} acres. Access Yes! is mostly private land leased for hunter access, so it is counted separately from public land.` : 'No Access Yes! properties.'}{' '}
             {area?.acres ? `Hunt area is about ${int(area.acres)} acres.` : ''}
@@ -253,7 +254,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         </div>
       </div>
 
-      <ApplyChecklist secondChoiceNote={ctl && (s.secondDrewLast ?? 0) > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear ?? 'the last drawing'}, but the nonresident limit was already full, so this hunt is a poor 2nd choice for nonresidents.` : `${int(s.secondDrewLast)} tags went to 2nd-choice applicants in ${s.oddsLastYear ?? 'the last drawing'}: a realistic 2nd choice.`) : ctl ? 'Its tags all went to 1st choices last time, so it rarely works as a 2nd choice.' : undefined}
+      <ApplyChecklist secondChoiceNote={ctl && s.secondDrewLast !== null && s.oddsLastYear ? (s.secondDrewLast > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear}, but the nonresident limit was already full.` : `${int(s.secondDrewLast)} tags went to 2nd-choice applicants in ${s.oddsLastYear}.`) : `No tags were reported awarded to 2nd-choice applicants in ${s.oddsLastYear}.`) : undefined}
         kind={isMsg ? 'msg' : ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
 
       {alts.length > 0 && (
