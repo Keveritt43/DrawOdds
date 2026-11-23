@@ -132,7 +132,7 @@ export function IdahoOverlapExplorer({unit}:{unit:string}) {
   {error && <p role="alert">{error}</p>}
   {open && hasTerrain && matched===0 && <p className="small muted">No mapped areas meet these settings in this unit.</p>}
   {open && <div ref={mapEl} aria-label={`Conditions map for Idaho Unit ${unit}`} style={{height:'min(470px,65vh)',minHeight:280,marginTop:10,borderRadius:8}}/>}
-  <p className="small muted">Fire age colors show the most recent mapped perimeter in each 100-m cell, not habitat productivity. Fire records cover 2010–2026 and are incomplete; perimeters can include unburned and private land. Drought shows November 17, 2026 categories; its colors can be covered by wildfire. The <a href="https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer">NOAA snow layer</a> is modeled water in snow, not measured snow depth; the station is a separate point observation. Routes and public management do not establish legal access. Check current maps, closures and regulations.</p>
+  <p className="small muted">Fire age colors show the most recent mapped perimeter in each 100-m cell, not habitat productivity. Fire records cover {visualMeta.fireCoverage} and are incomplete; perimeters can include unburned and private land. Drought shows {visualMeta.droughtDate} categories; its colors can be covered by wildfire. The <a href="https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer">NOAA snow layer</a> is modeled water in snow, not measured snow depth; the station is a separate point observation. Routes and public management do not establish legal access. Check current maps, closures and regulations.</p>
   {open && <IdahoConditionsCharts unit={unit}/>}
  </details>;
 }

@@ -20,6 +20,6 @@ test('every Idaho unit has verified fire and conditions map assets',()=>{
  }
 });
 test('fire age bins cover 2010–2026 and chart data remain unit percentages',()=>{
- assert.equal(meta.fireCoverage,'2010–2026');assert.equal(meta.droughtDate,'2026-11-17');assert.deepEqual(Object.keys(meta.olderFireSources).sort(),['2010','2011','2012','2013','2014','2015','2016','2017']);
- const bands=meta.units['54'].ageBands;assert.ok(bands['1'].percent>0);assert.ok(bands['2'].percent>0);assert.ok(bands['3'].percent>0);assert.ok(bands['4'].percent>0);
+ assert.equal(meta.fireCoverage,`2010–${meta.snapshot.slice(0,4)}`);assert.match(meta.droughtDate,/^\d{4}-\d{2}-\d{2}$/);assert.deepEqual(Object.keys(meta.olderFireSources).sort(),['2010','2011','2012','2013','2014','2015','2016','2017']);
+ const bands=meta.units['54'].ageBands;assert.deepEqual(Object.keys(bands).sort(),['1','2','3','4']);for(const band of Object.values(bands))assert.ok(band.percent===null || (band.percent>=0 && band.percent<=100));
 });

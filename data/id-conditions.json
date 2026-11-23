@@ -1,5 +1,5 @@
 {
-  "snapshot": "2026-11-22",
+  "snapshot": "2026-11-23",
   "droughtCurrent": "2026-11-17",
   "units": {
     "16": {
@@ -133,10 +133,10 @@
           }
         },
         "current": {
-          "swe": 1.5,
-          "median": 4.5,
-          "percent": 33,
-          "date": "2026-11-21"
+          "swe": 2.0,
+          "median": 4.8,
+          "percent": 42,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -224,9 +224,9 @@
         },
         "current": {
           "swe": 1.7,
-          "median": 1.0,
-          "percent": 170,
-          "date": "2026-11-21"
+          "median": 1.2,
+          "percent": 142,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -320,10 +320,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 1.5,
-          "percent": 67,
-          "date": "2026-11-21"
+          "swe": 1.1,
+          "median": 1.6,
+          "percent": 69,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -417,10 +417,10 @@
           }
         },
         "current": {
-          "swe": 2.1,
-          "median": 0.5,
+          "swe": 2.0,
+          "median": 0.6,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -520,10 +520,10 @@
           }
         },
         "current": {
-          "swe": 1.8,
-          "median": 2.0,
-          "percent": 90,
-          "date": "2026-11-21"
+          "swe": 1.7,
+          "median": 2.2,
+          "percent": 77,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -635,10 +635,10 @@
           }
         },
         "current": {
-          "swe": 0.8,
+          "swe": 0.9,
           "median": 0.0,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -805,9 +805,9 @@
         },
         "current": {
           "swe": 2.7,
-          "median": 1.4,
-          "percent": 193,
-          "date": "2026-11-21"
+          "median": 1.5,
+          "percent": 180,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -895,9 +895,9 @@
         },
         "current": {
           "swe": 2.7,
-          "median": 1.4,
-          "percent": 193,
-          "date": "2026-11-21"
+          "median": 1.5,
+          "percent": 180,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -985,9 +985,9 @@
         },
         "current": {
           "swe": 2.4,
-          "median": 2.0,
-          "percent": 120,
-          "date": "2026-11-21"
+          "median": 2.1,
+          "percent": 114,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -1081,10 +1081,10 @@
           }
         },
         "current": {
-          "swe": 1.7,
+          "swe": 1.8,
           "median": 2.4,
-          "percent": 71,
-          "date": "2026-11-21"
+          "percent": 75,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -1196,10 +1196,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 1.5,
-          "percent": 67,
-          "date": "2026-11-21"
+          "swe": 1.2,
+          "median": 1.6,
+          "percent": 75,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -1365,10 +1365,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 1.5,
-          "percent": 67,
-          "date": "2026-11-21"
+          "swe": 1.2,
+          "median": 1.6,
+          "percent": 75,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -1492,10 +1492,10 @@
           }
         },
         "current": {
-          "swe": 1.8,
-          "median": 3.5,
-          "percent": 51,
-          "date": "2026-11-21"
+          "swe": 2.1,
+          "median": 3.8,
+          "percent": 55,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -1631,10 +1631,10 @@
           }
         },
         "current": {
-          "swe": 2.0,
-          "median": 1.4,
-          "percent": 143,
-          "date": "2026-11-21"
+          "swe": 2.1,
+          "median": 1.6,
+          "percent": 131,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -1767,7 +1767,7 @@
           "swe": 1.5,
           "median": 1.0,
           "percent": 150,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -1939,10 +1939,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 1.5,
-          "percent": 67,
-          "date": "2026-11-21"
+          "swe": 1.2,
+          "median": 1.6,
+          "percent": 75,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2030,9 +2030,9 @@
         },
         "current": {
           "swe": 0.9,
-          "median": 1.2,
-          "percent": 75,
-          "date": "2026-11-21"
+          "median": 1.4,
+          "percent": 64,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2126,10 +2126,10 @@
           }
         },
         "current": {
-          "swe": 0.4,
-          "median": 0.6,
+          "swe": 0.6,
+          "median": 0.8,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2236,9 +2236,9 @@
         },
         "current": {
           "swe": 0.9,
-          "median": 1.2,
-          "percent": 75,
-          "date": "2026-11-21"
+          "median": 1.4,
+          "percent": 64,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2325,10 +2325,10 @@
           }
         },
         "current": {
-          "swe": 1.6,
-          "median": 0.6,
+          "swe": 1.9,
+          "median": 0.8,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2428,10 +2428,10 @@
           }
         },
         "current": {
-          "swe": 0.4,
-          "median": 0.6,
+          "swe": 0.6,
+          "median": 0.8,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2555,10 +2555,10 @@
           }
         },
         "current": {
-          "swe": 1.4,
-          "median": 1.2,
-          "percent": 117,
-          "date": "2026-11-21"
+          "swe": 1.5,
+          "median": 1.4,
+          "percent": 107,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2618,7 +2618,7 @@
           "swe": 1.4,
           "median": null,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2685,7 +2685,7 @@
           "swe": 1.4,
           "median": null,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2797,10 +2797,10 @@
           }
         },
         "current": {
-          "swe": 0.7,
-          "median": 0.0,
+          "swe": 1.0,
+          "median": 0.2,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -2918,10 +2918,10 @@
           }
         },
         "current": {
-          "swe": 2.1,
-          "median": 4.6,
-          "percent": 46,
-          "date": "2026-11-21"
+          "swe": 2.5,
+          "median": 5.0,
+          "percent": 50,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3008,10 +3008,10 @@
           }
         },
         "current": {
-          "swe": 1.4,
+          "swe": 1.6,
           "median": 1.2,
-          "percent": 117,
-          "date": "2026-11-21"
+          "percent": 133,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3092,10 +3092,10 @@
           }
         },
         "current": {
-          "swe": 1.3,
+          "swe": 1.4,
           "median": 1.8,
-          "percent": 72,
-          "date": "2026-11-21"
+          "percent": 78,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3189,10 +3189,10 @@
           }
         },
         "current": {
-          "swe": 1.8,
-          "median": 2.6,
-          "percent": 69,
-          "date": "2026-11-21"
+          "swe": 2.0,
+          "median": 2.7,
+          "percent": 74,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3316,10 +3316,10 @@
           }
         },
         "current": {
-          "swe": 2.2,
+          "swe": 2.4,
           "median": 3.8,
-          "percent": 58,
-          "date": "2026-11-21"
+          "percent": 63,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3361,7 +3361,7 @@
           "swe": 1.1,
           "median": null,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3473,10 +3473,10 @@
           }
         },
         "current": {
-          "swe": 2.2,
-          "median": 1.2,
-          "percent": 183,
-          "date": "2026-11-21"
+          "swe": 2.5,
+          "median": 1.4,
+          "percent": 179,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3589,9 +3589,9 @@
         },
         "current": {
           "swe": 2.1,
-          "median": 3.8,
-          "percent": 55,
-          "date": "2026-11-21"
+          "median": 4.0,
+          "percent": 52,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -3739,10 +3739,10 @@
           }
         },
         "current": {
-          "swe": 0.7,
-          "median": 0.0,
+          "swe": 1.0,
+          "median": 0.2,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -4052,10 +4052,10 @@
           }
         },
         "current": {
-          "swe": 1.5,
-          "median": 3.4,
-          "percent": 44,
-          "date": "2026-11-21"
+          "swe": 1.7,
+          "median": 3.8,
+          "percent": 45,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -4174,9 +4174,9 @@
         },
         "current": {
           "swe": 2.1,
-          "median": 3.8,
-          "percent": 55,
-          "date": "2026-11-21"
+          "median": 4.0,
+          "percent": 52,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -4264,10 +4264,10 @@
           }
         },
         "current": {
-          "swe": 1.3,
+          "swe": 1.4,
           "median": 1.8,
-          "percent": 72,
-          "date": "2026-11-21"
+          "percent": 78,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -4484,7 +4484,7 @@
           "swe": 0.2,
           "median": 0.2,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -4602,10 +4602,10 @@
           }
         },
         "current": {
-          "swe": 1.3,
+          "swe": 1.4,
           "median": 1.8,
-          "percent": 72,
-          "date": "2026-11-21"
+          "percent": 78,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -4819,10 +4819,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 2.8,
-          "percent": 36,
-          "date": "2026-11-21"
+          "swe": 1.4,
+          "median": 3.0,
+          "percent": 47,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -4909,10 +4909,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 1.5,
-          "percent": 67,
-          "date": "2026-11-21"
+          "swe": 1.1,
+          "median": 1.6,
+          "percent": 69,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5012,10 +5012,10 @@
           }
         },
         "current": {
-          "swe": 3.3,
+          "swe": 3.5,
           "median": 2.0,
-          "percent": 165,
-          "date": "2026-11-21"
+          "percent": 175,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5132,10 +5132,10 @@
           }
         },
         "current": {
-          "swe": 0.8,
+          "swe": 0.9,
           "median": 0.0,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5265,10 +5265,10 @@
           }
         },
         "current": {
-          "swe": 2.6,
+          "swe": 2.7,
           "median": 2.0,
-          "percent": 130,
-          "date": "2026-11-21"
+          "percent": 135,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5362,10 +5362,10 @@
           }
         },
         "current": {
-          "swe": 1.7,
+          "swe": 1.8,
           "median": 2.4,
-          "percent": 71,
-          "date": "2026-11-21"
+          "percent": 75,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5452,10 +5452,10 @@
           }
         },
         "current": {
-          "swe": 1.7,
+          "swe": 1.8,
           "median": 2.4,
-          "percent": 71,
-          "date": "2026-11-21"
+          "percent": 75,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5604,9 +5604,9 @@
         },
         "current": {
           "swe": 1.3,
-          "median": 1.3,
-          "percent": 100,
-          "date": "2026-11-21"
+          "median": 1.4,
+          "percent": 93,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5745,7 +5745,7 @@
           "swe": 1.3,
           "median": 1.0,
           "percent": 130,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5845,10 +5845,10 @@
           }
         },
         "current": {
-          "swe": 1.8,
-          "median": 2.6,
-          "percent": 69,
-          "date": "2026-11-21"
+          "swe": 2.0,
+          "median": 2.7,
+          "percent": 74,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -5942,10 +5942,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 1.5,
-          "percent": 67,
-          "date": "2026-11-21"
+          "swe": 1.1,
+          "median": 1.6,
+          "percent": 69,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -6063,10 +6063,10 @@
           }
         },
         "current": {
-          "swe": 3.8,
-          "median": 3.4,
-          "percent": 112,
-          "date": "2026-11-21"
+          "swe": 3.9,
+          "median": 3.7,
+          "percent": 105,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -6153,10 +6153,10 @@
           }
         },
         "current": {
-          "swe": 1.0,
-          "median": 1.5,
-          "percent": 67,
-          "date": "2026-11-21"
+          "swe": 1.2,
+          "median": 1.6,
+          "percent": 75,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -6334,10 +6334,10 @@
           }
         },
         "current": {
-          "swe": 1.2,
-          "median": 0.9,
-          "percent": null,
-          "date": "2026-11-21"
+          "swe": 1.4,
+          "median": 1.3,
+          "percent": 108,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -6431,10 +6431,10 @@
           }
         },
         "current": {
-          "swe": 1.4,
+          "swe": 1.6,
           "median": 1.2,
-          "percent": 117,
-          "date": "2026-11-21"
+          "percent": 133,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -6660,10 +6660,10 @@
           }
         },
         "current": {
-          "swe": 0.0,
-          "median": 0.1,
+          "swe": 0.2,
+          "median": 0.4,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -6763,10 +6763,10 @@
           }
         },
         "current": {
-          "swe": 0.3,
-          "median": 4.3,
-          "percent": 7,
-          "date": "2026-11-21"
+          "swe": 0.6,
+          "median": 4.2,
+          "percent": 14,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -6872,10 +6872,10 @@
           }
         },
         "current": {
-          "swe": 0.5,
-          "median": 1.2,
-          "percent": 42,
-          "date": "2026-11-21"
+          "swe": 0.9,
+          "median": 1.4,
+          "percent": 64,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7005,10 +7005,10 @@
           }
         },
         "current": {
-          "swe": 0.9,
-          "median": 2.1,
+          "swe": 1.0,
+          "median": 2.3,
           "percent": 43,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7144,10 +7144,10 @@
           }
         },
         "current": {
-          "swe": 0.5,
-          "median": 1.2,
-          "percent": 42,
-          "date": "2026-11-21"
+          "swe": 0.9,
+          "median": 1.4,
+          "percent": 64,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7241,10 +7241,10 @@
           }
         },
         "current": {
-          "swe": 0.2,
+          "swe": 0.4,
           "median": 2.1,
-          "percent": 10,
-          "date": "2026-11-21"
+          "percent": 19,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7368,10 +7368,10 @@
           }
         },
         "current": {
-          "swe": 0.2,
+          "swe": 0.4,
           "median": 2.1,
-          "percent": 10,
-          "date": "2026-11-21"
+          "percent": 19,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7471,10 +7471,10 @@
           }
         },
         "current": {
-          "swe": 0.8,
+          "swe": 0.9,
           "median": 2.4,
-          "percent": 33,
-          "date": "2026-11-21"
+          "percent": 38,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7561,10 +7561,10 @@
           }
         },
         "current": {
-          "swe": 0.1,
-          "median": 1.3,
-          "percent": 8,
-          "date": "2026-11-21"
+          "swe": 0.3,
+          "median": 1.2,
+          "percent": 25,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7670,10 +7670,10 @@
           }
         },
         "current": {
-          "swe": 1.6,
-          "median": 6.4,
-          "percent": 25,
-          "date": "2026-11-21"
+          "swe": 1.8,
+          "median": 7.0,
+          "percent": 26,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7870,9 +7870,9 @@
         },
         "current": {
           "swe": 0.0,
-          "median": 0.4,
+          "median": 0.7,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -7996,10 +7996,10 @@
           }
         },
         "current": {
-          "swe": 0.9,
+          "swe": 1.1,
           "median": 1.8,
-          "percent": 50,
-          "date": "2026-11-21"
+          "percent": 61,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -8255,10 +8255,10 @@
           }
         },
         "current": {
-          "swe": 1.5,
-          "median": 5.2,
-          "percent": 29,
-          "date": "2026-11-21"
+          "swe": 1.7,
+          "median": 5.7,
+          "percent": 30,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -8413,9 +8413,9 @@
         },
         "current": {
           "swe": 1.1,
-          "median": 3.7,
-          "percent": 30,
-          "date": "2026-11-21"
+          "median": 3.8,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -8503,9 +8503,9 @@
         },
         "current": {
           "swe": 0.1,
-          "median": 0.1,
+          "median": 0.2,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -8658,10 +8658,10 @@
           }
         },
         "current": {
-          "swe": 1.1,
-          "median": 3.2,
-          "percent": 34,
-          "date": "2026-11-21"
+          "swe": 1.0,
+          "median": 3.4,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -8785,10 +8785,10 @@
           }
         },
         "current": {
-          "swe": 1.1,
-          "median": 3.2,
-          "percent": 34,
-          "date": "2026-11-21"
+          "swe": 1.0,
+          "median": 3.4,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -8954,10 +8954,10 @@
           }
         },
         "current": {
-          "swe": 1.7,
-          "median": 2.8,
-          "percent": 61,
-          "date": "2026-11-21"
+          "swe": 1.9,
+          "median": 3.3,
+          "percent": 58,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9122,10 +9122,10 @@
           }
         },
         "current": {
-          "swe": 1.1,
-          "median": 3.2,
-          "percent": 34,
-          "date": "2026-11-21"
+          "swe": 1.0,
+          "median": 3.4,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9261,10 +9261,10 @@
           }
         },
         "current": {
-          "swe": 0.8,
-          "median": 1.7,
-          "percent": 47,
-          "date": "2026-11-21"
+          "swe": 0.9,
+          "median": 2.0,
+          "percent": 45,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9364,10 +9364,10 @@
           }
         },
         "current": {
-          "swe": 0.5,
-          "median": 2.0,
-          "percent": 25,
-          "date": "2026-11-21"
+          "swe": 0.6,
+          "median": 2.1,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9454,10 +9454,10 @@
           }
         },
         "current": {
-          "swe": 0.5,
-          "median": 2.0,
-          "percent": 25,
-          "date": "2026-11-21"
+          "swe": 0.6,
+          "median": 2.1,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9575,10 +9575,10 @@
           }
         },
         "current": {
-          "swe": 1.1,
-          "median": 3.2,
-          "percent": 34,
-          "date": "2026-11-21"
+          "swe": 1.0,
+          "median": 3.4,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9665,10 +9665,10 @@
           }
         },
         "current": {
-          "swe": 1.1,
-          "median": 3.2,
-          "percent": 34,
-          "date": "2026-11-21"
+          "swe": 1.0,
+          "median": 3.4,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9774,10 +9774,10 @@
           }
         },
         "current": {
-          "swe": 1.7,
-          "median": 2.8,
-          "percent": 61,
-          "date": "2026-11-21"
+          "swe": 1.9,
+          "median": 3.3,
+          "percent": 58,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9931,10 +9931,10 @@
           }
         },
         "current": {
-          "swe": 2.0,
-          "median": 2.4,
-          "percent": 83,
-          "date": "2026-11-20"
+          "swe": 2.2,
+          "median": 3.2,
+          "percent": 69,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -9991,10 +9991,10 @@
         "distance": 9.9,
         "history": {},
         "current": {
-          "swe": 2.4,
+          "swe": 2.6,
           "median": null,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -10130,10 +10130,10 @@
           }
         },
         "current": {
-          "swe": 0.8,
-          "median": 1.7,
-          "percent": 47,
-          "date": "2026-11-21"
+          "swe": 0.9,
+          "median": 2.0,
+          "percent": 45,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -10226,10 +10226,10 @@
           }
         },
         "current": {
-          "swe": 0.5,
+          "swe": 0.6,
           "median": null,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -10509,10 +10509,10 @@
           }
         },
         "current": {
-          "swe": 1.1,
-          "median": 3.2,
-          "percent": 34,
-          "date": "2026-11-21"
+          "swe": 1.0,
+          "median": 3.4,
+          "percent": 29,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -10642,10 +10642,10 @@
           }
         },
         "current": {
-          "swe": 2.7,
-          "median": 2.9,
-          "percent": 93,
-          "date": "2026-11-20"
+          "swe": 2.6,
+          "median": 3.2,
+          "percent": 81,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -10757,10 +10757,10 @@
           }
         },
         "current": {
-          "swe": 2.7,
-          "median": 2.9,
-          "percent": 93,
-          "date": "2026-11-20"
+          "swe": 2.6,
+          "median": 3.2,
+          "percent": 81,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -10865,9 +10865,9 @@
         },
         "current": {
           "swe": 2.7,
-          "median": 1.4,
-          "percent": 193,
-          "date": "2026-11-21"
+          "median": 1.5,
+          "percent": 180,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -11027,10 +11027,10 @@
           }
         },
         "current": {
-          "swe": 0.7,
+          "swe": 0.9,
           "median": 0.8,
           "percent": null,
-          "date": "2026-11-21"
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -11340,10 +11340,10 @@
           }
         },
         "current": {
-          "swe": 3.8,
-          "median": 4.8,
-          "percent": 79,
-          "date": "2026-11-21"
+          "swe": 4.2,
+          "median": 5.0,
+          "percent": 84,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -11461,10 +11461,10 @@
           }
         },
         "current": {
-          "swe": 2.6,
-          "median": 1.7,
-          "percent": 153,
-          "date": "2026-11-21"
+          "swe": 3.2,
+          "median": 2.2,
+          "percent": 145,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -11606,10 +11606,10 @@
           }
         },
         "current": {
-          "swe": 1.5,
-          "median": 2.7,
-          "percent": 56,
-          "date": "2026-11-21"
+          "swe": 1.9,
+          "median": 3.0,
+          "percent": 63,
+          "date": "2026-11-22"
         }
       },
       "drought": {
@@ -11726,7 +11726,7 @@
     "snow-2024.json": "21083b3037a11bda398cf693dea2555840e42c452e6cc48d483625261a77ee3d",
     "snow-2025.json": "0120fcb85c4dd7427e91c95e391749bb1e345eaaf3c3010d82abd5635f882055",
     "snow-2026.json": "e290089a9b42d1f4e324e28670c5e873761a33a1918ccb0d6e74da2b13d70d9c",
-    "snow-current.json": "c38dded9898859a9100403c098c4991e1181a33670682c75b19dc6a5dc1eba30",
+    "snow-current.json": "de0c7c171e4246b802fa76443c3af81b0a1fc0e35a327f9ce0c7da7917b79d78",
     "stations.json": "24a1703b1e5681ea2d0a99dda311fcc289bb09a0ad5d3909b37c9b6e5bf8216f"
   }
 }

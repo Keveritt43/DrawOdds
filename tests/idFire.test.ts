@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { idFireUnit,idFireBest,matchesIdFire } from '../src/lib/idFire';
+import { idFireUnit,idFireBest,matchesIdFire,firePeriodsFor } from '../src/lib/idFire';
 import { matchesIdOverlap, type OverlapOptions } from '../src/lib/idFireMask';
 import { presetHref } from '../src/lib/filterPresets';
 
@@ -36,4 +36,19 @@ test('wildfire and terrain filters require one common area in one unit',()=>{
 test('wildfire choices persist in multi-state presets',()=>{
  const href=presetHref('/hunts?states=ID,CO&idFire=recent&idFireMin=1000&idRemote=3200');assert.ok(href);
  const q=new URL(href,'https://drawodds.local').searchParams;assert.equal(q.get('idFire'),'recent');assert.equal(q.get('idFireMin'),'1000');assert.equal(q.get('idRemote'),'3200');
+});
+
+test('wildfire period labels advance with the snapshot year',()=>{
+ assert.match(firePeriodsFor(2027).recent,/2024–2026/);
+ assert.match(firePeriodsFor(2027).mature,/2019–2024/);
+ assert.match(firePeriodsFor(2027).all,/2018–2027/);
+});
+
+test('rolling wildfire mask interprets the years around a later snapshot',()=>{
+ const snapshotYear=2027;const bit=(year:number)=>1<<(year-(snapshotYear-8));
+ assert.equal(matchesIdOverlap(1,bit(2024),0,{...base,fire:'recent'}),true);
+ assert.equal(matchesIdOverlap(1,bit(2023),0,{...base,fire:'recent'}),false);
+ assert.equal(matchesIdOverlap(1,bit(2019),0,{...base,fire:'mature'}),true);
+ assert.equal(matchesIdOverlap(1,0,1,{...base,fire:'all'}),true);
+ assert.equal(matchesIdOverlap(1,0,1,{...base,fire:'mature'}),false);
 });

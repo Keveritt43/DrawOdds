@@ -1,5 +1,5 @@
 """Build dated Idaho unit map layers from reviewed cached NIFC, USDM and NRCS sources. No database access."""
-import sys,pathlib,json,io,zipfile,importlib.util,hashlib,concurrent.futures
+import sys,pathlib,json,io,zipfile,importlib.util,hashlib,concurrent.futures,os
 sys.path.insert(0,'out/geodeps')
 import shapefile,numpy as np,rasterio
 from rasterio.features import rasterize
@@ -31,11 +31,12 @@ for level in range(5):
  drought[level]=union_all(polys)
 stations={s['stationTriplet']:s for s in json.loads((climate/'stations.json').read_text(encoding='utf8'))}
 conditions=json.loads(pathlib.Path('data/id-conditions.json').read_text(encoding='utf8'))['units'];grids=json.loads(pathlib.Path('data/id-fire-grid.json').read_text(encoding='utf8'))
+snapshot_year=int(os.environ.get('ID_REFRESH_SNAPSHOT','2026-11-22')[:4])
 # Most recent mapped fire year wins where polygons overlap. Color bands are ages, not habitat ratings.
-def bucket(year):return 4 if year==2026 else 3 if year>=2022 else 2 if year>=2016 else 1
+def bucket(year):return 4 if year==snapshot_year else 3 if year>=snapshot_year-4 else 2 if year>=snapshot_year-10 else 1
 palette=np.array([[0,0,0,0],[237,204,56,205],[44,167,89,205],[241,139,28,205],[219,48,47,205]],dtype='uint8')
 def run(f):
- unit=f['properties']['NAME'];g=make_valid(shape(f['geometry']));ids=tree.query(g,predicate='intersects');groups={y:[] for y in range(2010,2027)}
+ unit=f['properties']['NAME'];g=make_valid(shape(f['geometry']));ids=tree.query(g,predicate='intersects');groups={y:[] for y in range(2010,snapshot_year+1)}
  for i in ids:
   part=geos[i].intersection(g)
   if not part.is_empty and part.area>0:groups[features[i]['year']].append(part)
@@ -65,5 +66,5 @@ def run(f):
 if __name__=='__main__':
  with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:results=dict(pool.map(run,fire.terrain.units))
  if set(results)!=set(conditions):raise ValueError('unit identities differ')
- pathlib.Path('data/id-visual-meta.json').write_text(json.dumps({'snapshot':'2026-11-22','fireCoverage':'2010–2026','droughtDate':'2026-11-17','olderFireSources':provenance,'units':results},indent=2)+'\n',encoding='utf8')
+ pathlib.Path('data/id-visual-meta.json').write_text(json.dumps({'snapshot':os.environ.get('ID_REFRESH_SNAPSHOT','2026-11-22'),'fireCoverage':f'2010–{snapshot_year}','droughtDate':os.environ.get('ID_REFRESH_DROUGHT','2026-11-17'),'olderFireSources':provenance,'units':results},indent=2)+'\n',encoding='utf8')
  print('built',len(results),'units',flush=True)

@@ -13,6 +13,7 @@ import { STATES, type StateCode } from '@/lib/states';
 import { ID_RESTRICTIONS, searchUnitLabel } from '@/lib/searchStates';
 import { withPresetEdit } from '@/lib/filterPresets';
 import { showPrivate } from '@/lib/privateLand';
+import { FIRE_PERIODS, idFirePeriod, ID_CONDITIONS_DATE } from '@/lib/idSnapshot';
 import { selectedValues } from '@/lib/selectedValues';
 
 /** URL keys that mark a state's own filter group as in use. Idaho's group is built in this file. */
@@ -221,13 +222,13 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
           <Section title="Drought" value={get('idDroughtMin') ? `${get('idDroughtMin')}%+ in drought` : 'Any'} set={!!get('idDroughtMin')}>
             <label>Unit share in moderate or worse drought</label>
             <select aria-label="Minimum unit share in drought" value={get('idDroughtMin')} onChange={e=>push({idDroughtMin:e.target.value || null})}><option value="">Any</option><option value="25">25%+</option><option value="50">50%+</option><option value="75">75%+</option></select>
-            <p className="small muted">Idaho only. U.S. Drought Monitor map for November 17, 2026; conditions change. This is a unit-wide snapshot, not a prediction of habitat or hunting success.</p>
+            <p className="small muted">Idaho only. U.S. Drought Monitor map for {ID_CONDITIONS_DATE}; conditions change. This is a unit-wide snapshot, not a prediction of habitat or hunting success.</p>
           </Section>
-          <Section title="Wildfire History" value={get('idFire') ? ({recent:'2023–2025',mature:'2018–2023',five:'2021–2025',all:'2018–2026'} as Record<string,string>)[get('idFire')] ?? 'Any' : 'Any'} set={!!get('idFire')}>
+          <Section title="Wildfire History" value={get('idFire') ? FIRE_PERIODS[idFirePeriod(get('idFire')) ?? 'recent'] : 'Any'} set={!!get('idFire')}>
             <label>Mapped wildfire perimeter years</label>
-            <select aria-label="Wildfire perimeter years" value={get('idFire')} onChange={e => push({idFire:e.target.value || null,idFireMin:e.target.value ? get('idFireMin') || null : null})}><option value="">Any</option><option value="recent">2023–2025 (1–3 years before 2026)</option><option value="mature">2018–2023 (3–8 years before 2026)</option><option value="five">2021–2025 (1–5 years before 2026)</option><option value="all">2018–2026 (2026 partial)</option></select>
+            <select aria-label="Wildfire perimeter years" value={get('idFire')} onChange={e => push({idFire:e.target.value || null,idFireMin:e.target.value ? get('idFireMin') || null : null})}><option value="">Any</option>{Object.entries(FIRE_PERIODS).map(([value,label])=><option key={value} value={value}>{label}</option>)}</select>
             {get('idFire') && <><label>Minimum acres in one unit</label><select aria-label="Minimum mapped wildfire acres" value={get('idFireMin')} onChange={e=>push({idFireMin:e.target.value || null})}><option value="">Any mapped area</option><option value="1000">1,000+</option><option value="5000">5,000+</option><option value="10000">10,000+</option></select></>}
-            <p className="small muted">Applies only to Idaho. Mapped perimeters can include unburned and private land; records are incomplete, 2026 is partial, and a unit may extend beyond the hunt. A multi-unit hunt matches if any unit meets the minimum. When combined with Remote Public Land, both thresholds apply to the same ground in one unit. Not a forage or legal access measure.</p>
+            <p className="small muted">Applies only to Idaho. Mapped perimeters can include unburned and private land; records are incomplete, the latest year is partial, and a unit may extend beyond the hunt. A multi-unit hunt matches if any unit meets the minimum. When combined with Remote Public Land, both thresholds apply to the same ground in one unit. Not a forage or legal access measure.</p>
           </Section>
           <Section title="Remote Public Land" value={get('idRemote') ? `${Number(get('idRemote')) / 640}+ sq mi` : get('idHigh') ? 'Above 9,000 ft' : 'Any'} set={!!get('idRemote') || !!get('idHigh')}>
             <label>Minimum square miles in a unit</label>

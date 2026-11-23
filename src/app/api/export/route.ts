@@ -1,3 +1,5 @@
+import { ID_CONDITIONS_DATE } from '@/lib/idConditions';
+import { FIRE_PERIODS } from '@/lib/idFire';
 import { matchesIdConditions, idConditionsExport } from '@/lib/idConditions';
 import { matchesIdFire, idFireBest } from '@/lib/idFire';
 import { matchesIdTerrain, idTerrainBest } from '@/lib/idTerrain';
@@ -66,7 +68,7 @@ export async function GET(req: Request) {
     'Species', 'Type', 'Hunt / tag', 'Code', 'Area', 'Units', 'Weapon', 'Sex', 'Open', 'Close', 'Tags',
     `${res} odds latest %`, 'Draw year', `${res} odds 5-yr %`, `${res} 1st-choice applicants`, 'All 1st-choice applicants', 'NR tags drawn latest', '2nd-choice tags latest',
     'Success latest %', 'Harvest year', 'Success 5-yr %', 'Hunters 5-yr', 'Harvest 5-yr', 'Hunters per sq mi', `Draw and fill ${res} %`,
-    'Trophy score', 'Harvest antler share %', 'Avg antler spread / horn length (in.)', 'Deer type', 'Public land %', 'Access Yes! %', 'Small sample', 'Link', 'Idaho best unit remote public sq mi (estimate)', 'Idaho best unit remote public above 9000 ft sq mi (estimate)', 'Idaho best unit mapped wildfire perimeter 2023-2025 acres', 'Idaho best unit mapped wildfire perimeter 2018-2023 acres', 'Idaho unit agency access sites (2026 snapshot)', 'Idaho unit drought D1+ percent (2026-11-17)', 'Idaho nearby snow station current SWE inches',
+    'Trophy score', 'Harvest antler share %', 'Avg antler spread / horn length (in.)', 'Deer type', 'Public land %', 'Access Yes! %', 'Small sample', 'Link', 'Idaho best unit remote public sq mi (estimate)', 'Idaho best unit remote public above 9000 ft sq mi (estimate)', `Idaho best unit mapped wildfire perimeter ${FIRE_PERIODS.recent} acres`, `Idaho best unit mapped wildfire perimeter ${FIRE_PERIODS.mature} acres`, 'Idaho unit agency access sites (2026 snapshot)', `Idaho unit drought D1+ percent (${ID_CONDITIONS_DATE})`, 'Idaho nearby snow station current SWE inches',
   ];
   // behind Railway's proxy req.url is the internal address: build links from the public host
   const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host');
