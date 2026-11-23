@@ -1,5 +1,11 @@
 # Idaho scores-only rollout
 
+## No-quota trophy rollout — 2026-11-23
+
+PR #263 deployed the provisional Idaho trophy ranking without quota or draw-odds inputs and limited timing to five points. A fresh read-only snapshot captured all 1,303 Idaho summary rows and the exact score inputs. The reviewed plan's input digest was `57bd23f4a8c82c1250c026fdf8ae8403624f460f23bb9683009de7a16b4b0a26`. A serializable transaction recomputed and validated that exact plan, then updated only the seven score columns on 123 Idaho rows; 70 Quality scores changed. A separate read-only verification matched all 1,303 planned score rows and confirmed Idaho non-score fields and the full summary rows of every other state retained their before fingerprints. Reapplying the stale plan was rejected before writes. The temporary maintenance service was returned to its retired source; agency sync remained disabled. The full Idaho summary snapshot, exact inputs, before/after score plan and fingerprints are retained locally as `out/idaho-production-plan-v3.json` in the rollout worktree.
+
+The retained 2026 model inputs for all 236 table-matched hunts were checked against the fresh production snapshot: units (after the verified Area 55 correction), dates, hunter and harvest counts, and antler shares matched, within the retained export's rounding. The live export was checked for deer 1042 and 1043, elk 2123, and pronghorn 4054. Animal evidence remains provisional and missing antler context is neutral, as described on `/score`.
+
 ## Standing scores-only authorization — 2026-11-06
 
 The owner clarified that requested scores-only production corrections are included in standing approval. A new permission question is not required. The agent must still generate and review a fresh exact production plan, reject stale inputs, update only the seven score columns in one transaction, and verify historical data and all non-score fields are unchanged. Coordinate application deployment with the score update and verify production behavior. Agency synchronization, destructive database/schema operations, and enabling automatic sync are not covered. Historical approval requirements below describe the earlier rollout and are superseded for this narrowly scoped scores-only workflow.
