@@ -42,3 +42,7 @@ A mapped-road/motorized-route and elevation pilot has been developed separately 
 ## Idaho wildfire and overlap pilot (November 2026)
 
 Mapped NIFC perimeters for 2018–2026 now support Idaho unit screening, historical details, map shading and a single-unit overlap map with mapped-route distance, elevation and slope. The wildfire/remote filter measures the actual joint cells. It is a dated, incomplete perimeter inventory, not a burn-severity or forage model; see the data dictionary and `idaho-wildfire-validation.md`. Remaining backlog items above should not be assumed implemented.
+
+## Idaho access sites and environmental conditions (November 2026)
+
+The pilot now shows designated USFS trailheads and BLM trailheads, staging areas and access points, plus a nearby SNOTEL station and unit drought snapshots with prior years. Counts are incomplete access-site indicators, not measured pressure; observations do not predict animal numbers or next-season success. The snow and drought snapshots do not refresh automatically. Source definitions, proximity and coverage limits are in the data dictionary. Existing hunter-density estimates remain the separate observed pressure proxy.

@@ -1,3 +1,4 @@
+import { matchesIdConditions } from '@/lib/idConditions';
 import { FilterPresets } from '@/components/FilterPresets';
 import { FinderBusy, FinderLink } from '@/components/FinderBusy';
 import { trophyForUnit, trophyForHunt } from '@/lib/trophyHunt';
@@ -132,7 +133,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     }),
     getFavorites(),
   ]);
-  const rows = candidateRows.filter((r) => matchesHuntSeason(r, f) && matchesIdFire(r, String(sp.idFire ?? ''), String(sp.idFireMin ?? ''), String(sp.idRemote ?? ''), String(sp.idHigh ?? '')) && matchesIdTerrain({ ...r, privateOnly: isPrivateOnly(r) }, String(sp.idRemote ?? ''), String(sp.idHigh ?? '')));
+  const rows = candidateRows.filter((r) => matchesHuntSeason(r, f) && matchesIdConditions(r, String(sp.idTrailMin ?? ''), String(sp.idDroughtMin ?? '')) && matchesIdFire(r, String(sp.idFire ?? ''), String(sp.idFireMin ?? ''), String(sp.idRemote ?? ''), String(sp.idHigh ?? '')) && matchesIdTerrain({ ...r, privateOnly: isPrivateOnly(r) }, String(sp.idRemote ?? ''), String(sp.idHigh ?? '')));
   // alphabetical: unit / area names in human order (4 before 10, 20A right after 20)
   if (f.sort === 'alpha') rows.sort((a, b) => unitOrder(a.areaName ?? a.unit, b.areaName ?? b.unit) || (a.huntNumber ?? 0) - (b.huntNumber ?? 0) || (a.tagCode ?? '').localeCompare(b.tagCode ?? ''));
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };
@@ -228,8 +229,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
 
   const query = (patch: Partial<Filters>) => {
     const value = toQuery(f, patch);
-    if (!sp.state && !sp.draw && sp.restore !== "1" && !sp.as && !sp.idRemote && !sp.idHigh && !sp.idFire && !sp.idFireMin) return value;
+    if (!sp.state && !sp.draw && sp.restore !== "1" && !sp.as && !sp.idRemote && !sp.idHigh && !sp.idFire && !sp.idFireMin && !sp.idTrailMin && !sp.idDroughtMin) return value;
     const p = new URLSearchParams(value);
+    if (typeof sp.idTrailMin === 'string' && sp.idTrailMin) p.set('idTrailMin', sp.idTrailMin);
+    if (typeof sp.idDroughtMin === 'string' && sp.idDroughtMin) p.set('idDroughtMin', sp.idDroughtMin);
     if (typeof sp.idFire === 'string' && sp.idFire) p.set('idFire', sp.idFire);
     if (typeof sp.idFireMin === 'string' && sp.idFireMin) p.set('idFireMin', sp.idFireMin);
     if (typeof sp.idRemote === 'string' && sp.idRemote) p.set('idRemote', sp.idRemote);
