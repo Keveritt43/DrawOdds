@@ -366,6 +366,7 @@ export function UnitMap({ nr, focus, focusUnits, returnHunt, height = '100%', sa
         m.setPaintProperty('units-fill', 'fill-opacity', exploring ? 0 : ['case', inFocus, 0.18, 0.02] as ExpressionSpecification);
         m.setPaintProperty('units-line', 'line-color', '#ffffff');
         m.setPaintProperty('units-sel', 'line-color', exploring ? '#ffffff' : '#eb6834');
+        if (m.getLayer('units-zone')) m.setLayoutProperty('units-zone','visibility',exploring ? 'none' : 'visible');
         return;
       }
       if (noShade) {
