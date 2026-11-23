@@ -203,7 +203,7 @@ export async function CoFinder({ sp }: { sp: SP }) {
             </h1>
           </div>
           <div className="f-sub">
-            <SearchStates />
+            <details className="search-setup legacy-search-setup"><summary>States &amp; Settings</summary><SearchStates /></details>
             <span>
               <b>{decorated.length}</b> {spLabel} hunts · sort by
             </span>

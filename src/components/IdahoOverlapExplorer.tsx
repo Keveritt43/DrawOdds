@@ -21,7 +21,7 @@ const droughtLegend=[['D0 · Abnormally dry','#ffff00'],['D1 · Moderate','#fcd3
 /** One unit at a time. Fire, drought and a real station are independent dated overlays. */
 export function IdahoOverlapExplorer({unit}:{unit:string}) {
  const grid=gridByUnit[unit],mapEl=useRef<HTMLDivElement>(null),map=useRef<maplibregl.Map|null>(null);
- const [open,setOpen]=useState(false),[ready,setReady]=useState(false),[pixels,setPixels]=useState<Pixels|null>(null),[weather,setWeather]=useState<Weather|null>(null),[error,setError]=useState(''),[matched,setMatched]=useState<number|null>(null);
+ const [open,setOpen]=useState(true),[ready,setReady]=useState(false),[pixels,setPixels]=useState<Pixels|null>(null),[weather,setWeather]=useState<Weather|null>(null),[error,setError]=useState(''),[matched,setMatched]=useState<number|null>(null);
  const [showFire,setShowFire]=useState(true),[showDrought,setShowDrought]=useState(false),[showSnow,setShowSnow]=useState(false),[showSnowpack,setShowSnowpack]=useState(false);
  const [snowTime,setSnowTime]=useState<string|null>(null),[snowError,setSnowError]=useState(false);
  const [options,setOptions]=useState<OverlapOptions>({remote:false,high:false,steep:false,fire:'none'});
@@ -98,7 +98,7 @@ export function IdahoOverlapExplorer({unit}:{unit:string}) {
  },[ready,pixels,grid,options,hasTerrain]);
  if(!grid)return <p className="small muted">The overlap map is not available for Unit {unit}.</p>;
  return <details id="terrain-overlap" open={open} onToggle={e=>setOpen(e.currentTarget.open)} style={{margin:'16px 0'}}>
-  <summary><b>Explore terrain, wildfire and conditions</b></summary>
+  <summary className="explore-summary"><b>Explore terrain, wildfire and conditions</b></summary>
   <p className="small muted">Choose map layers and terrain conditions for Unit {unit}. Fire, drought and station observations are November 2026 snapshots. NOAA snowpack is a separate current-service layer.</p>
   <b>Map layers</b><div className="checks2" style={{display:'flex',flexWrap:'wrap',gap:12,margin:'8px 0'}}>
    <label><input type="checkbox" checked={showFire} onChange={e=>setShowFire(e.target.checked)}/> Wildfire age</label>

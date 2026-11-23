@@ -124,7 +124,7 @@ export async function MultiStateFinder({ sp }: { sp: SearchParams }) {
   </div>;
   return <main className={`filtering multi-state-finder${view === 'table' ? ' tablemode' : ''}`}>
       <FinderBusy />
-    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key="combined" states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={selectedUnit} packedUnits={packStats(stats)} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
+    <section className="f-map" aria-label="Map of matching units across selected states"><HuntMap key="combined" states={states} searchGroup={draw} species={param(sp, 'species').toUpperCase()} matched={[...groups.keys()]} selected={groups.has(selectedUnit) ? selectedUnit : ""} packedUnits={packStats(stats)} chips={selectedUnit ? [{ label: `Unit ${searchUnitLabel(selectedUnit)}`, href: `/hunts${q({ unit: null, page: null })}` }] : []} /></section>
     <section className="f-list" aria-label="Results">
       <RememberFinderNavigation />
       <div className="search-intro">

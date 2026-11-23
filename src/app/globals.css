@@ -801,3 +801,8 @@ body:has(.cmp-tray) main { padding-bottom: 72px; }
 @keyframes finder-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .finder-spinner { animation-duration: 2.4s; } }
 html[data-finder-busy] .f-list, html[data-finder-busy] .f-map { opacity: .55; transition: opacity .15s; pointer-events: none; }
+
+.legacy-search-setup { margin: 6px 0; }
+.explore-summary { display: list-item; width: fit-content; cursor: pointer; color: #fff; background: #b8460b; border-radius: 7px; padding: 10px 14px; }
+.explore-summary:hover { background: #9e3b08; }
+.explore-summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
