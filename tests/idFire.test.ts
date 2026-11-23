@@ -1,7 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { idFireUnit,idFireBest,matchesIdFire,firePeriodsFor } from '../src/lib/idFire';
-import { matchesIdOverlap, type OverlapOptions } from '../src/lib/idFireMask';
+import { matchesIdOverlap, idTerrainCategory, type OverlapOptions } from '../src/lib/idFireMask';
+
+test('terrain colors distinguish selected conditions and their overlaps',()=>{
+ const o:OverlapOptions={remote:true,high:true,steep:true,fire:'none'};
+ assert.equal(idTerrainCategory(3,0,0,o),1);
+ assert.equal(idTerrainCategory(5,0,0,o),2);
+ assert.equal(idTerrainCategory(9,0,0,o),4);
+ assert.equal(idTerrainCategory(7,0,0,o),3);
+ assert.equal(idTerrainCategory(15,0,0,o),7);
+ assert.equal(idTerrainCategory(14,0,0,o),0,'private cells are excluded');
+ assert.equal(idTerrainCategory(7,0,0,{...o,matchAll:true}),0);
+ assert.equal(idTerrainCategory(15,0,0,{...o,matchAll:true}),7);
+ assert.equal(idTerrainCategory(15,0,0,{...o,fire:'recent'}),0);
+ assert.equal(idTerrainCategory(15,0xe0,0,{...o,fire:'recent'}),7);
+});
 import { presetHref } from '../src/lib/filterPresets';
 
 const base:OverlapOptions={remote:false,high:false,steep:false,fire:'none'};

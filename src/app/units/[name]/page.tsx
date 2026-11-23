@@ -1,5 +1,5 @@
 import { validHuntReturn } from '@/lib/huntNavigation';
-import { IdahoOverlapExplorer } from '@/components/IdahoOverlapExplorer';
+import { IdahoUnitExplorerMap } from '@/components/IdahoUnitExplorerMap';
 import { SyncState } from '@/components/SyncState';
 import { listStudies, type MigClass } from '@/lib/migrations';
 import Link from 'next/link';
@@ -24,8 +24,6 @@ import { residencyFields } from '@/lib/finder';
 import { historyFor } from '@/lib/history';
 import { pct100, int } from '@/lib/format';
 import type { Metadata } from 'next';
-import { UnitMap } from '@/components/UnitMap';
-import { StateProvider } from '@/components/StateContext';
 import { getFavorites } from '@/lib/favorites';
 import { Star } from '@/components/Star';
 import { Term } from '@/components/Term';
@@ -138,13 +136,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         <LandBar shares={unit.landOwnership as { manager: string; pct: number }[] | null} />
         <p className="small muted" style={{ marginBottom: 0 }}>Managing agency, not owner. State land is mostly open to hunting; check access on the ground.</p>
       </div>
-      <div className="card" style={{ padding: 0, overflow: 'hidden', minHeight: 480 }}>
-        <StateProvider code="ID">
-        <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="480px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, species: s.species, routes: !s.mapNote, classes: s.classes as unknown as MigClass[] }))} />
-        </StateProvider>
-      </div>
-
-      <IdahoOverlapExplorer unit={unit.name} />
+      <IdahoUnitExplorerMap unit={unit.name} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} migrations={studies.map((s) => ({ slug: s.slug, name: s.name, species: s.species, routes: !s.mapNote, classes: s.classes as unknown as MigClass[] }))} />
 
       <h2 id="hunts">Hunts In Unit {unit.name}</h2>
       <div className="uh-filters">

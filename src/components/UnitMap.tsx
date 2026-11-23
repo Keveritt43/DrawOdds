@@ -109,8 +109,9 @@ const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5,
 
 /** `bare`: just the unit on the map (unit pages), no shading or key. `unitSet`: Montana's deer/elk and antelope
  *  districts are different ground stored side by side ("261" and "A320"); draw only the set the page is about. */
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '', unitSet }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[]; unitSet?: 'deer-elk' | 'antelope' }) {
+export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '', unitSet, onMapReady, exploring = false }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[]; unitSet?: 'deer-elk' | 'antelope'; onMapReady?: (map:MlMap|null)=>void; exploring?:boolean }) {
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
+  useEffect(()=>{onMapReady?.(mapObj);return ()=>onMapReady?.(null);},[mapObj,onMapReady]);
   const st = useStateConfig();
   const msg = draw === "MSG" && (st.code === "ID" || st.code === "WA");
   const el = useRef<HTMLDivElement>(null);
@@ -352,8 +353,9 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       if (bare) {
         // the unit itself, lightly tinted; neighbours just outlined
         m.setPaintProperty('units-fill', 'fill-color', ['case', ['==', ['get', 'name'], focus ?? ''], '#eb6834', '#ffffff'] as ExpressionSpecification);
-        m.setPaintProperty('units-fill', 'fill-opacity', ['case', ['==', ['get', 'name'], focus ?? ''], 0.18, 0.02] as ExpressionSpecification);
+        m.setPaintProperty('units-fill', 'fill-opacity', exploring ? 0 : ['case', ['==', ['get', 'name'], focus ?? ''], 0.18, 0.02] as ExpressionSpecification);
         m.setPaintProperty('units-line', 'line-color', '#ffffff');
+        m.setPaintProperty('units-sel', 'line-color', exploring ? '#ffffff' : '#eb6834');
         return;
       }
       if (noShade) {
@@ -367,7 +369,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     apply();
     m?.on('metric', apply);
     return () => void m?.off('metric', apply);
-  }, [field, cls, colors, bare, focus, noShade]);
+  }, [field, cls, colors, bare, focus, noShade, exploring]);
 
   // Montana keeps deer/elk districts ("261") and antelope districts ("A320") in one source: show the set the
   // chosen animal is hunted on, and print antelope numbers without the "A"
