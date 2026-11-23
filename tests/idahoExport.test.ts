@@ -15,13 +15,13 @@ const hunt = { id:'c:1044', state:'ID', species:'DEER', type:'CONTROLLED', huntN
 test('legacy Idaho export uses verified area and current trophy score', () => {
   const result=prepareIdahoExport(hunt,parseFilters({}),false)!;
   assert.deepEqual(result.units,['55']);
-  assert.equal(result.publicPct,null); assert.equal(result.huntersSqMi,null); assert.equal(result.scoreQuality,null);
+  assert.equal(result.publicPct,52.4); assert.equal(result.huntersSqMi,null); assert.equal(result.scoreQuality,75);
   assert.equal(result.scoreTrophy,trophyForHunt(result));
 });
 test('legacy Idaho export filters corrected values rather than stale values', () => {
   assert.equal(prepareIdahoExport(hunt,parseFilters({unit:'57'}),false),null);
-  assert.equal(prepareIdahoExport(hunt,parseFilters({minPublic:'10'}),false),null);
-  assert.equal(prepareIdahoExport(hunt,parseFilters({minScore:'10'}),false),null);
+  assert.notEqual(prepareIdahoExport(hunt,parseFilters({minPublic:'10'}),false),null);
+  assert.notEqual(prepareIdahoExport(hunt,parseFilters({minScore:'10'}),false),null);
   assert.equal(prepareIdahoExport(hunt,parseFilters({maxDensity:'1'}),false),null);
   const result=prepareIdahoExport(hunt,parseFilters({unit:'55'}),false)!;
   assert.notEqual(result.scoreTrophy,null);

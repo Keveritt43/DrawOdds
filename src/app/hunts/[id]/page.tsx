@@ -24,7 +24,7 @@ import { ApplyChecklist } from '@/components/ApplyChecklist';
 import { laterChoices, Rules, ScoreRow, ObjectivePills, TrophyMark } from '@/components/HuntCards';
 import { trophyForHunt } from '@/lib/trophyHunt';
 import { withStateTrophyScores } from '@/lib/stateTrophyScores';
-import { isIdaho2026Early55, isIdaho2026Deer1074 } from '@/lib/idahoHuntCorrections';
+import { isIdaho2026Full55, isIdaho2026Deer1074 } from '@/lib/idahoHuntCorrections';
 import type { Metadata } from 'next';
 import type { Prisma } from '@prisma/client';
 import { OddsChart, ApplicantsChart, HarvestChart, SuccessChart, QualityChart, ChoiceChart } from '@/components/Charts';
@@ -81,7 +81,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
   const nr = residency === 'NONRESIDENT';
   const [history, area, unitRows, saved] = await Promise.all([
     historyFor(s),
-    s.areaId && !isIdaho2026Early55(s) ? db.huntArea.findUnique({ where: { areaId: s.areaId } }) : null,
+    s.areaId && !isIdaho2026Full55(s) ? db.huntArea.findUnique({ where: { areaId: s.areaId } }) : null,
     db.unit.findMany({ where: { state: s.state, name: { in: s.units } } }),
     session?.user ? db.savedHunt.findUnique({ where: { userId_huntId: { userId: session.user.id, huntId: s.huntId } } }) : null,
   ]);
@@ -156,7 +156,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         <div>
           <h1>{title} <TrophyMark score={s.scoreTrophy} hunt={s} /></h1>
           <p className="lead-sum">{summary}</p>
-          {isIdaho2026Early55(s) && <p className="small muted">IDFG identifies this hunt as Unit 55. Hunt-area land and density figures are unavailable while an incorrect Unit 57 association is reviewed.</p>}
+          {isIdaho2026Full55(s) && <p className="small muted">IDFG defines this hunt as all of Unit 55. Land and hunter density use Unit 55 rather than the former two-unit area.</p>}
           {isIdaho2026Deer1074(s) && <p className="small muted">IDFG&apos;s 2026 regulations define this hunt area as Units 41 and 42. Hunt-area land and density are unavailable while the stored area is corrected.</p>}
           {exploreUnits.length > 0 && <div style={{ margin: '12px 0 16px' }}>
             <div className="small muted" style={{ marginBottom: 6 }}>Explore maps, wildfire and conditions for {exploreUnits.length === 1 ? 'this unit' : 'these units'}:</div>

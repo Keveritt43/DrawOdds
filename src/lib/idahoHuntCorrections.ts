@@ -19,14 +19,27 @@ export function isIdaho2026Early55(h: {state?:string;species:string;huntNumber?:
     day(h.openDate)==='2026-08-15' && day(h.closeDate)==='2026-09-24';
 }
 
+/** Full-unit Area 55 identities checked against the 2026 deer and moose regulations. */
+export function isIdaho2026Full55(h:{state?:string;species:string;huntNumber?:number|null;oddsLastYear?:number|null;openDate?:Date|string|null;closeDate?:Date|string|null}):boolean {
+  if((h.state??'ID')!=='ID'||h.oddsLastYear!==2026)return false;
+  const key=`${h.species}:${h.huntNumber}:${dateDay(h.openDate)}:${dateDay(h.closeDate)}`;
+  return ['DEER:1044:2026-08-15:2026-09-24','DEER:1045:2026-10-05:2026-10-31',
+    'DEER:1062:2026-11-01:2026-11-14','MOOSE:3057:2026-08-30:2026-11-23'].includes(key);
+}
+
 /** The stored summary incorrectly includes Unit 57. Preserve source data, but do not
  * reuse land, area or density derived from that incorrect geography. */
-export function withIdahoVerifiedArea<T extends {state?:string;species:string;huntNumber?:number|null;areaName?:string|null;oddsLastYear?:number|null;openDate?:Date|string|null;closeDate?:Date|string|null}>(h:T):T {
+export function withIdahoVerifiedArea<T extends {state?:string;species:string;huntNumber?:number|null;areaName?:string|null;oddsLastYear?:number|null;openDate?:Date|string|null;closeDate?:Date|string|null;hunters5?:number|null;harvestYears?:number|null}>(h:T):T {
   if(isIdaho2026Deer1074(h))return {...h,units:['41','42'],areaId:null,publicPct:null,privatePct:null,huntablePct:null,accessYesPct:null,
     accessYesAcres:null,accessYesCount:null,acres:null,huntersSqMi:null,scoreQuality:null,
     scoreAccess:null,scoreCrowd:null,scoreOppRes:null,scoreOppNr:null};
-  if(!isIdaho2026Early55(h))return h;
-  return {...h,units:['55'],publicPct:null,privatePct:null,huntablePct:null,accessYesPct:null,
-    accessYesAcres:null,accessYesCount:null,acres:null,huntersSqMi:null,scoreQuality:null,
-    scoreAccess:null,scoreCrowd:null,scoreOppRes:null,scoreOppNr:null};
+  if(!isIdaho2026Full55(h))return h;
+  // IDFG defines Area 55 as the entire unit. These are the reviewed Nov 2026
+  // Unit 55 land snapshot (not the invalid stored 55+57 area). Density uses
+  // this hunt's matching hunter-years and the same acres as the unit map.
+  const acres=648520;
+  const huntersSqMi=typeof h.hunters5==='number' && h.hunters5>=0 && typeof h.harvestYears==='number' && h.harvestYears>0
+    ? h.hunters5/h.harvestYears/(acres/640) : null;
+  return {...h,units:['55'],areaId:null,publicPct:52.4,privatePct:47.6,huntablePct:52.4,accessYesPct:0,
+    accessYesAcres:0,accessYesCount:0,acres,huntersSqMi};
 }
