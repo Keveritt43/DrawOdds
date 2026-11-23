@@ -34,7 +34,7 @@ export const TROPHY_LABEL: Record<string, string> = { DEER: '4+ pt mule deer', E
 /** Hunters per square mile: one decimal under 10, whole numbers above. */
 export function density(v: number | null | undefined): string {
   if (v === null || v === undefined) return '-';
-  return v < 0.1 ? '<0.1' : v < 10 ? v.toFixed(1) : String(Math.round(v));
+  return v === 0 ? '0' : v < 0.1 ? '<0.1' : v < 10 ? v.toFixed(1) : String(Math.round(v));
 }
 
 /**
