@@ -1,7 +1,5 @@
-import { IdahoConditionsNote } from '@/components/IdahoConditionsNote';
+import { validHuntReturn } from '@/lib/huntNavigation';
 import { IdahoOverlapExplorer } from '@/components/IdahoOverlapExplorer';
-import { IdahoFireNote } from '@/components/IdahoFireNote';
-import { IdahoTerrainNote } from '@/components/IdahoTerrainNote';
 import { SyncState } from '@/components/SyncState';
 import { listStudies, type MigClass } from '@/lib/migrations';
 import Link from 'next/link';
@@ -55,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
   return { title: `Unit ${name}`, description: `Idaho hunting unit ${name}: deer, elk and pronghorn hunts, draw odds, success and public land.` };
 }
 
-type SP = { species?: string; type?: string; weapon?: string; as?: string };
+type SP = { species?: string; type?: string; weapon?: string; as?: string; returnHunt?: string };
 const FILTERS = {
   species: [['', 'All'], ['DEER', 'Deer'], ['ELK', 'Elk'], ['PRONGHORN', 'Pronghorn'], ['MOOSE', 'Moose'], ['BIGHORN', 'Bighorn Sheep'], ['GOAT', 'Mountain Goat'], ['BISON', 'Bison']],
   type: [['', 'All'], ['GENERAL', 'General'], ['CONTROLLED', 'Controlled']],
@@ -92,12 +90,13 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const fSpecies = pick('species');
   const fType = pick('type');
   const fWeapon = pick('weapon');
+  const returnHunt = validHuntReturn(sp.returnHunt);
   // elk: the A/B tag rows are the listing; the per-weapon general elk rows stay for the charts only. Deer: the
   // residents see general seasons and nonresidents see deer tag listings.
   const listed = hunts.filter((h) => (h.nrTag ? h.species === 'ELK' || (nr && h.species === 'DEER') : !(h.type === 'GENERAL' && (h.species === 'ELK' || (nr && h.species === 'DEER')))));
   const shown = listed.filter((h) => (!fSpecies || h.species === fSpecies) && (!fType || h.type === fType) && (!fWeapon || h.weapon === fWeapon || (h.nrTag && (h.weapons as string[]).includes(fWeapon))));
   const href = (patch: SP) => {
-    const q = new URLSearchParams(Object.entries({ species: fSpecies, type: fType, weapon: fWeapon, ...patch }).filter(([, v]) => v) as [string, string][]);
+    const q = new URLSearchParams(Object.entries({ species: fSpecies, type: fType, weapon: fWeapon, as: sp.as, returnHunt, ...patch }).filter(([, v]) => v) as [string, string][]);
     return `/units/${encodeURIComponent(name)}${q.size ? `?${q}` : ''}#hunts`;
   };
   // General-season trend charts, one labeled section per species (following the species / weapon filters):
@@ -119,12 +118,10 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
     <main className="wrap" style={{ margin: '20px auto 40px' }}>
       <SyncState code="ID" />
       <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?states=ID&unit=ID:${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
+      {returnHunt && <p style={{ margin: '12px 0' }}><Link href={returnHunt} className="btn primary">← Back to this hunt</Link></p>}
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
-      <IdahoConditionsNote units={[unit.name]} />
-      <IdahoFireNote units={[unit.name]} />
       <IdahoOverlapExplorer unit={unit.name} />
-      <IdahoTerrainNote units={[unit.name]} />
       {draw === 'DEP' && <ObjectivePills units={[unit.name]} species="ELK" />}
       {recentBoundaryChanges([unit.name]) && <div className="note">IDFG changed this unit&apos;s boundary in {recentBoundaryChanges([unit.name])!.year}. Harvest numbers before then cover different ground.</div>}
 
