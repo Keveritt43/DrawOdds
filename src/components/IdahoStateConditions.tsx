@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import type { Map as MlMap } from 'maplibre-gl';
+import visualMeta from '../../data/id-visual-meta.json';
 
 const SNOW='https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer';
 const droughtColors=[['D0 · Dry','#ffff00'],['D1 · Moderate','#fcd37f'],['D2 · Severe','#ffaa00'],['D3 · Extreme','#e60000'],['D4 · Exceptional','#730000']];
@@ -13,7 +14,7 @@ export function IdahoStateConditions({map}:{map:MlMap|null}) {
   if(!drought){if(map.getLayer('id-weather-drought'))map.setLayoutProperty('id-weather-drought','visibility','none');return;}
   const show=async()=>{
    if(!map.getSource('id-weather-drought')){
-    const r=await fetch('/idaho-drought-20261117.json');if(!r.ok)throw Error('Drought layer unavailable');const data=await r.json();
+    const r=await fetch(`/idaho-drought-${visualMeta.droughtDate.replaceAll('-','')}.json`);if(!r.ok)throw Error('Drought layer unavailable');const data=await r.json();
     if(!live||!map.getStyle())return;
     if(!map.getSource('id-weather-drought'))map.addSource('id-weather-drought',{type:'geojson',data});
    }
@@ -44,10 +45,10 @@ export function IdahoStateConditions({map}:{map:MlMap|null}) {
  return <details style={{marginTop:8}}><summary><b>Snowpack &amp; drought layers</b></summary>
   <div className="land-toggles" style={{marginTop:6}}>
    <label><input type="checkbox" checked={snow} onChange={e=>{setError('');setSnow(e.target.checked);}}/> Snowpack · NOAA model</label>
-   <label><input type="checkbox" checked={drought} onChange={e=>{setError('');setDrought(e.target.checked);}}/> Drought · Idaho</label>
+   <label><input type="checkbox" checked={drought} onChange={e=>{setError('');setDrought(e.target.checked);}}/> Drought · Idaho · {visualMeta.droughtDate}</label>
   </div>
   {snow && <><p className="small muted" style={{margin:'6px 0'}}>NOAA modeled snow water equivalent (inches), about 1 km. {valid?`Valid ${valid}.`:'Checking NOAA timestamp.'} Transparent can mean little snow or missing data. Drought draws above snow.</p><div className="sma-key" aria-label="Snow water equivalent legend">{snowColors.map(([label,color])=><span key={label}><i aria-hidden="true" style={{background:color,display:'inline-block',width:12,height:10,borderRadius:2,flexShrink:0}}/> {label} in</span>)}</div></>}
-  {drought && <><p className="small muted" style={{margin:'6px 0'}}>US Drought Monitor: November 17, 2026, within Idaho game units. Not a forecast.</p><div className="sma-key" aria-label="Drought category legend">{droughtColors.map(([label,color])=><span key={label}><i aria-hidden="true" style={{background:color,display:'inline-block',width:12,height:10,borderRadius:2,flexShrink:0}}/> {label}</span>)}</div></>}
+  {drought && <><p className="small muted" style={{margin:'6px 0'}}>US Drought Monitor: {visualMeta.droughtDate}, within Idaho game units. Not a forecast.</p><div className="sma-key" aria-label="Drought category legend">{droughtColors.map(([label,color])=><span key={label}><i aria-hidden="true" style={{background:color,display:'inline-block',width:12,height:10,borderRadius:2,flexShrink:0}}/> {label}</span>)}</div></>}
   {error && <p className="small" role="alert">{error}</p>}
  </details>;
 }
