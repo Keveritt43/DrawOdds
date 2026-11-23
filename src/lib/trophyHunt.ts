@@ -13,8 +13,13 @@ const ID_V2_TIER:Record<number,TrophyTier>={100:'unicorn',80:'trophy',65:'county
 /** Idaho v2 tier (owner, Nov 17): demand per tag, herd quality, rut days, publications and B&C,
  * ranked within species. Only for controlled hunts in the reviewed table whose draw year matches it;
  * anything else keeps the earlier model. Built by scripts/audit-id-trophy-v2.ts. */
-export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;huntNumber?:number|null;tagCode?:string|null;oddsLastYear?:number|null;units?:string[];openDate?:Date|string|null;closeDate?:Date|string|null}) {
-  if(hunt.state.toUpperCase()!=='ID'||hunt.oddsLastYear!==idV2.drawYear)return null;
+export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;antlerClass?:string|null;takeMethod?:string|null;tagSeasons?:unknown;huntNumber?:number|null;tagCode?:string|null;oddsLastYear?:number|null;units?:string[];openDate?:Date|string|null;closeDate?:Date|string|null}) {
+  if(hunt.state.toUpperCase()!=='ID'||hunt.oddsLastYear!==idV2.drawYear||hunt.type?.toUpperCase()!=='CONTROLLED'||
+      !['ANTLERED','EITHER'].includes(hunt.antlerClass?.toUpperCase()??''))return null;
+  const rules=seasonRules(hunt.tagSeasons,hunt.species);
+  const seasons=sortedSeasons(hunt.tagSeasons).filter(s=>!/^(?:[AB] tag · )?(?:antlerless|cow|doe)/i.test(s.sex));
+  if(rules.includes('2-point bucks only')||rules.includes('Spike bulls only')||
+      (seasons.length?seasons.every(s=>maximumAntlerRule(`${s.sex} ${s.notes}`)):maximumAntlerRule(hunt.takeMethod??'')))return null;
   const code=hunt.tagCode??(hunt.huntNumber===null||hunt.huntNumber===undefined?null:String(hunt.huntNumber));
   const row=code?(idV2.tiers as Record<string,{tier:number;score:number;rank:number;of:number;units:string[]}>)[`${hunt.species.toUpperCase()}:${code}`]:undefined;
   if(!row)return null;

@@ -81,3 +81,13 @@ test('Idaho 1044 stored as Units 55+57 gets the same v2 tier as the corrected Ar
   assert.equal(trophyForUnit(raw,'55').score,65);
   assert.equal(trophyForUnit(raw,'57').score,null);
 });
+
+test('Idaho table cannot award a trophy tier to antlerless or antler-limited hunts',()=>{
+  const h={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['54'],
+    huntNumber:1043,oddsLastYear:2026,openDate:'2026-11-15',closeDate:'2026-11-30'};
+  assert.equal(trophyForHunt({...h,antlerClass:'ANTLERLESS'}),null);
+  assert.equal(trophyForUnit({...h,antlerClass:'ANTLERLESS'},'54').score,null);
+  assert.equal(trophyForHunt({...h,takeMethod:'2-point bucks only'}),null);
+  assert.equal(trophyForUnit({...h,takeMethod:'2-point bucks only'},'54').score,null);
+  assert.equal(idahoV2Tier({...h,type:'GENERAL'}),null);
+});
