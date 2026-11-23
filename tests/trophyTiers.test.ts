@@ -29,27 +29,12 @@ test('multi-unit hunt uses the conservative unit tier while map retains each uni
  assert.equal(trophyForUnit(h,'44').score,100);
  assert.equal(trophyForUnit(h,'34').score,50);
 });
-test('Idaho deer ranks qualifying November hunts above October and keeps early Unit 55',()=>{
- const base={state:'ID',species:'DEER',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',units:['54'],bigPct5:.8588,resOdds5:.0201,nrOdds5:.011};
- const november={...base,openDate:'2026-11-15',closeDate:'2026-11-30'};
- const october={...base,openDate:'2026-10-05',closeDate:'2026-10-31',bigPct5:.4386,resOdds5:.168};
- assert.equal(trophyForHunt(november),80);
- assert.equal(trophyForHunt(october),50);
- assert.equal(trophyForHunt({...october,units:['55'],huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'}),65); // Idaho v2 tier table (Nov 17): 1044 ranks 65; the earlier early-Unit-55 exception (80) is superseded for 2026.
- assert.equal(trophyForHunt({...october,type:'GENERAL'}),50);
- assert.equal(trophyForHunt({...november,bigPct5:.7,units:['999']}),50);
- assert.equal(trophyForHunt({...november,resOdds5:.05,units:['999']}),50);
- assert.equal(trophyForHunt({...november,nrOdds5:.05,units:['999']}),50);
- assert.equal(trophyForHunt({...november,nrOdds5:null,units:['999']}),50);
- assert.equal(trophyForHunt({...november,resOdds5:null,units:['999']}),50);
- assert.equal(trophyForHunt({...november,antlerClass:'ANTLERLESS'}),null);
- assert.equal(trophyForHunt({...november,tagSeasons:{seasons:[{sex:'2-point bucks only',weapon:'ANY',dates:[{open:'2026-11-15',close:'2026-11-30'}],notes:''}]}}),null);
-});
-test('Idaho seasonal trophy uses actual separate dates and the same map tier',()=>{
- const h={state:'ID',species:'DEER',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',units:['54'],bigPct5:.9,resOdds5:.02,nrOdds5:.01,openDate:'2026-10-01',closeDate:'2026-11-30',tagSeasons:{seasons:[{sex:'antlered',weapon:'ANY',notes:'',dates:[{open:'2026-10-01',close:'2026-10-10'},{open:'2026-12-01',close:'2026-12-10'}]}]}};
- assert.equal(trophyForHunt(h),50);
- assert.equal(trophyForUnit(h,'54').score,50);
- assert.equal(trophyForHunt({...h,tagSeasons:null}),80);
+test('Idaho legacy classifications do not gain a tier from low draw odds',()=>{
+ const h={state:'ID',species:'DEER',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',units:['54'],bigPct5:.85,resOdds5:.02,nrOdds5:.01,openDate:'2026-11-15',closeDate:'2026-11-30'};
+ const tier=trophyForHunt(h);
+ assert.equal(trophyForHunt({...h,resOdds5:.9,nrOdds5:.9}),tier);
+ assert.equal(trophyForUnit(h,'54').score,tier);
+ assert.equal(trophyForHunt({...h,antlerClass:'ANTLERLESS'}),null);
 });
 test('Colorado seasons use matching evidence rather than a blanket numbered-season score',()=>{
  const h={state:'CO',species:'DEER',type:'CONTROLLED',antlerClass:'ANTLERED',weapon:'ANY',units:['40'],oddsLastYear:2026};
@@ -78,25 +63,14 @@ test('Blue Mountains elk recognition follows actual early season windows',()=>{
  assert.equal(trophyForHunt({...h,units:['172'],openDate:'2026-10-26',closeDate:'2026-11-08',hunters5:28,harvest5:21,resOddsLast:.009}),50);
  assert.equal(trophyForHunt({...h,units:['172'],openDate:'2026-10-26',closeDate:'2026-11-08',hunters5:3,harvest5:3,resOddsLast:.009}),50);
 });
-test('off-season reduction uses actual dates and preserves the early Idaho 55 exception',()=>{
- const general={state:'ID',species:'DEER',type:'GENERAL',antlerClass:'ANTLERED',weapon:'ANY',units:['39'],openDate:'2026-10-10',closeDate:'2026-10-31'};
- assert.equal(trophyForHunt(general),50);
- assert.equal(trophyForHunt({...general,openDate:null,closeDate:null}),65);
- assert.equal(trophyForHunt({...general,units:['55'],type:'CONTROLLED',huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'}),65); // Idaho v2 tier table (Nov 17): 1044 ranks 65; the earlier early-Unit-55 exception (80) is superseded for 2026.
-});
-test('legacy Idaho harvest screen remains until coordinated recalculation; WA trophy ignores draw odds',()=>{
+test('Idaho and Washington trophy tiers ignore draw-rate screens',()=>{
  const h={state:'ID',species:'DEER',type:'GENERAL',antlerClass:'ANTLERED',weapon:'ANY',units:['39'],openDate:'2026-11-01',closeDate:'2026-11-30',hunters5:1000,harvest5:190,harvestYears:5,nrOddsLast:.824,oddsLastYear:2026};
- assert.equal(trophyForHunt(h),50);
- assert.equal(trophyForHunt({...h,nrOddsLast:.1}),80);
- assert.equal(trophyForHunt({...h,harvest5:600}),80);
- assert.equal(trophyForHunt({...h,hunters5:2,harvest5:0}),80);
- assert.equal(trophyForHunt({...h,oddsLastYear:2024}),65);
- assert.equal(trophyForHunt({...h,nrOddsLast:null}),80);
+ const tier=trophyForHunt(h);
+ assert.equal(trophyForHunt({...h,nrOddsLast:.1}),tier);
+ assert.equal(trophyForHunt({...h,nrOddsLast:null}),tier);
+ assert.equal(trophyForHunt({...h,harvest5:600}),tier);
  const wa={...h,state:'WA',type:'CONTROLLED',units:['247'],pointOdds:{kind:'squared',category:'Quality Deer'},oddsLastYear:2025,nrOddsLast:.05,hunters5:100,harvest5:49};
- assert.equal(trophyForHunt(wa),80);
- assert.equal(trophyForHunt({...wa,harvest5:20}),80,'general harvest success is not trophy size');
- assert.equal(trophyForHunt({...wa,nrOddsLast:.02}),80,'draw odds do not set a trophy tier');
- assert.equal(trophyForHunt({...wa,pointOdds:{kind:'other',category:'Quality Deer'}}),80,'incompatible pools are not compared');
+ assert.equal(trophyForHunt({...wa,nrOddsLast:.02}),trophyForHunt(wa));
 });
 test('reported Entiat and Swakane quality hunts retain their demand ordering', async()=>{
  const {readFile} = await import('node:fs/promises');
