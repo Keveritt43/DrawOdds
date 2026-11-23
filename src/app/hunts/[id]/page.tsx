@@ -1,10 +1,8 @@
-import { IdahoConditionsNote } from '@/components/IdahoConditionsNote';
-import { IdahoFireNote } from '@/components/IdahoFireNote';
-import { IdahoTerrainNote } from '@/components/IdahoTerrainNote';
 import { HuntLink } from '@/components/HuntNavigation';
 import { OverlappingElk } from '@/components/OverlappingElk';
 import { AddToPlan } from '@/components/Planner';
-import { withFinderReturn } from '@/lib/huntNavigation';
+import { withFinderReturn, idahoUnitResearchHref } from '@/lib/huntNavigation';
+import Link from 'next/link';
 import { huntHref } from '@/lib/huntSlug';
 import { CompareToggle } from '@/components/Compare';
 import { huntName } from '@/components/HuntTable';
@@ -110,6 +108,10 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
       })
     : [];
   const land = (area?.landOwnership ?? (unitRows.length === 1 ? unitRows[0].landOwnership : mergeLand(unitRows))) as { manager: string; pct: number }[] | null;
+  const huntParams = new URLSearchParams();
+  for (const k of ['as', 'odds', 'pool'] as const) if (typeof sp[k] === 'string') huntParams.set(k, sp[k]!);
+  const returnHunt = withFinderReturn(huntHref(s) + (huntParams.size ? `?${huntParams}` : ''), sp.returnTo);
+  const exploreUnits = s.units.filter(u => unitRows.some(row => row.name === u));
   const title = s.huntNumber ? `${SPECIES_LABEL[s.species]} controlled hunt ${s.huntNumber}` : s.name;
   const rows = history.filter((h) => h.permits != null || h.resApps != null || h.hunters != null).sort((a, b) => b.year - a.year);
   const drawn = rows.filter((h) => h.permits != null || h.resApps != null);
@@ -155,11 +157,12 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           <h1>{title} <TrophyMark score={s.scoreTrophy} hunt={s} /></h1>
           <p className="lead-sum">{summary}</p>
           {isIdaho2026Early55(s) && <p className="small muted">IDFG identifies this hunt as Unit 55. Hunt-area land and density figures are unavailable while an incorrect Unit 57 association is reviewed.</p>}
+          {exploreUnits.length > 0 && <div style={{ margin: '12px 0 16px' }}>
+            <div className="small muted" style={{ marginBottom: 6 }}>Explore maps, wildfire and conditions for {exploreUnits.length === 1 ? 'this unit' : 'these units'}:</div>
+            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>{exploreUnits.map(u => <Link key={u} className="btn primary" href={idahoUnitResearchHref(u, returnHunt)}>Explore Unit {u} →</Link>)}</div>
+          </div>}
           <Rules r={s} />
           {isPrivateOnly(s) && <p className="small" style={{ margin: '6px 0' }}><span className="pill warn">Private land only</span> IDFG: valid only on private land. You need landowner permission before you hunt; the unit&apos;s public land doesn&apos;t count for this tag.</p>}
-          <IdahoConditionsNote units={s.units} />
-          <IdahoFireNote units={s.units} />
-          {!isPrivateOnly(s) && ['DEER', 'ELK'].includes(s.species) && <IdahoTerrainNote units={s.units} />}
           <ObjectivePills units={s.units} species={s.species} />
           <ScoreRow r={s} nr={nr} open />
         </div>

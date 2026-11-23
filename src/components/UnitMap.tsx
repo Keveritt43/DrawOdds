@@ -12,6 +12,7 @@ import { Star } from './Star';
 import { MapKey, KeySeg } from './MapKey';
 import { MigrationControls, type StudyLite } from './MigrationLayers';
 import { LandToggles } from './LandLayers';
+import { IdahoStateConditions } from './IdahoStateConditions';
 import { METRICS, METRIC_KEYS, colorsFor, isMsgSuccess, fixedScale, fillExpression, fmtNum as num, IDAHO_BOUNDS, type Classes, type Metric, type Sp } from '@/lib/mapMetrics';
 import { inPageGestures } from '@/lib/mapGestures';
 import { loadUnits } from '@/lib/unitData';
@@ -484,7 +485,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
           kind={kind}
           onKind={setKind}
           err={err}
-          layers={<LandToggles map={mapObj} before="units-line" />}
+          layers={<><LandToggles map={mapObj} before="units-line" />{st.code === 'ID' && <IdahoStateConditions map={mapObj} />}</>}
           folded={!!sel && sel.name !== focus}
         />
       )}
