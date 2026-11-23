@@ -121,7 +121,6 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
       {returnHunt && <p style={{ margin: '12px 0' }}><Link href={returnHunt} className="btn primary">← Back to this hunt</Link></p>}
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
-      <IdahoOverlapExplorer unit={unit.name} />
       {draw === 'DEP' && <ObjectivePills units={[unit.name]} species="ELK" />}
       {recentBoundaryChanges([unit.name]) && <div className="note">IDFG changed this unit&apos;s boundary in {recentBoundaryChanges([unit.name])!.year}. Harvest numbers before then cover different ground.</div>}
 
@@ -144,6 +143,8 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
         <UnitMap key={draw} draw={draw} savedUnits={[...fav.units]} signedIn={fav.signedIn} nr={nr} focus={unit.name} height="480px" bare migrations={studies.map((s) => ({ slug: s.slug, name: s.name, species: s.species, routes: !s.mapNote, classes: s.classes as unknown as MigClass[] }))} />
         </StateProvider>
       </div>
+
+      <IdahoOverlapExplorer unit={unit.name} />
 
       <h2 id="hunts">Hunts In Unit {unit.name}</h2>
       <div className="uh-filters">

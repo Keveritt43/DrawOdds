@@ -202,10 +202,10 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
   const shown = Math.min(total, PER_PAGE * f.page);
 
   // highlight what was asked for: the clicked unit only, or the zone's units, or every unit with a match
-  const matched = f.unit ? [f.unit] : [...new Set(rows.flatMap((r) => r.units))].filter((u) => !zu || zu.includes(u));
+  const matched = [...new Set(visible.flatMap((r) => r.units))].filter((u) => (!f.unit || u === f.unit) && (!zu || zu.includes(u)));
   // map shading from the matching hunts themselves: per unit (pronghorn: per hunt area) the best odds, pooled
   // success, least crowded hunt, and the land numbers - so whatever "Shade" shows is about these results
-  const stats = await matchStats(rows, nr, rf, zu);
+  const stats = await matchStats(visible, nr, rf, zu);
   const unitInfo = new Map(
     f.view === 'unit'
       ? (await db.unit.findMany({ where: { state: 'ID', name: { in: glist.map((g) => g.name) } }, select: { name: true, elkZone: true, publicPct: true, acres: true, accessYesAcres: true } })).map((u) => [u.name, u])
@@ -255,9 +255,9 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
       <FinderBusy />
       <RememberQuery owner={fav.userId}/>
       <section className="f-map" aria-label="Map of matching units">
-        <HuntMap matched={areaSp.length ? [] : matched} selected={f.unit} chips={activeChips} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
+        <HuntMap matched={areaSp.length ? [] : matched} selected={matched.includes(f.unit) ? f.unit : ""} chips={activeChips} nr={nr} species={f.species} showZones={!msg && (f.species === 'ELK' || f.species === '')} zones={f.zones}
           areaSpecies={areaSp.join(',')}
-          matchedAreas={[...new Set(rows.filter((r) => areaSp.includes(r.species as SpeciesKey) && r.areaName).map(areaKey))]}
+          matchedAreas={[...new Set(visible.filter((r) => areaSp.includes(r.species as SpeciesKey) && r.areaName).map(areaKey))]}
           selectedArea={areaSp.length && f.q ? `${f.species || areaSp[0]}:${f.q.toUpperCase()}` : ''} stats={stats} />
       </section>
 
@@ -266,7 +266,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
           <div className="f-title">
             <h1>Find A Hunt</h1>
           </div>
-          <SearchStates draw={draw} />
+          <details className="search-setup legacy-search-setup"><summary>States &amp; Settings</summary><SearchStates draw={draw} /></details>
           {draw === 'MSG' && <FinderLink className="small" href={`/hunts?states=CO,ID&draw=msg${f.species ? `&species=${f.species}` : ''}`}>Search Idaho and Colorado</FinderLink>}
           <div className="f-sub">
             <span><b>{total}</b> {f.view === 'unit' ? 'units' : total === 1 ? 'result' : 'results'} · sort by</span>
