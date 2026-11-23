@@ -1,6 +1,17 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { finderHref, validFinderReturn, withFinderReturn } from '../src/lib/huntNavigation';
+import { finderHref, validFinderReturn, withFinderReturn, idahoZoneResearchHref } from '../src/lib/huntNavigation';
+import { elkZoneForUnits } from '../src/lib/elkZones';
+
+test('elk zone links require the complete zone and retain the hunt and residency', () => {
+  assert.equal(elkZoneForUnits(['36','33','34','35']), 'Sawtooth');
+  assert.equal(elkZoneForUnits(['33','34']), null);
+  const hunt = '/hunts/elk-sawtooth?as=nr&returnTo=%2Fhunts%3Fstates%3DID';
+  const link = new URL(idahoZoneResearchHref('Sawtooth', hunt), 'https://example.test');
+  assert.equal(link.pathname, '/elk-zones/Sawtooth');
+  assert.equal(link.searchParams.get('returnHunt'), hunt);
+  assert.equal(link.searchParams.get('as'), 'nr');
+});
 
 test('finder return keeps combined states, filters and result position through hunt detail links', () => {
   const query = 'states=ID%2CCO&species=DEER&season=2&deerType=MULE&sort=opp&view=table&page=2';

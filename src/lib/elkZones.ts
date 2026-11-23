@@ -30,3 +30,9 @@ export const ELK_ZONES: Record<string, string[]> = {
   'Weiser River': ['22', '32', '32A'],
 };
 export const ELK_ZONE_NAMES = Object.keys(ELK_ZONES);
+
+/** Match the complete zone, not an arbitrary controlled hunt touching a few units. */
+export function elkZoneForUnits(units: string[]): string | null {
+  const unique = new Set(units);
+  return ELK_ZONE_NAMES.find(name => ELK_ZONES[name].length === unique.size && ELK_ZONES[name].every(unit => unique.has(unit))) ?? null;
+}

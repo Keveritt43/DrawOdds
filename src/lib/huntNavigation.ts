@@ -55,3 +55,9 @@ export function idahoUnitResearchHref(unit: string, hunt: unknown): string {
   }
   return `/units/${encodeURIComponent(unit)}${q.size ? `?${q}` : ''}`;
 }
+
+/** Keep the hunt and residency when exploring all the units of an elk zone. */
+export function idahoZoneResearchHref(zone: string, hunt: unknown): string {
+  const unitHref = new URL(idahoUnitResearchHref('placeholder', hunt), BASE);
+  return `/elk-zones/${encodeURIComponent(zone)}${unitHref.search}`;
+}

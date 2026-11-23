@@ -3,6 +3,7 @@ import { CO_METHODS, CO_SEASONS, matchesCoMapFilters } from '@/lib/coMapFilters'
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { huntHref } from '@/lib/huntSlug';
+import { idahoUnitResearchHref } from '@/lib/huntNavigation';
 import { recentBoundaryChanges } from '@/lib/boundaries';
 import maplibregl, { type ExpressionSpecification, type Map as MlMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -109,7 +110,8 @@ const SCALE_NOTE: Record<string, string> = { odds: ' Fixed scale: under 2%, 2-5,
 
 /** `bare`: just the unit on the map (unit pages), no shading or key. `unitSet`: Montana's deer/elk and antelope
  *  districts are different ground stored side by side ("261" and "A320"); draw only the set the page is about. */
-export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '', unitSet, onMapReady, exploring = false }: { coPointsKey?: string; nr: boolean; focus?: string; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[]; unitSet?: 'deer-elk' | 'antelope'; onMapReady?: (map:MlMap|null)=>void; exploring?:boolean }) {
+export function UnitMap({ nr, focus, focusUnits, returnHunt, height = '100%', savedUnits = [], signedIn = false, draw = 'DEP', bare = false, migrations = [], coPointsKey = '', unitSet, onMapReady, exploring = false }: { coPointsKey?: string; nr: boolean; focus?: string; focusUnits?: string[]; returnHunt?: string | null; height?: string; savedUnits?: string[]; signedIn?: boolean; draw?: 'DEP' | 'MSG'; bare?: boolean; migrations?: StudyLite[]; unitSet?: 'deer-elk' | 'antelope'; onMapReady?: (map:MlMap|null)=>void; exploring?:boolean }) {
+  const focusKey = (focusUnits ?? []).join(',');
   const [mapObj, setMapObj] = useState<MlMap | null>(null);
   useEffect(()=>{onMapReady?.(mapObj);return ()=>onMapReady?.(null);},[mapObj,onMapReady]);
   const st = useStateConfig();
@@ -277,6 +279,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         m.addSource('units', { type: 'geojson', data: fc as never, promoteId: 'name' });
         m.addLayer({ id: 'units-fill', type: 'fill', source: 'units', paint: { 'fill-color': '#ccc', 'fill-opacity': 0.62 } });
         m.addLayer({ id: 'units-line', type: 'line', source: 'units', paint: { 'line-color': '#1d2023', 'line-width': 0.8 } });
+        if (focusKey) m.addLayer({id:'units-zone',type:'line',source:'units',filter:['in',['get','name'],['literal',focusKey.split(',')]],paint:{'line-color':'#eb6834','line-width':2.5}});
         m.addLayer({
           id: 'units-sel', type: 'line', source: 'units',
           paint: { 'line-color': '#eb6834', 'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 3, 0] },
@@ -302,7 +305,13 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
         });
         m.on('mouseenter', 'units-fill', () => (m.getCanvas().style.cursor = 'pointer'));
         m.on('mouseleave', 'units-fill', () => (m.getCanvas().style.cursor = ''));
-        if (focus) {
+        if (focusKey) {
+          const names = new Set(focusKey.split(','));
+          const b = new maplibregl.LngLatBounds();
+          const walk = (c: unknown): void => { if (!Array.isArray(c)) return; if (typeof c[0] === 'number') b.extend(c as [number,number]); else c.forEach(walk); };
+          fc.features.filter(f => names.has(f.properties.name)).forEach(f => walk(f.geometry.coordinates));
+          if (!b.isEmpty()) m.fitBounds(b,{padding:{top:40,bottom:40,left:30,right:30},duration:0});
+        } else if (focus) {
           const f = fc.features.find((x) => x.properties.name === focus);
           if (f) {
             select(focus, f.properties as Props);
@@ -313,7 +322,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
             m.fitBounds(b, { padding: { top: 96, bottom: 30, left: 30, right: 30 }, duration: 0 });
           }
         }
-        if (!focus) {
+        if (!focus && !focusKey) {
           // frame Idaho below the key in the top-left corner
           const kh = (el.current?.parentElement?.querySelector('.mappanel') as HTMLElement | null)?.offsetHeight ?? 80;
           m.fitBounds(st.bounds, { padding: { top: Math.min(kh + 14, m.getContainer().clientHeight * 0.4), bottom: 16, left: 16, right: 16 }, duration: 0 });
@@ -329,7 +338,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       m.remove();
       map.current = null;
     };
-  }, [focus]);
+  }, [focus, focusKey]);
 
   useEffect(() => {
     if (st.code !== 'CO' || bare || !mapObj) return;
@@ -352,8 +361,9 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
       if (!m?.getLayer('units-fill')) return;
       if (bare) {
         // the unit itself, lightly tinted; neighbours just outlined
-        m.setPaintProperty('units-fill', 'fill-color', ['case', ['==', ['get', 'name'], focus ?? ''], '#eb6834', '#ffffff'] as ExpressionSpecification);
-        m.setPaintProperty('units-fill', 'fill-opacity', exploring ? 0 : ['case', ['==', ['get', 'name'], focus ?? ''], 0.18, 0.02] as ExpressionSpecification);
+        const inFocus: ExpressionSpecification = focusKey ? ['in', ['get', 'name'], ['literal', focusKey.split(',')]] : ['==', ['get', 'name'], focus ?? ''];
+        m.setPaintProperty('units-fill', 'fill-color', ['case', inFocus, '#eb6834', '#ffffff'] as ExpressionSpecification);
+        m.setPaintProperty('units-fill', 'fill-opacity', exploring ? 0 : ['case', inFocus, 0.18, 0.02] as ExpressionSpecification);
         m.setPaintProperty('units-line', 'line-color', '#ffffff');
         m.setPaintProperty('units-sel', 'line-color', exploring ? '#ffffff' : '#eb6834');
         return;
@@ -369,7 +379,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
     apply();
     m?.on('metric', apply);
     return () => void m?.off('metric', apply);
-  }, [field, cls, colors, bare, focus, noShade, exploring]);
+  }, [field, cls, colors, bare, focus, focusKey, noShade, exploring]);
 
   // Montana keeps deer/elk districts ("261") and antelope districts ("A320") in one source: show the set the
   // chosen animal is hunted on, and print antelope numbers without the "A"
@@ -512,7 +522,7 @@ export function UnitMap({ nr, focus, height = '100%', savedUnits = [], signedIn 
             <div style={{ display: 'flex', gap: 8, margin: '8px 0 4px' }}>
               <Link
                 className="btn primary"
-                href={`/units/${encodeURIComponent(unitKey(st.code, sel.name))}`}
+                href={st.code === 'ID' && returnHunt ? idahoUnitResearchHref(sel.name,returnHunt) : `/units/${encodeURIComponent(unitKey(st.code, sel.name))}`}
               >
                 {ut ? 'Boundary Details' : 'Unit Details'}
               </Link>
