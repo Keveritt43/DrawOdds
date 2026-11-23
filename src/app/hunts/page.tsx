@@ -8,6 +8,7 @@ import { HuntLink } from '@/components/HuntNavigation';
 import { isPrivateOnly } from '@/lib/privateLand';
 import { matchesIdFire } from '@/lib/idFire';
 import { matchesIdTerrain } from '@/lib/idTerrain';
+import { withIdahoVerifiedArea } from '@/lib/idahoHuntCorrections';
 import { matchesHuntSeason } from "@/lib/huntSeasonFilter";
 import { savedFilters } from "@/lib/savedFilters";
 import { restoresSavedFilters } from "@/lib/filterPreferences";
@@ -133,7 +134,7 @@ export default async function Filtering({ searchParams }: { searchParams: Promis
     }),
     getFavorites(),
   ]);
-  const rows = candidateRows.filter((r) => matchesHuntSeason(r, f) && matchesIdConditions(r, String(sp.idTrailMin ?? ''), String(sp.idDroughtMin ?? '')) && matchesIdFire(r, String(sp.idFire ?? ''), String(sp.idFireMin ?? ''), String(sp.idRemote ?? ''), String(sp.idHigh ?? '')) && matchesIdTerrain({ ...r, privateOnly: isPrivateOnly(r) }, String(sp.idRemote ?? ''), String(sp.idHigh ?? '')));
+  const rows = candidateRows.map(withIdahoVerifiedArea).filter((r) => (!f.unit || r.units.includes(f.unit)) && matchesHuntSeason(r, f) && matchesIdConditions(r, String(sp.idTrailMin ?? ''), String(sp.idDroughtMin ?? '')) && matchesIdFire(r, String(sp.idFire ?? ''), String(sp.idFireMin ?? ''), String(sp.idRemote ?? ''), String(sp.idHigh ?? '')) && matchesIdTerrain({ ...r, privateOnly: isPrivateOnly(r) }, String(sp.idRemote ?? ''), String(sp.idHigh ?? '')));
   // alphabetical: unit / area names in human order (4 before 10, 20A right after 20)
   if (f.sort === 'alpha') rows.sort((a, b) => unitOrder(a.areaName ?? a.unit, b.areaName ?? b.unit) || (a.huntNumber ?? 0) - (b.huntNumber ?? 0) || (a.tagCode ?? '').localeCompare(b.tagCode ?? ''));
   const c: CardCtx = { nr, rf, favHunts: fav.hunts, signedIn: fav.signedIn, sort: f.sort };

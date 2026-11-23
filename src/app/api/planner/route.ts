@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
 import type { Prisma } from '@prisma/client';
+import { withIdahoVerifiedArea } from '@/lib/idahoHuntCorrections';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,5 +24,5 @@ export async function GET(req: Request) {
     },
     orderBy: [{ huntNumber: 'asc' }, { name: 'asc' }],
   });
-  return Response.json(rows, { headers: { 'Cache-Control': 'public, max-age=600' } });
+  return Response.json(rows.map(withIdahoVerifiedArea), { headers: { 'Cache-Control': 'public, max-age=600' } });
 }
