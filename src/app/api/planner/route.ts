@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     where,
     select: {
       id: true, name: true, species: true, huntNumber: true, areaName: true, units: true, weapon: true, antlerClass: true, tagCode: true,
-      resOdds5: true, nrOdds5: true, resOddsLast: true, nrOddsLast: true, secondDrewLast: true, secondAppsLast: true, nrDraw: true, quota: true,
+      resOdds5: true, nrOdds5: true, resOddsLast: true, nrOddsLast: true, secondDrewLast: true, secondAppsLast: true, nrDraw: true, quota: true, quotaYear: true, oddsLastYear: true,
       tags: true, success5: true, resTagAndFill: true, nrTagAndFill: true, scoreQuality: true, openDate: true, closeDate: true, tagSeasons: true,
     },
     orderBy: [{ huntNumber: 'asc' }, { name: 'asc' }],

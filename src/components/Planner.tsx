@@ -2,14 +2,14 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { tagChances } from '@/lib/plan';
+import { tagChoiceHistory } from '@/lib/plan';
 import { unitOrder } from '@/lib/format';
 
 /** One hunt or tag as the planner API returns it. */
 export interface PlanOpt {
   id: string; name: string; species: string; huntNumber: number | null; areaName: string | null; units: string[]; weapon: string; antlerClass: string;
   tagCode: string | null; resOdds5: number | null; nrOdds5: number | null; resOddsLast: number | null; nrOddsLast: number | null;
-  secondDrewLast: number | null; secondAppsLast: number | null; nrDraw: { year?: number; applied?: number[]; drew?: number[] } | null; quota: number | null;
+  secondDrewLast: number | null; secondAppsLast: number | null; oddsLastYear: number | null; nrDraw: { year?: number; applied?: number[]; drew?: number[] } | null; quota: number | null; quotaYear: number | null;
   tags: number | null; success5: number | null; resTagAndFill: number | null; nrTagAndFill: number | null; scoreQuality: number | null;
 }
 export interface Plan { elkTags: string[]; deerTags: string[]; ctl: Record<string, [string, string]>; updatedAt?: number }
@@ -128,7 +128,7 @@ export function Planner({ nr, windows, costs }: {
   const byId = (k: string, id: string) => opts[k]?.find((o) => o.id === id);
   const odds5 = (o: PlanOpt) => (nr ? o.nrOdds5 : o.resOdds5);
   const WEAPON_LABEL: Record<string, string> = { ANY: 'any weapon', ARCHERY: 'archery', MUZZLELOADER: 'muzzleloader', SHORT_RANGE: 'short range' };
-  const tagLabel = (o: PlanOpt) => `${o.species === 'ELK' ? o.name.replace(/^Elk (?!City)/, '') : o.name} · ${o.tagCode ?? ''} · ${pct(o.nrOdds5)} 1st-choice${o.quota !== null ? ` · ${o.quota} tags` : ''}`;
+  const tagLabel = (o: PlanOpt) => `${o.species === 'ELK' ? o.name.replace(/^Elk (?!City)/, '') : o.name} · ${o.tagCode ?? ''} · ${pct(o.nrOddsLast)} ${o.nrDraw?.year ?? 'last'} 1st-choice${o.quota !== null ? ` · ${o.quota} ${o.quotaYear ?? ''} tags` : ''}`;
   const ctlLabel = (o: PlanOpt) => `${o.huntNumber} · area ${o.areaName} · ${WEAPON_LABEL[o.weapon] ?? o.weapon.toLowerCase()} · ${o.antlerClass === 'ANTLERED' ? (o.species === 'ELK' ? 'bull' : o.species === 'DEER' ? 'buck' : 'antlered') : o.antlerClass === 'ANTLERLESS' ? 'antlerless' : 'either sex'} · ${odds5(o) === null ? 'no odds yet' : `${pct(odds5(o))} odds`}${o.success5 === null ? '' : ` · ${pct(o.success5)} success`}`;
 
   // ---- nonresident general tags
@@ -137,7 +137,6 @@ export function Planner({ nr, windows, costs }: {
     const listKey = species === 'ELK' ? 'elkTags' : 'deerTags';
     const ids = plan[listKey];
     const chosen = ids.map((id) => byId(k, id));
-    const ch = tagChances(chosen);
     // deer: Regular Deer tags first, then White-tailed, each by unit (1, 2 ... 10, 11, 20, 20A); elk: by zone, A then B
     const all = (opts[k] ?? []).slice().sort((a, b) => species === 'DEER'
       ? (a.tagCode ?? '').slice(0, 2).localeCompare((b.tagCode ?? '').slice(0, 2)) || unitOrder(a.units[0], b.units[0])
@@ -159,13 +158,12 @@ export function Planner({ nr, windows, costs }: {
                   <option value="">{i === 0 ? 'Pick your 1st choice…' : i > ids.length ? '-' : `Add choice ${i + 1}…`}</option>
                   {all.map((x) => <option key={x.id} value={x.id} disabled={ids.includes(x.id) && ids[i] !== x.id}>{tagLabel(x)}{later(x) > 0 ? ' · reaches later choices' : ''}</option>)}
                 </select>
-                {o && <span className="plan-p">{pct(ch.at[i], 1)} chance you draw this one{i > 0 && later(o) === 0 ? ' (filled on 1st choices last year: a wasted slot)' : ''}</span>}
+                {o && (() => { const h = tagChoiceHistory(o.nrDraw, i); return <span className="plan-p">{h ? `${o.nrDraw?.year ?? 'Last draw'}: ${h.drew} of ${h.applied} applicants listing this ${['1st', '2nd', '3rd', '4th', '5th'][i]} drew (${pct(h.rate, 1)})` : 'No comparable result for this choice'}</span>; })()}
               </li>
             );
           })}
         </ol>
-        {ids.length > 0 && <p className="plan-total">Chance of drawing {species === 'ELK' ? 'an elk' : 'a deer'} tag: <b>{pct(ch.any, 1)}</b></p>}
-        <p className="small muted">Idaho draws everyone&apos;s 1st choices, then 2nd choices for those still without a tag, and so on, so a tag that fills on 1st choices never reaches your later ones. Chances use the last drawing at each choice; there are no points.</p>
+        <p className="small muted">These are published results for everyone who listed each choice, not your chance after missing earlier choices. We cannot calculate an overall chance from these reports. Results and quotas can change; Idaho has no points.</p>
       </section>
     );
   };
@@ -176,8 +174,8 @@ export function Planner({ nr, windows, costs }: {
     const [a, b] = plan.ctl[species] ?? ['', ''];
     const oa = a ? byId(k, a) : undefined;
     const ob = b ? byId(k, b) : undefined;
-    const p1 = oa ? odds5(oa) ?? 0 : 0;
-    const p2 = ob && (ob.secondAppsLast ?? 0) > 0 ? Math.min(1, (ob.secondDrewLast ?? 0) / ob.secondAppsLast!) : 0;
+    const p1 = oa ? odds5(oa) : null;
+    const p2 = ob && ob.secondDrewLast !== null && (ob.secondAppsLast ?? 0) > 0 && ob.secondDrewLast <= ob.secondAppsLast! ? ob.secondDrewLast / ob.secondAppsLast! : null;
     const all = (opts[k] ?? []).slice().sort((x, y) => (x.huntNumber ?? 0) - (y.huntNumber ?? 0));
     const set = (i: 0 | 1, v: string) => {
       const c: [string, string] = [a, b];
@@ -200,22 +198,19 @@ export function Planner({ nr, windows, costs }: {
                   {all.map((x) => <option key={x.id} value={x.id} disabled={x.id === [a, b][1 - i]}>{ctlLabel(x)}{i === 1 && (x.secondDrewLast ?? 0) > 0 ? ` · ${x.secondDrewLast} tags to 2nd choices` : ''}</option>)}
                 </select>
                 {i === 0 && oa && <span className="plan-p">{pct(p1, 1)} 1st-choice odds (5-yr) · draw and fill {pct(nr ? oa.nrTagAndFill : oa.resTagAndFill, 1)}</span>}
-                {i === 1 && ob && <span className="plan-p">{p2 > 0 ? `${pct(p2, 1)} of 2nd-choice applicants drew last time` : 'No tags reached 2nd choices last time: this slot likely won’t help'}</span>}
+                {i === 1 && ob && <span className="plan-p">{p2 !== null ? `${pct(p2, 1)} of applicants listing this 2nd drew in ${ob.oddsLastYear ?? 'the last draw'}` : 'No comparable 2nd-choice result available'}</span>}
               </li>
             ))}
           </ol>
         )}
-        {oa && <p className="plan-total">Chance of a {label.toLowerCase()} tag: <b>{pct(1 - (1 - p1) * (1 - p2), 1)}</b></p>}
+        {oa && ob && <p className="small muted">The reports do not establish your combined chance across both choices.</p>}
       </section>
     );
   };
 
   // ---- totals
-  const elk = tagChances(plan.elkTags.map((id) => byId('tag:ELK', id))).any;
-  const deer = tagChances(plan.deerTags.map((id) => byId('tag:DEER', id))).any;
   const nrApps = (plan.elkTags.length ? 1 : 0) + (plan.deerTags.length ? 1 : 0);
   const upfront = nr ? costs.license + costs.accessFee + nrApps * costs.generalDrawApp : 0;
-  const expectedTags = nr ? elk * costs.elkTag + deer * costs.deerTag : 0;
   const codes: { what: string; list: string[] }[] = [
     ...(plan.elkTags.length ? [{ what: 'Elk general tag (NR draw)', list: plan.elkTags.map((id) => byId('tag:ELK', id)?.tagCode ?? id) }] : []),
     ...(plan.deerTags.length ? [{ what: 'Deer general tag (NR draw)', list: plan.deerTags.map((id) => byId('tag:DEER', id)?.tagCode ?? id) }] : []),
@@ -249,9 +244,9 @@ export function Planner({ nr, windows, costs }: {
             <ul>
               <li>Nonresident hunting license + access fee: <b>{money(costs.license + costs.accessFee)}</b> (required to apply; nonrefundable)</li>
               {nrApps > 0 && <li>General tag draw application{nrApps > 1 ? 's' : ''}: <b>{money(nrApps * costs.generalDrawApp)}</b></li>}
-              {plan.elkTags.length > 0 && <li>Elk tag if you draw: {money(costs.elkTag)} × {pct(elk)} chance</li>}
-              {plan.deerTags.length > 0 && <li>Deer tag if you draw: {money(costs.deerTag)} × {pct(deer)} chance</li>}
-              <li>Up front: <b>{money(upfront)}</b> · expected total with tags: <b>{money(upfront + expectedTags)}</b></li>
+              {plan.elkTags.length > 0 && <li>Elk tag if you draw: {money(costs.elkTag)}</li>}
+              {plan.deerTags.length > 0 && <li>Deer tag if you draw: {money(costs.deerTag)}</li>}
+              <li>Up front: <b>{money(upfront)}</b></li>
             </ul>
             <p className="small muted">{costs.note} Controlled hunt application fees and controlled / pronghorn tag prices: <a href={costs.feeSchedule} target="_blank" rel="noreferrer">IDFG fee schedule</a>.</p>
           </div>
