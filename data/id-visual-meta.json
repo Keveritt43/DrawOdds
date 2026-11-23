@@ -1,0 +1,2141 @@
+{
+  "snapshot": "2026-11-22",
+  "fireCoverage": "2010\u20132026",
+  "droughtDate": "2026-11-17",
+  "olderFireSources": {
+    "2010": {
+      "count": 204,
+      "sha256": "dfe30aff99cc268c934ec7664859c1fd678baf33e308a171132f9ef2fbf2daab"
+    },
+    "2011": {
+      "count": 209,
+      "sha256": "2e3058254c811cf9065d77524ad0b4bf9d93d1882e1b27ba8251ee3b3b51f1a5"
+    },
+    "2012": {
+      "count": 394,
+      "sha256": "039362f1fbe390278e79ecef877a1c3b993992f7ee800ee7edee2b973ec41054"
+    },
+    "2013": {
+      "count": 314,
+      "sha256": "19202934384ff9f9f0c4b46105da6e39da497332e27467a76b4743fba56c645f"
+    },
+    "2014": {
+      "count": 177,
+      "sha256": "aa5a8d57cdc0c55dff7e6b78e6f01acdd8aae77acf8f20967f5e70c9c6adce9f"
+    },
+    "2015": {
+      "count": 341,
+      "sha256": "7a87cae81df435a6c57b91971a21cfe067ef39408e41f1c3957229727776498b"
+    },
+    "2016": {
+      "count": 185,
+      "sha256": "ca29808e150e255464bb5e7aea3cce4a1fcef3c38f82b8e0d458400f5127686b"
+    },
+    "2017": {
+      "count": 362,
+      "sha256": "92de59730536b63f050393d628adc92253a9d84b8616a447d5c294e0e65e8d35"
+    }
+  },
+  "units": {
+    "16": {
+      "ageBands": {
+        "1": {
+          "percent": 12.16,
+          "acres": 30278
+        },
+        "2": {
+          "percent": 0.77,
+          "acres": 1908
+        },
+        "3": {
+          "percent": 5.38,
+          "acres": 13405
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "df695a21e4457492100b29f57da13cbbdf5777fc16b30227afd3fe0912a1b3bf"
+    },
+    "47": {
+      "ageBands": {
+        "1": {
+          "percent": 2.22,
+          "acres": 4909
+        },
+        "2": {
+          "percent": 0.02,
+          "acres": 44
+        },
+        "3": {
+          "percent": 0.14,
+          "acres": 306
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "6080e5ee4975ca7dcc26a61090e6e7fb1c049db9e9fc8f953cb786d6ba63d441"
+    },
+    "60": {
+      "ageBands": {
+        "1": {
+          "percent": 0.18,
+          "acres": 519
+        },
+        "2": {
+          "percent": 0.06,
+          "acres": 158
+        },
+        "3": {
+          "percent": 0.28,
+          "acres": 798
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "415f3ca2281f170c4278b55b5bb5d56d3657234d4500c6037e32e22ac82cd495"
+    },
+    "73": {
+      "ageBands": {
+        "1": {
+          "percent": 3.56,
+          "acres": 28180
+        },
+        "2": {
+          "percent": 0.75,
+          "acres": 5935
+        },
+        "3": {
+          "percent": 0.29,
+          "acres": 2261
+        },
+        "4": {
+          "percent": 0.01,
+          "acres": 59
+        }
+      },
+      "pngSha256": "cfb22421b0d9ffc76014ecf3d6c2a878c1702140853748e2a37fc75f3a24b0b8"
+    },
+    "75": {
+      "ageBands": {
+        "1": {
+          "percent": 0.19,
+          "acres": 463
+        },
+        "2": {
+          "percent": 0.71,
+          "acres": 1714
+        },
+        "3": {
+          "percent": 0.11,
+          "acres": 261
+        },
+        "4": {
+          "percent": 0.09,
+          "acres": 219
+        }
+      },
+      "pngSha256": "e10961097f3b504b1b53e0b555482875fcb86fdbbf8a4182a5eae86872e9f7ae"
+    },
+    "41": {
+      "ageBands": {
+        "1": {
+          "percent": 8.48,
+          "acres": 119532
+        },
+        "2": {
+          "percent": 3.39,
+          "acres": 47792
+        },
+        "3": {
+          "percent": 4.32,
+          "acres": 60885
+        },
+        "4": {
+          "percent": 3.86,
+          "acres": 54419
+        }
+      },
+      "pngSha256": "5b25559d2c4f57ce30d91b9d1f21a611dbf75f9b8122bbe90fa026781942f4fc"
+    },
+    "46": {
+      "ageBands": {
+        "1": {
+          "percent": 23.0,
+          "acres": 421387
+        },
+        "2": {
+          "percent": 14.75,
+          "acres": 270318
+        },
+        "3": {
+          "percent": 2.44,
+          "acres": 44694
+        },
+        "4": {
+          "percent": 1.8,
+          "acres": 32984
+        }
+      },
+      "pngSha256": "84be156285ee1dd42d0181b5d7959034ebc90ef6e2f6ddc52d18fa046ca60f50"
+    },
+    "70": {
+      "ageBands": {
+        "1": {
+          "percent": 0.51,
+          "acres": 1240
+        },
+        "2": {
+          "percent": 17.02,
+          "acres": 41335
+        },
+        "3": {
+          "percent": 0.48,
+          "acres": 1169
+        },
+        "4": {
+          "percent": 0.68,
+          "acres": 1641
+        }
+      },
+      "pngSha256": "c8b5d8f20103dda0796132479014acbb2a91734f6e24e466d01e353642842655"
+    },
+    "73A": {
+      "ageBands": {
+        "1": {
+          "percent": 3.12,
+          "acres": 11319
+        },
+        "2": {
+          "percent": 5.98,
+          "acres": 21667
+        },
+        "3": {
+          "percent": 0.06,
+          "acres": 200
+        },
+        "4": {
+          "percent": 0.07,
+          "acres": 247
+        }
+      },
+      "pngSha256": "efafb2f5de67833c475df3ea15738b3f33ad555db7226862f20135cff67b2c5a"
+    },
+    "74": {
+      "ageBands": {
+        "1": {
+          "percent": 0.38,
+          "acres": 1502
+        },
+        "2": {
+          "percent": 0.25,
+          "acres": 981
+        },
+        "3": {
+          "percent": 0.03,
+          "acres": 104
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "97370cd680bdf5f1fb4ffaa4786b1315d0e40c709ab709f5db40ed3b456ad36f"
+    },
+    "56": {
+      "ageBands": {
+        "1": {
+          "percent": 3.07,
+          "acres": 17988
+        },
+        "2": {
+          "percent": 1.53,
+          "acres": 8959
+        },
+        "3": {
+          "percent": 0.08,
+          "acres": 494
+        },
+        "4": {
+          "percent": 1.32,
+          "acres": 7759
+        }
+      },
+      "pngSha256": "7988b1a13b4d593b4b888ae31d38126d65d16546a289c5a7394755955508e299"
+    },
+    "64": {
+      "ageBands": {
+        "1": {
+          "percent": 0.01,
+          "acres": 15
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 0.01,
+          "acres": 12
+        },
+        "4": {
+          "percent": 1.01,
+          "acres": 2306
+        }
+      },
+      "pngSha256": "bf37a81951b31c46b6705bf54c1b26fd116c027ac2b0570a4c4a131bd5bae8a9"
+    },
+    "65": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 0.07,
+          "acres": 101
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "0842a58839469ffad830632ccab0fd035ce862114f14f8f9f5838ef86c76a7c2"
+    },
+    "43": {
+      "ageBands": {
+        "1": {
+          "percent": 25.28,
+          "acres": 113328
+        },
+        "2": {
+          "percent": 1.07,
+          "acres": 4800
+        },
+        "3": {
+          "percent": 1.75,
+          "acres": 7845
+        },
+        "4": {
+          "percent": 0.1,
+          "acres": 431
+        }
+      },
+      "pngSha256": "f06df2b044da24e46c40960230f04e0e213d28982cf840c54618079c59434537"
+    },
+    "63A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.11,
+          "acres": 232
+        },
+        "2": {
+          "percent": 2.81,
+          "acres": 5821
+        },
+        "3": {
+          "percent": 0.24,
+          "acres": 505
+        },
+        "4": {
+          "percent": 0.05,
+          "acres": 104
+        }
+      },
+      "pngSha256": "13b3c0c547635eb5036bd212c3ab68538836c71cf1130e2474173dd6f6a4eada"
+    },
+    "49": {
+      "ageBands": {
+        "1": {
+          "percent": 0.01,
+          "acres": 69
+        },
+        "2": {
+          "percent": 13.32,
+          "acres": 67764
+        },
+        "3": {
+          "percent": 0.4,
+          "acres": 2046
+        },
+        "4": {
+          "percent": 0.61,
+          "acres": 3107
+        }
+      },
+      "pngSha256": "f32c5403e9b16621fc447b504f4ead282884f4a134800e99362036dd79b5de40"
+    },
+    "40": {
+      "ageBands": {
+        "1": {
+          "percent": 15.84,
+          "acres": 229134
+        },
+        "2": {
+          "percent": 0.48,
+          "acres": 6926
+        },
+        "3": {
+          "percent": 2.31,
+          "acres": 33413
+        },
+        "4": {
+          "percent": 10.35,
+          "acres": 149820
+        }
+      },
+      "pngSha256": "2bec056e2e72b847db94103e43668161bbc50c7c194989803147ef9e4eff1f76"
+    },
+    "67": {
+      "ageBands": {
+        "1": {
+          "percent": 0.09,
+          "acres": 229
+        },
+        "2": {
+          "percent": 0.81,
+          "acres": 2135
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 12
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "5977c4aea7620068e89a7554fe8addc8854a507ce1aeaeed9a510fd73ae9771b"
+    },
+    "69": {
+      "ageBands": {
+        "1": {
+          "percent": 2.24,
+          "acres": 20751
+        },
+        "2": {
+          "percent": 5.87,
+          "acres": 54309
+        },
+        "3": {
+          "percent": 0.2,
+          "acres": 1833
+        },
+        "4": {
+          "percent": 0.07,
+          "acres": 652
+        }
+      },
+      "pngSha256": "c9cfad4df929bbf456a73d1bb1859383b06d12d557727f359f0b200dc0a0bea8"
+    },
+    "44": {
+      "ageBands": {
+        "1": {
+          "percent": 12.55,
+          "acres": 44406
+        },
+        "2": {
+          "percent": 2.31,
+          "acres": 8177
+        },
+        "3": {
+          "percent": 4.44,
+          "acres": 15721
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "a01e56dea91c5c575e0ce9b7f0e5df485c3bd50345bb2459c17176f1b77b85c4"
+    },
+    "66": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 3.07,
+          "acres": 6878
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "96bc3b73bc7a00d5f51a2fc4c18bf15b1176c09e491969a443f1bc55acdd5cbf"
+    },
+    "45": {
+      "ageBands": {
+        "1": {
+          "percent": 12.5,
+          "acres": 101947
+        },
+        "2": {
+          "percent": 3.17,
+          "acres": 25851
+        },
+        "3": {
+          "percent": 5.33,
+          "acres": 43455
+        },
+        "4": {
+          "percent": 1.01,
+          "acres": 8226
+        }
+      },
+      "pngSha256": "50aec53fb5dcc5b32c8ddea13eb7b87afff192114092ee552dc117930e8f3472"
+    },
+    "52": {
+      "ageBands": {
+        "1": {
+          "percent": 2.43,
+          "acres": 12767
+        },
+        "2": {
+          "percent": 11.79,
+          "acres": 61985
+        },
+        "3": {
+          "percent": 1.74,
+          "acres": 9133
+        },
+        "4": {
+          "percent": 0.01,
+          "acres": 64
+        }
+      },
+      "pngSha256": "25d4b3fb5f943a4f7363e7de89f985741d23456d65eb74a6722c36b1066b21e4"
+    },
+    "66A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.11,
+          "acres": 195
+        },
+        "2": {
+          "percent": 0.6,
+          "acres": 1034
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "82fd916a00ca1f121261702d884a51b78551c84bc2d0304599da96a0b88eea60"
+    },
+    "72": {
+      "ageBands": {
+        "1": {
+          "percent": 1.21,
+          "acres": 3256
+        },
+        "2": {
+          "percent": 1.18,
+          "acres": 3182
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.02,
+          "acres": 44
+        }
+      },
+      "pngSha256": "dec5d4398578df5c95fba4c7234a8c656a79d732905dc656f05d50b1e218dbf8"
+    },
+    "71": {
+      "ageBands": {
+        "1": {
+          "percent": 0.47,
+          "acres": 1581
+        },
+        "2": {
+          "percent": 3.77,
+          "acres": 12772
+        },
+        "3": {
+          "percent": 4.62,
+          "acres": 15663
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "1f4425b3ebafac6754414f5cb689fa2d3bd82337ad854653714ab4161961a970"
+    },
+    "32": {
+      "ageBands": {
+        "1": {
+          "percent": 1.95,
+          "acres": 17984
+        },
+        "2": {
+          "percent": 0.5,
+          "acres": 4570
+        },
+        "3": {
+          "percent": 22.18,
+          "acres": 204577
+        },
+        "4": {
+          "percent": 0.22,
+          "acres": 2037
+        }
+      },
+      "pngSha256": "8823e2b8333bb617920034245b2bb15c86bd8b9367c4ca7d32553524f0a363fd"
+    },
+    "34": {
+      "ageBands": {
+        "1": {
+          "percent": 1.93,
+          "acres": 5494
+        },
+        "2": {
+          "percent": 32.17,
+          "acres": 91573
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 10
+        },
+        "4": {
+          "percent": 0.01,
+          "acres": 27
+        }
+      },
+      "pngSha256": "294c0848c36933f000069bb111b2fe5052e1647f6661fecfa8b129f9a319b290"
+    },
+    "59": {
+      "ageBands": {
+        "1": {
+          "percent": 0.06,
+          "acres": 146
+        },
+        "2": {
+          "percent": 5.38,
+          "acres": 12535
+        },
+        "3": {
+          "percent": 0.08,
+          "acres": 197
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "0b0b9259e49fae82eac7bb07c2f42c60e0ecf50ba471b4cf7bdb4370073ae2d4"
+    },
+    "37A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.1,
+          "acres": 222
+        },
+        "2": {
+          "percent": 0.06,
+          "acres": 133
+        },
+        "3": {
+          "percent": 1.42,
+          "acres": 3164
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "6fcfd7e9cde8b9ae692e58c76d793015359396da7dd9477989c63b6ed188f506"
+    },
+    "30A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "ccf43feccdda3eb152da46391f34c4d2913d29b4bd6dfc81be09259cdef3d1c9"
+    },
+    "61": {
+      "ageBands": {
+        "1": {
+          "percent": 0.02,
+          "acres": 104
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 0.01,
+          "acres": 40
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "f9b914a2eea987a4df36dfb2865bf818ef8e78220c9996d6316cb8d5b503441c"
+    },
+    "37": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 0.02,
+          "acres": 86
+        },
+        "4": {
+          "percent": 0.39,
+          "acres": 1764
+        }
+      },
+      "pngSha256": "1ce2e92d78b3e08b905c5610fd3d9d2f9c73a8073ba762d57a311d2170c03cdc"
+    },
+    "31": {
+      "ageBands": {
+        "1": {
+          "percent": 6.09,
+          "acres": 23295
+        },
+        "2": {
+          "percent": 7.04,
+          "acres": 26955
+        },
+        "3": {
+          "percent": 1.27,
+          "acres": 4872
+        },
+        "4": {
+          "percent": 41.26,
+          "acres": 157947
+        }
+      },
+      "pngSha256": "d07a353c859d72d40bfc27fa46aa7fbacdf9917869dc82a4a8e222523a89df4f"
+    },
+    "36B": {
+      "ageBands": {
+        "1": {
+          "percent": 6.02,
+          "acres": 22576
+        },
+        "2": {
+          "percent": 2.5,
+          "acres": 9373
+        },
+        "3": {
+          "percent": 0.01,
+          "acres": 25
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "9fe9e9ef6b6a1243fec464de14113941afe74bbaa042c984d43326d872915573"
+    },
+    "32A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.57,
+          "acres": 2192
+        },
+        "2": {
+          "percent": 9.42,
+          "acres": 35987
+        },
+        "3": {
+          "percent": 2.66,
+          "acres": 10151
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 7
+        }
+      },
+      "pngSha256": "eea190cacc68990217726118c7f9f08cb1f4f96e38bff1b0faccb3991e55118e"
+    },
+    "25": {
+      "ageBands": {
+        "1": {
+          "percent": 1.18,
+          "acres": 6783
+        },
+        "2": {
+          "percent": 4.54,
+          "acres": 26170
+        },
+        "3": {
+          "percent": 3.56,
+          "acres": 20530
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "7b9351625b0b22952db7f036e49cb92eb00bef6ecd7ee938c20032b8a20a74ca"
+    },
+    "27": {
+      "ageBands": {
+        "1": {
+          "percent": 5.72,
+          "acres": 56177
+        },
+        "2": {
+          "percent": 11.38,
+          "acres": 111815
+        },
+        "3": {
+          "percent": 4.97,
+          "acres": 48845
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "b1b5605031d49592261f0a45de62d82b1304378586197c656b8853f0ac280387"
+    },
+    "30": {
+      "ageBands": {
+        "1": {
+          "percent": 0.03,
+          "acres": 77
+        },
+        "2": {
+          "percent": 0.64,
+          "acres": 1636
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 7
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "166d8bbbc805c23f1aadafb8f0ed59b97936b4875d6f8d67cbf309390a240628"
+    },
+    "24": {
+      "ageBands": {
+        "1": {
+          "percent": 1.13,
+          "acres": 6365
+        },
+        "2": {
+          "percent": 0.03,
+          "acres": 165
+        },
+        "3": {
+          "percent": 5.77,
+          "acres": 32398
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "f3b04a06d3ccdac478732d1a568852dbad87242ff6253a6a4da3c177c679258c"
+    },
+    "29": {
+      "ageBands": {
+        "1": {
+          "percent": 0.12,
+          "acres": 538
+        },
+        "2": {
+          "percent": 0.11,
+          "acres": 509
+        },
+        "3": {
+          "percent": 5.2,
+          "acres": 23553
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "f8e25e09f9698b4992850393b3679a77fea005ff4f1b2d26d822f9147d7c5251"
+    },
+    "36": {
+      "ageBands": {
+        "1": {
+          "percent": 22.09,
+          "acres": 148544
+        },
+        "2": {
+          "percent": 1.3,
+          "acres": 8733
+        },
+        "3": {
+          "percent": 4.85,
+          "acres": 32587
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 12
+        }
+      },
+      "pngSha256": "0b10070691005d3838d6367310a692f6f080b9cb213ee696d4f63f3a2cac10fa"
+    },
+    "YNP": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "fe7e44b157e47ece80b47591e00ceac7c7b33669f912fbc6718d87a826c8981e"
+    },
+    "51": {
+      "ageBands": {
+        "1": {
+          "percent": 0.4,
+          "acres": 2430
+        },
+        "2": {
+          "percent": 0.98,
+          "acres": 5904
+        },
+        "3": {
+          "percent": 0.16,
+          "acres": 970
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "769363f90362915b5553f83c4ec3790511cea951404ea97c6aadff6006f8d9f0"
+    },
+    "59A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.04,
+          "acres": 116
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "096675386218eac62f3cf36b52cded931a1f6ca4cbe3f58d6d343a146a38f2b6"
+    },
+    "42": {
+      "ageBands": {
+        "1": {
+          "percent": 0.09,
+          "acres": 748
+        },
+        "2": {
+          "percent": 0.17,
+          "acres": 1433
+        },
+        "3": {
+          "percent": 0.1,
+          "acres": 857
+        },
+        "4": {
+          "percent": 25.43,
+          "acres": 218488
+        }
+      },
+      "pngSha256": "f2359575dcf40362b0c4006bcac31b1142b61c1e5e9ccd0fcf659e931b12c89f"
+    },
+    "54": {
+      "ageBands": {
+        "1": {
+          "percent": 10.47,
+          "acres": 91542
+        },
+        "2": {
+          "percent": 10.71,
+          "acres": 93568
+        },
+        "3": {
+          "percent": 0.3,
+          "acres": 2653
+        },
+        "4": {
+          "percent": 0.29,
+          "acres": 2542
+        }
+      },
+      "pngSha256": "7d6c4a59ecc51102368544968b6e0a0134328d4739be5e55ac4bd6d6d6fff6c8"
+    },
+    "55": {
+      "ageBands": {
+        "1": {
+          "percent": 1.75,
+          "acres": 11342
+        },
+        "2": {
+          "percent": 3.7,
+          "acres": 23993
+        },
+        "3": {
+          "percent": 0.21,
+          "acres": 1333
+        },
+        "4": {
+          "percent": 0.3,
+          "acres": 1958
+        }
+      },
+      "pngSha256": "15bb346b946006d8ab184609fdd755945cdf2ced28aaad7ea5b5b1d1ac60d18e"
+    },
+    "57": {
+      "ageBands": {
+        "1": {
+          "percent": 2.21,
+          "acres": 5726
+        },
+        "2": {
+          "percent": 2.27,
+          "acres": 5886
+        },
+        "3": {
+          "percent": 0.01,
+          "acres": 22
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "b778090d93052ef82a75f398277a0428ed2f3dd63f1270350a07aa464c8ab4c3"
+    },
+    "76": {
+      "ageBands": {
+        "1": {
+          "percent": 0.37,
+          "acres": 3334
+        },
+        "2": {
+          "percent": 0.07,
+          "acres": 614
+        },
+        "3": {
+          "percent": 0.02,
+          "acres": 173
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "1b09de911bfde99429f4a3646ac95d2a27236b3ceb5ea9b83bc7b0f0d4755cb8"
+    },
+    "36A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.7,
+          "acres": 3463
+        },
+        "3": {
+          "percent": 0.61,
+          "acres": 3019
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "b5e1c0b370a09bbf8e18713ec702b8c88138b196f3a60de7a07180f32cb43632"
+    },
+    "58": {
+      "ageBands": {
+        "1": {
+          "percent": 0.12,
+          "acres": 471
+        },
+        "2": {
+          "percent": 0.06,
+          "acres": 234
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "1381c518dd26feeb68a6e0e2dd9e99468f60cb7cbda3f745be030a2f91ae6f8b"
+    },
+    "62A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.37,
+          "acres": 584
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "3": {
+          "percent": 0.01,
+          "acres": 10
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "f03112b4c364d69e1a19ee0918a8b7705fa6d067e55e36b2529c55c5f1c6cd62"
+    },
+    "50": {
+      "ageBands": {
+        "1": {
+          "percent": 0.03,
+          "acres": 289
+        },
+        "2": {
+          "percent": 0.31,
+          "acres": 3294
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "95842de901a42badcc1f67e8a781401347529dbdbf1dda7762745e583b318fd5"
+    },
+    "62": {
+      "ageBands": {
+        "1": {
+          "percent": 0.01,
+          "acres": 22
+        },
+        "2": {
+          "percent": 0.02,
+          "acres": 59
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "f4b7bdfea3f59bc0e64c85a350d53afdad5e2314929bc6ad7dff637441c502f7"
+    },
+    "63": {
+      "ageBands": {
+        "1": {
+          "percent": 6.77,
+          "acres": 87113
+        },
+        "2": {
+          "percent": 9.22,
+          "acres": 118534
+        },
+        "3": {
+          "percent": 0.04,
+          "acres": 484
+        },
+        "4": {
+          "percent": 0.01,
+          "acres": 72
+        }
+      },
+      "pngSha256": "1cf82db2ee2d25032899d93bb0dde8bfd765006c054fb65584462657e134ff73"
+    },
+    "48": {
+      "ageBands": {
+        "1": {
+          "percent": 24.15,
+          "acres": 94224
+        },
+        "2": {
+          "percent": 0.08,
+          "acres": 296
+        },
+        "3": {
+          "percent": 2.07,
+          "acres": 8079
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "4d983c4076b3eaa3cd1c27ea5ae2af76f194cbc63de671c23b1361830e6f60b4"
+    },
+    "60A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.35,
+          "acres": 2077
+        },
+        "2": {
+          "percent": 21.42,
+          "acres": 126215
+        },
+        "3": {
+          "percent": 0.37,
+          "acres": 2174
+        },
+        "4": {
+          "percent": 0.28,
+          "acres": 1660
+        }
+      },
+      "pngSha256": "305bb13455f3415fda76e26807bff035553060b97e62e438599db83b5abb5837"
+    },
+    "1": {
+      "ageBands": {
+        "1": {
+          "percent": 0.55,
+          "acres": 8651
+        },
+        "2": {
+          "percent": 1.06,
+          "acres": 16860
+        },
+        "3": {
+          "percent": 1.78,
+          "acres": 28179
+        },
+        "4": {
+          "percent": 0.62,
+          "acres": 9854
+        }
+      },
+      "pngSha256": "a08cef205e8f74ac0ad963a0e8c6a9596047d79a30af4854586bc9e4f983d095"
+    },
+    "4A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.01,
+          "acres": 12
+        },
+        "2": {
+          "percent": 0.67,
+          "acres": 1241
+        },
+        "3": {
+          "percent": 0.11,
+          "acres": 207
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "7a5ebe69de57793fe10e4ac4524cb63a7b1d7c90ca4efc5398a82f7dc0406306"
+    },
+    "2": {
+      "ageBands": {
+        "1": {
+          "percent": 0.34,
+          "acres": 1528
+        },
+        "2": {
+          "percent": 0.17,
+          "acres": 737
+        },
+        "3": {
+          "percent": 0.73,
+          "acres": 3226
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "fe787105d6e06d00775c97b053f24bd8b00f22476c57a8d861e1ff236d5969cb"
+    },
+    "4": {
+      "ageBands": {
+        "1": {
+          "percent": 3.21,
+          "acres": 25287
+        },
+        "2": {
+          "percent": 2.48,
+          "acres": 19563
+        },
+        "3": {
+          "percent": 0.64,
+          "acres": 5039
+        },
+        "4": {
+          "percent": 0.13,
+          "acres": 1012
+        }
+      },
+      "pngSha256": "89522384435e7c4e91c881dd59dc432adddddef3efca98c72ec1ff22f368ed24"
+    },
+    "3": {
+      "ageBands": {
+        "1": {
+          "percent": 0.17,
+          "acres": 605
+        },
+        "2": {
+          "percent": 0.04,
+          "acres": 153
+        },
+        "3": {
+          "percent": 1.28,
+          "acres": 4543
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "a98cc497c81ef00c9524f7ea1ed89e25a3bae96abd5a7272ac584919d94627fc"
+    },
+    "5": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.15,
+          "acres": 671
+        },
+        "3": {
+          "percent": 0.1,
+          "acres": 444
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "a0aaa6e89e53981b08304afc31f93fea736204305c9eded0ff40e37fd5f4b6fd"
+    },
+    "6": {
+      "ageBands": {
+        "1": {
+          "percent": 0.69,
+          "acres": 4675
+        },
+        "2": {
+          "percent": 0.05,
+          "acres": 309
+        },
+        "3": {
+          "percent": 0.04,
+          "acres": 274
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "32edade1ea5b94b883de7926be1041808ca9f4ce8b3f5a26992557e1658f4523"
+    },
+    "7": {
+      "ageBands": {
+        "1": {
+          "percent": 0.5,
+          "acres": 1796
+        },
+        "2": {
+          "percent": 4.13,
+          "acres": 14876
+        },
+        "3": {
+          "percent": 0.59,
+          "acres": 2111
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "c3c06f1e8d9dcaa9d52ff9bc10a3211c73eee014d3df4758fd6c70cfbaba80f7"
+    },
+    "8": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 2.47,
+          "acres": 12106
+        },
+        "3": {
+          "percent": 3.53,
+          "acres": 17312
+        },
+        "4": {
+          "percent": 0.06,
+          "acres": 286
+        }
+      },
+      "pngSha256": "2c0aab1b0002ed880573caeb0b39f2b4a4286057b7161cc0fe822da27f13bd9f"
+    },
+    "9": {
+      "ageBands": {
+        "1": {
+          "percent": 4.55,
+          "acres": 5878
+        },
+        "2": {
+          "percent": 3.64,
+          "acres": 4711
+        },
+        "3": {
+          "percent": 0.4,
+          "acres": 523
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "b5b0fd5c7e1c71fdc729e134eee1a872f8e7b16e33d73e5ac10c6cc202cae7c4"
+    },
+    "8A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "2": {
+          "percent": 0.56,
+          "acres": 2631
+        },
+        "3": {
+          "percent": 0.69,
+          "acres": 3238
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "12d58708ba38c989ae30e4fc0a49ea9c7e65e5ac38df83fbae0797b7bdd19afe"
+    },
+    "10A": {
+      "ageBands": {
+        "1": {
+          "percent": 5.58,
+          "acres": 55546
+        },
+        "2": {
+          "percent": 1.17,
+          "acres": 11693
+        },
+        "3": {
+          "percent": 0.02,
+          "acres": 195
+        },
+        "4": {
+          "percent": 0.03,
+          "acres": 321
+        }
+      },
+      "pngSha256": "8d1dd3a05675252279b86c08f578d473da990ac6c4efb96f013e47459c8cfcde"
+    },
+    "10": {
+      "ageBands": {
+        "1": {
+          "percent": 2.83,
+          "acres": 21484
+        },
+        "2": {
+          "percent": 0.97,
+          "acres": 7334
+        },
+        "3": {
+          "percent": 1.2,
+          "acres": 9107
+        },
+        "4": {
+          "percent": 0.77,
+          "acres": 5818
+        }
+      },
+      "pngSha256": "113cf1a21979b6d946cc8aa7b27baf9a5c0acc26825374e6157eed1bfcfdd0e2"
+    },
+    "12": {
+      "ageBands": {
+        "1": {
+          "percent": 10.62,
+          "acres": 80813
+        },
+        "2": {
+          "percent": 5.9,
+          "acres": 44875
+        },
+        "3": {
+          "percent": 2.53,
+          "acres": 19289
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "57326869ff8bd8570235bec917b5837f63d623acd7a3a5bb03f4b6dc1f309666"
+    },
+    "11A": {
+      "ageBands": {
+        "1": {
+          "percent": 6.13,
+          "acres": 32391
+        },
+        "2": {
+          "percent": 0.54,
+          "acres": 2844
+        },
+        "3": {
+          "percent": 2.68,
+          "acres": 14176
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 25
+        }
+      },
+      "pngSha256": "5820a70c06ad6f662463269483d5ee848f61ed74dbbc89b983a06a72a981f3b4"
+    },
+    "11": {
+      "ageBands": {
+        "1": {
+          "percent": 0.06,
+          "acres": 288
+        },
+        "2": {
+          "percent": 21.96,
+          "acres": 107011
+        },
+        "3": {
+          "percent": 0.74,
+          "acres": 3600
+        },
+        "4": {
+          "percent": 0.01,
+          "acres": 62
+        }
+      },
+      "pngSha256": "ddbc1303b3dda8d5d5ec9647c1402d7af11d3d9c9f9c7c105aafcf244451a777"
+    },
+    "17": {
+      "ageBands": {
+        "1": {
+          "percent": 19.29,
+          "acres": 187235
+        },
+        "2": {
+          "percent": 8.14,
+          "acres": 78996
+        },
+        "3": {
+          "percent": 4.96,
+          "acres": 48146
+        },
+        "4": {
+          "percent": 1.4,
+          "acres": 13567
+        }
+      },
+      "pngSha256": "7aeaff4c7d7f2987520d53c62c10f24d1eeccda4b61c2d4010902e92104a00dc"
+    },
+    "16A": {
+      "ageBands": {
+        "1": {
+          "percent": 17.74,
+          "acres": 31725
+        },
+        "2": {
+          "percent": 6.83,
+          "acres": 12217
+        },
+        "3": {
+          "percent": 3.9,
+          "acres": 6967
+        },
+        "4": {
+          "percent": 1.22,
+          "acres": 2189
+        }
+      },
+      "pngSha256": "747aea5879b014c3b836542ee981c12113b47f380c3abd0d532949a09d55e309"
+    },
+    "14": {
+      "ageBands": {
+        "1": {
+          "percent": 18.4,
+          "acres": 67591
+        },
+        "2": {
+          "percent": 5.32,
+          "acres": 19544
+        },
+        "3": {
+          "percent": 0.63,
+          "acres": 2320
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "c3d33c78785292237a2c22f641a50a9592c3047610198c53d3d873bfe477fcab"
+    },
+    "13": {
+      "ageBands": {
+        "1": {
+          "percent": 3.92,
+          "acres": 8654
+        },
+        "2": {
+          "percent": 0.0,
+          "acres": 2
+        },
+        "3": {
+          "percent": 2.58,
+          "acres": 5697
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "b4914c29d19f2a0383769caa2dfc56c530d79e23c40b5b2c6461ec046c59703b"
+    },
+    "20": {
+      "ageBands": {
+        "1": {
+          "percent": 37.19,
+          "acres": 112778
+        },
+        "2": {
+          "percent": 15.62,
+          "acres": 47353
+        },
+        "3": {
+          "percent": 7.53,
+          "acres": 22817
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "2175a21fdbcee5e5f731237f84c5a6d55109e94a408784773257f9687402cab7"
+    },
+    "18": {
+      "ageBands": {
+        "1": {
+          "percent": 1.13,
+          "acres": 2038
+        },
+        "2": {
+          "percent": 1.86,
+          "acres": 3366
+        },
+        "3": {
+          "percent": 0.25,
+          "acres": 454
+        },
+        "4": {
+          "percent": 0.05,
+          "acres": 81
+        }
+      },
+      "pngSha256": "d5e4b6a70d68a3506431475249b6c6ffd42533a05a875330b3269153a152a635"
+    },
+    "21": {
+      "ageBands": {
+        "1": {
+          "percent": 78.16,
+          "acres": 254786
+        },
+        "2": {
+          "percent": 1.64,
+          "acres": 5338
+        },
+        "3": {
+          "percent": 3.03,
+          "acres": 9891
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "9888ee10934fcb109d21d60a77450a5003bd9ffae224cedb0b9413fb50803871"
+    },
+    "21A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.19,
+          "acres": 308
+        },
+        "2": {
+          "percent": 6.72,
+          "acres": 10690
+        },
+        "3": {
+          "percent": 0.0,
+          "acres": 0
+        },
+        "4": {
+          "percent": 0.19,
+          "acres": 303
+        }
+      },
+      "pngSha256": "4f98ec6c759503ba931e3e5d93aa278ea5dcfdc33d300a2bb7b7be7e3946b1d0"
+    },
+    "19": {
+      "ageBands": {
+        "1": {
+          "percent": 12.38,
+          "acres": 20473
+        },
+        "2": {
+          "percent": 12.53,
+          "acres": 20720
+        },
+        "3": {
+          "percent": 4.52,
+          "acres": 7475
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "bfa261fcf7484c7ee7c1c54cb40a2d2a26854f245a91abe14549f44ee69d4ea0"
+    },
+    "20A": {
+      "ageBands": {
+        "1": {
+          "percent": 5.09,
+          "acres": 24619
+        },
+        "2": {
+          "percent": 18.47,
+          "acres": 89245
+        },
+        "3": {
+          "percent": 13.79,
+          "acres": 66665
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 7
+        }
+      },
+      "pngSha256": "39c4bb2f14fdb16345823fc6b67dbb867c0cae323484f2d43606553b7fc16f8e"
+    },
+    "19A": {
+      "ageBands": {
+        "1": {
+          "percent": 1.56,
+          "acres": 4598
+        },
+        "2": {
+          "percent": 0.89,
+          "acres": 2637
+        },
+        "3": {
+          "percent": 1.72,
+          "acres": 5096
+        },
+        "4": {
+          "percent": 0.06,
+          "acres": 185
+        }
+      },
+      "pngSha256": "31a422cb2f4e7f4b70ac4e26cb85a0b182880bbf49719ffa5074a6b7f161b06b"
+    },
+    "23": {
+      "ageBands": {
+        "1": {
+          "percent": 17.7,
+          "acres": 84346
+        },
+        "2": {
+          "percent": 2.9,
+          "acres": 13827
+        },
+        "3": {
+          "percent": 0.02,
+          "acres": 104
+        },
+        "4": {
+          "percent": 0.14,
+          "acres": 655
+        }
+      },
+      "pngSha256": "9ef5c527b35e26d484ccb4710de44b11d6807279069ef001cc7f4d967a6d58be"
+    },
+    "28": {
+      "ageBands": {
+        "1": {
+          "percent": 2.7,
+          "acres": 22637
+        },
+        "2": {
+          "percent": 5.71,
+          "acres": 47835
+        },
+        "3": {
+          "percent": 25.97,
+          "acres": 217538
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 27
+        }
+      },
+      "pngSha256": "17602eb4e25489ee7eba72e12a21b2c157110f70d0df430fa9de34933f2964d7"
+    },
+    "22": {
+      "ageBands": {
+        "1": {
+          "percent": 0.95,
+          "acres": 5205
+        },
+        "2": {
+          "percent": 15.84,
+          "acres": 86852
+        },
+        "3": {
+          "percent": 6.24,
+          "acres": 34221
+        },
+        "4": {
+          "percent": 0.13,
+          "acres": 711
+        }
+      },
+      "pngSha256": "16b9294fb08b664cace60adb541db05110ae6cc3c1b6b50815b431bb9be78400"
+    },
+    "26": {
+      "ageBands": {
+        "1": {
+          "percent": 3.01,
+          "acres": 11466
+        },
+        "2": {
+          "percent": 8.04,
+          "acres": 30652
+        },
+        "3": {
+          "percent": 7.44,
+          "acres": 28374
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 12
+        }
+      },
+      "pngSha256": "74138b3ad044774ba3f6267abeef439505afe27ecf5457ea3147de751078e56c"
+    },
+    "52A": {
+      "ageBands": {
+        "1": {
+          "percent": 14.42,
+          "acres": 160396
+        },
+        "2": {
+          "percent": 4.6,
+          "acres": 51140
+        },
+        "3": {
+          "percent": 0.03,
+          "acres": 309
+        },
+        "4": {
+          "percent": 11.02,
+          "acres": 122589
+        }
+      },
+      "pngSha256": "30baf420c7535d247d976157fd35a6a16b954a27a9cbb6542b01f498c319985a"
+    },
+    "15": {
+      "ageBands": {
+        "1": {
+          "percent": 3.38,
+          "acres": 18935
+        },
+        "2": {
+          "percent": 0.12,
+          "acres": 664
+        },
+        "3": {
+          "percent": 3.09,
+          "acres": 17333
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "d3b60faee5f975a1843c5a3d9e4e1ff7ed2fbd12230f42b10e955567f6b47773"
+    },
+    "68": {
+      "ageBands": {
+        "1": {
+          "percent": 2.59,
+          "acres": 30164
+        },
+        "2": {
+          "percent": 7.24,
+          "acres": 84216
+        },
+        "3": {
+          "percent": 0.53,
+          "acres": 6166
+        },
+        "4": {
+          "percent": 0.55,
+          "acres": 6398
+        }
+      },
+      "pngSha256": "b005ce1ef464dcf3685b0b03e19e33df2bdd476c7afe72069635d24410bca936"
+    },
+    "77": {
+      "ageBands": {
+        "1": {
+          "percent": 0.11,
+          "acres": 180
+        },
+        "2": {
+          "percent": 1.72,
+          "acres": 2903
+        },
+        "3": {
+          "percent": 0.04,
+          "acres": 59
+        },
+        "4": {
+          "percent": 0.02,
+          "acres": 37
+        }
+      },
+      "pngSha256": "78f600f9154275207dbf742189b3031d3fbb76128f30cc5ea7ff427c2042c3b5"
+    },
+    "78": {
+      "ageBands": {
+        "1": {
+          "percent": 0.14,
+          "acres": 212
+        },
+        "2": {
+          "percent": 0.47,
+          "acres": 741
+        },
+        "3": {
+          "percent": 1.53,
+          "acres": 2399
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "f9aa4d78983dcc6068ae5bf409b56e625a3bc18e694f06ba611c3f53bf5990e5"
+    },
+    "53": {
+      "ageBands": {
+        "1": {
+          "percent": 5.05,
+          "acres": 58425
+        },
+        "2": {
+          "percent": 6.45,
+          "acres": 74513
+        },
+        "3": {
+          "percent": 2.23,
+          "acres": 25776
+        },
+        "4": {
+          "percent": 0.42,
+          "acres": 4904
+        }
+      },
+      "pngSha256": "966a034e603acfbec8900f8f5a99b679b5304d494bad8c3a63c485bf73be80c2"
+    },
+    "68A": {
+      "ageBands": {
+        "1": {
+          "percent": 0.02,
+          "acres": 57
+        },
+        "2": {
+          "percent": 0.45,
+          "acres": 1292
+        },
+        "3": {
+          "percent": 0.07,
+          "acres": 210
+        },
+        "4": {
+          "percent": 0.02,
+          "acres": 47
+        }
+      },
+      "pngSha256": "389de5f33e6e942dee9f7244909f4a0a276a3d1029c1752cf73a929e21814c7f"
+    },
+    "33": {
+      "ageBands": {
+        "1": {
+          "percent": 3.78,
+          "acres": 16203
+        },
+        "2": {
+          "percent": 20.28,
+          "acres": 87018
+        },
+        "3": {
+          "percent": 11.72,
+          "acres": 50283
+        },
+        "4": {
+          "percent": 0.09,
+          "acres": 400
+        }
+      },
+      "pngSha256": "6412f2e9977d6fa388801d13f7ccb10789aedaaf8bea640dcb0ed13f2a9f3f26"
+    },
+    "39": {
+      "ageBands": {
+        "1": {
+          "percent": 24.75,
+          "acres": 384651
+        },
+        "2": {
+          "percent": 5.66,
+          "acres": 87916
+        },
+        "3": {
+          "percent": 1.51,
+          "acres": 23483
+        },
+        "4": {
+          "percent": 1.29,
+          "acres": 20049
+        }
+      },
+      "pngSha256": "86d115dbe2fd6c007de2e32cca63643c374ff4ef4502d11ba63cd22d378e5080"
+    },
+    "38": {
+      "ageBands": {
+        "1": {
+          "percent": 3.31,
+          "acres": 42524
+        },
+        "2": {
+          "percent": 1.33,
+          "acres": 17052
+        },
+        "3": {
+          "percent": 5.08,
+          "acres": 65264
+        },
+        "4": {
+          "percent": 1.79,
+          "acres": 22954
+        }
+      },
+      "pngSha256": "4e8ae88c685428d8306ad92f8891dcedb1ad17e55795f328a9f07d4e0a7858cd"
+    },
+    "35": {
+      "ageBands": {
+        "1": {
+          "percent": 2.81,
+          "acres": 6781
+        },
+        "2": {
+          "percent": 3.44,
+          "acres": 8289
+        },
+        "3": {
+          "percent": 0.15,
+          "acres": 350
+        },
+        "4": {
+          "percent": 0.0,
+          "acres": 0
+        }
+      },
+      "pngSha256": "d07d52a43a0f5cd1f84313bb171a1e06dd782f397158d5356e3d8d3c66ec2e51"
+    }
+  }
+}

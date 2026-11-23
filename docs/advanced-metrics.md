@@ -46,3 +46,7 @@ Mapped NIFC perimeters for 2018–2026 now support Idaho unit screening, histori
 ## Idaho access sites and environmental conditions (November 2026)
 
 The pilot now shows designated USFS trailheads and BLM trailheads, staging areas and access points, plus a nearby SNOTEL station and unit drought snapshots with prior years. Counts are incomplete access-site indicators, not measured pressure; observations do not predict animal numbers or next-season success. The snow and drought snapshots do not refresh automatically. Source definitions, proximity and coverage limits are in the data dictionary. Existing hunter-density estimates remain the separate observed pressure proxy.
+
+## Idaho visual conditions layers (November 2026)
+
+The single-unit explorer visualizes 2010–2026 mapped fire age, November 17 drought categories, a live external NOAA modeled snow-water layer and the nearby dated SNOTEL point, plus charts of fire-area share, April snow relative to its station median and past drought snapshots. Fire age is not a productivity rating. See the data dictionary and `idaho-visual-validation.md` for source, scale, coverage and overlay limitations.
