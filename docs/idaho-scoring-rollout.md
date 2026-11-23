@@ -4,6 +4,8 @@
 
 The owner clarified that requested scores-only production corrections are included in standing approval. A new permission question is not required. The agent must still generate and review a fresh exact production plan, reject stale inputs, update only the seven score columns in one transaction, and verify historical data and all non-score fields are unchanged. Coordinate application deployment with the score update and verify production behavior. Agency synchronization, destructive database/schema operations, and enabling automatic sync are not covered. Historical approval requirements below describe the earlier rollout and are superseded for this narrowly scoped scores-only workflow.
 
+The snapshot selection is shared in `src/lib/idahoScoreSelect.ts` and includes the hunt identity, legal-animal description and other fields used by the live trophy calculation. Older plans omitted some of these fields and must not be used for a new rollout; generate a new plan with the exact proposed model. This safeguard does not change the current scoring model or update production scores.
+
 ## Completed rollout — 2026-11-05
 
 The owner approved rollout. PR #1 was merged and deployed successfully. A reviewed plan read 1,303 Idaho summaries and updated 1,161 rows, changing only the seven score columns. The apply transaction verified every non-score field remained identical, and a stale-plan retry was rejected. Hunt 2-1-2-9 now shows Quality 48 and Opportunity 48 at its observed 97/517 harvest (18.76%). Local exact before/plan/apply artifacts are retained under ignored out/.
