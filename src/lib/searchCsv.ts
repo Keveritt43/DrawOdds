@@ -1,3 +1,5 @@
+import { ID_CONDITIONS_DATE } from '@/lib/idConditions';
+import { FIRE_PERIODS } from '@/lib/idFire';
 import { idConditionsExport } from './idConditions';
 import { idFireBest } from './idFire';
 import { idTerrainBest } from './idTerrain';
@@ -22,7 +24,7 @@ const cell = (value: unknown) => {
 };
 export function searchCsv(results: SearchResult[], origin: string) {
   const percent = (value: number | null) => value === null ? null : Math.round(value * 10000) / 100;
-  const rows: unknown[][] = [['State', 'Hunt', 'Code', 'Species', 'Units', 'Weapon', 'Season dates', 'Residency', 'Points', 'Your odds %', 'Odds basis', 'Draw report year', 'Harvest report year', 'Harvest success %', 'Hunter-seasons', 'Harvest small sample', 'WY success by species or license (WGFD harvest ÷ active licenses)', 'MT estimated mule bucks per issued permit % (not hunter success)', 'Public land %', 'Quality', 'Opportunity', 'Trophy score', 'Link', 'Score evidence', 'Unit reference (unverified)', 'Land access note', 'Idaho best unit remote public sq mi (estimate)', 'Idaho best unit remote public above 9000 ft sq mi (estimate)', 'Idaho best unit mapped wildfire perimeter 2023-2025 acres', 'Idaho best unit mapped wildfire perimeter 2018-2023 acres', 'Idaho unit agency access sites (2026 snapshot)', 'Idaho unit drought D1+ percent (2026-11-17)', 'Idaho nearby snow station current SWE inches']];
+  const rows: unknown[][] = [['State', 'Hunt', 'Code', 'Species', 'Units', 'Weapon', 'Season dates', 'Residency', 'Points', 'Your odds %', 'Odds basis', 'Draw report year', 'Harvest report year', 'Harvest success %', 'Hunter-seasons', 'Harvest small sample', 'WY success by species or license (WGFD harvest ÷ active licenses)', 'MT estimated mule bucks per issued permit % (not hunter success)', 'Public land %', 'Quality', 'Opportunity', 'Trophy score', 'Link', 'Score evidence', 'Unit reference (unverified)', 'Land access note', 'Idaho best unit remote public sq mi (estimate)', 'Idaho best unit remote public above 9000 ft sq mi (estimate)', `Idaho best unit mapped wildfire perimeter ${FIRE_PERIODS.recent} acres`, `Idaho best unit mapped wildfire perimeter ${FIRE_PERIODS.mature} acres`, 'Idaho unit agency access sites (2026 snapshot)', `Idaho unit drought D1+ percent (${ID_CONDITIONS_DATE})`, 'Idaho nearby snow station current SWE inches']];
   for (const x of results) {
     const wy = x.r.state === 'WY' ? wyPresetHarvest(x.r.pointOdds, x.r.species).map(r => `${r.label}: ${percent(r.rate)}% (${r.first === r.last ? r.first : `${r.first}–${r.last}`}; ${r.years} season${r.years === 1 ? '' : 's'})`).join('; ') : null;
     const mt = x.r.state === 'MT' && x.r.species === 'DEER' && mtHarvestProxy(x.r.pointOdds) === 'permit' ? percent(mtProxyRate(x.r.pointOdds)) : null;

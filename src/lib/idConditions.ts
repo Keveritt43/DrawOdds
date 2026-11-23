@@ -4,6 +4,7 @@ type Observation={date:string;swe:number;median:number|null;percent:number|null}
 type Trailhead={agency:'fs'|'blm';name:string;status:string|null;id:number};
 type Snow={station:string;triplet:string;elevation:number;distance:number;history:Record<string,Observation>;current:Observation|null};
 export type IdahoConditions={trailheads:Trailhead[];snow:Snow|null;drought:Record<string,number>};
+export { ID_CONDITIONS_DATE, ID_CONDITIONS_SNAPSHOT } from './idSnapshot';
 const units=snapshot.units as unknown as Record<string,IdahoConditions>;
 export const idConditionsUnit=(unit:string):IdahoConditions|null=>units[unit]??null;
 /** Each condition is unit context. Other states are not filtered. */

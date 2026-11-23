@@ -1,5 +1,5 @@
 """Build Idaho mapped wildfire summaries and 100-m terrain/overlap masks. No database writes."""
-import sys,json,pathlib,math,hashlib,importlib.util,concurrent.futures
+import sys,json,pathlib,math,hashlib,importlib.util,concurrent.futures,os,datetime
 sys.path.insert(0,'out/geodeps')
 import numpy as np,rasterio
 from rasterio.features import rasterize
@@ -10,8 +10,9 @@ from pyproj import Transformer
 from PIL import Image
 spec=importlib.util.spec_from_file_location('terrain','scripts/id-terrain-pilot.py');terrain=importlib.util.module_from_spec(spec);spec.loader.exec_module(terrain)
 root=pathlib.Path('out/id-fire');output=pathlib.Path('public/idaho-fire');output.mkdir(parents=True,exist_ok=True)
+year=int(os.environ.get('ID_REFRESH_SNAPSHOT','2026-11-22')[:4]); first=max(2018,year-8)
 features=[]
-for y in range(2018,2027):
+for y in range(2018,year+1):
  j=json.loads((root/f'{"history" if y<2020 else "wfigs"}-{y}.json').read_text(encoding='utf8'))
  for f in j['features']:
   f['year']=y; features.append(f)
@@ -32,7 +33,7 @@ def clean_polygon(f):
   if v.is_empty or v.geom_type not in ('Polygon','MultiPolygon'):raise ValueError(('invalid source fire geometry',f['year'],f['properties'].get('OBJECTID')))
  return v
 firegeo=[clean_polygon(f) for f in features]; ftree=STRtree(firegeo)
-periods={'recent':range(2023,2026),'mature':range(2018,2024),'five':range(2021,2026),'all':range(2018,2027)}
+periods={'recent':range(year-3,year),'mature':range(max(2018,year-8),year-2),'five':range(year-5,year),'all':range(2018,year+1)}
 def run(unit):
  saved=root/f'{unit}-summary.json';im=output/f'{unit}.png'
  if saved.exists() and im.exists() and 'overlapAcres' in json.loads(saved.read_text(encoding='utf8')):return unit,'cached'
@@ -41,16 +42,16 @@ def run(unit):
  if unit=='76':pub=pub.difference(shape(json.loads((terrain.root/'bear-lake.json').read_text())['features'][0]['geometry']))
  bound=(minx-1609.344,miny-1609.344,maxx+1609.344,maxy+1609.344);lines=[]
  for name,url,where in terrain.sources:lines.extend(shape(x['geometry']) for x in terrain.routes(name,url,where,bound,unit) if x.get('geometry'))
- ids=ftree.query(g,predicate='intersects'); byyear={y:[] for y in range(2018,2027)};named={}
+ ids=ftree.query(g,predicate='intersects'); byyear={y:[] for y in range(2018,year+1)};named={}
  for i in ids:
   part=firegeo[i].intersection(g)
   if part.is_empty or part.area<=0:continue
-  f=features[i];p=f['properties'];year=f['year'];byyear[year].append(part)
-  name=(p.get('poly_IncidentName') or p.get('attr_IncidentName') or p.get('INCIDENT') or 'Unnamed fire').strip(); named.setdefault((year,name),[]).append((part,p['OBJECTID']))
+  f=features[i];p=f['properties'];fireyear=f['year'];byyear[fireyear].append(part)
+  name=(p.get('poly_IncidentName') or p.get('attr_IncidentName') or p.get('INCIDENT') or 'Unnamed fire').strip(); named.setdefault((fireyear,name),[]).append((part,p['OBJECTID']))
  details=[]
- for (year,name),parts in named.items():
+ for (fireyear,name),parts in named.items():
   acres=round(union_all([part for part,_ in parts]).area/4046.8564224)
-  if acres>=10:details.append({'year':year,'name':name,'acres':acres,'ids':[oid for _,oid in parts],'source':'history' if year<2020 else 'wfigs'})
+  if acres>=10:details.append({'year':fireyear,'name':name,'acres':acres,'ids':[oid for _,oid in parts],'source':'history' if fireyear<2020 else 'wfigs'})
  unions={y:union_all(geos) for y,geos in byyear.items() if geos}
  annual={str(y):round(geo.area/4046.8564224) for y,geo in unions.items()}
  areas={k:round(union_all([unions[y] for y in years if y in unions]).area/4046.8564224) for k,years in periods.items()}
@@ -64,7 +65,7 @@ def run(unit):
   low=np.zeros((h,w),dtype='uint8');high=np.zeros((h,w),dtype='uint8')
   for y,geo in unions.items():
    b=rasterize([(mapping(geo),1)],out_shape=(h,w),transform=trans,dtype='uint8')
-   if y<2026:low |= (b << (y-2018))
+   if first<=y<year:low |= (b << (y-(year-8)))
    else:high |= b
   # Joint screening counts are computed on the original equal-area grid, never by multiplying separate unit totals.
   cell=abs(trans.a*trans.e)/4046.8564224

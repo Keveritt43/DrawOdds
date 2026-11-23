@@ -41,7 +41,7 @@
   },
   "2026": {
     "count": 593,
-    "sha256": "051f8a156e02bbd02649aa7b915a204a3310cd96ed45e8ca783a71c25fdf77a9",
+    "sha256": "3ddd21799bc8f2d72631b8b30936fb279e0d0d8c7da3add94fa5dd9374118c62",
     "where": "attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '2026-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '2027-01-01 00:00:00'"
   }
 }

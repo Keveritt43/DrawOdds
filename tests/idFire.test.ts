@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { idFireUnit,idFireBest,matchesIdFire } from '../src/lib/idFire';
+import { idFireUnit,idFireBest,matchesIdFire,firePeriodsFor } from '../src/lib/idFire';
 import { matchesIdOverlap, type OverlapOptions } from '../src/lib/idFireMask';
 import { presetHref } from '../src/lib/filterPresets';
 
@@ -36,4 +36,10 @@ test('wildfire and terrain filters require one common area in one unit',()=>{
 test('wildfire choices persist in multi-state presets',()=>{
  const href=presetHref('/hunts?states=ID,CO&idFire=recent&idFireMin=1000&idRemote=3200');assert.ok(href);
  const q=new URL(href,'https://drawodds.local').searchParams;assert.equal(q.get('idFire'),'recent');assert.equal(q.get('idFireMin'),'1000');assert.equal(q.get('idRemote'),'3200');
+});
+
+test('wildfire period labels advance with the snapshot year',()=>{
+ assert.match(firePeriodsFor(2027).recent,/2024–2026/);
+ assert.match(firePeriodsFor(2027).mature,/2019–2024/);
+ assert.match(firePeriodsFor(2027).all,/2018–2027/);
 });

@@ -1,5 +1,5 @@
 """Build dated ID unit conditions and agency trailhead context from cached public sources."""
-import sys,json,pathlib,glob,math,io,zipfile,datetime,hashlib
+import sys,json,pathlib,glob,math,io,zipfile,datetime,hashlib,os
 sys.path.insert(0,'out/geodeps')
 import shapefile
 from shapely.geometry import shape,Point,box
@@ -17,7 +17,8 @@ for s in read(root/'stations.json'):
  if s.get('latitude') and s.get('longitude'):
   s['point']=transform(project,Point(s['longitude'],s['latitude']));stations.append(s)
 observations={}
-for y in range(2017,2027):
+history_years=sorted(int(p.stem.split('-')[1]) for p in root.glob('snow-[0-9][0-9][0-9][0-9].json'))
+for y in history_years:
  for station in read(root/f'snow-{y}.json'):
   vals=station.get('data',[]);v=vals[0].get('values',[]) if vals else []
   if v and isinstance(v[0].get('value'),(float,int)):
@@ -60,13 +61,14 @@ for u,g in geo.items():
   nearest=min(stations,key=lambda s:g.centroid.distance(s['point']));miles=g.centroid.distance(nearest['point'])/1609.344
   if miles<=35:
    key=nearest['stationTriplet'];records[u]['snow']={'station':nearest['name'],'triplet':key,'elevation':nearest['elevation'],'distance':round(miles,1),'history':observations.get(key,{}),'current':current.get(key)}
-for key in [str(y) for y in range(2017,2027)]+['current']:
+drought_years=sorted(int(p.stem.split('-')[1]) for p in root.glob('drought-[0-9][0-9][0-9][0-9].zip'))
+for key in [str(y) for y in drought_years]+['current']:
  g=drought(root/('drought-'+key+'.zip'))
  for u,unit in geo.items():records[u]['drought'][key]=round(100*unit.intersection(g).area/unit.area,1)
  print('drought built',key,flush=True)
 inputs={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.glob('*')) if p.is_file()}
 if any(not 0<=pct<=100 for x in records.values() for pct in x['drought'].values()):raise ValueError('invalid drought percentage')
-out={'snapshot':'2026-11-22','droughtCurrent':'2026-11-17','units':records,'inputs':inputs}
+out={'snapshot':os.environ.get('ID_REFRESH_SNAPSHOT','2026-11-22'),'droughtCurrent':os.environ.get('ID_REFRESH_DROUGHT','2026-11-17'),'units':records,'inputs':inputs}
 pathlib.Path('data/id-conditions.json').write_text(json.dumps(out,indent=2)+'\n',encoding='utf8')
 print('units',len(records),'snow coverage',sum(x['snow'] is not None for x in records.values()),flush=True)
 

@@ -8,7 +8,8 @@ test('dated Idaho conditions retain unit, station and distinct prior-year eviden
  assert.equal(Object.keys(data.units).length,100);
  const unit=idConditionsUnit('54');assert.ok(unit);assert.equal(unit.snow?.station,'Magic Mountain');
  assert.equal(unit.snow?.history['2023'].swe,29);assert.equal(unit.snow?.history['2026'].swe,0.3);
- assert.equal(unit.snow?.current?.date,'2026-11-21');
+ assert.ok(unit.snow?.current?.date && unit.snow.current.date<=data.snapshot);
+ if(data.snapshot==='2026-11-23'){assert.equal(unit.snow.current.date,'2026-11-22');assert.equal(unit.snow.current.swe,2.7);}
  assert.ok(unit.drought.current>=0 && unit.drought.current<=100);
  for(const x of Object.values(data.units)) for(const pct of Object.values(x.drought)) assert.ok(pct>=0&&pct<=100);
  assert.equal(idConditionsUnit('unknown'),null);
