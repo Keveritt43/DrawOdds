@@ -50,7 +50,7 @@ export default async function GuidePage() {
       <ul>
         <li>Buy the year&apos;s Idaho hunting license first ({money(FEES.NONRESIDENT.license)}, nonrefundable), then one elk application and one deer application, each with up to five tag choices in order ({NR_GENERAL_DRAW.fee}).</li>
         <li>Every application gets a random number. IDFG fills <b>all 1st choices first</b>, then 2nd choices for those still without a tag, and so on. A tag that runs out on 1st choices never reaches anyone&apos;s 2nd.</li>
-        <li>So a later choice only helps if that tag had tags left after the earlier rounds. Every tag card here says whether it &ldquo;works as a backup pick&rdquo; (tags reached 2nd-5th choices) or &ldquo;filled on 1st choices&rdquo;. Filling your 2-5 slots with tags that fill on 1st choices wastes them.</li>
+        <li>A later choice can draw only if quota remains after earlier rounds. Previous results show which tags reached later choices, but the next draw can differ.</li>
         <li>Elk tags are by zone (an A or a B tag, each with its own seasons); deer by unit (Regular or White-tailed). Groups of up to 4 draw all-or-nothing.</li>
         <li>Drew in the first period? You can&apos;t apply in the second. Drawing a general tag doesn&apos;t affect your controlled hunt applications in the spring.</li>
         <li>Tags if you draw: elk {money(FEES.NONRESIDENT.tag.ELK)}, deer {money(FEES.NONRESIDENT.tag.DEER)} (IDFG fees, checked {md(FEES.checked, true)}).</li>
@@ -65,10 +65,10 @@ export default async function GuidePage() {
 
       <h2>Strategy That Follows From This</h2>
       <ul>
-        <li><b>Apply every year for what you actually want.</b> With no points there&apos;s nothing to build; a 5% hunt is 5% every year.</li>
+        <li><b>Apply for what you actually want.</b> Idaho has no points to build, and draw odds can change each year.</li>
         <li><b>Use draw and fill, not odds alone.</b> &ldquo;About 1 in 20 a year&rdquo; combines the draw with hunter success: a 40% hunt where 20% of hunters fill can be worse than a 15% hunt where 70% fill.</li>
-        <li><b>Nonresident general tags:</b> put the tag you want most 1st, then fill 2-5 only with tags that reached later choices last year. The <Link href="/planner">planner</Link> shows your chance at each slot.</li>
-        <li><b>Controlled 2nd choice:</b> use it on a hunt that gave tags to 2nd choices; otherwise it&apos;s decoration.</li>
+        <li><b>Nonresident general tags:</b> put the tag you want most 1st. Past results can help you consider later choices, but quotas and applicants change. The <Link href="/planner">planner</Link> shows historical results for each choice, not your combined chance.</li>
+        <li><b>Controlled 2nd choice:</b> check whether the hunt gave tags to 2nd choices in the last draw; that can change next year.</li>
         <li><b>Watch the trend:</b> odds can fall when applicants jump (each card shows the latest drawing against the 5-year number) or when tags are cut (<Link href="/changes">What Changed</Link>).</li>
       </ul>
 

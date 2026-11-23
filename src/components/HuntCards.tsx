@@ -173,7 +173,9 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
       ? `Area ${r.areaName}${r.units.length > 1 || !inUnit ? ` (unit${r.units.length > 1 ? 's' : ''} ${r.units.join(', ')})` : ''}`
       : (!/^Unit \S+ General/i.test(r.name) ? r.name : '');
   const when = r.nrTag || (r.type === 'GENERAL' && seasonsSummary(r.tagSeasons))
-    ? seasonsSummary(r.tagSeasons) || 'Seasons: see the regulations'
+    ? (r.nrTag && (r.tagSeasons as { year?: number } | null)?.year && r.quotaYear && (r.tagSeasons as { year: number }).year < r.quotaYear
+      ? `${(r.tagSeasons as { year: number }).year} seasons (historical): ${seasonsSummary(r.tagSeasons) || 'see regulations'}`
+      : seasonsSummary(r.tagSeasons) || 'Seasons: see the regulations')
     : r.openDate
       ? [r, ...also].filter((x) => x.openDate).sort((a, b) => +a.openDate! - +b.openDate!).map((x) => range(x.openDate, x.closeDate)).filter((v, i, a) => a.indexOf(v) === i).join(', ')
       : 'Dates: see regulations';
