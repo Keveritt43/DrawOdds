@@ -9,6 +9,8 @@ import { baseStyle, onStyleReady } from '@/lib/basemap';
 import { FIRE_PERIODS, type IdahoFirePeriod } from '@/lib/idFire';
 import { matchesIdOverlap, type OverlapOptions } from '@/lib/idFireMask';
 import { FIRE_BANDS, IdahoConditionsCharts } from './IdahoConditionsCharts';
+import { readExplorerView, writeExplorerView, type ExplorerView } from '@/lib/idExplorerView';
+import visualMeta from '../../data/id-visual-meta.json';
 
 type Grid={corners:number[][];width:number;height:number;pngSha256:string};
 type Pixels={data:Uint8ClampedArray;width:number;height:number};
@@ -25,6 +27,13 @@ export function IdahoOverlapExplorer({unit}:{unit:string}) {
  const [showFire,setShowFire]=useState(true),[showDrought,setShowDrought]=useState(false),[showSnow,setShowSnow]=useState(false),[showSnowpack,setShowSnowpack]=useState(false);
  const [snowTime,setSnowTime]=useState<string|null>(null),[snowError,setSnowError]=useState(false);
  const [options,setOptions]=useState<OverlapOptions>({remote:false,high:false,steep:false,fire:'none'});
+ const [saved,setSaved]=useState(false),[message,setMessage]=useState(''),[shareLink,setShareLink]=useState('');
+ const applyView=(v:ExplorerView)=>{setShowFire(v.fire);setShowDrought(v.drought);setShowSnowpack(v.snowpack);setShowSnow(v.station);setOptions(v.terrain);};
+ const view:ExplorerView={fire:showFire,drought:showDrought,snowpack:showSnowpack,station:showSnow,terrain:options};
+ useEffect(()=>{const v=readExplorerView(window.location.search);if(v)applyView(v);try{setSaved(!!localStorage.getItem('id-explorer:'+unit));}catch{setSaved(false);}},[unit]);
+ const saveView=()=>{try{localStorage.setItem('id-explorer:'+unit,writeExplorerView(view));setSaved(true);setMessage('View saved on this device.');}catch{setMessage('Could not save on this device.');}};
+ const loadView=()=>{try{const v=readExplorerView(localStorage.getItem('id-explorer:'+unit)??'');if(!v)throw Error();applyView(v);setMessage('Saved view restored.');}catch{setMessage('Saved view is unavailable.');}};
+ const shareView=async()=>{const u=new URL(window.location.href);const current=new URLSearchParams(writeExplorerView(view));for(const [key,value] of current)u.searchParams.set(key,value);u.hash='terrain-overlap';const link=u.toString();setShareLink(link);try{await navigator.clipboard.writeText(link);setMessage('Link copied.');}catch{setMessage('Copy the link below to share this view.');}};
  const hasTerrain=options.remote||options.high||options.steep||options.fire!=='none';
  const snow=idConditionsUnit(unit)?.snow;
  useEffect(()=>{if(window.location.hash==='#terrain-overlap')setOpen(true);},[unit]);
@@ -99,12 +108,15 @@ export function IdahoOverlapExplorer({unit}:{unit:string}) {
  if(!grid)return <p className="small muted">The overlap map is not available for Unit {unit}.</p>;
  return <details id="terrain-overlap" open={open} onToggle={e=>setOpen(e.currentTarget.open)} style={{margin:'16px 0'}}>
   <summary className="explore-summary"><b>Explore terrain, wildfire and conditions</b></summary>
-  <p className="small muted">Choose map layers and terrain conditions for Unit {unit}. Fire, drought and station observations are November 2026 snapshots. NOAA snowpack is a separate current-service layer.</p>
+  <p className="small muted">Choose map layers and terrain conditions for Unit {unit}. Dates and sources appear beside each layer. NOAA snowpack is a separate current-service layer.</p>
+  <div style={{display:'flex',gap:8,flexWrap:'wrap',margin:'10px 0'}}><button type="button" className="btn small" onClick={saveView}>Save view</button>{saved && <button type="button" className="btn small" onClick={loadView}>Restore saved view</button>}<button type="button" className="btn small" onClick={shareView}>Share view</button></div>
+  <p className="small muted">Save one view per unit on this device, or share a link to its layer and terrain settings. Map position is not saved.</p>
+  {message && <p className="small" role="status">{message}</p>}{shareLink && <label className="small">Share link <input readOnly value={shareLink} onFocus={e=>e.currentTarget.select()} style={{width:'100%'}} /></label>}
   <b>Map layers</b><div className="checks2" style={{display:'flex',flexWrap:'wrap',gap:12,margin:'8px 0'}}>
-   <label><input type="checkbox" checked={showFire} onChange={e=>setShowFire(e.target.checked)}/> Wildfire age</label>
-   <label><input type="checkbox" checked={showDrought} onChange={e=>setShowDrought(e.target.checked)}/> Drought categories</label>
+   <label><input type="checkbox" checked={showFire} onChange={e=>setShowFire(e.target.checked)}/> Wildfire age · mapped {visualMeta.fireCoverage} (snapshot {visualMeta.snapshot})</label>
+   <label><input type="checkbox" checked={showDrought} onChange={e=>setShowDrought(e.target.checked)}/> Drought categories · {visualMeta.droughtDate}</label>
    <label><input type="checkbox" checked={showSnowpack} onChange={e=>setShowSnowpack(e.target.checked)}/> Snowpack (NOAA model)</label>
-   <label><input type="checkbox" checked={showSnow} onChange={e=>setShowSnow(e.target.checked)}/> Nearby snow station</label>
+   <label><input type="checkbox" checked={showSnow} onChange={e=>setShowSnow(e.target.checked)}/> Nearby snow station · {snow?.current?.date ?? 'no recent reading'}</label>
   </div>
   {showFire && <div className="small" aria-label="Wildfire age legend" style={{display:'flex',flexWrap:'wrap',gap:10,margin:'8px 0'}}>{FIRE_BANDS.map(b=><span key={b.id}><span aria-hidden="true" style={{display:'inline-block',background:b.color,width:12,height:12,marginRight:4}}/>{b.label}</span>)}</div>}
   {showDrought && <div className="small" aria-label="Drought category legend" style={{display:'flex',flexWrap:'wrap',gap:10,margin:'8px 0'}}>{droughtLegend.map(([label,color])=><span key={label}><span aria-hidden="true" style={{display:'inline-block',background:color,width:12,height:12,marginRight:4}}/>{label}</span>)}</div>}
