@@ -61,10 +61,19 @@ test('Idaho no-quota tiers match Unit 54 hunts and exclude quota from the result
   assert.equal(trophyForHunt({...h,resOdds5:.99,nrOdds5:.99}),65);
   assert.match(trophyForUnit(h,'40').reason,/Ranks \d+ of 108 Idaho controlled deer hunts/);
   assert.equal(trophyHuntEvidence(h,65).provisional,true);
-  assert.match(trophyHuntEvidence(h,65).reason,/another hunt/);
+  assert.match(trophyHuntEvidence(h,65).reason,/sample-adjusted antler share/);
   assert.equal(idahoV2Tier({...h,oddsLastYear:2027}),null,'a new draw year falls back until the table is regenerated');
   assert.equal(idahoV2Tier({...h,species:'ELK'}),null);
   assert.equal(idahoV2Tier({...h,state:'CO'}),null);
+});
+
+test('Idaho trophy evidence identifies the source hunt or a neutral input',()=>{
+  const deer={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['54'],huntNumber:1042,oddsLastYear:2026};
+  const reason=trophyForUnit(deer,'54').reason;
+  assert.match(reason,/81\.5% from hunt 1043/);
+  assert.match(reason,/can differ from this hunt's own harvest/);
+  const pronghorn={...deer,species:'PRONGHORN',units:['46'],huntNumber:4012};
+  assert.match(trophyForUnit(pronghorn,'46').reason,/unavailable and received a neutral input/);
 });
 
 

@@ -238,6 +238,13 @@ test('trophy sort ranks tiers highest first and leaves ineligible hunts last', (
   assert.deepEqual(rows.map(x => x.r.scoreTrophy), [100, 80, 65, 50, null]);
 });
 
+test('harvest antler share sort never compares pronghorn horn inches with deer percentages',()=>{
+  const deer=personalize(row({id:'deer-share',bigPct5:.52,avgSize5:null}),settings,'proj')!;
+  const pronghorn=personalize(row({id:'pronghorn-length',species:'PRONGHORN',bigPct5:null,avgSize5:14}),settings,'proj')!;
+  assert.ok(compareSearch(deer,pronghorn,'big')<0);
+  assert.ok(compareSearch(pronghorn,deer,'big')>0);
+});
+
 test('CSV preserves search order, personalized odds, provenance and safe spreadsheet strings', () => {
   const results = runSearch([row({ name: '=SUM(A1)' }), colorado()], { states: 'ID,CO' }, 'ID', settings);
   const csv = searchCsv(results, 'https://example.com');

@@ -249,10 +249,14 @@ export function TrophyMark({ score, showNeutral = true, hunt }: { score: number 
 
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
   const evidence=scoreEvidence(r);
+  const trophyEvidence=r.state==='ID' && r.scoreTrophy!==null && [50,65,80,100].includes(r.scoreTrophy)
+    ? trophyHuntEvidence(r,r.scoreTrophy as 50|65|80|100).reason : null;
+  const trophyNote=trophyEvidence ? <p className="small muted"><b>Trophy evidence:</b> {trophyEvidence}</p> : null;
+  const standaloneTrophy=trophyNote ? <details><summary>Trophy evidence</summary>{trophyNote}</details> : null;
   const access=landAccessNotice(r);
   const warning=access ? <p className="small" role="note"><span className="pill warn">Land access</span> {access} Public ownership does not guarantee access.</p> : null;
-  if(evidence) return <>{warning}<div className="srow none small muted"><b>{evidence.label}</b> · {evidence.explanation}</div></>;
-  if (r.scoreQuality === null) return <>{warning}<div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data<CoPressureNote r={r}/></div></>;
+  if(evidence) return <>{warning}<div className="srow none small muted"><b>{evidence.label}</b> · {evidence.explanation}</div>{standaloneTrophy}</>;
+  if (r.scoreQuality === null) return <>{warning}<div className="srow none small muted">DrawOdds Score: insufficient harvest, access or density data<CoPressureNote r={r}/></div>{standaloneTrophy}</>;
   const opp = nr ? r.scoreOppNr : r.scoreOppRes;
   const parts: [ScorePart, number | null][] = [['success', r.scoreSuccess], ['access', r.scoreAccess], ['crowd', r.scoreCrowd], ['trophy', r.scoreTrophy]];
   return (
@@ -264,6 +268,7 @@ export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; op
       </summary>
       <div className="sbars">
         <CoPressureNote r={r}/>
+        {trophyNote}
         {parts.map(([k, v]) => (
           <div key={k} className="sbar">
             <span>{SCORE_PART_LABEL[k]}</span>

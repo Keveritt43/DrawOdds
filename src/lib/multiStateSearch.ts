@@ -396,7 +396,8 @@ export function compareSearch(a: SearchResult, b: SearchResult, sort: string): n
       case 'success': return r.success5;
       case 'public': return r.publicPct;
       case 'trophy': return r.scoreTrophy;
-      case 'big': return r.bigPct5 ?? r.avgSize5;
+      // A horn length in inches is not a harvest antler share (a fraction).
+      case 'big': return r.bigPct5;
       case 'harvest': return r.harvest5;
       case 'hunters': case 'huntersLow': return r.hunters5;
       case 'densityLow': return r.huntersSqMi;

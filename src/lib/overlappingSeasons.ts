@@ -29,13 +29,26 @@ export function otcElkOverlap(target: SeasonContext, candidates: SeasonContext[]
   const uncertain=(h:SeasonContext)=>(h.tagSeasons as {seasons?:{uncertain?:boolean}[]}|null)?.seasons?.some(s=>s.uncertain)??false;
   return uncertain(target)||relevant.some(c => uncertain(c)||!spans(c).length) ? null : false;
 }
-export function overlapsElk(target: SeasonContext, candidate: SeasonContext): boolean {
+/** Actual shared open days, with gaps retained and duplicate/adjacent spans merged. */
+export function overlappingElkDates(target: SeasonContext, candidate: SeasonContext): [Date, Date][] {
   if (
     candidate.id === target.id ||
     target.state !== candidate.state ||
     candidate.species !== 'ELK' ||
     !candidate.units.some((u) => target.units.includes(u))
-  )
-    return false;
-  return spans(target).some(([a, b]) => spans(candidate).some(([c, d]) => a <= d && c <= b));
+  ) return [];
+  const intersections = spans(target).flatMap(([a,b]) => spans(candidate)
+    .filter(([c,d]) => a <= d && c <= b)
+    .map(([c,d]): [number,number] => [Math.max(a,c),Math.min(b,d)]))
+    .sort((x,y) => x[0]-y[0] || x[1]-y[1]);
+  const merged:[number,number][]=[];
+  for(const [start,end] of intersections){
+    const last=merged[merged.length-1];
+    if(last && start<=last[1]+1) last[1]=Math.max(last[1],end);
+    else merged.push([start,end]);
+  }
+  return merged.map(([start,end])=>[new Date(start*86400000),new Date(end*86400000)]);
+}
+export function overlapsElk(target: SeasonContext, candidate: SeasonContext): boolean {
+  return overlappingElkDates(target,candidate).length>0;
 }
