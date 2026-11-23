@@ -211,8 +211,8 @@ export function buildOrder(f: Filters, r: Residency): Prisma.HuntSummaryOrderByW
     case 'trophy':
       return [desc('scoreTrophy'), desc('success5')];
     case 'big':
-      // deer / elk: trophy share; moose / sheep / goat: average antler spread or horn length
-      return [desc('bigPct5'), desc('avgSize5'), desc('success5')];
+      // The labeled antler-share sort must not substitute a length in inches.
+      return [desc('bigPct5'), desc('success5')];
     case 'harvest':
       return [desc('harvest5'), desc('success5')];
     case 'hunters':

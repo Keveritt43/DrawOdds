@@ -14,7 +14,9 @@
     "60A",
     "61",
     "62A"
-   ]
+   ],
+   "animalSourceHunt": "1109",
+   "animalSharePct": 11.9
   },
   "DEER:1117": {
    "tier": 50,
@@ -23,7 +25,9 @@
    "of": 108,
    "units": [
     "14"
-   ]
+   ],
+   "animalSourceHunt": "1008",
+   "animalSharePct": 61.2
   },
   "DEER:1096": {
    "tier": 65,
@@ -32,7 +36,9 @@
    "of": 108,
    "units": [
     "70"
-   ]
+   ],
+   "animalSourceHunt": "1055",
+   "animalSharePct": 81.5
   },
   "DEER:1065": {
    "tier": 50,
@@ -42,7 +48,9 @@
    "units": [
     "39",
     "43"
-   ]
+   ],
+   "animalSourceHunt": "1088",
+   "animalSharePct": 24.2
   },
   "DEER:1079": {
    "tier": 50,
@@ -51,7 +59,9 @@
    "of": 108,
    "units": [
     "53"
-   ]
+   ],
+   "animalSourceHunt": "1079",
+   "animalSharePct": 61.5
   },
   "DEER:1067": {
    "tier": 65,
@@ -60,7 +70,9 @@
    "of": 108,
    "units": [
     "62"
-   ]
+   ],
+   "animalSourceHunt": "1050",
+   "animalSharePct": 82.8
   },
   "DEER:1081": {
    "tier": 50,
@@ -69,7 +81,9 @@
    "of": 108,
    "units": [
     "68A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1088": {
    "tier": 50,
@@ -78,7 +92,9 @@
    "of": 108,
    "units": [
     "43"
-   ]
+   ],
+   "animalSourceHunt": "1088",
+   "animalSharePct": 24.2
   },
   "DEER:1012": {
    "tier": 50,
@@ -87,7 +103,9 @@
    "of": 108,
    "units": [
     "20A"
-   ]
+   ],
+   "animalSourceHunt": "1012",
+   "animalSharePct": 63.1
   },
   "DEER:1057": {
    "tier": 50,
@@ -96,7 +114,9 @@
    "of": 108,
    "units": [
     "73"
-   ]
+   ],
+   "animalSourceHunt": "1058",
+   "animalSharePct": 68.4
   },
   "DEER:1004": {
    "tier": 65,
@@ -105,7 +125,9 @@
    "of": 108,
    "units": [
     "11A"
-   ]
+   ],
+   "animalSourceHunt": "1004",
+   "animalSharePct": 80.3
   },
   "DEER:1082": {
    "tier": 50,
@@ -115,7 +137,9 @@
    "units": [
     "72",
     "76"
-   ]
+   ],
+   "animalSourceHunt": "1082",
+   "animalSharePct": 57.6
   },
   "DEER:1080": {
    "tier": 80,
@@ -124,7 +148,9 @@
    "of": 108,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": "1043",
+   "animalSharePct": 81.5
   },
   "DEER:1118": {
    "tier": 50,
@@ -133,7 +159,9 @@
    "of": 108,
    "units": [
     "14"
-   ]
+   ],
+   "animalSourceHunt": "1008",
+   "animalSharePct": 61.2
   },
   "DEER:1007": {
    "tier": 50,
@@ -142,7 +170,9 @@
    "of": 108,
    "units": [
     "14"
-   ]
+   ],
+   "animalSourceHunt": "1008",
+   "animalSharePct": 61.2
   },
   "DEER:1029": {
    "tier": 50,
@@ -151,7 +181,9 @@
    "of": 108,
    "units": [
     "38"
-   ]
+   ],
+   "animalSourceHunt": "1029",
+   "animalSharePct": 66.1
   },
   "DEER:1100": {
    "tier": 65,
@@ -160,7 +192,9 @@
    "of": 108,
    "units": [
     "11A"
-   ]
+   ],
+   "animalSourceHunt": "1004",
+   "animalSharePct": 80.3
   },
   "DEER:1101": {
    "tier": 50,
@@ -169,7 +203,9 @@
    "of": 108,
    "units": [
     "28"
-   ]
+   ],
+   "animalSourceHunt": "1019",
+   "animalSharePct": 76.7
   },
   "DEER:1006": {
    "tier": 50,
@@ -178,7 +214,9 @@
    "of": 108,
    "units": [
     "13"
-   ]
+   ],
+   "animalSourceHunt": "1006",
+   "animalSharePct": 58.1
   },
   "DEER:1008": {
    "tier": 50,
@@ -187,7 +225,9 @@
    "of": 108,
    "units": [
     "14"
-   ]
+   ],
+   "animalSourceHunt": "1008",
+   "animalSharePct": 61.2
   },
   "DEER:1018": {
    "tier": 50,
@@ -196,7 +236,9 @@
    "of": 108,
    "units": [
     "27"
-   ]
+   ],
+   "animalSourceHunt": "1018",
+   "animalSharePct": 68.4
   },
   "DEER:1099": {
    "tier": 50,
@@ -205,7 +247,9 @@
    "of": 108,
    "units": [
     "78"
-   ]
+   ],
+   "animalSourceHunt": "1060",
+   "animalSharePct": 71.8
   },
   "DEER:1087": {
    "tier": 50,
@@ -216,7 +260,9 @@
     "33",
     "34",
     "35"
-   ]
+   ],
+   "animalSourceHunt": "1087",
+   "animalSharePct": 55.8
   },
   "DEER:1092": {
    "tier": 50,
@@ -225,7 +271,9 @@
    "of": 108,
    "units": [
     "52A"
-   ]
+   ],
+   "animalSourceHunt": "1092",
+   "animalSharePct": 52.9
   },
   "DEER:1104": {
    "tier": 50,
@@ -234,7 +282,9 @@
    "of": 108,
    "units": [
     "47"
-   ]
+   ],
+   "animalSourceHunt": "1104",
+   "animalSharePct": 46.7
   },
   "DEER:1017": {
    "tier": 50,
@@ -243,7 +293,9 @@
    "of": 108,
    "units": [
     "26"
-   ]
+   ],
+   "animalSourceHunt": "1017",
+   "animalSharePct": 69.9
   },
   "DEER:1102": {
    "tier": 50,
@@ -253,7 +305,9 @@
    "units": [
     "36B",
     "37"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1064": {
    "tier": 50,
@@ -262,7 +316,9 @@
    "of": 108,
    "units": [
     "10A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1075": {
    "tier": 50,
@@ -272,7 +328,9 @@
    "units": [
     "43",
     "48"
-   ]
+   ],
+   "animalSourceHunt": "1088",
+   "animalSharePct": 24.2
   },
   "DEER:1066": {
    "tier": 50,
@@ -283,7 +341,9 @@
     "60",
     "61",
     "62A"
-   ]
+   ],
+   "animalSourceHunt": "1066",
+   "animalSharePct": 42.6
   },
   "DEER:1085": {
    "tier": 50,
@@ -293,7 +353,9 @@
    "units": [
     "29",
     "37A"
-   ]
+   ],
+   "animalSourceHunt": "1085",
+   "animalSharePct": 61.1
   },
   "DEER:1058": {
    "tier": 50,
@@ -302,7 +364,9 @@
    "of": 108,
    "units": [
     "73"
-   ]
+   ],
+   "animalSourceHunt": "1058",
+   "animalSharePct": 68.4
   },
   "DEER:1068": {
    "tier": 50,
@@ -311,7 +375,9 @@
    "of": 108,
    "units": [
     "63A"
-   ]
+   ],
+   "animalSourceHunt": "1068",
+   "animalSharePct": 64.3
   },
   "DEER:1095": {
    "tier": 50,
@@ -320,7 +386,9 @@
    "of": 108,
    "units": [
     "68"
-   ]
+   ],
+   "animalSourceHunt": "1095",
+   "animalSharePct": 67.2
   },
   "DEER:1005": {
    "tier": 65,
@@ -329,7 +397,9 @@
    "of": 108,
    "units": [
     "11A"
-   ]
+   ],
+   "animalSourceHunt": "1004",
+   "animalSharePct": 80.3
   },
   "DEER:1056": {
    "tier": 65,
@@ -338,7 +408,9 @@
    "of": 108,
    "units": [
     "70"
-   ]
+   ],
+   "animalSourceHunt": "1055",
+   "animalSharePct": 81.5
   },
   "DEER:1045": {
    "tier": 50,
@@ -348,7 +420,9 @@
    "units": [
     "55",
     "57"
-   ]
+   ],
+   "animalSourceHunt": "1047",
+   "animalSharePct": 71.9
   },
   "DEER:1094": {
    "tier": 50,
@@ -357,7 +431,9 @@
    "of": 108,
    "units": [
     "61"
-   ]
+   ],
+   "animalSourceHunt": "1094",
+   "animalSharePct": 44.8
   },
   "DEER:1090": {
    "tier": 50,
@@ -367,7 +443,9 @@
    "units": [
     "50",
     "51"
-   ]
+   ],
+   "animalSourceHunt": "1090",
+   "animalSharePct": 68.4
   },
   "DEER:1106": {
    "tier": 80,
@@ -376,7 +454,9 @@
    "of": 108,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": "1043",
+   "animalSharePct": 81.5
   },
   "DEER:1009": {
    "tier": 65,
@@ -385,7 +465,9 @@
    "of": 108,
    "units": [
     "18"
-   ]
+   ],
+   "animalSourceHunt": "1010",
+   "animalSharePct": 74.1
   },
   "DEER:1110": {
    "tier": 65,
@@ -394,7 +476,9 @@
    "of": 108,
    "units": [
     "62"
-   ]
+   ],
+   "animalSourceHunt": "1050",
+   "animalSharePct": 82.8
   },
   "DEER:1107": {
    "tier": 50,
@@ -404,7 +488,9 @@
    "units": [
     "55",
     "57"
-   ]
+   ],
+   "animalSourceHunt": "1047",
+   "animalSharePct": 71.9
   },
   "DEER:1097": {
    "tier": 50,
@@ -413,7 +499,9 @@
    "of": 108,
    "units": [
     "73A"
-   ]
+   ],
+   "animalSourceHunt": "1097",
+   "animalSharePct": 68.2
   },
   "DEER:1030": {
    "tier": 50,
@@ -422,7 +510,9 @@
    "of": 108,
    "units": [
     "39"
-   ]
+   ],
+   "animalSourceHunt": "1030",
+   "animalSharePct": 40
   },
   "DEER:1021": {
    "tier": 50,
@@ -431,7 +521,9 @@
    "of": 108,
    "units": [
     "30A"
-   ]
+   ],
+   "animalSourceHunt": "1021",
+   "animalSharePct": 57.2
   },
   "DEER:1046": {
    "tier": 50,
@@ -440,7 +532,9 @@
    "of": 108,
    "units": [
     "57"
-   ]
+   ],
+   "animalSourceHunt": "1047",
+   "animalSharePct": 71.9
   },
   "DEER:1036": {
    "tier": 50,
@@ -449,7 +543,9 @@
    "of": 108,
    "units": [
     "47"
-   ]
+   ],
+   "animalSourceHunt": "1104",
+   "animalSharePct": 46.7
   },
   "DEER:1084": {
    "tier": 65,
@@ -458,7 +554,9 @@
    "of": 108,
    "units": [
     "22"
-   ]
+   ],
+   "animalSourceHunt": "1014",
+   "animalSharePct": 86.3
   },
   "DEER:1042": {
    "tier": 80,
@@ -467,7 +565,9 @@
    "of": 108,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": "1043",
+   "animalSharePct": 81.5
   },
   "DEER:1032": {
    "tier": 50,
@@ -476,7 +576,9 @@
    "of": 108,
    "units": [
     "41"
-   ]
+   ],
+   "animalSourceHunt": "1032",
+   "animalSharePct": 60.8
   },
   "DEER:1023": {
    "tier": 65,
@@ -485,7 +587,9 @@
    "of": 108,
    "units": [
     "32"
-   ]
+   ],
+   "animalSourceHunt": "1023",
+   "animalSharePct": 78.5
   },
   "DEER:1072": {
    "tier": 50,
@@ -494,7 +598,9 @@
    "of": 108,
    "units": [
     "39"
-   ]
+   ],
+   "animalSourceHunt": "1030",
+   "animalSharePct": 40
   },
   "DEER:1093": {
    "tier": 65,
@@ -503,7 +609,9 @@
    "of": 108,
    "units": [
     "57"
-   ]
+   ],
+   "animalSourceHunt": "1047",
+   "animalSharePct": 71.9
   },
   "DEER:1024": {
    "tier": 50,
@@ -512,7 +620,9 @@
    "of": 108,
    "units": [
     "32A"
-   ]
+   ],
+   "animalSourceHunt": "1024",
+   "animalSharePct": 73.9
   },
   "DEER:1098": {
    "tier": 50,
@@ -521,7 +631,9 @@
    "of": 108,
    "units": [
     "74"
-   ]
+   ],
+   "animalSourceHunt": "1098",
+   "animalSharePct": 75.8
   },
   "DEER:1060": {
    "tier": 50,
@@ -530,7 +642,9 @@
    "of": 108,
    "units": [
     "78"
-   ]
+   ],
+   "animalSourceHunt": "1060",
+   "animalSharePct": 71.8
   },
   "DEER:1002": {
    "tier": 80,
@@ -539,7 +653,9 @@
    "of": 108,
    "units": [
     "11"
-   ]
+   ],
+   "animalSourceHunt": "1002",
+   "animalSharePct": 83.6
   },
   "DEER:1015": {
    "tier": 65,
@@ -548,7 +664,9 @@
    "of": 108,
    "units": [
     "23"
-   ]
+   ],
+   "animalSourceHunt": "1015",
+   "animalSharePct": 77
   },
   "DEER:1071": {
    "tier": 65,
@@ -557,7 +675,9 @@
    "of": 108,
    "units": [
     "22"
-   ]
+   ],
+   "animalSourceHunt": "1014",
+   "animalSharePct": 86.3
   },
   "DEER:1041": {
    "tier": 50,
@@ -566,7 +686,9 @@
    "of": 108,
    "units": [
     "52"
-   ]
+   ],
+   "animalSourceHunt": "1041",
+   "animalSharePct": 74
   },
   "DEER:1089": {
    "tier": 65,
@@ -575,7 +697,9 @@
    "of": 108,
    "units": [
     "45"
-   ]
+   ],
+   "animalSourceHunt": "1035",
+   "animalSharePct": 78.2
   },
   "DEER:1073": {
    "tier": 65,
@@ -584,7 +708,9 @@
    "of": 108,
    "units": [
     "40"
-   ]
+   ],
+   "animalSourceHunt": "1031",
+   "animalSharePct": 76.1
   },
   "DEER:1022": {
    "tier": 50,
@@ -593,7 +719,9 @@
    "of": 108,
    "units": [
     "31"
-   ]
+   ],
+   "animalSourceHunt": "1022",
+   "animalSharePct": 73.1
   },
   "DEER:1050": {
    "tier": 80,
@@ -602,7 +730,9 @@
    "of": 108,
    "units": [
     "62"
-   ]
+   ],
+   "animalSourceHunt": "1050",
+   "animalSharePct": 82.8
   },
   "DEER:1053": {
    "tier": 100,
@@ -611,7 +741,9 @@
    "of": 108,
    "units": [
     "67"
-   ]
+   ],
+   "animalSourceHunt": "1053",
+   "animalSharePct": 84.4
   },
   "DEER:1010": {
    "tier": 65,
@@ -620,7 +752,9 @@
    "of": 108,
    "units": [
     "18"
-   ]
+   ],
+   "animalSourceHunt": "1010",
+   "animalSharePct": 74.1
   },
   "DEER:1091": {
    "tier": 65,
@@ -629,7 +763,9 @@
    "of": 108,
    "units": [
     "52"
-   ]
+   ],
+   "animalSourceHunt": "1041",
+   "animalSharePct": 74
   },
   "DEER:1001": {
    "tier": 50,
@@ -646,7 +782,9 @@
     "6",
     "7",
     "9"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1033": {
    "tier": 50,
@@ -655,7 +793,9 @@
    "of": 108,
    "units": [
     "42"
-   ]
+   ],
+   "animalSourceHunt": "1033",
+   "animalSharePct": 63.1
   },
   "DEER:1031": {
    "tier": 65,
@@ -664,7 +804,9 @@
    "of": 108,
    "units": [
     "40"
-   ]
+   ],
+   "animalSourceHunt": "1031",
+   "animalSharePct": 76.1
   },
   "DEER:1034": {
    "tier": 65,
@@ -673,7 +815,9 @@
    "of": 108,
    "units": [
     "44"
-   ]
+   ],
+   "animalSourceHunt": "1076",
+   "animalSharePct": 76.8
   },
   "DEER:1076": {
    "tier": 65,
@@ -682,7 +826,9 @@
    "of": 108,
    "units": [
     "44"
-   ]
+   ],
+   "animalSourceHunt": "1076",
+   "animalSharePct": 76.8
   },
   "DEER:1003": {
    "tier": 80,
@@ -691,7 +837,9 @@
    "of": 108,
    "units": [
     "11"
-   ]
+   ],
+   "animalSourceHunt": "1002",
+   "animalSharePct": 83.6
   },
   "DEER:1016": {
    "tier": 65,
@@ -700,7 +848,9 @@
    "of": 108,
    "units": [
     "25"
-   ]
+   ],
+   "animalSourceHunt": "1016",
+   "animalSharePct": 77.2
   },
   "DEER:1044": {
    "tier": 100,
@@ -709,7 +859,9 @@
    "of": 108,
    "units": [
     "55"
-   ]
+   ],
+   "animalSourceHunt": "1044",
+   "animalSharePct": 78.7
   },
   "DEER:1014": {
    "tier": 80,
@@ -718,7 +870,9 @@
    "of": 108,
    "units": [
     "22"
-   ]
+   ],
+   "animalSourceHunt": "1014",
+   "animalSharePct": 86.3
   },
   "DEER:1043": {
    "tier": 80,
@@ -727,7 +881,9 @@
    "of": 108,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": "1043",
+   "animalSharePct": 81.5
   },
   "DEER:1035": {
    "tier": 65,
@@ -736,7 +892,9 @@
    "of": 108,
    "units": [
     "45"
-   ]
+   ],
+   "animalSourceHunt": "1035",
+   "animalSharePct": 78.2
   },
   "DEER:1049": {
    "tier": 80,
@@ -748,7 +906,9 @@
     "60A",
     "61",
     "62A"
-   ]
+   ],
+   "animalSourceHunt": "1049",
+   "animalSharePct": 88.3
   },
   "DEER:1069": {
    "tier": 65,
@@ -757,7 +917,9 @@
    "of": 108,
    "units": [
     "11A"
-   ]
+   ],
+   "animalSourceHunt": "1004",
+   "animalSharePct": 80.3
   },
   "DEER:1115": {
    "tier": 50,
@@ -766,7 +928,9 @@
    "of": 108,
    "units": [
     "1"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1083": {
    "tier": 50,
@@ -775,7 +939,9 @@
    "of": 108,
    "units": [
     "21A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1086": {
    "tier": 50,
@@ -784,7 +950,9 @@
    "of": 108,
    "units": [
     "30A"
-   ]
+   ],
+   "animalSourceHunt": "1021",
+   "animalSharePct": 57.2
   },
   "DEER:1078": {
    "tier": 50,
@@ -793,7 +961,9 @@
    "of": 108,
    "units": [
     "52"
-   ]
+   ],
+   "animalSourceHunt": "1041",
+   "animalSharePct": 74
   },
   "DEER:1116": {
    "tier": 50,
@@ -802,7 +972,9 @@
    "of": 108,
    "units": [
     "1"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1011": {
    "tier": 50,
@@ -811,7 +983,9 @@
    "of": 108,
    "units": [
     "19A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1051": {
    "tier": 65,
@@ -820,7 +994,9 @@
    "of": 108,
    "units": [
     "66"
-   ]
+   ],
+   "animalSourceHunt": "1051",
+   "animalSharePct": 74.8
   },
   "DEER:1039": {
    "tier": 50,
@@ -829,7 +1005,9 @@
    "of": 108,
    "units": [
     "49"
-   ]
+   ],
+   "animalSourceHunt": "1039",
+   "animalSharePct": 44.4
   },
   "DEER:1119": {
    "tier": 50,
@@ -838,7 +1016,9 @@
    "of": 108,
    "units": [
     "18"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1040": {
    "tier": 65,
@@ -847,7 +1027,9 @@
    "of": 108,
    "units": [
     "50"
-   ]
+   ],
+   "animalSourceHunt": "1040",
+   "animalSharePct": 78.7
   },
   "DEER:1070": {
    "tier": 50,
@@ -866,7 +1048,9 @@
     "36B",
     "37",
     "37A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1025": {
    "tier": 50,
@@ -875,7 +1059,9 @@
    "of": 108,
    "units": [
     "36"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1047": {
    "tier": 50,
@@ -884,7 +1070,9 @@
    "of": 108,
    "units": [
     "57"
-   ]
+   ],
+   "animalSourceHunt": "1047",
+   "animalSharePct": 71.9
   },
   "DEER:1059": {
    "tier": 50,
@@ -893,7 +1081,9 @@
    "of": 108,
    "units": [
     "73"
-   ]
+   ],
+   "animalSourceHunt": "1058",
+   "animalSharePct": 68.4
   },
   "DEER:1038": {
    "tier": 50,
@@ -902,7 +1092,9 @@
    "of": 108,
    "units": [
     "48"
-   ]
+   ],
+   "animalSourceHunt": "1038",
+   "animalSharePct": 67.6
   },
   "DEER:1055": {
    "tier": 65,
@@ -911,7 +1103,9 @@
    "of": 108,
    "units": [
     "70"
-   ]
+   ],
+   "animalSourceHunt": "1055",
+   "animalSharePct": 81.5
   },
   "DEER:1048": {
    "tier": 50,
@@ -922,7 +1116,9 @@
     "58",
     "59",
     "59A"
-   ]
+   ],
+   "animalSourceHunt": "1048",
+   "animalSharePct": 73.1
   },
   "DEER:1013": {
    "tier": 65,
@@ -931,7 +1127,9 @@
    "of": 108,
    "units": [
     "21"
-   ]
+   ],
+   "animalSourceHunt": "1013",
+   "animalSharePct": 76.7
   },
   "DEER:1037": {
    "tier": 50,
@@ -941,7 +1139,9 @@
    "units": [
     "46",
     "47"
-   ]
+   ],
+   "animalSourceHunt": "1037",
+   "animalSharePct": 72.2
   },
   "DEER:1026": {
    "tier": 65,
@@ -950,7 +1150,9 @@
    "of": 108,
    "units": [
     "36A"
-   ]
+   ],
+   "animalSourceHunt": "1026",
+   "animalSharePct": 76.1
   },
   "DEER:1052": {
    "tier": 50,
@@ -959,7 +1161,9 @@
    "of": 108,
    "units": [
     "66A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1054": {
    "tier": 65,
@@ -968,7 +1172,9 @@
    "of": 108,
    "units": [
     "69"
-   ]
+   ],
+   "animalSourceHunt": "1054",
+   "animalSharePct": 74.8
   },
   "DEER:1020": {
    "tier": 65,
@@ -977,7 +1183,9 @@
    "of": 108,
    "units": [
     "30"
-   ]
+   ],
+   "animalSourceHunt": "1020",
+   "animalSharePct": 74.8
   },
   "DEER:1077": {
    "tier": 65,
@@ -986,7 +1194,9 @@
    "of": 108,
    "units": [
     "45"
-   ]
+   ],
+   "animalSourceHunt": "1035",
+   "animalSharePct": 78.2
   },
   "DEER:1019": {
    "tier": 65,
@@ -995,7 +1205,9 @@
    "of": 108,
    "units": [
     "28"
-   ]
+   ],
+   "animalSourceHunt": "1019",
+   "animalSharePct": 76.7
   },
   "DEER:1027": {
    "tier": 50,
@@ -1004,7 +1216,9 @@
    "of": 108,
    "units": [
     "36B"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "DEER:1028": {
    "tier": 50,
@@ -1013,7 +1227,9 @@
    "of": 108,
    "units": [
     "38"
-   ]
+   ],
+   "animalSourceHunt": "1029",
+   "animalSharePct": 66.1
   },
   "ELK:2119": {
    "tier": 50,
@@ -1022,7 +1238,9 @@
    "of": 78,
    "units": [
     "63"
-   ]
+   ],
+   "animalSourceHunt": "2120",
+   "animalSharePct": 59.6
   },
   "ELK:2111": {
    "tier": 50,
@@ -1031,7 +1249,9 @@
    "of": 78,
    "units": [
     "30A"
-   ]
+   ],
+   "animalSourceHunt": "2130",
+   "animalSharePct": 49.7
   },
   "ELK:2120": {
    "tier": 50,
@@ -1040,7 +1260,9 @@
    "of": 78,
    "units": [
     "63"
-   ]
+   ],
+   "animalSourceHunt": "2120",
+   "animalSharePct": 59.6
   },
   "ELK:2110": {
    "tier": 50,
@@ -1049,7 +1271,9 @@
    "of": 78,
    "units": [
     "13"
-   ]
+   ],
+   "animalSourceHunt": "2110",
+   "animalSharePct": 56.9
   },
   "ELK:2142": {
    "tier": 50,
@@ -1058,7 +1282,9 @@
    "of": 78,
    "units": [
     "61"
-   ]
+   ],
+   "animalSourceHunt": "2039",
+   "animalSharePct": 37
   },
   "ELK:2137": {
    "tier": 50,
@@ -1067,7 +1293,9 @@
    "of": 78,
    "units": [
     "48"
-   ]
+   ],
+   "animalSourceHunt": "2026",
+   "animalSharePct": 65.7
   },
   "ELK:2138": {
    "tier": 65,
@@ -1076,7 +1304,9 @@
    "of": 78,
    "units": [
     "49"
-   ]
+   ],
+   "animalSourceHunt": "2028",
+   "animalSharePct": 71.8
   },
   "ELK:2132": {
    "tier": 50,
@@ -1087,7 +1317,9 @@
     "33",
     "34",
     "35"
-   ]
+   ],
+   "animalSourceHunt": "2132",
+   "animalSharePct": 22.6
   },
   "ELK:2044": {
    "tier": 50,
@@ -1101,7 +1333,9 @@
     "73",
     "73A",
     "74"
-   ]
+   ],
+   "animalSourceHunt": "2044",
+   "animalSharePct": 63.1
   },
   "ELK:2116": {
    "tier": 50,
@@ -1112,7 +1346,9 @@
     "60",
     "60A",
     "62A"
-   ]
+   ],
+   "animalSourceHunt": "2116",
+   "animalSharePct": 55.2
   },
   "ELK:2113": {
    "tier": 50,
@@ -1121,7 +1357,9 @@
    "of": 78,
    "units": [
     "39"
-   ]
+   ],
+   "animalSourceHunt": "2134",
+   "animalSharePct": 61.8
   },
   "ELK:2143": {
    "tier": 50,
@@ -1132,7 +1370,9 @@
     "64",
     "65",
     "67"
-   ]
+   ],
+   "animalSourceHunt": "2143",
+   "animalSharePct": 49
   },
   "ELK:2139": {
    "tier": 65,
@@ -1141,7 +1381,9 @@
    "of": 78,
    "units": [
     "50"
-   ]
+   ],
+   "animalSourceHunt": "2139",
+   "animalSharePct": 60
   },
   "ELK:2130": {
    "tier": 50,
@@ -1150,7 +1392,9 @@
    "of": 78,
    "units": [
     "30A"
-   ]
+   ],
+   "animalSourceHunt": "2130",
+   "animalSharePct": 49.7
   },
   "ELK:2117": {
    "tier": 50,
@@ -1161,7 +1405,9 @@
     "60",
     "60A",
     "62A"
-   ]
+   ],
+   "animalSourceHunt": "2117",
+   "animalSharePct": 56.3
   },
   "ELK:2118": {
    "tier": 50,
@@ -1172,7 +1418,9 @@
     "62",
     "62A",
     "65"
-   ]
+   ],
+   "animalSourceHunt": "2118",
+   "animalSharePct": 54.9
   },
   "ELK:2032": {
    "tier": 65,
@@ -1181,7 +1429,9 @@
    "of": 78,
    "units": [
     "51"
-   ]
+   ],
+   "animalSourceHunt": "2031",
+   "animalSharePct": 73.8
   },
   "ELK:2040": {
    "tier": 50,
@@ -1191,7 +1441,9 @@
    "units": [
     "66",
     "69"
-   ]
+   ],
+   "animalSourceHunt": "2040",
+   "animalSharePct": 53.1
   },
   "ELK:2144": {
    "tier": 50,
@@ -1201,7 +1453,9 @@
    "units": [
     "66",
     "69"
-   ]
+   ],
+   "animalSourceHunt": "2144",
+   "animalSharePct": 48.7
   },
   "ELK:2027": {
    "tier": 50,
@@ -1210,7 +1464,9 @@
    "of": 78,
    "units": [
     "48"
-   ]
+   ],
+   "animalSourceHunt": "2026",
+   "animalSharePct": 65.7
   },
   "ELK:2029": {
    "tier": 65,
@@ -1219,7 +1475,9 @@
    "of": 78,
    "units": [
     "49"
-   ]
+   ],
+   "animalSourceHunt": "2028",
+   "animalSharePct": 71.8
   },
   "ELK:2006": {
    "tier": 50,
@@ -1228,7 +1486,9 @@
    "of": 78,
    "units": [
     "30"
-   ]
+   ],
+   "animalSourceHunt": "2006",
+   "animalSharePct": 51.5
   },
   "ELK:2013": {
    "tier": 50,
@@ -1237,7 +1497,9 @@
    "of": 78,
    "units": [
     "37A"
-   ]
+   ],
+   "animalSourceHunt": "2013",
+   "animalSharePct": 55.2
   },
   "ELK:2012": {
    "tier": 50,
@@ -1246,7 +1508,9 @@
    "of": 78,
    "units": [
     "37"
-   ]
+   ],
+   "animalSourceHunt": "2012",
+   "animalSharePct": 54.2
   },
   "ELK:2039": {
    "tier": 50,
@@ -1255,7 +1519,9 @@
    "of": 78,
    "units": [
     "61"
-   ]
+   ],
+   "animalSourceHunt": "2039",
+   "animalSharePct": 37
   },
   "ELK:2033": {
    "tier": 50,
@@ -1264,7 +1530,9 @@
    "of": 78,
    "units": [
     "52"
-   ]
+   ],
+   "animalSourceHunt": "2115",
+   "animalSharePct": 58.5
   },
   "ELK:2034": {
    "tier": 65,
@@ -1274,7 +1542,9 @@
    "units": [
     "52A",
     "68"
-   ]
+   ],
+   "animalSourceHunt": "2034",
+   "animalSharePct": 69.1
   },
   "ELK:2005": {
    "tier": 50,
@@ -1283,7 +1553,9 @@
    "of": 78,
    "units": [
     "29"
-   ]
+   ],
+   "animalSourceHunt": "2005",
+   "animalSharePct": 53.1
   },
   "ELK:2011": {
    "tier": 50,
@@ -1293,7 +1565,9 @@
    "units": [
     "36A",
     "50"
-   ]
+   ],
+   "animalSourceHunt": "2010",
+   "animalSharePct": 56.7
   },
   "ELK:2009": {
    "tier": 50,
@@ -1302,7 +1576,9 @@
    "of": 78,
    "units": [
     "31"
-   ]
+   ],
+   "animalSourceHunt": "2112",
+   "animalSharePct": 52
   },
   "ELK:2023": {
    "tier": 65,
@@ -1311,7 +1587,9 @@
    "of": 78,
    "units": [
     "45"
-   ]
+   ],
+   "animalSourceHunt": "2023",
+   "animalSharePct": 64.1
   },
   "ELK:2042": {
    "tier": 50,
@@ -1321,7 +1599,9 @@
    "units": [
     "66A",
     "76"
-   ]
+   ],
+   "animalSourceHunt": "2042",
+   "animalSharePct": 51.3
   },
   "ELK:2163": {
    "tier": 50,
@@ -1330,7 +1610,9 @@
    "of": 78,
    "units": [
     "31"
-   ]
+   ],
+   "animalSourceHunt": "2112",
+   "animalSharePct": 52
   },
   "ELK:2002": {
    "tier": 50,
@@ -1339,7 +1621,9 @@
    "of": 78,
    "units": [
     "18"
-   ]
+   ],
+   "animalSourceHunt": "2121",
+   "animalSharePct": 58.9
   },
   "ELK:2022": {
    "tier": 80,
@@ -1348,7 +1632,9 @@
    "of": 78,
    "units": [
     "44"
-   ]
+   ],
+   "animalSourceHunt": "2021",
+   "animalSharePct": 73.7
   },
   "ELK:2008": {
    "tier": 50,
@@ -1357,7 +1643,9 @@
    "of": 78,
    "units": [
     "31"
-   ]
+   ],
+   "animalSourceHunt": "2112",
+   "animalSharePct": 52
   },
   "ELK:2030": {
    "tier": 65,
@@ -1366,7 +1654,9 @@
    "of": 78,
    "units": [
     "50"
-   ]
+   ],
+   "animalSourceHunt": "2139",
+   "animalSharePct": 60
   },
   "ELK:2037": {
    "tier": 50,
@@ -1377,7 +1667,9 @@
     "58",
     "59",
     "59A"
-   ]
+   ],
+   "animalSourceHunt": "2037",
+   "animalSharePct": 51.2
   },
   "ELK:2010": {
    "tier": 50,
@@ -1386,7 +1678,9 @@
    "of": 78,
    "units": [
     "36A"
-   ]
+   ],
+   "animalSourceHunt": "2010",
+   "animalSharePct": 56.7
   },
   "ELK:2112": {
    "tier": 50,
@@ -1395,7 +1689,9 @@
    "of": 78,
    "units": [
     "31"
-   ]
+   ],
+   "animalSourceHunt": "2112",
+   "animalSharePct": 52
   },
   "ELK:2020": {
    "tier": 50,
@@ -1404,7 +1700,9 @@
    "of": 78,
    "units": [
     "43"
-   ]
+   ],
+   "animalSourceHunt": "2020",
+   "animalSharePct": 58
   },
   "ELK:2134": {
    "tier": 50,
@@ -1413,7 +1711,9 @@
    "of": 78,
    "units": [
     "39"
-   ]
+   ],
+   "animalSourceHunt": "2134",
+   "animalSharePct": 61.8
   },
   "ELK:2122": {
    "tier": 50,
@@ -1422,7 +1722,9 @@
    "of": 78,
    "units": [
     "39"
-   ]
+   ],
+   "animalSourceHunt": "2134",
+   "animalSharePct": 61.8
   },
   "ELK:2026": {
    "tier": 65,
@@ -1431,7 +1733,9 @@
    "of": 78,
    "units": [
     "48"
-   ]
+   ],
+   "animalSourceHunt": "2026",
+   "animalSharePct": 65.7
   },
   "ELK:2028": {
    "tier": 65,
@@ -1440,7 +1744,9 @@
    "of": 78,
    "units": [
     "49"
-   ]
+   ],
+   "animalSourceHunt": "2028",
+   "animalSharePct": 71.8
   },
   "ELK:2007": {
    "tier": 65,
@@ -1453,7 +1759,9 @@
     "58",
     "59",
     "59A"
-   ]
+   ],
+   "animalSourceHunt": "2007",
+   "animalSharePct": 71.7
   },
   "ELK:2001": {
    "tier": 50,
@@ -1462,7 +1770,9 @@
    "of": 78,
    "units": [
     "11"
-   ]
+   ],
+   "animalSourceHunt": "2001",
+   "animalSharePct": 59.4
   },
   "ELK:2121": {
    "tier": 50,
@@ -1471,7 +1781,9 @@
    "of": 78,
    "units": [
     "18"
-   ]
+   ],
+   "animalSourceHunt": "2121",
+   "animalSharePct": 58.9
   },
   "ELK:2115": {
    "tier": 50,
@@ -1480,7 +1792,9 @@
    "of": 78,
    "units": [
     "52"
-   ]
+   ],
+   "animalSourceHunt": "2115",
+   "animalSharePct": 58.5
   },
   "ELK:2038": {
    "tier": 65,
@@ -1491,7 +1805,9 @@
     "60",
     "61",
     "62A"
-   ]
+   ],
+   "animalSourceHunt": "2038",
+   "animalSharePct": 68.3
   },
   "ELK:2016": {
    "tier": 65,
@@ -1500,7 +1816,9 @@
    "of": 78,
    "units": [
     "41"
-   ]
+   ],
+   "animalSourceHunt": "2016",
+   "animalSharePct": 69.4
   },
   "ELK:2045": {
    "tier": 50,
@@ -1511,7 +1829,9 @@
     "75",
     "77",
     "78"
-   ]
+   ],
+   "animalSourceHunt": "2045",
+   "animalSharePct": 54.9
   },
   "ELK:2043": {
    "tier": 80,
@@ -1525,7 +1845,9 @@
     "73",
     "73A",
     "74"
-   ]
+   ],
+   "animalSourceHunt": "2043",
+   "animalSharePct": 77.3
   },
   "ELK:2036": {
    "tier": 65,
@@ -1536,7 +1858,9 @@
     "55",
     "56",
     "57"
-   ]
+   ],
+   "animalSourceHunt": "2036",
+   "animalSharePct": 72.6
   },
   "ELK:2025": {
    "tier": 50,
@@ -1545,7 +1869,9 @@
    "of": 78,
    "units": [
     "46"
-   ]
+   ],
+   "animalSourceHunt": "2025",
+   "animalSharePct": 46.8
   },
   "ELK:2003": {
    "tier": 50,
@@ -1554,7 +1880,9 @@
    "of": 78,
    "units": [
     "19A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "ELK:2041": {
    "tier": 65,
@@ -1564,7 +1892,9 @@
    "units": [
     "66A",
     "76"
-   ]
+   ],
+   "animalSourceHunt": "2041",
+   "animalSharePct": 72.3
   },
   "ELK:2125": {
    "tier": 50,
@@ -1574,7 +1904,9 @@
    "units": [
     "45",
     "52"
-   ]
+   ],
+   "animalSourceHunt": "2115",
+   "animalSharePct": 58.5
   },
   "ELK:2017": {
    "tier": 65,
@@ -1583,7 +1915,9 @@
    "of": 78,
    "units": [
     "41"
-   ]
+   ],
+   "animalSourceHunt": "2016",
+   "animalSharePct": 69.4
   },
   "ELK:2109": {
    "tier": 50,
@@ -1600,7 +1934,9 @@
     "6",
     "7",
     "9"
-   ]
+   ],
+   "animalSourceHunt": "2109",
+   "animalSharePct": 26.5
   },
   "ELK:2021": {
    "tier": 80,
@@ -1609,7 +1945,9 @@
    "of": 78,
    "units": [
     "44"
-   ]
+   ],
+   "animalSourceHunt": "2021",
+   "animalSharePct": 73.7
   },
   "ELK:2019": {
    "tier": 50,
@@ -1618,7 +1956,9 @@
    "of": 78,
    "units": [
     "43"
-   ]
+   ],
+   "animalSourceHunt": "2020",
+   "animalSharePct": 58
   },
   "ELK:2014": {
    "tier": 80,
@@ -1627,7 +1967,9 @@
    "of": 78,
    "units": [
     "40"
-   ]
+   ],
+   "animalSourceHunt": "2014",
+   "animalSharePct": 74.5
   },
   "ELK:2031": {
    "tier": 65,
@@ -1636,7 +1978,9 @@
    "of": 78,
    "units": [
     "51"
-   ]
+   ],
+   "animalSourceHunt": "2031",
+   "animalSharePct": 73.8
   },
   "ELK:2024": {
    "tier": 65,
@@ -1646,7 +1990,9 @@
    "units": [
     "46",
     "47"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "ELK:2124": {
    "tier": 80,
@@ -1655,7 +2001,9 @@
    "of": 78,
    "units": [
     "44"
-   ]
+   ],
+   "animalSourceHunt": "2021",
+   "animalSharePct": 73.7
   },
   "ELK:2123": {
    "tier": 65,
@@ -1666,7 +2014,9 @@
     "40",
     "41",
     "42"
-   ]
+   ],
+   "animalSourceHunt": "2016",
+   "animalSharePct": 69.4
   },
   "ELK:2018": {
    "tier": 80,
@@ -1675,7 +2025,9 @@
    "of": 78,
    "units": [
     "42"
-   ]
+   ],
+   "animalSourceHunt": "2018",
+   "animalSharePct": 82.4
   },
   "ELK:2140": {
    "tier": 100,
@@ -1684,7 +2036,9 @@
    "of": 78,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": "2035",
+   "animalSharePct": 87.2
   },
   "ELK:2127": {
    "tier": 100,
@@ -1693,7 +2047,9 @@
    "of": 78,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": "2035",
+   "animalSharePct": 87.2
   },
   "ELK:2035": {
    "tier": 80,
@@ -1702,7 +2058,9 @@
    "of": 78,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": "2035",
+   "animalSharePct": 87.2
   },
   "ELK:2114": {
    "tier": 65,
@@ -1711,7 +2069,9 @@
    "of": 78,
    "units": [
     "51"
-   ]
+   ],
+   "animalSourceHunt": "2031",
+   "animalSharePct": 73.8
   },
   "ELK:2141": {
    "tier": 50,
@@ -1721,7 +2081,9 @@
    "units": [
     "55",
     "57"
-   ]
+   ],
+   "animalSourceHunt": "2141",
+   "animalSharePct": 55.1
   },
   "ELK:2136": {
    "tier": 65,
@@ -1731,7 +2093,9 @@
    "units": [
     "46",
     "47"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "ELK:2126": {
    "tier": 65,
@@ -1741,7 +2105,9 @@
    "units": [
     "46",
     "47"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "ELK:2004": {
    "tier": 50,
@@ -1750,7 +2116,9 @@
    "of": 78,
    "units": [
     "23"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "ELK:2015": {
    "tier": 65,
@@ -1761,7 +2129,9 @@
     "40",
     "41",
     "42"
-   ]
+   ],
+   "animalSourceHunt": "2016",
+   "animalSharePct": 69.4
   },
   "ELK:2133": {
    "tier": 50,
@@ -1771,7 +2141,9 @@
    "units": [
     "36A",
     "50"
-   ]
+   ],
+   "animalSourceHunt": "2010",
+   "animalSharePct": 56.7
   },
   "PRONGHORN:4034": {
    "tier": 80,
@@ -1781,7 +2153,9 @@
    "units": [
     "46",
     "47"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4027": {
    "tier": 50,
@@ -1793,7 +2167,9 @@
     "36B",
     "37",
     "37A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4031": {
    "tier": 65,
@@ -1804,7 +2180,9 @@
     "40",
     "41",
     "42"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4028": {
    "tier": 50,
@@ -1816,7 +2194,9 @@
     "29",
     "30",
     "30A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4040": {
    "tier": 50,
@@ -1827,7 +2207,9 @@
     "58",
     "59",
     "59A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4037": {
    "tier": 50,
@@ -1837,7 +2219,9 @@
    "units": [
     "52A",
     "53"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4054": {
    "tier": 65,
@@ -1846,7 +2230,9 @@
    "of": 50,
    "units": [
     "63"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4036": {
    "tier": 50,
@@ -1856,7 +2242,9 @@
    "units": [
     "51",
     "63"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4035": {
    "tier": 50,
@@ -1866,7 +2254,9 @@
    "units": [
     "49",
     "50"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4032": {
    "tier": 50,
@@ -1878,7 +2268,9 @@
     "45",
     "48",
     "52"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4030": {
    "tier": 50,
@@ -1889,7 +2281,9 @@
     "40",
     "41",
     "42"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4029": {
    "tier": 50,
@@ -1899,7 +2293,9 @@
    "units": [
     "36",
     "36A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4042": {
    "tier": 65,
@@ -1908,7 +2304,9 @@
    "of": 50,
    "units": [
     "68"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4033": {
    "tier": 65,
@@ -1918,7 +2316,9 @@
    "units": [
     "46",
     "47"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4046": {
    "tier": 65,
@@ -1929,7 +2329,9 @@
     "60",
     "60A",
     "61"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4048": {
    "tier": 65,
@@ -1938,7 +2340,9 @@
    "of": 50,
    "units": [
     "63"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4047": {
    "tier": 50,
@@ -1947,7 +2351,9 @@
    "of": 50,
    "units": [
     "63"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4043": {
    "tier": 65,
@@ -1956,7 +2362,9 @@
    "of": 50,
    "units": [
     "30A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4044": {
    "tier": 65,
@@ -1965,7 +2373,9 @@
    "of": 50,
    "units": [
     "41"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4045": {
    "tier": 80,
@@ -1974,7 +2384,9 @@
    "of": 50,
    "units": [
     "47"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4015": {
    "tier": 65,
@@ -1983,7 +2395,9 @@
    "of": 50,
    "units": [
     "51"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4041": {
    "tier": 50,
@@ -1992,7 +2406,9 @@
    "of": 50,
    "units": [
     "68"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4049": {
    "tier": 65,
@@ -2002,7 +2418,9 @@
    "units": [
     "36",
     "36A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4022": {
    "tier": 65,
@@ -2011,7 +2429,9 @@
    "of": 50,
    "units": [
     "63"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4010": {
    "tier": 65,
@@ -2021,7 +2441,9 @@
    "units": [
     "44",
     "45"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4013": {
    "tier": 65,
@@ -2030,7 +2452,9 @@
    "of": 50,
    "units": [
     "49"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4006": {
    "tier": 65,
@@ -2039,7 +2463,9 @@
    "of": 50,
    "units": [
     "38"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4002": {
    "tier": 65,
@@ -2049,7 +2475,9 @@
    "units": [
     "21A",
     "30"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4001": {
    "tier": 65,
@@ -2058,7 +2486,9 @@
    "of": 50,
    "units": [
     "29"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4014": {
    "tier": 65,
@@ -2067,7 +2497,9 @@
    "of": 50,
    "units": [
     "50"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4016": {
    "tier": 65,
@@ -2077,7 +2509,9 @@
    "units": [
     "48",
     "52"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4005": {
    "tier": 65,
@@ -2088,7 +2522,9 @@
     "29",
     "37",
     "37A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4021": {
    "tier": 65,
@@ -2098,7 +2534,9 @@
    "units": [
     "59",
     "59A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4009": {
    "tier": 65,
@@ -2108,7 +2546,9 @@
    "units": [
     "41",
     "42"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4007": {
    "tier": 65,
@@ -2117,7 +2557,9 @@
    "of": 50,
    "units": [
     "39"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4012": {
    "tier": 100,
@@ -2126,7 +2568,9 @@
    "of": 50,
    "units": [
     "46"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4017": {
    "tier": 65,
@@ -2136,7 +2580,9 @@
    "units": [
     "52A",
     "53"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4011": {
    "tier": 65,
@@ -2145,7 +2591,9 @@
    "of": 50,
    "units": [
     "45"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4020": {
    "tier": 65,
@@ -2154,7 +2602,9 @@
    "of": 50,
    "units": [
     "58"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4038": {
    "tier": 80,
@@ -2163,7 +2613,9 @@
    "of": 50,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4008": {
    "tier": 65,
@@ -2172,7 +2624,9 @@
    "of": 50,
    "units": [
     "40"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4023": {
    "tier": 65,
@@ -2181,7 +2635,9 @@
    "of": 50,
    "units": [
     "68"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4018": {
    "tier": 80,
@@ -2190,7 +2646,9 @@
    "of": 50,
    "units": [
     "54"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4019": {
    "tier": 65,
@@ -2201,7 +2659,9 @@
     "55",
     "56",
     "57"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4050": {
    "tier": 65,
@@ -2212,7 +2672,9 @@
     "31",
     "32",
     "32A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4024": {
    "tier": 50,
@@ -2221,7 +2683,9 @@
    "of": 50,
    "units": [
     "76"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4039": {
    "tier": 65,
@@ -2232,7 +2696,9 @@
     "55",
     "56",
     "57"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4004": {
    "tier": 65,
@@ -2242,7 +2708,9 @@
    "units": [
     "28",
     "36B"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4003": {
    "tier": 65,
@@ -2253,7 +2721,9 @@
     "31",
     "32",
     "32A"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   },
   "PRONGHORN:4051": {
    "tier": 50,
@@ -2262,7 +2732,9 @@
    "of": 50,
    "units": [
     "39"
-   ]
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null
   }
  }
 }

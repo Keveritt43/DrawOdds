@@ -1,7 +1,7 @@
 import { HuntLink } from '@/components/HuntNavigation';
 import type { HuntSummary } from '@prisma/client';
 import { db } from '@/lib/db';
-import { overlapsElk } from '@/lib/overlappingSeasons';
+import { overlapsElk, overlappingElkDates } from '@/lib/overlappingSeasons';
 import { dateRange } from '@/lib/coDisplay';
 import type { UnitTables } from '@/sync/co/harvest';
 import { coSeasonKind } from '@/lib/coSeasonKind';
@@ -21,6 +21,7 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
       <p className="small muted">
         Same unit and at least one overlapping date. Each season requires its own valid license and eligibility; listing it does not
         establish that tags are currently available.
+        {' '}Some entries can describe the same hunters; do not add the counts together.
         {hunt.state === 'CO' && ' Limited-hunt counts and success cover the full hunt code, including units outside this overlap. Counts are annual averages for up to five reported years; success is weighted by hunters. Density is shown only for single-unit codes. OTC code totals cannot be attributed to these units.'}
       </p>
       {rows.length ? (
@@ -31,7 +32,7 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
                 <th>Elk hunt</th>
                 <th>Type</th>
                 <th>Shared units</th>
-                <th>Dates</th>
+                <th>Shared open dates</th>
                 <th>Hunters/yr · hunt coverage</th>
                 <th>Hunters/mi²</th>
                 {hunt.state === 'CO' && <th>Harvest success</th>}
@@ -54,7 +55,7 @@ export async function OverlappingElk({ hunt }: { hunt: HuntSummary }) {
                     {(r.pointOdds as { general?: { nonresident: boolean } })?.general?.nonresident === false ? ' · Residents only' : ''}
                   </td>
                   <td>{r.units.filter((u) => hunt.units.includes(u)).join(', ')}</td>
-                  <td>{dateRange(r.openDate, r.closeDate) || 'See season rules'}</td>
+                  <td>{overlappingElkDates(hunt,r).map(([start,end])=>dateRange(start,end)).join('; ')}</td>
                   <td>
                     {hunt.state === 'CO' ? (valid ? Math.round(hunters / h.length).toLocaleString() : '—') : r.hunters5 !== null && r.harvestYears
                       ? Math.round(

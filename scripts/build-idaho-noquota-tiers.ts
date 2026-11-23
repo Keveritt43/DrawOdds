@@ -112,10 +112,10 @@ writeFileSync(out,JSON.stringify({notice:'Idaho provisional no-quota ranks on th
 console.log(JSON.stringify(summary,null,1));
 
 if(tableOut){
-  const tiers:Record<string,{tier:number;score:number;rank:number;of:number;units:string[]}>={};
+  const tiers:Record<string,{tier:number;score:number;rank:number;of:number;units:string[];animalSourceHunt:string|null;animalSharePct:number|null}>={};
   for(const sp of ['DEER','ELK','PRONGHORN']){
     const g=scored.filter(r=>r.species===sp);
-    for(const r of g)tiers[`${sp}:${r.code}`]={tier:r.tier,score:r.score,rank:g.filter(x=>x.score>r.score).length+1,of:g.length,units:[...r.units].sort()};
+    for(const r of g)tiers[`${sp}:${r.code}`]={tier:r.tier,score:r.score,rank:g.filter(x=>x.score>r.score).length+1,of:g.length,units:[...r.units].sort(),animalSourceHunt:r.animalFromHunt,animalSharePct:r.animalShare};
   }
   writeFileSync(tableOut,JSON.stringify({notice:'Idaho provisional trophy tiers: no quota or draw odds; 5 points maximum for timing. Generated from the retained snapshot by scripts/build-idaho-noquota-tiers.ts.',drawYear:2026,snapshot:'data/id/trophy-shadow-2026-11-16.json',snapshotSha256:snapshot.compactSha256,tiers},null,1)+'\n');
 }
