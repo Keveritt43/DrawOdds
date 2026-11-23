@@ -42,8 +42,10 @@ async function main(){
       throw Error(`Unexpected plan; no writes: ${JSON.stringify(changed)}`);
     console.log('REVIEW '+JSON.stringify({digest:before.plan.digest,version:before.plan.version,rows:before.rows.length,unit:before.unit,changed,fingerprints:before.fingerprints}));
     if(mode==='dry-run'){
-      const backup=gzipSync(Buffer.from(JSON.stringify({all:before.all,unit:before.unit,rows:before.rows,plan:before.plan,fingerprints:before.fingerprints}))).toString('base64');
-      for(let i=0;i<backup.length;i+=3000)console.log(`SNAPSHOT ${String(i/3000).padStart(4,'0')} ${backup.slice(i,i+3000)}`);
+      const backup=gzipSync(Buffer.from(JSON.stringify({idaho:before.all.filter(r=>r.state==='ID'),unit:before.unit,rows:before.rows,plan:before.plan,fingerprints:before.fingerprints}))).toString('base64');
+      // Railway rate-limits burst logs. Pace chunks so the complete fresh backup
+      // can be independently retrieved and checked before any write.
+      for(let i=0;i<backup.length;i+=3000){console.log(`SNAPSHOT ${String(i/3000).padStart(4,'0')} ${backup.slice(i,i+3000)}`);await new Promise(resolve=>setTimeout(resolve,40));}
       console.log(`SNAPSHOT_END ${hash(backup)} ${backup.length}`);
       return;
     }
