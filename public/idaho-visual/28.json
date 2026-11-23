@@ -1,0 +1,1 @@
+{"drought":{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"level":0},"geometry":{"type":"Polygon","coordinates":[[[-114.58677044187026,45.29659343014645],[-114.59146233794216,45.29319074463413],[-114.59320781478876,45.29745742273078],[-114.58677044187026,45.29659343014645]]]}}]},"station":{"longitude":-114.06693,"latitude":45.13426}}
