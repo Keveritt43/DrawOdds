@@ -29,7 +29,7 @@ import { Star } from '@/components/Star';
 import { Term } from '@/components/Term';
 import { HuntCard, ObjectivePills } from '@/components/HuntCards';
 import { sortUnitHunts } from '@/lib/unitHunts';
-import { withIdahoVerifiedArea } from '@/lib/idahoHuntCorrections';
+import { withIdahoVerifiedArea, idahoUnitCandidate } from '@/lib/idahoHuntCorrections';
 import { LandBar } from '@/components/LandBar';
 import { SuccessChart, HarvestChart, QualityChart } from '@/components/Charts';
 
@@ -81,7 +81,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
   const fav = await getFavorites();
   // nonresident general tags only matter to nonresidents
   // elk zone A/B tags are listed for everyone (residents choose A or B too); deer tags only for nonresidents
-  const hunts = sortUnitHunts((await db.huntSummary.findMany({ where: { state: 'ID', units: { has: name }, species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).filter(h=>h.units.includes(name)));
+  const hunts = sortUnitHunts((await db.huntSummary.findMany({ where: { state: 'ID', AND:[idahoUnitCandidate(name)], species: { in: DRAW_SPECIES[draw] }, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).filter(h=>h.units.includes(name)));
   // migration studies whose routes cross this unit (deer / elk / pronghorn drawing page only)
   const studies = draw === 'DEP' ? await listStudies(name) : [];
   const pick = (k: keyof typeof FILTERS) => (FILTERS[k].some(([v]) => v && v === sp[k]) ? sp[k]! : '');

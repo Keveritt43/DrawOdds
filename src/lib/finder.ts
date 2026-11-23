@@ -4,6 +4,7 @@ import { DRAW_SPECIES, type Draw } from './species';
 import { DEFAULT_STATE } from './states';
 import { parseMonthDay, toMonthDay } from './seasonDays';
 import { privateOnlyExclusion } from './privateLand';
+import { idahoUnitCandidate } from './idahoHuntCorrections';
 
 /** A valid from-to pair from ?from=10-20&to=10-31 (swapped if backwards), or no window. */
 function dayWindow(from?: string, to?: string): { dayFrom: number | null; dayTo: number | null } {
@@ -174,7 +175,7 @@ export function buildWhere(f: Filters, r: Residency, draw: Draw = 'DEP', migrati
   if (f.youth === 'exclude') and.push({ youthOnly: false });
   if (f.youth === 'only') and.push({OR:[{youthOnly:true},{type:'GENERAL'}]});
   if (!f.priv) and.push(...privateOnlyExclusion(state));
-  if (f.unit) and.push({ units: { has: f.unit } });
+  if (f.unit) and.push(state === 'ID' ? idahoUnitCandidate(f.unit) : { units: { has: f.unit } });
   if (f.zones.length) and.push({ units: { hasSome: zoneUnits(f.zones) } });
   if (f.q) {
     const n = Number(f.q);

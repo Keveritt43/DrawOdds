@@ -27,7 +27,7 @@ import { readNmSettings } from '@/lib/nmSettings';
 import { nmPersonal } from '@/lib/nmHunt';
 import { waPersonal } from '@/lib/waHunt';
 import { utPersonal } from '@/lib/utHunt';
-import { withIdahoVerifiedArea } from '@/lib/idahoHuntCorrections';
+import { withIdahoVerifiedArea, idahoUnitCandidate } from '@/lib/idahoHuntCorrections';
 
 export const dynamic = 'force-dynamic';
 
@@ -109,7 +109,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
     })), { headers: { 'Cache-Control': 'private, no-store' } });
   }
   const nr = (await getResidency(undefined, state)).residency === 'NONRESIDENT';
-  const all = sortUnitHunts((await db.huntSummary.findMany({ where: { state, units: { has: name }, youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).map(withCoHarvestCoverage).map(withoutUnvalidatedWyDeerMetrics).map(withWyElkBoundaryHistory).map(withWyElkRegion).map(withoutUnvalidatedWyLicenseMetrics).filter(h=>h.units.includes(name)));
+  const all = sortUnitHunts((await db.huntSummary.findMany({ where: { state, AND:[state==='ID'?idahoUnitCandidate(name):{units:{has:name}}], youthOnly: false, ...(nr ? {} : { OR: [{ nrTag: false }, { nrTag: true, species: 'ELK' as const }] }) } })).map(withIdahoVerifiedArea).map(withCoHarvestCoverage).map(withoutUnvalidatedWyDeerMetrics).map(withWyElkBoundaryHistory).map(withWyElkRegion).map(withoutUnvalidatedWyLicenseMetrics).filter(h=>h.units.includes(name)));
   // same listing rules as Filtering: elk = zone A/B tags, deer = general seasons (+ White-tailed tag)
   const pts = state === "CO" ? await getPoints("CO") : null;
   const rows =
