@@ -43,3 +43,12 @@ test('wildfire period labels advance with the snapshot year',()=>{
  assert.match(firePeriodsFor(2027).mature,/2019–2024/);
  assert.match(firePeriodsFor(2027).all,/2018–2027/);
 });
+
+test('rolling wildfire mask interprets the years around a later snapshot',()=>{
+ const snapshotYear=2027;const bit=(year:number)=>1<<(year-(snapshotYear-8));
+ assert.equal(matchesIdOverlap(1,bit(2024),0,{...base,fire:'recent'}),true);
+ assert.equal(matchesIdOverlap(1,bit(2023),0,{...base,fire:'recent'}),false);
+ assert.equal(matchesIdOverlap(1,bit(2019),0,{...base,fire:'mature'}),true);
+ assert.equal(matchesIdOverlap(1,0,1,{...base,fire:'all'}),true);
+ assert.equal(matchesIdOverlap(1,0,1,{...base,fire:'mature'}),false);
+});
