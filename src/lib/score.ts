@@ -4,7 +4,7 @@ import { trophyForHunt } from './trophyHunt';
 import { withIdahoVerifiedArea } from './idahoHuntCorrections';
 /** Absolute species benchmarks across weapons; no peer-dependent grades. */
 import { successBands } from './format';
-export const SCORE_VERSION = 'idaho-v11-no-peer-minimum';
+export const SCORE_VERSION = 'idaho-v12-no-quota';
 // Trophy is a bounded positive modifier around neutral, never redistributed.
 export const SCORE_WEIGHTS = { success: 65, access: 20, crowd: 15, trophy: 10 } as const;
 export type ScorePart = keyof typeof SCORE_WEIGHTS;

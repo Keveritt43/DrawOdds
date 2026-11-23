@@ -10,9 +10,9 @@ import { withIdahoVerifiedArea } from './idahoHuntCorrections';
 import {isWaMixedBuckPermit} from './waMixedDeer';
 
 const ID_V2_TIER:Record<number,TrophyTier>={100:'unicorn',80:'trophy',65:'county',50:'unclassified'};
-/** Idaho v2 tier (owner, Nov 17): demand per tag, herd quality, rut days, publications and B&C,
+/** Idaho v2 tier (owner, Nov 17): harvest context, modest timing, publications and B&C,
  * ranked within species. Only for controlled hunts in the reviewed table whose draw year matches it;
- * anything else keeps the earlier model. Built by scripts/audit-id-trophy-v2.ts. */
+ * anything else keeps the earlier model. Built by scripts/build-idaho-noquota-tiers.ts. */
 export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;antlerClass?:string|null;takeMethod?:string|null;tagSeasons?:unknown;huntNumber?:number|null;tagCode?:string|null;oddsLastYear?:number|null;units?:string[];openDate?:Date|string|null;closeDate?:Date|string|null}) {
   if(hunt.state.toUpperCase()!=='ID'||hunt.oddsLastYear!==idV2.drawYear||hunt.type?.toUpperCase()!=='CONTROLLED'||
       !['ANTLERED','EITHER'].includes(hunt.antlerClass?.toUpperCase()??''))return null;
@@ -28,7 +28,7 @@ export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;
   const units=(withIdahoVerifiedArea(hunt).units??[]).map(u=>u.trim());
   if(!units.length||units.some(u=>!row.units.includes(u)))return null;
   return {score:row.tier as TrophyScore,tier:ID_V2_TIER[row.tier],
-    reason:`Ranks ${row.rank} of ${row.of} Idaho controlled ${hunt.species.toLowerCase()} hunts on applicants per tag, harvest-based unit context, season dates, publications and B&C entries; provisional: unit context can come from another hunt or a broader area and does not measure genetics`};
+    reason:`Ranks ${row.rank} of ${row.of} Idaho controlled ${hunt.species.toLowerCase()} hunts on reported antler context, named sources, county records and modest season timing; no tag quota or draw odds; provisional: harvest context can come from another hunt and does not measure genetics; missing animal data uses a neutral value`};
 }
 
 /** Hunt-specific trophy exceptions below are pinned to the draw year they were reviewed
@@ -48,7 +48,7 @@ export const TROPHY_EXCEPTION_REVIEW = {
     'CO deer DM074E1R (Unit 74 above 11,000 ft)',
     'CO deer DM055O1A, DM055O1M (Unit 55 early)',
     'WA elk 2016 Colockum and the 2025 Quality Elk application threshold',
-    'ID v2 tier table data/id/trophy-v2-tiers.json (drawYear 2026): regenerate with scripts/audit-id-trophy-v2.ts',
+    'ID v2 tier table data/id/trophy-v2-tiers.json (drawYear 2026): regenerate with scripts/build-idaho-noquota-tiers.ts',
   ],
 } as const;
 
@@ -166,25 +166,13 @@ export function trophyForUnit(hunt: {
   const earlyId55=state==='ID' && hunt.species.toUpperCase()==='DEER' && unit.trim().toUpperCase().replace(/^UNIT\s*/, '')==='55' &&
     hunt.type.toUpperCase()==='CONTROLLED' && code==='1044' && hunt.oddsLastYear===2026 && (inMonth(8)||inMonth(9));
   const seasonal=(r:typeof result):typeof result=>{
-    if(r.score===null || !hasDates || earlyId55 || state==='CO' || state==='AZ' || !['DEER','ELK'].includes(hunt.species.toUpperCase())) return r;
+    if(r.score===null || !hasDates || earlyId55 || state==='CO' || state==='AZ' || state==='ID' || !['DEER','ELK'].includes(hunt.species.toUpperCase())) return r;
     const prime=hunt.species.toUpperCase()==='DEER' ? spans.some(s=>overlapsEarlyNovember(s.open,s.close)) : spans.some(s=>overlapsRut(s.open,s.close));
     if(prime || r.score===50) return r;
     const score=r.score===100?80:r.score===80?65:50;
     return {score,tier:score===80?'trophy':score===65?'county':'unclassified',reason:`${r.reason}; outside the preferred season`};
   };
-  // The draw comparison is descriptive, using one observed year and a same-system peer group.
-  // A Wilson bound is only an approximate screen for pooled harvest observations, not proof
-  // of statistical significance when agency counts are estimated or hunters recur across years.
   const po=hunt.pointOdds as {kind?:string;category?:string;license?:string}|null;
-  const kind=state==='ID'?'random':po?.kind;
-  const category=state==='ID'?'random':state==='WA'?po?.category:state==='MT'?po?.license:kind;
-  const benchmark=(drawBenchmarks.groups as Record<string,{n:number;p75:number}>)[`${state}|${hunt.species.toUpperCase()}|${hunt.oddsLastYear}|${kind}|${category}`];
-  const n=hunt.hunters5,k=hunt.harvest5;
-  if(state==='ID' && !earlyId55 && !hunt.youthOnly && !hunt.privateOnly && result.score!==null && benchmark && typeof hunt.nrOddsLast==='number' && Number.isFinite(hunt.nrOddsLast) && hunt.nrOddsLast>=benchmark.p75 && hunt.nrOddsLast<=1 && typeof n==='number' && Number.isFinite(n) && n>=50 && typeof k==='number' && Number.isFinite(k) && k>=0 && k<=n && typeof hunt.harvestYears==='number' && hunt.harvestYears>=3) {
-    const p=k/n,z=1.96,z2=z*z,upper=(p+z2/(2*n)+z*Math.sqrt(p*(1-p)/n+z2/(4*n*n)))/(1+z2/n);
-    if(upper<.5) return {score:50 as const,tier:'unclassified' as const,reason:`Low observed harvest with high overall draw rate compared with the same-year peer group${benchmark.n<30?'; provisional (small comparison group)':''}`};
-    if(p<.5 && result.score>65) return seasonal({score:65,tier:'county',reason:'Below-50% observed harvest with high overall draw rate; provisional (uncertainty remains)'});
-  }
   // Reviewed hunt-specific evidence, not a general early-season upgrade. Eastmans
   // forecast this exact hunt Excellent in 2021; CPW documents historical E-34
   // mature-bull context. Neither source measures current hunt-level antler size.
@@ -247,10 +235,6 @@ export function trophyForUnit(hunt: {
   // The early controlled Unit 55 hunt is the owner's explicit premium exception.
   if (earlyId55)
     return {score:80 as const,tier:'trophy' as const,reason:'Reviewed 2026 Idaho Unit 55 early controlled hunt 1044; provisional'};
-  // Require both public five-year draw populations; never infer missing odds.
-  const lowOdds=(odds:number|null|undefined)=>typeof odds==='number' && Number.isFinite(odds) && odds>=0 && odds<0.05;
-  if (!bcLow && result.score<100 && !whitetailOnly && hunt.type.toUpperCase()==='CONTROLLED' && inMonth(11) && typeof hunt.bigPct5==='number' && Number.isFinite(hunt.bigPct5) && hunt.bigPct5>0.7 && hunt.bigPct5<=1 && lowOdds(hunt.resOdds5) && lowOdds(hunt.nrOdds5))
-    return {score:80 as const,tier:'trophy' as const,reason:'November hunt with over 70% estimated 4-point bucks and both five-year draw odds below 5%'};
   return seasonal(result);
 }
 

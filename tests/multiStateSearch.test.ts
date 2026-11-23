@@ -39,13 +39,13 @@ test('trophy tier checkboxes filter combined hunts and survive query round trips
  const id=row({units:['39'],openDate:new Date('2026-10-05'),closeDate:new Date('2026-10-31')});
  const co=colorado({units:['40'],tagCode:'DM040O3R',appsLast:450,openDate:new Date('2027-11-06'),closeDate:new Date('2027-11-14')});
  const data=[id,co,row({id:'excluded',antlerClass:'ANTLERLESS'})];
- const chosen=runSearch(data,{states:'ID,CO',trophy:['50','80'],antler:'ALL'},'ID',settings);
+ const chosen=runSearch(data,{states:'ID,CO',trophy:['65','80'],antler:'ALL'},'ID',settings);
  assert.deepEqual(chosen.map(x=>x.r.state).sort(),['CO','ID']);
  assert.deepEqual(runSearch(data,{states:'ID,CO',trophy:'80',antler:'ALL'},'ID',settings).map(x=>x.r.state),['CO']);
- const f=parseFilters({trophy:['50','80']});
- assert.deepEqual(f.trophy,[50,80]);
- assert.match(toQuery(f),/trophy=50%2C80/);
- assert.match(JSON.stringify(buildWhere(f,'RESIDENT')),/"scoreTrophy":\{"in":\[50,80\]\}/);
+ const f=parseFilters({trophy:['65','80']});
+ assert.deepEqual(f.trophy,[65,80]);
+ assert.match(toQuery(f),/trophy=65%2C80/);
+ assert.match(JSON.stringify(buildWhere(f,'RESIDENT')),/"scoreTrophy":\{"in":\[65,80\]\}/);
 });
 
 test('Wyoming deer without species rows cannot drive success filters, scores or exports', () => {
