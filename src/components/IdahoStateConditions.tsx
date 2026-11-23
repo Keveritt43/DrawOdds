@@ -46,8 +46,8 @@ export function IdahoStateConditions({map}:{map:MlMap|null}) {
    <label><input type="checkbox" checked={snow} onChange={e=>{setError('');setSnow(e.target.checked);}}/> Snowpack · NOAA model</label>
    <label><input type="checkbox" checked={drought} onChange={e=>{setError('');setDrought(e.target.checked);}}/> Drought · Idaho</label>
   </div>
-  {snow && <><p className="small muted" style={{margin:'6px 0'}}>NOAA modeled snow water equivalent (inches), about 1 km. {valid?`Valid ${valid}.`:'Checking NOAA timestamp.'} Transparent can mean little snow or missing data. Drought draws above snow.</p><div className="sma-key" aria-label="Snow water equivalent legend">{snowColors.map(([label,color])=><span key={label}><i className="sw" style={{background:color}}/> {label} in</span>)}</div></>}
-  {drought && <><p className="small muted" style={{margin:'6px 0'}}>US Drought Monitor: November 17, 2026, within Idaho game units. Not a forecast.</p><div className="sma-key" aria-label="Drought category legend">{droughtColors.map(([label,color])=><span key={label}><i className="sw" style={{background:color}}/> {label}</span>)}</div></>}
+  {snow && <><p className="small muted" style={{margin:'6px 0'}}>NOAA modeled snow water equivalent (inches), about 1 km. {valid?`Valid ${valid}.`:'Checking NOAA timestamp.'} Transparent can mean little snow or missing data. Drought draws above snow.</p><div className="sma-key" aria-label="Snow water equivalent legend">{snowColors.map(([label,color])=><span key={label}><i aria-hidden="true" style={{background:color,display:'inline-block',width:12,height:10,borderRadius:2,flexShrink:0}}/> {label} in</span>)}</div></>}
+  {drought && <><p className="small muted" style={{margin:'6px 0'}}>US Drought Monitor: November 17, 2026, within Idaho game units. Not a forecast.</p><div className="sma-key" aria-label="Drought category legend">{droughtColors.map(([label,color])=><span key={label}><i aria-hidden="true" style={{background:color,display:'inline-block',width:12,height:10,borderRadius:2,flexShrink:0}}/> {label}</span>)}</div></>}
   {error && <p className="small" role="alert">{error}</p>}
  </details>;
 }
