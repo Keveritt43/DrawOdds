@@ -1,3 +1,4 @@
+import { IdahoConditionsNote } from '@/components/IdahoConditionsNote';
 import { IdahoOverlapExplorer } from '@/components/IdahoOverlapExplorer';
 import { IdahoFireNote } from '@/components/IdahoFireNote';
 import { IdahoTerrainNote } from '@/components/IdahoTerrainNote';
@@ -120,6 +121,7 @@ export default async function UnitPage({ params, searchParams }: { params: Promi
       <p className="small"><Link href="/map">← Unit Map</Link> · <Link href={`/hunts?states=ID&unit=ID:${encodeURIComponent(unit.name)}`}>Filter Hunts In This Unit</Link></p>
       <h1 className="star-head">Unit {unit.name} <Star kind="unit" id={unit.name} saved={fav.units.has(unit.name)} signedIn={fav.signedIn} label /></h1>
       <div className="muted">{unit.elkZone ? `${unit.elkZone} elk zone · ` : ''}{unit.acres ? `${int(unit.acres)} acres` : ''}</div>
+      <IdahoConditionsNote units={[unit.name]} />
       <IdahoFireNote units={[unit.name]} />
       <IdahoOverlapExplorer unit={unit.name} />
       <IdahoTerrainNote units={[unit.name]} />

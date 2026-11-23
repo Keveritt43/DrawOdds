@@ -213,6 +213,16 @@ export function FilterRail({ residency, draw = 'DEP', states, presets, drawFilte
         </FilterGroup>
         {(!states || states.includes('ID')) && <FilterGroup title="Idaho Filters" active={active(...ID_RESTRICTIONS)}>
           {idNote && <div className="filter-group-note">{idNote}</div>}
+          <Section title="Mapped Access Sites" value={get('idTrailMin') ? `${get('idTrailMin')}+ listed` : 'Any'} set={!!get('idTrailMin')}>
+            <label>Minimum Forest Service trailheads and BLM access sites in one unit</label>
+            <select aria-label="Minimum mapped access sites" value={get('idTrailMin')} onChange={e=>push({idTrailMin:e.target.value || null})}><option value="">Any</option><option value="1">1+</option><option value="5">5+</option><option value="10">10+</option></select>
+            <p className="small muted">Idaho only. Agency inventories are incomplete and may be closed or duplicated; they are not all access points or a count of hunters. Unit context, not legal access. November 2026 snapshot.</p>
+          </Section>
+          <Section title="Drought" value={get('idDroughtMin') ? `${get('idDroughtMin')}%+ in drought` : 'Any'} set={!!get('idDroughtMin')}>
+            <label>Unit share in moderate or worse drought</label>
+            <select aria-label="Minimum unit share in drought" value={get('idDroughtMin')} onChange={e=>push({idDroughtMin:e.target.value || null})}><option value="">Any</option><option value="25">25%+</option><option value="50">50%+</option><option value="75">75%+</option></select>
+            <p className="small muted">Idaho only. U.S. Drought Monitor map for November 17, 2026; conditions change. This is a unit-wide snapshot, not a prediction of habitat or hunting success.</p>
+          </Section>
           <Section title="Wildfire History" value={get('idFire') ? ({recent:'2023–2025',mature:'2018–2023',five:'2021–2025',all:'2018–2026'} as Record<string,string>)[get('idFire')] ?? 'Any' : 'Any'} set={!!get('idFire')}>
             <label>Mapped wildfire perimeter years</label>
             <select aria-label="Wildfire perimeter years" value={get('idFire')} onChange={e => push({idFire:e.target.value || null,idFireMin:e.target.value ? get('idFireMin') || null : null})}><option value="">Any</option><option value="recent">2023–2025 (1–3 years before 2026)</option><option value="mature">2018–2023 (3–8 years before 2026)</option><option value="five">2021–2025 (1–5 years before 2026)</option><option value="all">2018–2026 (2026 partial)</option></select>

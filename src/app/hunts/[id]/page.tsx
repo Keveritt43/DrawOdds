@@ -1,3 +1,4 @@
+import { IdahoConditionsNote } from '@/components/IdahoConditionsNote';
 import { IdahoFireNote } from '@/components/IdahoFireNote';
 import { IdahoTerrainNote } from '@/components/IdahoTerrainNote';
 import { HuntLink } from '@/components/HuntNavigation';
@@ -156,6 +157,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           {isIdaho2026Early55(s) && <p className="small muted">IDFG identifies this hunt as Unit 55. Hunt-area land and density figures are unavailable while an incorrect Unit 57 association is reviewed.</p>}
           <Rules r={s} />
           {isPrivateOnly(s) && <p className="small" style={{ margin: '6px 0' }}><span className="pill warn">Private land only</span> IDFG: valid only on private land. You need landowner permission before you hunt; the unit&apos;s public land doesn&apos;t count for this tag.</p>}
+          <IdahoConditionsNote units={s.units} />
           <IdahoFireNote units={s.units} />
           {!isPrivateOnly(s) && ['DEER', 'ELK'].includes(s.species) && <IdahoTerrainNote units={s.units} />}
           <ObjectivePills units={s.units} species={s.species} />

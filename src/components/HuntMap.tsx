@@ -1,4 +1,5 @@
 'use client';
+import { idConditionsUnit } from '@/lib/idConditions';
 import { idFireUnit } from '@/lib/idFire';
 import { idTerrainUnit } from '@/lib/idTerrain';
 import { useStateConfig } from './StateContext';
@@ -16,12 +17,14 @@ import { divergingClasses, type BreakMode } from '@/lib/breaks';
 import { OBJ_SOURCE } from '@/lib/elkObjectives';
 import { colorsFor, msgSuccessClasses, scoreClasses, trophyClasses, fixedClasses, FIXED_SCALES, OBJECTIVE_LABELS, type FixedScale, fillExpression, fmtNum, IDAHO_BOUNDS, MATCH, ZONE, AREA } from '@/lib/mapMetrics';
 
-export type MatchStat = { trophy: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null; wilderness: number | null; remote?: number | null; remoteHigh?: number | null; fireRecent?: number | null };
+export type MatchStat = { trophy: number | null; score: number | null; odds: number | null; fill: number | null; success: number | null; crowd: number | null; public: number | null; huntable: number | null; objBull: number | null; objCow: number | null; wilderness: number | null; remote?: number | null; remoteHigh?: number | null; fireRecent?: number | null; drought?: number | null; trailheads?: number | null };
 type ShadeKey = 'match' | 'none' | keyof MatchStat;
 const pct1 = (v: number) => `${fmtNum(v * 100)}%`;
 type Mode = BreakMode | "score" | "trophy" | FixedScale;
 /** What the Filtering map can shade by: always the matching hunts' own numbers, never units without a match. */
 const SHADES: Record<Exclude<ShadeKey, 'match' | 'none'>, { label: string; mode: Mode; snap?: number; better: 'high' | 'low'; fmt: (v: number) => string; none: string; note: string; labels?: string[]; scaleNote: string }> = {
+  drought: { label: 'Moderate or Worse Drought · % of unit (Idaho)', mode: 'pct', better: 'low', fmt: v=>`${fmtNum(v)}%`, none: 'Not measured', note: 'Share of each Idaho unit in D1 or worse on November 17, 2026. US Drought Monitor; a dated snapshot, not a prediction of hunting quality.', scaleNote: 'Colors show mapped drought coverage.' },
+  trailheads: { label: 'Mapped Agency Access Sites · count (Idaho)', mode: 'pct', better: 'high', fmt: fmtNum, none: 'Not measured', note: 'Forest Service trailheads and BLM trailheads, staging areas and access points, November 2026. Incomplete; sites may be closed or duplicated. Not a hunter count or proof of access.', scaleNote: 'Colors show listed sites, not hunting quality.' },
   fireRecent: { label: 'Mapped Wildfire Perimeters 2023–2025 · acres (Idaho)', mode: 'pct', better: 'high', fmt: fmtNum, none: 'Not measured', note: 'Acres inside mapped wildfire perimeters, 2023–2025, in each Idaho unit. Perimeters can contain unburned and private land; inventory is incomplete and is not a forage or access measure. Overlapping perimeters count once. NIFC snapshot November 2026.', scaleNote: 'Colors describe mapped area, not hunting quality.' },
   remote: { label: 'Remote Public Land · sq mi (Idaho)', mode: 'pct', better: 'high', fmt: fmtNum, none: 'Not measured', note: 'Estimated public land over one mile from mapped roads and motorized trails. Some routes are missing or closed; this does not establish access or hunter pressure. Unit context, not hunt-area acreage. Sources downloaded November 2026; source vintages vary.', scaleNote: 'Yellow = typical for the matching units.' },
   remoteHigh: { label: 'Remote Public Land Above 9,000 ft · sq mi (Idaho)', mode: 'pct', better: 'high', fmt: fmtNum, none: 'Not measured', note: 'Estimated overlap of public land above 9,000 feet and more than one mile from mapped roads and motorized trails. Some routes are missing or closed; this does not establish access or hunter pressure. Unit context, not hunt-area acreage. Sources downloaded November 2026; source vintages vary.', scaleNote: 'Yellow = typical for the matching units.' },
@@ -67,7 +70,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     const units = Object.fromEntries(Object.entries(original.units).map(([key, value]) => {
       const isIdaho = key.startsWith('ID:') || (!key.includes(':') && !states && st.code === 'ID');
       const t = isIdaho ? idTerrainUnit(key.replace(/^ID:/, '')) : null;
-      return [key, { ...value, remote: t ? t.remoteAcres / 640 : null, remoteHigh: t ? t.remoteHighAcres / 640 : null, fireRecent: isIdaho ? idFireUnit(key.replace(/^ID:/, ''))?.periodAcres.recent ?? null : null }];
+      return [key, { ...value, remote: t ? t.remoteAcres / 640 : null, remoteHigh: t ? t.remoteHighAcres / 640 : null, drought: isIdaho ? idConditionsUnit(key.replace(/^ID:/, ''))?.drought.current ?? null : null, trailheads: isIdaho ? idConditionsUnit(key.replace(/^ID:/, ''))?.trailheads.length ?? null : null, fireRecent: isIdaho ? idFireUnit(key.replace(/^ID:/, ''))?.periodAcres.recent ?? null : null }];
     }));
     return { ...original, units };
   }, [packedUnits, statsProp, states, st.code]);
@@ -108,7 +111,7 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     const { matched, selected, stats } = latestPaint.current;
     const m = map.current;
     if (!m || !loaded.current) return;
-    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, trophy: null, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null, remote: null, remoteHigh: null, fireRecent: null });
+    for (const u of prevMatched.current) m.setFeatureState({ source: 'units', id: u }, { match: false, trophy: null, score: null, odds: null, fill: null, success: null, crowd: null, public: null, huntable: null, objBull: null, objCow: null, wilderness: null, remote: null, remoteHigh: null, fireRecent: null, drought: null, trailheads: null });
     for (const u of matched) m.setFeatureState({ source: 'units', id: u }, { match: true, ...(stats.units[u] ?? {}) });
     prevMatched.current = matched;
     if (prevSel.current) m.setFeatureState({ source: 'units', id: prevSel.current }, { sel: false });
@@ -393,8 +396,8 @@ export function HuntMap({ matched, selected, chips, showZones = false, zones = [
     ...(Object.keys(SHADES) as (keyof typeof SHADES)[])
       .filter(
         (k) =>
-          !(areaMode && (k.startsWith("obj") || k === 'remote' || k === 'remoteHigh' || k === 'fireRecent')) &&
-          (!['remote', 'remoteHigh', 'fireRecent'].includes(k) || (states ? states.includes('ID') : stCode === 'ID')) &&
+          !(areaMode && (k.startsWith("obj") || k === 'remote' || k === 'remoteHigh' || k === 'fireRecent' || k === 'drought' || k === 'trailheads')) &&
+          (!['remote', 'remoteHigh', 'fireRecent', 'drought', 'trailheads'].includes(k) || (states ? states.includes('ID') : stCode === 'ID')) &&
           // only Wyoming hunt areas are measured for wilderness, so the option appears only with Wyoming selected
           (k !== 'wilderness' ? true : !!states?.includes('WY')) &&
           (!states && stCode === "ID" ||

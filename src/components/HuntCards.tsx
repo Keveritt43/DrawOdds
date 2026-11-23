@@ -1,3 +1,4 @@
+import { IdahoConditionsNote } from './IdahoConditionsNote';
 import { IdahoFireNote } from './IdahoFireNote';
 import { IdahoTerrainNote } from './IdahoTerrainNote';
 import { huntWeaponLabel } from '@/lib/huntWeaponLabel';
@@ -194,6 +195,7 @@ export function HuntCard({ r, c, inUnit = false, also = [] }: { r: HuntSummary; 
       <ScoreRow r={r} nr={c.nr} />
       <Stats r={r} c={c} />
       <Footer r={r} c={c} />
+      {r.state === 'ID' && <IdahoConditionsNote units={r.units} />}
       {r.state === 'ID' && <IdahoFireNote units={r.units} />}
       {r.state === 'ID' && !isPrivateOnly(r) && ['DEER', 'ELK'].includes(r.species) && <IdahoTerrainNote units={r.units} />}
     </div>
@@ -328,6 +330,7 @@ export function ZoneCard({ zone, rows, c }: { zone: string; rows: HuntSummary[];
           );
         })}
       </div>
+      <IdahoConditionsNote units={units} />
       <IdahoFireNote units={units} />
       <IdahoTerrainNote units={units} />
       <div className="zshared">
