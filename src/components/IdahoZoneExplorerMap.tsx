@@ -42,12 +42,14 @@ export function IdahoZoneExplorerMap({zone,units,returnHunt,nr,savedUnits,signed
   map.on('error',onError);
   onStyleReady(map,()=>{
    if(!active)return;
+   const loads:Promise<[string,Pixels]|null>[]=[];
    for(const u of names){const grid=gridByUnit[u];if(!grid)continue;const id=`zone-fire-${u}`;
     map.addSource(id,{type:'image',url:`/idaho-visual/${encodeURIComponent(u)}.png`,coordinates:corners(grid)});
     map.addLayer({id,type:'raster',source:id,paint:{'raster-opacity':0.85,'raster-fade-duration':0}},'units-line');
-    const img=new Image();img.onload=()=>{if(!active)return;try{const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;const ctx=c.getContext('2d',{willReadFrequently:true});if(!ctx)throw Error();ctx.drawImage(img,0,0);const data=ctx.getImageData(0,0,c.width,c.height).data;setPixels(old=>({...old,[u]:{data,width:c.width,height:c.height}}));}catch{fail(u);}};img.onerror=()=>fail(u);img.src=`/idaho-fire/${encodeURIComponent(u)}.png`;
+    loads.push(new Promise(resolve=>{const img=new Image();img.onload=()=>{if(!active){resolve(null);return;}try{const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;const ctx=c.getContext('2d',{willReadFrequently:true});if(!ctx)throw Error();ctx.drawImage(img,0,0);resolve([u,{data:ctx.getImageData(0,0,c.width,c.height).data,width:c.width,height:c.height}]);}catch{fail(u);resolve(null);}};img.onerror=()=>{fail(u);resolve(null);};img.src=`/idaho-fire/${encodeURIComponent(u)}.png`;}));
    }
    setReady(true);
+   void Promise.all(loads).then(results=>{if(active)setPixels(Object.fromEntries(results.filter((item):item is [string,Pixels]=>item!==null)));});
   });
   return ()=>{active=false;setReady(false);map.off('error',onError);for(const u of names)for(const id of [`zone-terrain-${u}`,`zone-fire-${u}`]){if(map.getLayer(id))map.removeLayer(id);if(map.getSource(id))map.removeSource(id);}for(const id of ['zone-station-label','zone-station-circle','id-weather-drought','id-weather-snow'])if(map.getLayer(id))map.removeLayer(id);for(const id of ['zone-station','id-weather-drought','id-weather-snow'])if(map.getSource(id))map.removeSource(id);};
  },[open,map,key]);
