@@ -20,6 +20,13 @@ async function run(){
  const year=Number(asOf.slice(0,4)), service='https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Interagency_Perimeters/FeatureServer/0/query';
  const params={f:'json',where:`attr_IncidentTypeCategory='WF' AND poly_FeatureCategory IN ('Wildfire Final Fire Perimeter','Wildfire Daily Fire Perimeter') AND attr_FireDiscoveryDateTime >= DATE '${year}-01-01 00:00:00' AND attr_FireDiscoveryDateTime < DATE '${year+1}-01-01 00:00:00'`,geometry:'-117.3,41.9,-110.9,49.1',geometryType:'esriGeometryEnvelope',inSR:'4326',spatialRel:'esriSpatialRelIntersects',returnIdsOnly:'true'};
  const idsUrl=new URL(service);Object.entries(params).forEach(([k,v])=>idsUrl.searchParams.set(k,v));const idsBody=await get(idsUrl);const obj=JSON.parse(idsBody);if(obj.error||!Array.isArray(obj.objectIds)||new Set(obj.objectIds).size!==obj.objectIds.length)throw Error('Invalid fire ID inventory');store('fire-ids.json',idsBody,idsUrl.toString(),obj.objectIds.length);
- fs.writeFileSync(path.join(root,'manifest.json'),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});console.log(`Staged candidate sources in ${root}. Fire inventory contains IDs only; complete the reviewed build before publishing.`);
+ const features=[];
+ for(let i=0;i<obj.objectIds.length;i+=100){
+  const u=new URL(service);Object.entries({f:'geojson',objectIds:obj.objectIds.slice(i,i+100).join(','),outFields:'OBJECTID,poly_IncidentName,poly_FeatureCategory,poly_IRWINID,poly_DateCurrent,poly_PolygonDateTime,attr_IncidentName,attr_UniqueFireIdentifier,attr_FireDiscoveryDateTime,attr_IncidentTypeCategory,poly_GISAcres',outSR:'5070',returnGeometry:'true',maxAllowableOffset:'10'}).forEach(([k,v])=>u.searchParams.set(k,v));
+  const part=JSON.parse(await get(u));if(!Array.isArray(part.features)||part.features.some(f=>!f.geometry))throw Error('Invalid fire geometry batch');features.push(...part.features);
+ }
+ const found=features.map(f=>f.properties?.OBJECTID);if(found.length!==obj.objectIds.length||new Set(found).size!==found.length||found.some(id=>!obj.objectIds.includes(id)))throw Error('Incomplete fire geometry');
+ store('fire-geometry.json',Buffer.from(JSON.stringify({type:'FeatureCollection',features})),service,features.length);
+ fs.writeFileSync(path.join(root,'manifest.json'),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});console.log(`Staged candidate sources in ${root}. Complete the reviewed build before publishing.`);
 }
 run().catch(e=>{console.error(`Staging incomplete: ${e.message}. Inspect or remove the candidate directory before retrying.`);process.exitCode=1;});
