@@ -15,6 +15,8 @@ import { db } from '../src/sync/core/context';
 
 const NEVER = new Set(['id', 'slug', 'state', 'createdAt', 'updatedAt', 'scoreQuality', 'scoreSuccess', 'scoreAccess', 'scoreCrowd', 'scoreTrophy', 'scoreOppRes', 'scoreOppNr']);
 const J = (v: unknown) => JSON.stringify(v instanceof Date ? v.toISOString() : v ?? null);
+// equal, allowing float noise between a stored double and a freshly computed one
+const same = (a: unknown, b: unknown) => typeof a === 'number' && typeof b === 'number' ? Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b)) : J(a) === J(b);
 type Row = Record<string, unknown>;
 
 async function plan() {
@@ -30,14 +32,23 @@ async function plan() {
     const id = nr.id as string, or = oldBy.get(id), st = storedBy.get(id);
     const hunt = `${nr.species} ${nr.huntNumber ?? nr.unit ?? ''}`;
     if (!or || !st) { if (or || st) notStored.push(id); continue; }
-    const keys = [...new Set([...Object.keys(nr), ...Object.keys(or)])].filter((k) => !NEVER.has(k) && J(nr[k]) !== J(or[k]));
+    const keys = [...new Set([...Object.keys(nr), ...Object.keys(or)])].filter((k) => !NEVER.has(k) && !same(nr[k], or[k]));
     if (!keys.length) continue;
-    const off = keys.filter((k) => J(st[k]) !== J(or[k]));
-    if (off.length) { skipped.push({ id, hunt, fields: off }); continue; }
+    // a field the old rule left empty is stored as the column default (0 / false)
+    const off = keys.filter((k) => !same(st[k], or[k]) && !(or[k] == null && (st[k] === 0 || st[k] === false)));
+    if (off.length) { skipped.push({ id, hunt, fields: off.map((k) => `${k} stored ${J(st[k])} old ${J(or[k])} new ${J(nr[k])}`) }); continue; }
     changes.push({ id, hunt, set: Object.fromEntries(keys.map((k) => [k, nr[k] ?? null])), was: Object.fromEntries(keys.map((k) => [k, st[k] ?? null])) });
   }
   const sameRowSet = before.rows.length === after.rows.length && (before.rows as unknown as Row[]).every((r) => newIds.has(r.id as string));
   const body = JSON.stringify(changes, (_k, v) => (v instanceof Date ? v.toISOString() : v));
+  // REPAIR_EXPLAIN=ELK:2281,DEER:1074 prints the three versions of a few fields for those hunts
+  const explain = (process.env.REPAIR_EXPLAIN ?? '').split(',').filter(Boolean);
+  for (const nr of after.rows as unknown as Row[]) {
+    if (!explain.includes(`${nr.species}:${nr.huntNumber}`)) continue;
+    const id = nr.id as string, or = oldBy.get(id) ?? {}, st = storedBy.get(id) ?? {};
+    const f = ['areaName', 'units', 'oddsYears', 'oddsLastYear', 'hunters5', 'harvest5', 'harvestYears', 'appsTrend', 'resOdds5'];
+    console.log('REPAIR_EXPLAIN ' + id + ' ' + JSON.stringify(Object.fromEntries(f.map((k) => [k, [st[k] ?? null, or[k] ?? null, nr[k] ?? null]]))));
+  }
   return { changes, skipped, notStored, sameRowSet, digest: createHash('sha256').update(body).digest('hex').slice(0, 16) };
 }
 
@@ -48,7 +59,7 @@ async function main() {
   const brief = (c: (typeof p.changes)[number]) => `${c.hunt}: ${Object.keys(c.set).join(',')}; hunters5 ${J(c.was.hunters5)}->${J(c.set.hunters5 ?? c.was.hunters5)}; years ${J(c.was.harvestYears)}->${J(c.set.harvestYears ?? c.was.harvestYears)}; oddsLastYear ${J(c.was.oddsLastYear)}->${J(c.set.oddsLastYear ?? c.was.oddsLastYear)}`;
   console.log('REPAIR_SUMMARY ' + JSON.stringify({ digest: p.digest, changed: p.changes.length, skipped: p.skipped.length, notStored: p.notStored.length, sameRowSet: p.sameRowSet }));
   for (let i = 0; i < p.changes.length; i += 15) console.log('REPAIR_ROWS ' + JSON.stringify(p.changes.slice(i, i + 15).map(brief)));
-  for (let i = 0; i < p.skipped.length; i += 25) console.log('REPAIR_SKIPPED ' + JSON.stringify(p.skipped.slice(i, i + 25).map((s) => `${s.hunt} [${s.fields.join(',')}]`)));
+  for (const sk of p.skipped) console.log('REPAIR_SKIPPED ' + sk.hunt + ' ' + JSON.stringify(sk.fields.slice(0, 4)));
   if (mode === '--dry-run') { console.log('Dry run: no database writes.'); return; }
   if (p.digest !== want) throw new Error(`Digest ${p.digest} does not match the reviewed ${want}; nothing written`);
   if (!p.sameRowSet) throw new Error('Row set differs between rules; nothing written');

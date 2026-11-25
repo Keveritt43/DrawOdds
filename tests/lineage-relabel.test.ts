@@ -56,4 +56,9 @@ test('winter hunts: a 2024 draw for a January 2025 hunt takes the 2025 harvest r
   assert.deepEqual(lineageHarvest(lin, areas, [h(2025, 2281, '66X')], drawn, 'ELK', { nextYear: true }), [], 'other unit');
   assert.deepEqual(lineageHarvest(lin, areas, [h(2025, 2281, '41X')], new Set([...drawn, 'ELK|2025|2281']), 'ELK', { nextYear: true }), [], 'the number drew its own hunt that year');
   assert.deepEqual(lineageHarvest(lin, areas, [h(2024, 2281, '41X'), h(2025, 2281, '41X')], drawn, 'ELK', { nextYear: true }).map((x) => x.year), [2024], 'own year first');
+  // production, Nov 25: odd years draw 41X's winter hunt as 2252, which the lineage already holds
+  const lin2 = new Map([[2026, 2281], [2025, 2252], [2024, 2281], [2023, 2252]]);
+  const areas2 = new Map([[2026, '41X'], [2025, '41X'], [2024, '41X'], [2023, '41X']]);
+  const drawn2 = new Set(['ELK|2026|2281', 'ELK|2025|2252', 'ELK|2024|2281', 'ELK|2023|2252']);
+  assert.deepEqual(lineageHarvest(lin2, areas2, [h(2025, 2281, '41X')], drawn2, 'ELK', { nextYear: true }).map((x) => [x.year, x.huntNumber]), [[2025, 2281]]);
 });
