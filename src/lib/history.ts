@@ -51,8 +51,9 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
       const harv = lineageHarvest(lin, linAreas, await db.controlledHarvest.findMany({
         where: { state: 'ID', species: s.species, OR: [...lin.entries()].flatMap(([year, huntNumber]) => [{ year, huntNumber }, { year: year + 1, huntNumber }]) },
       }), drawn, s.species, { nextYear: true });
+      // a winter hunt's next-year harvest row belongs on the draw year that issued the tags
       for (const h of harv)
-        Object.assign(at(h.year), {
+        Object.assign(at(lin.get(h.year) === h.huntNumber ? h.year : h.year - 1), {
           hunters: h.hunters, harvest: h.harvest, success: r(h.harvest, h.hunters), antlered: h.antlered, antlerless: h.antlerless,
           mule: h.estMule, whitetail: h.estWt, big: s.species === 'ELK' ? h.est6 : h.est4,
         });
