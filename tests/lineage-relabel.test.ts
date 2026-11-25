@@ -32,8 +32,9 @@ test('today’s 1076 (Area 44) keeps its own history and never takes the old Are
 });
 
 test('same number and tags across a relabel (elk 2133: 2025 "36A" -> 2026 "36A-3"), and no further back into other units', () => {
-  const elk = [r(2023, 2133, '50-1', 50), r(2024, 2133, '50-1', 50), r(2025, 2133, '36A', 250), r(2026, 2133, '36A-3', 250)];
-  assert.deepEqual([...lineage(elk[3], elk, { relabels: true }).entries()].sort(), [[2025, 2133], [2026, 2133]]);
+  const elk = [r(1999, 2095, '36A-4', 250), r(2023, 2133, '50-1', 50), r(2024, 2133, '50-1', 50), r(2025, 2133, '36A', 250), r(2026, 2133, '36A-3', 250)];
+  // production also had a 1999 "36A-4" row with 250 tags: a relabel never jumps that far back
+  assert.deepEqual([...lineage(elk[4], elk, { relabels: true }).entries()].sort(), [[2025, 2133], [2026, 2133]]);
 });
 
 test('a sibling area that still exists the next year is a different hunt, not a relabel', () => {
