@@ -29,3 +29,14 @@ Tests: `tests/lineage-relabel.test.ts` (1074 chain, 1076 untouched, 2133, a stil
 
 - 2133's 2025 hunt was all of Unit 36A; the 2026 hunt (36A-3) adds Unit 50. Same number and 250 tags, so history follows it, but the 2025 hunters were spread over less ground.
 - 1074's area: IDFG's hunt planner gives 2,401,304 acres for Units 41+42; our unit table sums to 2,265,558 (41: 1,408,031; 42: 857,527), 5.7% less. Density uses our unit table's acres, the same as every other hunt.
+
+## Run log (Nov 25, 2026)
+
+- #279 merged (rule, repair script). The first production dry run left 23 of 28 rows skipped: float noise between stored doubles and fresh values, plus 1074's empty fields stored as column defaults. #280 added a float tolerance, treated a default as empty, and printed stored/old/new values.
+- That run showed 41X's winter elk draw as 2281/2282 in even years and 2252 in odd years, so the lineage already held 2025 and the winter-harvest rule refused the 2025 row. #280 changed the test to "did this number draw the next year".
+- The next run linked 2133 from 2025 to a **1999** "36A-4" row (the only candidate). #281: a relabel only bridges draws at most two years apart.
+- Reviewed lineages before applying: 1074 = 1074 / 1076 / 1078 / 1082 / 1089 / 1088 / 1083 / 1070, exactly IDFG's hunt planner; 2133 2025–2026 only; 2281/2282 take the 2025 harvest; pronghorn 4015 follows 51 ← 51-1 (~70 hunters a year); elk 2016, 2086, 2075 and deer 1029 cross one relabel each.
+- History apply: dry run digest `8e31dbc3b21760cb`, 27 rows, 0 skipped; applied gated on it (commit e993060). History fields only.
+- Scores-only update: digest `d2e89baca70a…`, 27 rows (26 Quality, 0 trophy); applied gated on it. Maintenance service idle.
+- Live: deer 1074 Quality 33, odds 88.2% resident / 27.0% nonresident, history 2017–2026 under 1074/1076/1078/1082; elk 2133 Quality 58 (2025 only); elk 2281 Quality 69, 51% success. #282 moved winter harvest onto its draw year in the hunt-page table and fixed "1 tags".
+- Judgment calls left as they are: moose 3050's 2026 area grew from Unit 29 to six units, and its history is Unit 29's (same number, 8 tags); 2133's 2025 hunt was 36A only, 2026 adds Unit 50. The trophy table (snapshot of Nov 16) still has no own-harvest row for hunts repaired here, such as 2133; it uses unit context until the table is rebuilt from a new snapshot.
