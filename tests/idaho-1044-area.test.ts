@@ -14,12 +14,12 @@ test('verified Area 55 hunt removes Unit 57 without mutating stored data',()=>{
   assert.deepEqual(corrected.units,['55']);assert.deepEqual(hunt.units,['55','57']);
   assert.equal(corrected.publicPct,52.4);assert.equal(corrected.acres,648520);
   assert.ok(Math.abs(corrected.huntersSqMi!-127/5/(648520/640))<1e-12);
-  assert.equal(trophyForHunt(corrected),100);
+  assert.equal(trophyForHunt(corrected),80);
 });
 
 test('verified unit inputs produce a Quality and Opportunity score',()=>{
   const result=scoreHunts([hunt]).get(hunt.id)!;
-  assert.equal(result.scoreTrophy,100);assert.notEqual(result.scoreQuality,null);
+  assert.equal(result.scoreTrophy,80);assert.notEqual(result.scoreQuality,null);
   assert.notEqual(result.scoreAccess,null);assert.notEqual(result.scoreCrowd,null);
   assert.notEqual(result.scoreOppRes,null);assert.notEqual(result.scoreOppNr,null);
   assert.equal(scoreHunts([{...hunt,harvestYears:null}]).get(hunt.id)!.scoreQuality,null);

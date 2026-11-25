@@ -21,7 +21,7 @@ export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;
   if(rules.includes('2-point bucks only')||rules.includes('Spike bulls only')||
       (seasons.length?seasons.every(s=>maximumAntlerRule(`${s.sex} ${s.notes}`)):maximumAntlerRule(hunt.takeMethod??'')))return null;
   const code=hunt.tagCode??(hunt.huntNumber===null||hunt.huntNumber===undefined?null:String(hunt.huntNumber));
-  const row=code?(idV2.tiers as Record<string,{tier:number;score:number;rank:number;of:number;units:string[];animalSourceHunt?:string|null;animalSharePct?:number|null}>)[`${hunt.species.toUpperCase()}:${code}`]:undefined;
+  const row=code?(idV2.tiers as Record<string,{tier:number;score:number;rank:number;of:number;units:string[];animalSourceHunt?:string|null;animalSharePct?:number|null;applications?:number|null;orderedAbove?:string|null}>)[`${hunt.species.toUpperCase()}:${code}`]:undefined;
   if(!row)return null;
   // A renumbered or re-bounded hunt must not inherit another hunt's tier. A hunt whose units were
   // narrowed by a verified area correction (1044 drops Unit 57) still matches within the table's units.
@@ -31,7 +31,7 @@ export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;
     ? `The sample-adjusted antler share is ${row.animalSharePct}% from hunt ${row.animalSourceHunt}; it reflects harvested animals and can differ from this hunt's own harvest.`
     : 'Comparable antler-share evidence was unavailable and received a neutral input.';
   return {score:row.tier as TrophyScore,tier:ID_V2_TIER[row.tier],
-    reason:`Ranks ${row.rank} of ${row.of} Idaho controlled ${hunt.species.toLowerCase()} hunts on reported antler context, named sources, county records and modest season timing; no tag quota or draw odds; provisional. ${animalContext} Harvest context does not measure genetics.`};
+    reason:`Ranks ${row.rank} of ${row.of} Idaho controlled ${hunt.species.toLowerCase()} hunts on applications${typeof row.applications==='number'?` (${row.applications.toLocaleString('en-US')} last draw)`:''}, reported antler context, named sources, county records and modest season timing; tag quota and draw odds are not used; provisional.${row.orderedAbove?` Ranked above hunt ${row.orderedAbove}, the same units and weapon earlier in the season.`:''} ${animalContext} Demand and harvest context do not measure genetics.`};
 }
 
 /** Hunt-specific trophy exceptions below are pinned to the draw year they were reviewed
