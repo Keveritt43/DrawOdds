@@ -256,7 +256,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
         </div>
       </div>
 
-      <ApplyChecklist secondChoiceNote={ctl && s.secondDrewLast !== null && s.oddsLastYear ? (s.secondDrewLast > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear}, but the nonresident limit was already full.` : `${int(s.secondDrewLast)} tags went to 2nd-choice applicants in ${s.oddsLastYear}.`) : `No tags were reported awarded to 2nd-choice applicants in ${s.oddsLastYear}.`) : undefined}
+      <ApplyChecklist secondChoiceNote={ctl && s.secondDrewLast !== null && s.oddsLastYear ? (s.secondDrewLast > 0 ? (nr && nrInfo?.kind === 'full' ? `Tags reached 2nd choices in ${s.oddsLastYear}, but the nonresident limit was already full.` : `${int(s.secondDrewLast)} ${s.secondDrewLast === 1 ? 'tag' : 'tags'} went to 2nd-choice applicants in ${s.oddsLastYear}.`) : `No tags were reported awarded to 2nd-choice applicants in ${s.oddsLastYear}.`) : undefined}
         kind={isMsg ? 'msg' : ctl ? 'controlled' : s.nrTag || nr ? 'nrGeneral' : 'otc'} code={ctl ? (s.huntNumber ? String(s.huntNumber) : null) : s.nrTag ? s.tagCode : ((s.nrTagOdds as { code: string }[] | null)?.[0]?.code ?? null)} nr={nr} species={s.species} />
 
       {alts.length > 0 && (
