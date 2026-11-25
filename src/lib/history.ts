@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import { lineage, odds, type OddsRow } from '@/sync/core/math';
+import { lineage, lineageHarvest, odds, type OddsRow } from '@/sync/core/math';
 import type { HuntSummary } from '@prisma/client';
 
 const METHOD: Record<string, string> = { ANY: 'Any Weapon', ARCHERY: 'Archery', MUZZLELOADER: 'Muzzleloader' };
@@ -34,10 +34,11 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
   const at = (y: number) => byYear.get(y) ?? byYear.set(y, { year: y }).get(y)!;
 
   if (s.type === 'CONTROLLED' && s.huntNumber && s.areaName) {
-    const hist = await db.drawOdds.findMany({ where: { species: s.species, areaName: s.areaName, draw: 1 } });
-    const cur = hist.filter((o) => o.huntNumber === s.huntNumber).sort((a, b) => b.year - a.year)[0];
+    // species-wide, so the history can follow an IDFG area relabel (same rule as the summary step)
+    const hist = await db.drawOdds.findMany({ where: { state: 'ID', species: s.species, draw: 1 } });
+    const cur = hist.filter((o) => o.huntNumber === s.huntNumber && o.areaName === s.areaName).sort((a, b) => b.year - a.year)[0];
     if (cur) {
-      const lin = lineage(cur as OddsRow, hist as OddsRow[]);
+      const lin = lineage(cur as OddsRow, hist as OddsRow[], { relabels: true });
       for (const o of hist) {
         if (lin.get(o.year) !== o.huntNumber) continue;
         Object.assign(at(o.year), {
@@ -45,9 +46,11 @@ export async function historyFor(s: HuntSummary, years = 10): Promise<YearPoint[
           resApps: o.resApps, nrApps: o.nrApps, resOdds: odds(o.resPermits, o.resApps), nrOdds: odds(o.nrPermits, o.nrApps), areaName: o.areaName,
         });
       }
-      const harv = await db.controlledHarvest.findMany({
-        where: { species: s.species, OR: [...lin.entries()].map(([year, huntNumber]) => ({ year, huntNumber })) },
-      });
+      const linAreas = new Map(hist.filter((o) => lin.get(o.year) === o.huntNumber).map((o) => [o.year, o.areaName]));
+      const drawn = new Set(hist.map((o) => `${o.species}|${o.year}|${o.huntNumber}`));
+      const harv = lineageHarvest(lin, linAreas, await db.controlledHarvest.findMany({
+        where: { state: 'ID', species: s.species, OR: [...lin.entries()].flatMap(([year, huntNumber]) => [{ year, huntNumber }, { year: year + 1, huntNumber }]) },
+      }), drawn, s.species, { nextYear: true });
       for (const h of harv)
         Object.assign(at(h.year), {
           hunters: h.hunters, harvest: h.harvest, success: r(h.harvest, h.hunters), antlered: h.antlered, antlerless: h.antlerless,

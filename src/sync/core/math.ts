@@ -100,15 +100,34 @@ export interface OddsRow {
  * the SAME area whose permit count is closest to the current hunt's, preferring an exact hunt-number match.
  * Returns year -> hunt number.
  */
-export function lineage(current: OddsRow, history: OddsRow[]): Map<number, number> {
+/** The unit an Idaho hunt area belongs to: "41-1", "41-2" and "41X" are all in Unit 41; "36A-3" in 36A. */
+export function parentArea(area: string): string {
+  return area.match(/^\d+[A-WYZ]?/)?.[0] ?? area; // X marks an extra (antlerless) area, never a unit letter
+}
+
+/**
+ * Which hunt number this hunt had in each earlier year. Within its own area a hunt can be renumbered
+ * (matched by tag count, then nearest number). With `relabels` (owner-approved Nov 25, 2026), the
+ * history also follows IDFG relabelling the area itself (2025 "38" -> 2026 "38-1", "41-1" -> "41-2"):
+ * a year with no match in the current area may continue into another area of the same parent unit
+ * when its tag count is within 10% and either the hunt number is the same, or it is the only such
+ * row and its area name no longer exists in the following year. Without `relabels` the history stops
+ * at the area name, which cut 15 current Idaho hunts' history in 2026.
+ */
+export function lineage(current: OddsRow, history: OddsRow[], opts: { relabels?: boolean } = {}): Map<number, number> {
   const out = new Map<number, number>([[current.year, current.huntNumber]]);
   const byYear = new Map<number, OddsRow[]>();
   for (const r of history) {
-    if (r.draw !== 1 || r.areaName !== current.areaName || r.year >= current.year) continue;
+    if (r.draw !== 1 || r.year > current.year) continue;
     (byYear.get(r.year) ?? byYear.set(r.year, []).get(r.year)!).push(r);
   }
   const target = current.permits ?? 0;
-  for (const [year, rows] of byYear) {
+  let area = current.areaName;
+  let lastNum = current.huntNumber;
+  let laterYear = current.year;
+  for (const year of [...byYear.keys()].filter((y) => y < current.year).sort((a, b) => b - a)) {
+    const all = byYear.get(year)!;
+    const rows = all.filter((r) => r.areaName === area);
     const exact = rows.find((r) => r.huntNumber === current.huntNumber);
     const best =
       exact && relDiff(exact.permits ?? 0, target) <= 0.5
@@ -122,7 +141,44 @@ export function lineage(current: OddsRow, history: OddsRow[]): Map<number, numbe
             )[0];
     // a hunt whose tag count is wildly different is a different hunt, not a renumbered one
     // (300 -> 500 tags is 0.4; 1 -> 200 is 0.995 and must not match)
-    if (best && relDiff(best.permits ?? 0, target) <= 0.6) out.set(year, best.huntNumber);
+    if (best && relDiff(best.permits ?? 0, target) <= 0.6) {
+      out.set(year, best.huntNumber);
+      lastNum = best.huntNumber;
+      laterYear = year;
+      continue;
+    }
+    if (!opts.relabels) continue;
+    const later = byYear.get(laterYear) ?? [];
+    const sib = all.filter((r) => r.areaName !== area && parentArea(r.areaName) === parentArea(area) && relDiff(r.permits ?? 0, target) <= 0.1);
+    const same = sib.find((r) => r.huntNumber === lastNum);
+    const only = sib.length === 1 && !later.some((r) => r.areaName === sib[0].areaName) ? sib[0] : undefined;
+    const pick = same ?? only;
+    if (pick) {
+      out.set(year, pick.huntNumber);
+      area = pick.areaName;
+      lastNum = pick.huntNumber;
+      laterYear = year;
+    }
+  }
+  return out;
+}
+
+/** Harvest rows that belong to a lineage. A hunt held in January or February after its draw year can be
+ * reported under the next calendar year (2024 draw, January 2025 hunt, 2025 harvest table): with
+ * `nextYear`, a draw year with no harvest row of its own takes the next year's row for the same number,
+ * in the same parent unit, when that number has no drawing of its own that next year. */
+export function lineageHarvest<H extends { year: number; huntNumber: number; areaName: string }>(
+  lin: Map<number, number>, linAreas: Map<number, string>, harvest: H[], drawn: Set<string>, species: string, opts: { nextYear?: boolean } = {},
+): H[] {
+  const at = new Map(harvest.map((h) => [`${h.year}|${h.huntNumber}`, h]));
+  const out: H[] = [];
+  for (const [year, n] of lin) {
+    const own = at.get(`${year}|${n}`);
+    if (own) { out.push(own); continue; }
+    if (!opts.nextYear || lin.has(year + 1) || drawn.has(`${species}|${year + 1}|${n}`)) continue;
+    const next = at.get(`${year + 1}|${n}`);
+    const area = linAreas.get(year);
+    if (next && area && parentArea(next.areaName) === parentArea(area)) out.push(next);
   }
   return out;
 }
