@@ -25,7 +25,8 @@ async function main(){
  const co=await page('/hunts?species=ELK&antler=ANTLERLESS&minPublic=10');assert.ok(co.includes('co-ef070o3r'));assert.ok(co.includes('Recommended Tags'));assert.ok(!/<details[^>]*class="picks"[^>]*open/.test(co));
  const hidden=await page('/hunts?from=10-30&to=10-31&antler=ANTLERED','ID');assert.ok(!hidden.includes('/hunts/ci-youth-window'),'hidden youth extension excluded');const shown=await page('/hunts?from=10-30&to=10-31&antler=ANTLERED&youth=include','ID');assert.ok(shown.includes('/hunts/ci-youth-window'),'included youth extension matches');
  const put=await fetch(base+'/api/filters',{method:'PUT',headers:{'Content-Type':'application/json',origin:base},body:JSON.stringify({state:'CO',query:'species=ELK&antler=ANTLERLESS&minPublic=10',owner:null})});assert.equal(put.status,200);const cookie=put.headers.get('set-cookie')!.split(';')[0];const restored=await fetch(base+'/hunts',{headers:{cookie:'state=CO; '+cookie}});assert.ok(restored.url.includes('antler=ANTLERLESS'));assert.ok(restored.url.includes('minPublic=10'));assert.equal(restored.status,200);
- const special=await page('/hunts?states=CO,ID&draw=msg&species=MOOSE&view=table');
+ // page=20: Colorado's small-sample moose hunts now score (no hunter minimum) and sort above this data-less row.
+ const special=await page('/hunts?states=CO,ID&draw=msg&species=MOOSE&view=table&page=20');
  assert.ok(special.includes('ci-idaho-moose')&&special.includes('first-choice draw rate'));
  const moose=await page('/hunts/co-mf007o1a');
  assert.ok(moose.includes('Historical Primary Draw')&&moose.includes('MF007O1M')&&moose.includes('Drawn Out At')&&moose.includes('Hunter Success'));
