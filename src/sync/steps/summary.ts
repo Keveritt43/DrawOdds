@@ -164,6 +164,8 @@ export async function computeSummaries(opts: { relabels?: boolean } = {}): Promi
         : await db.controlledHarvest.findMany({
             where: { species: h.species, OR: [...lin.entries()].map(([year, huntNumber]) => ({ year, huntNumber })) },
           });
+      if (relabels && (process.env.REPAIR_EXPLAIN ?? '').split(',').includes(`${h.species}:${h.huntNumber}`))
+        console.log('REPAIR_LINEAGE ' + JSON.stringify({ hunt: `${h.species}:${h.huntNumber}`, huntYear: h.year, cur: [cur.year, cur.areaName, cur.permits], lin: [...lin.entries()], areas: [...linAreas.entries()], harvest: harvestRows.map((x) => [x.year, x.huntNumber, x.areaName, x.hunters]) }));
       const hs = summarizeHarvest(h.species, harvestRows as HarvestRow[]);
       const area = cur.areaId ? areaMap.get(cur.areaId) : undefined;
       // units come from IDFG's hunt-area boundary (authoritative); fall back to the area's parent unit

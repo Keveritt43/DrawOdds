@@ -34,7 +34,8 @@ async function plan() {
     if (!or || !st) { if (or || st) notStored.push(id); continue; }
     const keys = [...new Set([...Object.keys(nr), ...Object.keys(or)])].filter((k) => !NEVER.has(k) && !same(nr[k], or[k]));
     if (!keys.length) continue;
-    const off = keys.filter((k) => !same(st[k], or[k]));
+    // a field the old rule left empty is stored as the column default (0 / false)
+    const off = keys.filter((k) => !same(st[k], or[k]) && !(or[k] == null && (st[k] === 0 || st[k] === false)));
     if (off.length) { skipped.push({ id, hunt, fields: off.map((k) => `${k} stored ${J(st[k])} old ${J(or[k])} new ${J(nr[k])}`) }); continue; }
     changes.push({ id, hunt, set: Object.fromEntries(keys.map((k) => [k, nr[k] ?? null])), was: Object.fromEntries(keys.map((k) => [k, st[k] ?? null])) });
   }
