@@ -111,7 +111,8 @@ export function parentArea(area: string): string {
  * history also follows IDFG relabelling the area itself (2025 "38" -> 2026 "38-1", "41-1" -> "41-2"):
  * a year with no match in the current area may continue into another area of the same parent unit
  * when its tag count is within 10% and either the hunt number is the same, or it is the only such
- * row and its area name no longer exists in the following year. Without `relabels` the history stops
+ * row and its area name no longer exists in the following year, and only between draws at most two years
+ * apart. Without `relabels` the history stops
  * at the area name, which cut 15 current Idaho hunts' history in 2026.
  */
 export function lineage(current: OddsRow, history: OddsRow[], opts: { relabels?: boolean } = {}): Map<number, number> {
@@ -147,7 +148,9 @@ export function lineage(current: OddsRow, history: OddsRow[], opts: { relabels?:
       laterYear = year;
       continue;
     }
-    if (!opts.relabels) continue;
+    // a relabel only bridges neighbouring draws (one skipped year allowed for every-other-year hunts);
+    // without this, 2133's history jumped from 2025 to a 1999 area with a similar tag count
+    if (!opts.relabels || laterYear - year > 2) continue;
     const later = byYear.get(laterYear) ?? [];
     const sib = all.filter((r) => r.areaName !== area && parentArea(r.areaName) === parentArea(area) && relDiff(r.permits ?? 0, target) <= 0.1);
     const same = sib.find((r) => r.huntNumber === lastNum);
