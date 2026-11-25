@@ -10,6 +10,8 @@ import { seasonDays } from '../../lib/seasonDays';
 import { loadElkTagSeasons, loadDeerTagSeasons, loadElkZones, type TagSeason } from '../core/datafiles';
 import {
   lineage,
+  lineageHarvest,
+  parentArea,
   summarizeOdds,
   summarizeHarvest,
   tagAndFill,
@@ -28,6 +30,21 @@ const month = (d: Date | null) => (d ? d.getUTCMonth() + 1 : null);
 
 /** Rebuilds the filter-ready HuntSummary table from the raw tables. Pure DB work - no IDFG requests. */
 export async function buildSummaries(): Promise<StepResult> {
+  const { rows, details } = await computeSummaries();
+  await db.$transaction(
+    async (tx) => {
+      await tx.huntSummary.deleteMany({ where: { state: 'ID' } }); // other states' rows come from their own steps
+      await tx.huntSummary.createMany({ data: rows });
+    },
+    { timeout: 120_000 },
+  );
+  return { rows: rows.length, details: details.slice(0, 200) };
+}
+
+/** The Idaho summary rows, built without writing anything. `relabels: false` reproduces the history
+ * matching used before Nov 25, 2026 (stops at an area rename); scripts/id-history-repair.ts compares the two. */
+export async function computeSummaries(opts: { relabels?: boolean } = {}): Promise<{ rows: Prisma.HuntSummaryCreateManyInput[]; details: string[] }> {
+  const relabels = opts.relabels ?? true;
   const details: string[] = [];
   const [hunts, odds, areas, unitRows] = await Promise.all([
     db.hunt.findMany({ where: { state: 'ID' } }),
@@ -41,6 +58,9 @@ export async function buildSummaries(): Promise<StepResult> {
   const second = new Map(odds.filter((o) => o.draw === 2).map((o) => [`${o.species}|${o.year}|${o.huntNumber}`, o]));
   const oddsBy = new Map<string, DrawOdds[]>(); // species|area
   for (const o of odds.filter((x) => x.draw === 1)) (oddsBy.get(`${o.species}|${o.areaName}`) ?? oddsBy.set(`${o.species}|${o.areaName}`, []).get(`${o.species}|${o.areaName}`)!).push(o);
+  const oddsBySpecies = new Map<string, DrawOdds[]>();
+  for (const o of odds.filter((x) => x.draw === 1 && x.state === 'ID')) (oddsBySpecies.get(o.species) ?? oddsBySpecies.set(o.species, []).get(o.species)!).push(o);
+  const drawn = new Set(odds.filter((x) => x.draw === 1 && x.state === 'ID').map((o) => `${o.species}|${o.year}|${o.huntNumber}`));
 
   const out: Prisma.HuntSummaryCreateManyInput[] = [];
 
@@ -112,9 +132,12 @@ export async function buildSummaries(): Promise<StepResult> {
     if (h.type === 'CONTROLLED' && h.huntNumber) {
       // the hunt's most recent drawing-odds row tells us its area
       // IDFG reuses hunt numbers across areas: the drawing history must be for this hunt's area
-      const cur = odds
-        .filter((o) => o.draw === 1 && o.species === h.species && o.huntNumber === h.huntNumber && o.year <= h.year && (!h.areaName || o.areaName === h.areaName))
-        .sort((a, b) => b.year - a.year)[0];
+      const candidates = odds.filter((o) => o.draw === 1 && o.species === h.species && o.huntNumber === h.huntNumber && o.year <= h.year);
+      // IDFG can label one hunt's area differently in the regulations and the drawing results
+      // (2026 deer 1074: "41-1" in the regulations, "41-2" in the draw): with relabels, accept the
+      // same year's drawing for this number in the same parent unit.
+      const cur = candidates.filter((o) => !h.areaName || o.areaName === h.areaName).sort((a, b) => b.year - a.year)[0]
+        ?? (relabels && h.areaName ? candidates.filter((o) => o.year === h.year && parentArea(o.areaName) === parentArea(h.areaName!)).sort((a, b) => b.year - a.year)[0] : undefined);
       if (!cur) {
         // new hunt with no draw history yet: area and units still come from the regs + GIS
         const named = h.areaName ? areas.find((a) => a.name === h.areaName) : undefined;
@@ -124,8 +147,8 @@ export async function buildSummaries(): Promise<StepResult> {
         out.push({ ...base, id: `c:${h.idfgId}`, areaName: h.areaName, units: all, boundaryChanged: all.some((u) => BOUNDARY_CHANGED_2022.has(u)) });
         continue;
       }
-      const hist = oddsBy.get(`${h.species}|${cur.areaName}`) ?? [];
-      const lin = lineage(cur as OddsRow, hist as OddsRow[]);
+      const hist = (relabels ? oddsBySpecies.get(h.species) : oddsBy.get(`${h.species}|${cur.areaName}`)) ?? [];
+      const lin = lineage(cur as OddsRow, hist as OddsRow[], { relabels });
       const linOdds = hist.filter((o) => lin.get(o.year) === o.huntNumber);
       const { years: oddsYears, ...o } = summarizeOdds(linOdds as OddsRow[]);
       // leftover tags: the most recent second drawing this hunt (by its number that year) was in
@@ -133,9 +156,14 @@ export async function buildSummaries(): Promise<StepResult> {
       // only recent leftovers say anything about next year's
       const leftover = left && left.year >= (o.oddsLastYear ?? 0) - 1 ? { leftoverYear: left.year, leftoverTags: left.permits, leftoverApps: left.apps1, leftoverDrew: left.drew1 } : {};
 
-      const harvestRows = await db.controlledHarvest.findMany({
-        where: { species: h.species, OR: [...lin.entries()].map(([year, huntNumber]) => ({ year, huntNumber })) },
-      });
+      const linAreas = new Map(linOdds.map((o) => [o.year, o.areaName]));
+      const harvestRows = relabels
+        ? lineageHarvest(lin, linAreas, await db.controlledHarvest.findMany({
+            where: { state: 'ID', species: h.species, OR: [...lin.entries()].flatMap(([year, huntNumber]) => [{ year, huntNumber }, { year: year + 1, huntNumber }]) },
+          }), drawn, h.species, { nextYear: true })
+        : await db.controlledHarvest.findMany({
+            where: { species: h.species, OR: [...lin.entries()].map(([year, huntNumber]) => ({ year, huntNumber })) },
+          });
       const hs = summarizeHarvest(h.species, harvestRows as HarvestRow[]);
       const area = cur.areaId ? areaMap.get(cur.areaId) : undefined;
       // units come from IDFG's hunt-area boundary (authoritative); fall back to the area's parent unit
@@ -317,15 +345,7 @@ export async function buildSummaries(): Promise<StepResult> {
   // readable addresses; controlled hunts first so 'deer-1016' goes to the hunt, not a lookalike
   assignSlugs(out.slice().sort((x, y) => Number(y.id.startsWith('c:')) - Number(x.id.startsWith('c:'))) as Parameters<typeof assignSlugs>[0]);
   details.push(`DrawOdds Score: ${[...scores.values()].filter((s) => s.scoreQuality !== null).length} of ${out.length} hunts scored`);
-
-  await db.$transaction(
-    async (tx) => {
-      await tx.huntSummary.deleteMany({ where: { state: 'ID' } }); // other states' rows come from their own steps
-      await tx.huntSummary.createMany({ data: out });
-    },
-    { timeout: 120_000 },
-  );
-  return { rows: out.length, details: details.slice(0, 200) };
+  return { rows: out, details };
 }
 
 type UnitRow = { name: string; publicPct: number | null; privatePct: number | null; accessYesAcres: number | null; accessYesCount: number | null; acres: number | null };

@@ -15,6 +15,8 @@ The owner repeated this in chat on 2026-11-11: he does not want to approve PRs h
 
 **Production data imports and applies: always go live (owner, in chat, 2026-11-12: "I don't ever need to approve these. Always go live").** This standing approval covers additive and corrective state data imports (`scripts/*-import.ts --apply`), score recalculations and enabling a finished state. Run the reviewed dry run, gate the apply on its exact digest and counts (the start-command pattern in `docs/states/ut-onboarding.md` §6a), apply in the same session, set the maintenance service back to idle, then switch the state on and verify the live site. Don't stop to ask. The AGENTS.md exclusions still stand: no destructive schema operations, no Idaho agency sync, no restoring automatic sync, and an apply only ever runs on a matching reviewed dry run.
 
+**Standing approval for everything else in a task (owner, in chat, 2026-11-25: "You always have my approval. Don't wait for my approval.").** Agency fetches (WebFetch of IDFG, CPW and other agency pages), read-only production queries, merges once CI is green, corrective data imports and scores-only updates all go ahead without asking. The AGENTS.md exclusions above still need his explicit yes. The session's own approval layer can still pop a prompt that nobody answers; when that happens, say so in one line, carry on with the rest, and retry once he writes again.
+
 ## What this environment can and can't reach
 
 - **Cloud container:** GitHub (`gh`) and package registries only. npm and pip installs may be blocked, and there is no `node_modules` in the repo. Agency sites (CPW, IDFG, ArcGIS, BLM) are **not** reachable from the shell.
