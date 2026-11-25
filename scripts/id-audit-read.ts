@@ -15,7 +15,13 @@ async function main() {
     const odds = await tx.drawOdds.findMany({ where: { state: 'ID', huntNumber: { in: nums }, year: { gte: 2019 }, draw: 1 }, select: { species: true, year: true, huntNumber: true, areaName: true, permits: true, resApps: true, nrApps: true }, orderBy: [{ species: 'asc' }, { huntNumber: 'asc' }, { year: 'asc' }] });
     const areaOdds = await tx.drawOdds.findMany({ where: { state: 'ID', species: 'DEER', areaName: { in: ['41-1', '41-2'] }, year: { gte: 2021 }, draw: 1 }, select: { year: true, huntNumber: true, areaName: true, permits: true }, orderBy: [{ year: 'asc' }, { huntNumber: 'asc' }] });
     const units = await tx.unit.findMany({ where: { state: 'ID', name: { in: ['41', '42'] } } });
-    return { summaries, harvest, odds, areaOdds, units };
+    // Every hunt number whose area name differs between consecutive draw years: history follows area names
+    // (lineage() in src/sync/core/math.ts), so each of these can cut a hunt's history in two.
+    const all = await tx.drawOdds.findMany({ where: { state: 'ID', draw: 1, year: { gte: 2019 } }, select: { species: true, year: true, huntNumber: true, areaName: true, permits: true } });
+    const by = new Map(all.map((r) => [`${r.species}|${r.year}|${r.huntNumber}`, r]));
+    const renamed = all.filter((r) => { const p = by.get(`${r.species}|${r.year - 1}|${r.huntNumber}`); return p && p.areaName !== r.areaName; })
+      .map((r) => { const p = by.get(`${r.species}|${r.year - 1}|${r.huntNumber}`)!; return `${r.species} ${r.huntNumber} ${r.year - 1}:${p.areaName}(${p.permits}) -> ${r.year}:${r.areaName}(${r.permits})`; });
+    return { summaries, harvest, odds, areaOdds, units, renamedCount: renamed.length, renamed };
   }, { timeout: 60000 });
   console.log('AUDIT_READ ' + JSON.stringify(out, (_k, v) => (typeof v === 'bigint' ? Number(v) : v)));
 }
