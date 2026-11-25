@@ -166,7 +166,8 @@ export function lineage(current: OddsRow, history: OddsRow[], opts: { relabels?:
 /** Harvest rows that belong to a lineage. A hunt held in January or February after its draw year can be
  * reported under the next calendar year (2024 draw, January 2025 hunt, 2025 harvest table): with
  * `nextYear`, a draw year with no harvest row of its own takes the next year's row for the same number,
- * in the same parent unit, when that number has no drawing of its own that next year. */
+ * in the same parent unit, when that number has no drawing of its own that next year (another number
+ * may draw that year in the same lineage). */
 export function lineageHarvest<H extends { year: number; huntNumber: number; areaName: string }>(
   lin: Map<number, number>, linAreas: Map<number, string>, harvest: H[], drawn: Set<string>, species: string, opts: { nextYear?: boolean } = {},
 ): H[] {
@@ -175,7 +176,9 @@ export function lineageHarvest<H extends { year: number; huntNumber: number; are
   for (const [year, n] of lin) {
     const own = at.get(`${year}|${n}`);
     if (own) { out.push(own); continue; }
-    if (!opts.nextYear || lin.has(year + 1) || drawn.has(`${species}|${year + 1}|${n}`)) continue;
+    // the next year's row for this number can't be that year's own hunt if the number didn't draw then
+    // (41X: 2281 draws in even years; the odd years' winter hunt is 2252, already in the lineage)
+    if (!opts.nextYear || drawn.has(`${species}|${year + 1}|${n}`)) continue;
     const next = at.get(`${year + 1}|${n}`);
     const area = linAreas.get(year);
     if (next && area && parentArea(next.areaName) === parentArea(area)) out.push(next);
