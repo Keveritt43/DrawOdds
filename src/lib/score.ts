@@ -9,7 +9,7 @@ export const SCORE_VERSION = 'idaho-v13-area-55';
 export const SCORE_WEIGHTS = { success: 65, access: 20, crowd: 15, trophy: 10 } as const;
 export type ScorePart = keyof typeof SCORE_WEIGHTS;
 export const SCORE_PART_LABEL: Record<ScorePart, string> = { success: 'Success', access: 'Access', crowd: 'Elbow room', trophy: 'Trophy' };
-// small once-in-a-lifetime permit counts: score from 10 hunters, not 30
+// once-in-a-lifetime permits: a lighter success prior (10 hunters, not 50)
 const MSG = new Set(['MOOSE', 'BIGHORN', 'GOAT', 'BISON']);
 export interface ScoreInput {
   id: string;
@@ -96,7 +96,9 @@ export function scoreHunts(rows: ScoreInput[]): Map<string, ScoreOutput> {
     const trophy = r.trophy !== undefined ? r.trophy : r.twoPoint || r.antlerMaximum ? null : trophyForHunt({...r,state:r.state ?? 'ID',units:r.units ?? []});
     o.scoreTrophy = trophy;
     const n = r.hunters5, h = r.harvest5;
-    if (!finite(n) || n < (MSG.has(r.species) ? 10 : 30) || !finite(h) || h < 0 || h > n) continue;
+    // No hunter minimum (owner, Nov 24): any hunt with harvest history scores. Small samples are
+    // pulled toward a conservative baseline by the prior k below, and cards still say "Small sample".
+    if (!finite(n) || n < 1 || !finite(h) || h < 0 || h > n) continue;
     const [hi, lo, top] = successBands(r.species, r.weapon, r.nrTag ? 'GENERAL' : r.type);
     const points: [number, number][] = [[0, 0], [lo, 30], [hi, 75], [top, 100]];
     // A fixed conservative prior avoids changing a hunt when unrelated peers are added.

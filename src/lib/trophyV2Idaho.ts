@@ -113,11 +113,11 @@ export function idScoreNoQuota(p: Omit<IdParts,'demand'>): number {
   return Math.round((17.5 + 47 * (p.animal ?? 0.5) + 8 * p.publications + 5 * p.bc + 5 * p.rut) * 10) / 10;
 }
 
-/** Live Idaho score (owner, Nov 24): demand is the hunt's raw application count, as a mid-rank
- * percentile within species, not applicants per tag. The owner's reason: in some states every
- * tag is hard to get, so scarcity doesn't separate hunts; how many hunters want the hunt does.
- * Raw counts also rise with tag count (deer 1057: 2,694 applications for 2,293 tags), which is
- * a known cost of this choice. Timing is worth at most five points. */
+/** Live Idaho score (owner, Nov 24). `demand` is half the raw-application percentile and half the
+ * applications-per-tag percentile, within species: volume alone rewarded big easy hunts (deer 1057:
+ * 2,694 applications for 2,293 tags), scarcity alone doesn't separate states where every tag is
+ * hard to get. Draw odds are not added: in a random draw they are about tags / applications, the
+ * same signal twice. Timing is worth at most five points. */
 export const LIVE_WEIGHTS = { demand: 35, animal: 47, publications: 8, bc: 5, rut: 5 } as const;
 export function idScoreApplicants(p: IdParts): number {
   const w = LIVE_WEIGHTS;

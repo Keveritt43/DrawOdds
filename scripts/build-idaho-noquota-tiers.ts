@@ -58,22 +58,33 @@ for(const sp of ['DEER','ELK'])for(const x of withShare(sp))for(const u of x.uni
   const k=`${sp}|${u}`,v=shrunkShare(x),old=unitHerd.get(k);
   if(!old||v>old.share)unitHerd.set(k,{share:v,from:x.code,sample:x.harvest5!});
 }
-const herdValues=(sp:string)=>[...unitHerd].filter(([k])=>k.startsWith(sp+'|')).map(([,v])=>v.share);
+// Each hunt is scored on its own harvest when it has any (owner, Nov 24: 300-tag October 1042 had
+// been scored on 20-tag November 1043's bucks because they share Unit 54). Small samples are pulled
+// toward the species mean by K. Only a hunt with no harvest of its own borrows its weakest unit's
+// best single-unit figure. Percentiles are among the eligible hunts' own figures.
+const ownShare=(h:H)=>typeof h.bigPct5==='number'&&typeof h.harvest5==='number'&&h.harvest5>0?shrunkShare(h):null;
+const huntValues=(sp:string)=>snapshot.hunts.filter(x=>x.species===sp&&eligible(x)&&mule(x)).map(ownShare).filter((v):v is number=>v!==null);
 const animalShare=(h:H)=>{
   if(h.species==='PRONGHORN'||!mule(h))return null; // IDFG's deer share is mule deer 4+; no pronghorn measure
+  const own=ownShare(h);
+  if(own!==null)return {value:own,from:h.code,percentile:midRank(own,huntValues(h.species))};
   const units=h.units.map(u=>unitHerd.get(`${h.species}|${u}`));
-  if(units.some(u=>!u)) {
-    // A hunt-wide observation stays hunt-wide; do not copy it to each unit.
-    if(typeof h.bigPct5!=='number'||typeof h.harvest5!=='number'||h.harvest5<=0)return null;
-    const value=shrunkShare(h);return {value,from:h.code,percentile:midRank(value,herdValues(h.species))};
-  }
+  if(units.some(u=>!u))return null;
   const weakest=units.reduce((a,b)=>b!.share<a!.share?b:a)!;
-  return {value:weakest.share,from:weakest.from,percentile:midRank(weakest.share,herdValues(h.species))};
+  return {value:weakest.share,from:weakest.from,percentile:midRank(weakest.share,huntValues(h.species))};
 };
 
-// Demand: raw applications, mid-rank percentile within species among the eligible hunts (owner, Nov 24).
-const appsBySpecies=(sp:string)=>snapshot.hunts.filter(x=>eligible(x)&&x.species===sp&&typeof x.applications==='number').map(x=>x.applications as number);
-const demandPct=(h:H)=>typeof h.applications==='number'?midRank(h.applications,appsBySpecies(h.species)):null;
+// Demand (owner, Nov 24): half raw applications, half applications per tag, each a mid-rank
+// percentile within species among the eligible hunts. Not draw odds: in Idaho's random draw odds are
+// about tags / applications, so using both would count scarcity twice.
+const perTag=(x:H)=>typeof x.applications==='number'&&typeof x.tags==='number'&&x.tags>0?x.applications/x.tags:null;
+const pool=(sp:string)=>snapshot.hunts.filter(x=>eligible(x)&&x.species===sp);
+const appsBySpecies=(sp:string)=>pool(sp).map(x=>x.applications).filter((v):v is number=>typeof v==='number');
+const ratioBySpecies=(sp:string)=>pool(sp).map(perTag).filter((v):v is number=>v!==null);
+const demandPct=(h:H)=>{
+  const r=perTag(h);
+  return typeof h.applications==='number'&&r!==null?.5*midRank(h.applications,appsBySpecies(h.species))+.5*midRank(r,ratioBySpecies(h.species)):null;
+};
 const results=snapshot.hunts.filter(eligible).map(h=>{
   const live=(liveTiers.tiers as Record<string,{tier:number}>)[`${h.species}:${h.code}`];
   const base={code:h.code,species:h.species,units:h.units,weapon:h.weapon,open:h.open,close:h.close,tags:h.tags,applications:h.applications,liveTrophy:live?.tier??h.liveTrophy};
@@ -126,5 +137,5 @@ if(tableOut){
     const g=scored.filter(r=>r.species===sp);
     for(const r of g)tiers[`${sp}:${r.code}`]={tier:r.tier,score:r.score,rank:g.filter(x=>x.score>r.score).length+1,of:g.length,units:[...r.units].sort(),animalSourceHunt:r.animalFromHunt,animalSharePct:r.animalShare,applications:r.applications??null,demandPct:r.demandPercentile===null?null:Math.round(r.demandPercentile*100),orderedAbove:r.orderedAbove};
   }
-  writeFileSync(tableOut,JSON.stringify({notice:'Idaho provisional trophy tiers: raw applications as demand (no tag quota or draw odds); 5 points maximum for timing; within the same units and weapon a deer or elk hunt with more rut days ranks above. Generated from the retained snapshot by scripts/build-idaho-noquota-tiers.ts.',drawYear:2026,snapshot:'data/id/trophy-shadow-2026-11-16.json',snapshotSha256:snapshot.compactSha256,tiers},null,1)+'\n');
+  writeFileSync(tableOut,JSON.stringify({notice:'Idaho provisional trophy tiers: demand is half applications, half applications per tag (no draw odds); 5 points maximum for timing; within the same units and weapon a deer or elk hunt with more rut days ranks above. Generated from the retained snapshot by scripts/build-idaho-noquota-tiers.ts.',drawYear:2026,snapshot:'data/id/trophy-shadow-2026-11-16.json',snapshotSha256:snapshot.compactSha256,tiers},null,1)+'\n');
 }

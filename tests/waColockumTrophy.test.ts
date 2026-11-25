@@ -18,7 +18,7 @@ test('Colockum follows reviewed annual choices, repairs dates and earns Excellen
  assert.equal(h.openDate?.toISOString().slice(0,10),'2026-09-25');
  assert.equal(h.closeDate?.toISOString().slice(0,10),'2026-09-29');
  assert.equal(h.hunters5,5);assert.equal(h.harvest5,5);assert.equal(h.harvestYears,5);
- assert.equal(h.smallSample,true);assert.equal(h.scoreQuality,null);assert.equal(h.oddsByPts,null);
+ assert.equal(h.smallSample,true);assert.notEqual(h.scoreQuality,null);assert.equal(h.oddsByPts,null);
  assert.deepEqual((h.pointOdds as {harvest:{year:number}[]}).harvest.map(x=>x.year),[2021,2022,2023,2024,2025]);
  assert.equal(h.scoreTrophy,80);assert.equal(trophyForUnit(h,'328').score,80);
  assert.equal(JSON.stringify(input),before);
