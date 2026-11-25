@@ -409,8 +409,10 @@ test('DrawOdds Score: access line, opportunity, sample floor, absolute opportuni
   const mk = (i: number, extra = {}) => ({ id: `h${i}`, species: 'ELK', type: 'CONTROLLED', weapon: 'ANY', antlerClass: 'ANTLERED', hunters5: 200, harvest5: 20 + i * 10, huntersSqMi: 1 / (i + 1), huntablePct: 80, bigPct5: 0.1 * i, resOdds5: 0.04, nrOdds5: 0.01, ...extra });
   const rows = [...Array.from({ length: 10 }, (_, i) => mk(i)), mk(99, { id: 'tiny', hunters5: 3, harvest5: 3 })];
   const s = scoreHunts(rows);
-  assert.equal(s.get('tiny')!.scoreQuality, null); // too few hunters
   const best = s.get('h9')!;
+  // No hunter minimum (owner, Nov 24): 3 of 3 scores, but the prior keeps it below a 200-hunter hunt at 110 of 200.
+  assert.notEqual(s.get('tiny')!.scoreQuality, null);
+  assert.ok(s.get('tiny')!.scoreQuality! < best.scoreQuality!);
   const worst = s.get('h0')!;
   assert.ok(best.scoreQuality! > worst.scoreQuality!);
   // same odds everywhere: absolute opportunity orders like quality

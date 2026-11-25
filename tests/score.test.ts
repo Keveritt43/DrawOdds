@@ -105,7 +105,8 @@ test('quality monotonic with success, access and elbow room; trophy bounded and 
   for(const bigPct5 of [0,.25,.5,.75,1]) assert.ok(Math.abs(score({antlerClass:'ANTLERED',harvest5:600,bigPct5}).scoreQuality!-base)<=5);
   assert.equal(score({antlerClass:'ANTLERED',twoPoint:true,bigPct5:1}).scoreTrophy,null);
   assert.equal(score({species:'DEER',antlerClass:'ANTLERED',deerType:'WHITETAIL',bigPct5:1}).scoreTrophy,null);
-  assert.equal(score({species:'MOOSE',hunters5:9,harvest5:9}).scoreQuality,null);
+  assert.notEqual(score({species:'MOOSE',hunters5:9,harvest5:9}).scoreQuality,null,'no hunter minimum');
+  assert.equal(score({species:'MOOSE',hunters5:0,harvest5:0}).scoreQuality,null);
   assert.notEqual(score({species:'MOOSE',hunters5:10,harvest5:9}).scoreQuality,null);
 });
 test('a recognized trophy tier can be shown without enough harvest data for Quality', () => {

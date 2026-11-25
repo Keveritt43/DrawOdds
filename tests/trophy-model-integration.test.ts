@@ -45,23 +45,26 @@ test('DWR premium buck deer permits are Elite across weapons and multiseason hun
 test('Idaho 1044 (Area 55) uses its v2 tier in hunt and map, and never shades Unit 57', () => {
   const h={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['55'],
     huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'};
-  assert.equal(trophyForHunt(h),100);
-  assert.equal(trophyForUnit(h,'55').score,100);
+  // Owner rule Nov 24: applications drive demand; 1044's 693 applications rank 6th of 108 deer, Excellent.
+  assert.equal(trophyForHunt(h),80);
+  assert.equal(trophyForUnit(h,'55').score,80);
   assert.equal(trophyForUnit(h,'57').score,null);
   assert.notEqual(trophyForHunt({...h,huntNumber:9999}),80);
 });
 
 test('Idaho no-quota tiers match Unit 54 hunts and exclude quota from the result', () => {
   const base={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',oddsLastYear:2026};
-  assert.equal(trophyForHunt({...base,units:['54'],huntNumber:1043,openDate:'2026-11-15',closeDate:'2026-11-30'}),80);
-  assert.equal(trophyForHunt({...base,units:['54'],huntNumber:1042,openDate:'2026-10-05',closeDate:'2026-10-31'}),80);
+  assert.equal(trophyForHunt({...base,units:['54'],huntNumber:1043,openDate:'2026-11-15',closeDate:'2026-11-30'}),100);
+  assert.equal(trophyForHunt({...base,units:['54'],huntNumber:1042,openDate:'2026-10-05',closeDate:'2026-10-31'}),50,'300-tag October hunt: its own 52% mature bucks, 13 applicants per tag');
+  assert.match(trophyForUnit({...base,units:['54'],huntNumber:1043},'54').reason,/Ranks 1 of 108/);
   const h={...base,units:['40'],huntNumber:1031,resAppsLast:5008,nrAppsLast:1174,openDate:'2026-11-01',closeDate:'2026-11-24',bigPct5:.7647,resOdds5:.039,nrOdds5:.024};
-  assert.equal(trophyForHunt(h),65);
-  assert.equal(trophyForUnit(h,'40').score,65);
-  assert.equal(trophyForHunt({...h,resOdds5:.99,nrOdds5:.99}),65);
+  // 6,182 applications for 200 tags (31 per tag) and 76% mature bucks: Excellent; draw odds still change nothing.
+  assert.equal(trophyForHunt(h),80);
+  assert.equal(trophyForUnit(h,'40').score,80);
+  assert.equal(trophyForHunt({...h,resOdds5:.99,nrOdds5:.99}),80);
   assert.match(trophyForUnit(h,'40').reason,/Ranks \d+ of 108 Idaho controlled deer hunts/);
-  assert.equal(trophyHuntEvidence(h,65).provisional,true);
-  assert.match(trophyHuntEvidence(h,65).reason,/sample-adjusted antler share/);
+  assert.equal(trophyHuntEvidence(h,80).provisional,true);
+  assert.match(trophyHuntEvidence(h,80).reason,/sample-adjusted antler share/);
   assert.equal(idahoV2Tier({...h,oddsLastYear:2027}),null,'a new draw year falls back until the table is regenerated');
   assert.equal(idahoV2Tier({...h,species:'ELK'}),null);
   assert.equal(idahoV2Tier({...h,state:'CO'}),null);
@@ -69,9 +72,9 @@ test('Idaho no-quota tiers match Unit 54 hunts and exclude quota from the result
 
 test('Idaho trophy evidence identifies the source hunt or a neutral input',()=>{
   const deer={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['54'],huntNumber:1042,oddsLastYear:2026};
-  const reason=trophyForUnit(deer,'54').reason;
-  assert.match(reason,/81\.5% from hunt 1043/);
-  assert.match(reason,/can differ from this hunt's own harvest/);
+  assert.match(trophyForUnit(deer,'54').reason,/52% from this hunt's own harvest/);
+  const borrow={...deer,units:['14'],huntNumber:1117};
+  assert.match(trophyForUnit(borrow,'14').reason,/61\.2% from hunt 1008 in the same unit, because this hunt has no harvest/);
   const pronghorn={...deer,species:'PRONGHORN',units:['46'],huntNumber:4012};
   assert.match(trophyForUnit(pronghorn,'46').reason,/unavailable and received a neutral input/);
 });
@@ -87,8 +90,8 @@ test('an Idaho hunt number with different units never inherits a v2 tier', () =>
 test('Idaho 1044 stored as Units 55+57 gets the same v2 tier as the corrected Area 55 hunt', () => {
   const raw={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',units:['55','57'],
     huntNumber:1044,oddsLastYear:2026,openDate:'2026-08-15',closeDate:'2026-09-24'};
-  assert.equal(trophyForHunt(raw),100);
-  assert.equal(trophyForUnit(raw,'55').score,100);
+  assert.equal(trophyForHunt(raw),80);
+  assert.equal(trophyForUnit(raw,'55').score,80);
   assert.equal(trophyForUnit(raw,'57').score,null);
 });
 

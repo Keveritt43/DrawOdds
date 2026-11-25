@@ -18,7 +18,8 @@ test('Colorado Quality matches Idaho fixed model for identical validated inputs'
  assert.equal(r.publicPct,undefined,'no mutation of persisted input');
 });
 test('Colorado rejects impossible, mismatched, missing and small-sample inputs',()=>{
- for(const patch of [{harvest5:1001},{harvest5:-1},{hunters5:NaN},{success5:.9},{harvestYears:0},{hunters5:20,harvest5:10},{units:['missing']},{units:['70','missing']}]) assert.equal(withCoScores(row(patch)).scoreQuality,null,JSON.stringify(patch));
+ for(const patch of [{harvest5:1001},{harvest5:-1},{hunters5:NaN},{success5:.9},{harvestYears:0},{units:['missing']},{units:['70','missing']}]) assert.equal(withCoScores(row(patch)).scoreQuality,null,JSON.stringify(patch));
+ assert.notEqual(withCoScores(row({hunters5:20,harvest5:10})).scoreQuality,null,'no hunter minimum (owner, Nov 24)');
  assert.equal(withCoScores(row({privateOnly:true})).scoreAccess,0);
  const id=row({state:'ID'});assert.equal(withCoScores(id),id,'Idaho is untouched');
 });

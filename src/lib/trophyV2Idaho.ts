@@ -112,3 +112,49 @@ export function idScore(p: IdParts): number {
 export function idScoreNoQuota(p: Omit<IdParts,'demand'>): number {
   return Math.round((17.5 + 47 * (p.animal ?? 0.5) + 8 * p.publications + 5 * p.bc + 5 * p.rut) * 10) / 10;
 }
+
+/** Live Idaho score (owner, Nov 24). `demand` is half the raw-application percentile and half the
+ * applications-per-tag percentile, within species: volume alone rewarded big easy hunts (deer 1057:
+ * 2,694 applications for 2,293 tags), scarcity alone doesn't separate states where every tag is
+ * hard to get. Draw odds are not added: in a random draw they are about tags / applications, the
+ * same signal twice. Timing is worth at most five points. */
+export const LIVE_WEIGHTS = { demand: 35, animal: 47, publications: 8, bc: 5, rut: 5 } as const;
+export function idScoreApplicants(p: IdParts): number {
+  const w = LIVE_WEIGHTS;
+  return Math.round((w.demand * p.demand + w.animal * (p.animal ?? 0.5) + w.publications * p.publications + w.bc * p.bc + w.rut * p.rut) * 10) / 10;
+}
+
+/** Live timing windows. Deer: all of November, Idaho's rut (IDFG; East Idaho News puts the mule
+ * deer peak near Nov 15), so a Nov 10–30 hunt counts as rut. The earlier Nov 1–15 window credited
+ * an Oct 17–Nov 9 hunt with more rut than a Nov 10–30 hunt. Elk: mid-September to the first week
+ * of October. */
+export const LIVE_TIMING_WINDOWS: Record<string, [string, string]> = {
+  'DEER:MULE': ['11-01', '11-30'], 'DEER:WHITETAIL': ['11-01', '11-30'], ELK: ['09-15', '10-07'], PRONGHORN: ['09-10', '10-05'],
+};
+
+export interface OrderRow { key: string; species: string; weapon: string; units: string[]; deerType?: string | null; rutDays: number; score: number }
+/** Owner rule (Nov 24): for deer and elk, a hunt in the same units with the same weapon and more
+ * rut days ranks above one with fewer (November deer over October; September rifle elk over
+ * October). Raises the rut hunt just above the best earlier hunt; never lowers anything, and never
+ * compares hunts across units or weapons. Returns the adjusted scores and which rows moved. */
+export function orderByRut(rows: OrderRow[]): { scores: Map<string, number>; lifted: Map<string, string> } {
+  const scores = new Map(rows.map(r => [r.key, r.score])), lifted = new Map<string, string>();
+  const groups = new Map<string, OrderRow[]>();
+  for (const r of rows) if (r.species === 'DEER' || r.species === 'ELK') {
+    const g = `${r.species}|${r.species === 'DEER' ? (r.deerType ?? '') : ''}|${r.weapon}|${[...r.units].map(u => u.trim()).sort().join(',')}`;
+    groups.set(g, [...(groups.get(g) ?? []), r]);
+  }
+  for (const g of groups.values()) {
+    const sorted = [...g].sort((a, b) => a.rutDays - b.rutDays);
+    let best: { key: string; score: number } | null = null, i = 0;
+    while (i < sorted.length) {
+      const day = sorted[i].rutDays, same = sorted.filter(r => r.rutDays === day);
+      for (const r of same) if (best && scores.get(r.key)! <= best.score) {
+        scores.set(r.key, Math.round((best.score + 0.1) * 10) / 10); lifted.set(r.key, best.key);
+      }
+      for (const r of same) if (!best || scores.get(r.key)! > best.score) best = { key: r.key, score: scores.get(r.key)! };
+      i += same.length;
+    }
+  }
+  return { scores, lifted };
+}

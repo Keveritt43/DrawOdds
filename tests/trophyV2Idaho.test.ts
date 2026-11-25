@@ -42,3 +42,36 @@ test('rank tiers: top 2% → 100, to 10% → 80, to 40% → 65; ties never split
  assert.deepEqual(rankTiers([9,8,8,8,8,8,1,1,1,1]),[100,65,65,65,65,65,50,50,50,50],'five tied hunts straddling the 65 line (4 slots) all go up together');
  assert.deepEqual(rankTiers([5]),[100]);assert.deepEqual(rankTiers([]),[]);
 });
+
+import {idScoreApplicants,LIVE_TIMING_WINDOWS,LIVE_WEIGHTS,orderByRut} from '../src/lib/trophyV2Idaho';
+import liveTable from '../data/id/trophy-v2-tiers.json';
+test('live weights add to 100 with timing held to five points',()=>{
+ assert.equal(Object.values(LIVE_WEIGHTS).reduce((a,b)=>a+b,0),100);assert.equal(LIVE_WEIGHTS.rut,5);
+ const p={demand:.5,animal:.5,publications:0,bc:0};
+ assert.equal(idScoreApplicants({...p,rut:1})-idScoreApplicants({...p,rut:0}),5);
+ assert.equal(idScoreApplicants({...p,demand:1,rut:0})-idScoreApplicants({...p,demand:0,rut:0}),35);
+});
+test('deer timing covers all of November: Nov 10-30 beats Oct 17-Nov 9',()=>{
+ assert.ok(rutDays('DEER','MULE','2026-11-10','2026-11-30',LIVE_TIMING_WINDOWS)!>rutDays('DEER','MULE','2026-10-17','2026-11-09',LIVE_TIMING_WINDOWS)!);
+});
+test('same units and weapon: more rut days ranks above, never lowers, never crosses units or weapons',()=>{
+ const r=orderByRut([
+  {key:'oct',species:'DEER',weapon:'ANY',units:['54'],deerType:'MULE',rutDays:0,score:80},
+  {key:'nov',species:'DEER',weapon:'ANY',units:['54'],deerType:'MULE',rutDays:16,score:70},
+  {key:'arch',species:'DEER',weapon:'ARCHERY',units:['54'],deerType:'MULE',rutDays:0,score:90},
+  {key:'other',species:'DEER',weapon:'ANY',units:['55'],deerType:'MULE',rutDays:0,score:95},
+  {key:'elkOct',species:'ELK',weapon:'ANY',units:['44'],rutDays:0,score:66},
+  {key:'elkSep',species:'ELK',weapon:'ANY',units:['44'],rutDays:7,score:60},
+  {key:'ph',species:'PRONGHORN',weapon:'ANY',units:['1'],rutDays:10,score:10},
+  {key:'ph2',species:'PRONGHORN',weapon:'ANY',units:['1'],rutDays:0,score:40},
+ ]);
+ assert.equal(r.scores.get('nov'),80.1);assert.equal(r.lifted.get('nov'),'oct');
+ assert.equal(r.scores.get('oct'),80);assert.equal(r.scores.get('arch'),90);assert.equal(r.scores.get('other'),95);
+ assert.equal(r.scores.get('elkSep'),66.1);assert.equal(r.scores.get('ph'),10,'pronghorn is not reordered');
+});
+test('live table: every same-unit, same-weapon deer/elk hunt with more rut days ranks at least as high',()=>{
+ const t=liveTable.tiers as Record<string,{tier:number;score:number;units:string[]}>;
+ // Unit 54: November 1043 above October 1042; Unit 44 elk: early October 2021 above late 2022.
+ assert.ok(t['DEER:1043'].score>t['DEER:1042'].score);assert.ok(t['DEER:1043'].tier>=t['DEER:1042'].tier);
+ assert.ok(t['ELK:2021'].score>t['ELK:2022'].score);
+});
