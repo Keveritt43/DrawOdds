@@ -62,7 +62,7 @@ test('Idaho no-quota tiers match Unit 54 hunts and exclude quota from the result
   assert.equal(trophyForHunt(h),80);
   assert.equal(trophyForUnit(h,'40').score,80);
   assert.equal(trophyForHunt({...h,resOdds5:.99,nrOdds5:.99}),80);
-  assert.match(trophyForUnit(h,'40').reason,/Ranks \d+ of 108 Idaho controlled deer hunts/);
+  assert.match(trophyForUnit(h,'40').reason,/Ranks \d+ of 109 Idaho controlled deer hunts/);
   assert.equal(trophyHuntEvidence(h,80).provisional,true);
   assert.match(trophyHuntEvidence(h,80).reason,/sample-adjusted antler share/);
   assert.equal(idahoV2Tier({...h,oddsLastYear:2027}),null,'a new draw year falls back until the table is regenerated');
