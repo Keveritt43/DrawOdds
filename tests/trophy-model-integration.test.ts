@@ -56,13 +56,13 @@ test('Idaho no-quota tiers match Unit 54 hunts and exclude quota from the result
   const base={state:'ID',species:'DEER',type:'CONTROLLED',weapon:'ANY',antlerClass:'ANTLERED',oddsLastYear:2026};
   assert.equal(trophyForHunt({...base,units:['54'],huntNumber:1043,openDate:'2026-11-15',closeDate:'2026-11-30'}),100);
   assert.equal(trophyForHunt({...base,units:['54'],huntNumber:1042,openDate:'2026-10-05',closeDate:'2026-10-31'}),50,'300-tag October hunt: its own 52% mature bucks, 13 applicants per tag');
-  assert.match(trophyForUnit({...base,units:['54'],huntNumber:1043},'54').reason,/Ranks 1 of 108/);
+  assert.match(trophyForUnit({...base,units:['54'],huntNumber:1043},'54').reason,/Ranks 1 of 109/);
   const h={...base,units:['40'],huntNumber:1031,resAppsLast:5008,nrAppsLast:1174,openDate:'2026-11-01',closeDate:'2026-11-24',bigPct5:.7647,resOdds5:.039,nrOdds5:.024};
   // 6,182 applications for 200 tags (31 per tag) and 76% mature bucks: Excellent; draw odds still change nothing.
   assert.equal(trophyForHunt(h),80);
   assert.equal(trophyForUnit(h,'40').score,80);
   assert.equal(trophyForHunt({...h,resOdds5:.99,nrOdds5:.99}),80);
-  assert.match(trophyForUnit(h,'40').reason,/Ranks \d+ of 108 Idaho controlled deer hunts/);
+  assert.match(trophyForUnit(h,'40').reason,/Ranks \d+ of 109 Idaho controlled deer hunts/);
   assert.equal(trophyHuntEvidence(h,80).provisional,true);
   assert.match(trophyHuntEvidence(h,80).reason,/sample-adjusted antler share/);
   assert.equal(idahoV2Tier({...h,oddsLastYear:2027}),null,'a new draw year falls back until the table is regenerated');
