@@ -162,7 +162,7 @@ export default async function HuntPage({ params, searchParams }: { params: Promi
           {isIdaho2026Deer1074(s) && <p className="small muted">IDFG&apos;s 2026 regulations define this hunt area as Units 41 and 42. Hunt-area land and density are unavailable while the stored area is corrected.</p>}
           {exploreUnits.length > 0 && <div style={{ margin: '12px 0 16px' }}>
             <div className="small muted" style={{ marginBottom: 6 }}>Explore maps, wildfire and conditions for {exploreUnits.length === 1 ? 'this unit' : 'these units'}:</div>
-            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>{exploreZone && <Link className="btn primary" href={idahoZoneResearchHref(exploreZone,returnHunt)}>Explore {exploreZone} Zone →</Link>}{exploreUnits.map(u => <Link key={u} className="btn" href={idahoUnitResearchHref(u, returnHunt)}>Explore Unit {u} →</Link>)}</div>
+            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>{exploreZone && <Link className="btn primary" href={idahoZoneResearchHref(exploreZone,returnHunt)}>Explore {exploreZone} Zone →</Link>}{exploreUnits.map(u => <Link key={u} className="btn primary" href={idahoUnitResearchHref(u, returnHunt)}>Explore Unit {u} →</Link>)}</div>
           </div>}
           <Rules r={s} />
           {isPrivateOnly(s) && <p className="small" style={{ margin: '6px 0' }}><span className="pill warn">Private land only</span> IDFG: valid only on private land. You need landowner permission before you hunt; the unit&apos;s public land doesn&apos;t count for this tag.</p>}
