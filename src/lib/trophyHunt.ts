@@ -6,6 +6,7 @@ import { resolveTrophyCandidate } from './trophyCandidateResolver';
 import { unlistedExceptionalHunt } from './trophyHuntDemandCandidate';
 import { reviewTrophyPeerBenchmark } from './trophyPeerBenchmarkReview';
 import idV2 from '../../data/id/trophy-v2-tiers.json';
+import idV2General from '../../data/id/trophy-v2-general.json';
 import { withIdahoVerifiedArea } from './idahoHuntCorrections';
 import {isWaMixedBuckPermit} from './waMixedDeer';
 
@@ -13,7 +14,27 @@ const ID_V2_TIER:Record<number,TrophyTier>={100:'unicorn',80:'trophy',65:'county
 /** Idaho v2 tier (owner, Nov 17): harvest context, modest timing, publications and B&C,
  * ranked within species. Only for controlled hunts in the reviewed table whose draw year matches it;
  * anything else keeps the earlier model. Built by scripts/build-idaho-noquota-tiers.ts. */
-export function idahoV2Tier(hunt:{state:string;species:string;type?:string|null;antlerClass?:string|null;takeMethod?:string|null;tagSeasons?:unknown;huntNumber?:number|null;tagCode?:string|null;oddsLastYear?:number|null;units?:string[];openDate?:Date|string|null;closeDate?:Date|string|null}) {
+type IdGeneralRow={tier:number;score:number;rank:number;of:number;units:string[];weapon:string;huntersPerYear:number;nrAppsPerTag:number|null;nrDrawYear:number|null;animalSharePct:number|null;orderedAbove:string|null;via?:string};
+const GENERAL_WEAPON:Record<string,string>={ANY:'any-weapon',ARCHERY:'archery',MUZZLELOADER:'muzzleloader',SHORT_RANGE:'short-range'};
+/** Idaho general-season tier (owner, Nov 26): ranked within species among Idaho general hunts on the
+ * controlled pillars (demand = hunters a year and nonresident applicants per tag; own antler share;
+ * sources; county B&C; modest timing). A nonresident general tag takes the best general hunt it opens.
+ * Keyed by row id; built by scripts/build-idaho-noquota-tiers.ts into data/id/trophy-v2-general.json. */
+function idahoGeneralTier(hunt:{id?:string;species:string;tagSeasons?:unknown;takeMethod?:string|null}){
+  const row=hunt.id?(idV2General.tiers as Record<string,IdGeneralRow>)[hunt.id]:undefined;
+  if(!row||idahoV2Excluded(hunt))return null;
+  const sp=hunt.species.toLowerCase();
+  const demand=`${row.huntersPerYear.toLocaleString('en-US')} hunters a year${row.nrAppsPerTag!==null?`, ${row.nrAppsPerTag} nonresident 1st-choice applicants per tag in ${row.nrDrawYear}`:''}`;
+  const share=row.animalSharePct!==null?` The sample-adjusted antler share is ${row.animalSharePct}% from this general hunt's own harvest.`:' Antler-share evidence was unavailable and received a neutral input.';
+  const head=row.via
+    ? `Best general hunt this tag opens: ${GENERAL_WEAPON[row.weapon]??row.weapon.toLowerCase()} in Unit ${row.units.length===1?row.units[0]:'s '+row.units.join(', ')}, which ranks ${row.rank} of ${row.of} Idaho general ${sp} hunts`
+    : `Ranks ${row.rank} of ${row.of} Idaho general ${sp} hunts`;
+  return {score:row.tier as TrophyScore,tier:ID_V2_TIER[row.tier],
+    reason:`${head} on demand (${demand}), reported antler context, named sources, county records and modest season timing; provisional.${share} Demand and harvest context do not measure genetics.`};
+}
+
+export function idahoV2Tier(hunt:{id?:string;nrTag?:boolean|null;state:string;species:string;type?:string|null;antlerClass?:string|null;takeMethod?:string|null;tagSeasons?:unknown;huntNumber?:number|null;tagCode?:string|null;oddsLastYear?:number|null;units?:string[];openDate?:Date|string|null;closeDate?:Date|string|null}) {
+  if(hunt.state.toUpperCase()==='ID'&&hunt.type?.toUpperCase()==='GENERAL')return idahoGeneralTier(hunt);
   if(hunt.state.toUpperCase()!=='ID'||hunt.oddsLastYear!==idV2.drawYear||hunt.type?.toUpperCase()!=='CONTROLLED'||
       !['ANTLERED','EITHER'].includes(hunt.antlerClass?.toUpperCase()??''))return null;
   const rules=seasonRules(hunt.tagSeasons,hunt.species);
@@ -56,6 +77,14 @@ export const TROPHY_EXCEPTION_REVIEW = {
 } as const;
 
 const maximumAntlerRule = (text:string) => /\b(?:\w+\s+)?\(\d+\)\s*points?\s+or\s+(?:less|fewer)\b/i.test(text) || /\bspike(?:\s+(?:bulls?|elk))?\s+(?:only|or antlerless)\b|\b(?:no more than|not more than|at most|maximum of)\s*\d+\s*[- ]?(?:pt|point)|\b\d+\s*[- ]?(?:pt|point)s?\s*(?:(?:bucks?|deer|bulls?|elk)\s*)?(?:only|max(?:imum)?|or (?:less|fewer))\b/i.test(text);
+/** True when every antlered season of the hunt has a maximum-antler rule (2-point only, spike only):
+ * such hunts get no trophy tier. Shared by the Idaho general ranking snapshot. */
+export function idahoV2Excluded(hunt:{species:string;tagSeasons?:unknown;takeMethod?:string|null}):boolean{
+  const rules=seasonRules(hunt.tagSeasons,hunt.species);
+  const seasons=sortedSeasons(hunt.tagSeasons).filter(s=>!/^(?:[AB] tag · )?(?:antlerless|cow|doe)/i.test(s.sex));
+  return rules.includes('2-point bucks only')||rules.includes('Spike bulls only')||
+    (seasons.length?seasons.every(s=>maximumAntlerRule(`${s.sex} ${s.notes}`)):maximumAntlerRule(hunt.takeMethod??''));
+}
 
 /** WA's agency legal-animal description can identify the deer type; a generic or
  * mixed description does not. Names or the GMU alone are not proof of a restriction. */

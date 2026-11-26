@@ -5,6 +5,7 @@
 // SNAPSHOT_UNITS lines; reassemble with scripts/id-trophy-snapshot-join.mjs.
 import { PrismaClient, type HuntSummary } from '@prisma/client';
 import { withIdahoVerifiedArea } from '../src/lib/idahoHuntCorrections';
+import { idahoV2Excluded } from '../src/lib/trophyHunt';
 
 const db = new PrismaClient();
 const SPECIES = ['DEER', 'ELK', 'PRONGHORN'] as const;
@@ -34,6 +35,18 @@ async function main() {
   console.log('SNAPSHOT_META ' + JSON.stringify({ taken: new Date().toISOString(), rows: rows.length, hunts: hunts.length, general: fixed.filter((r) => r.type === 'GENERAL').length }));
   for (let i = 0; i < hunts.length; i += 20) console.log('SNAPSHOT_HUNTS ' + JSON.stringify(hunts.slice(i, i + 20)));
   for (const [sp, m] of Object.entries(bySpecies)) console.log('SNAPSHOT_UNITS ' + JSON.stringify({ species: sp, units: m }));
+  // General-season rows (resident unit x weapon hunts) and nonresident general tags, with the latest
+  // nonresident tag draw per code, for the general trophy ranking (owner, Nov 26).
+  const generals = fixed.filter((r) => r.type === 'GENERAL').map((r) => ({
+    id: r.id, species: r.species, nrTag: !!r.nrTag, tagCode: r.tagCode, units: r.units, weapon: r.weapon, weapons: r.weapons,
+    antlerClass: r.antlerClass, open: day(r.openDate), close: day(r.closeDate), hunters5: r.hunters5, harvest5: r.harvest5,
+    harvestYears: r.harvestYears, bigPct5: r3(r.bigPct5), deerType: r.deerType, youthOnly: r.youthOnly,
+    excluded: idahoV2Excluded(r as HuntSummary), liveTrophy: r.scoreTrophy,
+  })).sort((a, b) => a.id.localeCompare(b.id));
+  for (let i = 0; i < generals.length; i += 25) console.log('SNAPSHOT_GENERAL ' + JSON.stringify(generals.slice(i, i + 25)));
+  const draws = await db.nrDraw.findMany({ where: { state: 'ID' }, orderBy: { year: 'asc' } });
+  const latest = new Map(draws.map((d) => [d.code, d]));
+  console.log('SNAPSHOT_NRDRAW ' + JSON.stringify([...latest.values()].map((d) => ({ code: d.code, year: d.year, species: d.species, zone: d.zone, tag: d.tag, unit: d.unit, tags: d.tags, applied1: d.applied[0] ?? null, drew1: d.drew[0] ?? null }))));
   console.log('SNAPSHOT_END');
 }
 main().finally(() => db.$disconnect());

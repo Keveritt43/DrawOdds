@@ -1,0 +1,10568 @@
+{
+ "notice": "Idaho provisional trophy tiers for general-season hunts, ranked within species among general hunts (owner, Nov 26): demand half hunters a year, half nonresident applicants per tag; own antler share; named sources and county B&C; 5 points timing; same-unit rut ordering. A nonresident general tag takes its best general hunt. Generated from the retained snapshot by scripts/build-idaho-noquota-tiers.ts.",
+ "snapshot": "data/id/trophy-shadow-2026-11-26.json",
+ "summary": {
+  "pool": 502,
+  "deer": {
+   "50": 185,
+   "65": 95,
+   "80": 25,
+   "100": 6
+  },
+  "elk": {
+   "50": 115,
+   "65": 57,
+   "80": 15,
+   "100": 4
+  },
+  "nrTagsTiered": 182,
+  "nrTags": 192,
+  "withNrDraw": 447,
+  "withOwnShare": 246,
+  "lifted": 18
+ },
+ "tiers": {
+  "g:-1008536381:73A": {
+   "tier": 50,
+   "score": 35.2,
+   "rank": 239,
+   "of": 311,
+   "units": [
+    "73A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 79,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1019289551:20A": {
+   "tier": 50,
+   "score": 39.6,
+   "rank": 183,
+   "of": 311,
+   "units": [
+    "20A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-102850600:66A": {
+   "tier": 65,
+   "score": 47,
+   "rank": 100,
+   "of": 311,
+   "units": [
+    "66A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 150,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1032783397:40": {
+   "tier": 65,
+   "score": 46.3,
+   "rank": 109,
+   "of": 311,
+   "units": [
+    "40"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1034576311:45": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 153,
+   "of": 311,
+   "units": [
+    "45"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 38,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1047635328:59": {
+   "tier": 50,
+   "score": 31,
+   "rank": 282,
+   "of": 311,
+   "units": [
+    "59"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 11,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1056272171:45": {
+   "tier": 50,
+   "score": 34.4,
+   "rank": 249,
+   "of": 311,
+   "units": [
+    "45"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 4,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1056524510:54": {
+   "tier": 80,
+   "score": 62,
+   "rank": 26,
+   "of": 311,
+   "units": [
+    "54"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 39,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 47.6,
+   "orderedAbove": null
+  },
+  "g:-1057679066:52A": {
+   "tier": 65,
+   "score": 46.6,
+   "rank": 107,
+   "of": 311,
+   "units": [
+    "52A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1135,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.6,
+   "orderedAbove": null
+  },
+  "g:-1058565514:54": {
+   "tier": 50,
+   "score": 44.8,
+   "rank": 133,
+   "of": 311,
+   "units": [
+    "54"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 21,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1074166098:63A": {
+   "tier": 50,
+   "score": 41.7,
+   "rank": 167,
+   "of": 311,
+   "units": [
+    "63A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 539,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-107983084:14": {
+   "tier": 50,
+   "score": 36.4,
+   "rank": 227,
+   "of": 311,
+   "units": [
+    "14"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 9,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1082499703:46": {
+   "tier": 65,
+   "score": 45.6,
+   "rank": 124,
+   "of": 311,
+   "units": [
+    "46"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1572,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33,
+   "orderedAbove": null
+  },
+  "g:-1082651004:17": {
+   "tier": 50,
+   "score": 34.5,
+   "rank": 248,
+   "of": 311,
+   "units": [
+    "17"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1083252253:57": {
+   "tier": 65,
+   "score": 49.3,
+   "rank": 80,
+   "of": 311,
+   "units": [
+    "57"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1085359313:20": {
+   "tier": 50,
+   "score": 38.2,
+   "rank": 200,
+   "of": 311,
+   "units": [
+    "20"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1086855508:58": {
+   "tier": 50,
+   "score": 31.9,
+   "rank": 273,
+   "of": 311,
+   "units": [
+    "58"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1087680080:28": {
+   "tier": 50,
+   "score": 44.4,
+   "rank": 140,
+   "of": 311,
+   "units": [
+    "28"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 16,
+   "nrAppsPerTag": 7.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1098410617:78": {
+   "tier": 50,
+   "score": 45.2,
+   "rank": 128,
+   "of": 311,
+   "units": [
+    "78"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 5.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1102682426:21A": {
+   "tier": 50,
+   "score": 44.9,
+   "rank": 131,
+   "of": 311,
+   "units": [
+    "21A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 40,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1115042092:15": {
+   "tier": 50,
+   "score": 36,
+   "rank": 229,
+   "of": 311,
+   "units": [
+    "15"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1123965241:12": {
+   "tier": 50,
+   "score": 44.7,
+   "rank": 136,
+   "of": 311,
+   "units": [
+    "12"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 22,
+   "nrAppsPerTag": 5.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1127176532:50": {
+   "tier": 65,
+   "score": 50,
+   "rank": 78,
+   "of": 311,
+   "units": [
+    "50"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 262,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.4,
+   "orderedAbove": null
+  },
+  "g:-1134514563:64": {
+   "tier": 50,
+   "score": 38.3,
+   "rank": 199,
+   "of": 311,
+   "units": [
+    "64"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 409,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.5,
+   "orderedAbove": null
+  },
+  "g:-1146849830:5": {
+   "tier": 50,
+   "score": 34.1,
+   "rank": 250,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 25,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1147955682:44": {
+   "tier": 65,
+   "score": 56.8,
+   "rank": 41,
+   "of": 311,
+   "units": [
+    "44"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 55,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 40.9,
+   "orderedAbove": null
+  },
+  "g:-1163109913:41": {
+   "tier": 50,
+   "score": 39.5,
+   "rank": 185,
+   "of": 311,
+   "units": [
+    "41"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 10,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1186007966:73": {
+   "tier": 50,
+   "score": 38.9,
+   "rank": 192,
+   "of": 311,
+   "units": [
+    "73"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1186172075:20A": {
+   "tier": 65,
+   "score": 55.4,
+   "rank": 47,
+   "of": 311,
+   "units": [
+    "20A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 176,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.4,
+   "orderedAbove": null
+  },
+  "g:-1201723017:62": {
+   "tier": 50,
+   "score": 35.2,
+   "rank": 239,
+   "of": 311,
+   "units": [
+    "62"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1202273542:36": {
+   "tier": 80,
+   "score": 67,
+   "rank": 14,
+   "of": 311,
+   "units": [
+    "36"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 871,
+   "nrAppsPerTag": 5.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.2,
+   "orderedAbove": null
+  },
+  "g:-1208309344:75": {
+   "tier": 50,
+   "score": 30.4,
+   "rank": 286,
+   "of": 311,
+   "units": [
+    "75"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 107,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 29.8,
+   "orderedAbove": null
+  },
+  "g:-1218146184:1": {
+   "tier": 50,
+   "score": 38.5,
+   "rank": 196,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 55,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-122436705:51": {
+   "tier": 50,
+   "score": 22.6,
+   "rank": 306,
+   "of": 311,
+   "units": [
+    "51"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 129,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 18.1,
+   "orderedAbove": null
+  },
+  "g:-1224614010:53": {
+   "tier": 50,
+   "score": 43.7,
+   "rank": 148,
+   "of": 311,
+   "units": [
+    "53"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 301,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.7,
+   "orderedAbove": null
+  },
+  "g:-1236145823:24": {
+   "tier": 50,
+   "score": 22.5,
+   "rank": 307,
+   "of": 311,
+   "units": [
+    "24"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 550,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.7,
+   "orderedAbove": null
+  },
+  "g:-1276182793:19A": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 203,
+   "of": 311,
+   "units": [
+    "19A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 457,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.8,
+   "orderedAbove": null
+  },
+  "g:-1284795116:65": {
+   "tier": 80,
+   "score": 60.9,
+   "rank": 30,
+   "of": 311,
+   "units": [
+    "65"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 201,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.2,
+   "orderedAbove": null
+  },
+  "g:-1288229359:22": {
+   "tier": 50,
+   "score": 38.2,
+   "rank": 200,
+   "of": 311,
+   "units": [
+    "22"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1293889083:59A": {
+   "tier": 65,
+   "score": 52.2,
+   "rank": 66,
+   "of": 311,
+   "units": [
+    "59A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 117,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 44.8,
+   "orderedAbove": null
+  },
+  "g:-1315198597:59": {
+   "tier": 65,
+   "score": 47.2,
+   "rank": 98,
+   "of": 311,
+   "units": [
+    "59"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 240,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.2,
+   "orderedAbove": null
+  },
+  "g:-132635477:32A": {
+   "tier": 50,
+   "score": 44.9,
+   "rank": 131,
+   "of": 311,
+   "units": [
+    "32A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2135,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34,
+   "orderedAbove": null
+  },
+  "g:-1382375080:50": {
+   "tier": 50,
+   "score": 36.6,
+   "rank": 223,
+   "of": 311,
+   "units": [
+    "50"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1382964416:35": {
+   "tier": 80,
+   "score": 62.2,
+   "rank": 25,
+   "of": 311,
+   "units": [
+    "35"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 377,
+   "nrAppsPerTag": 3.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43,
+   "orderedAbove": null
+  },
+  "g:-1390906981:68A": {
+   "tier": 50,
+   "score": 37.7,
+   "rank": 210,
+   "of": 311,
+   "units": [
+    "68A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 24,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1393234001:68A": {
+   "tier": 50,
+   "score": 32.9,
+   "rank": 259,
+   "of": 311,
+   "units": [
+    "68A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1403133200:14": {
+   "tier": 65,
+   "score": 53.5,
+   "rank": 57,
+   "of": 311,
+   "units": [
+    "14"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1212,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1406417437:34": {
+   "tier": 50,
+   "score": 43.8,
+   "rank": 146,
+   "of": 311,
+   "units": [
+    "34"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 301,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.5,
+   "orderedAbove": null
+  },
+  "g:-1410176751:51": {
+   "tier": 65,
+   "score": 47.9,
+   "rank": 96,
+   "of": 311,
+   "units": [
+    "51"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 753,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.6,
+   "orderedAbove": null
+  },
+  "g:-1422553928:58": {
+   "tier": 50,
+   "score": 28.4,
+   "rank": 296,
+   "of": 311,
+   "units": [
+    "58"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 72,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.8,
+   "orderedAbove": null
+  },
+  "g:-1442091469:49": {
+   "tier": 65,
+   "score": 48.1,
+   "rank": 92,
+   "of": 311,
+   "units": [
+    "49"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 253,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.6,
+   "orderedAbove": null
+  },
+  "g:-1448254830:69": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "69"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1970,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39,
+   "orderedAbove": null
+  },
+  "g:-144871820:44": {
+   "tier": 50,
+   "score": 43.9,
+   "rank": 144,
+   "of": 311,
+   "units": [
+    "44"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 12,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1459476583:16A": {
+   "tier": 50,
+   "score": 23.9,
+   "rank": 303,
+   "of": 311,
+   "units": [
+    "16A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 2,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1462659770:25": {
+   "tier": 50,
+   "score": 32.1,
+   "rank": 272,
+   "of": 311,
+   "units": [
+    "25"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 216,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.1,
+   "orderedAbove": null
+  },
+  "g:-1473953495:37": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "37"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 40,
+   "nrAppsPerTag": 2.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-149322070:25": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "25"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1499823593:78": {
+   "tier": 80,
+   "score": 71.7,
+   "rank": 11,
+   "of": 311,
+   "units": [
+    "78"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 159,
+   "nrAppsPerTag": 5.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 55.5,
+   "orderedAbove": null
+  },
+  "g:-1515141226:18": {
+   "tier": 65,
+   "score": 47.7,
+   "rank": 97,
+   "of": 311,
+   "units": [
+    "18"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 669,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1544898294:75": {
+   "tier": 80,
+   "score": 63.2,
+   "rank": 22,
+   "of": 311,
+   "units": [
+    "75"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 790,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.7,
+   "orderedAbove": null
+  },
+  "g:-1548760747:30": {
+   "tier": 80,
+   "score": 63.1,
+   "rank": 23,
+   "of": 311,
+   "units": [
+    "30"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.1,
+   "orderedAbove": null
+  },
+  "g:-1554372533:13": {
+   "tier": 50,
+   "score": 32.9,
+   "rank": 259,
+   "of": 311,
+   "units": [
+    "13"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 2,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1559194853:8": {
+   "tier": 50,
+   "score": 39.6,
+   "rank": 183,
+   "of": 311,
+   "units": [
+    "8"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 109,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1568578741:37": {
+   "tier": 50,
+   "score": 32.2,
+   "rank": 270,
+   "of": 311,
+   "units": [
+    "37"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 368,
+   "nrAppsPerTag": 2.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 23.5,
+   "orderedAbove": null
+  },
+  "g:-1572309032:26": {
+   "tier": 80,
+   "score": 63.4,
+   "rank": 21,
+   "of": 311,
+   "units": [
+    "26"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 178,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 54.4,
+   "orderedAbove": null
+  },
+  "g:-157702353:60A": {
+   "tier": 50,
+   "score": 24.8,
+   "rank": 302,
+   "of": 311,
+   "units": [
+    "60A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1075,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25,
+   "orderedAbove": null
+  },
+  "g:-1577766980:21": {
+   "tier": 65,
+   "score": 46.8,
+   "rank": 105,
+   "of": 311,
+   "units": [
+    "21"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 67,
+   "nrAppsPerTag": 11.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.9,
+   "orderedAbove": null
+  },
+  "g:-1595762053:27": {
+   "tier": 100,
+   "score": 80.9,
+   "rank": 2,
+   "of": 311,
+   "units": [
+    "27"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 892,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 55.1,
+   "orderedAbove": null
+  },
+  "g:-1599766478:43": {
+   "tier": 50,
+   "score": 39.1,
+   "rank": 190,
+   "of": 311,
+   "units": [
+    "43"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 9,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1601419652:53": {
+   "tier": 50,
+   "score": 31.6,
+   "rank": 275,
+   "of": 311,
+   "units": [
+    "53"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 31,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1604424770:32A": {
+   "tier": 50,
+   "score": 35.6,
+   "rank": 232,
+   "of": 311,
+   "units": [
+    "32A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-162577806:25": {
+   "tier": 80,
+   "score": 72.4,
+   "rank": 9,
+   "of": 311,
+   "units": [
+    "25"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 825,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 53.8,
+   "orderedAbove": null
+  },
+  "g:-1627609143:30A": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 203,
+   "of": 311,
+   "units": [
+    "30A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1628601341:6": {
+   "tier": 50,
+   "score": 38.8,
+   "rank": 193,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1630180370:36": {
+   "tier": 65,
+   "score": 50.4,
+   "rank": 74,
+   "of": 311,
+   "units": [
+    "36"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 207,
+   "nrAppsPerTag": 5.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.3,
+   "orderedAbove": null
+  },
+  "g:-1633869155:67": {
+   "tier": 100,
+   "score": 75.1,
+   "rank": 4,
+   "of": 311,
+   "units": [
+    "67"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 588,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 54.1,
+   "orderedAbove": null
+  },
+  "g:-1641131620:29": {
+   "tier": 50,
+   "score": 41.2,
+   "rank": 171,
+   "of": 311,
+   "units": [
+    "29"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 47,
+   "nrAppsPerTag": 1.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1648118447:52": {
+   "tier": 50,
+   "score": 30.6,
+   "rank": 284,
+   "of": 311,
+   "units": [
+    "52"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 71,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 23.6,
+   "orderedAbove": null
+  },
+  "g:-165263261:63": {
+   "tier": 50,
+   "score": 30,
+   "rank": 289,
+   "of": 311,
+   "units": [
+    "63"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 18,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1654464217:73A": {
+   "tier": 50,
+   "score": 34.6,
+   "rank": 247,
+   "of": 311,
+   "units": [
+    "73A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 731,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.3,
+   "orderedAbove": null
+  },
+  "g:-1654632604:46": {
+   "tier": 50,
+   "score": 32.9,
+   "rank": 259,
+   "of": 311,
+   "units": [
+    "46"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 9,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1671124292:76": {
+   "tier": 65,
+   "score": 48.5,
+   "rank": 89,
+   "of": 311,
+   "units": [
+    "76"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2222,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.1,
+   "orderedAbove": null
+  },
+  "g:-1678642047:74": {
+   "tier": 50,
+   "score": 31,
+   "rank": 282,
+   "of": 311,
+   "units": [
+    "74"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 153,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 26.3,
+   "orderedAbove": null
+  },
+  "g:-169557625:11A": {
+   "tier": 50,
+   "score": 27.8,
+   "rank": 298,
+   "of": 311,
+   "units": [
+    "11A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1722863664:13": {
+   "tier": 65,
+   "score": 46.1,
+   "rank": 114,
+   "of": 311,
+   "units": [
+    "13"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 442,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1738679227:19": {
+   "tier": 50,
+   "score": 35.3,
+   "rank": 238,
+   "of": 311,
+   "units": [
+    "19"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1747247186:61": {
+   "tier": 50,
+   "score": 38.2,
+   "rank": 200,
+   "of": 311,
+   "units": [
+    "61"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 17,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1763705016:57": {
+   "tier": 50,
+   "score": 37.5,
+   "rank": 212,
+   "of": 311,
+   "units": [
+    "57"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 36,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.5,
+   "orderedAbove": null
+  },
+  "g:-1775384844:29": {
+   "tier": 50,
+   "score": 34.1,
+   "rank": 250,
+   "of": 311,
+   "units": [
+    "29"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 727,
+   "nrAppsPerTag": 1.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.1,
+   "orderedAbove": null
+  },
+  "g:-178209407:52A": {
+   "tier": 50,
+   "score": 32.7,
+   "rank": 264,
+   "of": 311,
+   "units": [
+    "52A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1785370890:24": {
+   "tier": 50,
+   "score": 30.6,
+   "rank": 284,
+   "of": 311,
+   "units": [
+    "24"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 34,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1787158037:56": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "56"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1678,
+   "nrAppsPerTag": 1.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 32.7,
+   "orderedAbove": null
+  },
+  "g:-179798194:11": {
+   "tier": 50,
+   "score": 33,
+   "rank": 258,
+   "of": 311,
+   "units": [
+    "11"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 2,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1804165853:68": {
+   "tier": 50,
+   "score": 44.8,
+   "rank": 133,
+   "of": 311,
+   "units": [
+    "68"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 566,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39,
+   "orderedAbove": null
+  },
+  "g:-1804172453:35": {
+   "tier": 50,
+   "score": 41.6,
+   "rank": 169,
+   "of": 311,
+   "units": [
+    "35"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 3.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1808454048:47": {
+   "tier": 65,
+   "score": 52.5,
+   "rank": 63,
+   "of": 311,
+   "units": [
+    "47"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 19,
+   "nrAppsPerTag": 4.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1809953183:38": {
+   "tier": 50,
+   "score": 20,
+   "rank": 308,
+   "of": 311,
+   "units": [
+    "38"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 51,
+   "nrAppsPerTag": 0.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.1,
+   "orderedAbove": null
+  },
+  "g:-181629090:37": {
+   "tier": 50,
+   "score": 42,
+   "rank": 164,
+   "of": 311,
+   "units": [
+    "37"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 33,
+   "nrAppsPerTag": 2.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1822963829:60A": {
+   "tier": 50,
+   "score": 28.1,
+   "rank": 297,
+   "of": 311,
+   "units": [
+    "60A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-183839619:36B": {
+   "tier": 50,
+   "score": 28.5,
+   "rank": 295,
+   "of": 311,
+   "units": [
+    "36B"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 65,
+   "nrAppsPerTag": 8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 16.6,
+   "orderedAbove": null
+  },
+  "g:-1845931846:72": {
+   "tier": 50,
+   "score": 43.9,
+   "rank": 144,
+   "of": 311,
+   "units": [
+    "72"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 104,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.1,
+   "orderedAbove": null
+  },
+  "g:-1848371832:21": {
+   "tier": 65,
+   "score": 45.7,
+   "rank": 123,
+   "of": 311,
+   "units": [
+    "21"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 29,
+   "nrAppsPerTag": 11.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1849880548:52A": {
+   "tier": 65,
+   "score": 45.6,
+   "rank": 124,
+   "of": 311,
+   "units": [
+    "52A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 54,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 42.2,
+   "orderedAbove": null
+  },
+  "g:-1853950658:10": {
+   "tier": 50,
+   "score": 38,
+   "rank": 208,
+   "of": 311,
+   "units": [
+    "10"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 21,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1858172963:28": {
+   "tier": 80,
+   "score": 65,
+   "rank": 18,
+   "of": 311,
+   "units": [
+    "28"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1180,
+   "nrAppsPerTag": 7.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.2,
+   "orderedAbove": null
+  },
+  "g:-1870132255:53": {
+   "tier": 65,
+   "score": 50.7,
+   "rank": 72,
+   "of": 311,
+   "units": [
+    "53"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 53,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.8,
+   "orderedAbove": null
+  },
+  "g:-188078090:13": {
+   "tier": 50,
+   "score": 32.9,
+   "rank": 259,
+   "of": 311,
+   "units": [
+    "13"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 2,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1896623260:30A": {
+   "tier": 65,
+   "score": 46.7,
+   "rank": 106,
+   "of": 311,
+   "units": [
+    "30A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 59,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1915363545:37A": {
+   "tier": 65,
+   "score": 46.5,
+   "rank": 108,
+   "of": 311,
+   "units": [
+    "37A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 37,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1921465415:11": {
+   "tier": 50,
+   "score": 34.7,
+   "rank": 245,
+   "of": 311,
+   "units": [
+    "11"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1932965375:74": {
+   "tier": 50,
+   "score": 37.9,
+   "rank": 209,
+   "of": 311,
+   "units": [
+    "74"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1934929325:70": {
+   "tier": 80,
+   "score": 66.7,
+   "rank": 15,
+   "of": 311,
+   "units": [
+    "70"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 47,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 61.3,
+   "orderedAbove": null
+  },
+  "g:-194159617:68A": {
+   "tier": 50,
+   "score": 31.5,
+   "rank": 276,
+   "of": 311,
+   "units": [
+    "68A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1955707167:38": {
+   "tier": 50,
+   "score": 32.7,
+   "rank": 264,
+   "of": 311,
+   "units": [
+    "38"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 64,
+   "nrAppsPerTag": 0.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1962392683:73": {
+   "tier": 65,
+   "score": 55.8,
+   "rank": 46,
+   "of": 311,
+   "units": [
+    "73"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 211,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.1,
+   "orderedAbove": null
+  },
+  "g:-1975814147:52": {
+   "tier": 50,
+   "score": 41.8,
+   "rank": 165,
+   "of": 311,
+   "units": [
+    "52"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 10,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1985878505:11A": {
+   "tier": 50,
+   "score": 30.1,
+   "rank": 288,
+   "of": 311,
+   "units": [
+    "11A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 32,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2009501918:71": {
+   "tier": 65,
+   "score": 51.6,
+   "rank": 69,
+   "of": 311,
+   "units": [
+    "71"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 120,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 48.6,
+   "orderedAbove": null
+  },
+  "g:-2011696337:70": {
+   "tier": 65,
+   "score": 56.6,
+   "rank": 42,
+   "of": 311,
+   "units": [
+    "70"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 62,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43.3,
+   "orderedAbove": null
+  },
+  "g:-2054633457:49": {
+   "tier": 50,
+   "score": 39.9,
+   "rank": 182,
+   "of": 311,
+   "units": [
+    "49"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1986,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30,
+   "orderedAbove": null
+  },
+  "g:-2056276374:39": {
+   "tier": 65,
+   "score": 45.6,
+   "rank": 124,
+   "of": 311,
+   "units": [
+    "39"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 9592,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.7,
+   "orderedAbove": null
+  },
+  "g:-2058756682:72": {
+   "tier": 50,
+   "score": 31.7,
+   "rank": 274,
+   "of": 311,
+   "units": [
+    "72"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2065674551:30": {
+   "tier": 50,
+   "score": 40.9,
+   "rank": 172,
+   "of": 311,
+   "units": [
+    "30"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 714,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 27.8,
+   "orderedAbove": null
+  },
+  "g:-2070017698:62A": {
+   "tier": 50,
+   "score": 35.7,
+   "rank": 231,
+   "of": 311,
+   "units": [
+    "62A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 77,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2079206319:20A": {
+   "tier": 50,
+   "score": 40.2,
+   "rank": 178,
+   "of": 311,
+   "units": [
+    "20A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2100528352:8": {
+   "tier": 50,
+   "score": 35.2,
+   "rank": 239,
+   "of": 311,
+   "units": [
+    "8"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 13,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-21024589:77": {
+   "tier": 65,
+   "score": 50.2,
+   "rank": 76,
+   "of": 311,
+   "units": [
+    "77"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 125,
+   "nrAppsPerTag": 3.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-210374299:3": {
+   "tier": 50,
+   "score": 31.2,
+   "rank": 280,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 63,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2104028543:2": {
+   "tier": 50,
+   "score": 31.1,
+   "rank": 281,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 24,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2113597943:33": {
+   "tier": 50,
+   "score": 39.1,
+   "rank": 190,
+   "of": 311,
+   "units": [
+    "33"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1205,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.6,
+   "orderedAbove": null
+  },
+  "g:-2115802398:66": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "66"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 833,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.9,
+   "orderedAbove": null
+  },
+  "g:-2118141897:46": {
+   "tier": 50,
+   "score": 34.7,
+   "rank": 245,
+   "of": 311,
+   "units": [
+    "46"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 75,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.5,
+   "orderedAbove": null
+  },
+  "g:-2143696347:16": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "16"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": 4.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-224547926:62A": {
+   "tier": 65,
+   "score": 54.9,
+   "rank": 50,
+   "of": 311,
+   "units": [
+    "62A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 351,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 48.4,
+   "orderedAbove": null
+  },
+  "g:-254274171:74": {
+   "tier": 80,
+   "score": 64.7,
+   "rank": 19,
+   "of": 311,
+   "units": [
+    "74"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1077,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 44.8,
+   "orderedAbove": null
+  },
+  "g:-264922515:60": {
+   "tier": 50,
+   "score": 15.9,
+   "rank": 311,
+   "of": 311,
+   "units": [
+    "60"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 220,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 9.7,
+   "orderedAbove": null
+  },
+  "g:-266624047:55": {
+   "tier": 100,
+   "score": 85,
+   "rank": 1,
+   "of": 311,
+   "units": [
+    "55"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 664,
+   "nrAppsPerTag": 4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.8,
+   "orderedAbove": null
+  },
+  "g:-278538012:33": {
+   "tier": 50,
+   "score": 35.5,
+   "rank": 234,
+   "of": 311,
+   "units": [
+    "33"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 4,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-28284752:47": {
+   "tier": 65,
+   "score": 49,
+   "rank": 83,
+   "of": 311,
+   "units": [
+    "47"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 4.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-282850510:61": {
+   "tier": 50,
+   "score": 30.3,
+   "rank": 287,
+   "of": 311,
+   "units": [
+    "61"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 438,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.5,
+   "orderedAbove": null
+  },
+  "g:-295810607:36B": {
+   "tier": 65,
+   "score": 58.9,
+   "rank": 33,
+   "of": 311,
+   "units": [
+    "36B"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1069,
+   "nrAppsPerTag": 8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.9,
+   "orderedAbove": null
+  },
+  "g:-301660167:31": {
+   "tier": 50,
+   "score": 36,
+   "rank": 229,
+   "of": 311,
+   "units": [
+    "31"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-31570274:31": {
+   "tier": 65,
+   "score": 51.9,
+   "rank": 68,
+   "of": 311,
+   "units": [
+    "31"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1099,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35,
+   "orderedAbove": null
+  },
+  "g:-347936667:8A": {
+   "tier": 50,
+   "score": 45,
+   "rank": 129,
+   "of": 311,
+   "units": [
+    "8A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 242,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-37120827:77": {
+   "tier": 80,
+   "score": 72.8,
+   "rank": 8,
+   "of": 311,
+   "units": [
+    "77"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 821,
+   "nrAppsPerTag": 3.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 49.5,
+   "orderedAbove": null
+  },
+  "g:-377753037:19A": {
+   "tier": 50,
+   "score": 33.4,
+   "rank": 256,
+   "of": 311,
+   "units": [
+    "19A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-389702289:4A": {
+   "tier": 50,
+   "score": 34,
+   "rank": 252,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 12,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-394588975:21A": {
+   "tier": 50,
+   "score": 25.7,
+   "rank": 301,
+   "of": 311,
+   "units": [
+    "21A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 48,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 12.9,
+   "orderedAbove": null
+  },
+  "g:-397324297:34": {
+   "tier": 50,
+   "score": 40.1,
+   "rank": 181,
+   "of": 311,
+   "units": [
+    "34"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 100,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.4,
+   "orderedAbove": null
+  },
+  "g:-403441791:68": {
+   "tier": 65,
+   "score": 53.7,
+   "rank": 56,
+   "of": 311,
+   "units": [
+    "68"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 57,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 58,
+   "orderedAbove": null
+  },
+  "g:-405056124:47": {
+   "tier": 65,
+   "score": 55.4,
+   "rank": 47,
+   "of": 311,
+   "units": [
+    "47"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 70,
+   "nrAppsPerTag": 4.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-417544956:66A": {
+   "tier": 65,
+   "score": 48.6,
+   "rank": 87,
+   "of": 311,
+   "units": [
+    "66A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 409,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.5,
+   "orderedAbove": null
+  },
+  "g:-423140452:48": {
+   "tier": 80,
+   "score": 64.1,
+   "rank": 20,
+   "of": 311,
+   "units": [
+    "48"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1909,
+   "nrAppsPerTag": 2.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40,
+   "orderedAbove": null
+  },
+  "g:-424722617:63": {
+   "tier": 65,
+   "score": 50,
+   "rank": 78,
+   "of": 311,
+   "units": [
+    "63"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 228,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.8,
+   "orderedAbove": null
+  },
+  "g:-463146825:33": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 153,
+   "of": 311,
+   "units": [
+    "33"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 143,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-465145429:63": {
+   "tier": 50,
+   "score": 33.2,
+   "rank": 257,
+   "of": 311,
+   "units": [
+    "63"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 75,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-471463176:77": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "77"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 3.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-477945825:36A": {
+   "tier": 65,
+   "score": 60.5,
+   "rank": 32,
+   "of": 311,
+   "units": [
+    "36A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 115,
+   "nrAppsPerTag": 9.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.4,
+   "orderedAbove": null
+  },
+  "g:-487623166:48": {
+   "tier": 100,
+   "score": 74,
+   "rank": 5,
+   "of": 311,
+   "units": [
+    "48"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 244,
+   "nrAppsPerTag": 2.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 61.2,
+   "orderedAbove": null
+  },
+  "g:-499489183:23": {
+   "tier": 80,
+   "score": 65.9,
+   "rank": 16,
+   "of": 311,
+   "units": [
+    "23"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1838,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.4,
+   "orderedAbove": null
+  },
+  "g:-509915365:19A": {
+   "tier": 50,
+   "score": 19,
+   "rank": 309,
+   "of": 311,
+   "units": [
+    "19A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 74,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 22.9,
+   "orderedAbove": null
+  },
+  "g:-515467811:30": {
+   "tier": 50,
+   "score": 44.5,
+   "rank": 138,
+   "of": 311,
+   "units": [
+    "30"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 55,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-523874045:78": {
+   "tier": 65,
+   "score": 49.2,
+   "rank": 82,
+   "of": 311,
+   "units": [
+    "78"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 58,
+   "nrAppsPerTag": 5.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.7,
+   "orderedAbove": null
+  },
+  "g:-533803384:63A": {
+   "tier": 50,
+   "score": 34.9,
+   "rank": 244,
+   "of": 311,
+   "units": [
+    "63A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 330,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-534763529:37A": {
+   "tier": 50,
+   "score": 42.1,
+   "rank": 163,
+   "of": 311,
+   "units": [
+    "37A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 17,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-538620772:20": {
+   "tier": 50,
+   "score": 37.1,
+   "rank": 218,
+   "of": 311,
+   "units": [
+    "20"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 2,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-539277181:24": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "24"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1602,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.7,
+   "orderedAbove": null
+  },
+  "g:-54108405:73A": {
+   "tier": 65,
+   "score": 56.1,
+   "rank": 45,
+   "of": 311,
+   "units": [
+    "73A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 85,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 58.6,
+   "orderedAbove": null
+  },
+  "g:-574815378:57": {
+   "tier": 65,
+   "score": 54.6,
+   "rank": 53,
+   "of": 311,
+   "units": [
+    "57"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 53,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-575063927:32A": {
+   "tier": 50,
+   "score": 33.9,
+   "rank": 254,
+   "of": 311,
+   "units": [
+    "32A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 479,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.3,
+   "orderedAbove": null
+  },
+  "g:-57512455:59A": {
+   "tier": 50,
+   "score": 23.5,
+   "rank": 304,
+   "of": 311,
+   "units": [
+    "59A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 471,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.2,
+   "orderedAbove": null
+  },
+  "g:-576815228:76": {
+   "tier": 50,
+   "score": 41.5,
+   "rank": 170,
+   "of": 311,
+   "units": [
+    "76"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-578512090:72": {
+   "tier": 50,
+   "score": 36.8,
+   "rank": 219,
+   "of": 311,
+   "units": [
+    "72"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 642,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.1,
+   "orderedAbove": null
+  },
+  "g:-57868911:36A": {
+   "tier": 80,
+   "score": 68.8,
+   "rank": 13,
+   "of": 311,
+   "units": [
+    "36A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 449,
+   "nrAppsPerTag": 9.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43.8,
+   "orderedAbove": null
+  },
+  "g:-610283713:60": {
+   "tier": 50,
+   "score": 27.7,
+   "rank": 299,
+   "of": 311,
+   "units": [
+    "60"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 959,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.4,
+   "orderedAbove": null
+  },
+  "g:-614782675:59A": {
+   "tier": 50,
+   "score": 35.6,
+   "rank": 232,
+   "of": 311,
+   "units": [
+    "59A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 10,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-637360396:31": {
+   "tier": 65,
+   "score": 56.5,
+   "rank": 43,
+   "of": 311,
+   "units": [
+    "31"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 271,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.6,
+   "orderedAbove": null
+  },
+  "g:-643088049:10A": {
+   "tier": 65,
+   "score": 49.3,
+   "rank": 80,
+   "of": 311,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 319,
+   "nrAppsPerTag": 3.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-656323873:48": {
+   "tier": 50,
+   "score": 44,
+   "rank": 142,
+   "of": 311,
+   "units": [
+    "48"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 2.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-658175062:18": {
+   "tier": 50,
+   "score": 40.7,
+   "rank": 177,
+   "of": 311,
+   "units": [
+    "18"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-662043714:26": {
+   "tier": 50,
+   "score": 37.6,
+   "rank": 211,
+   "of": 311,
+   "units": [
+    "26"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-686000496:76": {
+   "tier": 50,
+   "score": 38.8,
+   "rank": 193,
+   "of": 311,
+   "units": [
+    "76"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 445,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 29.6,
+   "orderedAbove": null
+  },
+  "g:-692068640:32": {
+   "tier": 50,
+   "score": 41.8,
+   "rank": 165,
+   "of": 311,
+   "units": [
+    "32"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2539,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.3,
+   "orderedAbove": null
+  },
+  "g:-728621797:11": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "11"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1553,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-744515760:64": {
+   "tier": 50,
+   "score": 33.7,
+   "rank": 255,
+   "of": 311,
+   "units": [
+    "64"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-751420228:71": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "71"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 990,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.1,
+   "orderedAbove": null
+  },
+  "g:-767856706:61": {
+   "tier": 50,
+   "score": 45,
+   "rank": 129,
+   "of": 311,
+   "units": [
+    "61"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 948,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.2,
+   "orderedAbove": null
+  },
+  "g:-797289633:27": {
+   "tier": 65,
+   "score": 47,
+   "rank": 100,
+   "of": 311,
+   "units": [
+    "27"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 1,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-799673808:32": {
+   "tier": 50,
+   "score": 28.9,
+   "rank": 293,
+   "of": 311,
+   "units": [
+    "32"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-815973389:55": {
+   "tier": 65,
+   "score": 56.5,
+   "rank": 43,
+   "of": 311,
+   "units": [
+    "55"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 36,
+   "nrAppsPerTag": 4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-820098068:36A": {
+   "tier": 50,
+   "score": 42.8,
+   "rank": 155,
+   "of": 311,
+   "units": [
+    "36A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 9.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-828122346:68": {
+   "tier": 50,
+   "score": 28.7,
+   "rank": 294,
+   "of": 311,
+   "units": [
+    "68"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-842623272:21": {
+   "tier": 80,
+   "score": 63.1,
+   "rank": 23,
+   "of": 311,
+   "units": [
+    "21"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 630,
+   "nrAppsPerTag": 11.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.8,
+   "orderedAbove": null
+  },
+  "g:-869366897:27": {
+   "tier": 65,
+   "score": 50.2,
+   "rank": 76,
+   "of": 311,
+   "units": [
+    "27"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 9,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-875810769:56": {
+   "tier": 65,
+   "score": 47.2,
+   "rank": 98,
+   "of": 311,
+   "units": [
+    "56"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 1.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-878177037:21A": {
+   "tier": 65,
+   "score": 58.8,
+   "rank": 35,
+   "of": 311,
+   "units": [
+    "21A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 536,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.2,
+   "orderedAbove": null
+  },
+  "g:-892405165:37A": {
+   "tier": 65,
+   "score": 48,
+   "rank": 94,
+   "of": 311,
+   "units": [
+    "37A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 163,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.6,
+   "orderedAbove": null
+  },
+  "g:-89285725:63A": {
+   "tier": 50,
+   "score": 29.9,
+   "rank": 290,
+   "of": 311,
+   "units": [
+    "63A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 49,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-897544700:32": {
+   "tier": 50,
+   "score": 16.3,
+   "rank": 310,
+   "of": 311,
+   "units": [
+    "32"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 234,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.2,
+   "orderedAbove": null
+  },
+  "g:-899713789:11A": {
+   "tier": 50,
+   "score": 45.3,
+   "rank": 127,
+   "of": 311,
+   "units": [
+    "11A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1112,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-917484920:50": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "50"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1345,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.7,
+   "orderedAbove": null
+  },
+  "g:-924890811:36B": {
+   "tier": 50,
+   "score": 44.6,
+   "rank": 137,
+   "of": 311,
+   "units": [
+    "36B"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 15,
+   "nrAppsPerTag": 8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-936982969:73": {
+   "tier": 50,
+   "score": 44,
+   "rank": 142,
+   "of": 311,
+   "units": [
+    "73"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 184,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.5,
+   "orderedAbove": null
+  },
+  "g:-937121982:62A": {
+   "tier": 50,
+   "score": 29.3,
+   "rank": 292,
+   "of": 311,
+   "units": [
+    "62A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-940764844:62": {
+   "tier": 50,
+   "score": 39.5,
+   "rank": 185,
+   "of": 311,
+   "units": [
+    "62"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 411,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.8,
+   "orderedAbove": null
+  },
+  "g:-960339861:49": {
+   "tier": 50,
+   "score": 37.5,
+   "rank": 212,
+   "of": 311,
+   "units": [
+    "49"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-965407155:59": {
+   "tier": 50,
+   "score": 23.1,
+   "rank": 305,
+   "of": 311,
+   "units": [
+    "59"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 920,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 22.5,
+   "orderedAbove": null
+  },
+  "g:-968175224:29": {
+   "tier": 50,
+   "score": 44.5,
+   "rank": 138,
+   "of": 311,
+   "units": [
+    "29"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 164,
+   "nrAppsPerTag": 1.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.5,
+   "orderedAbove": null
+  },
+  "g:-971744075:23": {
+   "tier": 50,
+   "score": 38.6,
+   "rank": 195,
+   "of": 311,
+   "units": [
+    "23"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 15,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-977880987:38": {
+   "tier": 50,
+   "score": 27.3,
+   "rank": 300,
+   "of": 311,
+   "units": [
+    "38"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 634,
+   "nrAppsPerTag": 0.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.2,
+   "orderedAbove": null
+  },
+  "g:-980545459:23": {
+   "tier": 65,
+   "score": 58,
+   "rank": 37,
+   "of": 311,
+   "units": [
+    "23"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 424,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 42.4,
+   "orderedAbove": null
+  },
+  "g:-986738778:35": {
+   "tier": 65,
+   "score": 45.9,
+   "rank": 122,
+   "of": 311,
+   "units": [
+    "35"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 35,
+   "nrAppsPerTag": 3.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-988759196:58": {
+   "tier": 50,
+   "score": 32.6,
+   "rank": 266,
+   "of": 311,
+   "units": [
+    "58"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 376,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.9,
+   "orderedAbove": null
+  },
+  "g:79802:1": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 691,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79804:1": {
+   "tier": 65,
+   "score": 54.7,
+   "rank": 52,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 7311,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:79806:1"
+  },
+  "g:79805:1": {
+   "tier": 65,
+   "score": 54.5,
+   "rank": 55,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 7311,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79806:1": {
+   "tier": 65,
+   "score": 54.6,
+   "rank": 53,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 7311,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:79805:1"
+  },
+  "g:79813:1": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 691,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79816:1": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 691,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79824:10": {
+   "tier": 65,
+   "score": 50.4,
+   "rank": 74,
+   "of": 311,
+   "units": [
+    "10"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 438,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79838:10A": {
+   "tier": 80,
+   "score": 60.6,
+   "rank": 31,
+   "of": 311,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 5242,
+   "nrAppsPerTag": 3.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79875:12": {
+   "tier": 65,
+   "score": 54.8,
+   "rank": 51,
+   "of": 311,
+   "units": [
+    "12"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 217,
+   "nrAppsPerTag": 5.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79897:14": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "14"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 21,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79910:15": {
+   "tier": 50,
+   "score": 44.8,
+   "rank": 133,
+   "of": 311,
+   "units": [
+    "15"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 272,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79911:15": {
+   "tier": 65,
+   "score": 55.2,
+   "rank": 49,
+   "of": 311,
+   "units": [
+    "15"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1934,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79912:2": {
+   "tier": 50,
+   "score": 43.1,
+   "rank": 150,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 437,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79930:16": {
+   "tier": 65,
+   "score": 52.5,
+   "rank": 63,
+   "of": 311,
+   "units": [
+    "16"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 96,
+   "nrAppsPerTag": 4.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79931:16": {
+   "tier": 65,
+   "score": 58.9,
+   "rank": 33,
+   "of": 311,
+   "units": [
+    "16"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 790,
+   "nrAppsPerTag": 4.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79943:16A": {
+   "tier": 50,
+   "score": 37.3,
+   "rank": 214,
+   "of": 311,
+   "units": [
+    "16A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 132,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79954:17": {
+   "tier": 100,
+   "score": 73.9,
+   "rank": 6,
+   "of": 311,
+   "units": [
+    "17"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 491,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 70.1,
+   "orderedAbove": null
+  },
+  "g:79965:18": {
+   "tier": 50,
+   "score": 36.3,
+   "rank": 228,
+   "of": 311,
+   "units": [
+    "18"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79977:19": {
+   "tier": 80,
+   "score": 72.4,
+   "rank": 9,
+   "of": 311,
+   "units": [
+    "19"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 430,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 62,
+   "orderedAbove": null
+  },
+  "g:80000:2": {
+   "tier": 50,
+   "score": 43.1,
+   "rank": 150,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 437,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80002:2": {
+   "tier": 65,
+   "score": 48.7,
+   "rank": 86,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3425,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80004:2"
+  },
+  "g:80003:2": {
+   "tier": 65,
+   "score": 48.5,
+   "rank": 89,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3425,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80004:2": {
+   "tier": 65,
+   "score": 48.6,
+   "rank": 87,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3425,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80003:2"
+  },
+  "g:80008:2": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 203,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 437,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80010:2": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 203,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 437,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80012:2": {
+   "tier": 50,
+   "score": 43.1,
+   "rank": 150,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 437,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80014:2": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 203,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 437,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80023:20": {
+   "tier": 80,
+   "score": 69.6,
+   "rank": 12,
+   "of": 311,
+   "units": [
+    "20"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 279,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.1,
+   "orderedAbove": null
+  },
+  "g:80103:28": {
+   "tier": 80,
+   "score": 65.3,
+   "rank": 17,
+   "of": 311,
+   "units": [
+    "28"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 261,
+   "nrAppsPerTag": 7.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 44.6,
+   "orderedAbove": null
+  },
+  "g:80139:28": {
+   "tier": 80,
+   "score": 73.1,
+   "rank": 7,
+   "of": 311,
+   "units": [
+    "28"
+   ],
+   "weapon": "SHORT_RANGE",
+   "huntersPerYear": 1458,
+   "nrAppsPerTag": 7.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.3,
+   "orderedAbove": null
+  },
+  "g:80157:3": {
+   "tier": 50,
+   "score": 36.7,
+   "rank": 220,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 495,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80159:3": {
+   "tier": 65,
+   "score": 46.3,
+   "rank": 109,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3300,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80161:3"
+  },
+  "g:80160:3": {
+   "tier": 65,
+   "score": 46.1,
+   "rank": 114,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3300,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80161:3": {
+   "tier": 65,
+   "score": 46.2,
+   "rank": 111,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3300,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80160:3"
+  },
+  "g:80168:3": {
+   "tier": 50,
+   "score": 36.7,
+   "rank": 220,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 495,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80170:3": {
+   "tier": 50,
+   "score": 36.7,
+   "rank": 220,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 495,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80336:38": {
+   "tier": 50,
+   "score": 29.9,
+   "rank": 290,
+   "of": 311,
+   "units": [
+    "38"
+   ],
+   "weapon": "SHORT_RANGE",
+   "huntersPerYear": 748,
+   "nrAppsPerTag": 0.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 27.3,
+   "orderedAbove": null
+  },
+  "g:80349:39": {
+   "tier": 50,
+   "score": 40.2,
+   "rank": 178,
+   "of": 311,
+   "units": [
+    "39"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 1380,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 20.1,
+   "orderedAbove": null
+  },
+  "g:80358:4": {
+   "tier": 50,
+   "score": 40.8,
+   "rank": 174,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 551,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80361:4": {
+   "tier": 65,
+   "score": 48.8,
+   "rank": 84,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2705,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80362:4": {
+   "tier": 65,
+   "score": 48.8,
+   "rank": 84,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2705,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80368:4": {
+   "tier": 50,
+   "score": 43.6,
+   "rank": 149,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 597,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80370:4": {
+   "tier": 50,
+   "score": 40.8,
+   "rank": 174,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 551,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80372:4": {
+   "tier": 50,
+   "score": 40.8,
+   "rank": 174,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 551,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80374:4": {
+   "tier": 65,
+   "score": 46.2,
+   "rank": 111,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 597,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80375:4"
+  },
+  "g:80375:4": {
+   "tier": 65,
+   "score": 46.1,
+   "rank": 114,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 597,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80376:4": {
+   "tier": 65,
+   "score": 46.2,
+   "rank": 111,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 597,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80375:4"
+  },
+  "g:80399:43": {
+   "tier": 50,
+   "score": 35.2,
+   "rank": 239,
+   "of": 311,
+   "units": [
+    "43"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 609,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.6,
+   "orderedAbove": null
+  },
+  "g:80400:43": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "43"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3292,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.2,
+   "orderedAbove": null
+  },
+  "g:80401:43": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "43"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3292,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.2,
+   "orderedAbove": null
+  },
+  "g:80403:43": {
+   "tier": 50,
+   "score": 35.2,
+   "rank": 239,
+   "of": 311,
+   "units": [
+    "43"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 609,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.6,
+   "orderedAbove": null
+  },
+  "g:80438:4A": {
+   "tier": 50,
+   "score": 37.2,
+   "rank": 215,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 58,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80439:4A": {
+   "tier": 65,
+   "score": 48.2,
+   "rank": 91,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 503,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80442:4A"
+  },
+  "g:80441:4A": {
+   "tier": 65,
+   "score": 48,
+   "rank": 94,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 503,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80442:4A": {
+   "tier": 65,
+   "score": 48.1,
+   "rank": 92,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 503,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80441:4A"
+  },
+  "g:80450:4A": {
+   "tier": 50,
+   "score": 37.2,
+   "rank": 215,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 58,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80451:4A": {
+   "tier": 50,
+   "score": 37.2,
+   "rank": 215,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 58,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80458:5": {
+   "tier": 50,
+   "score": 39.4,
+   "rank": 187,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 238,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80459:5": {
+   "tier": 65,
+   "score": 50.9,
+   "rank": 70,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2571,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80462:5"
+  },
+  "g:80461:5": {
+   "tier": 65,
+   "score": 50.7,
+   "rank": 72,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2571,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80462:5": {
+   "tier": 65,
+   "score": 50.8,
+   "rank": 71,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2571,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80461:5"
+  },
+  "g:80465:5": {
+   "tier": 50,
+   "score": 39.4,
+   "rank": 187,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 238,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80472:5": {
+   "tier": 50,
+   "score": 39.4,
+   "rank": 187,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 238,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80519:56": {
+   "tier": 100,
+   "score": 75.9,
+   "rank": 3,
+   "of": 311,
+   "units": [
+    "56"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 176,
+   "nrAppsPerTag": 1.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 58.2,
+   "orderedAbove": null
+  },
+  "g:80555:6": {
+   "tier": 65,
+   "score": 46.9,
+   "rank": 102,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 275,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80556:6": {
+   "tier": 65,
+   "score": 58.1,
+   "rank": 36,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3255,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80559:6"
+  },
+  "g:80558:6": {
+   "tier": 65,
+   "score": 57.9,
+   "rank": 39,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3255,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80559:6": {
+   "tier": 65,
+   "score": 58,
+   "rank": 37,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3255,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80558:6"
+  },
+  "g:80563:6": {
+   "tier": 65,
+   "score": 46.9,
+   "rank": 102,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 275,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80568:6": {
+   "tier": 65,
+   "score": 46.9,
+   "rank": 102,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 275,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80586:60A": {
+   "tier": 50,
+   "score": 40.2,
+   "rank": 178,
+   "of": 311,
+   "units": [
+    "60A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 233,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80605:62": {
+   "tier": 50,
+   "score": 44.3,
+   "rank": 141,
+   "of": 311,
+   "units": [
+    "62"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 127,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80643:64": {
+   "tier": 50,
+   "score": 40.9,
+   "rank": 172,
+   "of": 311,
+   "units": [
+    "64"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80653:65": {
+   "tier": 50,
+   "score": 41.7,
+   "rank": 167,
+   "of": 311,
+   "units": [
+    "65"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 78,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80663:66": {
+   "tier": 50,
+   "score": 32.2,
+   "rank": 270,
+   "of": 311,
+   "units": [
+    "66"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 187,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.1,
+   "orderedAbove": null
+  },
+  "g:80679:67": {
+   "tier": 65,
+   "score": 52.1,
+   "rank": 67,
+   "of": 311,
+   "units": [
+    "67"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 151,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80703:69": {
+   "tier": 80,
+   "score": 62,
+   "rank": 26,
+   "of": 311,
+   "units": [
+    "69"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 280,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.2,
+   "orderedAbove": null
+  },
+  "g:80710:7": {
+   "tier": 50,
+   "score": 31.3,
+   "rank": 277,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 57,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80712:7": {
+   "tier": 80,
+   "score": 61.4,
+   "rank": 28,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 174,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 77.7,
+   "orderedAbove": null
+  },
+  "g:80713:7": {
+   "tier": 80,
+   "score": 61.4,
+   "rank": 28,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 174,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 77.7,
+   "orderedAbove": null
+  },
+  "g:80718:7": {
+   "tier": 50,
+   "score": 32.9,
+   "rank": 259,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 44,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80720:7": {
+   "tier": 50,
+   "score": 31.3,
+   "rank": 277,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 57,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80722:7": {
+   "tier": 50,
+   "score": 31.3,
+   "rank": 277,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 57,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80725:7": {
+   "tier": 50,
+   "score": 35.5,
+   "rank": 234,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 44,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80726:7"
+  },
+  "g:80726:7": {
+   "tier": 50,
+   "score": 35.4,
+   "rank": 237,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 44,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80727:7": {
+   "tier": 50,
+   "score": 35.5,
+   "rank": 234,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 44,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80726:7"
+  },
+  "g:80837:8": {
+   "tier": 65,
+   "score": 52.5,
+   "rank": 63,
+   "of": 311,
+   "units": [
+    "8"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2063,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80851:8A": {
+   "tier": 50,
+   "score": 43.8,
+   "rank": 146,
+   "of": 311,
+   "units": [
+    "8A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 170,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80852:8A": {
+   "tier": 65,
+   "score": 57,
+   "rank": 40,
+   "of": 311,
+   "units": [
+    "8A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 4299,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80867:9": {
+   "tier": 50,
+   "score": 32.5,
+   "rank": 267,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 13,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80869:9": {
+   "tier": 50,
+   "score": 38.4,
+   "rank": 197,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 37,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80870:9": {
+   "tier": 50,
+   "score": 38.4,
+   "rank": 197,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 37,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80871:9": {
+   "tier": 50,
+   "score": 34,
+   "rank": 252,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80878:9": {
+   "tier": 50,
+   "score": 32.5,
+   "rank": 267,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 13,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80880:9": {
+   "tier": 50,
+   "score": 32.5,
+   "rank": 267,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 13,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80882:9": {
+   "tier": 50,
+   "score": 36.6,
+   "rank": 223,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80883:9"
+  },
+  "g:80883:9": {
+   "tier": 50,
+   "score": 36.5,
+   "rank": 226,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:80884:9": {
+   "tier": 50,
+   "score": 36.6,
+   "rank": 223,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80883:9"
+  },
+  "g:-1014014380:1": {
+   "tier": 50,
+   "score": 39.7,
+   "rank": 99,
+   "of": 191,
+   "units": [
+    "1"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 542,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1017172822:69": {
+   "tier": 65,
+   "score": 60.9,
+   "rank": 26,
+   "of": 191,
+   "units": [
+    "69"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 472,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39,
+   "orderedAbove": null
+  },
+  "g:-1021041474:71": {
+   "tier": 65,
+   "score": 64.1,
+   "rank": 23,
+   "of": 191,
+   "units": [
+    "71"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 151,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.1,
+   "orderedAbove": null
+  },
+  "g:-1044998256:47": {
+   "tier": 65,
+   "score": 55.5,
+   "rank": 47,
+   "of": 191,
+   "units": [
+    "47"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 7.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1059882554:69": {
+   "tier": 50,
+   "score": 28.2,
+   "rank": 156,
+   "of": 191,
+   "units": [
+    "69"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1061140809:68": {
+   "tier": 65,
+   "score": 53.9,
+   "rank": 54,
+   "of": 191,
+   "units": [
+    "68"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 197,
+   "nrAppsPerTag": 23,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1094272523:3": {
+   "tier": 50,
+   "score": 21.7,
+   "rank": 184,
+   "of": 191,
+   "units": [
+    "3"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1863,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 11.3,
+   "orderedAbove": null
+  },
+  "g:-109522837:20": {
+   "tier": 50,
+   "score": 25.8,
+   "rank": 172,
+   "of": 191,
+   "units": [
+    "20"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1098517599:77": {
+   "tier": 80,
+   "score": 72.5,
+   "rank": 10,
+   "of": 191,
+   "units": [
+    "77"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 369,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.8,
+   "orderedAbove": null
+  },
+  "g:-1111468396:21": {
+   "tier": 65,
+   "score": 47.1,
+   "rank": 75,
+   "of": 191,
+   "units": [
+    "21"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 428,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.3,
+   "orderedAbove": null
+  },
+  "g:-1116408851:24": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 92,
+   "of": 191,
+   "units": [
+    "24"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 913,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.9,
+   "orderedAbove": null
+  },
+  "g:-1121517473:63A": {
+   "tier": 50,
+   "score": 32.8,
+   "rank": 131,
+   "of": 191,
+   "units": [
+    "63A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 12,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1134336846:25": {
+   "tier": 50,
+   "score": 41.6,
+   "rank": 94,
+   "of": 191,
+   "units": [
+    "25"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 377,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.1,
+   "orderedAbove": null
+  },
+  "g:-114341647:36B": {
+   "tier": 65,
+   "score": 58.2,
+   "rank": 35,
+   "of": 191,
+   "units": [
+    "36B"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 109,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.1,
+   "orderedAbove": null
+  },
+  "g:-1162892919:52": {
+   "tier": 50,
+   "score": 30.4,
+   "rank": 145,
+   "of": 191,
+   "units": [
+    "52"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 1,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-118141633:59": {
+   "tier": 65,
+   "score": 57.6,
+   "rank": 39,
+   "of": 191,
+   "units": [
+    "59"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 418,
+   "nrAppsPerTag": 4.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.7,
+   "orderedAbove": null
+  },
+  "g:-1189529367:38": {
+   "tier": 65,
+   "score": 51.7,
+   "rank": 59,
+   "of": 191,
+   "units": [
+    "38"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 312,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.6,
+   "orderedAbove": null
+  },
+  "g:-1205040454:2": {
+   "tier": 50,
+   "score": 19.4,
+   "rank": 186,
+   "of": 191,
+   "units": [
+    "2"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1075,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 9.5,
+   "orderedAbove": null
+  },
+  "g:-1208037582:68": {
+   "tier": 50,
+   "score": 25,
+   "rank": 175,
+   "of": 191,
+   "units": [
+    "68"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1209859092:6": {
+   "tier": 50,
+   "score": 24.4,
+   "rank": 179,
+   "of": 191,
+   "units": [
+    "6"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2682,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 16.7,
+   "orderedAbove": null
+  },
+  "g:-1224228361:68A": {
+   "tier": 65,
+   "score": 54.3,
+   "rank": 52,
+   "of": 191,
+   "units": [
+    "68A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 11,
+   "nrAppsPerTag": 23,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1224928638:63A": {
+   "tier": 50,
+   "score": 32.3,
+   "rank": 133,
+   "of": 191,
+   "units": [
+    "63A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 11,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1228364657:70": {
+   "tier": 80,
+   "score": 68.5,
+   "rank": 14,
+   "of": 191,
+   "units": [
+    "70"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 98,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.7,
+   "orderedAbove": null
+  },
+  "g:-1260422621:12": {
+   "tier": 65,
+   "score": 50.2,
+   "rank": 66,
+   "of": 191,
+   "units": [
+    "12"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 135,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43.9,
+   "orderedAbove": null
+  },
+  "g:-1269849587:67": {
+   "tier": 50,
+   "score": 38.7,
+   "rank": 104,
+   "of": 191,
+   "units": [
+    "67"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1304232579:8A": {
+   "tier": 50,
+   "score": 31.5,
+   "rank": 140,
+   "of": 191,
+   "units": [
+    "8A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1683,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 15.2,
+   "orderedAbove": null
+  },
+  "g:-1304608229:68A": {
+   "tier": 50,
+   "score": 45.2,
+   "rank": 84,
+   "of": 191,
+   "units": [
+    "68A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 53,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1315769462:61": {
+   "tier": 50,
+   "score": 30.7,
+   "rank": 142,
+   "of": 191,
+   "units": [
+    "61"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 11,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1316631765:27": {
+   "tier": 50,
+   "score": 28.9,
+   "rank": 153,
+   "of": 191,
+   "units": [
+    "27"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1317581096:22": {
+   "tier": 50,
+   "score": 38.9,
+   "rank": 103,
+   "of": 191,
+   "units": [
+    "22"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 924,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 26.5,
+   "orderedAbove": null
+  },
+  "g:-132979527:60": {
+   "tier": 50,
+   "score": 43.4,
+   "rank": 87,
+   "of": 191,
+   "units": [
+    "60"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 510,
+   "nrAppsPerTag": 4.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.2,
+   "orderedAbove": null
+  },
+  "g:-1331831712:65": {
+   "tier": 50,
+   "score": 26,
+   "rank": 171,
+   "of": 191,
+   "units": [
+    "65"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 1,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-13330537:63": {
+   "tier": 50,
+   "score": 24.6,
+   "rank": 178,
+   "of": 191,
+   "units": [
+    "63"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 2,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1335274873:8": {
+   "tier": 50,
+   "score": 29.9,
+   "rank": 148,
+   "of": 191,
+   "units": [
+    "8"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 172,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.7,
+   "orderedAbove": null
+  },
+  "g:-1339543219:74": {
+   "tier": 80,
+   "score": 72.5,
+   "rank": 10,
+   "of": 191,
+   "units": [
+    "74"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 224,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 55.2,
+   "orderedAbove": null
+  },
+  "g:-1350977672:33": {
+   "tier": 50,
+   "score": 24,
+   "rank": 181,
+   "of": 191,
+   "units": [
+    "33"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 1,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1359183809:12": {
+   "tier": 50,
+   "score": 30.3,
+   "rank": 146,
+   "of": 191,
+   "units": [
+    "12"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 229,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 32,
+   "orderedAbove": null
+  },
+  "g:-1363525490:62A": {
+   "tier": 50,
+   "score": 32.2,
+   "rank": 134,
+   "of": 191,
+   "units": [
+    "62A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 22,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1365323365:7": {
+   "tier": 50,
+   "score": 37.9,
+   "rank": 108,
+   "of": 191,
+   "units": [
+    "7"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 73,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.8,
+   "orderedAbove": null
+  },
+  "g:-1437355028:1": {
+   "tier": 50,
+   "score": 27.1,
+   "rank": 163,
+   "of": 191,
+   "units": [
+    "1"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2858,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.1,
+   "orderedAbove": null
+  },
+  "g:-1441648764:66": {
+   "tier": 65,
+   "score": 63.4,
+   "rank": 24,
+   "of": 191,
+   "units": [
+    "66"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 492,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.7,
+   "orderedAbove": null
+  },
+  "g:-1444357073:77": {
+   "tier": 65,
+   "score": 47.3,
+   "rank": 74,
+   "of": 191,
+   "units": [
+    "77"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 159,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.9,
+   "orderedAbove": null
+  },
+  "g:-1456329724:32": {
+   "tier": 50,
+   "score": 28,
+   "rank": 159,
+   "of": 191,
+   "units": [
+    "32"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1482963001:63": {
+   "tier": 50,
+   "score": 29.8,
+   "rank": 149,
+   "of": 191,
+   "units": [
+    "63"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1487069617:6": {
+   "tier": 50,
+   "score": 30.6,
+   "rank": 143,
+   "of": 191,
+   "units": [
+    "6"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 25,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1499135081:11A": {
+   "tier": 65,
+   "score": 49.5,
+   "rank": 67,
+   "of": 191,
+   "units": [
+    "11A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 212,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.6,
+   "orderedAbove": null
+  },
+  "g:-1524162805:78": {
+   "tier": 65,
+   "score": 59,
+   "rank": 31,
+   "of": 191,
+   "units": [
+    "78"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 239,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37,
+   "orderedAbove": null
+  },
+  "g:-1524511705:19A": {
+   "tier": 50,
+   "score": 29.6,
+   "rank": 150,
+   "of": 191,
+   "units": [
+    "19A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 8,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1537486832:32": {
+   "tier": 50,
+   "score": 28.2,
+   "rank": 156,
+   "of": 191,
+   "units": [
+    "32"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 203,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 22.3,
+   "orderedAbove": null
+  },
+  "g:-1545116218:48": {
+   "tier": 65,
+   "score": 51.2,
+   "rank": 61,
+   "of": 191,
+   "units": [
+    "48"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 495,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.5,
+   "orderedAbove": null
+  },
+  "g:-1567307104:44": {
+   "tier": 65,
+   "score": 51.1,
+   "rank": 62,
+   "of": 191,
+   "units": [
+    "44"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 25,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1583351880:30A": {
+   "tier": 80,
+   "score": 67.2,
+   "rank": 16,
+   "of": 191,
+   "units": [
+    "30A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 273,
+   "nrAppsPerTag": 4.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.7,
+   "orderedAbove": null
+  },
+  "g:-1595143583:73": {
+   "tier": 65,
+   "score": 51.6,
+   "rank": 60,
+   "of": 191,
+   "units": [
+    "73"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 227,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.6,
+   "orderedAbove": null
+  },
+  "g:-1595451614:54": {
+   "tier": 65,
+   "score": 58.7,
+   "rank": 33,
+   "of": 191,
+   "units": [
+    "54"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": 7.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1615724838:17": {
+   "tier": 80,
+   "score": 65.3,
+   "rank": 18,
+   "of": 191,
+   "units": [
+    "17"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 522,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 47.5,
+   "orderedAbove": null
+  },
+  "g:-1641913067:20A": {
+   "tier": 50,
+   "score": 27.5,
+   "rank": 161,
+   "of": 191,
+   "units": [
+    "20A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 4,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1644950473:21A": {
+   "tier": 50,
+   "score": 37.4,
+   "rank": 111,
+   "of": 191,
+   "units": [
+    "21A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 563,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 13.7,
+   "orderedAbove": null
+  },
+  "g:-1656566190:53": {
+   "tier": 80,
+   "score": 66.1,
+   "rank": 17,
+   "of": 191,
+   "units": [
+    "53"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 169,
+   "nrAppsPerTag": 23,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.7,
+   "orderedAbove": null
+  },
+  "g:-1671210951:23": {
+   "tier": 65,
+   "score": 58,
+   "rank": 36,
+   "of": 191,
+   "units": [
+    "23"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 902,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.9,
+   "orderedAbove": null
+  },
+  "g:-1671680485:60": {
+   "tier": 50,
+   "score": 31.7,
+   "rank": 139,
+   "of": 191,
+   "units": [
+    "60"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 13,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1681558897:32A": {
+   "tier": 50,
+   "score": 45.8,
+   "rank": 80,
+   "of": 191,
+   "units": [
+    "32A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1534,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.6,
+   "orderedAbove": null
+  },
+  "g:-1706080274:19": {
+   "tier": 50,
+   "score": 24,
+   "rank": 181,
+   "of": 191,
+   "units": [
+    "19"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 1,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1753201781:37A": {
+   "tier": 65,
+   "score": 48.4,
+   "rank": 71,
+   "of": 191,
+   "units": [
+    "37A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 131,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 40.7,
+   "orderedAbove": null
+  },
+  "g:-175356199:64": {
+   "tier": 50,
+   "score": 46,
+   "rank": 78,
+   "of": 191,
+   "units": [
+    "64"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 183,
+   "nrAppsPerTag": 4.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.3,
+   "orderedAbove": null
+  },
+  "g:-1801759652:29": {
+   "tier": 80,
+   "score": 69.4,
+   "rank": 13,
+   "of": 191,
+   "units": [
+    "29"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 329,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 45.8,
+   "orderedAbove": null
+  },
+  "g:-1821657530:72": {
+   "tier": 65,
+   "score": 58.8,
+   "rank": 32,
+   "of": 191,
+   "units": [
+    "72"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 196,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.7,
+   "orderedAbove": null
+  },
+  "g:-1838369617:34": {
+   "tier": 50,
+   "score": 34,
+   "rank": 123,
+   "of": 191,
+   "units": [
+    "34"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 257,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 22.9,
+   "orderedAbove": null
+  },
+  "g:-1841863237:11A": {
+   "tier": 65,
+   "score": 53.3,
+   "rank": 56,
+   "of": 191,
+   "units": [
+    "11A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 39,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43.7,
+   "orderedAbove": null
+  },
+  "g:-1848090996:14": {
+   "tier": 50,
+   "score": 38.6,
+   "rank": 105,
+   "of": 191,
+   "units": [
+    "14"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 697,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.9,
+   "orderedAbove": null
+  },
+  "g:-1858821353:49": {
+   "tier": 80,
+   "score": 75,
+   "rank": 8,
+   "of": 191,
+   "units": [
+    "49"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 528,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 48.8,
+   "orderedAbove": null
+  },
+  "g:-1868363495:8A": {
+   "tier": 50,
+   "score": 37.4,
+   "rank": 111,
+   "of": 191,
+   "units": [
+    "8A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 611,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.7,
+   "orderedAbove": null
+  },
+  "g:-1876408433:73A": {
+   "tier": 65,
+   "score": 65.1,
+   "rank": 20,
+   "of": 191,
+   "units": [
+    "73A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 106,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46,
+   "orderedAbove": null
+  },
+  "g:-1889619813:51": {
+   "tier": 65,
+   "score": 57.5,
+   "rank": 40,
+   "of": 191,
+   "units": [
+    "51"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 296,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 41.3,
+   "orderedAbove": null
+  },
+  "g:-1925433316:63A": {
+   "tier": 50,
+   "score": 45.5,
+   "rank": 83,
+   "of": 191,
+   "units": [
+    "63A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 41,
+   "nrAppsPerTag": 4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1929597303:20A": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 91,
+   "of": 191,
+   "units": [
+    "20A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 293,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.1,
+   "orderedAbove": null
+  },
+  "g:-1936764740:76": {
+   "tier": 100,
+   "score": 81.4,
+   "rank": 4,
+   "of": 191,
+   "units": [
+    "76"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 1095,
+   "nrAppsPerTag": 23.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 50.8,
+   "orderedAbove": null
+  },
+  "g:-19398474:43": {
+   "tier": 50,
+   "score": 25,
+   "rank": 175,
+   "of": 191,
+   "units": [
+    "43"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1942475678:22": {
+   "tier": 50,
+   "score": 36.6,
+   "rank": 117,
+   "of": 191,
+   "units": [
+    "22"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1526,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 19.5,
+   "orderedAbove": null
+  },
+  "g:-1956497272:76": {
+   "tier": 50,
+   "score": 24,
+   "rank": 181,
+   "of": 191,
+   "units": [
+    "76"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 1,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1957295118:16A": {
+   "tier": 65,
+   "score": 47.5,
+   "rank": 73,
+   "of": 191,
+   "units": [
+    "16A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 222,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.3,
+   "orderedAbove": null
+  },
+  "g:-1963736407:52": {
+   "tier": 50,
+   "score": 46.8,
+   "rank": 77,
+   "of": 191,
+   "units": [
+    "52"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 4,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1972567432:66A": {
+   "tier": 50,
+   "score": 32.2,
+   "rank": 134,
+   "of": 191,
+   "units": [
+    "66A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-1979352803:20A": {
+   "tier": 50,
+   "score": 26.9,
+   "rank": 166,
+   "of": 191,
+   "units": [
+    "20A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 4,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-198708240:65": {
+   "tier": 65,
+   "score": 64.5,
+   "rank": 22,
+   "of": 191,
+   "units": [
+    "65"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 115,
+   "nrAppsPerTag": 4.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.2,
+   "orderedAbove": null
+  },
+  "g:-1999159215:3": {
+   "tier": 50,
+   "score": 39.1,
+   "rank": 101,
+   "of": 191,
+   "units": [
+    "3"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 481,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2011277755:33": {
+   "tier": 50,
+   "score": 34.6,
+   "rank": 121,
+   "of": 191,
+   "units": [
+    "33"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 593,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 20.4,
+   "orderedAbove": null
+  },
+  "g:-2037639807:45": {
+   "tier": 65,
+   "score": 49.5,
+   "rank": 67,
+   "of": 191,
+   "units": [
+    "45"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2041090815:45": {
+   "tier": 50,
+   "score": 32.6,
+   "rank": 132,
+   "of": 191,
+   "units": [
+    "45"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 2,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2052644664:53": {
+   "tier": 50,
+   "score": 40,
+   "rank": 98,
+   "of": 191,
+   "units": [
+    "53"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 47,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2059795680:31": {
+   "tier": 65,
+   "score": 55.1,
+   "rank": 51,
+   "of": 191,
+   "units": [
+    "31"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 448,
+   "nrAppsPerTag": 4.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.5,
+   "orderedAbove": null
+  },
+  "g:-2069859171:55": {
+   "tier": 80,
+   "score": 76.4,
+   "rank": 7,
+   "of": 191,
+   "units": [
+    "55"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 126,
+   "nrAppsPerTag": 7.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 56,
+   "orderedAbove": null
+  },
+  "g:-2071684307:44": {
+   "tier": 50,
+   "score": 33.8,
+   "rank": 124,
+   "of": 191,
+   "units": [
+    "44"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2081447079:8": {
+   "tier": 50,
+   "score": 33.8,
+   "rank": 124,
+   "of": 191,
+   "units": [
+    "8"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 741,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.4,
+   "orderedAbove": null
+  },
+  "g:-2092811050:75": {
+   "tier": 65,
+   "score": 52.6,
+   "rank": 58,
+   "of": 191,
+   "units": [
+    "75"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 543,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33,
+   "orderedAbove": null
+  },
+  "g:-2097676987:68": {
+   "tier": 65,
+   "score": 57.7,
+   "rank": 37,
+   "of": 191,
+   "units": [
+    "68"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 156,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 44.6,
+   "orderedAbove": null
+  },
+  "g:-2101555363:52A": {
+   "tier": 50,
+   "score": 26.3,
+   "rank": 170,
+   "of": 191,
+   "units": [
+    "52A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-2104799120:9": {
+   "tier": 50,
+   "score": 28.1,
+   "rank": 158,
+   "of": 191,
+   "units": [
+    "9"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 105,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.3,
+   "orderedAbove": null
+  },
+  "g:-2118044648:10A": {
+   "tier": 50,
+   "score": 24.7,
+   "rank": 177,
+   "of": 191,
+   "units": [
+    "10A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 475,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 1.3,
+   "orderedAbove": null
+  },
+  "g:-22308931:2": {
+   "tier": 50,
+   "score": 34.2,
+   "rank": 122,
+   "of": 191,
+   "units": [
+    "2"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 185,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-226212026:5": {
+   "tier": 50,
+   "score": 37.8,
+   "rank": 109,
+   "of": 191,
+   "units": [
+    "5"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 373,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-243360894:62A": {
+   "tier": 65,
+   "score": 64.8,
+   "rank": 21,
+   "of": 191,
+   "units": [
+    "62A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 161,
+   "nrAppsPerTag": 4.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.9,
+   "orderedAbove": null
+  },
+  "g:-251395897:27": {
+   "tier": 50,
+   "score": 38.4,
+   "rank": 107,
+   "of": 191,
+   "units": [
+    "27"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1016,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.1,
+   "orderedAbove": null
+  },
+  "g:-262932425:19A": {
+   "tier": 65,
+   "score": 56.1,
+   "rank": 43,
+   "of": 191,
+   "units": [
+    "19A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 255,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.1,
+   "orderedAbove": null
+  },
+  "g:-276106932:66A": {
+   "tier": 100,
+   "score": 82.8,
+   "rank": 2,
+   "of": 191,
+   "units": [
+    "66A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 715,
+   "nrAppsPerTag": 23.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.5,
+   "orderedAbove": null
+  },
+  "g:-310716266:69": {
+   "tier": 50,
+   "score": 46,
+   "rank": 78,
+   "of": 191,
+   "units": [
+    "69"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1365,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.1,
+   "orderedAbove": null
+  },
+  "g:-313976110:6": {
+   "tier": 50,
+   "score": 33.3,
+   "rank": 126,
+   "of": 191,
+   "units": [
+    "6"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 998,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 23,
+   "orderedAbove": null
+  },
+  "g:-315121369:78": {
+   "tier": 50,
+   "score": 44.2,
+   "rank": 85,
+   "of": 191,
+   "units": [
+    "78"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 416,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 29.1,
+   "orderedAbove": null
+  },
+  "g:-31686823:67": {
+   "tier": 80,
+   "score": 77,
+   "rank": 6,
+   "of": 191,
+   "units": [
+    "67"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 227,
+   "nrAppsPerTag": 4.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 52.8,
+   "orderedAbove": null
+  },
+  "g:-328249213:15": {
+   "tier": 65,
+   "score": 50.7,
+   "rank": 63,
+   "of": 191,
+   "units": [
+    "15"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 289,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38,
+   "orderedAbove": null
+  },
+  "g:-348971367:39": {
+   "tier": 50,
+   "score": 30.6,
+   "rank": 143,
+   "of": 191,
+   "units": [
+    "39"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 11,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-355210459:67": {
+   "tier": 80,
+   "score": 77.4,
+   "rank": 5,
+   "of": 191,
+   "units": [
+    "67"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 145,
+   "nrAppsPerTag": 5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 47.7,
+   "orderedAbove": null
+  },
+  "g:-356603352:21": {
+   "tier": 65,
+   "score": 59.9,
+   "rank": 30,
+   "of": 191,
+   "units": [
+    "21"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 115,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.1,
+   "orderedAbove": null
+  },
+  "g:-374270119:19": {
+   "tier": 50,
+   "score": 26.6,
+   "rank": 167,
+   "of": 191,
+   "units": [
+    "19"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-374367054:4": {
+   "tier": 50,
+   "score": 17,
+   "rank": 189,
+   "of": 191,
+   "units": [
+    "4"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 570,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 6.3,
+   "orderedAbove": null
+  },
+  "g:-380022349:46": {
+   "tier": 65,
+   "score": 55.8,
+   "rank": 45,
+   "of": 191,
+   "units": [
+    "46"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": 7.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-382644735:30": {
+   "tier": 80,
+   "score": 67.7,
+   "rank": 15,
+   "of": 191,
+   "units": [
+    "30"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 137,
+   "nrAppsPerTag": 4.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43,
+   "orderedAbove": null
+  },
+  "g:-405185370:36": {
+   "tier": 50,
+   "score": 40.3,
+   "rank": 97,
+   "of": 191,
+   "units": [
+    "36"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 615,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.9,
+   "orderedAbove": null
+  },
+  "g:-40858701:4A": {
+   "tier": 50,
+   "score": 31.1,
+   "rank": 141,
+   "of": 191,
+   "units": [
+    "4A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 50,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-418643622:52A": {
+   "tier": 65,
+   "score": 54.3,
+   "rank": 52,
+   "of": 191,
+   "units": [
+    "52A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 209,
+   "nrAppsPerTag": 23,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-420042904:16A": {
+   "tier": 50,
+   "score": 25.8,
+   "rank": 172,
+   "of": 191,
+   "units": [
+    "16A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-426955094:32A": {
+   "tier": 50,
+   "score": 29.1,
+   "rank": 152,
+   "of": 191,
+   "units": [
+    "32A"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-442360838:26": {
+   "tier": 50,
+   "score": 26.6,
+   "rank": 167,
+   "of": 191,
+   "units": [
+    "26"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 3,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-466980844:65": {
+   "tier": 65,
+   "score": 47,
+   "rank": 76,
+   "of": 191,
+   "units": [
+    "65"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 69,
+   "nrAppsPerTag": 5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 32.7,
+   "orderedAbove": null
+  },
+  "g:-473839025:28": {
+   "tier": 65,
+   "score": 49.2,
+   "rank": 69,
+   "of": 191,
+   "units": [
+    "28"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 55,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-479278034:25": {
+   "tier": 50,
+   "score": 27.8,
+   "rank": 160,
+   "of": 191,
+   "units": [
+    "25"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 5,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-486368571:21A": {
+   "tier": 50,
+   "score": 43.2,
+   "rank": 89,
+   "of": 191,
+   "units": [
+    "21A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 110,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 29.8,
+   "orderedAbove": null
+  },
+  "g:-486599883:53": {
+   "tier": 65,
+   "score": 50.4,
+   "rank": 65,
+   "of": 191,
+   "units": [
+    "53"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 108,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 44,
+   "orderedAbove": null
+  },
+  "g:-493522326:57": {
+   "tier": 65,
+   "score": 58.7,
+   "rank": 33,
+   "of": 191,
+   "units": [
+    "57"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 84,
+   "nrAppsPerTag": 7.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.4,
+   "orderedAbove": null
+  },
+  "g:-498161184:9": {
+   "tier": 50,
+   "score": 29.4,
+   "rank": 151,
+   "of": 191,
+   "units": [
+    "9"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 9,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-502485497:64": {
+   "tier": 65,
+   "score": 48.5,
+   "rank": 70,
+   "of": 191,
+   "units": [
+    "64"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.6,
+   "orderedAbove": null
+  },
+  "g:-504963467:36B": {
+   "tier": 50,
+   "score": 36.9,
+   "rank": 116,
+   "of": 191,
+   "units": [
+    "36B"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 591,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 12.2,
+   "orderedAbove": null
+  },
+  "g:-505837330:66": {
+   "tier": 65,
+   "score": 55.5,
+   "rank": 47,
+   "of": 191,
+   "units": [
+    "66"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1200,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.3,
+   "orderedAbove": null
+  },
+  "g:-512965254:24": {
+   "tier": 50,
+   "score": 37,
+   "rank": 115,
+   "of": 191,
+   "units": [
+    "24"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 135,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-518438704:62": {
+   "tier": 50,
+   "score": 31.8,
+   "rank": 138,
+   "of": 191,
+   "units": [
+    "62"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 20,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-537368029:19A": {
+   "tier": 50,
+   "score": 45.6,
+   "rank": 81,
+   "of": 191,
+   "units": [
+    "19A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 407,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 32.3,
+   "orderedAbove": null
+  },
+  "g:-541891725:63": {
+   "tier": 50,
+   "score": 42.3,
+   "rank": 93,
+   "of": 191,
+   "units": [
+    "63"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-547075850:62": {
+   "tier": 65,
+   "score": 55.5,
+   "rank": 47,
+   "of": 191,
+   "units": [
+    "62"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 186,
+   "nrAppsPerTag": 4.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.1,
+   "orderedAbove": null
+  },
+  "g:-549934534:36": {
+   "tier": 65,
+   "score": 57,
+   "rank": 41,
+   "of": 191,
+   "units": [
+    "36"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 325,
+   "nrAppsPerTag": 6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.9,
+   "orderedAbove": null
+  },
+  "g:-571292854:10": {
+   "tier": 65,
+   "score": 50.5,
+   "rank": 64,
+   "of": 191,
+   "units": [
+    "10"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 235,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41,
+   "orderedAbove": null
+  },
+  "g:-57254275:32A": {
+   "tier": 50,
+   "score": 38.6,
+   "rank": 105,
+   "of": 191,
+   "units": [
+    "32A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 741,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 27.9,
+   "orderedAbove": null
+  },
+  "g:-57445958:43": {
+   "tier": 65,
+   "score": 63.3,
+   "rank": 25,
+   "of": 191,
+   "units": [
+    "43"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 872,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.3,
+   "orderedAbove": null
+  },
+  "g:-578093508:35": {
+   "tier": 50,
+   "score": 33,
+   "rank": 129,
+   "of": 191,
+   "units": [
+    "35"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 241,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 20.4,
+   "orderedAbove": null
+  },
+  "g:-579707017:4A": {
+   "tier": 50,
+   "score": 16.7,
+   "rank": 190,
+   "of": 191,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 445,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 10.8,
+   "orderedAbove": null
+  },
+  "g:-584361983:59A": {
+   "tier": 65,
+   "score": 55.6,
+   "rank": 46,
+   "of": 191,
+   "units": [
+    "59A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 303,
+   "nrAppsPerTag": 4.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.8,
+   "orderedAbove": null
+  },
+  "g:-593931828:75": {
+   "tier": 50,
+   "score": 45.6,
+   "rank": 81,
+   "of": 191,
+   "units": [
+    "75"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 213,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 29,
+   "orderedAbove": null
+  },
+  "g:-594529986:25": {
+   "tier": 65,
+   "score": 48.2,
+   "rank": 72,
+   "of": 191,
+   "units": [
+    "25"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 632,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 32.6,
+   "orderedAbove": null
+  },
+  "g:-633087721:60A": {
+   "tier": 65,
+   "score": 52.7,
+   "rank": 57,
+   "of": 191,
+   "units": [
+    "60A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 190,
+   "nrAppsPerTag": 4.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37,
+   "orderedAbove": null
+  },
+  "g:-638932013:34": {
+   "tier": 50,
+   "score": 36.1,
+   "rank": 119,
+   "of": 191,
+   "units": [
+    "34"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 259,
+   "nrAppsPerTag": 6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.3,
+   "orderedAbove": null
+  },
+  "g:-638944458:10": {
+   "tier": 50,
+   "score": 33.1,
+   "rank": 128,
+   "of": 191,
+   "units": [
+    "10"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 452,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.7,
+   "orderedAbove": null
+  },
+  "g:-64653765:19": {
+   "tier": 50,
+   "score": 39.5,
+   "rank": 100,
+   "of": 191,
+   "units": [
+    "19"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 396,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.2,
+   "orderedAbove": null
+  },
+  "g:-65464770:61": {
+   "tier": 65,
+   "score": 56,
+   "rank": 44,
+   "of": 191,
+   "units": [
+    "61"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 998,
+   "nrAppsPerTag": 4.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.7,
+   "orderedAbove": null
+  },
+  "g:-666395371:37": {
+   "tier": 65,
+   "score": 60.3,
+   "rank": 27,
+   "of": 191,
+   "units": [
+    "37"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 108,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": 47.3,
+   "orderedAbove": null
+  },
+  "g:-69323498:5": {
+   "tier": 50,
+   "score": 20.6,
+   "rank": 185,
+   "of": 191,
+   "units": [
+    "5"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1485,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 9.8,
+   "orderedAbove": null
+  },
+  "g:-695589715:31": {
+   "tier": 50,
+   "score": 27.1,
+   "rank": 163,
+   "of": 191,
+   "units": [
+    "31"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 4,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-696855563:38": {
+   "tier": 50,
+   "score": 32.1,
+   "rank": 136,
+   "of": 191,
+   "units": [
+    "38"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 10,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-702345223:23": {
+   "tier": 50,
+   "score": 39,
+   "rank": 102,
+   "of": 191,
+   "units": [
+    "23"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 174,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-713504606:35": {
+   "tier": 65,
+   "score": 57.7,
+   "rank": 37,
+   "of": 191,
+   "units": [
+    "35"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.3,
+   "orderedAbove": null
+  },
+  "g:-731088296:50": {
+   "tier": 100,
+   "score": 82.4,
+   "rank": 3,
+   "of": 191,
+   "units": [
+    "50"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 694,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 47.1,
+   "orderedAbove": null
+  },
+  "g:-741918572:39": {
+   "tier": 50,
+   "score": 17.4,
+   "rank": 188,
+   "of": 191,
+   "units": [
+    "39"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 295,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 19.9,
+   "orderedAbove": null
+  },
+  "g:-767438124:26": {
+   "tier": 50,
+   "score": 37.5,
+   "rank": 110,
+   "of": 191,
+   "units": [
+    "26"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 232,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 32.8,
+   "orderedAbove": null
+  },
+  "g:-799724901:56": {
+   "tier": 100,
+   "score": 83.4,
+   "rank": 1,
+   "of": 191,
+   "units": [
+    "56"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 218,
+   "nrAppsPerTag": 7.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.2,
+   "orderedAbove": null
+  },
+  "g:-810351201:7": {
+   "tier": 50,
+   "score": 32,
+   "rank": 137,
+   "of": 191,
+   "units": [
+    "7"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 321,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30.5,
+   "orderedAbove": null
+  },
+  "g:-819748041:4": {
+   "tier": 50,
+   "score": 24.3,
+   "rank": 180,
+   "of": 191,
+   "units": [
+    "4"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3129,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 16.5,
+   "orderedAbove": null
+  },
+  "g:-827600669:36A": {
+   "tier": 80,
+   "score": 70.9,
+   "rank": 12,
+   "of": 191,
+   "units": [
+    "36A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 412,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.8,
+   "orderedAbove": null
+  },
+  "g:-847759357:60A": {
+   "tier": 50,
+   "score": 27.5,
+   "rank": 161,
+   "of": 191,
+   "units": [
+    "60A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 4,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-872510925:33": {
+   "tier": 65,
+   "score": 53.6,
+   "rank": 55,
+   "of": 191,
+   "units": [
+    "33"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 286,
+   "nrAppsPerTag": 6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.4,
+   "orderedAbove": null
+  },
+  "g:-876861712:52A": {
+   "tier": 80,
+   "score": 65.3,
+   "rank": 18,
+   "of": 191,
+   "units": [
+    "52A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 151,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 58.9,
+   "orderedAbove": null
+  },
+  "g:-897969943:66": {
+   "tier": 50,
+   "score": 28.6,
+   "rank": 154,
+   "of": 191,
+   "units": [
+    "66"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 6,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-922584303:16": {
+   "tier": 50,
+   "score": 37.2,
+   "rank": 114,
+   "of": 191,
+   "units": [
+    "16"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 21,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-933730100:58": {
+   "tier": 80,
+   "score": 74,
+   "rank": 9,
+   "of": 191,
+   "units": [
+    "58"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 230,
+   "nrAppsPerTag": 4.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 56.6,
+   "orderedAbove": null
+  },
+  "g:-957884461:10A": {
+   "tier": 50,
+   "score": 43.1,
+   "rank": 90,
+   "of": 191,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 826,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.8,
+   "orderedAbove": null
+  },
+  "g:-961187843:20": {
+   "tier": 65,
+   "score": 56.4,
+   "rank": 42,
+   "of": 191,
+   "units": [
+    "20"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 277,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.6,
+   "orderedAbove": null
+  },
+  "g:-98272144:17": {
+   "tier": 50,
+   "score": 30.2,
+   "rank": 147,
+   "of": 191,
+   "units": [
+    "17"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 9,
+   "nrAppsPerTag": null,
+   "nrDrawYear": null,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:-982922016:14": {
+   "tier": 50,
+   "score": 43.3,
+   "rank": 88,
+   "of": 191,
+   "units": [
+    "14"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 11,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null
+  },
+  "g:79925:15": {
+   "tier": 50,
+   "score": 27,
+   "rank": 165,
+   "of": 191,
+   "units": [
+    "15"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 403,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 20.2,
+   "orderedAbove": null
+  },
+  "g:79925:16": {
+   "tier": 50,
+   "score": 32.9,
+   "rank": 130,
+   "of": 191,
+   "units": [
+    "16"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 181,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 29.3,
+   "orderedAbove": null
+  },
+  "g:80104:28": {
+   "tier": 50,
+   "score": 41.1,
+   "rank": 95,
+   "of": 191,
+   "units": [
+    "28"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 895,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 23.5,
+   "orderedAbove": null
+  },
+  "g:80221:32": {
+   "tier": 65,
+   "score": 60,
+   "rank": 28,
+   "of": 191,
+   "units": [
+    "32"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1317,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.3,
+   "orderedAbove": null
+  },
+  "g:80353:39": {
+   "tier": 50,
+   "score": 36.4,
+   "rank": 118,
+   "of": 191,
+   "units": [
+    "39"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3931,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.1,
+   "orderedAbove": null
+  },
+  "g:80379:4": {
+   "tier": 50,
+   "score": 28.6,
+   "rank": 154,
+   "of": 191,
+   "units": [
+    "4"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 1391,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 22.7,
+   "orderedAbove": null
+  },
+  "g:80379:7": {
+   "tier": 50,
+   "score": 35.6,
+   "rank": 120,
+   "of": 191,
+   "units": [
+    "7"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 200,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.2,
+   "orderedAbove": null
+  },
+  "g:80379:9": {
+   "tier": 65,
+   "score": 55.2,
+   "rank": 50,
+   "of": 191,
+   "units": [
+    "9"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 102,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 66.1,
+   "orderedAbove": null
+  },
+  "g:80903:10A": {
+   "tier": 50,
+   "score": 33.2,
+   "rank": 127,
+   "of": 191,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2029,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 12.8,
+   "orderedAbove": null
+  },
+  "g:80912:23": {
+   "tier": 50,
+   "score": 40.4,
+   "rank": 96,
+   "of": 191,
+   "units": [
+    "23"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1265,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 30,
+   "orderedAbove": null
+  },
+  "g:80912:24": {
+   "tier": 50,
+   "score": 43.5,
+   "rank": 86,
+   "of": 191,
+   "units": [
+    "24"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1145,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.4,
+   "orderedAbove": null
+  },
+  "g:80926:1": {
+   "tier": 50,
+   "score": 37.4,
+   "rank": 111,
+   "of": 191,
+   "units": [
+    "1"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 928,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.1,
+   "orderedAbove": null
+  },
+  "g:80926:2": {
+   "tier": 50,
+   "score": 26.6,
+   "rank": 167,
+   "of": 191,
+   "units": [
+    "2"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 325,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 26.2,
+   "orderedAbove": null
+  },
+  "g:80926:3": {
+   "tier": 50,
+   "score": 25.6,
+   "rank": 174,
+   "of": 191,
+   "units": [
+    "3"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 736,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.7,
+   "orderedAbove": null
+  },
+  "g:80926:4A": {
+   "tier": 50,
+   "score": 16.2,
+   "rank": 191,
+   "of": 191,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 201,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 17.1,
+   "orderedAbove": null
+  },
+  "g:80926:5": {
+   "tier": 50,
+   "score": 19.2,
+   "rank": 187,
+   "of": 191,
+   "units": [
+    "5"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 466,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 16.2,
+   "orderedAbove": null
+  },
+  "g:80943:32": {
+   "tier": 65,
+   "score": 60,
+   "rank": 28,
+   "of": 191,
+   "units": [
+    "32"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1317,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.3,
+   "orderedAbove": null
+  },
+  "t:ELK:Bannock:A": {
+   "tier": 80,
+   "score": 72.5,
+   "rank": 10,
+   "of": 191,
+   "units": [
+    "70",
+    "71",
+    "72",
+    "73",
+    "73A",
+    "74"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 224,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 55.2,
+   "orderedAbove": null,
+   "via": "g:-1339543219:74"
+  },
+  "t:ELK:Bear River:A": {
+   "tier": 80,
+   "score": 72.5,
+   "rank": 10,
+   "of": 191,
+   "units": [
+    "75",
+    "77",
+    "78"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 369,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.8,
+   "orderedAbove": null,
+   "via": "g:-1098517599:77"
+  },
+  "t:ELK:Bear River:B": {
+   "tier": 80,
+   "score": 72.5,
+   "rank": 10,
+   "of": 191,
+   "units": [
+    "75",
+    "77",
+    "78"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 369,
+   "nrAppsPerTag": 8.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.8,
+   "orderedAbove": null,
+   "via": "g:-1098517599:77"
+  },
+  "t:ELK:Beaverhead:A": {
+   "tier": 80,
+   "score": 74,
+   "rank": 9,
+   "of": 191,
+   "units": [
+    "30",
+    "30A",
+    "58",
+    "59",
+    "59A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 230,
+   "nrAppsPerTag": 4.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 56.6,
+   "orderedAbove": null,
+   "via": "g:-933730100:58"
+  },
+  "t:ELK:Big Desert:A": {
+   "tier": 80,
+   "score": 66.1,
+   "rank": 17,
+   "of": 191,
+   "units": [
+    "52A",
+    "53",
+    "68",
+    "68A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 169,
+   "nrAppsPerTag": 23,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.7,
+   "orderedAbove": null,
+   "via": "g:-1656566190:53"
+  },
+  "t:ELK:Big Desert:B": {
+   "tier": 80,
+   "score": 66.1,
+   "rank": 17,
+   "of": 191,
+   "units": [
+    "52A",
+    "53",
+    "68",
+    "68A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 169,
+   "nrAppsPerTag": 23,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.7,
+   "orderedAbove": null,
+   "via": "g:-1656566190:53"
+  },
+  "t:ELK:Boise River:A": {
+   "tier": 50,
+   "score": 32.1,
+   "rank": 136,
+   "of": 191,
+   "units": [
+    "38",
+    "39"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 10,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-696855563:38"
+  },
+  "t:ELK:Boise River:B": {
+   "tier": 65,
+   "score": 51.7,
+   "rank": 59,
+   "of": 191,
+   "units": [
+    "38",
+    "39"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 312,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.6,
+   "orderedAbove": null,
+   "via": "g:-1189529367:38"
+  },
+  "t:ELK:Brownlee:A": {
+   "tier": 65,
+   "score": 55.1,
+   "rank": 51,
+   "of": 191,
+   "units": [
+    "31"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 448,
+   "nrAppsPerTag": 4.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.5,
+   "orderedAbove": null,
+   "via": "g:-2059795680:31"
+  },
+  "t:ELK:Diamond Creek:A": {
+   "tier": 100,
+   "score": 82.8,
+   "rank": 2,
+   "of": 191,
+   "units": [
+    "66A",
+    "76"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 715,
+   "nrAppsPerTag": 23.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.5,
+   "orderedAbove": null,
+   "via": "g:-276106932:66A"
+  },
+  "t:ELK:Diamond Creek:B": {
+   "tier": 100,
+   "score": 82.8,
+   "rank": 2,
+   "of": 191,
+   "units": [
+    "66A",
+    "76"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 715,
+   "nrAppsPerTag": 23.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.5,
+   "orderedAbove": null,
+   "via": "g:-276106932:66A"
+  },
+  "t:ELK:Dworshak:A": {
+   "tier": 50,
+   "score": 43.1,
+   "rank": 90,
+   "of": 191,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 826,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.8,
+   "orderedAbove": null,
+   "via": "g:-957884461:10A"
+  },
+  "t:ELK:Dworshak:B": {
+   "tier": 50,
+   "score": 33.2,
+   "rank": 127,
+   "of": 191,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2029,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 12.8,
+   "orderedAbove": null,
+   "via": "g:80903:10A"
+  },
+  "t:ELK:Elk City:A": {
+   "tier": 65,
+   "score": 50.7,
+   "rank": 63,
+   "of": 191,
+   "units": [
+    "14",
+    "15",
+    "16"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 289,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38,
+   "orderedAbove": null,
+   "via": "g:-328249213:15"
+  },
+  "t:ELK:Elk City:B": {
+   "tier": 50,
+   "score": 38.6,
+   "rank": 105,
+   "of": 191,
+   "units": [
+    "14",
+    "15",
+    "16"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 697,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 21.9,
+   "orderedAbove": null,
+   "via": "g:-1848090996:14"
+  },
+  "t:ELK:Island Park:A": {
+   "tier": 65,
+   "score": 64.8,
+   "rank": 21,
+   "of": 191,
+   "units": [
+    "60",
+    "60A",
+    "61",
+    "62",
+    "62A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 161,
+   "nrAppsPerTag": 4.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.9,
+   "orderedAbove": null,
+   "via": "g:-243360894:62A"
+  },
+  "t:ELK:Lolo:A": {
+   "tier": 65,
+   "score": 50.5,
+   "rank": 64,
+   "of": 191,
+   "units": [
+    "10",
+    "12"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 235,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41,
+   "orderedAbove": null,
+   "via": "g:-571292854:10"
+  },
+  "t:ELK:Lolo:B": {
+   "tier": 50,
+   "score": 33.1,
+   "rank": 128,
+   "of": 191,
+   "units": [
+    "10",
+    "12"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 452,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.7,
+   "orderedAbove": null,
+   "via": "g:-638944458:10"
+  },
+  "t:ELK:McCall:B": {
+   "tier": 65,
+   "score": 58,
+   "rank": 36,
+   "of": 191,
+   "units": [
+    "19A",
+    "23",
+    "24",
+    "25"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 902,
+   "nrAppsPerTag": 2.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.9,
+   "orderedAbove": null,
+   "via": "g:-1671210951:23"
+  },
+  "t:ELK:Middle Fork:A": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 91,
+   "of": 191,
+   "units": [
+    "20A",
+    "26",
+    "27"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 293,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.1,
+   "orderedAbove": null,
+   "via": "g:-1929597303:20A"
+  },
+  "t:ELK:Middle Fork:B": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 91,
+   "of": 191,
+   "units": [
+    "20A",
+    "26",
+    "27"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 293,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.1,
+   "orderedAbove": null,
+   "via": "g:-1929597303:20A"
+  },
+  "t:ELK:Palisades:A": {
+   "tier": 80,
+   "score": 77.4,
+   "rank": 5,
+   "of": 191,
+   "units": [
+    "64",
+    "65",
+    "67"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 145,
+   "nrAppsPerTag": 5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 47.7,
+   "orderedAbove": null,
+   "via": "g:-355210459:67"
+  },
+  "t:ELK:Palisades:B": {
+   "tier": 80,
+   "score": 77,
+   "rank": 6,
+   "of": 191,
+   "units": [
+    "64",
+    "65",
+    "67"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 227,
+   "nrAppsPerTag": 4.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 52.8,
+   "orderedAbove": null,
+   "via": "g:-31686823:67"
+  },
+  "t:ELK:Palouse:A": {
+   "tier": 65,
+   "score": 53.3,
+   "rank": 56,
+   "of": 191,
+   "units": [
+    "11A",
+    "8",
+    "8A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 39,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43.7,
+   "orderedAbove": null,
+   "via": "g:-1841863237:11A"
+  },
+  "t:ELK:Palouse:B": {
+   "tier": 65,
+   "score": 49.5,
+   "rank": 67,
+   "of": 191,
+   "units": [
+    "11A",
+    "8",
+    "8A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 212,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.6,
+   "orderedAbove": null,
+   "via": "g:-1499135081:11A"
+  },
+  "t:ELK:Panhandle:A": {
+   "tier": 65,
+   "score": 55.2,
+   "rank": 50,
+   "of": 191,
+   "units": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "4A",
+    "5",
+    "6",
+    "7",
+    "9"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 102,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 66.1,
+   "orderedAbove": null,
+   "via": "g:80379:9"
+  },
+  "t:ELK:Panhandle:B": {
+   "tier": 65,
+   "score": 55.2,
+   "rank": 50,
+   "of": 191,
+   "units": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "4A",
+    "5",
+    "6",
+    "7",
+    "9"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 102,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 66.1,
+   "orderedAbove": null,
+   "via": "g:80379:9"
+  },
+  "t:ELK:Pioneer:A": {
+   "tier": 100,
+   "score": 82.4,
+   "rank": 3,
+   "of": 191,
+   "units": [
+    "36A",
+    "49",
+    "50"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 694,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 47.1,
+   "orderedAbove": null,
+   "via": "g:-731088296:50"
+  },
+  "t:ELK:Salmon:A": {
+   "tier": 65,
+   "score": 59.9,
+   "rank": 30,
+   "of": 191,
+   "units": [
+    "21",
+    "21A",
+    "28",
+    "36B"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 115,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.1,
+   "orderedAbove": null,
+   "via": "g:-356603352:21"
+  },
+  "t:ELK:Salmon:B": {
+   "tier": 65,
+   "score": 47.1,
+   "rank": 75,
+   "of": 191,
+   "units": [
+    "21",
+    "21A",
+    "28",
+    "36B"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 428,
+   "nrAppsPerTag": 8.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.3,
+   "orderedAbove": null,
+   "via": "g:-1111468396:21"
+  },
+  "t:ELK:Sawtooth:A": {
+   "tier": 65,
+   "score": 57.7,
+   "rank": 37,
+   "of": 191,
+   "units": [
+    "33",
+    "34",
+    "35",
+    "36"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.3,
+   "orderedAbove": null,
+   "via": "g:-713504606:35"
+  },
+  "t:ELK:Sawtooth:B": {
+   "tier": 50,
+   "score": 40.3,
+   "rank": 97,
+   "of": 191,
+   "units": [
+    "33",
+    "34",
+    "35",
+    "36"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 615,
+   "nrAppsPerTag": 7.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 24.9,
+   "orderedAbove": null,
+   "via": "g:-405185370:36"
+  },
+  "t:ELK:Selway:A": {
+   "tier": 80,
+   "score": 65.3,
+   "rank": 18,
+   "of": 191,
+   "units": [
+    "16A",
+    "17",
+    "19",
+    "20"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 522,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 47.5,
+   "orderedAbove": null,
+   "via": "g:-1615724838:17"
+  },
+  "t:ELK:Selway:B": {
+   "tier": 80,
+   "score": 65.3,
+   "rank": 18,
+   "of": 191,
+   "units": [
+    "16A",
+    "17",
+    "19",
+    "20"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 522,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 47.5,
+   "orderedAbove": null,
+   "via": "g:-1615724838:17"
+  },
+  "t:ELK:Smoky-Bennett:A": {
+   "tier": 65,
+   "score": 63.3,
+   "rank": 25,
+   "of": 191,
+   "units": [
+    "43",
+    "44",
+    "45",
+    "48",
+    "52"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 872,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.3,
+   "orderedAbove": null,
+   "via": "g:-57445958:43"
+  },
+  "t:ELK:Snake River:A": {
+   "tier": 50,
+   "score": 45.5,
+   "rank": 83,
+   "of": 191,
+   "units": [
+    "63",
+    "63A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 41,
+   "nrAppsPerTag": 4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1925433316:63A"
+  },
+  "t:ELK:South Hills:A": {
+   "tier": 100,
+   "score": 83.4,
+   "rank": 1,
+   "of": 191,
+   "units": [
+    "46",
+    "47",
+    "54",
+    "55",
+    "56",
+    "57"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 218,
+   "nrAppsPerTag": 7.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.2,
+   "orderedAbove": null,
+   "via": "g:-799724901:56"
+  },
+  "t:ELK:Tex Creek:A": {
+   "tier": 65,
+   "score": 63.4,
+   "rank": 24,
+   "of": 191,
+   "units": [
+    "66",
+    "69"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 492,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.7,
+   "orderedAbove": null,
+   "via": "g:-1441648764:66"
+  },
+  "t:ELK:Tex Creek:B": {
+   "tier": 65,
+   "score": 63.4,
+   "rank": 24,
+   "of": 191,
+   "units": [
+    "66",
+    "69"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 492,
+   "nrAppsPerTag": 3.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.7,
+   "orderedAbove": null,
+   "via": "g:-1441648764:66"
+  },
+  "t:ELK:Weiser River:A": {
+   "tier": 65,
+   "score": 60,
+   "rank": 28,
+   "of": 191,
+   "units": [
+    "22",
+    "32",
+    "32A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1317,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.3,
+   "orderedAbove": null,
+   "via": "g:80221:32"
+  },
+  "t:ELK:Weiser River:B": {
+   "tier": 65,
+   "score": 60,
+   "rank": 28,
+   "of": 191,
+   "units": [
+    "22",
+    "32",
+    "32A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1317,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.3,
+   "orderedAbove": null,
+   "via": "g:80221:32"
+  },
+  "t:RD01": {
+   "tier": 65,
+   "score": 54.7,
+   "rank": 52,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 7311,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:79806:1",
+   "via": "g:79804:1"
+  },
+  "t:RD02": {
+   "tier": 65,
+   "score": 48.7,
+   "rank": 86,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3425,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80004:2",
+   "via": "g:80002:2"
+  },
+  "t:RD03": {
+   "tier": 65,
+   "score": 46.3,
+   "rank": 109,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3300,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80161:3",
+   "via": "g:80159:3"
+  },
+  "t:RD04": {
+   "tier": 65,
+   "score": 48.8,
+   "rank": 84,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2705,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80361:4"
+  },
+  "t:RD04A": {
+   "tier": 65,
+   "score": 48.2,
+   "rank": 91,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 503,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80442:4A",
+   "via": "g:80439:4A"
+  },
+  "t:RD05": {
+   "tier": 65,
+   "score": 50.9,
+   "rank": 70,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2571,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80462:5",
+   "via": "g:80459:5"
+  },
+  "t:RD06": {
+   "tier": 65,
+   "score": 58.1,
+   "rank": 36,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3255,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80559:6",
+   "via": "g:80556:6"
+  },
+  "t:RD07": {
+   "tier": 80,
+   "score": 61.4,
+   "rank": 28,
+   "of": 311,
+   "units": [
+    "7"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 174,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 77.7,
+   "orderedAbove": null,
+   "via": "g:80712:7"
+  },
+  "t:RD08": {
+   "tier": 65,
+   "score": 52.5,
+   "rank": 63,
+   "of": 311,
+   "units": [
+    "8"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2063,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80837:8"
+  },
+  "t:RD08A": {
+   "tier": 65,
+   "score": 57,
+   "rank": 40,
+   "of": 311,
+   "units": [
+    "8A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 4299,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80852:8A"
+  },
+  "t:RD09": {
+   "tier": 50,
+   "score": 38.4,
+   "rank": 197,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 37,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80869:9"
+  },
+  "t:RD10": {
+   "tier": 65,
+   "score": 50.4,
+   "rank": 74,
+   "of": 311,
+   "units": [
+    "10"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 438,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79824:10"
+  },
+  "t:RD10A": {
+   "tier": 80,
+   "score": 60.6,
+   "rank": 31,
+   "of": 311,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 5242,
+   "nrAppsPerTag": 3.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79838:10A"
+  },
+  "t:RD12": {
+   "tier": 65,
+   "score": 54.8,
+   "rank": 51,
+   "of": 311,
+   "units": [
+    "12"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 217,
+   "nrAppsPerTag": 5.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79875:12"
+  },
+  "t:RD15": {
+   "tier": 65,
+   "score": 55.2,
+   "rank": 49,
+   "of": 311,
+   "units": [
+    "15"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1934,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79911:15"
+  },
+  "t:RD16": {
+   "tier": 65,
+   "score": 58.9,
+   "rank": 33,
+   "of": 311,
+   "units": [
+    "16"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 790,
+   "nrAppsPerTag": 4.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79931:16"
+  },
+  "t:RD16A": {
+   "tier": 50,
+   "score": 37.3,
+   "rank": 214,
+   "of": 311,
+   "units": [
+    "16A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 132,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79943:16A"
+  },
+  "t:RD17": {
+   "tier": 100,
+   "score": 73.9,
+   "rank": 6,
+   "of": 311,
+   "units": [
+    "17"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 491,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 70.1,
+   "orderedAbove": null,
+   "via": "g:79954:17"
+  },
+  "t:RD19": {
+   "tier": 80,
+   "score": 72.4,
+   "rank": 9,
+   "of": 311,
+   "units": [
+    "19"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 430,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 62,
+   "orderedAbove": null,
+   "via": "g:79977:19"
+  },
+  "t:RD19A": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 203,
+   "of": 311,
+   "units": [
+    "19A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 457,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.8,
+   "orderedAbove": null,
+   "via": "g:-1276182793:19A"
+  },
+  "t:RD20": {
+   "tier": 80,
+   "score": 69.6,
+   "rank": 12,
+   "of": 311,
+   "units": [
+    "20"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 279,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.1,
+   "orderedAbove": null,
+   "via": "g:80023:20"
+  },
+  "t:RD20A": {
+   "tier": 65,
+   "score": 55.4,
+   "rank": 47,
+   "of": 311,
+   "units": [
+    "20A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 176,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.4,
+   "orderedAbove": null,
+   "via": "g:-1186172075:20A"
+  },
+  "t:RD21": {
+   "tier": 80,
+   "score": 63.1,
+   "rank": 23,
+   "of": 311,
+   "units": [
+    "21"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 630,
+   "nrAppsPerTag": 11.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.8,
+   "orderedAbove": null,
+   "via": "g:-842623272:21"
+  },
+  "t:RD21A": {
+   "tier": 65,
+   "score": 58.8,
+   "rank": 35,
+   "of": 311,
+   "units": [
+    "21A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 536,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.2,
+   "orderedAbove": null,
+   "via": "g:-878177037:21A"
+  },
+  "t:RD23": {
+   "tier": 80,
+   "score": 65.9,
+   "rank": 16,
+   "of": 311,
+   "units": [
+    "23"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1838,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.4,
+   "orderedAbove": null,
+   "via": "g:-499489183:23"
+  },
+  "t:RD24": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "24"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1602,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.7,
+   "orderedAbove": null,
+   "via": "g:-539277181:24"
+  },
+  "t:RD25": {
+   "tier": 80,
+   "score": 72.4,
+   "rank": 9,
+   "of": 311,
+   "units": [
+    "25"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 825,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 53.8,
+   "orderedAbove": null,
+   "via": "g:-162577806:25"
+  },
+  "t:RD26": {
+   "tier": 80,
+   "score": 63.4,
+   "rank": 21,
+   "of": 311,
+   "units": [
+    "26"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 178,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 54.4,
+   "orderedAbove": null,
+   "via": "g:-1572309032:26"
+  },
+  "t:RD27": {
+   "tier": 100,
+   "score": 80.9,
+   "rank": 2,
+   "of": 311,
+   "units": [
+    "27"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 892,
+   "nrAppsPerTag": 2.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 55.1,
+   "orderedAbove": null,
+   "via": "g:-1595762053:27"
+  },
+  "t:RD28": {
+   "tier": 80,
+   "score": 73.1,
+   "rank": 7,
+   "of": 311,
+   "units": [
+    "28"
+   ],
+   "weapon": "SHORT_RANGE",
+   "huntersPerYear": 1458,
+   "nrAppsPerTag": 7.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.3,
+   "orderedAbove": null,
+   "via": "g:80139:28"
+  },
+  "t:RD29": {
+   "tier": 50,
+   "score": 44.5,
+   "rank": 138,
+   "of": 311,
+   "units": [
+    "29"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 164,
+   "nrAppsPerTag": 1.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.5,
+   "orderedAbove": null,
+   "via": "g:-968175224:29"
+  },
+  "t:RD30": {
+   "tier": 80,
+   "score": 63.1,
+   "rank": 23,
+   "of": 311,
+   "units": [
+    "30"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.1,
+   "orderedAbove": null,
+   "via": "g:-1548760747:30"
+  },
+  "t:RD30A": {
+   "tier": 65,
+   "score": 46.7,
+   "rank": 106,
+   "of": 311,
+   "units": [
+    "30A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 59,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1896623260:30A"
+  },
+  "t:RD31": {
+   "tier": 65,
+   "score": 56.5,
+   "rank": 43,
+   "of": 311,
+   "units": [
+    "31"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 271,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.6,
+   "orderedAbove": null,
+   "via": "g:-637360396:31"
+  },
+  "t:RD32": {
+   "tier": 50,
+   "score": 41.8,
+   "rank": 165,
+   "of": 311,
+   "units": [
+    "32"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2539,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.3,
+   "orderedAbove": null,
+   "via": "g:-692068640:32"
+  },
+  "t:RD32A": {
+   "tier": 50,
+   "score": 44.9,
+   "rank": 131,
+   "of": 311,
+   "units": [
+    "32A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2135,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34,
+   "orderedAbove": null,
+   "via": "g:-132635477:32A"
+  },
+  "t:RD33": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 153,
+   "of": 311,
+   "units": [
+    "33"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 143,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-463146825:33"
+  },
+  "t:RD34": {
+   "tier": 50,
+   "score": 43.8,
+   "rank": 146,
+   "of": 311,
+   "units": [
+    "34"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 301,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.5,
+   "orderedAbove": null,
+   "via": "g:-1406417437:34"
+  },
+  "t:RD35": {
+   "tier": 80,
+   "score": 62.2,
+   "rank": 25,
+   "of": 311,
+   "units": [
+    "35"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 377,
+   "nrAppsPerTag": 3.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43,
+   "orderedAbove": null,
+   "via": "g:-1382964416:35"
+  },
+  "t:RD36": {
+   "tier": 80,
+   "score": 67,
+   "rank": 14,
+   "of": 311,
+   "units": [
+    "36"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 871,
+   "nrAppsPerTag": 5.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.2,
+   "orderedAbove": null,
+   "via": "g:-1202273542:36"
+  },
+  "t:RD36A": {
+   "tier": 80,
+   "score": 68.8,
+   "rank": 13,
+   "of": 311,
+   "units": [
+    "36A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 449,
+   "nrAppsPerTag": 9.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43.8,
+   "orderedAbove": null,
+   "via": "g:-57868911:36A"
+  },
+  "t:RD36B": {
+   "tier": 65,
+   "score": 58.9,
+   "rank": 33,
+   "of": 311,
+   "units": [
+    "36B"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1069,
+   "nrAppsPerTag": 8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.9,
+   "orderedAbove": null,
+   "via": "g:-295810607:36B"
+  },
+  "t:RD37": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "37"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 40,
+   "nrAppsPerTag": 2.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1473953495:37"
+  },
+  "t:RD37A": {
+   "tier": 65,
+   "score": 48,
+   "rank": 94,
+   "of": 311,
+   "units": [
+    "37A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 163,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.6,
+   "orderedAbove": null,
+   "via": "g:-892405165:37A"
+  },
+  "t:RD38": {
+   "tier": 50,
+   "score": 32.7,
+   "rank": 264,
+   "of": 311,
+   "units": [
+    "38"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 64,
+   "nrAppsPerTag": 0.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1955707167:38"
+  },
+  "t:RD39": {
+   "tier": 65,
+   "score": 45.6,
+   "rank": 124,
+   "of": 311,
+   "units": [
+    "39"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 9592,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 28.7,
+   "orderedAbove": null,
+   "via": "g:-2056276374:39"
+  },
+  "t:RD43": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 156,
+   "of": 311,
+   "units": [
+    "43"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3292,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.2,
+   "orderedAbove": null,
+   "via": "g:80400:43"
+  },
+  "t:RD46": {
+   "tier": 65,
+   "score": 45.6,
+   "rank": 124,
+   "of": 311,
+   "units": [
+    "46"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1572,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33,
+   "orderedAbove": null,
+   "via": "g:-1082499703:46"
+  },
+  "t:RD47": {
+   "tier": 65,
+   "score": 55.4,
+   "rank": 47,
+   "of": 311,
+   "units": [
+    "47"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 70,
+   "nrAppsPerTag": 4.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-405056124:47"
+  },
+  "t:RD48": {
+   "tier": 100,
+   "score": 74,
+   "rank": 5,
+   "of": 311,
+   "units": [
+    "48"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 244,
+   "nrAppsPerTag": 2.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 61.2,
+   "orderedAbove": null,
+   "via": "g:-487623166:48"
+  },
+  "t:RD49": {
+   "tier": 65,
+   "score": 48.1,
+   "rank": 92,
+   "of": 311,
+   "units": [
+    "49"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 253,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.6,
+   "orderedAbove": null,
+   "via": "g:-1442091469:49"
+  },
+  "t:RD50": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "50"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1345,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.7,
+   "orderedAbove": null,
+   "via": "g:-917484920:50"
+  },
+  "t:RD51": {
+   "tier": 65,
+   "score": 47.9,
+   "rank": 96,
+   "of": 311,
+   "units": [
+    "51"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 753,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.6,
+   "orderedAbove": null,
+   "via": "g:-1410176751:51"
+  },
+  "t:RD52A": {
+   "tier": 65,
+   "score": 46.6,
+   "rank": 107,
+   "of": 311,
+   "units": [
+    "52A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1135,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.6,
+   "orderedAbove": null,
+   "via": "g:-1057679066:52A"
+  },
+  "t:RD53": {
+   "tier": 65,
+   "score": 50.7,
+   "rank": 72,
+   "of": 311,
+   "units": [
+    "53"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 53,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.8,
+   "orderedAbove": null,
+   "via": "g:-1870132255:53"
+  },
+  "t:RD55": {
+   "tier": 100,
+   "score": 85,
+   "rank": 1,
+   "of": 311,
+   "units": [
+    "55"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 664,
+   "nrAppsPerTag": 4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.8,
+   "orderedAbove": null,
+   "via": "g:-266624047:55"
+  },
+  "t:RD56": {
+   "tier": 100,
+   "score": 75.9,
+   "rank": 3,
+   "of": 311,
+   "units": [
+    "56"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 176,
+   "nrAppsPerTag": 1.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 58.2,
+   "orderedAbove": null,
+   "via": "g:80519:56"
+  },
+  "t:RD57": {
+   "tier": 65,
+   "score": 54.6,
+   "rank": 53,
+   "of": 311,
+   "units": [
+    "57"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 53,
+   "nrAppsPerTag": 2.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-574815378:57"
+  },
+  "t:RD58": {
+   "tier": 50,
+   "score": 32.6,
+   "rank": 266,
+   "of": 311,
+   "units": [
+    "58"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 376,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.9,
+   "orderedAbove": null,
+   "via": "g:-988759196:58"
+  },
+  "t:RD59": {
+   "tier": 65,
+   "score": 47.2,
+   "rank": 98,
+   "of": 311,
+   "units": [
+    "59"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 240,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.2,
+   "orderedAbove": null,
+   "via": "g:-1315198597:59"
+  },
+  "t:RD59A": {
+   "tier": 65,
+   "score": 52.2,
+   "rank": 66,
+   "of": 311,
+   "units": [
+    "59A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 117,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 44.8,
+   "orderedAbove": null,
+   "via": "g:-1293889083:59A"
+  },
+  "t:RD60": {
+   "tier": 50,
+   "score": 27.7,
+   "rank": 299,
+   "of": 311,
+   "units": [
+    "60"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 959,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.4,
+   "orderedAbove": null,
+   "via": "g:-610283713:60"
+  },
+  "t:RD60A": {
+   "tier": 50,
+   "score": 40.2,
+   "rank": 178,
+   "of": 311,
+   "units": [
+    "60A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 233,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80586:60A"
+  },
+  "t:RD61": {
+   "tier": 50,
+   "score": 45,
+   "rank": 129,
+   "of": 311,
+   "units": [
+    "61"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 948,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.2,
+   "orderedAbove": null,
+   "via": "g:-767856706:61"
+  },
+  "t:RD62": {
+   "tier": 50,
+   "score": 44.3,
+   "rank": 141,
+   "of": 311,
+   "units": [
+    "62"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 127,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80605:62"
+  },
+  "t:RD62A": {
+   "tier": 65,
+   "score": 54.9,
+   "rank": 50,
+   "of": 311,
+   "units": [
+    "62A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 351,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 48.4,
+   "orderedAbove": null,
+   "via": "g:-224547926:62A"
+  },
+  "t:RD63": {
+   "tier": 65,
+   "score": 50,
+   "rank": 78,
+   "of": 311,
+   "units": [
+    "63"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 228,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.8,
+   "orderedAbove": null,
+   "via": "g:-424722617:63"
+  },
+  "t:RD64": {
+   "tier": 50,
+   "score": 40.9,
+   "rank": 172,
+   "of": 311,
+   "units": [
+    "64"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80643:64"
+  },
+  "t:RD65": {
+   "tier": 80,
+   "score": 60.9,
+   "rank": 30,
+   "of": 311,
+   "units": [
+    "65"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 201,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.2,
+   "orderedAbove": null,
+   "via": "g:-1284795116:65"
+  },
+  "t:RD66": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "66"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 833,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.9,
+   "orderedAbove": null,
+   "via": "g:-2115802398:66"
+  },
+  "t:RD66A": {
+   "tier": 65,
+   "score": 48.6,
+   "rank": 87,
+   "of": 311,
+   "units": [
+    "66A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 409,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 35.5,
+   "orderedAbove": null,
+   "via": "g:-417544956:66A"
+  },
+  "t:RD67": {
+   "tier": 100,
+   "score": 75.1,
+   "rank": 4,
+   "of": 311,
+   "units": [
+    "67"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 588,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 54.1,
+   "orderedAbove": null,
+   "via": "g:-1633869155:67"
+  },
+  "t:RD68": {
+   "tier": 65,
+   "score": 53.7,
+   "rank": 56,
+   "of": 311,
+   "units": [
+    "68"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 57,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 58,
+   "orderedAbove": null,
+   "via": "g:-403441791:68"
+  },
+  "t:RD69": {
+   "tier": 80,
+   "score": 62,
+   "rank": 26,
+   "of": 311,
+   "units": [
+    "69"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 280,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.2,
+   "orderedAbove": null,
+   "via": "g:80703:69"
+  },
+  "t:RD70": {
+   "tier": 80,
+   "score": 66.7,
+   "rank": 15,
+   "of": 311,
+   "units": [
+    "70"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 47,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 61.3,
+   "orderedAbove": null,
+   "via": "g:-1934929325:70"
+  },
+  "t:RD71": {
+   "tier": 65,
+   "score": 51.6,
+   "rank": 69,
+   "of": 311,
+   "units": [
+    "71"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 120,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 48.6,
+   "orderedAbove": null,
+   "via": "g:-2009501918:71"
+  },
+  "t:RD72": {
+   "tier": 50,
+   "score": 43.9,
+   "rank": 144,
+   "of": 311,
+   "units": [
+    "72"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 104,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.1,
+   "orderedAbove": null,
+   "via": "g:-1845931846:72"
+  },
+  "t:RD73": {
+   "tier": 65,
+   "score": 55.8,
+   "rank": 46,
+   "of": 311,
+   "units": [
+    "73"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 211,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.1,
+   "orderedAbove": null,
+   "via": "g:-1962392683:73"
+  },
+  "t:RD73A": {
+   "tier": 65,
+   "score": 56.1,
+   "rank": 45,
+   "of": 311,
+   "units": [
+    "73A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 85,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 58.6,
+   "orderedAbove": null,
+   "via": "g:-54108405:73A"
+  },
+  "t:RD74": {
+   "tier": 80,
+   "score": 64.7,
+   "rank": 19,
+   "of": 311,
+   "units": [
+    "74"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1077,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 44.8,
+   "orderedAbove": null,
+   "via": "g:-254274171:74"
+  },
+  "t:RD75": {
+   "tier": 80,
+   "score": 63.2,
+   "rank": 22,
+   "of": 311,
+   "units": [
+    "75"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 790,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.7,
+   "orderedAbove": null,
+   "via": "g:-1544898294:75"
+  },
+  "t:RD76": {
+   "tier": 65,
+   "score": 48.5,
+   "rank": 89,
+   "of": 311,
+   "units": [
+    "76"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2222,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.1,
+   "orderedAbove": null,
+   "via": "g:-1671124292:76"
+  },
+  "t:RD77": {
+   "tier": 80,
+   "score": 72.8,
+   "rank": 8,
+   "of": 311,
+   "units": [
+    "77"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 821,
+   "nrAppsPerTag": 3.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 49.5,
+   "orderedAbove": null,
+   "via": "g:-37120827:77"
+  },
+  "t:RD78": {
+   "tier": 80,
+   "score": 71.7,
+   "rank": 11,
+   "of": 311,
+   "units": [
+    "78"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 159,
+   "nrAppsPerTag": 5.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 55.5,
+   "orderedAbove": null,
+   "via": "g:-1499823593:78"
+  },
+  "t:WD01": {
+   "tier": 65,
+   "score": 54.7,
+   "rank": 52,
+   "of": 311,
+   "units": [
+    "1"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 7311,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:79806:1",
+   "via": "g:79804:1"
+  },
+  "t:WD02": {
+   "tier": 65,
+   "score": 48.7,
+   "rank": 86,
+   "of": 311,
+   "units": [
+    "2"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3425,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80004:2",
+   "via": "g:80002:2"
+  },
+  "t:WD03": {
+   "tier": 65,
+   "score": 46.3,
+   "rank": 109,
+   "of": 311,
+   "units": [
+    "3"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3300,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80161:3",
+   "via": "g:80159:3"
+  },
+  "t:WD04": {
+   "tier": 65,
+   "score": 48.8,
+   "rank": 84,
+   "of": 311,
+   "units": [
+    "4"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2705,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80361:4"
+  },
+  "t:WD04A": {
+   "tier": 65,
+   "score": 48.2,
+   "rank": 91,
+   "of": 311,
+   "units": [
+    "4A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 503,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80442:4A",
+   "via": "g:80439:4A"
+  },
+  "t:WD05": {
+   "tier": 65,
+   "score": 50.9,
+   "rank": 70,
+   "of": 311,
+   "units": [
+    "5"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2571,
+   "nrAppsPerTag": 0.9,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80462:5",
+   "via": "g:80459:5"
+  },
+  "t:WD06": {
+   "tier": 65,
+   "score": 58.1,
+   "rank": 36,
+   "of": 311,
+   "units": [
+    "6"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 3255,
+   "nrAppsPerTag": 2.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": "g:80559:6",
+   "via": "g:80556:6"
+  },
+  "t:WD08": {
+   "tier": 65,
+   "score": 52.5,
+   "rank": 63,
+   "of": 311,
+   "units": [
+    "8"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 2063,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80837:8"
+  },
+  "t:WD08A": {
+   "tier": 65,
+   "score": 57,
+   "rank": 40,
+   "of": 311,
+   "units": [
+    "8A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 4299,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80852:8A"
+  },
+  "t:WD09": {
+   "tier": 50,
+   "score": 38.4,
+   "rank": 197,
+   "of": 311,
+   "units": [
+    "9"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 37,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80869:9"
+  },
+  "t:WD10": {
+   "tier": 65,
+   "score": 50.4,
+   "rank": 74,
+   "of": 311,
+   "units": [
+    "10"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 438,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79824:10"
+  },
+  "t:WD10A": {
+   "tier": 80,
+   "score": 60.6,
+   "rank": 31,
+   "of": 311,
+   "units": [
+    "10A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 5242,
+   "nrAppsPerTag": 3.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79838:10A"
+  },
+  "t:WD11": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "11"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1553,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-728621797:11"
+  },
+  "t:WD11A": {
+   "tier": 50,
+   "score": 45.3,
+   "rank": 127,
+   "of": 311,
+   "units": [
+    "11A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1112,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-899713789:11A"
+  },
+  "t:WD12": {
+   "tier": 65,
+   "score": 54.8,
+   "rank": 51,
+   "of": 311,
+   "units": [
+    "12"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 217,
+   "nrAppsPerTag": 5.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79875:12"
+  },
+  "t:WD13": {
+   "tier": 65,
+   "score": 46.1,
+   "rank": 114,
+   "of": 311,
+   "units": [
+    "13"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 442,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1722863664:13"
+  },
+  "t:WD14": {
+   "tier": 65,
+   "score": 53.5,
+   "rank": 57,
+   "of": 311,
+   "units": [
+    "14"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1212,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1403133200:14"
+  },
+  "t:WD15": {
+   "tier": 65,
+   "score": 55.2,
+   "rank": 49,
+   "of": 311,
+   "units": [
+    "15"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1934,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79911:15"
+  },
+  "t:WD16": {
+   "tier": 65,
+   "score": 58.9,
+   "rank": 33,
+   "of": 311,
+   "units": [
+    "16"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 790,
+   "nrAppsPerTag": 4.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79931:16"
+  },
+  "t:WD16A": {
+   "tier": 50,
+   "score": 37.3,
+   "rank": 214,
+   "of": 311,
+   "units": [
+    "16A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 132,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:79943:16A"
+  },
+  "t:WD17": {
+   "tier": 100,
+   "score": 73.9,
+   "rank": 6,
+   "of": 311,
+   "units": [
+    "17"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 491,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 70.1,
+   "orderedAbove": null,
+   "via": "g:79954:17"
+  },
+  "t:WD18": {
+   "tier": 65,
+   "score": 47.7,
+   "rank": 97,
+   "of": 311,
+   "units": [
+    "18"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 669,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1515141226:18"
+  },
+  "t:WD19A": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 203,
+   "of": 311,
+   "units": [
+    "19A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 457,
+   "nrAppsPerTag": 1.2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 33.8,
+   "orderedAbove": null,
+   "via": "g:-1276182793:19A"
+  },
+  "t:WD20": {
+   "tier": 80,
+   "score": 69.6,
+   "rank": 12,
+   "of": 311,
+   "units": [
+    "20"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 279,
+   "nrAppsPerTag": 2.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.1,
+   "orderedAbove": null,
+   "via": "g:80023:20"
+  },
+  "t:WD20A": {
+   "tier": 65,
+   "score": 55.4,
+   "rank": 47,
+   "of": 311,
+   "units": [
+    "20A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 176,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 40.4,
+   "orderedAbove": null,
+   "via": "g:-1186172075:20A"
+  },
+  "t:WD21": {
+   "tier": 80,
+   "score": 63.1,
+   "rank": 23,
+   "of": 311,
+   "units": [
+    "21"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 630,
+   "nrAppsPerTag": 11.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 39.8,
+   "orderedAbove": null,
+   "via": "g:-842623272:21"
+  },
+  "t:WD21A": {
+   "tier": 65,
+   "score": 58.8,
+   "rank": 35,
+   "of": 311,
+   "units": [
+    "21A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 536,
+   "nrAppsPerTag": 4.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 38.2,
+   "orderedAbove": null,
+   "via": "g:-878177037:21A"
+  },
+  "t:WD22": {
+   "tier": 50,
+   "score": 38.2,
+   "rank": 200,
+   "of": 311,
+   "units": [
+    "22"
+   ],
+   "weapon": "MUZZLELOADER",
+   "huntersPerYear": 7,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1288229359:22"
+  },
+  "t:WD23": {
+   "tier": 80,
+   "score": 65.9,
+   "rank": 16,
+   "of": 311,
+   "units": [
+    "23"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1838,
+   "nrAppsPerTag": 1.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.4,
+   "orderedAbove": null,
+   "via": "g:-499489183:23"
+  },
+  "t:WD24": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "24"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1602,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.7,
+   "orderedAbove": null,
+   "via": "g:-539277181:24"
+  },
+  "t:WD26": {
+   "tier": 80,
+   "score": 63.4,
+   "rank": 21,
+   "of": 311,
+   "units": [
+    "26"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 178,
+   "nrAppsPerTag": 1.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": 54.4,
+   "orderedAbove": null,
+   "via": "g:-1572309032:26"
+  },
+  "t:WD28": {
+   "tier": 80,
+   "score": 73.1,
+   "rank": 7,
+   "of": 311,
+   "units": [
+    "28"
+   ],
+   "weapon": "SHORT_RANGE",
+   "huntersPerYear": 1458,
+   "nrAppsPerTag": 7.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.3,
+   "orderedAbove": null,
+   "via": "g:80139:28"
+  },
+  "t:WD29": {
+   "tier": 50,
+   "score": 44.5,
+   "rank": 138,
+   "of": 311,
+   "units": [
+    "29"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 164,
+   "nrAppsPerTag": 1.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.5,
+   "orderedAbove": null,
+   "via": "g:-968175224:29"
+  },
+  "t:WD30": {
+   "tier": 80,
+   "score": 63.1,
+   "rank": 23,
+   "of": 311,
+   "units": [
+    "30"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.1,
+   "orderedAbove": null,
+   "via": "g:-1548760747:30"
+  },
+  "t:WD33": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 153,
+   "of": 311,
+   "units": [
+    "33"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 143,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-463146825:33"
+  },
+  "t:WD35": {
+   "tier": 80,
+   "score": 62.2,
+   "rank": 25,
+   "of": 311,
+   "units": [
+    "35"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 377,
+   "nrAppsPerTag": 3.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43,
+   "orderedAbove": null,
+   "via": "g:-1382964416:35"
+  },
+  "t:WD36A": {
+   "tier": 80,
+   "score": 68.8,
+   "rank": 13,
+   "of": 311,
+   "units": [
+    "36A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 449,
+   "nrAppsPerTag": 9.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 43.8,
+   "orderedAbove": null,
+   "via": "g:-57868911:36A"
+  },
+  "t:WD36B": {
+   "tier": 65,
+   "score": 58.9,
+   "rank": 33,
+   "of": 311,
+   "units": [
+    "36B"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1069,
+   "nrAppsPerTag": 8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.9,
+   "orderedAbove": null,
+   "via": "g:-295810607:36B"
+  },
+  "t:WD37": {
+   "tier": 65,
+   "score": 46,
+   "rank": 117,
+   "of": 311,
+   "units": [
+    "37"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 40,
+   "nrAppsPerTag": 2.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1473953495:37"
+  },
+  "t:WD37A": {
+   "tier": 65,
+   "score": 48,
+   "rank": 94,
+   "of": 311,
+   "units": [
+    "37A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 163,
+   "nrAppsPerTag": 3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.6,
+   "orderedAbove": null,
+   "via": "g:-892405165:37A"
+  },
+  "t:WD50": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "50"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 1345,
+   "nrAppsPerTag": 2,
+   "nrDrawYear": 2026,
+   "animalSharePct": 37.7,
+   "orderedAbove": null,
+   "via": "g:-917484920:50"
+  },
+  "t:WD51": {
+   "tier": 65,
+   "score": 47.9,
+   "rank": 96,
+   "of": 311,
+   "units": [
+    "51"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 753,
+   "nrAppsPerTag": 1.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.6,
+   "orderedAbove": null,
+   "via": "g:-1410176751:51"
+  },
+  "t:WD58": {
+   "tier": 50,
+   "score": 32.6,
+   "rank": 266,
+   "of": 311,
+   "units": [
+    "58"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 376,
+   "nrAppsPerTag": 1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 31.9,
+   "orderedAbove": null,
+   "via": "g:-988759196:58"
+  },
+  "t:WD59": {
+   "tier": 65,
+   "score": 47.2,
+   "rank": 98,
+   "of": 311,
+   "units": [
+    "59"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 240,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 41.2,
+   "orderedAbove": null,
+   "via": "g:-1315198597:59"
+  },
+  "t:WD59A": {
+   "tier": 65,
+   "score": 52.2,
+   "rank": 66,
+   "of": 311,
+   "units": [
+    "59A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 117,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": 44.8,
+   "orderedAbove": null,
+   "via": "g:-1293889083:59A"
+  },
+  "t:WD60": {
+   "tier": 50,
+   "score": 27.7,
+   "rank": 299,
+   "of": 311,
+   "units": [
+    "60"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 959,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 25.4,
+   "orderedAbove": null,
+   "via": "g:-610283713:60"
+  },
+  "t:WD60A": {
+   "tier": 50,
+   "score": 40.2,
+   "rank": 178,
+   "of": 311,
+   "units": [
+    "60A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 233,
+   "nrAppsPerTag": 0.5,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80586:60A"
+  },
+  "t:WD61": {
+   "tier": 50,
+   "score": 45,
+   "rank": 129,
+   "of": 311,
+   "units": [
+    "61"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 948,
+   "nrAppsPerTag": 1.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 34.2,
+   "orderedAbove": null,
+   "via": "g:-767856706:61"
+  },
+  "t:WD62": {
+   "tier": 50,
+   "score": 44.3,
+   "rank": 141,
+   "of": 311,
+   "units": [
+    "62"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 127,
+   "nrAppsPerTag": 1.1,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80605:62"
+  },
+  "t:WD62A": {
+   "tier": 65,
+   "score": 54.9,
+   "rank": 50,
+   "of": 311,
+   "units": [
+    "62A"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 351,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 48.4,
+   "orderedAbove": null,
+   "via": "g:-224547926:62A"
+  },
+  "t:WD63": {
+   "tier": 65,
+   "score": 50,
+   "rank": 78,
+   "of": 311,
+   "units": [
+    "63"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 228,
+   "nrAppsPerTag": 0.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 46.8,
+   "orderedAbove": null,
+   "via": "g:-424722617:63"
+  },
+  "t:WD63A": {
+   "tier": 50,
+   "score": 41.7,
+   "rank": 167,
+   "of": 311,
+   "units": [
+    "63A"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 539,
+   "nrAppsPerTag": 0.4,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:-1074166098:63A"
+  },
+  "t:WD64": {
+   "tier": 50,
+   "score": 40.9,
+   "rank": 172,
+   "of": 311,
+   "units": [
+    "64"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 90,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": null,
+   "orderedAbove": null,
+   "via": "g:80643:64"
+  },
+  "t:WD65": {
+   "tier": 80,
+   "score": 60.9,
+   "rank": 30,
+   "of": 311,
+   "units": [
+    "65"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 201,
+   "nrAppsPerTag": 0.8,
+   "nrDrawYear": 2026,
+   "animalSharePct": 51.2,
+   "orderedAbove": null,
+   "via": "g:-1284795116:65"
+  },
+  "t:WD66": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 58,
+   "of": 311,
+   "units": [
+    "66"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 833,
+   "nrAppsPerTag": 1.6,
+   "nrDrawYear": 2026,
+   "animalSharePct": 36.9,
+   "orderedAbove": null,
+   "via": "g:-2115802398:66"
+  },
+  "t:WD67": {
+   "tier": 100,
+   "score": 75.1,
+   "rank": 4,
+   "of": 311,
+   "units": [
+    "67"
+   ],
+   "weapon": "ANY",
+   "huntersPerYear": 588,
+   "nrAppsPerTag": 3.3,
+   "nrDrawYear": 2026,
+   "animalSharePct": 54.1,
+   "orderedAbove": null,
+   "via": "g:-1633869155:67"
+  },
+  "t:WD69": {
+   "tier": 80,
+   "score": 62,
+   "rank": 26,
+   "of": 311,
+   "units": [
+    "69"
+   ],
+   "weapon": "ARCHERY",
+   "huntersPerYear": 280,
+   "nrAppsPerTag": 0.7,
+   "nrDrawYear": 2026,
+   "animalSharePct": 45.2,
+   "orderedAbove": null,
+   "via": "g:80703:69"
+  }
+ }
+}
