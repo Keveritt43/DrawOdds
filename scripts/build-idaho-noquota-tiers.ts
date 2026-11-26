@@ -1,8 +1,9 @@
-/** Build provisional Idaho trophy tiers from the reviewed retained snapshot; no database access.
+/** Build provisional Idaho trophy tiers from the retained snapshot (data/id/trophy-shadow-<date>.json, made
+ * by scripts/id-trophy-snapshot.ts); no database access.
  * Run: node --import tsx scripts/build-idaho-noquota-tiers.ts out/id-noquota-review.json data/id/trophy-v2-tiers.json
  */
 import {writeFileSync} from 'node:fs';
-import snapshot from '../data/id/trophy-shadow-2026-11-16.json';
+import snapshot from '../data/id/trophy-shadow-2026-11-26.json';
 import liveTiers from '../data/id/trophy-v2-tiers.json';
 import source from '../data/trophy-source-western-v4.json';
 import bcCounts from '../data/id/bc-county-counts-2026-11-17.json';
@@ -40,7 +41,9 @@ const countyConflicts:string[]=[];
 
 type H=typeof snapshot.hunts[number];
 // Compare the exact reviewed production-table population; do not alter ranks by adding a new hunt.
-const eligible=(h:H)=>['ANTLERED','EITHER'].includes(h.antlerClass)&&`${h.species}:${h.code}` in liveTiers.tiers;
+// Every antlered or either-sex controlled hunt with applications on record. (Until Nov 26 this was
+// "already in the table", so a hunt missing from one build, like 1074, could never enter the next.)
+const eligible=(h:H)=>['ANTLERED','EITHER'].includes(h.antlerClass)&&typeof h.applications==='number';
 // Mature-animal share, shrunk toward the species' harvest-weighted mean with a 20-animal prior.
 // A multi-unit hunt cannot attribute its harvest to each unit. For each unit use the single-unit
 // hunt with the highest sample-adjusted observed antler share. This can favor units with more hunts

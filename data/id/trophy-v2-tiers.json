@@ -2,980 +2,13 @@
  "notice": "Idaho provisional trophy tiers: demand is half applications, half applications per tag (no draw odds); 5 points maximum for timing; within the same units and weapon a deer or elk hunt with more rut days ranks above. Generated from the retained snapshot by scripts/build-idaho-noquota-tiers.ts.",
  "drawYear": 2026,
  "snapshot": "data/id/trophy-shadow-2026-11-16.json",
- "snapshotSha256": "6a8c66e2f4a417134bf1af173483e4a35df03746edf448396dddeafa2c805c8e",
+ "snapshotSha256": "5a73b816a3be5a549b7a22d56784cb71ba3807dee80ade4a16dafabe3f9decdb",
  "tiers": {
-  "DEER:1109": {
-   "tier": 50,
-   "score": 12.2,
-   "rank": 105,
-   "of": 108,
-   "units": [
-    "60",
-    "60A",
-    "61",
-    "62A"
-   ],
-   "animalSourceHunt": "1109",
-   "animalSharePct": 11.9,
-   "applications": 242,
-   "demandPct": 28,
-   "orderedAbove": null
-  },
-  "DEER:1117": {
-   "tier": 50,
-   "score": 27.2,
-   "rank": 94,
-   "of": 108,
-   "units": [
-    "14"
-   ],
-   "animalSourceHunt": "1008",
-   "animalSharePct": 61.2,
-   "applications": 115,
-   "demandPct": 14,
-   "orderedAbove": null
-  },
-  "DEER:1096": {
-   "tier": 50,
-   "score": 9.6,
-   "rank": 107,
-   "of": 108,
-   "units": [
-    "70"
-   ],
-   "animalSourceHunt": "1096",
-   "animalSharePct": 43.4,
-   "applications": 47,
-   "demandPct": 9,
-   "orderedAbove": null
-  },
-  "DEER:1065": {
-   "tier": 50,
-   "score": 21.6,
-   "rank": 103,
-   "of": 108,
-   "units": [
-    "39",
-    "43"
-   ],
-   "animalSourceHunt": "1065",
-   "animalSharePct": 17.8,
-   "applications": 3204,
-   "demandPct": 57,
-   "orderedAbove": null
-  },
-  "DEER:1079": {
-   "tier": 50,
-   "score": 28.9,
-   "rank": 90,
-   "of": 108,
-   "units": [
-    "53"
-   ],
-   "animalSourceHunt": "1079",
-   "animalSharePct": 61.5,
-   "applications": 216,
-   "demandPct": 22,
-   "orderedAbove": null
-  },
-  "DEER:1067": {
-   "tier": 50,
-   "score": 51.3,
-   "rank": 46,
-   "of": 108,
-   "units": [
-    "62"
-   ],
-   "animalSourceHunt": "1067",
-   "animalSharePct": 73.9,
-   "applications": 278,
-   "demandPct": 40,
-   "orderedAbove": null
-  },
-  "DEER:1081": {
-   "tier": 50,
-   "score": 38.2,
-   "rank": 71,
-   "of": 108,
-   "units": [
-    "68A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 260,
-   "demandPct": 28,
-   "orderedAbove": null
-  },
-  "DEER:1088": {
-   "tier": 50,
-   "score": 10.5,
-   "rank": 106,
-   "of": 108,
-   "units": [
-    "43"
-   ],
-   "animalSourceHunt": "1088",
-   "animalSharePct": 24.2,
-   "applications": 183,
-   "demandPct": 24,
-   "orderedAbove": null
-  },
-  "DEER:1012": {
-   "tier": 50,
-   "score": 26.9,
-   "rank": 95,
-   "of": 108,
-   "units": [
-    "20A"
-   ],
-   "animalSourceHunt": "1012",
-   "animalSharePct": 63.1,
-   "applications": 100,
-   "demandPct": 11,
-   "orderedAbove": null
-  },
-  "DEER:1057": {
-   "tier": 50,
-   "score": 28.5,
-   "rank": 92,
-   "of": 108,
-   "units": [
-    "73"
-   ],
-   "animalSourceHunt": "1057",
-   "animalSharePct": 49,
-   "applications": 2694,
-   "demandPct": 53,
-   "orderedAbove": null
-  },
-  "DEER:1004": {
-   "tier": 65,
-   "score": 54.5,
-   "rank": 41,
-   "of": 108,
-   "units": [
-    "11A"
-   ],
-   "animalSourceHunt": "1004",
-   "animalSharePct": 80.3,
-   "applications": 177,
-   "demandPct": 31,
-   "orderedAbove": null
-  },
-  "DEER:1082": {
-   "tier": 50,
-   "score": 28.9,
-   "rank": 90,
-   "of": 108,
-   "units": [
-    "72",
-    "76"
-   ],
-   "animalSourceHunt": "1082",
-   "animalSharePct": 57.6,
-   "applications": 259,
-   "demandPct": 30,
-   "orderedAbove": null
-  },
-  "DEER:1080": {
-   "tier": 50,
-   "score": 25,
-   "rank": 98,
-   "of": 108,
-   "units": [
-    "54"
-   ],
-   "animalSourceHunt": "1080",
-   "animalSharePct": 34.7,
-   "applications": 289,
-   "demandPct": 29,
-   "orderedAbove": null
-  },
-  "DEER:1118": {
-   "tier": 50,
-   "score": 46.1,
-   "rank": 58,
-   "of": 108,
-   "units": [
-    "14"
-   ],
-   "animalSourceHunt": "1008",
-   "animalSharePct": 61.2,
-   "applications": 591,
-   "demandPct": 54,
-   "orderedAbove": null
-  },
-  "DEER:1007": {
-   "tier": 50,
-   "score": 25.6,
-   "rank": 97,
-   "of": 108,
-   "units": [
-    "14"
-   ],
-   "animalSourceHunt": "1007",
-   "animalSharePct": 58.5,
-   "applications": 139,
-   "demandPct": 16,
-   "orderedAbove": null
-  },
-  "DEER:1029": {
-   "tier": 50,
-   "score": 33,
-   "rank": 81,
-   "of": 108,
-   "units": [
-    "38"
-   ],
-   "animalSourceHunt": "1029",
-   "animalSharePct": 66.1,
-   "applications": 47,
-   "demandPct": 16,
-   "orderedAbove": null
-  },
-  "DEER:1100": {
-   "tier": 50,
-   "score": 44.5,
-   "rank": 60,
-   "of": 108,
-   "units": [
-    "11A"
-   ],
-   "animalSourceHunt": "1100",
-   "animalSharePct": 73.1,
-   "applications": 125,
-   "demandPct": 30,
-   "orderedAbove": null
-  },
-  "DEER:1101": {
-   "tier": 50,
-   "score": 47.6,
-   "rank": 54,
-   "of": 108,
-   "units": [
-    "28"
-   ],
-   "animalSourceHunt": "1019",
-   "animalSharePct": 76.7,
-   "applications": 55,
-   "demandPct": 21,
-   "orderedAbove": null
-  },
-  "DEER:1006": {
-   "tier": 50,
-   "score": 24.1,
-   "rank": 100,
-   "of": 108,
-   "units": [
-    "13"
-   ],
-   "animalSourceHunt": "1006",
-   "animalSharePct": 58.1,
-   "applications": 197,
-   "demandPct": 28,
-   "orderedAbove": null
-  },
-  "DEER:1008": {
-   "tier": 50,
-   "score": 37.5,
-   "rank": 73,
-   "of": 108,
-   "units": [
-    "14"
-   ],
-   "animalSourceHunt": "1008",
-   "animalSharePct": 61.2,
-   "applications": 245,
-   "demandPct": 30,
-   "orderedAbove": null
-  },
-  "DEER:1018": {
-   "tier": 65,
-   "score": 54.4,
-   "rank": 42,
-   "of": 108,
-   "units": [
-    "27"
-   ],
-   "animalSourceHunt": "1018",
-   "animalSharePct": 68.4,
-   "applications": 913,
-   "demandPct": 50,
-   "orderedAbove": null
-  },
-  "DEER:1099": {
-   "tier": 50,
-   "score": 33.9,
-   "rank": 78,
-   "of": 108,
-   "units": [
-    "78"
-   ],
-   "animalSourceHunt": "1060",
-   "animalSharePct": 71.8,
-   "applications": 70,
-   "demandPct": 13,
-   "orderedAbove": null
-  },
-  "DEER:1087": {
-   "tier": 50,
-   "score": 32.8,
-   "rank": 82,
-   "of": 108,
-   "units": [
-    "33",
-    "34",
-    "35"
-   ],
-   "animalSourceHunt": "1087",
-   "animalSharePct": 55.8,
-   "applications": 420,
-   "demandPct": 46,
-   "orderedAbove": null
-  },
-  "DEER:1092": {
-   "tier": 50,
-   "score": 21.8,
-   "rank": 102,
-   "of": 108,
-   "units": [
-    "52A"
-   ],
-   "animalSourceHunt": "1092",
-   "animalSharePct": 52.9,
-   "applications": 137,
-   "demandPct": 24,
-   "orderedAbove": null
-  },
-  "DEER:1104": {
-   "tier": 50,
-   "score": 24.2,
-   "rank": 99,
-   "of": 108,
-   "units": [
-    "47"
-   ],
-   "animalSourceHunt": "1104",
-   "animalSharePct": 46.7,
-   "applications": 125,
-   "demandPct": 25,
-   "orderedAbove": null
-  },
-  "DEER:1017": {
-   "tier": 50,
-   "score": 36.5,
-   "rank": 74,
-   "of": 108,
-   "units": [
-    "26"
-   ],
-   "animalSourceHunt": "1017",
-   "animalSharePct": 69.9,
-   "applications": 106,
-   "demandPct": 13,
-   "orderedAbove": null
-  },
-  "DEER:1102": {
-   "tier": 50,
-   "score": 30.8,
-   "rank": 84,
-   "of": 108,
-   "units": [
-    "36B",
-    "37"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 26,
-   "demandPct": 12,
-   "orderedAbove": null
-  },
-  "DEER:1064": {
-   "tier": 50,
-   "score": 30.3,
-   "rank": 86,
-   "of": 108,
-   "units": [
-    "10A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 92,
-   "demandPct": 19,
-   "orderedAbove": null
-  },
-  "DEER:1075": {
-   "tier": 50,
-   "score": 7.9,
-   "rank": 108,
-   "of": 108,
-   "units": [
-    "43",
-    "48"
-   ],
-   "animalSourceHunt": "1075",
-   "animalSharePct": 32.1,
-   "applications": 78,
-   "demandPct": 15,
-   "orderedAbove": null
-  },
-  "DEER:1066": {
-   "tier": 50,
-   "score": 33.9,
-   "rank": 78,
-   "of": 108,
-   "units": [
-    "60",
-    "61",
-    "62A"
-   ],
-   "animalSourceHunt": "1066",
-   "animalSharePct": 42.6,
-   "applications": 2080,
-   "demandPct": 69,
-   "orderedAbove": null
-  },
-  "DEER:1085": {
-   "tier": 50,
-   "score": 30.6,
-   "rank": 85,
-   "of": 108,
-   "units": [
-    "29",
-    "37A"
-   ],
-   "animalSourceHunt": "1085",
-   "animalSharePct": 61.1,
-   "applications": 147,
-   "demandPct": 26,
-   "orderedAbove": null
-  },
-  "DEER:1058": {
-   "tier": 50,
-   "score": 42.4,
-   "rank": 64,
-   "of": 108,
-   "units": [
-    "73"
-   ],
-   "animalSourceHunt": "1058",
-   "animalSharePct": 68.4,
-   "applications": 271,
-   "demandPct": 49,
-   "orderedAbove": null
-  },
-  "DEER:1068": {
-   "tier": 50,
-   "score": 34.8,
-   "rank": 77,
-   "of": 108,
-   "units": [
-    "63A"
-   ],
-   "animalSourceHunt": "1068",
-   "animalSharePct": 64.3,
-   "applications": 171,
-   "demandPct": 29,
-   "orderedAbove": null
-  },
-  "DEER:1095": {
-   "tier": 50,
-   "score": 33.8,
-   "rank": 80,
-   "of": 108,
-   "units": [
-    "68"
-   ],
-   "animalSourceHunt": "1095",
-   "animalSharePct": 67.2,
-   "applications": 79,
-   "demandPct": 23,
-   "orderedAbove": null
-  },
-  "DEER:1005": {
-   "tier": 65,
-   "score": 54.6,
-   "rank": 39,
-   "of": 108,
-   "units": [
-    "11A"
-   ],
-   "animalSourceHunt": "1005",
-   "animalSharePct": 72.1,
-   "applications": 165,
-   "demandPct": 37,
-   "orderedAbove": "1004"
-  },
-  "DEER:1056": {
-   "tier": 65,
-   "score": 54.6,
-   "rank": 39,
-   "of": 108,
-   "units": [
-    "70"
-   ],
-   "animalSourceHunt": "1056",
-   "animalSharePct": 71.4,
-   "applications": 1471,
-   "demandPct": 76,
-   "orderedAbove": null
-  },
-  "DEER:1045": {
-   "tier": 50,
-   "score": 49.9,
-   "rank": 48,
-   "of": 108,
-   "units": [
-    "55",
-    "57"
-   ],
-   "animalSourceHunt": "1045",
-   "animalSharePct": 58.7,
-   "applications": 2384,
-   "demandPct": 72,
-   "orderedAbove": null
-  },
-  "DEER:1094": {
-   "tier": 50,
-   "score": 13.4,
-   "rank": 104,
-   "of": 108,
-   "units": [
-    "61"
-   ],
-   "animalSourceHunt": "1094",
-   "animalSharePct": 44.8,
-   "applications": 34,
-   "demandPct": 3,
-   "orderedAbove": null
-  },
-  "DEER:1090": {
-   "tier": 50,
-   "score": 47.9,
-   "rank": 53,
-   "of": 108,
-   "units": [
-    "50",
-    "51"
-   ],
-   "animalSourceHunt": "1090",
-   "animalSharePct": 68.4,
-   "applications": 363,
-   "demandPct": 56,
-   "orderedAbove": null
-  },
-  "DEER:1106": {
-   "tier": 50,
-   "score": 39.5,
-   "rank": 68,
-   "of": 108,
-   "units": [
-    "54"
-   ],
-   "animalSourceHunt": "1106",
-   "animalSharePct": 45.1,
-   "applications": 626,
-   "demandPct": 61,
-   "orderedAbove": null
-  },
-  "DEER:1009": {
-   "tier": 50,
-   "score": 39,
-   "rank": 69,
-   "of": 108,
-   "units": [
-    "18"
-   ],
-   "animalSourceHunt": "1009",
-   "animalSharePct": 55.8,
-   "applications": 356,
-   "demandPct": 45,
-   "orderedAbove": null
-  },
-  "DEER:1110": {
-   "tier": 50,
-   "score": 46.8,
-   "rank": 56,
-   "of": 108,
-   "units": [
-    "62"
-   ],
-   "animalSourceHunt": "1110",
-   "animalSharePct": 82.8,
-   "applications": 20,
-   "demandPct": 2,
-   "orderedAbove": null
-  },
-  "DEER:1107": {
-   "tier": 50,
-   "score": 40.8,
-   "rank": 67,
-   "of": 108,
-   "units": [
-    "55",
-    "57"
-   ],
-   "animalSourceHunt": "1107",
-   "animalSharePct": 55.9,
-   "applications": 334,
-   "demandPct": 55,
-   "orderedAbove": null
-  },
-  "DEER:1097": {
-   "tier": 50,
-   "score": 44.2,
-   "rank": 61,
-   "of": 108,
-   "units": [
-    "73A"
-   ],
-   "animalSourceHunt": "1097",
-   "animalSharePct": 68.2,
-   "applications": 176,
-   "demandPct": 43,
-   "orderedAbove": null
-  },
-  "DEER:1030": {
-   "tier": 50,
-   "score": 35.5,
-   "rank": 75,
-   "of": 108,
-   "units": [
-    "39"
-   ],
-   "animalSourceHunt": "1030",
-   "animalSharePct": 40,
-   "applications": 1248,
-   "demandPct": 64,
-   "orderedAbove": null
-  },
-  "DEER:1021": {
-   "tier": 50,
-   "score": 29,
-   "rank": 89,
-   "of": 108,
-   "units": [
-    "30A"
-   ],
-   "animalSourceHunt": "1021",
-   "animalSharePct": 57.2,
-   "applications": 197,
-   "demandPct": 40,
-   "orderedAbove": null
-  },
-  "DEER:1046": {
-   "tier": 50,
-   "score": 41.9,
-   "rank": 65,
-   "of": 108,
-   "units": [
-    "57"
-   ],
-   "animalSourceHunt": "1046",
-   "animalSharePct": 54,
-   "applications": 457,
-   "demandPct": 63,
-   "orderedAbove": null
-  },
-  "DEER:1036": {
-   "tier": 50,
-   "score": 37.8,
-   "rank": 72,
-   "of": 108,
-   "units": [
-    "47"
-   ],
-   "animalSourceHunt": "1036",
-   "animalSharePct": 45.9,
-   "applications": 512,
-   "demandPct": 66,
-   "orderedAbove": null
-  },
-  "DEER:1084": {
-   "tier": 50,
-   "score": 23.1,
-   "rank": 101,
-   "of": 108,
-   "units": [
-    "22"
-   ],
-   "animalSourceHunt": "1084",
-   "animalSharePct": 56.3,
-   "applications": 90,
-   "demandPct": 27,
-   "orderedAbove": null
-  },
-  "DEER:1042": {
-   "tier": 50,
-   "score": 48.7,
-   "rank": 51,
-   "of": 108,
-   "units": [
-    "54"
-   ],
-   "animalSourceHunt": "1042",
-   "animalSharePct": 52,
-   "applications": 3794,
-   "demandPct": 81,
-   "orderedAbove": null
-  },
-  "DEER:1032": {
-   "tier": 50,
-   "score": 48.3,
-   "rank": 52,
-   "of": 108,
-   "units": [
-    "41"
-   ],
-   "animalSourceHunt": "1032",
-   "animalSharePct": 60.8,
-   "applications": 1051,
-   "demandPct": 76,
-   "orderedAbove": null
-  },
-  "DEER:1023": {
-   "tier": 65,
-   "score": 75.8,
-   "rank": 12,
-   "of": 108,
-   "units": [
-    "32"
-   ],
-   "animalSourceHunt": "1023",
-   "animalSharePct": 78.5,
-   "applications": 1366,
-   "demandPct": 86,
-   "orderedAbove": null
-  },
-  "DEER:1072": {
-   "tier": 50,
-   "score": 26.3,
-   "rank": 96,
-   "of": 108,
-   "units": [
-    "39"
-   ],
-   "animalSourceHunt": "1030",
-   "animalSharePct": 40,
-   "applications": 128,
-   "demandPct": 24,
-   "orderedAbove": null
-  },
-  "DEER:1093": {
-   "tier": 50,
-   "score": 45.2,
-   "rank": 59,
-   "of": 108,
-   "units": [
-    "57"
-   ],
-   "animalSourceHunt": "1093",
-   "animalSharePct": 62,
-   "applications": 114,
-   "demandPct": 36,
-   "orderedAbove": null
-  },
-  "DEER:1024": {
-   "tier": 65,
-   "score": 65.1,
-   "rank": 27,
-   "of": 108,
-   "units": [
-    "32A"
-   ],
-   "animalSourceHunt": "1024",
-   "animalSharePct": 73.9,
-   "applications": 712,
-   "demandPct": 78,
-   "orderedAbove": null
-  },
-  "DEER:1098": {
-   "tier": 65,
-   "score": 58.9,
-   "rank": 34,
-   "of": 108,
-   "units": [
-    "74"
-   ],
-   "animalSourceHunt": "1098",
-   "animalSharePct": 75.8,
-   "applications": 192,
-   "demandPct": 46,
-   "orderedAbove": null
-  },
-  "DEER:1060": {
-   "tier": 50,
-   "score": 51.9,
-   "rank": 45,
-   "of": 108,
-   "units": [
-    "78"
-   ],
-   "animalSourceHunt": "1060",
-   "animalSharePct": 71.8,
-   "applications": 1150,
-   "demandPct": 64,
-   "orderedAbove": null
-  },
-  "DEER:1002": {
-   "tier": 80,
-   "score": 79.4,
-   "rank": 10,
-   "of": 108,
-   "units": [
-    "11"
-   ],
-   "animalSourceHunt": "1002",
-   "animalSharePct": 83.6,
-   "applications": 869,
-   "demandPct": 76,
-   "orderedAbove": null
-  },
-  "DEER:1015": {
-   "tier": 65,
-   "score": 62.6,
-   "rank": 30,
-   "of": 108,
-   "units": [
-    "23"
-   ],
-   "animalSourceHunt": "1015",
-   "animalSharePct": 77,
-   "applications": 221,
-   "demandPct": 49,
-   "orderedAbove": null
-  },
-  "DEER:1071": {
-   "tier": 50,
-   "score": 38.8,
-   "rank": 70,
-   "of": 108,
-   "units": [
-    "22"
-   ],
-   "animalSourceHunt": "1071",
-   "animalSharePct": 64.3,
-   "applications": 226,
-   "demandPct": 50,
-   "orderedAbove": null
-  },
-  "DEER:1041": {
-   "tier": 65,
-   "score": 69.3,
-   "rank": 21,
-   "of": 108,
-   "units": [
-    "52"
-   ],
-   "animalSourceHunt": "1041",
-   "animalSharePct": 74,
-   "applications": 1012,
-   "demandPct": 75,
-   "orderedAbove": null
-  },
-  "DEER:1089": {
-   "tier": 50,
-   "score": 46.2,
-   "rank": 57,
-   "of": 108,
-   "units": [
-    "45"
-   ],
-   "animalSourceHunt": "1089",
-   "animalSharePct": 69.4,
-   "applications": 211,
-   "demandPct": 38,
-   "orderedAbove": null
-  },
-  "DEER:1073": {
-   "tier": 50,
-   "score": 52.6,
-   "rank": 44,
-   "of": 108,
-   "units": [
-    "40"
-   ],
-   "animalSourceHunt": "1073",
-   "animalSharePct": 72.4,
-   "applications": 239,
-   "demandPct": 40,
-   "orderedAbove": null
-  },
-  "DEER:1022": {
-   "tier": 65,
-   "score": 63.7,
-   "rank": 29,
-   "of": 108,
-   "units": [
-    "31"
-   ],
-   "animalSourceHunt": "1022",
-   "animalSharePct": 73.1,
-   "applications": 474,
-   "demandPct": 69,
-   "orderedAbove": null
-  },
-  "DEER:1050": {
-   "tier": 65,
-   "score": 75.5,
-   "rank": 13,
-   "of": 108,
-   "units": [
-    "62"
-   ],
-   "animalSourceHunt": "1050",
-   "animalSharePct": 82.8,
-   "applications": 398,
-   "demandPct": 68,
-   "orderedAbove": null
-  },
-  "DEER:1053": {
-   "tier": 80,
-   "score": 85.4,
-   "rank": 5,
-   "of": 108,
-   "units": [
-    "67"
-   ],
-   "animalSourceHunt": "1053",
-   "animalSharePct": 84.4,
-   "applications": 1251,
-   "demandPct": 85,
-   "orderedAbove": null
-  },
-  "DEER:1010": {
-   "tier": 65,
-   "score": 66,
-   "rank": 25,
-   "of": 108,
-   "units": [
-    "18"
-   ],
-   "animalSourceHunt": "1010",
-   "animalSharePct": 74.1,
-   "applications": 272,
-   "demandPct": 57,
-   "orderedAbove": null
-  },
-  "DEER:1091": {
-   "tier": 65,
-   "score": 60.2,
-   "rank": 33,
-   "of": 108,
-   "units": [
-    "52"
-   ],
-   "animalSourceHunt": "1091",
-   "animalSharePct": 70.7,
-   "applications": 246,
-   "demandPct": 53,
-   "orderedAbove": null
-  },
   "DEER:1001": {
    "tier": 65,
-   "score": 57.3,
+   "score": 57.4,
    "rank": 35,
-   "of": 108,
+   "of": 109,
    "units": [
     "1",
     "2",
@@ -990,70 +23,28 @@
    "animalSourceHunt": null,
    "animalSharePct": null,
    "applications": 1422,
-   "demandPct": 82,
+   "demandPct": 83,
    "orderedAbove": null
   },
-  "DEER:1033": {
-   "tier": 65,
-   "score": 56.3,
-   "rank": 36,
-   "of": 108,
-   "units": [
-    "42"
-   ],
-   "animalSourceHunt": "1033",
-   "animalSharePct": 63.1,
-   "applications": 696,
-   "demandPct": 73,
-   "orderedAbove": null
-  },
-  "DEER:1031": {
+  "DEER:1002": {
    "tier": 80,
-   "score": 83.1,
-   "rank": 6,
-   "of": 108,
+   "score": 79.5,
+   "rank": 10,
+   "of": 109,
    "units": [
-    "40"
+    "11"
    ],
-   "animalSourceHunt": "1031",
-   "animalSharePct": 76.1,
-   "applications": 6182,
-   "demandPct": 91,
-   "orderedAbove": null
-  },
-  "DEER:1034": {
-   "tier": 80,
-   "score": 78.4,
-   "rank": 11,
-   "of": 108,
-   "units": [
-    "44"
-   ],
-   "animalSourceHunt": "1034",
-   "animalSharePct": 76,
-   "applications": 5324,
-   "demandPct": 87,
-   "orderedAbove": null
-  },
-  "DEER:1076": {
-   "tier": 65,
-   "score": 69.9,
-   "rank": 20,
-   "of": 108,
-   "units": [
-    "44"
-   ],
-   "animalSourceHunt": "1076",
-   "animalSharePct": 76.8,
-   "applications": 360,
-   "demandPct": 54,
+   "animalSourceHunt": "1002",
+   "animalSharePct": 83.6,
+   "applications": 869,
+   "demandPct": 76,
    "orderedAbove": null
   },
   "DEER:1003": {
    "tier": 80,
-   "score": 79.5,
+   "score": 79.6,
    "rank": 9,
-   "of": 108,
+   "of": 109,
    "units": [
     "11"
    ],
@@ -1063,31 +54,143 @@
    "demandPct": 77,
    "orderedAbove": "1002"
   },
-  "DEER:1016": {
+  "DEER:1004": {
    "tier": 65,
-   "score": 70,
-   "rank": 19,
-   "of": 108,
+   "score": 54.7,
+   "rank": 41,
+   "of": 109,
    "units": [
-    "25"
+    "11A"
    ],
-   "animalSourceHunt": "1016",
-   "animalSharePct": 77.2,
-   "applications": 291,
-   "demandPct": 68,
+   "animalSourceHunt": "1004",
+   "animalSharePct": 80.3,
+   "applications": 177,
+   "demandPct": 31,
    "orderedAbove": null
   },
-  "DEER:1044": {
-   "tier": 80,
-   "score": 86.6,
-   "rank": 3,
-   "of": 108,
+  "DEER:1005": {
+   "tier": 65,
+   "score": 54.8,
+   "rank": 40,
+   "of": 109,
    "units": [
-    "55"
+    "11A"
    ],
-   "animalSourceHunt": "1044",
-   "animalSharePct": 78.7,
-   "applications": 693,
+   "animalSourceHunt": "1005",
+   "animalSharePct": 72.1,
+   "applications": 165,
+   "demandPct": 37,
+   "orderedAbove": "1004"
+  },
+  "DEER:1006": {
+   "tier": 50,
+   "score": 24.9,
+   "rank": 99,
+   "of": 109,
+   "units": [
+    "13"
+   ],
+   "animalSourceHunt": "1006",
+   "animalSharePct": 58.1,
+   "applications": 197,
+   "demandPct": 28,
+   "orderedAbove": null
+  },
+  "DEER:1007": {
+   "tier": 50,
+   "score": 26.3,
+   "rank": 97,
+   "of": 109,
+   "units": [
+    "14"
+   ],
+   "animalSourceHunt": "1007",
+   "animalSharePct": 58.5,
+   "applications": 139,
+   "demandPct": 17,
+   "orderedAbove": null
+  },
+  "DEER:1008": {
+   "tier": 50,
+   "score": 37.8,
+   "rank": 73,
+   "of": 109,
+   "units": [
+    "14"
+   ],
+   "animalSourceHunt": "1008",
+   "animalSharePct": 61.2,
+   "applications": 245,
+   "demandPct": 30,
+   "orderedAbove": null
+  },
+  "DEER:1009": {
+   "tier": 50,
+   "score": 39.2,
+   "rank": 70,
+   "of": 109,
+   "units": [
+    "18"
+   ],
+   "animalSourceHunt": "1009",
+   "animalSharePct": 55.8,
+   "applications": 356,
+   "demandPct": 45,
+   "orderedAbove": null
+  },
+  "DEER:1010": {
+   "tier": 65,
+   "score": 66.1,
+   "rank": 24,
+   "of": 109,
+   "units": [
+    "18"
+   ],
+   "animalSourceHunt": "1010",
+   "animalSharePct": 74,
+   "applications": 272,
+   "demandPct": 58,
+   "orderedAbove": null
+  },
+  "DEER:1011": {
+   "tier": 50,
+   "score": 43.1,
+   "rank": 62,
+   "of": 109,
+   "units": [
+    "19A"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 110,
+   "demandPct": 42,
+   "orderedAbove": null
+  },
+  "DEER:1012": {
+   "tier": 50,
+   "score": 27,
+   "rank": 95,
+   "of": 109,
+   "units": [
+    "20A"
+   ],
+   "animalSourceHunt": "1012",
+   "animalSharePct": 63.1,
+   "applications": 100,
+   "demandPct": 12,
+   "orderedAbove": null
+  },
+  "DEER:1013": {
+   "tier": 65,
+   "score": 73.1,
+   "rank": 16,
+   "of": 109,
+   "units": [
+    "21"
+   ],
+   "animalSourceHunt": "1013",
+   "animalSharePct": 76.6,
+   "applications": 412,
    "demandPct": 79,
    "orderedAbove": null
   },
@@ -1095,7 +198,7 @@
    "tier": 80,
    "score": 86.1,
    "rank": 4,
-   "of": 108,
+   "of": 109,
    "units": [
     "22"
    ],
@@ -1105,25 +208,291 @@
    "demandPct": 94,
    "orderedAbove": null
   },
-  "DEER:1043": {
-   "tier": 100,
-   "score": 91.1,
-   "rank": 1,
-   "of": 108,
+  "DEER:1015": {
+   "tier": 65,
+   "score": 62.8,
+   "rank": 30,
+   "of": 109,
    "units": [
-    "54"
+    "23"
    ],
-   "animalSourceHunt": "1043",
-   "animalSharePct": 81.5,
-   "applications": 1243,
+   "animalSourceHunt": "1015",
+   "animalSharePct": 77,
+   "applications": 221,
+   "demandPct": 49,
+   "orderedAbove": null
+  },
+  "DEER:1016": {
+   "tier": 65,
+   "score": 70.1,
+   "rank": 19,
+   "of": 109,
+   "units": [
+    "25"
+   ],
+   "animalSourceHunt": "1016",
+   "animalSharePct": 77.2,
+   "applications": 291,
+   "demandPct": 68,
+   "orderedAbove": null
+  },
+  "DEER:1017": {
+   "tier": 50,
+   "score": 36.6,
+   "rank": 74,
+   "of": 109,
+   "units": [
+    "26"
+   ],
+   "animalSourceHunt": "1017",
+   "animalSharePct": 69.8,
+   "applications": 106,
+   "demandPct": 14,
+   "orderedAbove": null
+  },
+  "DEER:1018": {
+   "tier": 65,
+   "score": 55.7,
+   "rank": 37,
+   "of": 109,
+   "units": [
+    "27"
+   ],
+   "animalSourceHunt": "1018",
+   "animalSharePct": 68.4,
+   "applications": 913,
+   "demandPct": 50,
+   "orderedAbove": null
+  },
+  "DEER:1019": {
+   "tier": 65,
+   "score": 73.6,
+   "rank": 15,
+   "of": 109,
+   "units": [
+    "28"
+   ],
+   "animalSourceHunt": "1019",
+   "animalSharePct": 76.6,
+   "applications": 428,
+   "demandPct": 81,
+   "orderedAbove": null
+  },
+  "DEER:1020": {
+   "tier": 65,
+   "score": 67.6,
+   "rank": 23,
+   "of": 109,
+   "units": [
+    "30"
+   ],
+   "animalSourceHunt": "1020",
+   "animalSharePct": 74.8,
+   "applications": 343,
+   "demandPct": 75,
+   "orderedAbove": null
+  },
+  "DEER:1021": {
+   "tier": 50,
+   "score": 29.2,
+   "rank": 89,
+   "of": 109,
+   "units": [
+    "30A"
+   ],
+   "animalSourceHunt": "1021",
+   "animalSharePct": 57.1,
+   "applications": 197,
+   "demandPct": 40,
+   "orderedAbove": null
+  },
+  "DEER:1022": {
+   "tier": 65,
+   "score": 64.4,
+   "rank": 29,
+   "of": 109,
+   "units": [
+    "31"
+   ],
+   "animalSourceHunt": "1022",
+   "animalSharePct": 73.1,
+   "applications": 474,
+   "demandPct": 69,
+   "orderedAbove": null
+  },
+  "DEER:1023": {
+   "tier": 65,
+   "score": 75.8,
+   "rank": 12,
+   "of": 109,
+   "units": [
+    "32"
+   ],
+   "animalSourceHunt": "1023",
+   "animalSharePct": 78.5,
+   "applications": 1366,
+   "demandPct": 86,
+   "orderedAbove": null
+  },
+  "DEER:1024": {
+   "tier": 65,
+   "score": 65.2,
+   "rank": 27,
+   "of": 109,
+   "units": [
+    "32A"
+   ],
+   "animalSourceHunt": "1024",
+   "animalSharePct": 73.9,
+   "applications": 712,
+   "demandPct": 78,
+   "orderedAbove": null
+  },
+  "DEER:1025": {
+   "tier": 50,
+   "score": 49.5,
+   "rank": 49,
+   "of": 109,
+   "units": [
+    "36"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 188,
+   "demandPct": 60,
+   "orderedAbove": null
+  },
+  "DEER:1026": {
+   "tier": 65,
+   "score": 72.2,
+   "rank": 17,
+   "of": 109,
+   "units": [
+    "36A"
+   ],
+   "animalSourceHunt": "1026",
+   "animalSharePct": 76,
+   "applications": 364,
+   "demandPct": 78,
+   "orderedAbove": null
+  },
+  "DEER:1027": {
+   "tier": 65,
+   "score": 62.5,
+   "rank": 31,
+   "of": 109,
+   "units": [
+    "36B"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 632,
    "demandPct": 88,
+   "orderedAbove": null
+  },
+  "DEER:1028": {
+   "tier": 50,
+   "score": 34,
+   "rank": 79,
+   "of": 109,
+   "units": [
+    "38"
+   ],
+   "animalSourceHunt": "1029",
+   "animalSharePct": 63.9,
+   "applications": 31,
+   "demandPct": 23,
+   "orderedAbove": null
+  },
+  "DEER:1029": {
+   "tier": 50,
+   "score": 32.2,
+   "rank": 82,
+   "of": 109,
+   "units": [
+    "38"
+   ],
+   "animalSourceHunt": "1029",
+   "animalSharePct": 63.9,
+   "applications": 47,
+   "demandPct": 17,
+   "orderedAbove": null
+  },
+  "DEER:1030": {
+   "tier": 50,
+   "score": 35.6,
+   "rank": 75,
+   "of": 109,
+   "units": [
+    "39"
+   ],
+   "animalSourceHunt": "1030",
+   "animalSharePct": 40,
+   "applications": 1248,
+   "demandPct": 65,
+   "orderedAbove": null
+  },
+  "DEER:1031": {
+   "tier": 80,
+   "score": 83.1,
+   "rank": 6,
+   "of": 109,
+   "units": [
+    "40"
+   ],
+   "animalSourceHunt": "1031",
+   "animalSharePct": 76.1,
+   "applications": 6182,
+   "demandPct": 91,
+   "orderedAbove": null
+  },
+  "DEER:1032": {
+   "tier": 50,
+   "score": 48.9,
+   "rank": 50,
+   "of": 109,
+   "units": [
+    "41"
+   ],
+   "animalSourceHunt": "1032",
+   "animalSharePct": 60.8,
+   "applications": 1051,
+   "demandPct": 76,
+   "orderedAbove": null
+  },
+  "DEER:1033": {
+   "tier": 65,
+   "score": 56.4,
+   "rank": 36,
+   "of": 109,
+   "units": [
+    "42"
+   ],
+   "animalSourceHunt": "1033",
+   "animalSharePct": 63.1,
+   "applications": 696,
+   "demandPct": 73,
+   "orderedAbove": null
+  },
+  "DEER:1034": {
+   "tier": 80,
+   "score": 79,
+   "rank": 11,
+   "of": 109,
+   "units": [
+    "44"
+   ],
+   "animalSourceHunt": "1034",
+   "animalSharePct": 76,
+   "applications": 5324,
+   "demandPct": 87,
    "orderedAbove": null
   },
   "DEER:1035": {
    "tier": 80,
    "score": 79.9,
    "rank": 8,
-   "of": 108,
+   "of": 109,
    "units": [
     "45"
    ],
@@ -1133,11 +502,196 @@
    "demandPct": 89,
    "orderedAbove": null
   },
+  "DEER:1036": {
+   "tier": 50,
+   "score": 37.9,
+   "rank": 72,
+   "of": 109,
+   "units": [
+    "47"
+   ],
+   "animalSourceHunt": "1036",
+   "animalSharePct": 45.8,
+   "applications": 512,
+   "demandPct": 66,
+   "orderedAbove": null
+  },
+  "DEER:1037": {
+   "tier": 65,
+   "score": 60.7,
+   "rank": 32,
+   "of": 109,
+   "units": [
+    "46",
+    "47"
+   ],
+   "animalSourceHunt": "1037",
+   "animalSharePct": 72.1,
+   "applications": 198,
+   "demandPct": 55,
+   "orderedAbove": null
+  },
+  "DEER:1038": {
+   "tier": 65,
+   "score": 54.3,
+   "rank": 43,
+   "of": 109,
+   "units": [
+    "48"
+   ],
+   "animalSourceHunt": "1038",
+   "animalSharePct": 67.5,
+   "applications": 261,
+   "demandPct": 64,
+   "orderedAbove": null
+  },
+  "DEER:1039": {
+   "tier": 50,
+   "score": 29.6,
+   "rank": 87,
+   "of": 109,
+   "units": [
+    "49"
+   ],
+   "animalSourceHunt": "1039",
+   "animalSharePct": 44.3,
+   "applications": 213,
+   "demandPct": 57,
+   "orderedAbove": null
+  },
+  "DEER:1040": {
+   "tier": 65,
+   "score": 74.8,
+   "rank": 14,
+   "of": 109,
+   "units": [
+    "50"
+   ],
+   "animalSourceHunt": "1040",
+   "animalSharePct": 78.7,
+   "applications": 600,
+   "demandPct": 82,
+   "orderedAbove": null
+  },
+  "DEER:1041": {
+   "tier": 65,
+   "score": 69.4,
+   "rank": 21,
+   "of": 109,
+   "units": [
+    "52"
+   ],
+   "animalSourceHunt": "1041",
+   "animalSharePct": 74,
+   "applications": 1012,
+   "demandPct": 75,
+   "orderedAbove": null
+  },
+  "DEER:1042": {
+   "tier": 50,
+   "score": 48.8,
+   "rank": 52,
+   "of": 109,
+   "units": [
+    "54"
+   ],
+   "animalSourceHunt": "1042",
+   "animalSharePct": 52,
+   "applications": 3794,
+   "demandPct": 81,
+   "orderedAbove": null
+  },
+  "DEER:1043": {
+   "tier": 100,
+   "score": 91.2,
+   "rank": 1,
+   "of": 109,
+   "units": [
+    "54"
+   ],
+   "animalSourceHunt": "1043",
+   "animalSharePct": 81.4,
+   "applications": 1243,
+   "demandPct": 89,
+   "orderedAbove": null
+  },
+  "DEER:1044": {
+   "tier": 80,
+   "score": 86.7,
+   "rank": 3,
+   "of": 109,
+   "units": [
+    "55"
+   ],
+   "animalSourceHunt": "1044",
+   "animalSharePct": 78.7,
+   "applications": 693,
+   "demandPct": 79,
+   "orderedAbove": null
+  },
+  "DEER:1045": {
+   "tier": 50,
+   "score": 52.2,
+   "rank": 45,
+   "of": 109,
+   "units": [
+    "55"
+   ],
+   "animalSourceHunt": "1045",
+   "animalSharePct": 58.7,
+   "applications": 2384,
+   "demandPct": 72,
+   "orderedAbove": null
+  },
+  "DEER:1046": {
+   "tier": 50,
+   "score": 42,
+   "rank": 66,
+   "of": 109,
+   "units": [
+    "57"
+   ],
+   "animalSourceHunt": "1046",
+   "animalSharePct": 53.9,
+   "applications": 457,
+   "demandPct": 63,
+   "orderedAbove": null
+  },
+  "DEER:1047": {
+   "tier": 65,
+   "score": 65.3,
+   "rank": 26,
+   "of": 109,
+   "units": [
+    "57"
+   ],
+   "animalSourceHunt": "1047",
+   "animalSharePct": 71.8,
+   "applications": 267,
+   "demandPct": 65,
+   "orderedAbove": null
+  },
+  "DEER:1048": {
+   "tier": 65,
+   "score": 65.6,
+   "rank": 25,
+   "of": 109,
+   "units": [
+    "58",
+    "59",
+    "59A"
+   ],
+   "animalSourceHunt": "1048",
+   "animalSharePct": 73.1,
+   "applications": 860,
+   "demandPct": 89,
+   "orderedAbove": null
+  },
   "DEER:1049": {
    "tier": 100,
    "score": 87.4,
    "rank": 2,
-   "of": 108,
+   "of": 109,
    "units": [
     "60",
     "60A",
@@ -1150,109 +704,25 @@
    "demandPct": 96,
    "orderedAbove": null
   },
-  "DEER:1069": {
-   "tier": 50,
-   "score": 42.5,
-   "rank": 63,
-   "of": 108,
+  "DEER:1050": {
+   "tier": 65,
+   "score": 75.6,
+   "rank": 13,
+   "of": 109,
    "units": [
-    "11A"
+    "62"
    ],
-   "animalSourceHunt": "1004",
-   "animalSharePct": 80.3,
-   "applications": 2,
-   "demandPct": 1,
-   "orderedAbove": null
-  },
-  "DEER:1115": {
-   "tier": 50,
-   "score": 28,
-   "rank": 93,
-   "of": 108,
-   "units": [
-    "1"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 70,
-   "demandPct": 13,
-   "orderedAbove": null
-  },
-  "DEER:1083": {
-   "tier": 50,
-   "score": 46.9,
-   "rank": 55,
-   "of": 108,
-   "units": [
-    "21A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 91,
-   "demandPct": 43,
-   "orderedAbove": null
-  },
-  "DEER:1086": {
-   "tier": 50,
-   "score": 29.7,
-   "rank": 87,
-   "of": 108,
-   "units": [
-    "30A"
-   ],
-   "animalSourceHunt": "1021",
-   "animalSharePct": 57.2,
-   "applications": 36,
-   "demandPct": 27,
-   "orderedAbove": null
-  },
-  "DEER:1078": {
-   "tier": 50,
-   "score": 50.2,
-   "rank": 47,
-   "of": 108,
-   "units": [
-    "52"
-   ],
-   "animalSourceHunt": "1041",
-   "animalSharePct": 74,
-   "applications": 40,
-   "demandPct": 20,
-   "orderedAbove": null
-  },
-  "DEER:1116": {
-   "tier": 50,
-   "score": 41.9,
-   "rank": 65,
-   "of": 108,
-   "units": [
-    "1"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 225,
-   "demandPct": 38,
-   "orderedAbove": null
-  },
-  "DEER:1011": {
-   "tier": 50,
-   "score": 42.9,
-   "rank": 62,
-   "of": 108,
-   "units": [
-    "19A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 110,
-   "demandPct": 41,
+   "animalSourceHunt": "1050",
+   "animalSharePct": 82.7,
+   "applications": 398,
+   "demandPct": 68,
    "orderedAbove": null
   },
   "DEER:1051": {
    "tier": 65,
-   "score": 68,
-   "rank": 23,
-   "of": 108,
+   "score": 69.2,
+   "rank": 22,
+   "of": 109,
    "units": [
     "66"
    ],
@@ -1262,53 +732,224 @@
    "demandPct": 72,
    "orderedAbove": null
   },
-  "DEER:1039": {
-   "tier": 50,
-   "score": 29.5,
-   "rank": 88,
-   "of": 108,
+  "DEER:1052": {
+   "tier": 65,
+   "score": 55,
+   "rank": 38,
+   "of": 109,
    "units": [
-    "49"
-   ],
-   "animalSourceHunt": "1039",
-   "animalSharePct": 44.4,
-   "applications": 213,
-   "demandPct": 56,
-   "orderedAbove": null
-  },
-  "DEER:1119": {
-   "tier": 50,
-   "score": 48.8,
-   "rank": 50,
-   "of": 108,
-   "units": [
-    "18"
+    "66A"
    ],
    "animalSourceHunt": null,
    "animalSharePct": null,
-   "applications": 392,
+   "applications": 195,
+   "demandPct": 62,
+   "orderedAbove": null
+  },
+  "DEER:1053": {
+   "tier": 80,
+   "score": 85.5,
+   "rank": 5,
+   "of": 109,
+   "units": [
+    "67"
+   ],
+   "animalSourceHunt": "1053",
+   "animalSharePct": 84.4,
+   "applications": 1251,
+   "demandPct": 85,
+   "orderedAbove": null
+  },
+  "DEER:1054": {
+   "tier": 65,
+   "score": 71.1,
+   "rank": 18,
+   "of": 109,
+   "units": [
+    "69"
+   ],
+   "animalSourceHunt": "1054",
+   "animalSharePct": 74.8,
+   "applications": 514,
+   "demandPct": 80,
+   "orderedAbove": null
+  },
+  "DEER:1055": {
+   "tier": 80,
+   "score": 80.7,
+   "rank": 7,
+   "of": 109,
+   "units": [
+    "70"
+   ],
+   "animalSourceHunt": "1055",
+   "animalSharePct": 81.4,
+   "applications": 528,
+   "demandPct": 85,
+   "orderedAbove": null
+  },
+  "DEER:1056": {
+   "tier": 65,
+   "score": 54.6,
+   "rank": 42,
+   "of": 109,
+   "units": [
+    "70"
+   ],
+   "animalSourceHunt": "1056",
+   "animalSharePct": 71.4,
+   "applications": 1471,
+   "demandPct": 76,
+   "orderedAbove": null
+  },
+  "DEER:1057": {
+   "tier": 50,
+   "score": 28.5,
+   "rank": 91,
+   "of": 109,
+   "units": [
+    "73"
+   ],
+   "animalSourceHunt": "1057",
+   "animalSharePct": 49,
+   "applications": 2694,
+   "demandPct": 53,
+   "orderedAbove": null
+  },
+  "DEER:1058": {
+   "tier": 50,
+   "score": 42.6,
+   "rank": 63,
+   "of": 109,
+   "units": [
+    "73"
+   ],
+   "animalSourceHunt": "1058",
+   "animalSharePct": 68.4,
+   "applications": 271,
+   "demandPct": 49,
+   "orderedAbove": null
+  },
+  "DEER:1059": {
+   "tier": 65,
+   "score": 54.9,
+   "rank": 39,
+   "of": 109,
+   "units": [
+    "73"
+   ],
+   "animalSourceHunt": "1059",
+   "animalSharePct": 63.5,
+   "applications": 449,
+   "demandPct": 83,
+   "orderedAbove": null
+  },
+  "DEER:1060": {
+   "tier": 50,
+   "score": 52,
+   "rank": 46,
+   "of": 109,
+   "units": [
+    "78"
+   ],
+   "animalSourceHunt": "1060",
+   "animalSharePct": 71.8,
+   "applications": 1150,
+   "demandPct": 65,
+   "orderedAbove": null
+  },
+  "DEER:1064": {
+   "tier": 50,
+   "score": 30.6,
+   "rank": 85,
+   "of": 109,
+   "units": [
+    "10A"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 92,
+   "demandPct": 20,
+   "orderedAbove": null
+  },
+  "DEER:1065": {
+   "tier": 50,
+   "score": 21.7,
+   "rank": 103,
+   "of": 109,
+   "units": [
+    "39",
+    "43"
+   ],
+   "animalSourceHunt": "1065",
+   "animalSharePct": 17.8,
+   "applications": 3204,
    "demandPct": 58,
    "orderedAbove": null
   },
-  "DEER:1040": {
-   "tier": 65,
-   "score": 74.7,
-   "rank": 14,
-   "of": 108,
+  "DEER:1066": {
+   "tier": 50,
+   "score": 34,
+   "rank": 79,
+   "of": 109,
    "units": [
-    "50"
+    "60",
+    "61",
+    "62A"
    ],
-   "animalSourceHunt": "1040",
-   "animalSharePct": 78.7,
-   "applications": 600,
-   "demandPct": 82,
+   "animalSourceHunt": "1066",
+   "animalSharePct": 42.6,
+   "applications": 2080,
+   "demandPct": 69,
+   "orderedAbove": null
+  },
+  "DEER:1067": {
+   "tier": 50,
+   "score": 51.5,
+   "rank": 47,
+   "of": 109,
+   "units": [
+    "62"
+   ],
+   "animalSourceHunt": "1067",
+   "animalSharePct": 73.9,
+   "applications": 278,
+   "demandPct": 40,
+   "orderedAbove": null
+  },
+  "DEER:1068": {
+   "tier": 50,
+   "score": 35.6,
+   "rank": 75,
+   "of": 109,
+   "units": [
+    "63A"
+   ],
+   "animalSourceHunt": "1068",
+   "animalSharePct": 64.2,
+   "applications": 171,
+   "demandPct": 30,
+   "orderedAbove": null
+  },
+  "DEER:1069": {
+   "tier": 50,
+   "score": 42.5,
+   "rank": 64,
+   "of": 109,
+   "units": [
+    "11A"
+   ],
+   "animalSourceHunt": "1004",
+   "animalSharePct": 80.3,
+   "applications": 2,
+   "demandPct": 1,
    "orderedAbove": null
   },
   "DEER:1070": {
    "tier": 50,
-   "score": 31.9,
-   "rank": 83,
-   "of": 108,
+   "score": 32.2,
+   "rank": 82,
+   "of": 109,
    "units": [
     "21",
     "21A",
@@ -1325,185 +966,100 @@
    "animalSourceHunt": null,
    "animalSharePct": null,
    "applications": 53,
-   "demandPct": 24,
+   "demandPct": 25,
    "orderedAbove": null
   },
-  "DEER:1025": {
+  "DEER:1071": {
    "tier": 50,
-   "score": 49.4,
-   "rank": 49,
-   "of": 108,
+   "score": 39.5,
+   "rank": 69,
+   "of": 109,
    "units": [
-    "36"
+    "22"
    ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 188,
-   "demandPct": 60,
+   "animalSourceHunt": "1071",
+   "animalSharePct": 64.2,
+   "applications": 226,
+   "demandPct": 51,
    "orderedAbove": null
   },
-  "DEER:1047": {
-   "tier": 65,
-   "score": 65.2,
-   "rank": 26,
-   "of": 108,
+  "DEER:1072": {
+   "tier": 50,
+   "score": 26.5,
+   "rank": 96,
+   "of": 109,
    "units": [
-    "57"
+    "39"
    ],
-   "animalSourceHunt": "1047",
-   "animalSharePct": 71.9,
-   "applications": 267,
-   "demandPct": 65,
+   "animalSourceHunt": "1030",
+   "animalSharePct": 40,
+   "applications": 128,
+   "demandPct": 25,
    "orderedAbove": null
   },
-  "DEER:1059": {
+  "DEER:1073": {
    "tier": 65,
-   "score": 54.8,
-   "rank": 38,
-   "of": 108,
+   "score": 52.8,
+   "rank": 44,
+   "of": 109,
    "units": [
-    "73"
+    "40"
    ],
-   "animalSourceHunt": "1059",
-   "animalSharePct": 63.6,
-   "applications": 449,
-   "demandPct": 82,
+   "animalSourceHunt": "1073",
+   "animalSharePct": 72.4,
+   "applications": 239,
+   "demandPct": 41,
    "orderedAbove": null
   },
-  "DEER:1038": {
-   "tier": 65,
-   "score": 53.6,
-   "rank": 43,
-   "of": 108,
+  "DEER:1074": {
+   "tier": 50,
+   "score": 20.3,
+   "rank": 104,
+   "of": 109,
    "units": [
+    "41",
+    "42"
+   ],
+   "animalSourceHunt": "1032",
+   "animalSharePct": 60.8,
+   "applications": 32,
+   "demandPct": 9,
+   "orderedAbove": null
+  },
+  "DEER:1075": {
+   "tier": 50,
+   "score": 8.2,
+   "rank": 109,
+   "of": 109,
+   "units": [
+    "43",
     "48"
    ],
-   "animalSourceHunt": "1038",
-   "animalSharePct": 67.6,
-   "applications": 261,
-   "demandPct": 64,
+   "animalSourceHunt": "1075",
+   "animalSharePct": 32,
+   "applications": 78,
+   "demandPct": 16,
    "orderedAbove": null
   },
-  "DEER:1055": {
-   "tier": 80,
-   "score": 80.7,
-   "rank": 7,
-   "of": 108,
-   "units": [
-    "70"
-   ],
-   "animalSourceHunt": "1055",
-   "animalSharePct": 81.5,
-   "applications": 528,
-   "demandPct": 85,
-   "orderedAbove": null
-  },
-  "DEER:1048": {
+  "DEER:1076": {
    "tier": 65,
-   "score": 66.1,
-   "rank": 24,
-   "of": 108,
+   "score": 70.1,
+   "rank": 19,
+   "of": 109,
    "units": [
-    "58",
-    "59",
-    "59A"
+    "44"
    ],
-   "animalSourceHunt": "1048",
-   "animalSharePct": 73.1,
-   "applications": 860,
-   "demandPct": 88,
-   "orderedAbove": null
-  },
-  "DEER:1013": {
-   "tier": 65,
-   "score": 73,
-   "rank": 16,
-   "of": 108,
-   "units": [
-    "21"
-   ],
-   "animalSourceHunt": "1013",
+   "animalSourceHunt": "1076",
    "animalSharePct": 76.7,
-   "applications": 412,
-   "demandPct": 79,
-   "orderedAbove": null
-  },
-  "DEER:1037": {
-   "tier": 65,
-   "score": 60.5,
-   "rank": 32,
-   "of": 108,
-   "units": [
-    "46",
-    "47"
-   ],
-   "animalSourceHunt": "1037",
-   "animalSharePct": 72.2,
-   "applications": 198,
+   "applications": 360,
    "demandPct": 55,
-   "orderedAbove": null
-  },
-  "DEER:1026": {
-   "tier": 65,
-   "score": 72.7,
-   "rank": 17,
-   "of": 108,
-   "units": [
-    "36A"
-   ],
-   "animalSourceHunt": "1026",
-   "animalSharePct": 76.1,
-   "applications": 364,
-   "demandPct": 77,
-   "orderedAbove": null
-  },
-  "DEER:1052": {
-   "tier": 65,
-   "score": 54.9,
-   "rank": 37,
-   "of": 108,
-   "units": [
-    "66A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 195,
-   "demandPct": 61,
-   "orderedAbove": null
-  },
-  "DEER:1054": {
-   "tier": 65,
-   "score": 71.6,
-   "rank": 18,
-   "of": 108,
-   "units": [
-    "69"
-   ],
-   "animalSourceHunt": "1054",
-   "animalSharePct": 74.8,
-   "applications": 514,
-   "demandPct": 80,
-   "orderedAbove": null
-  },
-  "DEER:1020": {
-   "tier": 65,
-   "score": 68.1,
-   "rank": 22,
-   "of": 108,
-   "units": [
-    "30"
-   ],
-   "animalSourceHunt": "1020",
-   "animalSharePct": 74.8,
-   "applications": 343,
-   "demandPct": 75,
    "orderedAbove": null
   },
   "DEER:1077": {
    "tier": 65,
-   "score": 64.4,
+   "score": 64.6,
    "rank": 28,
-   "of": 108,
+   "of": 109,
    "units": [
     "45"
    ],
@@ -1513,165 +1069,1134 @@
    "demandPct": 45,
    "orderedAbove": null
   },
-  "DEER:1019": {
-   "tier": 65,
-   "score": 73.5,
-   "rank": 15,
-   "of": 108,
-   "units": [
-    "28"
-   ],
-   "animalSourceHunt": "1019",
-   "animalSharePct": 76.7,
-   "applications": 428,
-   "demandPct": 81,
-   "orderedAbove": null
-  },
-  "DEER:1027": {
-   "tier": 65,
-   "score": 62.4,
-   "rank": 31,
-   "of": 108,
-   "units": [
-    "36B"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 632,
-   "demandPct": 88,
-   "orderedAbove": null
-  },
-  "DEER:1028": {
+  "DEER:1078": {
    "tier": 50,
-   "score": 35,
-   "rank": 76,
-   "of": 108,
+   "score": 50.4,
+   "rank": 48,
+   "of": 109,
    "units": [
-    "38"
+    "52"
    ],
-   "animalSourceHunt": "1029",
-   "animalSharePct": 66.1,
-   "applications": 31,
+   "animalSourceHunt": "1041",
+   "animalSharePct": 74,
+   "applications": 40,
+   "demandPct": 21,
+   "orderedAbove": null
+  },
+  "DEER:1079": {
+   "tier": 50,
+   "score": 29,
+   "rank": 90,
+   "of": 109,
+   "units": [
+    "53"
+   ],
+   "animalSourceHunt": "1079",
+   "animalSharePct": 61.5,
+   "applications": 216,
    "demandPct": 22,
    "orderedAbove": null
   },
-  "ELK:2119": {
+  "DEER:1080": {
    "tier": 50,
-   "score": 6.9,
-   "rank": 76,
-   "of": 78,
+   "score": 25.1,
+   "rank": 98,
+   "of": 109,
    "units": [
-    "63"
+    "54"
    ],
-   "animalSourceHunt": "2119",
-   "animalSharePct": 41,
-   "applications": 246,
-   "demandPct": 11,
-   "orderedAbove": null
-  },
-  "ELK:2111": {
-   "tier": 50,
-   "score": 12.1,
-   "rank": 72,
-   "of": 78,
-   "units": [
-    "30A"
-   ],
-   "animalSourceHunt": "2130",
-   "animalSharePct": 49.7,
-   "applications": 30,
-   "demandPct": 6,
-   "orderedAbove": null
-  },
-  "ELK:2120": {
-   "tier": 50,
-   "score": 50.8,
-   "rank": 32,
-   "of": 78,
-   "units": [
-    "63"
-   ],
-   "animalSourceHunt": "2120",
-   "animalSharePct": 59.6,
-   "applications": 837,
-   "demandPct": 52,
-   "orderedAbove": null
-  },
-  "ELK:2110": {
-   "tier": 50,
-   "score": 32.9,
-   "rank": 60,
-   "of": 78,
-   "units": [
-    "13"
-   ],
-   "animalSourceHunt": "2110",
-   "animalSharePct": 56.9,
-   "applications": 558,
+   "animalSourceHunt": "1080",
+   "animalSharePct": 34.6,
+   "applications": 289,
    "demandPct": 29,
    "orderedAbove": null
   },
-  "ELK:2142": {
+  "DEER:1081": {
    "tier": 50,
-   "score": 4,
-   "rank": 77,
-   "of": 78,
+   "score": 38.3,
+   "rank": 71,
+   "of": 109,
    "units": [
-    "61"
+    "68A"
    ],
-   "animalSourceHunt": "2039",
-   "animalSharePct": 37,
-   "applications": 63,
-   "demandPct": 5,
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 260,
+   "demandPct": 28,
    "orderedAbove": null
   },
-  "ELK:2137": {
+  "DEER:1082": {
    "tier": 50,
-   "score": 33.2,
-   "rank": 59,
-   "of": 78,
+   "score": 29.5,
+   "rank": 88,
+   "of": 109,
    "units": [
-    "48"
+    "72",
+    "76"
    ],
-   "animalSourceHunt": "2137",
-   "animalSharePct": 63.5,
-   "applications": 51,
-   "demandPct": 5,
+   "animalSourceHunt": "1082",
+   "animalSharePct": 57.6,
+   "applications": 259,
+   "demandPct": 30,
    "orderedAbove": null
   },
-  "ELK:2138": {
+  "DEER:1083": {
    "tier": 50,
-   "score": 11.4,
-   "rank": 73,
-   "of": 78,
+   "score": 47,
+   "rank": 54,
+   "of": 109,
    "units": [
-    "49"
+    "21A"
    ],
-   "animalSourceHunt": "2138",
-   "animalSharePct": 49,
-   "applications": 60,
-   "demandPct": 6,
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 91,
+   "demandPct": 44,
    "orderedAbove": null
   },
-  "ELK:2132": {
+  "DEER:1084": {
    "tier": 50,
-   "score": 3.5,
-   "rank": 78,
-   "of": 78,
+   "score": 23.3,
+   "rank": 101,
+   "of": 109,
+   "units": [
+    "22"
+   ],
+   "animalSourceHunt": "1084",
+   "animalSharePct": 56.2,
+   "applications": 90,
+   "demandPct": 28,
+   "orderedAbove": null
+  },
+  "DEER:1085": {
+   "tier": 50,
+   "score": 28,
+   "rank": 93,
+   "of": 109,
+   "units": [
+    "29",
+    "37A"
+   ],
+   "animalSourceHunt": "1085",
+   "animalSharePct": 57.6,
+   "applications": 147,
+   "demandPct": 27,
+   "orderedAbove": null
+  },
+  "DEER:1086": {
+   "tier": 50,
+   "score": 29.9,
+   "rank": 86,
+   "of": 109,
+   "units": [
+    "30A"
+   ],
+   "animalSourceHunt": "1021",
+   "animalSharePct": 57.1,
+   "applications": 36,
+   "demandPct": 28,
+   "orderedAbove": null
+  },
+  "DEER:1087": {
+   "tier": 50,
+   "score": 33,
+   "rank": 81,
+   "of": 109,
    "units": [
     "33",
     "34",
     "35"
    ],
-   "animalSourceHunt": "2132",
-   "animalSharePct": 22.6,
-   "applications": 76,
+   "animalSourceHunt": "1087",
+   "animalSharePct": 55.7,
+   "applications": 420,
+   "demandPct": 47,
+   "orderedAbove": null
+  },
+  "DEER:1088": {
+   "tier": 50,
+   "score": 10.7,
+   "rank": 107,
+   "of": 109,
+   "units": [
+    "43"
+   ],
+   "animalSourceHunt": "1088",
+   "animalSharePct": 24.2,
+   "applications": 183,
+   "demandPct": 25,
+   "orderedAbove": null
+  },
+  "DEER:1089": {
+   "tier": 50,
+   "score": 46.4,
+   "rank": 56,
+   "of": 109,
+   "units": [
+    "45"
+   ],
+   "animalSourceHunt": "1089",
+   "animalSharePct": 69.4,
+   "applications": 211,
+   "demandPct": 39,
+   "orderedAbove": null
+  },
+  "DEER:1090": {
+   "tier": 50,
+   "score": 45.9,
+   "rank": 58,
+   "of": 109,
+   "units": [
+    "50",
+    "51"
+   ],
+   "animalSourceHunt": "1090",
+   "animalSharePct": 67.5,
+   "applications": 363,
+   "demandPct": 56,
+   "orderedAbove": null
+  },
+  "DEER:1091": {
+   "tier": 65,
+   "score": 60.3,
+   "rank": 33,
+   "of": 109,
+   "units": [
+    "52"
+   ],
+   "animalSourceHunt": "1091",
+   "animalSharePct": 70.7,
+   "applications": 246,
+   "demandPct": 54,
+   "orderedAbove": null
+  },
+  "DEER:1092": {
+   "tier": 50,
+   "score": 22.1,
+   "rank": 102,
+   "of": 109,
+   "units": [
+    "52A"
+   ],
+   "animalSourceHunt": "1092",
+   "animalSharePct": 52.9,
+   "applications": 137,
+   "demandPct": 24,
+   "orderedAbove": null
+  },
+  "DEER:1093": {
+   "tier": 50,
+   "score": 45.4,
+   "rank": 59,
+   "of": 109,
+   "units": [
+    "57"
+   ],
+   "animalSourceHunt": "1093",
+   "animalSharePct": 62,
+   "applications": 114,
+   "demandPct": 37,
+   "orderedAbove": null
+  },
+  "DEER:1094": {
+   "tier": 50,
+   "score": 13.5,
+   "rank": 105,
+   "of": 109,
+   "units": [
+    "61"
+   ],
+   "animalSourceHunt": "1094",
+   "animalSharePct": 44.7,
+   "applications": 34,
+   "demandPct": 3,
+   "orderedAbove": null
+  },
+  "DEER:1095": {
+   "tier": 50,
+   "score": 34.1,
+   "rank": 78,
+   "of": 109,
+   "units": [
+    "68"
+   ],
+   "animalSourceHunt": "1095",
+   "animalSharePct": 67.1,
+   "applications": 79,
+   "demandPct": 24,
+   "orderedAbove": null
+  },
+  "DEER:1096": {
+   "tier": 50,
+   "score": 9.7,
+   "rank": 108,
+   "of": 109,
+   "units": [
+    "70"
+   ],
+   "animalSourceHunt": "1096",
+   "animalSharePct": 43.4,
+   "applications": 47,
    "demandPct": 9,
+   "orderedAbove": null
+  },
+  "DEER:1097": {
+   "tier": 50,
+   "score": 44.9,
+   "rank": 60,
+   "of": 109,
+   "units": [
+    "73A"
+   ],
+   "animalSourceHunt": "1097",
+   "animalSharePct": 68.2,
+   "applications": 176,
+   "demandPct": 43,
+   "orderedAbove": null
+  },
+  "DEER:1098": {
+   "tier": 65,
+   "score": 59,
+   "rank": 34,
+   "of": 109,
+   "units": [
+    "74"
+   ],
+   "animalSourceHunt": "1098",
+   "animalSharePct": 75.8,
+   "applications": 192,
+   "demandPct": 47,
+   "orderedAbove": null
+  },
+  "DEER:1099": {
+   "tier": 50,
+   "score": 34.2,
+   "rank": 77,
+   "of": 109,
+   "units": [
+    "78"
+   ],
+   "animalSourceHunt": "1060",
+   "animalSharePct": 71.8,
+   "applications": 70,
+   "demandPct": 14,
+   "orderedAbove": null
+  },
+  "DEER:1100": {
+   "tier": 50,
+   "score": 44.7,
+   "rank": 61,
+   "of": 109,
+   "units": [
+    "11A"
+   ],
+   "animalSourceHunt": "1100",
+   "animalSharePct": 73,
+   "applications": 125,
+   "demandPct": 31,
+   "orderedAbove": null
+  },
+  "DEER:1101": {
+   "tier": 50,
+   "score": 47.9,
+   "rank": 53,
+   "of": 109,
+   "units": [
+    "28"
+   ],
+   "animalSourceHunt": "1019",
+   "animalSharePct": 76.6,
+   "applications": 55,
+   "demandPct": 22,
+   "orderedAbove": null
+  },
+  "DEER:1102": {
+   "tier": 50,
+   "score": 31,
+   "rank": 84,
+   "of": 109,
+   "units": [
+    "36B",
+    "37"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 26,
+   "demandPct": 12,
+   "orderedAbove": null
+  },
+  "DEER:1104": {
+   "tier": 50,
+   "score": 24.5,
+   "rank": 100,
+   "of": 109,
+   "units": [
+    "47"
+   ],
+   "animalSourceHunt": "1104",
+   "animalSharePct": 46.7,
+   "applications": 125,
+   "demandPct": 26,
+   "orderedAbove": null
+  },
+  "DEER:1106": {
+   "tier": 50,
+   "score": 39.6,
+   "rank": 68,
+   "of": 109,
+   "units": [
+    "54"
+   ],
+   "animalSourceHunt": "1106",
+   "animalSharePct": 45.1,
+   "applications": 626,
+   "demandPct": 62,
+   "orderedAbove": null
+  },
+  "DEER:1107": {
+   "tier": 50,
+   "score": 40.9,
+   "rank": 67,
+   "of": 109,
+   "units": [
+    "55",
+    "57"
+   ],
+   "animalSourceHunt": "1107",
+   "animalSharePct": 55.9,
+   "applications": 334,
+   "demandPct": 56,
+   "orderedAbove": null
+  },
+  "DEER:1109": {
+   "tier": 50,
+   "score": 12.2,
+   "rank": 106,
+   "of": 109,
+   "units": [
+    "60",
+    "60A",
+    "61",
+    "62A"
+   ],
+   "animalSourceHunt": "1109",
+   "animalSharePct": 11.9,
+   "applications": 242,
+   "demandPct": 28,
+   "orderedAbove": null
+  },
+  "DEER:1110": {
+   "tier": 50,
+   "score": 46.8,
+   "rank": 55,
+   "of": 109,
+   "units": [
+    "62"
+   ],
+   "animalSourceHunt": "1110",
+   "animalSharePct": 82.7,
+   "applications": 20,
+   "demandPct": 2,
+   "orderedAbove": null
+  },
+  "DEER:1115": {
+   "tier": 50,
+   "score": 28.3,
+   "rank": 92,
+   "of": 109,
+   "units": [
+    "1"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 70,
+   "demandPct": 14,
+   "orderedAbove": null
+  },
+  "DEER:1116": {
+   "tier": 50,
+   "score": 42.1,
+   "rank": 65,
+   "of": 109,
+   "units": [
+    "1"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 225,
+   "demandPct": 39,
+   "orderedAbove": null
+  },
+  "DEER:1117": {
+   "tier": 50,
+   "score": 27.3,
+   "rank": 94,
+   "of": 109,
+   "units": [
+    "14"
+   ],
+   "animalSourceHunt": "1008",
+   "animalSharePct": 61.2,
+   "applications": 115,
+   "demandPct": 15,
+   "orderedAbove": null
+  },
+  "DEER:1118": {
+   "tier": 50,
+   "score": 46.3,
+   "rank": 57,
+   "of": 109,
+   "units": [
+    "14"
+   ],
+   "animalSourceHunt": "1008",
+   "animalSharePct": 61.2,
+   "applications": 591,
+   "demandPct": 55,
+   "orderedAbove": null
+  },
+  "DEER:1119": {
+   "tier": 50,
+   "score": 48.9,
+   "rank": 50,
+   "of": 109,
+   "units": [
+    "18"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 392,
+   "demandPct": 58,
+   "orderedAbove": null
+  },
+  "ELK:2001": {
+   "tier": 65,
+   "score": 59,
+   "rank": 20,
+   "of": 78,
+   "units": [
+    "11"
+   ],
+   "animalSourceHunt": "2001",
+   "animalSharePct": 59.4,
+   "applications": 833,
+   "demandPct": 70,
+   "orderedAbove": null
+  },
+  "ELK:2002": {
+   "tier": 50,
+   "score": 34.9,
+   "rank": 56,
+   "of": 78,
+   "units": [
+    "18"
+   ],
+   "animalSourceHunt": "2002",
+   "animalSharePct": 47.4,
+   "applications": 809,
+   "demandPct": 55,
+   "orderedAbove": null
+  },
+  "ELK:2003": {
+   "tier": 50,
+   "score": 39.5,
+   "rank": 49,
+   "of": 78,
+   "units": [
+    "19A"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 120,
+   "demandPct": 36,
+   "orderedAbove": null
+  },
+  "ELK:2004": {
+   "tier": 50,
+   "score": 44.7,
+   "rank": 44,
+   "of": 78,
+   "units": [
+    "23"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 248,
+   "demandPct": 51,
+   "orderedAbove": null
+  },
+  "ELK:2005": {
+   "tier": 50,
+   "score": 42.1,
+   "rank": 46,
+   "of": 78,
+   "units": [
+    "29"
+   ],
+   "animalSourceHunt": "2005",
+   "animalSharePct": 53.1,
+   "applications": 1077,
+   "demandPct": 51,
+   "orderedAbove": null
+  },
+  "ELK:2006": {
+   "tier": 50,
+   "score": 38.1,
+   "rank": 51,
+   "of": 78,
+   "units": [
+    "30"
+   ],
+   "animalSourceHunt": "2006",
+   "animalSharePct": 51.5,
+   "applications": 1062,
+   "demandPct": 55,
+   "orderedAbove": null
+  },
+  "ELK:2007": {
+   "tier": 65,
+   "score": 67.5,
+   "rank": 15,
+   "of": 78,
+   "units": [
+    "30",
+    "30A",
+    "58",
+    "59",
+    "59A"
+   ],
+   "animalSourceHunt": "2007",
+   "animalSharePct": 71.7,
+   "applications": 839,
+   "demandPct": 74,
+   "orderedAbove": null
+  },
+  "ELK:2008": {
+   "tier": 50,
+   "score": 20.3,
+   "rank": 66,
+   "of": 78,
+   "units": [
+    "31"
+   ],
+   "animalSourceHunt": "2008",
+   "animalSharePct": 46,
+   "applications": 559,
+   "demandPct": 44,
+   "orderedAbove": null
+  },
+  "ELK:2009": {
+   "tier": 50,
+   "score": 19.6,
+   "rank": 67,
+   "of": 78,
+   "units": [
+    "31"
+   ],
+   "animalSourceHunt": "2009",
+   "animalSharePct": 47.5,
+   "applications": 506,
+   "demandPct": 38,
+   "orderedAbove": null
+  },
+  "ELK:2010": {
+   "tier": 50,
+   "score": 48.4,
+   "rank": 40,
+   "of": 78,
+   "units": [
+    "36A"
+   ],
+   "animalSourceHunt": "2010",
+   "animalSharePct": 56.8,
+   "applications": 464,
+   "demandPct": 41,
+   "orderedAbove": null
+  },
+  "ELK:2011": {
+   "tier": 65,
+   "score": 56.6,
+   "rank": 23,
+   "of": 78,
+   "units": [
+    "36A",
+    "50"
+   ],
+   "animalSourceHunt": "2011",
+   "animalSharePct": 57.9,
+   "applications": 1081,
+   "demandPct": 61,
+   "orderedAbove": null
+  },
+  "ELK:2012": {
+   "tier": 50,
+   "score": 43.6,
+   "rank": 45,
+   "of": 78,
+   "units": [
+    "37"
+   ],
+   "animalSourceHunt": "2012",
+   "animalSharePct": 54.2,
+   "applications": 744,
+   "demandPct": 47,
+   "orderedAbove": null
+  },
+  "ELK:2013": {
+   "tier": 50,
+   "score": 37.4,
+   "rank": 53,
+   "of": 78,
+   "units": [
+    "37A"
+   ],
+   "animalSourceHunt": "2013",
+   "animalSharePct": 55.2,
+   "applications": 564,
+   "demandPct": 37,
+   "orderedAbove": null
+  },
+  "ELK:2014": {
+   "tier": 80,
+   "score": 87.4,
+   "rank": 4,
+   "of": 78,
+   "units": [
+    "40"
+   ],
+   "animalSourceHunt": "2014",
+   "animalSharePct": 74.5,
+   "applications": 2620,
+   "demandPct": 95,
+   "orderedAbove": null
+  },
+  "ELK:2015": {
+   "tier": 80,
+   "score": 84.2,
+   "rank": 5,
+   "of": 78,
+   "units": [
+    "40",
+    "41",
+    "42"
+   ],
+   "animalSourceHunt": "2015",
+   "animalSharePct": 77.4,
+   "applications": 1251,
+   "demandPct": 90,
+   "orderedAbove": null
+  },
+  "ELK:2016": {
+   "tier": 65,
+   "score": 57.6,
+   "rank": 21,
+   "of": 78,
+   "units": [
+    "41"
+   ],
+   "animalSourceHunt": "2016",
+   "animalSharePct": 68.8,
+   "applications": 274,
+   "demandPct": 37,
+   "orderedAbove": "2017"
+  },
+  "ELK:2017": {
+   "tier": 65,
+   "score": 57.5,
+   "rank": 22,
+   "of": 78,
+   "units": [
+    "41"
+   ],
+   "animalSourceHunt": "2017",
+   "animalSharePct": 67.5,
+   "applications": 456,
+   "demandPct": 53,
+   "orderedAbove": null
+  },
+  "ELK:2018": {
+   "tier": 65,
+   "score": 77,
+   "rank": 9,
+   "of": 78,
+   "units": [
+    "42"
+   ],
+   "animalSourceHunt": "2018",
+   "animalSharePct": 82.5,
+   "applications": 893,
+   "demandPct": 80,
+   "orderedAbove": null
+  },
+  "ELK:2019": {
+   "tier": 50,
+   "score": 49.5,
+   "rank": 34,
+   "of": 78,
+   "units": [
+    "43"
+   ],
+   "animalSourceHunt": "2019",
+   "animalSharePct": 53.8,
+   "applications": 403,
+   "demandPct": 58,
+   "orderedAbove": "2020"
+  },
+  "ELK:2020": {
+   "tier": 50,
+   "score": 49.4,
+   "rank": 35,
+   "of": 78,
+   "units": [
+    "43"
+   ],
+   "animalSourceHunt": "2020",
+   "animalSharePct": 58,
+   "applications": 1382,
+   "demandPct": 71,
+   "orderedAbove": null
+  },
+  "ELK:2021": {
+   "tier": 80,
+   "score": 79.3,
+   "rank": 7,
+   "of": 78,
+   "units": [
+    "44"
+   ],
+   "animalSourceHunt": "2021",
+   "animalSharePct": 73.8,
+   "applications": 872,
+   "demandPct": 78,
+   "orderedAbove": null
+  },
+  "ELK:2022": {
+   "tier": 65,
+   "score": 52.3,
+   "rank": 28,
+   "of": 78,
+   "units": [
+    "44"
+   ],
+   "animalSourceHunt": "2022",
+   "animalSharePct": 54.2,
+   "applications": 2361,
+   "demandPct": 76,
+   "orderedAbove": null
+  },
+  "ELK:2023": {
+   "tier": 65,
+   "score": 66.7,
+   "rank": 16,
+   "of": 78,
+   "units": [
+    "45"
+   ],
+   "animalSourceHunt": "2023",
+   "animalSharePct": 64.1,
+   "applications": 1224,
+   "demandPct": 65,
+   "orderedAbove": null
+  },
+  "ELK:2024": {
+   "tier": 65,
+   "score": 53.5,
+   "rank": 27,
+   "of": 78,
+   "units": [
+    "46",
+    "47"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 258,
+   "demandPct": 53,
+   "orderedAbove": null
+  },
+  "ELK:2025": {
+   "tier": 50,
+   "score": 41.8,
+   "rank": 47,
+   "of": 78,
+   "units": [
+    "46"
+   ],
+   "animalSourceHunt": "2025",
+   "animalSharePct": 49.2,
+   "applications": 607,
+   "demandPct": 59,
+   "orderedAbove": null
+  },
+  "ELK:2026": {
+   "tier": 65,
+   "score": 52.2,
+   "rank": 29,
+   "of": 78,
+   "units": [
+    "48"
+   ],
+   "animalSourceHunt": "2026",
+   "animalSharePct": 65.7,
+   "applications": 263,
+   "demandPct": 44,
+   "orderedAbove": null
+  },
+  "ELK:2027": {
+   "tier": 50,
+   "score": 32.8,
+   "rank": 60,
+   "of": 78,
+   "units": [
+    "48"
+   ],
+   "animalSourceHunt": "2027",
+   "animalSharePct": 54,
+   "applications": 918,
+   "demandPct": 47,
+   "orderedAbove": null
+  },
+  "ELK:2028": {
+   "tier": 65,
+   "score": 59.8,
+   "rank": 19,
+   "of": 78,
+   "units": [
+    "49"
+   ],
+   "animalSourceHunt": "2028",
+   "animalSharePct": 71.9,
+   "applications": 305,
+   "demandPct": 51,
+   "orderedAbove": null
+  },
+  "ELK:2029": {
+   "tier": 50,
+   "score": 48.7,
+   "rank": 38,
+   "of": 78,
+   "units": [
+    "49"
+   ],
+   "animalSourceHunt": "2029",
+   "animalSharePct": 63.5,
+   "applications": 1054,
+   "demandPct": 50,
+   "orderedAbove": null
+  },
+  "ELK:2030": {
+   "tier": 65,
+   "score": 60.8,
+   "rank": 18,
+   "of": 78,
+   "units": [
+    "50"
+   ],
+   "animalSourceHunt": "2030",
+   "animalSharePct": 59.5,
+   "applications": 999,
+   "demandPct": 73,
+   "orderedAbove": null
+  },
+  "ELK:2031": {
+   "tier": 65,
+   "score": 65.4,
+   "rank": 17,
+   "of": 78,
+   "units": [
+    "51"
+   ],
+   "animalSourceHunt": "2031",
+   "animalSharePct": 73.8,
+   "applications": 292,
+   "demandPct": 59,
+   "orderedAbove": null
+  },
+  "ELK:2032": {
+   "tier": 50,
+   "score": 23.4,
+   "rank": 65,
+   "of": 78,
+   "units": [
+    "51"
+   ],
+   "animalSourceHunt": "2032",
+   "animalSharePct": 41.6,
+   "applications": 940,
+   "demandPct": 55,
+   "orderedAbove": null
+  },
+  "ELK:2033": {
+   "tier": 50,
+   "score": 49.2,
+   "rank": 36,
+   "of": 78,
+   "units": [
+    "52"
+   ],
+   "animalSourceHunt": "2033",
+   "animalSharePct": 53.4,
+   "applications": 316,
+   "demandPct": 32,
+   "orderedAbove": "2115"
+  },
+  "ELK:2034": {
+   "tier": 65,
+   "score": 69.7,
+   "rank": 12,
+   "of": 78,
+   "units": [
+    "52A",
+    "68"
+   ],
+   "animalSourceHunt": "2034",
+   "animalSharePct": 69.1,
+   "applications": 1610,
+   "demandPct": 83,
+   "orderedAbove": null
+  },
+  "ELK:2035": {
+   "tier": 100,
+   "score": 94.2,
+   "rank": 1,
+   "of": 78,
+   "units": [
+    "54"
+   ],
+   "animalSourceHunt": "2035",
+   "animalSharePct": 87.2,
+   "applications": 3342,
+   "demandPct": 99,
+   "orderedAbove": null
+  },
+  "ELK:2036": {
+   "tier": 80,
+   "score": 77.2,
+   "rank": 8,
+   "of": 78,
+   "units": [
+    "55",
+    "56",
+    "57"
+   ],
+   "animalSourceHunt": "2036",
+   "animalSharePct": 72.6,
+   "applications": 1340,
+   "demandPct": 84,
+   "orderedAbove": null
+  },
+  "ELK:2037": {
+   "tier": 50,
+   "score": 40.9,
+   "rank": 48,
+   "of": 78,
+   "units": [
+    "58",
+    "59",
+    "59A"
+   ],
+   "animalSourceHunt": "2037",
+   "animalSharePct": 51.3,
+   "applications": 1372,
+   "demandPct": 81,
+   "orderedAbove": null
+  },
+  "ELK:2038": {
+   "tier": 65,
+   "score": 67.9,
+   "rank": 14,
+   "of": 78,
+   "units": [
+    "60",
+    "61",
+    "62A"
+   ],
+   "animalSourceHunt": "2038",
+   "animalSharePct": 68.3,
+   "applications": 1601,
+   "demandPct": 81,
+   "orderedAbove": null
+  },
+  "ELK:2039": {
+   "tier": 50,
+   "score": 9.3,
+   "rank": 75,
+   "of": 78,
+   "units": [
+    "61"
+   ],
+   "animalSourceHunt": "2039",
+   "animalSharePct": 37.1,
+   "applications": 243,
+   "demandPct": 18,
+   "orderedAbove": null
+  },
+  "ELK:2040": {
+   "tier": 50,
+   "score": 31,
+   "rank": 61,
+   "of": 78,
+   "units": [
+    "66",
+    "69"
+   ],
+   "animalSourceHunt": "2040",
+   "animalSharePct": 53.1,
+   "applications": 508,
+   "demandPct": 49,
+   "orderedAbove": null
+  },
+  "ELK:2041": {
+   "tier": 65,
+   "score": 72.6,
+   "rank": 11,
+   "of": 78,
+   "units": [
+    "66A",
+    "76"
+   ],
+   "animalSourceHunt": "2041",
+   "animalSharePct": 72.3,
+   "applications": 1368,
+   "demandPct": 85,
+   "orderedAbove": null
+  },
+  "ELK:2042": {
+   "tier": 50,
+   "score": 34.4,
+   "rank": 57,
+   "of": 78,
+   "units": [
+    "66A",
+    "76"
+   ],
+   "animalSourceHunt": "2042",
+   "animalSharePct": 51.3,
+   "applications": 2431,
+   "demandPct": 65,
+   "orderedAbove": null
+  },
+  "ELK:2043": {
+   "tier": 65,
+   "score": 73.5,
+   "rank": 10,
+   "of": 78,
+   "units": [
+    "70",
+    "71",
+    "72",
+    "73",
+    "73A",
+    "74"
+   ],
+   "animalSourceHunt": "2043",
+   "animalSharePct": 77.4,
+   "applications": 919,
+   "demandPct": 78,
    "orderedAbove": null
   },
   "ELK:2044": {
    "tier": 50,
-   "score": 48.3,
+   "score": 48.5,
    "rank": 39,
    "of": 78,
    "units": [
@@ -1688,619 +2213,10 @@
    "demandPct": 51,
    "orderedAbove": null
   },
-  "ELK:2116": {
-   "tier": 50,
-   "score": 36.9,
-   "rank": 53,
-   "of": 78,
-   "units": [
-    "60",
-    "60A",
-    "62A"
-   ],
-   "animalSourceHunt": "2116",
-   "animalSharePct": 55.2,
-   "applications": 738,
-   "demandPct": 46,
-   "orderedAbove": null
-  },
-  "ELK:2113": {
-   "tier": 50,
-   "score": 10.2,
-   "rank": 74,
-   "of": 78,
-   "units": [
-    "39"
-   ],
-   "animalSourceHunt": "2113",
-   "animalSharePct": 28.6,
-   "applications": 267,
-   "demandPct": 24,
-   "orderedAbove": null
-  },
-  "ELK:2143": {
-   "tier": 50,
-   "score": 13.6,
-   "rank": 71,
-   "of": 78,
-   "units": [
-    "64",
-    "65",
-    "67"
-   ],
-   "animalSourceHunt": "2143",
-   "animalSharePct": 49,
-   "applications": 46,
-   "demandPct": 5,
-   "orderedAbove": null
-  },
-  "ELK:2139": {
-   "tier": 50,
-   "score": 48.1,
-   "rank": 40,
-   "of": 78,
-   "units": [
-    "50"
-   ],
-   "animalSourceHunt": "2139",
-   "animalSharePct": 60,
-   "applications": 257,
-   "demandPct": 22,
-   "orderedAbove": null
-  },
-  "ELK:2130": {
-   "tier": 50,
-   "score": 14.4,
-   "rank": 70,
-   "of": 78,
-   "units": [
-    "30A"
-   ],
-   "animalSourceHunt": "2130",
-   "animalSharePct": 49.7,
-   "applications": 141,
-   "demandPct": 13,
-   "orderedAbove": null
-  },
-  "ELK:2117": {
-   "tier": 50,
-   "score": 49.3,
-   "rank": 33,
-   "of": 78,
-   "units": [
-    "60",
-    "60A",
-    "62A"
-   ],
-   "animalSourceHunt": "2117",
-   "animalSharePct": 56.3,
-   "applications": 1555,
-   "demandPct": 80,
-   "orderedAbove": null
-  },
-  "ELK:2118": {
-   "tier": 50,
-   "score": 27.5,
-   "rank": 63,
-   "of": 78,
-   "units": [
-    "62",
-    "62A",
-    "65"
-   ],
-   "animalSourceHunt": "2118",
-   "animalSharePct": 54.9,
-   "applications": 250,
-   "demandPct": 25,
-   "orderedAbove": null
-  },
-  "ELK:2032": {
-   "tier": 50,
-   "score": 22.8,
-   "rank": 66,
-   "of": 78,
-   "units": [
-    "51"
-   ],
-   "animalSourceHunt": "2032",
-   "animalSharePct": 41.6,
-   "applications": 940,
-   "demandPct": 55,
-   "orderedAbove": null
-  },
-  "ELK:2040": {
-   "tier": 50,
-   "score": 30.6,
-   "rank": 62,
-   "of": 78,
-   "units": [
-    "66",
-    "69"
-   ],
-   "animalSourceHunt": "2040",
-   "animalSharePct": 53.1,
-   "applications": 508,
-   "demandPct": 49,
-   "orderedAbove": null
-  },
-  "ELK:2144": {
-   "tier": 50,
-   "score": 18.3,
-   "rank": 69,
-   "of": 78,
-   "units": [
-    "66",
-    "69"
-   ],
-   "animalSourceHunt": "2144",
-   "animalSharePct": 48.7,
-   "applications": 281,
-   "demandPct": 22,
-   "orderedAbove": null
-  },
-  "ELK:2027": {
-   "tier": 50,
-   "score": 32.4,
-   "rank": 61,
-   "of": 78,
-   "units": [
-    "48"
-   ],
-   "animalSourceHunt": "2027",
-   "animalSharePct": 54,
-   "applications": 918,
-   "demandPct": 47,
-   "orderedAbove": null
-  },
-  "ELK:2029": {
-   "tier": 50,
-   "score": 48.5,
-   "rank": 38,
-   "of": 78,
-   "units": [
-    "49"
-   ],
-   "animalSourceHunt": "2029",
-   "animalSharePct": 63.5,
-   "applications": 1054,
-   "demandPct": 50,
-   "orderedAbove": null
-  },
-  "ELK:2006": {
-   "tier": 50,
-   "score": 37.6,
-   "rank": 50,
-   "of": 78,
-   "units": [
-    "30"
-   ],
-   "animalSourceHunt": "2006",
-   "animalSharePct": 51.5,
-   "applications": 1062,
-   "demandPct": 55,
-   "orderedAbove": null
-  },
-  "ELK:2013": {
-   "tier": 50,
-   "score": 36.4,
-   "rank": 54,
-   "of": 78,
-   "units": [
-    "37A"
-   ],
-   "animalSourceHunt": "2013",
-   "animalSharePct": 55.2,
-   "applications": 564,
-   "demandPct": 37,
-   "orderedAbove": null
-  },
-  "ELK:2012": {
-   "tier": 50,
-   "score": 43.2,
-   "rank": 45,
-   "of": 78,
-   "units": [
-    "37"
-   ],
-   "animalSourceHunt": "2012",
-   "animalSharePct": 54.2,
-   "applications": 744,
-   "demandPct": 47,
-   "orderedAbove": null
-  },
-  "ELK:2039": {
-   "tier": 50,
-   "score": 8.7,
-   "rank": 75,
-   "of": 78,
-   "units": [
-    "61"
-   ],
-   "animalSourceHunt": "2039",
-   "animalSharePct": 37,
-   "applications": 243,
-   "demandPct": 18,
-   "orderedAbove": null
-  },
-  "ELK:2033": {
-   "tier": 50,
-   "score": 48.9,
-   "rank": 36,
-   "of": 78,
-   "units": [
-    "52"
-   ],
-   "animalSourceHunt": "2033",
-   "animalSharePct": 53.4,
-   "applications": 316,
-   "demandPct": 32,
-   "orderedAbove": "2115"
-  },
-  "ELK:2034": {
-   "tier": 65,
-   "score": 68.9,
-   "rank": 13,
-   "of": 78,
-   "units": [
-    "52A",
-    "68"
-   ],
-   "animalSourceHunt": "2034",
-   "animalSharePct": 69.1,
-   "applications": 1610,
-   "demandPct": 83,
-   "orderedAbove": null
-  },
-  "ELK:2005": {
-   "tier": 50,
-   "score": 41.6,
-   "rank": 46,
-   "of": 78,
-   "units": [
-    "29"
-   ],
-   "animalSourceHunt": "2005",
-   "animalSharePct": 53.1,
-   "applications": 1077,
-   "demandPct": 51,
-   "orderedAbove": null
-  },
-  "ELK:2011": {
-   "tier": 65,
-   "score": 56.3,
-   "rank": 23,
-   "of": 78,
-   "units": [
-    "36A",
-    "50"
-   ],
-   "animalSourceHunt": "2011",
-   "animalSharePct": 57.9,
-   "applications": 1081,
-   "demandPct": 61,
-   "orderedAbove": null
-  },
-  "ELK:2009": {
-   "tier": 50,
-   "score": 19.7,
-   "rank": 67,
-   "of": 78,
-   "units": [
-    "31"
-   ],
-   "animalSourceHunt": "2009",
-   "animalSharePct": 47.5,
-   "applications": 506,
-   "demandPct": 38,
-   "orderedAbove": null
-  },
-  "ELK:2023": {
-   "tier": 65,
-   "score": 66.5,
-   "rank": 16,
-   "of": 78,
-   "units": [
-    "45"
-   ],
-   "animalSourceHunt": "2023",
-   "animalSharePct": 64.1,
-   "applications": 1224,
-   "demandPct": 65,
-   "orderedAbove": null
-  },
-  "ELK:2042": {
-   "tier": 50,
-   "score": 33.9,
-   "rank": 58,
-   "of": 78,
-   "units": [
-    "66A",
-    "76"
-   ],
-   "animalSourceHunt": "2042",
-   "animalSharePct": 51.3,
-   "applications": 2431,
-   "demandPct": 65,
-   "orderedAbove": null
-  },
-  "ELK:2163": {
-   "tier": 50,
-   "score": 26.9,
-   "rank": 65,
-   "of": 78,
-   "units": [
-    "31"
-   ],
-   "animalSourceHunt": "2163",
-   "animalSharePct": 48.8,
-   "applications": 467,
-   "demandPct": 45,
-   "orderedAbove": null
-  },
-  "ELK:2002": {
-   "tier": 50,
-   "score": 35,
-   "rank": 56,
-   "of": 78,
-   "units": [
-    "18"
-   ],
-   "animalSourceHunt": "2002",
-   "animalSharePct": 47.4,
-   "applications": 809,
-   "demandPct": 55,
-   "orderedAbove": null
-  },
-  "ELK:2022": {
-   "tier": 65,
-   "score": 51.8,
-   "rank": 31,
-   "of": 78,
-   "units": [
-    "44"
-   ],
-   "animalSourceHunt": "2022",
-   "animalSharePct": 54.2,
-   "applications": 2361,
-   "demandPct": 76,
-   "orderedAbove": null
-  },
-  "ELK:2008": {
-   "tier": 50,
-   "score": 19.7,
-   "rank": 67,
-   "of": 78,
-   "units": [
-    "31"
-   ],
-   "animalSourceHunt": "2008",
-   "animalSharePct": 46,
-   "applications": 559,
-   "demandPct": 44,
-   "orderedAbove": null
-  },
-  "ELK:2030": {
-   "tier": 65,
-   "score": 60.5,
-   "rank": 18,
-   "of": 78,
-   "units": [
-    "50"
-   ],
-   "animalSourceHunt": "2030",
-   "animalSharePct": 59.5,
-   "applications": 999,
-   "demandPct": 73,
-   "orderedAbove": null
-  },
-  "ELK:2037": {
-   "tier": 50,
-   "score": 40.3,
-   "rank": 47,
-   "of": 78,
-   "units": [
-    "58",
-    "59",
-    "59A"
-   ],
-   "animalSourceHunt": "2037",
-   "animalSharePct": 51.2,
-   "applications": 1372,
-   "demandPct": 81,
-   "orderedAbove": null
-  },
-  "ELK:2010": {
-   "tier": 50,
-   "score": 48,
-   "rank": 41,
-   "of": 78,
-   "units": [
-    "36A"
-   ],
-   "animalSourceHunt": "2010",
-   "animalSharePct": 56.7,
-   "applications": 464,
-   "demandPct": 41,
-   "orderedAbove": null
-  },
-  "ELK:2112": {
-   "tier": 50,
-   "score": 36.1,
-   "rank": 55,
-   "of": 78,
-   "units": [
-    "31"
-   ],
-   "animalSourceHunt": "2112",
-   "animalSharePct": 52,
-   "applications": 626,
-   "demandPct": 57,
-   "orderedAbove": null
-  },
-  "ELK:2020": {
-   "tier": 50,
-   "score": 49.1,
-   "rank": 35,
-   "of": 78,
-   "units": [
-    "43"
-   ],
-   "animalSourceHunt": "2020",
-   "animalSharePct": 58,
-   "applications": 1382,
-   "demandPct": 71,
-   "orderedAbove": null
-  },
-  "ELK:2134": {
-   "tier": 65,
-   "score": 55,
-   "rank": 24,
-   "of": 78,
-   "units": [
-    "39"
-   ],
-   "animalSourceHunt": "2134",
-   "animalSharePct": 61.8,
-   "applications": 645,
-   "demandPct": 58,
-   "orderedAbove": null
-  },
-  "ELK:2122": {
-   "tier": 65,
-   "score": 51.9,
-   "rank": 29,
-   "of": 78,
-   "units": [
-    "39"
-   ],
-   "animalSourceHunt": "2122",
-   "animalSharePct": 59.6,
-   "applications": 574,
-   "demandPct": 53,
-   "orderedAbove": null
-  },
-  "ELK:2026": {
-   "tier": 65,
-   "score": 52,
-   "rank": 28,
-   "of": 78,
-   "units": [
-    "48"
-   ],
-   "animalSourceHunt": "2026",
-   "animalSharePct": 65.7,
-   "applications": 263,
-   "demandPct": 44,
-   "orderedAbove": null
-  },
-  "ELK:2028": {
-   "tier": 65,
-   "score": 59.7,
-   "rank": 19,
-   "of": 78,
-   "units": [
-    "49"
-   ],
-   "animalSourceHunt": "2028",
-   "animalSharePct": 71.8,
-   "applications": 305,
-   "demandPct": 51,
-   "orderedAbove": null
-  },
-  "ELK:2007": {
-   "tier": 65,
-   "score": 67.3,
-   "rank": 15,
-   "of": 78,
-   "units": [
-    "30",
-    "30A",
-    "58",
-    "59",
-    "59A"
-   ],
-   "animalSourceHunt": "2007",
-   "animalSharePct": 71.7,
-   "applications": 839,
-   "demandPct": 74,
-   "orderedAbove": null
-  },
-  "ELK:2001": {
-   "tier": 65,
-   "score": 58.7,
-   "rank": 20,
-   "of": 78,
-   "units": [
-    "11"
-   ],
-   "animalSourceHunt": "2001",
-   "animalSharePct": 59.4,
-   "applications": 833,
-   "demandPct": 70,
-   "orderedAbove": null
-  },
-  "ELK:2121": {
-   "tier": 65,
-   "score": 51.9,
-   "rank": 29,
-   "of": 78,
-   "units": [
-    "18"
-   ],
-   "animalSourceHunt": "2121",
-   "animalSharePct": 58.9,
-   "applications": 384,
-   "demandPct": 43,
-   "orderedAbove": null
-  },
-  "ELK:2115": {
-   "tier": 50,
-   "score": 48.8,
-   "rank": 37,
-   "of": 78,
-   "units": [
-    "52"
-   ],
-   "animalSourceHunt": "2115",
-   "animalSharePct": 58.5,
-   "applications": 371,
-   "demandPct": 50,
-   "orderedAbove": null
-  },
-  "ELK:2038": {
-   "tier": 65,
-   "score": 67.8,
-   "rank": 14,
-   "of": 78,
-   "units": [
-    "60",
-    "61",
-    "62A"
-   ],
-   "animalSourceHunt": "2038",
-   "animalSharePct": 68.3,
-   "applications": 1601,
-   "demandPct": 81,
-   "orderedAbove": null
-  },
-  "ELK:2016": {
-   "tier": 65,
-   "score": 57.8,
-   "rank": 21,
-   "of": 78,
-   "units": [
-    "41"
-   ],
-   "animalSourceHunt": "2016",
-   "animalSharePct": 69.4,
-   "applications": 274,
-   "demandPct": 37,
-   "orderedAbove": null
-  },
   "ELK:2045": {
    "tier": 50,
-   "score": 37.4,
-   "rank": 51,
+   "score": 37.8,
+   "rank": 52,
    "of": 78,
    "units": [
     "75",
@@ -2313,117 +2229,10 @@
    "demandPct": 45,
    "orderedAbove": null
   },
-  "ELK:2043": {
-   "tier": 65,
-   "score": 74.1,
-   "rank": 10,
-   "of": 78,
-   "units": [
-    "70",
-    "71",
-    "72",
-    "73",
-    "73A",
-    "74"
-   ],
-   "animalSourceHunt": "2043",
-   "animalSharePct": 77.3,
-   "applications": 919,
-   "demandPct": 78,
-   "orderedAbove": null
-  },
-  "ELK:2036": {
-   "tier": 80,
-   "score": 77.1,
-   "rank": 8,
-   "of": 78,
-   "units": [
-    "55",
-    "56",
-    "57"
-   ],
-   "animalSourceHunt": "2036",
-   "animalSharePct": 72.6,
-   "applications": 1340,
-   "demandPct": 84,
-   "orderedAbove": null
-  },
-  "ELK:2025": {
-   "tier": 50,
-   "score": 37.1,
-   "rank": 52,
-   "of": 78,
-   "units": [
-    "46"
-   ],
-   "animalSourceHunt": "2025",
-   "animalSharePct": 46.8,
-   "applications": 607,
-   "demandPct": 59,
-   "orderedAbove": null
-  },
-  "ELK:2003": {
-   "tier": 50,
-   "score": 39.5,
-   "rank": 48,
-   "of": 78,
-   "units": [
-    "19A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 120,
-   "demandPct": 36,
-   "orderedAbove": null
-  },
-  "ELK:2041": {
-   "tier": 65,
-   "score": 72.5,
-   "rank": 11,
-   "of": 78,
-   "units": [
-    "66A",
-    "76"
-   ],
-   "animalSourceHunt": "2041",
-   "animalSharePct": 72.3,
-   "applications": 1368,
-   "demandPct": 85,
-   "orderedAbove": null
-  },
-  "ELK:2125": {
-   "tier": 65,
-   "score": 53.4,
-   "rank": 27,
-   "of": 78,
-   "units": [
-    "45",
-    "52"
-   ],
-   "animalSourceHunt": "2125",
-   "animalSharePct": 66.1,
-   "applications": 169,
-   "demandPct": 24,
-   "orderedAbove": null
-  },
-  "ELK:2017": {
-   "tier": 65,
-   "score": 57.4,
-   "rank": 22,
-   "of": 78,
-   "units": [
-    "41"
-   ],
-   "animalSourceHunt": "2017",
-   "animalSharePct": 67.3,
-   "applications": 456,
-   "demandPct": 53,
-   "orderedAbove": null
-  },
   "ELK:2109": {
    "tier": 50,
-   "score": 39.5,
-   "rank": 48,
+   "score": 39.4,
+   "rank": 50,
    "of": 78,
    "units": [
     "1",
@@ -2442,94 +2251,197 @@
    "demandPct": 96,
    "orderedAbove": null
   },
-  "ELK:2021": {
-   "tier": 80,
-   "score": 79.2,
-   "rank": 7,
-   "of": 78,
-   "units": [
-    "44"
-   ],
-   "animalSourceHunt": "2021",
-   "animalSharePct": 73.7,
-   "applications": 872,
-   "demandPct": 78,
-   "orderedAbove": null
-  },
-  "ELK:2019": {
+  "ELK:2110": {
    "tier": 50,
-   "score": 49.2,
-   "rank": 34,
+   "score": 33.3,
+   "rank": 59,
    "of": 78,
    "units": [
-    "43"
+    "13"
    ],
-   "animalSourceHunt": "2019",
-   "animalSharePct": 53.7,
-   "applications": 403,
-   "demandPct": 58,
-   "orderedAbove": "2020"
-  },
-  "ELK:2014": {
-   "tier": 80,
-   "score": 87.4,
-   "rank": 4,
-   "of": 78,
-   "units": [
-    "40"
-   ],
-   "animalSourceHunt": "2014",
-   "animalSharePct": 74.5,
-   "applications": 2620,
-   "demandPct": 95,
+   "animalSourceHunt": "2110",
+   "animalSharePct": 56.9,
+   "applications": 558,
+   "demandPct": 29,
    "orderedAbove": null
   },
-  "ELK:2031": {
-   "tier": 65,
-   "score": 65.4,
-   "rank": 17,
+  "ELK:2111": {
+   "tier": 50,
+   "score": 12.7,
+   "rank": 72,
+   "of": 78,
+   "units": [
+    "30A"
+   ],
+   "animalSourceHunt": "2130",
+   "animalSharePct": 49.7,
+   "applications": 30,
+   "demandPct": 6,
+   "orderedAbove": null
+  },
+  "ELK:2112": {
+   "tier": 50,
+   "score": 36.6,
+   "rank": 54,
+   "of": 78,
+   "units": [
+    "31"
+   ],
+   "animalSourceHunt": "2112",
+   "animalSharePct": 52,
+   "applications": 626,
+   "demandPct": 57,
+   "orderedAbove": null
+  },
+  "ELK:2113": {
+   "tier": 50,
+   "score": 10.2,
+   "rank": 74,
+   "of": 78,
+   "units": [
+    "39"
+   ],
+   "animalSourceHunt": "2113",
+   "animalSharePct": 28.6,
+   "applications": 267,
+   "demandPct": 24,
+   "orderedAbove": null
+  },
+  "ELK:2114": {
+   "tier": 50,
+   "score": 46,
+   "rank": 43,
    "of": 78,
    "units": [
     "51"
    ],
    "animalSourceHunt": "2031",
    "animalSharePct": 73.8,
-   "applications": 292,
-   "demandPct": 59,
+   "applications": 105,
+   "demandPct": 14,
    "orderedAbove": null
   },
-  "ELK:2024": {
-   "tier": 65,
-   "score": 53.5,
-   "rank": 26,
+  "ELK:2115": {
+   "tier": 50,
+   "score": 49.1,
+   "rank": 37,
    "of": 78,
    "units": [
-    "46",
-    "47"
+    "52"
    ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 258,
+   "animalSourceHunt": "2115",
+   "animalSharePct": 58.5,
+   "applications": 371,
+   "demandPct": 50,
+   "orderedAbove": null
+  },
+  "ELK:2116": {
+   "tier": 50,
+   "score": 36.6,
+   "rank": 54,
+   "of": 78,
+   "units": [
+    "60",
+    "60A",
+    "62A"
+   ],
+   "animalSourceHunt": "2116",
+   "animalSharePct": 55.2,
+   "applications": 738,
+   "demandPct": 46,
+   "orderedAbove": null
+  },
+  "ELK:2117": {
+   "tier": 50,
+   "score": 49.6,
+   "rank": 33,
+   "of": 78,
+   "units": [
+    "60",
+    "60A",
+    "62A"
+   ],
+   "animalSourceHunt": "2117",
+   "animalSharePct": 56.3,
+   "applications": 1555,
+   "demandPct": 80,
+   "orderedAbove": null
+  },
+  "ELK:2118": {
+   "tier": 50,
+   "score": 27.9,
+   "rank": 62,
+   "of": 78,
+   "units": [
+    "62",
+    "62A",
+    "65"
+   ],
+   "animalSourceHunt": "2118",
+   "animalSharePct": 54.9,
+   "applications": 250,
+   "demandPct": 25,
+   "orderedAbove": null
+  },
+  "ELK:2119": {
+   "tier": 50,
+   "score": 7.5,
+   "rank": 76,
+   "of": 78,
+   "units": [
+    "63"
+   ],
+   "animalSourceHunt": "2119",
+   "animalSharePct": 41,
+   "applications": 246,
+   "demandPct": 11,
+   "orderedAbove": null
+  },
+  "ELK:2120": {
+   "tier": 50,
+   "score": 51,
+   "rank": 32,
+   "of": 78,
+   "units": [
+    "63"
+   ],
+   "animalSourceHunt": "2120",
+   "animalSharePct": 59.6,
+   "applications": 837,
+   "demandPct": 52,
+   "orderedAbove": null
+  },
+  "ELK:2121": {
+   "tier": 65,
+   "score": 52.2,
+   "rank": 29,
+   "of": 78,
+   "units": [
+    "18"
+   ],
+   "animalSourceHunt": "2121",
+   "animalSharePct": 58.9,
+   "applications": 384,
+   "demandPct": 43,
+   "orderedAbove": null
+  },
+  "ELK:2122": {
+   "tier": 65,
+   "score": 52.2,
+   "rank": 29,
+   "of": 78,
+   "units": [
+    "39"
+   ],
+   "animalSourceHunt": "2122",
+   "animalSharePct": 59.7,
+   "applications": 574,
    "demandPct": 53,
-   "orderedAbove": null
-  },
-  "ELK:2124": {
-   "tier": 65,
-   "score": 69.1,
-   "rank": 12,
-   "of": 78,
-   "units": [
-    "44"
-   ],
-   "animalSourceHunt": "2124",
-   "animalSharePct": 67.6,
-   "applications": 467,
-   "demandPct": 60,
    "orderedAbove": null
   },
   "ELK:2123": {
    "tier": 80,
-   "score": 83.4,
+   "score": 83.3,
    "rank": 6,
    "of": 78,
    "units": [
@@ -2543,104 +2455,33 @@
    "demandPct": 80,
    "orderedAbove": null
   },
-  "ELK:2018": {
+  "ELK:2124": {
    "tier": 65,
-   "score": 77,
-   "rank": 9,
+   "score": 69.2,
+   "rank": 13,
    "of": 78,
    "units": [
-    "42"
+    "44"
    ],
-   "animalSourceHunt": "2018",
-   "animalSharePct": 82.4,
-   "applications": 893,
-   "demandPct": 80,
+   "animalSourceHunt": "2124",
+   "animalSharePct": 67.6,
+   "applications": 467,
+   "demandPct": 60,
    "orderedAbove": null
   },
-  "ELK:2140": {
-   "tier": 80,
-   "score": 92.5,
-   "rank": 3,
+  "ELK:2125": {
+   "tier": 65,
+   "score": 53.6,
+   "rank": 26,
    "of": 78,
    "units": [
-    "54"
+    "45",
+    "52"
    ],
-   "animalSourceHunt": "2140",
-   "animalSharePct": 86.6,
-   "applications": 1020,
-   "demandPct": 83,
-   "orderedAbove": null
-  },
-  "ELK:2127": {
-   "tier": 100,
-   "score": 93.1,
-   "rank": 2,
-   "of": 78,
-   "units": [
-    "54"
-   ],
-   "animalSourceHunt": "2127",
-   "animalSharePct": 81.2,
-   "applications": 1253,
-   "demandPct": 89,
-   "orderedAbove": null
-  },
-  "ELK:2035": {
-   "tier": 100,
-   "score": 94.2,
-   "rank": 1,
-   "of": 78,
-   "units": [
-    "54"
-   ],
-   "animalSourceHunt": "2035",
-   "animalSharePct": 87.2,
-   "applications": 3342,
-   "demandPct": 99,
-   "orderedAbove": null
-  },
-  "ELK:2114": {
-   "tier": 50,
-   "score": 45.9,
-   "rank": 43,
-   "of": 78,
-   "units": [
-    "51"
-   ],
-   "animalSourceHunt": "2031",
-   "animalSharePct": 73.8,
-   "applications": 105,
-   "demandPct": 14,
-   "orderedAbove": null
-  },
-  "ELK:2141": {
-   "tier": 50,
-   "score": 27.2,
-   "rank": 64,
-   "of": 78,
-   "units": [
-    "55",
-    "57"
-   ],
-   "animalSourceHunt": "2141",
-   "animalSharePct": 55.1,
-   "applications": 48,
-   "demandPct": 10,
-   "orderedAbove": null
-  },
-  "ELK:2136": {
-   "tier": 50,
-   "score": 47.4,
-   "rank": 42,
-   "of": 78,
-   "units": [
-    "46",
-    "47"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 48,
-   "demandPct": 26,
+   "animalSourceHunt": "2125",
+   "animalSharePct": 66.1,
+   "applications": 169,
+   "demandPct": 24,
    "orderedAbove": null
   },
   "ELK:2126": {
@@ -2658,64 +2499,571 @@
    "demandPct": 40,
    "orderedAbove": null
   },
-  "ELK:2004": {
-   "tier": 50,
-   "score": 44.7,
-   "rank": 44,
+  "ELK:2127": {
+   "tier": 100,
+   "score": 93.2,
+   "rank": 2,
    "of": 78,
    "units": [
-    "23"
+    "54"
    ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 248,
-   "demandPct": 51,
+   "animalSourceHunt": "2127",
+   "animalSharePct": 81.2,
+   "applications": 1253,
+   "demandPct": 89,
    "orderedAbove": null
   },
-  "ELK:2015": {
-   "tier": 80,
-   "score": 83.6,
-   "rank": 5,
+  "ELK:2130": {
+   "tier": 50,
+   "score": 14.9,
+   "rank": 69,
    "of": 78,
    "units": [
-    "40",
-    "41",
-    "42"
+    "30A"
    ],
-   "animalSourceHunt": "2015",
-   "animalSharePct": 77.3,
-   "applications": 1251,
-   "demandPct": 90,
+   "animalSourceHunt": "2130",
+   "animalSharePct": 49.7,
+   "applications": 141,
+   "demandPct": 13,
+   "orderedAbove": null
+  },
+  "ELK:2132": {
+   "tier": 50,
+   "score": 3.5,
+   "rank": 78,
+   "of": 78,
+   "units": [
+    "33",
+    "34",
+    "35"
+   ],
+   "animalSourceHunt": "2132",
+   "animalSharePct": 22.6,
+   "applications": 76,
+   "demandPct": 9,
    "orderedAbove": null
   },
   "ELK:2133": {
    "tier": 50,
-   "score": 34,
-   "rank": 57,
+   "score": 14.2,
+   "rank": 70,
    "of": 78,
    "units": [
     "36A",
     "50"
    ],
-   "animalSourceHunt": "2010",
-   "animalSharePct": 56.7,
+   "animalSourceHunt": "2133",
+   "animalSharePct": 28.8,
    "applications": 181,
    "demandPct": 11,
    "orderedAbove": null
   },
-  "PRONGHORN:4034": {
+  "ELK:2134": {
+   "tier": 65,
+   "score": 55.3,
+   "rank": 24,
+   "of": 78,
+   "units": [
+    "39"
+   ],
+   "animalSourceHunt": "2134",
+   "animalSharePct": 61.8,
+   "applications": 645,
+   "demandPct": 58,
+   "orderedAbove": null
+  },
+  "ELK:2136": {
    "tier": 50,
-   "score": 48.1,
-   "rank": 22,
-   "of": 50,
+   "score": 47.4,
+   "rank": 42,
+   "of": 78,
    "units": [
     "46",
     "47"
    ],
    "animalSourceHunt": null,
    "animalSharePct": null,
-   "applications": 514,
-   "demandPct": 38,
+   "applications": 48,
+   "demandPct": 26,
+   "orderedAbove": null
+  },
+  "ELK:2137": {
+   "tier": 50,
+   "score": 33.5,
+   "rank": 58,
+   "of": 78,
+   "units": [
+    "48"
+   ],
+   "animalSourceHunt": "2137",
+   "animalSharePct": 63.5,
+   "applications": 51,
+   "demandPct": 5,
+   "orderedAbove": null
+  },
+  "ELK:2138": {
+   "tier": 50,
+   "score": 11.3,
+   "rank": 73,
+   "of": 78,
+   "units": [
+    "49"
+   ],
+   "animalSourceHunt": "2138",
+   "animalSharePct": 49.1,
+   "applications": 60,
+   "demandPct": 6,
+   "orderedAbove": null
+  },
+  "ELK:2139": {
+   "tier": 50,
+   "score": 48.3,
+   "rank": 41,
+   "of": 78,
+   "units": [
+    "50"
+   ],
+   "animalSourceHunt": "2139",
+   "animalSharePct": 60.1,
+   "applications": 257,
+   "demandPct": 22,
+   "orderedAbove": null
+  },
+  "ELK:2140": {
+   "tier": 80,
+   "score": 92.5,
+   "rank": 3,
+   "of": 78,
+   "units": [
+    "54"
+   ],
+   "animalSourceHunt": "2140",
+   "animalSharePct": 86.6,
+   "applications": 1020,
+   "demandPct": 83,
+   "orderedAbove": null
+  },
+  "ELK:2141": {
+   "tier": 50,
+   "score": 27.6,
+   "rank": 63,
+   "of": 78,
+   "units": [
+    "55",
+    "57"
+   ],
+   "animalSourceHunt": "2141",
+   "animalSharePct": 55.1,
+   "applications": 48,
+   "demandPct": 10,
+   "orderedAbove": null
+  },
+  "ELK:2142": {
+   "tier": 50,
+   "score": 4.6,
+   "rank": 77,
+   "of": 78,
+   "units": [
+    "61"
+   ],
+   "animalSourceHunt": "2039",
+   "animalSharePct": 37.1,
+   "applications": 63,
+   "demandPct": 5,
+   "orderedAbove": null
+  },
+  "ELK:2143": {
+   "tier": 50,
+   "score": 13.5,
+   "rank": 71,
+   "of": 78,
+   "units": [
+    "64",
+    "65",
+    "67"
+   ],
+   "animalSourceHunt": "2143",
+   "animalSharePct": 49,
+   "applications": 46,
+   "demandPct": 5,
+   "orderedAbove": null
+  },
+  "ELK:2144": {
+   "tier": 50,
+   "score": 18.2,
+   "rank": 68,
+   "of": 78,
+   "units": [
+    "66",
+    "69"
+   ],
+   "animalSourceHunt": "2144",
+   "animalSharePct": 48.8,
+   "applications": 281,
+   "demandPct": 22,
+   "orderedAbove": null
+  },
+  "ELK:2163": {
+   "tier": 50,
+   "score": 26.8,
+   "rank": 64,
+   "of": 78,
+   "units": [
+    "31"
+   ],
+   "animalSourceHunt": "2163",
+   "animalSharePct": 48.8,
+   "applications": 467,
+   "demandPct": 45,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4001": {
+   "tier": 65,
+   "score": 59.4,
+   "rank": 10,
+   "of": 50,
+   "units": [
+    "29"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1093,
+   "demandPct": 70,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4002": {
+   "tier": 65,
+   "score": 48.5,
+   "rank": 20,
+   "of": 50,
+   "units": [
+    "21A",
+    "30"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 468,
+   "demandPct": 57,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4003": {
+   "tier": 65,
+   "score": 53.4,
+   "rank": 17,
+   "of": 50,
+   "units": [
+    "31",
+    "32",
+    "32A"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 319,
+   "demandPct": 71,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4004": {
+   "tier": 50,
+   "score": 46.4,
+   "rank": 25,
+   "of": 50,
+   "units": [
+    "28",
+    "36B"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 261,
+   "demandPct": 51,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4005": {
+   "tier": 65,
+   "score": 59.3,
+   "rank": 11,
+   "of": 50,
+   "units": [
+    "29",
+    "37",
+    "37A"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 2346,
+   "demandPct": 88,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4006": {
+   "tier": 50,
+   "score": 42.9,
+   "rank": 30,
+   "of": 50,
+   "units": [
+    "38"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 217,
+   "demandPct": 41,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4007": {
+   "tier": 65,
+   "score": 59.7,
+   "rank": 9,
+   "of": 50,
+   "units": [
+    "39"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1794,
+   "demandPct": 89,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4008": {
+   "tier": 80,
+   "score": 66.8,
+   "rank": 3,
+   "of": 50,
+   "units": [
+    "40"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 2981,
+   "demandPct": 91,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4009": {
+   "tier": 65,
+   "score": 60.2,
+   "rank": 8,
+   "of": 50,
+   "units": [
+    "41",
+    "42"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 4260,
+   "demandPct": 79,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4010": {
+   "tier": 65,
+   "score": 54.7,
+   "rank": 16,
+   "of": 50,
+   "units": [
+    "44",
+    "45"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1935,
+   "demandPct": 73,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4011": {
+   "tier": 65,
+   "score": 55.2,
+   "rank": 14,
+   "of": 50,
+   "units": [
+    "45"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 429,
+   "demandPct": 62,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4012": {
+   "tier": 100,
+   "score": 69.8,
+   "rank": 1,
+   "of": 50,
+   "units": [
+    "46"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 2675,
+   "demandPct": 92,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4013": {
+   "tier": 50,
+   "score": 45.7,
+   "rank": 27,
+   "of": 50,
+   "units": [
+    "49"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 324,
+   "demandPct": 49,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4014": {
+   "tier": 80,
+   "score": 64,
+   "rank": 4,
+   "of": 50,
+   "units": [
+    "50"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1784,
+   "demandPct": 83,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4015": {
+   "tier": 65,
+   "score": 61.9,
+   "rank": 6,
+   "of": 50,
+   "units": [
+    "51"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 2337,
+   "demandPct": 84,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4016": {
+   "tier": 65,
+   "score": 52.9,
+   "rank": 18,
+   "of": 50,
+   "units": [
+    "48",
+    "52"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 684,
+   "demandPct": 68,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4017": {
+   "tier": 65,
+   "score": 54.8,
+   "rank": 15,
+   "of": 50,
+   "units": [
+    "52A",
+    "53"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1504,
+   "demandPct": 75,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4018": {
+   "tier": 80,
+   "score": 68.2,
+   "rank": 2,
+   "of": 50,
+   "units": [
+    "54"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1635,
+   "demandPct": 89,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4019": {
+   "tier": 80,
+   "score": 62.5,
+   "rank": 5,
+   "of": 50,
+   "units": [
+    "55",
+    "56",
+    "57"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 885,
+   "demandPct": 84,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4020": {
+   "tier": 65,
+   "score": 60.9,
+   "rank": 7,
+   "of": 50,
+   "units": [
+    "58"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1642,
+   "demandPct": 81,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4021": {
+   "tier": 65,
+   "score": 55.5,
+   "rank": 13,
+   "of": 50,
+   "units": [
+    "59",
+    "59A"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1520,
+   "demandPct": 77,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4022": {
+   "tier": 65,
+   "score": 52.7,
+   "rank": 19,
+   "of": 50,
+   "units": [
+    "63"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1221,
+   "demandPct": 69,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4023": {
+   "tier": 65,
+   "score": 56.2,
+   "rank": 12,
+   "of": 50,
+   "units": [
+    "68"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 1010,
+   "demandPct": 79,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4024": {
+   "tier": 50,
+   "score": 48.2,
+   "rank": 22,
+   "of": 50,
+   "units": [
+    "76"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 235,
+   "demandPct": 62,
    "orderedAbove": null
   },
   "PRONGHORN:4027": {
@@ -2735,22 +3083,6 @@
    "demandPct": 28,
    "orderedAbove": null
   },
-  "PRONGHORN:4031": {
-   "tier": 50,
-   "score": 44,
-   "rank": 29,
-   "of": 50,
-   "units": [
-    "40",
-    "41",
-    "42"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 519,
-   "demandPct": 39,
-   "orderedAbove": null
-  },
   "PRONGHORN:4028": {
    "tier": 50,
    "score": 33.3,
@@ -2768,96 +3100,19 @@
    "demandPct": 20,
    "orderedAbove": null
   },
-  "PRONGHORN:4040": {
+  "PRONGHORN:4029": {
    "tier": 50,
-   "score": 37.5,
-   "rank": 38,
+   "score": 38.6,
+   "rank": 35,
    "of": 50,
    "units": [
-    "58",
-    "59",
-    "59A"
+    "36",
+    "36A"
    ],
    "animalSourceHunt": null,
    "animalSharePct": null,
-   "applications": 357,
-   "demandPct": 32,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4037": {
-   "tier": 50,
-   "score": 35.6,
-   "rank": 44,
-   "of": 50,
-   "units": [
-    "52A",
-    "53"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 278,
-   "demandPct": 26,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4054": {
-   "tier": 50,
-   "score": 35.9,
-   "rank": 43,
-   "of": 50,
-   "units": [
-    "63"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 78,
-   "demandPct": 21,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4036": {
-   "tier": 50,
-   "score": 36.1,
-   "rank": 42,
-   "of": 50,
-   "units": [
-    "51",
-    "63"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 306,
-   "demandPct": 28,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4035": {
-   "tier": 50,
-   "score": 34.4,
-   "rank": 46,
-   "of": 50,
-   "units": [
-    "49",
-    "50"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 244,
-   "demandPct": 23,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4032": {
-   "tier": 50,
-   "score": 39.8,
-   "rank": 33,
-   "of": 50,
-   "units": [
-    "44",
-    "45",
-    "48",
-    "52"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 486,
-   "demandPct": 37,
+   "applications": 450,
+   "demandPct": 35,
    "orderedAbove": null
   },
   "PRONGHORN:4030": {
@@ -2876,19 +3131,172 @@
    "demandPct": 32,
    "orderedAbove": null
   },
-  "PRONGHORN:4029": {
+  "PRONGHORN:4031": {
    "tier": 50,
-   "score": 38.6,
-   "rank": 35,
+   "score": 44,
+   "rank": 29,
    "of": 50,
    "units": [
-    "36",
-    "36A"
+    "40",
+    "41",
+    "42"
    ],
    "animalSourceHunt": null,
    "animalSharePct": null,
-   "applications": 450,
-   "demandPct": 35,
+   "applications": 519,
+   "demandPct": 39,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4032": {
+   "tier": 50,
+   "score": 39.9,
+   "rank": 33,
+   "of": 50,
+   "units": [
+    "44",
+    "45",
+    "48",
+    "52"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 486,
+   "demandPct": 37,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4033": {
+   "tier": 50,
+   "score": 37.5,
+   "rank": 38,
+   "of": 50,
+   "units": [
+    "46",
+    "47"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 103,
+   "demandPct": 21,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4034": {
+   "tier": 50,
+   "score": 48.3,
+   "rank": 21,
+   "of": 50,
+   "units": [
+    "46",
+    "47"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 514,
+   "demandPct": 38,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4035": {
+   "tier": 50,
+   "score": 34.4,
+   "rank": 46,
+   "of": 50,
+   "units": [
+    "49",
+    "50"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 244,
+   "demandPct": 23,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4036": {
+   "tier": 50,
+   "score": 36.1,
+   "rank": 42,
+   "of": 50,
+   "units": [
+    "51",
+    "63"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 306,
+   "demandPct": 28,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4037": {
+   "tier": 50,
+   "score": 35.6,
+   "rank": 44,
+   "of": 50,
+   "units": [
+    "52A",
+    "53"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 278,
+   "demandPct": 26,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4038": {
+   "tier": 50,
+   "score": 45.9,
+   "rank": 26,
+   "of": 50,
+   "units": [
+    "54"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 147,
+   "demandPct": 31,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4039": {
+   "tier": 50,
+   "score": 40.5,
+   "rank": 32,
+   "of": 50,
+   "units": [
+    "55",
+    "56",
+    "57"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 61,
+   "demandPct": 27,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4040": {
+   "tier": 50,
+   "score": 37.5,
+   "rank": 38,
+   "of": 50,
+   "units": [
+    "58",
+    "59",
+    "59A"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 357,
+   "demandPct": 32,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4041": {
+   "tier": 50,
+   "score": 29.1,
+   "rank": 50,
+   "of": 50,
+   "units": [
+    "68"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 51,
+   "demandPct": 16,
    "orderedAbove": null
   },
   "PRONGHORN:4042": {
@@ -2903,65 +3311,6 @@
    "animalSharePct": null,
    "applications": 42,
    "demandPct": 2,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4033": {
-   "tier": 50,
-   "score": 37.4,
-   "rank": 40,
-   "of": 50,
-   "units": [
-    "46",
-    "47"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 103,
-   "demandPct": 21,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4046": {
-   "tier": 50,
-   "score": 37.6,
-   "rank": 37,
-   "of": 50,
-   "units": [
-    "60",
-    "60A",
-    "61"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 146,
-   "demandPct": 26,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4048": {
-   "tier": 50,
-   "score": 34.8,
-   "rank": 45,
-   "of": 50,
-   "units": [
-    "63"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 99,
-   "demandPct": 18,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4047": {
-   "tier": 50,
-   "score": 37.5,
-   "rank": 38,
-   "of": 50,
-   "units": [
-    "63"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 168,
-   "demandPct": 27,
    "orderedAbove": null
   },
   "PRONGHORN:4043": {
@@ -2994,7 +3343,7 @@
   },
   "PRONGHORN:4045": {
    "tier": 50,
-   "score": 48,
+   "score": 48.1,
    "rank": 23,
    "of": 50,
    "units": [
@@ -3006,32 +3355,48 @@
    "demandPct": 37,
    "orderedAbove": null
   },
-  "PRONGHORN:4015": {
-   "tier": 65,
-   "score": 61.9,
-   "rank": 6,
+  "PRONGHORN:4046": {
+   "tier": 50,
+   "score": 37.6,
+   "rank": 37,
    "of": 50,
    "units": [
-    "51"
+    "60",
+    "60A",
+    "61"
    ],
    "animalSourceHunt": null,
    "animalSharePct": null,
-   "applications": 2337,
-   "demandPct": 84,
+   "applications": 146,
+   "demandPct": 26,
    "orderedAbove": null
   },
-  "PRONGHORN:4041": {
+  "PRONGHORN:4047": {
    "tier": 50,
-   "score": 29.1,
-   "rank": 50,
+   "score": 37.5,
+   "rank": 38,
    "of": 50,
    "units": [
-    "68"
+    "63"
    ],
    "animalSourceHunt": null,
    "animalSharePct": null,
-   "applications": 51,
-   "demandPct": 16,
+   "applications": 168,
+   "demandPct": 27,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4048": {
+   "tier": 50,
+   "score": 34.8,
+   "rank": 45,
+   "of": 50,
+   "units": [
+    "63"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 99,
+   "demandPct": 18,
    "orderedAbove": null
   },
   "PRONGHORN:4049": {
@@ -3047,310 +3412,6 @@
    "animalSharePct": null,
    "applications": 442,
    "demandPct": 53,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4022": {
-   "tier": 65,
-   "score": 52.7,
-   "rank": 19,
-   "of": 50,
-   "units": [
-    "63"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1221,
-   "demandPct": 69,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4010": {
-   "tier": 65,
-   "score": 54.6,
-   "rank": 16,
-   "of": 50,
-   "units": [
-    "44",
-    "45"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1935,
-   "demandPct": 73,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4013": {
-   "tier": 50,
-   "score": 45.7,
-   "rank": 27,
-   "of": 50,
-   "units": [
-    "49"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 324,
-   "demandPct": 49,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4006": {
-   "tier": 50,
-   "score": 42.9,
-   "rank": 30,
-   "of": 50,
-   "units": [
-    "38"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 217,
-   "demandPct": 41,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4002": {
-   "tier": 65,
-   "score": 48.5,
-   "rank": 20,
-   "of": 50,
-   "units": [
-    "21A",
-    "30"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 468,
-   "demandPct": 57,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4001": {
-   "tier": 65,
-   "score": 59.4,
-   "rank": 10,
-   "of": 50,
-   "units": [
-    "29"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1093,
-   "demandPct": 70,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4014": {
-   "tier": 80,
-   "score": 64,
-   "rank": 4,
-   "of": 50,
-   "units": [
-    "50"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1784,
-   "demandPct": 83,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4016": {
-   "tier": 65,
-   "score": 52.8,
-   "rank": 18,
-   "of": 50,
-   "units": [
-    "48",
-    "52"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 684,
-   "demandPct": 68,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4005": {
-   "tier": 65,
-   "score": 59.3,
-   "rank": 11,
-   "of": 50,
-   "units": [
-    "29",
-    "37",
-    "37A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 2346,
-   "demandPct": 88,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4021": {
-   "tier": 65,
-   "score": 55.5,
-   "rank": 13,
-   "of": 50,
-   "units": [
-    "59",
-    "59A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1520,
-   "demandPct": 77,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4009": {
-   "tier": 65,
-   "score": 60.2,
-   "rank": 8,
-   "of": 50,
-   "units": [
-    "41",
-    "42"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 4260,
-   "demandPct": 79,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4007": {
-   "tier": 65,
-   "score": 59.7,
-   "rank": 9,
-   "of": 50,
-   "units": [
-    "39"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1794,
-   "demandPct": 89,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4012": {
-   "tier": 100,
-   "score": 69.6,
-   "rank": 1,
-   "of": 50,
-   "units": [
-    "46"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 2675,
-   "demandPct": 92,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4017": {
-   "tier": 65,
-   "score": 54.8,
-   "rank": 15,
-   "of": 50,
-   "units": [
-    "52A",
-    "53"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1504,
-   "demandPct": 75,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4011": {
-   "tier": 65,
-   "score": 55.2,
-   "rank": 14,
-   "of": 50,
-   "units": [
-    "45"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 429,
-   "demandPct": 62,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4020": {
-   "tier": 65,
-   "score": 60.9,
-   "rank": 7,
-   "of": 50,
-   "units": [
-    "58"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1642,
-   "demandPct": 81,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4038": {
-   "tier": 50,
-   "score": 45.8,
-   "rank": 26,
-   "of": 50,
-   "units": [
-    "54"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 147,
-   "demandPct": 31,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4008": {
-   "tier": 80,
-   "score": 66.8,
-   "rank": 3,
-   "of": 50,
-   "units": [
-    "40"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 2981,
-   "demandPct": 91,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4023": {
-   "tier": 65,
-   "score": 56.2,
-   "rank": 12,
-   "of": 50,
-   "units": [
-    "68"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1010,
-   "demandPct": 79,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4018": {
-   "tier": 80,
-   "score": 68.1,
-   "rank": 2,
-   "of": 50,
-   "units": [
-    "54"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 1635,
-   "demandPct": 89,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4019": {
-   "tier": 80,
-   "score": 62.4,
-   "rank": 5,
-   "of": 50,
-   "units": [
-    "55",
-    "56",
-    "57"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 885,
-   "demandPct": 84,
    "orderedAbove": null
   },
   "PRONGHORN:4050": {
@@ -3369,67 +3430,6 @@
    "demandPct": 40,
    "orderedAbove": null
   },
-  "PRONGHORN:4024": {
-   "tier": 50,
-   "score": 48.2,
-   "rank": 21,
-   "of": 50,
-   "units": [
-    "76"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 235,
-   "demandPct": 62,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4039": {
-   "tier": 50,
-   "score": 40.4,
-   "rank": 32,
-   "of": 50,
-   "units": [
-    "55",
-    "56",
-    "57"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 61,
-   "demandPct": 27,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4004": {
-   "tier": 50,
-   "score": 46.4,
-   "rank": 25,
-   "of": 50,
-   "units": [
-    "28",
-    "36B"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 261,
-   "demandPct": 51,
-   "orderedAbove": null
-  },
-  "PRONGHORN:4003": {
-   "tier": 65,
-   "score": 53.4,
-   "rank": 17,
-   "of": 50,
-   "units": [
-    "31",
-    "32",
-    "32A"
-   ],
-   "animalSourceHunt": null,
-   "animalSharePct": null,
-   "applications": 319,
-   "demandPct": 71,
-   "orderedAbove": null
-  },
   "PRONGHORN:4051": {
    "tier": 50,
    "score": 32.1,
@@ -3442,6 +3442,20 @@
    "animalSharePct": null,
    "applications": 15,
    "demandPct": 16,
+   "orderedAbove": null
+  },
+  "PRONGHORN:4054": {
+   "tier": 50,
+   "score": 35.9,
+   "rank": 43,
+   "of": 50,
+   "units": [
+    "63"
+   ],
+   "animalSourceHunt": null,
+   "animalSharePct": null,
+   "applications": 78,
+   "demandPct": 21,
    "orderedAbove": null
   }
  }

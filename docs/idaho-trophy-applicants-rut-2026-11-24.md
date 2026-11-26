@@ -11,3 +11,9 @@ Owner decisions in chat, Nov 24, 2026. Idaho first; the same rules then go to th
 Result on the retained 2026-11-16 snapshot (`scripts/build-idaho-noquota-tiers.ts`): 236 scored; 5 Elite, 19 Excellent, 70 Good, 142 Standard; 78 tiers differ from the live table. Unit 54: 1043 rank 1 (Elite), 1042 rank 51 (Standard). Others: 1049 rank 2 (Elite), 1044 rank 3 (Excellent), 1031 rank 6 and 1034 rank 11 (Excellent), 1057 rank 92 (Standard). Lifted by the rut rule: deer 1005 > 1004, 1003 > 1002; elk 2033 > 2115, 2019 > 2020.
 
 Other states not changed yet: their tiers use unit evidence, raw applications (95th percentile) and drop a whole tier outside the preferred season. Port these rules next.
+
+## Rebuild from a fresh snapshot (2026-11-26)
+
+- `scripts/id-trophy-snapshot.ts` (read only) prints the snapshot straight from production, with the same fields and read-time corrections as `/api/export`; written to `data/id/trophy-shadow-2026-11-26.json`. Check: the same 237 hunts as the Nov 16 snapshot, and only the 12 hunts touched by the Nov 25 history repair (plus 1045's unit correction) differ; unit harvest totals differ only in those units.
+- Eligibility is now "antlered or either-sex controlled hunt with applications on record", no longer "already in the table" (that kept 1074 out for good).
+- Result: 237 scored (deer 109); tiers 5 / 19 / 71 / 142. Two changes: 1074 enters as Standard (rank 104; antler share borrowed from 1032, it has no antler data of its own), and 1073 moves Standard → Good at the same rank 44 because the deer pool grew from 108 to 109, which moves the 40% cutoff. Repaired hunts now use their own harvest: elk 2133 28.8% mature bulls (was 56.7% borrowed from 2010), still Standard.
