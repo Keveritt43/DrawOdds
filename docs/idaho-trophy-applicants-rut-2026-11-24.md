@@ -17,3 +17,14 @@ Other states not changed yet: their tiers use unit evidence, raw applications (9
 - `scripts/id-trophy-snapshot.ts` (read only) prints the snapshot straight from production, with the same fields and read-time corrections as `/api/export`; written to `data/id/trophy-shadow-2026-11-26.json`. Check: the same 237 hunts as the Nov 16 snapshot, and only the 12 hunts touched by the Nov 25 history repair (plus 1045's unit correction) differ; unit harvest totals differ only in those units.
 - Eligibility is now "antlered or either-sex controlled hunt with applications on record", no longer "already in the table" (that kept 1074 out for good).
 - Result: 237 scored (deer 109); tiers 5 / 19 / 71 / 142. Two changes: 1074 enters as Standard (rank 104; antler share borrowed from 1032, it has no antler data of its own), and 1073 moves Standard → Good at the same rank 44 because the deer pool grew from 108 to 109, which moves the 40% cutoff. Repaired hunts now use their own harvest: elk 2133 28.8% mature bulls (was 56.7% borrowed from 2010), still Standard.
+
+## General hunts and nonresident general tags (2026-11-26)
+
+Owner chose "own ranking": general hunts are ranked among general hunts, not against controlled hunts, so their tier means "near the top of what you can hunt over the counter / with a general tag".
+
+- Snapshot: the same read-only script adds every Idaho general row, nonresident general tag row and the latest nonresident tag draw (`general`, `nrDraws` in `data/id/trophy-shadow-2026-11-26.json`).
+- Pool: resident general hunts (unit × weapon), deer and elk, antlered or either-sex, not youth-only, not limited to a maximum antler size: 502 (deer 311, elk 191). Pronghorn has one general row and is left on the earlier model.
+- Demand (35): half hunters a year (hunters5 ÷ years), half nonresident 1st-choice applicants per tag for the tag(s) the hunt lists in `tagCode` (447 of 502 have one); volume alone otherwise. Antler share (47): the hunt's own share, shrunk toward the species mean (20 animals); 246 have one, the rest are neutral. Sources 8, county B&C 5, timing 5 and the same-unit rut rule as controlled hunts (18 lifted).
+- Nonresident general tags (`t:RD36`, `t:ELK:Bannock:A`) take the best general hunt whose `tagCode` lists them: 182 of 192. Not tiered: ELK10, ELK18, ELK32, ELK40, ELK43 (no matching general hunt) and the maximum-antler tags ELK21, RD22, RD40, RD41, RD42.
+- Result: deer 6 Elite / 25 Excellent / 95 Good / 185 Standard; elk 4 / 15 / 57 / 115. Unit 36 any-weapon deer ranks 14 of 311 (Excellent: 871 hunters a year, 5.3 nonresident applicants per tag, 45% mature bucks), so the Unit 36 Regular Deer Tag shows Excellent instead of "B&C-only association; demand unknown".
+- Watch: archery elk fill the top of the elk ranking (September rut credit plus scarce nonresident archery tags in 66A/76). That is the timing rule doing what it says, at 5 points; if it reads wrong, timing is the lever.

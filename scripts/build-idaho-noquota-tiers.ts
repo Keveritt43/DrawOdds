@@ -88,6 +88,20 @@ const demandPct=(h:H)=>{
   const r=perTag(h);
   return typeof h.applications==='number'&&r!==null?.5*midRank(h.applications,appsBySpecies(h.species))+.5*midRank(r,ratioBySpecies(h.species)):null;
 };
+// Evidence per unit; a multi-unit hunt takes its weakest unit (as the live model does).
+function evidence(species:string,units:string[],deerType:string|null){
+  const unitEvidence=units.map(unit=>{
+    const c=resolveTrophyCandidate({state:'ID',species,unit,deerType});
+    const recs=c.sourceIds.map(id=>byId.get(id)).filter((r):r is Rec=>!!r);
+    const named=recs.length?recs[0].sourceTags.filter(t=>!['bc','bc_top_counties'].includes(t.toLowerCase())).length:0;
+    const whitetail=species==='DEER'&&deerType==='WHITETAIL';
+    const cs=whitetail?[]:[...(unitCounties.get(`${species}|${unit}`)??[])].map(cn=>counties.get(`${species}|${cn}`)).filter((x):x is CountyRate=>!!x);
+    const best=cs.reduce<CountyRate|null>((a,b)=>!a||b.credit>a.credit?b:a,null);
+    return {unit,publications:publicationCredit(named),named,bc:best?.credit??0,county:best?.county??null,bcEntries20:best?.entries??null,bcExpected20:best?Math.round(best.expected*100)/100:null};
+  });
+  const pts=(u:typeof unitEvidence[number])=>8*u.publications+5*u.bc;
+  return {unitEvidence,weakest:unitEvidence.reduce((a,b)=>pts(b)<pts(a)?b:a)};
+}
 const results=snapshot.hunts.filter(eligible).map(h=>{
   const live=(liveTiers.tiers as Record<string,{tier:number}>)[`${h.species}:${h.code}`];
   const base={code:h.code,species:h.species,units:h.units,weapon:h.weapon,open:h.open,close:h.close,tags:h.tags,applications:h.applications,liveTrophy:live?.tier??h.liveTrophy};
@@ -97,18 +111,7 @@ const results=snapshot.hunts.filter(eligible).map(h=>{
   const rut=rutCredit(days===null||velvetDays===null?null:Math.max(days,velvetDays));
   if(rut===null)return {...base,status:'unscored',reason:'season dates unusable'};
   const animal=animalShare(h);
-  // Evidence per unit; a multi-unit hunt takes its weakest unit (as the live model does).
-  const unitEvidence=h.units.map(unit=>{
-    const c=resolveTrophyCandidate({state:'ID',species:h.species,unit,deerType:h.deerType});
-    const recs=c.sourceIds.map(id=>byId.get(id)).filter((r):r is Rec=>!!r);
-    const named=recs.length?recs[0].sourceTags.filter(t=>!['bc','bc_top_counties'].includes(t.toLowerCase())).length:0;
-    const whitetail=h.species==='DEER'&&h.deerType==='WHITETAIL';
-    const cs=whitetail?[]:[...(unitCounties.get(`${h.species}|${unit}`)??[])].map(cn=>counties.get(`${h.species}|${cn}`)).filter((x):x is CountyRate=>!!x);
-    const best=cs.reduce<CountyRate|null>((a,b)=>!a||b.credit>a.credit?b:a,null);
-    return {unit,publications:publicationCredit(named),named,bc:best?.credit??0,county:best?.county??null,bcEntries20:best?.entries??null,bcExpected20:best?Math.round(best.expected*100)/100:null};
-  });
-  const pts=(u:typeof unitEvidence[number])=>8*u.publications+5*u.bc;
-  const weakest=unitEvidence.reduce((a,b)=>pts(b)<pts(a)?b:a);
+  const {unitEvidence,weakest}=evidence(h.species,h.units,h.deerType);
   const demand=demandPct(h);
   const parts={demand:demand??0.5,animal:animal?.percentile??null,publications:weakest.publications,bc:weakest.bc};
   const score=idScoreApplicants({...parts,rut});
@@ -141,4 +144,57 @@ if(tableOut){
     for(const r of g)tiers[`${sp}:${r.code}`]={tier:r.tier,score:r.score,rank:g.filter(x=>x.score>r.score).length+1,of:g.length,units:[...r.units].sort(),animalSourceHunt:r.animalFromHunt,animalSharePct:r.animalShare,applications:r.applications??null,demandPct:r.demandPercentile===null?null:Math.round(r.demandPercentile*100),orderedAbove:r.orderedAbove};
   }
   writeFileSync(tableOut,JSON.stringify({notice:'Idaho provisional trophy tiers: demand is half applications, half applications per tag (no draw odds); 5 points maximum for timing; within the same units and weapon a deer or elk hunt with more rut days ranks above. Generated from the retained snapshot by scripts/build-idaho-noquota-tiers.ts.',drawYear:2026,snapshot:'data/id/trophy-shadow-2026-11-16.json',snapshotSha256:snapshot.compactSha256,tiers},null,1)+'\n');
+}
+
+// ---- General-season ranking (owner, Nov 26: general tags get their own ranking) ----
+// Pool: resident general hunts (unit x weapon), deer and elk, antlered or either-sex, not youth-only,
+// not limited to a maximum antler size. Same pillars and weights as controlled hunts:
+//   demand 35 = half hunters a year (volume), half nonresident 1st-choice applicants per tag for the
+//               tag(s) that open the hunt (scarcity; volume alone when no nonresident draw);
+//   antler share 47 = the hunt's own harvest share, shrunk toward the species mean (20 animals);
+//   named sources 8 and county B&C 5 from the same per-unit evidence; timing 5 with the same rut rule.
+// A nonresident general tag takes the best tier among the general hunts it opens.
+const generalOut=process.argv[4];
+type G={id:string;species:string;nrTag:boolean;tagCode:string|null;units:string[];weapon:string;weapons:string[];antlerClass:string;open:string|null;close:string|null;hunters5:number|null;harvest5:number|null;harvestYears:number|null;bigPct5:number|null;deerType:string|null;youthOnly:boolean;excluded:boolean};
+type D={code:string;year:number;tags:number;applied1:number|null};
+const snap=snapshot as unknown as {general?:G[];nrDraws?:D[]};
+if(generalOut&&snap.general&&snap.nrDraws){
+  const gens=snap.general,draws=new Map(snap.nrDraws.map(d=>[d.code,d]));
+  const tagRow=new Map(gens.filter(g=>g.nrTag&&g.tagCode).map(g=>[g.tagCode!,g]));
+  const codes=(g:G)=>(g.tagCode??'').split('/').map(x=>x.trim()).filter(Boolean);
+  const drawFor=(code:string)=>{const t=tagRow.get(code);return t?draws.get(t.id.replace(/^t:/,'')):draws.get(code);};
+  const perTagOf=(g:G)=>{const r=codes(g).map(drawFor).filter((d):d is D=>!!d&&d.tags>0&&typeof d.applied1==='number').map(d=>({ratio:d.applied1!/d.tags,d}));return r.length?r.reduce((a,b)=>b.ratio>a.ratio?b:a):null;};
+  const perYear=(g:G)=>g.hunters5!==null&&g.harvestYears?g.hunters5/Math.min(5,g.harvestYears):null;
+  const pool=gens.filter(g=>!g.nrTag&&!g.excluded&&!g.youthOnly&&['DEER','ELK'].includes(g.species)&&['ANTLERED','EITHER'].includes(g.antlerClass)&&perYear(g)!==null);
+  const gmule=(g:G)=>!(g.species==='DEER'&&g.deerType==='WHITETAIL');
+  const shared=(sp:string)=>pool.filter(g=>g.species===sp&&gmule(g)&&typeof g.bigPct5==='number'&&(g.harvest5??0)>0);
+  const gmean=new Map(['DEER','ELK'].map(sp=>{const p=shared(sp);return [sp,p.reduce((a,g)=>a+g.bigPct5!*g.harvest5!,0)/p.reduce((a,g)=>a+g.harvest5!,0)];}));
+  const gshare=(g:G)=>gmule(g)&&typeof g.bigPct5==='number'&&(g.harvest5??0)>0?(g.bigPct5*g.harvest5!+gmean.get(g.species)!*K)/(g.harvest5!+K):null;
+  const vals=(sp:string,f:(g:G)=>number|null)=>pool.filter(g=>g.species===sp).map(f).filter((v):v is number=>v!==null);
+  const rows=pool.map(g=>{
+    const vol=perYear(g)!,pt=perTagOf(g),share=gshare(g);
+    const demand=pt?.5*midRank(vol,vals(g.species,perYear))+.5*midRank(pt.ratio,vals(g.species,x=>perTagOf(x)?.ratio??null)):midRank(vol,vals(g.species,perYear));
+    const days=rutDays(g.species as IdSpecies,g.deerType,g.open??'',g.close??'',preferredWindows);
+    const {weakest}=evidence(g.species,g.units,g.deerType);
+    const animal=share===null?null:midRank(share,vals(g.species,gshare));
+    const score=idScoreApplicants({demand,animal,publications:weakest.publications,bc:weakest.bc,rut:rutCredit(days)??0});
+    return {g,vol,pt,share,days:days??0,score,tier:0,orderedAbove:null as string|null};
+  });
+  const ord=orderByRut(rows.map(r=>({key:r.g.id,species:r.g.species,weapon:r.g.weapon,units:r.g.units,deerType:r.g.deerType,rutDays:r.days,score:r.score})));
+  for(const r of rows){r.score=ord.scores.get(r.g.id)!;r.orderedAbove=ord.lifted.get(r.g.id)??null;}
+  for(const sp of ['DEER','ELK']){const grp=rows.filter(r=>r.g.species===sp),t=rankTiers(grp.map(r=>r.score));grp.forEach((r,i)=>{r.tier=t[i];});}
+  type Row={tier:number;score:number;rank:number;of:number;units:string[];weapon:string;huntersPerYear:number;nrAppsPerTag:number|null;nrDrawYear:number|null;animalSharePct:number|null;orderedAbove:string|null;via?:string};
+  const tiers:Record<string,Row>={};
+  for(const sp of ['DEER','ELK']){const grp=rows.filter(r=>r.g.species===sp);for(const r of grp)tiers[r.g.id]={tier:r.tier,score:r.score,rank:grp.filter(x=>x.score>r.score).length+1,of:grp.length,units:[...r.g.units].sort(),weapon:r.g.weapon,huntersPerYear:Math.round(r.vol),nrAppsPerTag:r.pt?Math.round(r.pt.ratio*10)/10:null,nrDrawYear:r.pt?.d.year??null,animalSharePct:r.share===null?null:Math.round(r.share*10)/10,orderedAbove:r.orderedAbove};}
+  // nonresident general tags: the best general hunt the tag opens
+  let tagged=0;
+  for(const t of gens.filter(g=>g.nrTag&&!g.excluded&&g.tagCode&&['DEER','ELK'].includes(g.species))){
+    const best=rows.filter(r=>r.g.species===t.species&&codes(r.g).includes(t.tagCode!)).sort((a,b)=>b.score-a.score)[0];
+    if(!best)continue;
+    tiers[t.id]={...tiers[best.g.id],units:[...t.units].sort(),via:best.g.id};tagged++;
+  }
+  const count=(sp:string)=>rows.filter(r=>r.g.species===sp).reduce<Record<number,number>>((a,r)=>{a[r.tier]=(a[r.tier]??0)+1;return a},{});
+  const gsummary={pool:rows.length,deer:count('DEER'),elk:count('ELK'),nrTagsTiered:tagged,nrTags:gens.filter(g=>g.nrTag).length,withNrDraw:rows.filter(r=>r.pt).length,withOwnShare:rows.filter(r=>r.share!==null).length,lifted:rows.filter(r=>r.orderedAbove).length};
+  console.error('GENERAL '+JSON.stringify(gsummary));
+  writeFileSync(generalOut,JSON.stringify({notice:'Idaho provisional trophy tiers for general-season hunts, ranked within species among general hunts (owner, Nov 26): demand half hunters a year, half nonresident applicants per tag; own antler share; named sources and county B&C; 5 points timing; same-unit rut ordering. A nonresident general tag takes its best general hunt. Generated from the retained snapshot by scripts/build-idaho-noquota-tiers.ts.',snapshot:'data/id/trophy-shadow-2026-11-26.json',summary:gsummary,tiers},null,1)+'\n');
 }
