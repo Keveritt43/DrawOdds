@@ -240,7 +240,7 @@ export function TrophyMark({ score, showNeutral = true, hunt }: { score: number 
   return <><span className="pill trophy-badge" title={evidence ? `${info.description} ${evidence.reason}` : info.description}>
     {info.icon && <svg aria-hidden="true" viewBox="0 0 28 28" width={score===100?23:19} height={score===100?23:19} style={{color:score===65?'#8b999d':'#bd831f',flex:'none'}}><path fill="currentColor" d="M7 4h14l-1 7c-.4 4-2.3 6.4-5 7.3V21h4v2H9v-2h4v-2.7c-2.7-.9-4.6-3.3-5-7.3L7 4Z"/><path d="M8 6H4v2c0 4 2.4 6 5 6M20 6h4v2c0 4-2.4 6-5 6" fill="none" stroke="currentColor" strokeWidth="1.7"/><path d="M10 8h8M10.5 11h7" stroke="#fff" opacity=".5" strokeWidth=".8"/><path d="M9 24h10" stroke="currentColor" strokeWidth="2"/></svg>}
     {score===100 && <span aria-hidden="true" style={{color:'#bd831f'}}>✦</span>}{reference && 'Hunt: '}{info.label}{evidence?.provisional && ' (provisional)'}
-  </span>{reference && <span className="pill" title={reference.description}>Unit ref: {reference.tier} (unverified)</span>}</>;
+  </span>{reference && <span className="pill" title={`${reference.description} A great unit can still have weaker seasons, so this hunt's own rating can be lower.`}>Unit reputation: {reference.tier}</span>}</>;
 }
 
 export function ScoreRow({ r, nr, open = false }: { r: CoScored; nr: boolean; open?: boolean }) {
